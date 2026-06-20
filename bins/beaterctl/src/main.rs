@@ -35,11 +35,14 @@ use beater_human::{
     promote_review_annotation_to_dataset_case, CreateReviewQueueRequest, EnqueueReviewTaskRequest,
     HumanReviewStore, ReviewVerdict, SqliteHumanReviewStore, SubmitAnnotationRequest,
 };
-use beater_ingest::{smoke_trace, IngestPolicy, IngestService, NativeIngestRequest};
+use beater_ingest::{
+    anonymous_auth_context, smoke_trace, IngestPolicy, IngestService, NativeIngestRequest,
+};
 use beater_judge::{
     JudgeBrokerRequest, JudgeBrokerService, JudgeLedgerStore, KeywordJudgeProvider,
     SqliteJudgeLedger,
 };
+use beater_otlp::{encode_export_trace_request, export_to_raw_trace_ingest_request};
 use beater_replay::{
     execute_replay, ReplayEvent, ReplayEventKind, ReplayScenario, ReplayStep, ReplayStore,
     SqliteReplayStore,
@@ -61,6 +64,12 @@ use beater_usage::{
 };
 use chrono::Utc;
 use clap::{Parser, Subcommand, ValueEnum};
+use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
+use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, InstrumentationScope, KeyValue};
+use opentelemetry_proto::tonic::resource::v1::Resource;
+use opentelemetry_proto::tonic::trace::v1::{
+    span, status, ResourceSpans, ScopeSpans, Span, Status,
+};
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
@@ -254,9 +263,67 @@ async fn main() -> anyhow::Result<()> {
             let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
             let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
             let bus = local_bus(&data_dir)?;
-            let service = IngestService::new(artifacts, traces, bus, IngestPolicy::default());
-            let outcome = smoke_trace(&service).await.context("run smoke trace")?;
-            println!("{}", serde_json::to_string_pretty(&outcome)?);
+            let service =
+                IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
+            let scope = TenantScope::new(
+                TenantId::new("demo")?,
+                ProjectId::new("demo")?,
+                EnvironmentId::new("local")?,
+            );
+            let export = otlp_smoke_export();
+            let raw_bytes = encode_export_trace_request(&export);
+            let raw_request = export_to_raw_trace_ingest_request(
+                scope.clone(),
+                raw_bytes,
+                export,
+                anonymous_auth_context(),
+            )
+            .context("build OTLP smoke ingest request")?;
+            let trace_id = raw_request
+                .spans
+                .first()
+                .map(|span| span.trace_id.clone())
+                .ok_or_else(|| anyhow::anyhow!("OTLP smoke export produced no spans"))?;
+            let outcome = service
+                .buffer_raw_trace_batch(raw_request)
+                .await
+                .context("buffer OTLP smoke trace")?;
+            let write_report = service
+                .drain_trace_writes_for(&scope.tenant_id, &scope.project_id, 10)
+                .await
+                .context("drain OTLP smoke trace writes")?;
+            let trace = traces
+                .get_trace(scope.tenant_id.clone(), trace_id.clone())
+                .await
+                .context("read OTLP smoke trace")?;
+            let downstream_report = service
+                .drain_trace_ingested_for(&scope.tenant_id, &scope.project_id, 10, {
+                    let traces = traces.clone();
+                    move |trace_ref| {
+                        let traces = traces.clone();
+                        async move {
+                            traces
+                                .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                                .await
+                                .map(|_| ())
+                                .map_err(|err| err.to_string())
+                        }
+                    }
+                })
+                .await
+                .context("drain OTLP smoke downstream work")?;
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({
+                    "source": "otlp",
+                    "trace_id": trace_id,
+                    "outcome": outcome,
+                    "write_report": write_report,
+                    "downstream_report": downstream_report,
+                    "trace_span_count": trace.spans.len(),
+                    "normalizer_version": trace.spans.first().map(|span| span.normalizer_version.clone())
+                }))?
+            );
         }
         Command::Gate {
             baseline,
@@ -1581,6 +1648,69 @@ fn local_bus(data_dir: &Path) -> anyhow::Result<Arc<dyn DurableBus>> {
         data_dir.join("bus.sqlite"),
         128,
     )?))
+}
+
+fn otlp_smoke_export() -> ExportTraceServiceRequest {
+    ExportTraceServiceRequest {
+        resource_spans: vec![ResourceSpans {
+            resource: Some(Resource {
+                attributes: vec![otel_kv("service.name", otel_string("beaterctl-smoke"))],
+                dropped_attributes_count: 0,
+                entity_refs: Vec::new(),
+            }),
+            scope_spans: vec![ScopeSpans {
+                scope: Some(InstrumentationScope {
+                    name: "beaterctl".to_string(),
+                    version: env!("CARGO_PKG_VERSION").to_string(),
+                    attributes: Vec::new(),
+                    dropped_attributes_count: 0,
+                }),
+                spans: vec![Span {
+                    trace_id: vec![
+                        1, 35, 69, 103, 137, 171, 205, 239, 16, 50, 84, 118, 152, 186, 220, 254,
+                    ],
+                    span_id: vec![17, 34, 51, 68, 85, 102, 119, 136],
+                    trace_state: String::new(),
+                    parent_span_id: Vec::new(),
+                    flags: 0,
+                    name: "beaterctl otlp smoke".to_string(),
+                    kind: span::SpanKind::Client as i32,
+                    start_time_unix_nano: Utc::now().timestamp_nanos_opt().unwrap_or(0) as u64,
+                    end_time_unix_nano: Utc::now().timestamp_nanos_opt().unwrap_or(0) as u64,
+                    attributes: vec![
+                        otel_kv("openinference.span.kind", otel_string("llm")),
+                        otel_kv("input.value", otel_string("hello")),
+                        otel_kv("output.value", otel_string("world")),
+                    ],
+                    dropped_attributes_count: 0,
+                    events: Vec::new(),
+                    dropped_events_count: 0,
+                    links: Vec::new(),
+                    dropped_links_count: 0,
+                    status: Some(Status {
+                        message: String::new(),
+                        code: status::StatusCode::Ok as i32,
+                    }),
+                }],
+                schema_url: "https://opentelemetry.io/schemas/1.37.0".to_string(),
+            }],
+            schema_url: "https://opentelemetry.io/schemas/1.37.0".to_string(),
+        }],
+    }
+}
+
+fn otel_kv(key: &str, value: AnyValue) -> KeyValue {
+    KeyValue {
+        key: key.to_string(),
+        key_strindex: 0,
+        value: Some(value),
+    }
+}
+
+fn otel_string(value: &str) -> AnyValue {
+    AnyValue {
+        value: Some(any_value::Value::StringValue(value.to_string())),
+    }
 }
 
 struct GateFixtureExperimentSpec<'a> {

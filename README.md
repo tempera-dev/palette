@@ -24,7 +24,7 @@ instrument agent -> inspect trace -> promote failure to dataset -> run evals
 This repo now contains the first tested Rust vertical slice:
 
 - all-in-one `beaterd` HTTP server
-- `beaterctl smoke` local ingest command
+- `beaterctl smoke` local OTLP ingest command that drains trace-write and trace-ingested work
 - OTLP/HTTP protobuf trace ingest endpoint with raw protobuf preservation
 - OTLP/gRPC TraceService ingest mounted by `beaterd` alongside axum
 - Tantivy-backed structured and full-text span search

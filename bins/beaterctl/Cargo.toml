@@ -20,6 +20,7 @@ beater-gates = { path = "../../crates/beater-gates" }
 beater-human = { path = "../../crates/beater-human" }
 beater-ingest = { path = "../../crates/beater-ingest" }
 beater-judge = { path = "../../crates/beater-judge" }
+beater-otlp = { path = "../../crates/beater-otlp" }
 beater-replay = { path = "../../crates/beater-replay" }
 beater-schema = { path = "../../crates/beater-schema" }
 beater-security = { path = "../../crates/beater-security" }
@@ -30,6 +31,7 @@ beater-store-sql = { path = "../../crates/beater-store-sql" }
 beater-usage = { path = "../../crates/beater-usage" }
 chrono.workspace = true
 clap.workspace = true
+opentelemetry-proto.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 
