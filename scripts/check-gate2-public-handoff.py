@@ -110,9 +110,13 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
     run(
         [
             "python3",
-            "-B",
-            "-m",
-            "py_compile",
+            "-c",
+            (
+                "import pathlib, sys\n"
+                "for name in sys.argv[1:]:\n"
+                "    path = pathlib.Path(name)\n"
+                "    compile(path.read_text(), str(path), 'exec')\n"
+            ),
             "scripts/check-gate2-outside-readiness.py",
             "scripts/check-gate2-public-handoff.py",
             "scripts/generate-gate2-outside-proof.py",
