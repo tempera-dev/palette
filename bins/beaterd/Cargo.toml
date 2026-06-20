@@ -6,6 +6,7 @@ license.workspace = true
 
 [dependencies]
 anyhow.workspace = true
+async-trait.workspace = true
 axum.workspace = true
 beater-api = { path = "../../crates/beater-api" }
 beater-archive = { path = "../../crates/beater-archive" }
@@ -22,6 +23,7 @@ beater-judge = { path = "../../crates/beater-judge" }
 beater-otlp = { path = "../../crates/beater-otlp" }
 beater-search = { path = "../../crates/beater-search" }
 beater-secrets = { path = "../../crates/beater-secrets" }
+beater-schema = { path = "../../crates/beater-schema" }
 beater-store = { path = "../../crates/beater-store" }
 beater-store-obj = { path = "../../crates/beater-store-obj" }
 beater-store-sql = { path = "../../crates/beater-store-sql" }

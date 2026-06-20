@@ -1102,6 +1102,7 @@ name = "beaterd"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "axum 0.7.9",
  "beater-api",
  "beater-archive",
@@ -1117,6 +1118,7 @@ dependencies = [
  "beater-ingest",
  "beater-judge",
  "beater-otlp",
+ "beater-schema",
  "beater-search",
  "beater-secrets",
  "beater-store",

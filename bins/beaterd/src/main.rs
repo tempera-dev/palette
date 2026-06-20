@@ -5,7 +5,7 @@ use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
 use beater_bus::{DurableBus, InMemoryBus, SqliteDurableBus};
 use beater_calibration::SqliteCalibrationStore;
-use beater_core::Money;
+use beater_core::{IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, TraceId};
 use beater_datasets::SqliteDatasetStore;
 use beater_experiments::SqliteExperimentStore;
 use beater_gates::SqliteGateStore;
@@ -16,9 +16,13 @@ use beater_judge::{
     SqliteJudgeLedger,
 };
 use beater_otlp::{OtlpGrpcTraceService, TraceServiceServer};
+use beater_schema::{
+    CanonicalTraceBatch, RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanSummary, TraceView,
+    WriteAck,
+};
 use beater_search::{SearchIndex, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
-use beater_store::TraceStore;
+use beater_store::{StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
 use beater_store_sql::{SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore};
 use beater_usage::SqliteUsageLedger;
@@ -72,6 +76,8 @@ struct Args {
         default_value_t = 1000
     )]
     trace_write_drain_interval_ms: u64,
+    #[arg(long, env = "BEATER_TRACE_WRITE_MAX_ATTEMPTS", default_value_t = 3)]
+    trace_write_max_attempts: u32,
     #[arg(
         long,
         env = "BEATER_TRACE_INGESTED_DRAIN_INTERVAL_MS",
@@ -84,6 +90,12 @@ struct Args {
     test_trace_ingested_hold_path: Option<PathBuf>,
     #[arg(long, hide = true, env = "BEATER_TEST_TRACE_INGESTED_FAIL_WHILE_PATH")]
     test_trace_ingested_fail_while_path: Option<PathBuf>,
+    #[arg(
+        long,
+        hide = true,
+        env = "BEATER_TEST_TRACE_STORE_FAIL_WRITE_WHILE_PATH"
+    )]
+    test_trace_store_fail_write_while_path: Option<PathBuf>,
 }
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
@@ -108,7 +120,11 @@ enum JudgeProviderArg {
 async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     let artifacts = Arc::new(FsArtifactStore::new(args.data_dir.join("artifacts"))?);
-    let traces = Arc::new(SqliteTraceStore::open(args.data_dir.join("traces.sqlite"))?);
+    let sqlite_traces = Arc::new(SqliteTraceStore::open(args.data_dir.join("traces.sqlite"))?);
+    let traces: Arc<dyn TraceStore> = match args.test_trace_store_fail_write_while_path.clone() {
+        Some(path) => Arc::new(FailSwitchTraceStore::new(sqlite_traces.clone(), path)),
+        None => sqlite_traces.clone(),
+    };
     let quota_path = args
         .quota_db_path
         .clone()
@@ -168,6 +184,7 @@ async fn main() -> anyhow::Result<()> {
     let ingest_policy = IngestPolicy {
         per_project_event_quota: args.per_project_event_quota,
         quota_window_seconds: args.quota_window_seconds,
+        trace_write_max_attempts: args.trace_write_max_attempts,
         ..IngestPolicy::default()
     };
     let ingest = IngestService::new(artifacts, traces.clone(), bus, ingest_policy)
@@ -270,7 +287,7 @@ struct TraceIngestedWorkerHooks {
 
 fn spawn_trace_ingested_worker(
     ingest: IngestService,
-    traces: Arc<SqliteTraceStore>,
+    traces: Arc<dyn TraceStore>,
     search: Arc<TantivySearchIndex>,
     interval: Duration,
     hooks: TraceIngestedWorkerHooks,
@@ -339,7 +356,7 @@ fn write_hook_marker(path: &Path) -> Result<(), String> {
 }
 
 async fn index_trace_ref(
-    traces: Arc<SqliteTraceStore>,
+    traces: Arc<dyn TraceStore>,
     search: Arc<TantivySearchIndex>,
     trace_ref: QueuedTraceWork,
 ) -> Result<(), String> {
@@ -358,4 +375,65 @@ async fn index_trace_ref(
             trace_ref.tenant_id, trace_ref.trace_id
         )
     })
+}
+
+#[derive(Clone)]
+struct FailSwitchTraceStore {
+    inner: Arc<SqliteTraceStore>,
+    fail_write_while_path: PathBuf,
+}
+
+impl FailSwitchTraceStore {
+    fn new(inner: Arc<SqliteTraceStore>, fail_write_while_path: PathBuf) -> Self {
+        Self {
+            inner,
+            fail_write_while_path,
+        }
+    }
+}
+
+#[async_trait::async_trait]
+impl TraceStore for FailSwitchTraceStore {
+    async fn write_batch(&self, batch: CanonicalTraceBatch) -> StoreResult<WriteAck> {
+        if self.fail_write_while_path.exists() {
+            return Err(StoreError::backend(format!(
+                "test trace store write failure while {} exists",
+                self.fail_write_while_path.display()
+            )));
+        }
+        self.inner.write_batch(batch).await
+    }
+
+    async fn get_trace(&self, tenant: TenantId, trace: TraceId) -> StoreResult<TraceView> {
+        self.inner.get_trace(tenant, trace).await
+    }
+
+    async fn get_raw_envelope(
+        &self,
+        tenant: TenantId,
+        project: ProjectId,
+        idempotency_key: IdempotencyKey,
+    ) -> StoreResult<Option<RawEnvelope>> {
+        self.inner
+            .get_raw_envelope(tenant, project, idempotency_key)
+            .await
+    }
+
+    async fn query_runs(
+        &self,
+        tenant: TenantId,
+        filter: RunFilter,
+        page: PageRequest,
+    ) -> StoreResult<Page<RunSummary>> {
+        self.inner.query_runs(tenant, filter, page).await
+    }
+
+    async fn query_spans(
+        &self,
+        tenant: TenantId,
+        filter: SpanFilter,
+        page: PageRequest,
+    ) -> StoreResult<Page<SpanSummary>> {
+        self.inner.query_spans(tenant, filter, page).await
+    }
 }

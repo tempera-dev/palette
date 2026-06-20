@@ -210,6 +210,88 @@ async fn beaterd_consumer_kill_restart_dlq_replay_recovers_trace_ingested_work(
     Ok(())
 }
 
+#[tokio::test]
+async fn beaterd_storage_failure_accounts_every_event_without_silent_drop() -> anyhow::Result<()> {
+    let _guard = live_smoke_guard().await;
+    let tempdir = tempfile::tempdir()?;
+    let data_dir = tempdir.path().join("beaterd");
+    let fail_path = tempdir.path().join("trace-store-fail");
+    std::fs::write(&fail_path, b"fail")?;
+    let addrs = free_addrs(2)?;
+    let http_addr = addrs[0];
+    let grpc_addr = addrs[1];
+    let _server = BeaterdChild::spawn_with_options(
+        &data_dir,
+        http_addr,
+        grpc_addr,
+        BeaterdSpawnOptions {
+            trace_write_max_attempts: Some(1),
+            trace_store_fail_write_while_path: Some(fail_path.clone()),
+            ..BeaterdSpawnOptions::default()
+        },
+    )?;
+    let http_url = format!("http://{http_addr}");
+    wait_for_health(&http_url).await?;
+
+    let (explicit_trace_id, explicit_response) =
+        post_otlp_http_with_durability(&http_url, "storage chaos explicit error", None).await?;
+    assert_eq!(
+        explicit_response.status(),
+        reqwest::StatusCode::INTERNAL_SERVER_ERROR
+    );
+    let explicit_error = explicit_response.json::<serde_json::Value>().await?;
+    assert_eq!(explicit_error["status"], 500);
+    assert!(explicit_error["error"]
+        .as_str()
+        .unwrap_or_default()
+        .contains("test trace store write failure"));
+
+    let (dlq_trace_id, dlq_response) =
+        post_otlp_http_with_durability(&http_url, "storage chaos dlq", Some("buffered")).await?;
+    assert_eq!(dlq_response.status(), reqwest::StatusCode::OK);
+    let dead_letter = wait_for_dead_letter(
+        &http_url,
+        "trace.write_batch",
+        "test trace store write failure",
+        Duration::from_secs(5),
+    )
+    .await?;
+
+    std::fs::remove_file(&fail_path)?;
+    let recovered_trace_id = post_buffered_otlp_http(&http_url, "storage chaos recovered").await?;
+    let recovered_trace = wait_for_trace(&http_url, &recovered_trace_id).await?;
+    assert_eq!(span_count(&recovered_trace), 1);
+    let recovered_search = wait_for_search_hit(&http_url, &recovered_trace_id).await?;
+    assert_eq!(hit_count(&recovered_search), 1);
+
+    assert_trace_span_count(&http_url, &explicit_trace_id, 0).await?;
+    assert_trace_span_count(&http_url, &dlq_trace_id, 0).await?;
+    assert_search_hit_count(&http_url, &explicit_trace_id, 0).await?;
+    assert_search_hit_count(&http_url, &dlq_trace_id, 0).await?;
+    let final_status = queue_status(&http_url).await?;
+    let dead_letters = final_status
+        .get("dead_letters")
+        .and_then(serde_json::Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    assert_eq!(dead_letters.len(), 1);
+    let final_message_id = dead_letters[0]
+        .get("message")
+        .and_then(|message| message.get("message_id"))
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| anyhow::anyhow!("dead letter missing message id"))?;
+    assert_eq!(final_message_id, dead_letter);
+
+    let submitted_events = 3usize;
+    let explicit_errors = 1usize;
+    let dead_lettered = 1usize;
+    let recovered = usize::from(span_count(&recovered_trace) == 1);
+    let lost = submitted_events.saturating_sub(explicit_errors + dead_lettered + recovered);
+    assert_eq!(lost, 0);
+
+    Ok(())
+}
+
 struct BeaterdChild {
     child: Child,
 }
@@ -219,9 +301,11 @@ struct BeaterdSpawnOptions {
     per_project_event_quota: Option<u64>,
     quota_window_seconds: Option<i64>,
     quota_db_path: Option<PathBuf>,
+    trace_write_max_attempts: Option<u32>,
     trace_ingested_lease_marker: Option<PathBuf>,
     trace_ingested_hold_path: Option<PathBuf>,
     trace_ingested_fail_while_path: Option<PathBuf>,
+    trace_store_fail_write_while_path: Option<PathBuf>,
 }
 
 impl BeaterdChild {
@@ -269,6 +353,11 @@ impl BeaterdChild {
         if let Some(path) = options.quota_db_path {
             command.arg("--quota-db-path").arg(path);
         }
+        if let Some(max_attempts) = options.trace_write_max_attempts {
+            command
+                .arg("--trace-write-max-attempts")
+                .arg(max_attempts.to_string());
+        }
         if let Some(path) = options.trace_ingested_lease_marker {
             command.arg("--test-trace-ingested-lease-marker").arg(path);
         }
@@ -278,6 +367,11 @@ impl BeaterdChild {
         if let Some(path) = options.trace_ingested_fail_while_path {
             command
                 .arg("--test-trace-ingested-fail-while-path")
+                .arg(path);
+        }
+        if let Some(path) = options.trace_store_fail_write_while_path {
+            command
+                .arg("--test-trace-store-fail-write-while-path")
                 .arg(path);
         }
         let child = command
@@ -403,15 +497,29 @@ async fn sleep_until_unix_second(target: i64) -> anyhow::Result<()> {
 }
 
 async fn post_otlp_http(http_url: &str, name: &str) -> anyhow::Result<reqwest::Response> {
+    let (_, response) = post_otlp_http_with_durability(http_url, name, None).await?;
+    Ok(response)
+}
+
+async fn post_otlp_http_with_durability(
+    http_url: &str,
+    name: &str,
+    durability: Option<&str>,
+) -> anyhow::Result<(String, reqwest::Response)> {
     let (trace, span) = smoke_ids();
     let export = otlp_smoke_export(trace, span, name);
+    let mut url = format!("{http_url}/v1/otlp/demo/demo/local/v1/traces");
+    if let Some(durability) = durability {
+        url.push_str("?durability=");
+        url.push_str(durability);
+    }
     let response = reqwest::Client::new()
-        .post(format!("{http_url}/v1/otlp/demo/demo/local/v1/traces"))
+        .post(url)
         .header("content-type", "application/x-protobuf")
         .body(encode_export_trace_request(&export))
         .send()
         .await?;
-    Ok(response)
+    Ok((hex(&trace), response))
 }
 
 async fn post_buffered_otlp_http(http_url: &str, name: &str) -> anyhow::Result<String> {
@@ -519,6 +627,25 @@ async fn assert_search_hit_count(
     let actual = hit_count(&response);
     if actual != expected {
         anyhow::bail!("expected {expected} search hits for {trace_id}, got {actual}");
+    }
+    Ok(())
+}
+
+async fn assert_trace_span_count(
+    http_url: &str,
+    trace_id: &str,
+    expected: usize,
+) -> anyhow::Result<()> {
+    let trace = reqwest::Client::new()
+        .get(format!("{http_url}/v1/traces/demo/{trace_id}"))
+        .send()
+        .await?
+        .error_for_status()?
+        .json::<serde_json::Value>()
+        .await?;
+    let actual = span_count(&trace);
+    if actual != expected {
+        anyhow::bail!("expected {expected} spans for {trace_id}, got {actual}");
     }
     Ok(())
 }
