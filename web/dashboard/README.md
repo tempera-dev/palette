@@ -59,7 +59,10 @@ tool -> MCP waterfall. It pulls prebuilt GHCR images through
 build images from source for development checks.
 For outside-person evidence, the script preflights Docker and curl, removes any
 previous Beater stopwatch project, then checks the default
-`8080`/`4317`/`3000` ports before Compose startup.
+`8080`/`4317`/`3000` ports before Compose startup. The outside runner should
+use the root README command that sets `BEATER_GATE2_CLONE_STARTED_EPOCH` before
+`git clone`, so the recorded first-trace and browser-click timings include clone
+time.
 With `BEATER_GATE2_RECORD_DEMO=1`, the same browser session records
 `docs/demos/gate2-compose-browser-demo.webm` plus SHA-pinned notes.
 

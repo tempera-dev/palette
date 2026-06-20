@@ -33,6 +33,19 @@ require_unset() {
   fi
 }
 
+require_clone_timer() {
+  local value="${BEATER_GATE2_CLONE_STARTED_EPOCH:-}"
+  if [[ "$dry_run" == "1" ]]; then
+    return 0
+  fi
+  if [[ -z "$value" ]]; then
+    fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be set before git clone; use the documented clone-to-browser command"
+  fi
+  if [[ ! "$value" =~ ^[0-9]+$ ]]; then
+    fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value"
+  fi
+}
+
 require_git_provenance() {
   local branch
   local origin
@@ -56,6 +69,7 @@ if [[ $# -ne 0 ]]; then
 fi
 
 require_git_provenance
+require_clone_timer
 require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
 require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
 require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"
@@ -90,7 +104,7 @@ if [[ "$dry_run" == "1" ]]; then
   cat <<EOF
 Gate 2 outside-run wrapper preflight passed.
 Would execute:
-  BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+  BEATER_GATE2_CLONE_STARTED_EPOCH="\$BEATER_GATE2_CLONE_STARTED_EPOCH" BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 EOF
   exit 0
 fi

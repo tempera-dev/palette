@@ -254,8 +254,10 @@ elif status != "completed.":
 
 for snippet, description in [
     ("scripts/gate2-outside-run.sh", "canonical outside-run command"),
+    ("BEATER_GATE2_CLONE_STARTED_EPOCH", "clone-to-browser stopwatch command"),
     ("http://127.0.0.1:3000", "default dashboard URL"),
     ("Time-to-first-trace was 300 seconds or less", "first-trace checklist item"),
+    ("Time-to-first-trace includes clone time", "clone-inclusive timing checklist item"),
     ("Time-to-quickstart-click was 300 seconds or less", "browser-click checklist item"),
     ("using only public repository instructions", "unaided-run requirement"),
 ]:
@@ -297,11 +299,17 @@ for field in [
     "OTEL Python image digest",
     "API endpoint",
     "Dashboard base",
+    "Timing start source",
+    "Clone started at",
+    "Script started at",
     "Started at",
     "Ended at",
     "Time-to-first-trace",
+    "Script-to-first-trace",
     "Time-to-quickstart-click",
+    "Script-to-quickstart-click",
     "Total proof duration",
+    "Script duration",
     "Outside-run wrapper",
     "Stopwatch proof file",
     "Screen recording",
@@ -357,6 +365,12 @@ if dashboard_base != DEFAULT_DASHBOARD_BASE:
 outside_wrapper = field_value("Outside-run wrapper")
 if outside_wrapper != "yes":
     fail("Outside-run wrapper must be yes; use scripts/gate2-outside-run.sh for evidence")
+timing_start_source = field_value("Timing start source")
+if timing_start_source != "external-clone":
+    fail("Timing start source must be external-clone for outside-person evidence")
+clone_started_at = field_value("Clone started at")
+if clone_started_at == "not provided":
+    fail("Clone started at must be captured before git clone")
 
 if "- [ ]" in text:
     fail("all pass-checklist boxes must be checked")
@@ -512,6 +526,7 @@ if stopwatch_text:
         ("Startup mode", "prebuilt-image"),
         ("Reuse override", "BEATER_GATE2_REUSE=0"),
         ("Outside-run wrapper", "yes"),
+        ("Timing start source", "external-clone"),
         ("Git branch", "main"),
         ("Git origin", EXPECTED_CLONE_URL),
         ("Git worktree clean", "yes"),
@@ -538,6 +553,39 @@ if stopwatch_text:
     require_max_300(
         stopwatch_quickstart_click, "Time-to-quickstart-click", "stopwatch proof"
     )
+    require_equal(
+        "time-to-first-trace",
+        field_value("Time-to-first-trace"),
+        field_value_from(stopwatch_text, "Time-to-first-trace", "stopwatch proof"),
+    )
+    require_equal(
+        "time-to-quickstart-click",
+        field_value("Time-to-quickstart-click"),
+        field_value_from(stopwatch_text, "Time-to-quickstart-click", "stopwatch proof"),
+    )
+    require_equal(
+        "total proof duration",
+        field_value("Total proof duration"),
+        field_value_from(stopwatch_text, "Total duration", "stopwatch proof"),
+    )
+    stopwatch_script_first_trace = duration_seconds(
+        stopwatch_text, "Script-to-first-trace", "stopwatch proof"
+    )
+    stopwatch_script_quickstart_click = duration_seconds(
+        stopwatch_text, "Script-to-quickstart-click", "stopwatch proof"
+    )
+    if (
+        stopwatch_first_trace is not None
+        and stopwatch_script_first_trace is not None
+        and stopwatch_first_trace < stopwatch_script_first_trace
+    ):
+        fail("Time-to-first-trace must include at least the script runtime")
+    if (
+        stopwatch_quickstart_click is not None
+        and stopwatch_script_quickstart_click is not None
+        and stopwatch_quickstart_click < stopwatch_script_quickstart_click
+    ):
+        fail("Time-to-quickstart-click must include at least the script runtime")
 
     stopwatch_quickstart_trace = field_value_from(
         stopwatch_text, "Quickstart trace", "stopwatch proof"
@@ -573,6 +621,36 @@ if stopwatch_text:
     )
     require_equal("API endpoint", api_endpoint, stopwatch_api_endpoint)
     require_equal("Dashboard base", dashboard_base, stopwatch_dashboard_base)
+    require_equal(
+        "timing start source",
+        timing_start_source,
+        field_value_from(stopwatch_text, "Timing start source", "stopwatch proof"),
+    )
+    require_equal(
+        "clone start time",
+        clone_started_at,
+        field_value_from(stopwatch_text, "Clone started at", "stopwatch proof"),
+    )
+    require_equal(
+        "script start time",
+        field_value("Script started at"),
+        field_value_from(stopwatch_text, "Script started at", "stopwatch proof"),
+    )
+    require_equal(
+        "script-to-first-trace",
+        field_value("Script-to-first-trace"),
+        field_value_from(stopwatch_text, "Script-to-first-trace", "stopwatch proof"),
+    )
+    require_equal(
+        "script-to-quickstart-click",
+        field_value("Script-to-quickstart-click"),
+        field_value_from(stopwatch_text, "Script-to-quickstart-click", "stopwatch proof"),
+    )
+    require_equal(
+        "script duration",
+        field_value("Script duration"),
+        field_value_from(stopwatch_text, "Script duration", "stopwatch proof"),
+    )
 
     stopwatch_outside_wrapper = field_value_from(
         stopwatch_text, "Outside-run wrapper", "stopwatch proof"

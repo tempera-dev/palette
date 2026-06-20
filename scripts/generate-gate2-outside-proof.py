@@ -134,19 +134,26 @@ unaided using public repository instructions.
 - OTEL Python image digest: {field_value(stopwatch_text, "OTEL Python image digest", stopwatch_rel)}
 - API endpoint: {field_value(stopwatch_text, "API endpoint", stopwatch_rel)}
 - Dashboard base: {field_value(stopwatch_text, "Dashboard base", stopwatch_rel)}
+- Timing start source: {field_value(stopwatch_text, "Timing start source", stopwatch_rel)}
+- Clone started at: {field_value(stopwatch_text, "Clone started at", stopwatch_rel)}
+- Script started at: {field_value(stopwatch_text, "Script started at", stopwatch_rel)}
 - Started at: {field_value(stopwatch_text, "Started", stopwatch_rel)}
 - Ended at: {field_value(stopwatch_text, "Ended", stopwatch_rel)}
 - Time-to-first-trace: {field_value(stopwatch_text, "Time-to-first-trace", stopwatch_rel)}
+- Script-to-first-trace: {field_value(stopwatch_text, "Script-to-first-trace", stopwatch_rel)}
 - Time-to-quickstart-click: {field_value(stopwatch_text, "Time-to-quickstart-click", stopwatch_rel)}
+- Script-to-quickstart-click: {field_value(stopwatch_text, "Script-to-quickstart-click", stopwatch_rel)}
 - Total proof duration: {field_value(stopwatch_text, "Total duration", stopwatch_rel)}
+- Script duration: {field_value(stopwatch_text, "Script duration", stopwatch_rel)}
 - Outside-run wrapper: {field_value(stopwatch_text, "Outside-run wrapper", stopwatch_rel)}
 
 ## Commands
 
 ```bash
+BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
 git clone https://github.com/jadenfix/beater.git
 cd beater
-{CANONICAL_COMMAND}
+BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" {CANONICAL_COMMAND}
 ```
 
 The runner completed the flow using only public repository instructions.
@@ -175,6 +182,7 @@ The runner completed the flow using only public repository instructions.
 - [x] `BEATER_GATE2_REUSE` was not set.
 - [x] The script reported `Clean start: yes`.
 - [x] Time-to-first-trace was 300 seconds or less.
+- [x] Time-to-first-trace includes clone time.
 - [x] Time-to-quickstart-click was 300 seconds or less.
 - [x] The five-line stock OpenTelemetry trace appeared in `localhost:3000`.
 - [x] Clicking the `llm.call` span showed prompt, completion, model, tokens, cost, and latency.

@@ -54,6 +54,9 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains(OUTSIDE_RUN_ATTESTATION));
     assert!(generated_text.contains("- API endpoint: http://127.0.0.1:8080"));
     assert!(generated_text.contains("- Dashboard base: http://127.0.0.1:3000"));
+    assert!(generated_text.contains("- Timing start source: external-clone"));
+    assert!(generated_text.contains("- Clone started at: 2026-06-20T11:59:55Z"));
+    assert!(generated_text.contains("- Script-to-first-trace: 7s"));
     assert!(generated_text.contains("- Clone URL: https://github.com/jadenfix/beater.git"));
     assert!(generated_text.contains("- Branch: main"));
     assert!(generated_text.contains("- Worktree clean: yes"));
@@ -64,7 +67,9 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains("- Beater image digest: ghcr.io/jadenfix/beater/beaterd@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     assert!(generated_text.contains("- Dashboard e2e image digest: ghcr.io/jadenfix/beater/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"));
     assert!(generated_text.contains("- OTEL Python image digest: ghcr.io/jadenfix/beater/otel-python@sha256:abababababababababababababababababababababababababababababababab"));
-    assert!(generated_text.contains("scripts/gate2-outside-run.sh"));
+    assert!(generated_text.contains(
+        r#"BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh"#
+    ));
     assert!(generated_text.contains("- Outside-run wrapper: yes"));
     assert!(generated_text.contains(
         "- [x] The runner completed the flow using only public repository instructions."
@@ -172,6 +177,7 @@ fn gate2_public_handoff_verifier_full_run_executes_cloned_stopwatch() {
     assert!(env_marker.contains("keep=0"));
     assert!(env_marker.contains("dry=unset"));
     assert!(env_marker.contains("expected_origin=unset"));
+    assert!(env_marker.contains("clone_started=unset"));
     assert!(env_marker.contains("dashboard_port=unset"));
 }
 
@@ -276,6 +282,18 @@ fn gate2_outside_wrapper_rejects_dirty_worktree() {
     assert_failure(
         output,
         "outside-person evidence must run from a clean worktree",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_missing_clone_timer_for_real_run() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+
+    let output = run_outside_wrapper_real_preflight_in_repo(fixture.path());
+
+    assert_failure(
+        output,
+        "BEATER_GATE2_CLONE_STARTED_EPOCH must be set before git clone",
     );
 }
 
@@ -391,6 +409,40 @@ fn gate2_outside_validator_rejects_dirty_stopwatch_worktree() {
     assert_failure(
         output,
         "Git worktree clean in stopwatch proof must be 'yes'",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_script_only_timing_source() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Timing start source: external-clone",
+        "- Timing start source: script",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Timing start source must be external-clone for outside-person evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_first_trace_less_than_script_runtime() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.stopwatch_path,
+        "- Time-to-first-trace: 12s",
+        "- Time-to-first-trace: 6s",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Time-to-first-trace must include at least the script runtime",
     );
 }
 
@@ -816,19 +868,26 @@ Status: completed.
 - OTEL Python image digest: {OTEL_PYTHON_IMAGE_DIGEST}
 - API endpoint: http://127.0.0.1:8080
 - Dashboard base: http://127.0.0.1:3000
+- Timing start source: external-clone
+- Clone started at: 2026-06-20T11:59:55Z
+- Script started at: 2026-06-20T12:00:00Z
 - Started at: 2026-06-20T12:00:00Z
 - Ended at: 2026-06-20T12:00:40Z
 - Time-to-first-trace: 12s
+- Script-to-first-trace: 7s
 - Time-to-quickstart-click: 20s
+- Script-to-quickstart-click: 15s
 - Total proof duration: 40s
+- Script duration: 35s
 - Outside-run wrapper: yes
 
 ## Commands
 
 ```bash
+BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
 git clone https://github.com/jadenfix/beater.git
 cd beater
-scripts/gate2-outside-run.sh
+BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh
 ```
 
 The runner completed the flow using only public repository instructions.
@@ -857,6 +916,7 @@ The runner completed the flow using only public repository instructions.
 - [x] `BEATER_GATE2_REUSE` was not set.
 - [x] The script reported `Clean start: yes`.
 - [x] Time-to-first-trace was 300 seconds or less.
+- [x] Time-to-first-trace includes clone time.
 - [x] Time-to-quickstart-click was 300 seconds or less.
 - [x] The five-line stock OpenTelemetry trace appeared in `localhost:3000`.
 - [x] Clicking the `llm.call` span showed prompt, completion, model, tokens, cost, and latency.
@@ -874,11 +934,17 @@ fn stopwatch_proof(recording: &str, notes: &str) -> String {
     format!(
         r#"# Gate 2 Compose Stopwatch Proof
 
+- Timing start source: external-clone
+- Clone started at: 2026-06-20T11:59:55Z
+- Script started at: 2026-06-20T12:00:00Z
 - Started: 2026-06-20T12:00:00Z
 - Ended: 2026-06-20T12:00:40Z
 - Time-to-first-trace: 12s
+- Script-to-first-trace: 7s
 - Time-to-quickstart-click: 20s
+- Script-to-quickstart-click: 15s
 - Total duration: 40s
+- Script duration: 35s
 - Limit: 300s
 - Git SHA: `{commit_sha}`
 - Git branch: `main`
@@ -1099,6 +1165,34 @@ fn run_outside_wrapper_dry_run_in_repo(repo: &Path, extra_env: Option<(&str, &st
         .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper fixture dry-run: {err}"))
 }
 
+fn run_outside_wrapper_real_preflight_in_repo(repo: &Path) -> Output {
+    Command::new("bash")
+        .arg(repo.join("scripts/gate2-outside-run.sh"))
+        .current_dir(repo)
+        .env_remove("BEATER_GATE2_OUTSIDE_RUN_DRY_RUN")
+        .env_remove("BEATER_GATE2_CLONE_STARTED_EPOCH")
+        .env_remove("BEATER_DASHBOARD_PORT")
+        .env_remove("BEATER_HTTP_PORT")
+        .env_remove("BEATER_OTLP_GRPC_PORT")
+        .env_remove("BEATER_GATE2_REUSE")
+        .env_remove("BEATER_GATE2_LOCAL_BUILD")
+        .env_remove("BEATER_GATE2_PULL_POLICY")
+        .env_remove("BEATER_GATE2_WRITE_PROOF")
+        .env_remove("BEATER_GATE2_BROWSER_PROOF")
+        .env_remove("BEATER_GATE2_RECORD_DEMO")
+        .env_remove("BEATERD_IMAGE")
+        .env_remove("BEATER_DASHBOARD_IMAGE")
+        .env_remove("BEATER_DASHBOARD_E2E_IMAGE")
+        .env_remove("BEATER_OTEL_PYTHON_IMAGE")
+        .env_remove("BEATER_GATE2_STOPWATCH_PROOF")
+        .env_remove("BEATER_GATE2_RECORD_VIDEO")
+        .env_remove("BEATER_GATE2_RECORD_NOTES")
+        .env_remove("KEEP_BEATER_COMPOSE")
+        .env_remove("COMPOSE_PROJECT_NAME")
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper fixture preflight: {err}"))
+}
+
 fn assert_success(output: Output, expected_stdout: &str) {
     if !output.status.success() {
         panic!(
@@ -1243,6 +1337,7 @@ set -euo pipefail
   echo "keep=${KEEP_BEATER_COMPOSE:-unset}"
   echo "dry=${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-unset}"
   echo "expected_origin=${BEATER_GATE2_EXPECTED_ORIGIN:-unset}"
+  echo "clone_started=${BEATER_GATE2_CLONE_STARTED_EPOCH:-unset}"
   echo "dashboard_port=${BEATER_DASHBOARD_PORT:-unset}"
 } > full-run-env.txt
 echo "fixture full public handoff runtime executed"

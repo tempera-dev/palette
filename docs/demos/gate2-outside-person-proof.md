@@ -36,19 +36,26 @@ outside the project who runs the flow unaided from a fresh clone.
 - OTEL Python image digest:
 - API endpoint:
 - Dashboard base:
+- Timing start source:
+- Clone started at:
+- Script started at:
 - Started at:
 - Ended at:
 - Time-to-first-trace:
+- Script-to-first-trace:
 - Time-to-quickstart-click:
+- Script-to-quickstart-click:
 - Total proof duration:
+- Script duration:
 - Outside-run wrapper:
 
 ## Commands
 
 ```bash
+BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
 git clone https://github.com/jadenfix/beater.git
 cd beater
-scripts/gate2-outside-run.sh
+BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
@@ -58,7 +65,10 @@ The wrapper sets the required proof/browser/recording flags and rejects
 non-`main` checkouts, non-canonical GitHub origins, dirty worktrees, warm-loop reuse,
 local source builds, alternate ports, mutable pull-policy overrides,
 prebuilt image overrides, evidence artifact path overrides, Compose project overrides,
-and teardown overrides before the stopwatch starts. The stopwatch proof records
+and teardown overrides before the stopwatch starts. It also requires
+`BEATER_GATE2_CLONE_STARTED_EPOCH` from before `git clone`, so
+`Time-to-first-trace` and `Time-to-quickstart-click` include clone time. The
+stopwatch proof records
 `Outside-run wrapper: yes`, `Git branch: main`, the Git origin, and
 `Git worktree clean: yes`; completed outside-person evidence is invalid without
 those markers.
@@ -159,6 +169,7 @@ repo-relative paths under `docs/demos/`.
 - [ ] `BEATER_GATE2_REUSE` was not set.
 - [ ] The script reported `Clean start: yes`.
 - [ ] Time-to-first-trace was 300 seconds or less.
+- [ ] Time-to-first-trace includes clone time.
 - [ ] Time-to-quickstart-click was 300 seconds or less.
 - [ ] The five-line stock OpenTelemetry trace appeared in `localhost:3000`.
 - [ ] Clicking the `llm.call` span showed prompt, completion, model, tokens,

@@ -21,7 +21,23 @@ api_url="http://127.0.0.1:$host_http_port"
 otlp_url="http://127.0.0.1:$host_otlp_grpc_port"
 dashboard_base_url="http://127.0.0.1:$host_dashboard_port"
 start_epoch="$(date +%s)"
-deadline_epoch=$((start_epoch + 300))
+clone_started_epoch="${BEATER_GATE2_CLONE_STARTED_EPOCH:-}"
+timing_start_epoch="$start_epoch"
+timing_start_source="script"
+clone_started_at="not provided"
+if [[ -n "$clone_started_epoch" ]]; then
+  if [[ ! "$clone_started_epoch" =~ ^[0-9]+$ ]]; then
+    echo "BEATER_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value" >&2
+    exit 1
+  fi
+  if (( clone_started_epoch > start_epoch )); then
+    echo "BEATER_GATE2_CLONE_STARTED_EPOCH must not be in the future" >&2
+    exit 1
+  fi
+  timing_start_epoch="$clone_started_epoch"
+  timing_start_source="external-clone"
+fi
+deadline_epoch=$((timing_start_epoch + 300))
 started_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 quickstart_browser_proof_status="not requested"
 waterfall_browser_proof_status="not requested"
@@ -44,6 +60,17 @@ fi
 os_arch="$(uname -sm 2>/dev/null || echo unknown)"
 docker_version="$(docker --version 2>/dev/null || echo unknown)"
 compose_version="$(docker compose version 2>/dev/null || echo unknown)"
+utc_from_epoch() {
+  local epoch="$1"
+  if date -u -r "$epoch" +"%Y-%m-%dT%H:%M:%SZ" >/dev/null 2>&1; then
+    date -u -r "$epoch" +"%Y-%m-%dT%H:%M:%SZ"
+  else
+    date -u -d "@$epoch" +"%Y-%m-%dT%H:%M:%SZ"
+  fi
+}
+if [[ "$timing_start_source" == "external-clone" ]]; then
+  clone_started_at="$(utc_from_epoch "$clone_started_epoch")"
+fi
 if [[ "$local_build" != "1" && "$git_sha" =~ ^[0-9a-f]{40}$ ]]; then
   export BEATERD_IMAGE="${BEATERD_IMAGE:-ghcr.io/jadenfix/beater/beaterd:$git_sha}"
   export BEATER_DASHBOARD_IMAGE="${BEATER_DASHBOARD_IMAGE:-ghcr.io/jadenfix/beater/dashboard:$git_sha}"
@@ -339,7 +366,8 @@ wait_text "$dashboard_url" "Agent Trace Debugger" "dashboard"
 wait_text "$dashboard_url" "five-line-llm-call" "dashboard quickstart trace"
 wait_text "$dashboard_url" "gpt-quickstart" "dashboard model detail"
 wait_text "$dashboard_url" "hello from stock OpenTelemetry" "dashboard prompt detail"
-time_to_first_trace_seconds=$(($(date +%s) - start_epoch))
+script_to_first_trace_seconds=$(($(date +%s) - start_epoch))
+time_to_first_trace_seconds=$(($(date +%s) - timing_start_epoch))
 
 if [[ "$browser_proof" == "1" ]]; then
   run_before_deadline "five-line dashboard browser proof" compose_run_e2e \
@@ -348,7 +376,8 @@ if [[ "$browser_proof" == "1" ]]; then
     dashboard-e2e \
     npx playwright test tests/e2e/quickstart.spec.ts
   quickstart_browser_proof_status="passed"
-  time_to_quickstart_click_seconds=$(($(date +%s) - start_epoch))
+  script_to_quickstart_click_seconds=$(($(date +%s) - start_epoch))
+  time_to_quickstart_click_seconds=$(($(date +%s) - timing_start_epoch))
   if (( time_to_quickstart_click_seconds > 300 )); then
     echo "Time-to-quickstart-click exceeded 300s: ${time_to_quickstart_click_seconds}s" >&2
     exit 1
@@ -394,9 +423,12 @@ if [[ "$browser_proof" == "1" ]]; then
 fi
 
 ended_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-duration_seconds=$(($(date +%s) - start_epoch))
+script_duration_seconds=$(($(date +%s) - start_epoch))
+duration_seconds=$(($(date +%s) - timing_start_epoch))
 time_to_quickstart_click_display="${time_to_quickstart_click_seconds:+${time_to_quickstart_click_seconds}s}"
 time_to_quickstart_click_display="${time_to_quickstart_click_display:-not requested}"
+script_to_quickstart_click_display="${script_to_quickstart_click_seconds:+${script_to_quickstart_click_seconds}s}"
+script_to_quickstart_click_display="${script_to_quickstart_click_display:-not requested}"
 image_summary="$(compose images 2>/dev/null || true)"
 beater_image_digest="$(service_image_digest beaterd)"
 dashboard_image_digest="$(service_image_digest dashboard)"
@@ -411,11 +443,17 @@ if [[ "$write_proof" == "1" ]]; then
   cat >"$proof_path" <<EOF
 # Gate 2 Compose Stopwatch Proof
 
+- Timing start source: $timing_start_source
+- Clone started at: $clone_started_at
+- Script started at: $started_at
 - Started: $started_at
 - Ended: $ended_at
 - Time-to-first-trace: ${time_to_first_trace_seconds}s
+- Script-to-first-trace: ${script_to_first_trace_seconds}s
 - Time-to-quickstart-click: $time_to_quickstart_click_display
+- Script-to-quickstart-click: $script_to_quickstart_click_display
 - Total duration: ${duration_seconds}s
+- Script duration: ${script_duration_seconds}s
 - Limit: 300s
 - Git SHA: \`$git_sha\`
 - Git branch: \`$git_branch\`
@@ -472,6 +510,12 @@ fi
 
 cat <<EOF
 Gate 2 compose stopwatch passed in ${time_to_first_trace_seconds}s to first trace (${duration_seconds}s total).
+
+Timing start source:
+  $timing_start_source
+
+Script-to-first-trace:
+  ${script_to_first_trace_seconds}s
 
 Time to quickstart browser click:
   $time_to_quickstart_click_display

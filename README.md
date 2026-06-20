@@ -137,9 +137,10 @@ cargo run -q -p beaterd -- --data-dir /tmp/beaterd --judge-provider http-routing
 Exact Docker Compose stopwatch proof for the mandate's clean-machine path:
 
 ```bash
+BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
 git clone https://github.com/jadenfix/beater.git
 cd beater
-scripts/gate2-outside-run.sh
+BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh
 ```
 
 The outside-run wrapper rejects non-`main` checkouts, non-canonical GitHub
@@ -147,7 +148,9 @@ origins, dirty worktrees, warm-loop reuse, local source builds, alternate ports,
 mutable pull-policy overrides, prebuilt image overrides, evidence
 artifact path overrides, alternate Compose project names, and teardown overrides,
 then runs the stopwatch script with proof writing, browser proof, and browser recording
-enabled. It also sets an
+enabled. The clone-start environment variable must be captured before
+`git clone`, so `Time-to-first-trace` and `Time-to-quickstart-click` include
+clone time. It also sets an
 `Outside-run wrapper: yes` marker in the stopwatch proof; completed
 outside-person proof validation rejects evidence without that marker and
 cross-checks the stopwatch branch, origin, and worktree-clean status. The script

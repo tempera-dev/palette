@@ -471,12 +471,16 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("OTEL Python image digest"));
     assert!(outside_proof.contains("API endpoint"));
     assert!(outside_proof.contains("Dashboard base"));
+    assert!(outside_proof.contains("Timing start source"));
+    assert!(outside_proof.contains("Clone started at"));
+    assert!(outside_proof.contains("Script-to-first-trace"));
     assert!(outside_proof.contains("Screen recording SHA256"));
     assert!(outside_proof.contains("gate2-compose-browser-demo.webm"));
     assert!(outside_proof.contains("gate2-compose-browser-demo.md"));
     assert!(outside_proof.contains("Terminal output excerpt"));
     assert!(outside_proof.contains("http://127.0.0.1:3000/"));
     assert!(outside_proof.contains("Time-to-first-trace was 300 seconds or less"));
+    assert!(outside_proof.contains("Time-to-first-trace includes clone time"));
     assert!(outside_proof.contains("Time-to-quickstart-click was 300 seconds or less"));
     assert!(outside_proof.contains("run -> turn -> step -> tool -> MCP"));
     assert!(outside_proof.contains("using only public repository instructions"));
@@ -508,7 +512,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("proof writing"));
     assert!(readme.contains("browser proof"));
     assert!(readme.contains("browser recording"));
-    assert!(readme.contains("enabled. It also sets"));
+    assert!(readme.contains("BEATER_GATE2_CLONE_STARTED_EPOCH"));
+    assert!(readme.contains("clone time"));
+    assert!(readme.contains("It also sets"));
     assert!(readme.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(readme.contains("removes any previous Beater stopwatch project"));
     assert!(readme.contains("gate2-compose-browser-demo.webm"));
