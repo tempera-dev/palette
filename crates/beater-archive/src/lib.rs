@@ -122,8 +122,11 @@ impl ParquetTraceArchive {
             }
         }
         query.project_id = Some(project_id.clone());
-        self.query_path(self.project_dir(tenant_id, project_id), query)
-            .await
+        let project_dir = self.project_dir(tenant_id, project_id);
+        if !project_dir_has_parquet(&project_dir)? {
+            return Ok(Vec::new());
+        }
+        self.query_path(project_dir, query).await
     }
 
     fn archive_path(&self, tenant_id: &TenantId, project_id: &ProjectId) -> PathBuf {
@@ -585,6 +588,29 @@ fn safe_segment(value: &str) -> String {
         .collect()
 }
 
+fn project_dir_has_parquet(path: &Path) -> anyhow::Result<bool> {
+    if !path.exists() {
+        return Ok(false);
+    }
+    if !path.is_dir() {
+        return Ok(false);
+    }
+    for entry in
+        fs::read_dir(path).with_context(|| format!("read archive dir {}", path.display()))?
+    {
+        let entry = entry.with_context(|| format!("read archive entry {}", path.display()))?;
+        if entry
+            .path()
+            .extension()
+            .and_then(|extension| extension.to_str())
+            == Some("parquet")
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
 fn sql_literal(value: &str) -> String {
     value.replace('\'', "''")
 }
@@ -714,6 +740,22 @@ mod tests {
         assert_eq!(rows.len(), 1);
         assert_eq!(rows[0].trace_id, "trace-hot");
         assert_eq!(rows[0].raw_uri, "artifact://tenant-hot/project-hot/raw");
+    }
+
+    #[tokio::test]
+    async fn project_query_without_archive_files_returns_empty_rows() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant-empty").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project-empty").unwrap_or_else(|err| panic!("{err}"));
+
+        let rows = archive
+            .query_project(&tenant, &project, ArchiveQuery::tenant(tenant.clone()))
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert!(rows.is_empty());
     }
 
     #[tokio::test]

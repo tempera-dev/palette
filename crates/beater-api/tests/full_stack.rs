@@ -1327,6 +1327,31 @@ async fn project_scoped_archive_routes_do_not_merge_same_trace_id_across_project
         ingest, traces, search, archive,
     ));
 
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("GET")
+                .uri("/v1/archive/tenant/project/spans?trace_id=trace")
+                .body(Body::empty())
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::OK);
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let archive_response: serde_json::Value =
+        serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(
+        archive_response["rows"]
+            .as_array()
+            .unwrap_or_else(|| panic!("archive rows should be an array"))
+            .len(),
+        0
+    );
+
     let project_request = native_request();
     let mut other_project_request = native_request();
     other_project_request.scope = TenantScope::new(
