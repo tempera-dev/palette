@@ -25,7 +25,7 @@ This repo now contains the first tested Rust vertical slice:
 
 - all-in-one `beaterd` HTTP server
 - `beaterctl smoke` local OTLP ingest command that drains trace-write and trace-ingested work
-- `beaterctl smoke --http-url ...` remote mode for live `beaterd` OTLP HTTP/gRPC smoke checks
+- `beaterctl smoke --http-url ...` remote mode for live `beaterd` OTLP HTTP/gRPC smoke checks with measured query lag
 - OTLP/HTTP protobuf trace ingest endpoint with raw protobuf preservation
 - OTLP/gRPC TraceService ingest mounted by `beaterd` alongside axum
 - Tantivy-backed structured and full-text span search
@@ -210,7 +210,7 @@ BEATER_GATE2_LOCAL_BUILD=1 scripts/gate2-compose-stopwatch.sh
 ```
 
 With `beaterd` running in local auth mode, remote smoke can target the live
-server:
+server and reports `trace_query_lag_ms`:
 
 ```bash
 cargo run -q -p beaterctl -- smoke --http-url http://127.0.0.1:8080

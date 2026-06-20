@@ -1839,6 +1839,7 @@ async fn run_remote_smoke(
     let (trace_bytes, span_bytes) = smoke_ids();
     let trace_id = hex(&trace_bytes);
     let export = otlp_smoke_export(trace_bytes, span_bytes);
+    let started = std::time::Instant::now();
     let protocol = if let Some(otlp_grpc_url) = otlp_grpc_url {
         emit_remote_grpc(
             otlp_grpc_url,
@@ -1867,6 +1868,7 @@ async fn run_remote_smoke(
         StdDuration::from_millis(timeout_ms),
     )
     .await?;
+    let trace_query_lag_ms = started.elapsed().as_millis() as u64;
     let spans = trace
         .get("spans")
         .and_then(serde_json::Value::as_array)
@@ -1878,6 +1880,7 @@ async fn run_remote_smoke(
         "source": "otlp",
         "trace_id": trace_id,
         "trace_read_url": format!("{}/v1/traces/{}/{}", trim_url(&http_url), tenant_id, trace_id),
+        "trace_query_lag_ms": trace_query_lag_ms,
         "trace_span_count": spans.len(),
         "normalizer_version": spans.first().and_then(|span| span.get("normalizer_version")).cloned(),
     }))
