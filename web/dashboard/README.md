@@ -115,6 +115,16 @@ BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
 The remaining Gate 2 blocker is an unaided outside-person run of the stopwatch
 flow. Record it with `docs/demos/gate2-outside-person-proof.md`.
 
+Before handoff, maintainers can run:
+
+```bash
+scripts/check-gate2-public-handoff.py --full-run
+```
+
+That performs a fresh public clone and executes the real prebuilt-image
+stopwatch path with cleanup. It verifies the hosted images and dashboard
+runtime, but it does not replace the outside-person proof.
+
 ## Vercel
 
 Set `BEATER_API_BASE_URL` to the hosted Beater API URL and configure either

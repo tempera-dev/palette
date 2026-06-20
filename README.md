@@ -248,6 +248,19 @@ pending/completed outside-proof file is structurally valid, and the current-SHA
 `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR images are
 public for both `linux/amd64` and `linux/arm64`.
 
+For a stronger maintainer preflight, run the verifier's full public-clone mode
+with Docker running and default ports `8080`, `4317`, and `3000` free:
+
+```bash
+scripts/check-gate2-public-handoff.py --full-run
+```
+
+That mode still performs the clean public clone and wrapper dry run, then
+executes the real prebuilt-image stopwatch path inside the clone with Compose
+cleanup enabled. It is maintainer runtime evidence that the public clone,
+current GHCR images, OTLP ingest, dashboard render, and browser recording work;
+it is not a substitute for the required outside-person proof below.
+
 Use [docs/demos/gate2-outside-person-proof.md](docs/demos/gate2-outside-person-proof.md)
 as the required evidence template for that run. After the outside runner has
 completed the stopwatch command, generate the proof from the stopwatch artifact:

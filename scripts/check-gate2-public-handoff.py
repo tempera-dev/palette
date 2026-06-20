@@ -55,6 +55,38 @@ def run_local_readiness(args: argparse.Namespace) -> None:
     run(command, cwd=repo_root())
 
 
+OUTSIDE_ENV_NAMES = [
+    "BEATER_GATE2_OUTSIDE_RUN_DRY_RUN",
+    "BEATER_GATE2_EXPECTED_ORIGIN",
+    "BEATER_GATE2_OUTSIDE_WRAPPER",
+    "BEATER_DASHBOARD_PORT",
+    "BEATER_HTTP_PORT",
+    "BEATER_OTLP_GRPC_PORT",
+    "BEATER_GATE2_REUSE",
+    "BEATER_GATE2_LOCAL_BUILD",
+    "BEATER_GATE2_PULL_POLICY",
+    "BEATER_GATE2_WRITE_PROOF",
+    "BEATER_GATE2_BROWSER_PROOF",
+    "BEATER_GATE2_RECORD_DEMO",
+    "BEATERD_IMAGE",
+    "BEATER_DASHBOARD_IMAGE",
+    "BEATER_DASHBOARD_E2E_IMAGE",
+    "BEATER_OTEL_PYTHON_IMAGE",
+    "BEATER_GATE2_STOPWATCH_PROOF",
+    "BEATER_GATE2_RECORD_VIDEO",
+    "BEATER_GATE2_RECORD_NOTES",
+    "KEEP_BEATER_COMPOSE",
+    "COMPOSE_PROJECT_NAME",
+]
+
+
+def clean_outside_env() -> dict[str, str]:
+    env = os.environ.copy()
+    for name in OUTSIDE_ENV_NAMES:
+        env.pop(name, None)
+    return env
+
+
 def make_clone_parent(args: argparse.Namespace) -> tuple[Path, tempfile.TemporaryDirectory | None]:
     if args.clone_parent:
         parent = Path(args.clone_parent).resolve()
@@ -140,31 +172,31 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
         readiness.extend(["--registry-fixture", registry_fixture])
     run(readiness, cwd=clone_dir)
 
-    env = os.environ.copy()
+    env = clean_outside_env()
     env["BEATER_GATE2_OUTSIDE_RUN_DRY_RUN"] = "1"
     env["BEATER_GATE2_EXPECTED_ORIGIN"] = args.source_url
-    for name in [
-        "BEATER_DASHBOARD_PORT",
-        "BEATER_HTTP_PORT",
-        "BEATER_OTLP_GRPC_PORT",
-        "BEATER_GATE2_REUSE",
-        "BEATER_GATE2_LOCAL_BUILD",
-        "BEATER_GATE2_PULL_POLICY",
-        "BEATER_GATE2_WRITE_PROOF",
-        "BEATER_GATE2_BROWSER_PROOF",
-        "BEATER_GATE2_RECORD_DEMO",
-        "BEATERD_IMAGE",
-        "BEATER_DASHBOARD_IMAGE",
-        "BEATER_DASHBOARD_E2E_IMAGE",
-        "BEATER_OTEL_PYTHON_IMAGE",
-        "BEATER_GATE2_STOPWATCH_PROOF",
-        "BEATER_GATE2_RECORD_VIDEO",
-        "BEATER_GATE2_RECORD_NOTES",
-        "KEEP_BEATER_COMPOSE",
-        "COMPOSE_PROJECT_NAME",
-    ]:
-        env.pop(name, None)
     run(["scripts/gate2-outside-run.sh"], cwd=clone_dir, env=env)
+
+
+def run_cloned_full_run(args: argparse.Namespace, clone_dir: Path) -> None:
+    if not args.full_run:
+        return
+
+    if args.source_url != REMOTE_URL and not args.registry_fixture:
+        raise SystemExit(
+            "--full-run against a non-canonical source requires --registry-fixture; "
+            "canonical handoff should use the public GitHub repo and GHCR images"
+        )
+
+    env = clean_outside_env()
+    env["BEATER_GATE2_WRITE_PROOF"] = "1"
+    env["BEATER_GATE2_BROWSER_PROOF"] = "1"
+    env["BEATER_GATE2_RECORD_DEMO"] = "1"
+    env["BEATER_GATE2_REUSE"] = "0"
+    env["BEATER_GATE2_LOCAL_BUILD"] = "0"
+    env["BEATER_GATE2_PULL_POLICY"] = "always"
+    env["KEEP_BEATER_COMPOSE"] = "0"
+    run(["bash", "scripts/gate2-compose-stopwatch.sh"], cwd=clone_dir, env=env)
 
 
 def parse_args() -> argparse.Namespace:
@@ -203,6 +235,15 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Keep the temporary clone after checks pass for manual inspection.",
     )
+    parser.add_argument(
+        "--full-run",
+        action="store_true",
+        help=(
+            "After the clean-clone dry-run checks, run the real prebuilt-image "
+            "Gate 2 stopwatch in the clone and clean up Compose. This is a "
+            "maintainer runtime verifier, not outside-person evidence."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -213,7 +254,9 @@ def main() -> None:
     clone_dir, temp_owner = clone_repo(args, expected_commit)
     try:
         run_cloned_checks(args, clone_dir)
-        print(f"Gate 2 public handoff clone passed for {expected_commit}: {clone_dir}")
+        run_cloned_full_run(args, clone_dir)
+        mode = "full run" if args.full_run else "clone"
+        print(f"Gate 2 public handoff {mode} passed for {expected_commit}: {clone_dir}")
     finally:
         if temp_owner is not None and not args.keep_clone:
             temp_owner.cleanup()

@@ -3,7 +3,8 @@
 Recorded from the stock OpenTelemetry Python trace produced by `examples/python/otel_smoke.py`.
 
 - Artifact: `gate2-browser-demo.webm`
-- Dashboard: `http://127.0.0.1:13003/?tenant=demo&project=demo&environment=local&trace=4a71a620e5f09a4193bf8cab2a3b4427`
+- SHA256: `359bd521dacc48a6c484b02a2a6fff55bbd9d8ef46c29327919c756d17ae95e1`
+- Dashboard: `http://127.0.0.1:13003/?tenant=demo&project=demo&environment=local&trace=a6fde3f82aa86f79f1af5317343d35b4`
 - Shows: trace table, color/icon-coded all-kind agent waterfall, run -> turn -> step -> tool -> MCP nesting, `llm.call` prompt/completion/model/tokens/cost/latency, and tool-call I/O.
 
 Regenerate with:

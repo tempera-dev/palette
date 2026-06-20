@@ -145,6 +145,37 @@ fn gate2_public_handoff_verifier_accepts_clean_clone_fixture() {
 }
 
 #[test]
+fn gate2_public_handoff_verifier_full_run_executes_cloned_stopwatch() {
+    let registry = TempDir::new().expect("create registry fixture dir");
+    let clone_parent = TempDir::new().expect("create public handoff clone parent");
+    write_registry_fixtures(registry.path());
+    let fixture_repo = write_public_handoff_fixture_repo_with_full_run_stub();
+    let fixture_head = git_output(fixture_repo.path(), &["rev-parse", "HEAD"]);
+    let source_url = format!("file://{}", fixture_repo.path().display());
+
+    let output = run_public_handoff_full_run_with_fixture(
+        &source_url,
+        &fixture_head,
+        registry.path(),
+        clone_parent.path(),
+    );
+
+    assert_success(output, "Gate 2 public handoff full run passed");
+    let env_marker = fs::read_to_string(clone_parent.path().join("beater/full-run-env.txt"))
+        .expect("read full-run marker from cloned verifier");
+    assert!(env_marker.contains("write=1"));
+    assert!(env_marker.contains("browser=1"));
+    assert!(env_marker.contains("record=1"));
+    assert!(env_marker.contains("reuse=0"));
+    assert!(env_marker.contains("local_build=0"));
+    assert!(env_marker.contains("pull_policy=always"));
+    assert!(env_marker.contains("keep=0"));
+    assert!(env_marker.contains("dry=unset"));
+    assert!(env_marker.contains("expected_origin=unset"));
+    assert!(env_marker.contains("dashboard_port=unset"));
+}
+
+#[test]
 fn gate2_outside_wrapper_accepts_default_dry_run() {
     let output = run_outside_wrapper_dry_run(None);
 
@@ -1007,6 +1038,30 @@ fn run_public_handoff_with_fixture(
         .unwrap_or_else(|err| panic!("run Gate 2 public handoff checker: {err}"))
 }
 
+fn run_public_handoff_full_run_with_fixture(
+    source_url: &str,
+    expected_commit: &str,
+    registry_path: &Path,
+    clone_parent: &Path,
+) -> Output {
+    let root = repo_root();
+    Command::new("python3")
+        .arg(root.join("scripts/check-gate2-public-handoff.py"))
+        .arg("--skip-local-readiness")
+        .arg("--source-url")
+        .arg(source_url)
+        .arg("--expected-commit")
+        .arg(expected_commit)
+        .arg("--registry-fixture")
+        .arg(registry_path)
+        .arg("--clone-parent")
+        .arg(clone_parent)
+        .arg("--full-run")
+        .current_dir(root)
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 public handoff full-run checker: {err}"))
+}
+
 fn run_outside_wrapper_dry_run(extra_env: Option<(&str, &str)>) -> Output {
     let fixture = write_outside_wrapper_fixture_repo("main");
     run_outside_wrapper_dry_run_in_repo(fixture.path(), extra_env)
@@ -1168,6 +1223,34 @@ fn write_public_handoff_fixture_repo() -> TempDir {
     git_success(fixture.path(), &["add", "."]);
     git_success(fixture.path(), &["commit", "-m", "fixture"]);
     git_success(fixture.path(), &["branch", "-M", "main"]);
+    fixture
+}
+
+fn write_public_handoff_fixture_repo_with_full_run_stub() -> TempDir {
+    let fixture = write_public_handoff_fixture_repo();
+    let stub = fixture.path().join("scripts/gate2-compose-stopwatch.sh");
+    fs::write(
+        &stub,
+        r#"#!/usr/bin/env bash
+set -euo pipefail
+{
+  echo "write=${BEATER_GATE2_WRITE_PROOF:-unset}"
+  echo "browser=${BEATER_GATE2_BROWSER_PROOF:-unset}"
+  echo "record=${BEATER_GATE2_RECORD_DEMO:-unset}"
+  echo "reuse=${BEATER_GATE2_REUSE:-unset}"
+  echo "local_build=${BEATER_GATE2_LOCAL_BUILD:-unset}"
+  echo "pull_policy=${BEATER_GATE2_PULL_POLICY:-unset}"
+  echo "keep=${KEEP_BEATER_COMPOSE:-unset}"
+  echo "dry=${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-unset}"
+  echo "expected_origin=${BEATER_GATE2_EXPECTED_ORIGIN:-unset}"
+  echo "dashboard_port=${BEATER_DASHBOARD_PORT:-unset}"
+} > full-run-env.txt
+echo "fixture full public handoff runtime executed"
+"#,
+    )
+    .unwrap_or_else(|err| panic!("write full-run stopwatch stub {}: {err}", stub.display()));
+    git_success(fixture.path(), &["add", "."]);
+    git_success(fixture.path(), &["commit", "-m", "add full run stub"]);
     fixture
 }
 

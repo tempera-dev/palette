@@ -111,6 +111,16 @@ same commit, reruns the cloned readiness check, and dry-runs the cloned
 `main`, the expected GitHub remote, this proof file's structure, and public
 multi-arch GHCR images for the exact commit.
 
+For stronger maintainer preflight before handoff, run:
+
+```bash
+scripts/check-gate2-public-handoff.py --full-run
+```
+
+That mode executes the real prebuilt-image stopwatch path inside the public
+clone with Compose cleanup enabled. It proves the public clone and images can
+run, but it is not outside-person evidence and does not close this proof file.
+
 The validator reads the listed stopwatch proof file and screen-recording notes,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, SHA-pinned prebuilt GHCR image
