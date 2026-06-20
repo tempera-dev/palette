@@ -1,0 +1,36 @@
+name: gate2-proof-contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal --component rustfmt
+
+      - name: Use stable Rust
+        run: rustup default stable
+
+      - name: Rustfmt
+        run: cargo fmt --all -- --check
+
+      - name: Validate Gate 2 outside-proof template
+        run: |
+          bash -n scripts/validate-gate2-outside-proof.sh
+          scripts/validate-gate2-outside-proof.sh --allow-pending
+
+      - name: Gate 2 self-host contract tests
+        run: |
+          cargo test -p beaterd --test self_host_contract
+          cargo test -p beaterd --test gate2_outside_validator

@@ -229,6 +229,8 @@ screen-recording notes from the same run. It rejects alternate ports, warm-loop
 reuse, placeholder dashboard URLs, mismatched trace IDs, mismatched commit SHA,
 recording notes from a different dashboard session, and any screen recording
 hash that does not match the committed file.
+The `gate2-proof-contract` GitHub workflow runs the validator template check
+and the executable proof-artifact fixture tests on pull requests and `main`.
 
 Warm-loop debugging can skip the pre-run cleanup, but this is not acceptable
 evidence for Gate 2:

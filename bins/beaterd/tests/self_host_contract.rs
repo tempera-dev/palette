@@ -57,6 +57,16 @@ fn self_host_files_define_gate_two_compose_surface() {
         .contains("cache-to: type=gha,mode=max,scope=beaterctl-tools-${{ matrix.suffix }}"));
     assert!(image_workflow.contains("ghcr.io/${{ github.repository }}/beaterd:main"));
     assert!(image_workflow.contains("ghcr.io/${{ github.repository }}/dashboard:main"));
+
+    let gate2_workflow = read(root.join(".github/workflows/gate2-proof-contract.yml"));
+    assert!(gate2_workflow.contains("pull_request:"));
+    assert!(gate2_workflow.contains("permissions:"));
+    assert!(gate2_workflow.contains("contents: read"));
+    assert!(gate2_workflow.contains("cargo fmt --all -- --check"));
+    assert!(gate2_workflow.contains("bash -n scripts/validate-gate2-outside-proof.sh"));
+    assert!(gate2_workflow.contains("scripts/validate-gate2-outside-proof.sh --allow-pending"));
+    assert!(gate2_workflow.contains("cargo test -p beaterd --test self_host_contract"));
+    assert!(gate2_workflow.contains("cargo test -p beaterd --test gate2_outside_validator"));
 }
 
 #[test]
@@ -236,12 +246,14 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("mismatched trace IDs"));
     assert!(readme.contains("recording notes from a different dashboard session"));
     assert!(readme.contains("hash that does not match the committed file"));
+    assert!(readme.contains("gate2-proof-contract"));
 
     let requirements = read(root.join("REQUIREMENTS.md"));
     assert!(requirements.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(requirements.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(requirements.contains("recording-notes"));
     assert!(requirements.contains("recording-hash cross-checks"));
+    assert!(requirements.contains("CI-enforced"));
 
     let compose = read(root.join("docker-compose.yml"));
     assert!(compose.contains("otel-python-quickstart"));
