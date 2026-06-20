@@ -76,7 +76,7 @@ This repo now contains the first tested Rust vertical slice:
 - Dockerfile and `docker-compose.yml` for the current self-host topology
 - migration contracts for SQLite local runtime plus Postgres and ClickHouse scale/control-plane paths
 - stock OpenTelemetry Python example that emits an agent run with nested `llm.call` and `tool.call` spans
-- Gate 2 proof scripts for OpenAPI drift, local clone-to-browser smoke, and compose smoke
+- Gate 2 proof scripts for OpenAPI drift, local clone-to-browser smoke, compose smoke, and browser demo recording
 - API route for tenant-scoped span search
 - API routes for admin key creation/revocation and strict trace/search/dataset/eval/alert authorization
 - API routes for provider-secret create/list/revoke, judge evaluation, and judge ledger readback
@@ -158,6 +158,12 @@ Run OpenAPI drift detection separately with:
 
 ```bash
 scripts/check-openapi-drift.sh
+```
+
+To regenerate the committed Gate 2 browser capture under `docs/demos/`:
+
+```bash
+BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
 ```
 
 With `beaterd` running in local auth mode, remote smoke can target the live

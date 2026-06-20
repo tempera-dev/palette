@@ -380,16 +380,26 @@ fn infer_agent_span_kind(attrs: &CanonicalAttrs, otel_kind: i32) -> AgentSpanKin
         .or_else(|| attrs.get("gen_ai.operation.name"))
         .and_then(Value::as_str)
     {
-        return match value.to_ascii_lowercase().as_str() {
+        let value = value.to_ascii_lowercase();
+        if let Some(kind) = AgentSpanKind::parse(&value) {
+            return kind;
+        }
+        return match value.as_str() {
             "agent" | "agent.run" => AgentSpanKind::AgentRun,
+            "turn" | "agent.turn" => AgentSpanKind::AgentTurn,
+            "plan" | "agent.plan" => AgentSpanKind::AgentPlan,
             "chain" | "agent.step" => AgentSpanKind::AgentStep,
             "llm" | "chat" | "generate_content" | "llm.call" => AgentSpanKind::LlmCall,
             "tool" | "tool.call" => AgentSpanKind::ToolCall,
             "mcp" | "mcp.request" => AgentSpanKind::McpRequest,
             "retriever" | "retrieval.query" => AgentSpanKind::RetrievalQuery,
             "embedding" => AgentSpanKind::RetrievalQuery,
+            "memory_read" | "memory.read" => AgentSpanKind::MemoryRead,
+            "memory_write" | "memory.write" => AgentSpanKind::MemoryWrite,
             "guardrail" | "guardrail.check" => AgentSpanKind::GuardrailCheck,
+            "human" | "human_review" | "human.review" => AgentSpanKind::HumanReview,
             "evaluator" | "evaluator.run" => AgentSpanKind::EvaluatorRun,
+            "replay" | "replay.run" => AgentSpanKind::ReplayRun,
             _ => AgentSpanKind::AgentStep,
         };
     }
@@ -715,6 +725,37 @@ mod tests {
         assert_eq!(raw_request.normalizer_version, "beater-otlp-v1");
         assert_eq!(raw_request.spans.len(), 1);
         assert_eq!(raw_request.spans[0].kind, AgentSpanKind::LlmCall);
+    }
+
+    #[test]
+    fn maps_every_canonical_beater_span_kind_from_otlp_attrs() {
+        let cases = [
+            ("agent.run", AgentSpanKind::AgentRun),
+            ("agent.turn", AgentSpanKind::AgentTurn),
+            ("agent.plan", AgentSpanKind::AgentPlan),
+            ("agent.step", AgentSpanKind::AgentStep),
+            ("llm.call", AgentSpanKind::LlmCall),
+            ("tool.call", AgentSpanKind::ToolCall),
+            ("mcp.request", AgentSpanKind::McpRequest),
+            ("retrieval.query", AgentSpanKind::RetrievalQuery),
+            ("memory.read", AgentSpanKind::MemoryRead),
+            ("memory.write", AgentSpanKind::MemoryWrite),
+            ("guardrail.check", AgentSpanKind::GuardrailCheck),
+            ("human.review", AgentSpanKind::HumanReview),
+            ("evaluator.run", AgentSpanKind::EvaluatorRun),
+            ("replay.run", AgentSpanKind::ReplayRun),
+        ];
+        for (value, expected) in cases {
+            let attrs = BTreeMap::from([(
+                "openinference.span.kind".to_string(),
+                Value::String(value.to_string()),
+            )]);
+            assert_eq!(
+                infer_agent_span_kind(&attrs, span::SpanKind::Internal as i32),
+                expected,
+                "{value} should map to {expected:?}"
+            );
+        }
     }
 
     pub fn fixture_export() -> ExportTraceServiceRequest {

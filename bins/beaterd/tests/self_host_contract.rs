@@ -79,15 +79,38 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(proof_script.contains("beaterctl\" smoke"));
     assert!(proof_script.contains("examples/python/otel_smoke.py"));
     assert!(proof_script.contains("npm run test:e2e"));
+    assert!(proof_script.contains("npm run record:gate2"));
     assert!(proof_script.contains("scripts/check-openapi-drift.sh"));
 
     let python = read(root.join("examples/python/otel_smoke.py"));
     assert!(python.contains("opentelemetry.exporter.otlp"));
     assert!(python.contains("openinference.span.kind"));
-    assert!(python.contains("llm.call"));
+    for kind in [
+        "agent.run",
+        "agent.turn",
+        "agent.plan",
+        "agent.step",
+        "llm.call",
+        "tool.call",
+        "mcp.request",
+        "retrieval.query",
+        "memory.read",
+        "memory.write",
+        "guardrail.check",
+        "human.review",
+        "evaluator.run",
+        "replay.run",
+    ] {
+        assert!(python.contains(kind), "python OTLP smoke must emit {kind}");
+    }
     assert!(python.contains("llm.model_name"));
     assert!(python.contains("llm.cost.amount_micros"));
     assert!(!python.contains("beaterctl"));
+
+    let record_script = read(root.join("web/dashboard/tests/e2e/record-gate2-demo.mjs"));
+    assert!(record_script.contains("recordVideo"));
+    assert!(record_script.contains("docs/demos"));
+    assert!(record_script.contains("gate2-browser-demo.webm"));
 }
 
 fn repo_root() -> PathBuf {

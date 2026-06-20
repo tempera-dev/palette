@@ -294,6 +294,14 @@ button {
   background: var(--green);
 }
 
+.kind-dot.human {
+  background: #c15f2d;
+}
+
+.kind-dot.replay {
+  background: #2f6b4f;
+}
+
 .kind-dot.other {
   background: #7a8797;
 }

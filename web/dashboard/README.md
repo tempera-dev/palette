@@ -83,6 +83,12 @@ PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e
 The Gate 2 proof script installs Chromium and runs this test unless
 `BEATER_GATE2_SKIP_BROWSER=1` is set.
 
+To also record the browser demo artifact under `docs/demos/`:
+
+```bash
+BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
+```
+
 ## Vercel
 
 Set `BEATER_API_BASE_URL` to the hosted Beater API URL and configure either

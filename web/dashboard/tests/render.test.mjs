@@ -19,6 +19,10 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /name="release"/);
   assert.match(page, /name="min_cost_micros"/);
   assert.match(page, /name="min_latency_ms"/);
+  assert.match(page, /human\.review/);
+  assert.match(page, /replay\.run/);
+  assert.match(page, /kind === "human\.review"/);
+  assert.match(page, /kind === "replay\.run"/);
 });
 
 test("dashboard client uses public beater read endpoints", () => {
@@ -42,4 +46,29 @@ test("generated api client is produced from the checked-in openapi snapshot", ()
   assert.match(generated, /openapi_list_traces/);
   assert.match(generated, /started_after/);
   assert.match(generated, /min_cost_micros/);
+});
+
+test("browser proof covers all canonical span kinds and can record a demo", () => {
+  const e2e = readFileSync(join(root, "tests/e2e/dashboard.spec.ts"), "utf8");
+  for (const kind of [
+    "agent.run",
+    "agent.turn",
+    "agent.plan",
+    "agent.step",
+    "llm.call",
+    "tool.call",
+    "mcp.request",
+    "retrieval.query",
+    "memory.read",
+    "memory.write",
+    "guardrail.check",
+    "human.review",
+    "evaluator.run",
+    "replay.run"
+  ]) {
+    assert.match(e2e, new RegExp(kind.replace(".", "\\.")));
+  }
+  const recorder = readFileSync(join(root, "tests/e2e/record-gate2-demo.mjs"), "utf8");
+  assert.match(recorder, /recordVideo/);
+  assert.match(recorder, /gate2-browser-demo\.webm/);
 });

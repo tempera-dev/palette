@@ -353,5 +353,7 @@ function kindClass(kind: string): string {
   if (kind.startsWith("memory.")) return "memory";
   if (kind.includes("guardrail")) return "guardrail";
   if (kind.includes("evaluator")) return "eval";
+  if (kind === "human.review") return "human";
+  if (kind === "replay.run") return "replay";
   return "other";
 }

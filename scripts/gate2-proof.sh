@@ -11,6 +11,22 @@ api_url="http://$http_addr"
 grpc_url="http://$grpc_addr"
 dashboard_url="http://$dashboard_host:$dashboard_port"
 venv_dir="${BEATER_GATE2_VENV:-/tmp/beater-gate2-otel-venv}"
+all_kinds=(
+  agent.run
+  agent.turn
+  agent.plan
+  agent.step
+  retrieval.query
+  memory.read
+  guardrail.check
+  llm.call
+  tool.call
+  mcp.request
+  memory.write
+  evaluator.run
+  human.review
+  replay.run
+)
 
 server_pid=""
 dashboard_pid=""
@@ -63,6 +79,10 @@ json_field() {
   python3 -c 'import json,sys; print(json.load(sys.stdin)[sys.argv[1]])' "$1"
 }
 
+first_trace_id() {
+  python3 -c 'import json,sys; print(json.load(sys.stdin)["items"][0]["trace_id"])'
+}
+
 trap cleanup EXIT
 
 rm -rf "$data_dir"
@@ -110,6 +130,10 @@ BEATER_PROJECT_ID=demo \
 BEATER_ENVIRONMENT_ID=local \
   "$venv_dir/bin/python" "$root/examples/python/otel_smoke.py"
 
+python_trace_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-demo&release=compose-demo"
+wait_text "$python_trace_query" "gpt-demo" "stock Python OTLP trace"
+python_trace_id="$(curl -fsS "$python_trace_query" | first_trace_id)"
+
 (
   cd "$root/web/dashboard"
   npm run build
@@ -127,17 +151,27 @@ dashboard_pid="$!"
 
 wait_url "$dashboard_url/?tenant=demo&project=demo&environment=local" "dashboard"
 
-wait_text "$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call" "gpt-demo" "stock Python OTLP trace"
 require_text "$api_url/v1/traces/demo/$trace_id" "beaterctl otlp smoke"
 require_text "$api_url/openapi.json" "min_cost_micros"
-wait_text "$dashboard_url/?tenant=demo&project=demo&environment=local&kind=llm.call" "Agent Trace Debugger" "dashboard"
-wait_text "$dashboard_url/?tenant=demo&project=demo&environment=local&kind=llm.call" "call-policy-model" "dashboard llm.call row"
+python_trace_api="$api_url/v1/traces/demo/$python_trace_id"
+python_trace_dashboard="$dashboard_url/?tenant=demo&project=demo&environment=local&trace=$python_trace_id"
+for kind in "${all_kinds[@]}"; do
+  wait_text "$python_trace_api" "$kind" "Python all-kind API trace"
+done
+wait_text "$python_trace_dashboard" "Agent Trace Debugger" "dashboard"
+wait_text "$python_trace_dashboard" "call-policy-model" "dashboard llm.call row"
+for kind in "${all_kinds[@]}"; do
+  wait_text "$python_trace_dashboard" "$kind" "dashboard all-kind waterfall"
+done
 
 if [[ "${BEATER_GATE2_SKIP_BROWSER:-0}" != "1" ]]; then
   (
     cd "$root/web/dashboard"
     npx playwright install chromium
-    PLAYWRIGHT_BASE_URL="$dashboard_url" npm run test:e2e
+    BEATER_E2E_TRACE_ID="$python_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_url" npm run test:e2e
+    if [[ "${BEATER_GATE2_RECORD_DEMO:-0}" == "1" ]]; then
+      BEATER_E2E_TRACE_ID="$python_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_url" npm run record:gate2
+    fi
   )
 fi
 
@@ -155,4 +189,7 @@ Open the dashboard:
 
 Specific smoke trace:
   $dashboard_url/?tenant=demo&project=demo&environment=local&trace=$trace_id
+
+Python all-kind trace:
+  $python_trace_dashboard
 EOF
