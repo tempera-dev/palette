@@ -98,6 +98,9 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(gate2_workflow.contains("cargo fmt --all -- --check"));
     assert!(gate2_workflow.contains("bash -n scripts/validate-gate2-outside-proof.sh"));
     assert!(
+        gate2_workflow.contains("python3 -m py_compile scripts/check-gate2-outside-readiness.py")
+    );
+    assert!(
         gate2_workflow.contains("python3 -m py_compile scripts/generate-gate2-outside-proof.py")
     );
     assert!(gate2_workflow.contains("scripts/validate-gate2-outside-proof.sh --allow-pending"));
@@ -330,6 +333,17 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_generator.contains("Dashboard e2e image digest"));
     assert!(outside_generator.contains("OTEL Python image digest"));
 
+    let outside_readiness = read(root.join("scripts/check-gate2-outside-readiness.py"));
+    assert!(outside_readiness.contains("IMAGE_NAMES"));
+    assert!(outside_readiness.contains("EXPECTED_PLATFORMS"));
+    assert!(outside_readiness.contains("linux/amd64"));
+    assert!(outside_readiness.contains("linux/arm64"));
+    assert!(outside_readiness.contains("scripts/validate-gate2-outside-proof.sh"));
+    assert!(outside_readiness.contains("https://github.com/jadenfix/beater.git"));
+    assert!(outside_readiness.contains("worktree must be clean"));
+    assert!(outside_readiness.contains("missing public GHCR manifest"));
+    assert!(outside_readiness.contains("--registry-fixture"));
+
     let outside_proof = read(root.join("docs/demos/gate2-outside-person-proof.md"));
     assert!(outside_proof.contains("Status: not yet completed"));
     assert!(outside_proof.contains("BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1"));
@@ -342,6 +356,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(outside_proof.contains("--attest-outside-run"));
     assert!(outside_proof.contains("Docker Compose version"));
+    assert!(outside_proof.contains("scripts/check-gate2-outside-readiness.py"));
+    assert!(outside_proof.contains("public multi-arch GHCR images"));
     assert!(outside_proof.contains("Beater image reference"));
     assert!(outside_proof.contains("Dashboard image reference"));
     assert!(outside_proof.contains("Dashboard e2e image reference"));
@@ -371,6 +387,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let readme = read(root.join("README.md"));
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
+    assert!(readme.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(readme.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(readme.contains("--attest-outside-run"));
     assert!(readme.contains("BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh"));
@@ -380,6 +397,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("prebuilt `dashboard-e2e` Playwright browser proof"));
     assert!(readme.contains("prebuilt stock OpenTelemetry Python runner container"));
     assert!(readme.contains("pins `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python`"));
+    assert!(readme
+        .contains("current-SHA `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR"));
     assert!(readme.contains("mismatched SHA-pinned image references"));
     assert!(readme.contains("time-to-quickstart-click"));
     assert!(readme.contains("checks Docker and curl"));
@@ -395,6 +414,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let requirements = read(root.join("REQUIREMENTS.md"));
     assert!(requirements.contains("docs/demos/gate2-outside-person-proof.md"));
+    assert!(requirements.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(requirements.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(requirements.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(requirements.contains("image-digest"));
@@ -408,6 +428,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("default API/OTLP/dashboard endpoints"));
     assert!(requirements.contains("recording-notes full-flow check"));
     assert!(requirements.contains("recording-hash cross-checks"));
+    assert!(requirements.contains("public multi-arch GHCR images"));
     assert!(requirements.contains("CI-enforced"));
 
     let compose = read(root.join("docker-compose.yml"));

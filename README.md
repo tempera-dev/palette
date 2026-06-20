@@ -222,7 +222,20 @@ BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO
 ```
 
 Gate 2 still requires an unaided outside-person run before it can be called
-passed. Use [docs/demos/gate2-outside-person-proof.md](docs/demos/gate2-outside-person-proof.md)
+passed. Before handing the repo to the outside runner, a maintainer should run
+the readiness check after the `container-images` workflow has published the
+current commit:
+
+```bash
+scripts/check-gate2-outside-readiness.py
+```
+
+That verifies the repo is on clean `main`, `origin` points at this GitHub repo,
+the pending/completed outside-proof file is structurally valid, and the
+current-SHA `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR
+images are public for both `linux/amd64` and `linux/arm64`.
+
+Use [docs/demos/gate2-outside-person-proof.md](docs/demos/gate2-outside-person-proof.md)
 as the required evidence template for that run. After the outside runner has
 completed the stopwatch command, generate the proof from the stopwatch artifact:
 

@@ -84,6 +84,16 @@ After replacing this template with completed evidence, run:
 scripts/validate-gate2-outside-proof.sh
 ```
 
+Maintainers should run this before handing the repo to an outside runner, after
+the `container-images` workflow has published the current commit:
+
+```bash
+scripts/check-gate2-outside-readiness.py
+```
+
+The readiness check verifies clean `main`, the expected GitHub remote, this
+proof file's structure, and public multi-arch GHCR images for the exact commit.
+
 The validator reads the listed stopwatch proof file and screen-recording notes,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, SHA-pinned prebuilt GHCR image

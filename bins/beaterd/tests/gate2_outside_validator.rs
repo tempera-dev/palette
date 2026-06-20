@@ -107,6 +107,27 @@ fn gate2_outside_generator_requires_explicit_attestation() {
 }
 
 #[test]
+fn gate2_outside_readiness_accepts_fixture_registry_manifests() {
+    let registry = TempDir::new().expect("create registry fixture dir");
+    write_registry_fixtures(registry.path());
+
+    let output = run_readiness_with_fixture(registry.path());
+
+    assert_success(output, "Gate 2 outside-run readiness passed");
+}
+
+#[test]
+fn gate2_outside_readiness_rejects_missing_image_platform() {
+    let registry = TempDir::new().expect("create registry fixture dir");
+    write_registry_fixtures(registry.path());
+    write_registry_manifest(registry.path(), "dashboard", &["linux/amd64"]);
+
+    let output = run_readiness_with_fixture(registry.path());
+
+    assert_failure(output, "platforms mismatch for dashboard");
+}
+
+#[test]
 fn gate2_outside_validator_rejects_missing_stopwatch_proof() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -691,6 +712,18 @@ fn run_generator_with_attestation(
         .unwrap_or_else(|err| panic!("run Gate 2 outside proof generator: {err}"))
 }
 
+fn run_readiness_with_fixture(registry_path: &Path) -> Output {
+    let root = repo_root();
+    Command::new("python3")
+        .arg(root.join("scripts/check-gate2-outside-readiness.py"))
+        .arg("--skip-repo-shape")
+        .arg("--registry-fixture")
+        .arg(registry_path)
+        .current_dir(root)
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside readiness checker: {err}"))
+}
+
 fn assert_success(output: Output, expected_stdout: &str) {
     if !output.status.success() {
         panic!(
@@ -747,6 +780,30 @@ fn repo_relative_path(path: &Path) -> String {
         .unwrap_or_else(|err| panic!("{} must be under repo root: {err}", path.display()))
         .to_string_lossy()
         .replace('\\', "/")
+}
+
+fn write_registry_fixtures(dir: &Path) {
+    for image in ["beaterd", "dashboard", "dashboard-e2e", "otel-python"] {
+        write_registry_manifest(dir, image, &["linux/amd64", "linux/arm64"]);
+    }
+}
+
+fn write_registry_manifest(dir: &Path, image: &str, platforms: &[&str]) {
+    let manifests = platforms
+        .iter()
+        .map(|platform| {
+            let (os, architecture) = platform
+                .split_once('/')
+                .unwrap_or_else(|| panic!("invalid platform fixture: {platform}"));
+            format!(r#"{{"platform":{{"os":"{os}","architecture":"{architecture}"}}}}"#)
+        })
+        .collect::<Vec<_>>()
+        .join(",");
+    fs::write(
+        dir.join(format!("{image}.json")),
+        format!(r#"{{"manifests":[{manifests}]}}"#),
+    )
+    .unwrap_or_else(|err| panic!("write registry fixture for {image}: {err}"));
 }
 
 fn current_head() -> String {
