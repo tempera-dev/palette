@@ -137,7 +137,7 @@ export default async function DashboardPage({
                 <option value="replay.run">replay.run</option>
               </select>
             </label>
-            <button type="submit">Apply</button>
+            <button type="submit">Apply filters</button>
           </div>
           <details className="advanced-filters" open={advancedFiltersActive(data.query)}>
             <summary>Advanced filters</summary>
@@ -474,18 +474,23 @@ function HiddenQueryInputs({
 }
 
 function IoBlock({ label, value }: { label: string; value: SpanIoResponse["input"] | undefined }) {
-  let body = "Missing";
+  let body = "No captured I/O";
   if (value?.kind === "inline") body = JSON.stringify(value.value, null, 2);
   if (value?.kind === "artifact") {
     body = `${value.artifact_ref.mime_type}\n${value.artifact_ref.uri}\n${value.artifact_ref.size_bytes} bytes`;
   }
   if (value?.kind === "redacted") body = value.reason;
   return (
-    <div className={value?.kind === "redacted" ? "io redacted" : "io"}>
+    <div className={ioClassName(value)}>
       <h3>{label}</h3>
       <pre>{body}</pre>
     </div>
   );
+}
+
+function ioClassName(value: SpanIoResponse["input"] | undefined): string {
+  if (!value || value.kind === "missing") return "io missing";
+  return value.kind === "redacted" ? "io redacted" : "io";
 }
 
 function value(input: string | string[] | undefined): string | undefined {

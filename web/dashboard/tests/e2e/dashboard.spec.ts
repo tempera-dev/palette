@@ -5,7 +5,7 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
 }) => {
   const traceParam = process.env.BEATER_E2E_TRACE_ID
     ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
-    : "&kind=llm.call";
+    : "&kind=llm.call&model=gpt-demo&release=compose-demo";
   await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);
 
   await expect(page.getByRole("heading", { name: "Agent Trace Debugger" })).toBeVisible();

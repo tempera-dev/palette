@@ -34,6 +34,17 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /kind === "replay\.run"/);
 });
 
+test("dashboard chrome stays dense and tool-like", () => {
+  const css = readFileSync(join(root, "app/globals.css"), "utf8");
+  assert.match(css, /--canvas: #f5f6f3/);
+  assert.match(css, /\.workspace \{\n  display: grid;/);
+  assert.match(css, /\.summary-strip \{\n  background: rgb\(255 255 255 \/ 0\.72\);/);
+  assert.match(css, /\.waterfall-head,\n\.span-line \{/);
+  assert.doesNotMatch(css, /--bg-grid/);
+  assert.doesNotMatch(css, /linear-gradient\(var\(--bg-grid\)/);
+  assert.doesNotMatch(css, /\.workspace,\n\.notice \{\n  background/);
+});
+
 test("dashboard client uses public beater read endpoints", () => {
   const api = readFileSync(join(root, "lib/api.ts"), "utf8");
   assert.match(api, /generated\/api-types/);
@@ -96,6 +107,7 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   }
   assert.match(e2e, /toHaveAttribute\("data-depth", "4"\)/);
   assert.match(e2e, /toHaveAttribute\("data-icon", "mcp"\)/);
+  assert.match(e2e, /model=gpt-demo&release=compose-demo/);
   const recorder = readFileSync(join(root, "tests/e2e/record-gate2-demo.mjs"), "utf8");
   assert.match(recorder, /recordVideo/);
   assert.match(recorder, /requireAttribute/);
