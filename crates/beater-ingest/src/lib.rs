@@ -83,24 +83,7 @@ impl IngestService {
     ) -> Result<IngestOutcome, IngestError> {
         self.enforce_quota_events(&request.scope, 1).await?;
         let prepared = self.prepare_native_batch(request).await?;
-        let ack = self
-            .traces
-            .write_batch(prepared.batch.clone())
-            .await
-            .map_err(IngestError::Store)?;
-        self.publish_trace_ingested(
-            &prepared.tenant_id,
-            &prepared.project_id,
-            &prepared.queue_key,
-            &prepared.trace_ids,
-        )
-        .await
-        .map(|_| ())?;
-
-        Ok(IngestOutcome {
-            ack,
-            downstream_queued: true,
-        })
+        self.write_batch_and_queue_downstream(prepared).await
     }
 
     pub async fn buffer_native(
@@ -124,23 +107,41 @@ impl IngestService {
         self.enforce_quota_events(&request.scope, event_count)
             .await?;
         let prepared = self.prepare_raw_batch(request).await?;
+        self.write_batch_and_queue_downstream(prepared).await
+    }
+
+    async fn write_batch_and_queue_downstream(
+        &self,
+        prepared: PreparedTraceBatch,
+    ) -> Result<IngestOutcome, IngestError> {
         let ack = self
             .traces
             .write_batch(prepared.batch.clone())
             .await
             .map_err(IngestError::Store)?;
-        self.publish_trace_ingested(
-            &prepared.tenant_id,
-            &prepared.project_id,
-            &prepared.queue_key,
-            &prepared.trace_ids,
-        )
-        .await
-        .map(|_| ())?;
+        let downstream_queued = match self
+            .publish_trace_ingested(
+                &prepared.tenant_id,
+                &prepared.project_id,
+                &prepared.queue_key,
+                &prepared.trace_ids,
+            )
+            .await
+        {
+            Ok(published) => published > 0,
+            Err(_) => {
+                // The trace is already durable; queue a write retry so the worker can
+                // idempotently re-write and publish downstream without returning a 500.
+                self.publish_trace_write(&prepared)
+                    .await
+                    .map(|publish| publish.accepted || publish.duplicate)
+                    .unwrap_or(false)
+            }
+        };
 
         Ok(IngestOutcome {
             ack,
-            downstream_queued: !prepared.trace_ids.is_empty(),
+            downstream_queued,
         })
     }
 
@@ -1417,6 +1418,85 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(stored_bytes, raw_bytes);
+    }
+
+    #[tokio::test]
+    async fn direct_ingest_does_not_error_after_durable_write_when_downstream_queue_is_full() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+        let bus = Arc::new(InMemoryBus::new(0));
+        let service = IngestService::new(
+            artifacts,
+            traces.clone(),
+            bus.clone(),
+            IngestPolicy::default(),
+        );
+        let request = fixture_request();
+
+        let outcome = service
+            .ingest_native(request.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(outcome.ack.accepted_raw, 1);
+        assert_eq!(outcome.ack.accepted_spans, 1);
+        assert!(!outcome.downstream_queued);
+        assert_eq!(bus.depth().await, Ok(0));
+
+        let trace = traces
+            .get_trace(request.scope.tenant_id, request.trace_id)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(trace.spans.len(), 1);
+    }
+
+    #[tokio::test]
+    async fn direct_ingest_falls_back_to_trace_write_after_downstream_publish_failure() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+        let bus = Arc::new(FailOnceTraceIngestedPublishBus::new(16));
+        let service = IngestService::new(
+            artifacts,
+            traces.clone(),
+            bus.clone(),
+            IngestPolicy::default(),
+        );
+        let request = fixture_request();
+
+        let outcome = service
+            .ingest_native(request.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(outcome.ack.accepted_spans, 1);
+        assert!(outcome.downstream_queued);
+        assert_eq!(bus.depth_for_kind(TRACE_WRITE_BATCH_KIND).await, Ok(1));
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+
+        let report = service
+            .drain_trace_writes(10)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(report.consumed, 1);
+        assert_eq!(report.written_spans, 0);
+        assert_eq!(report.duplicate_spans, 1);
+        assert_eq!(report.failed_downstream_publishes, 0);
+        assert_eq!(report.downstream_published, 1);
+        assert_eq!(bus.depth_for_kind(TRACE_WRITE_BATCH_KIND).await, Ok(0));
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
+
+        let trace = traces
+            .get_trace(request.scope.tenant_id, request.trace_id)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(trace.spans.len(), 1);
     }
 
     #[tokio::test]
