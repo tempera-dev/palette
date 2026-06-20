@@ -285,6 +285,7 @@ for field in [
     "Time-to-first-trace",
     "Time-to-quickstart-click",
     "Total proof duration",
+    "Outside-run wrapper",
     "Stopwatch proof file",
     "Screen recording",
     "Screen recording notes",
@@ -330,6 +331,9 @@ if api_endpoint != DEFAULT_API_ENDPOINT:
 dashboard_base = field_value("Dashboard base")
 if dashboard_base != DEFAULT_DASHBOARD_BASE:
     fail(f"Dashboard base must be {DEFAULT_DASHBOARD_BASE}, got {dashboard_base!r}")
+outside_wrapper = field_value("Outside-run wrapper")
+if outside_wrapper != "yes":
+    fail("Outside-run wrapper must be yes; use scripts/gate2-outside-run.sh for evidence")
 
 if "- [ ]" in text:
     fail("all pass-checklist boxes must be checked")
@@ -483,6 +487,7 @@ if stopwatch_text:
         ("Clean start", "yes"),
         ("Startup mode", "prebuilt-image"),
         ("Reuse override", "BEATER_GATE2_REUSE=0"),
+        ("Outside-run wrapper", "yes"),
         ("Prebuilt pull policy", "always"),
         ("Quickstart browser proof", "passed"),
         ("All-kind waterfall browser proof", "passed"),
@@ -540,6 +545,11 @@ if stopwatch_text:
     )
     require_equal("API endpoint", api_endpoint, stopwatch_api_endpoint)
     require_equal("Dashboard base", dashboard_base, stopwatch_dashboard_base)
+
+    stopwatch_outside_wrapper = field_value_from(
+        stopwatch_text, "Outside-run wrapper", "stopwatch proof"
+    )
+    require_equal("outside-run wrapper", outside_wrapper, stopwatch_outside_wrapper)
 
     stopwatch_beater_image_ref = field_value_from(
         stopwatch_text, "Beater image reference", "stopwatch proof"

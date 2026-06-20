@@ -138,6 +138,7 @@ unaided using public repository instructions.
 - Time-to-first-trace: {field_value(stopwatch_text, "Time-to-first-trace", stopwatch_rel)}
 - Time-to-quickstart-click: {field_value(stopwatch_text, "Time-to-quickstart-click", stopwatch_rel)}
 - Total proof duration: {field_value(stopwatch_text, "Total duration", stopwatch_rel)}
+- Outside-run wrapper: {field_value(stopwatch_text, "Outside-run wrapper", stopwatch_rel)}
 
 ## Commands
 

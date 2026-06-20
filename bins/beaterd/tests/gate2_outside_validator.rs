@@ -63,6 +63,7 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains("- Dashboard e2e image digest: ghcr.io/jadenfix/beater/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"));
     assert!(generated_text.contains("- OTEL Python image digest: ghcr.io/jadenfix/beater/otel-python@sha256:abababababababababababababababababababababababababababababababab"));
     assert!(generated_text.contains("scripts/gate2-outside-run.sh"));
+    assert!(generated_text.contains("- Outside-run wrapper: yes"));
     assert!(generated_text.contains(
         "- [x] The runner completed the flow using only public repository instructions."
     ));
@@ -140,6 +141,25 @@ fn gate2_outside_wrapper_rejects_alternate_dashboard_port() {
     let output = run_outside_wrapper_dry_run(Some(("BEATER_DASHBOARD_PORT", "13080")));
 
     assert_failure(output, "BEATER_DASHBOARD_PORT must be unset or '3000'");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_stopwatch_without_wrapper_marker() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Outside-run wrapper: yes",
+        "- Outside-run wrapper: no",
+    );
+    replace(
+        &fixture.stopwatch_path,
+        "- Outside-run wrapper: yes",
+        "- Outside-run wrapper: no",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "Outside-run wrapper must be yes");
 }
 
 #[test]
@@ -547,6 +567,7 @@ Status: completed.
 - Time-to-first-trace: 12s
 - Time-to-quickstart-click: 20s
 - Total proof duration: 40s
+- Outside-run wrapper: yes
 
 ## Commands
 
@@ -612,6 +633,7 @@ fn stopwatch_proof(recording: &str, notes: &str) -> String {
 - Startup mode: prebuilt-image
 - Clean start: yes
 - Reuse override: `BEATER_GATE2_REUSE=0`
+- Outside-run wrapper: yes
 - Prebuilt pull policy: `always`
 - Compose project: beater-stopwatch
 - Beater image reference: `ghcr.io/jadenfix/beater/beaterd:{commit_sha}`

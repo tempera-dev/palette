@@ -238,6 +238,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("--pull \"$prebuilt_pull_policy\""));
     assert!(stopwatch_script.contains("BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS"));
     assert!(stopwatch_script.contains("BEATER_GATE2_LOCAL_BUILD"));
+    assert!(stopwatch_script.contains("BEATER_GATE2_OUTSIDE_WRAPPER"));
+    assert!(stopwatch_script.contains("Outside-run wrapper"));
     assert!(stopwatch_script.contains("ghcr.io/jadenfix/beater/beaterd:$git_sha"));
     assert!(stopwatch_script.contains("ghcr.io/jadenfix/beater/dashboard:$git_sha"));
     assert!(stopwatch_script.contains("ghcr.io/jadenfix/beater/dashboard-e2e:$git_sha"));
@@ -263,6 +265,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_run.contains("BEATER_GATE2_REUSE"));
     assert!(outside_run.contains("BEATER_GATE2_LOCAL_BUILD"));
     assert!(outside_run.contains("BEATER_DASHBOARD_PORT"));
+    assert!(outside_run.contains("BEATER_GATE2_OUTSIDE_WRAPPER=1"));
     assert!(outside_run.contains("scripts/gate2-compose-stopwatch.sh"));
     assert!(outside_run.contains("Gate 2 outside-run wrapper preflight passed"));
 
@@ -270,6 +273,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("--allow-pending"));
     assert!(outside_validator.contains("Status must be 'completed.'"));
     assert!(outside_validator.contains("scripts/gate2-outside-run.sh"));
+    assert!(outside_validator.contains("\"Outside-run wrapper\""));
+    assert!(outside_validator.contains("Outside-run wrapper must be yes"));
     assert!(outside_validator.contains(":[ \\t]*(.*)$"));
     assert!(outside_validator.contains("BEATER_GATE2_REUSE=1"));
     assert!(outside_validator.contains("BEATER_DASHBOARD_PORT="));
@@ -324,6 +329,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let outside_generator = read(root.join("scripts/generate-gate2-outside-proof.py"));
     assert!(outside_generator.contains("CANONICAL_COMMAND"));
     assert!(outside_generator.contains("scripts/gate2-outside-run.sh"));
+    assert!(outside_generator.contains("Outside-run wrapper"));
     assert!(outside_generator.contains("OUTSIDE_RUN_ATTESTATION"));
     assert!(outside_generator.contains("--runner-name"));
     assert!(outside_generator.contains("--prior-exposure"));
@@ -360,6 +366,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("Status: not yet completed"));
     assert!(outside_proof.contains("scripts/gate2-outside-run.sh"));
     assert!(outside_proof.contains("sets the required proof/browser/recording flags"));
+    assert!(outside_proof.contains("Outside-run wrapper:"));
+    assert!(outside_proof.contains("Outside-run wrapper: yes"));
     assert!(outside_proof.contains("rejects"));
     assert!(outside_proof.contains("warm-loop reuse"));
     assert!(outside_proof.contains("Preflight status"));
@@ -404,6 +412,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("scripts/gate2-outside-run.sh"));
     assert!(readme.contains("scripts/check-gate2-outside-readiness.py"));
+    assert!(readme.contains("Outside-run wrapper: yes"));
     assert!(readme.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(readme.contains("--attest-outside-run"));
     assert!(readme.contains("proof writing, browser proof, and browser recording enabled"));
@@ -432,6 +441,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(requirements.contains("scripts/gate2-outside-run.sh"));
     assert!(requirements.contains("scripts/check-gate2-outside-readiness.py"));
+    assert!(requirements.contains("wrapper marker"));
     assert!(requirements.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(requirements.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(requirements.contains("image-digest"));

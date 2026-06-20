@@ -40,6 +40,7 @@ outside the project who runs the flow unaided from a fresh clone.
 - Time-to-first-trace:
 - Time-to-quickstart-click:
 - Total proof duration:
+- Outside-run wrapper:
 
 ## Commands
 
@@ -54,7 +55,9 @@ during the timed run.
 
 The wrapper sets the required proof/browser/recording flags and rejects
 warm-loop reuse, local source builds, alternate ports, and mutable pull-policy
-overrides before the stopwatch starts.
+overrides before the stopwatch starts. The stopwatch proof records
+`Outside-run wrapper: yes`; completed outside-person evidence is invalid without
+that marker.
 
 The script fails before Compose startup if Docker is unavailable, if curl is
 missing, or if API `8080`, OTLP `4317`, or dashboard `3000` are still in use

@@ -11,6 +11,7 @@ browser_proof="${BEATER_GATE2_BROWSER_PROOF:-0}"
 record_demo="${BEATER_GATE2_RECORD_DEMO:-0}"
 record_demo_video="${BEATER_GATE2_RECORD_VIDEO:-docs/demos/gate2-compose-browser-demo.webm}"
 record_demo_notes="${BEATER_GATE2_RECORD_NOTES:-docs/demos/gate2-compose-browser-demo.md}"
+outside_wrapper="${BEATER_GATE2_OUTSIDE_WRAPPER:-0}"
 prebuilt_pull_policy="${BEATER_GATE2_PULL_POLICY:-always}"
 post_slo_timeout_seconds="${BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS:-300}"
 host_http_port="${BEATER_HTTP_PORT:-8080}"
@@ -414,6 +415,7 @@ if [[ "$write_proof" == "1" ]]; then
 - Startup mode: $startup_mode
 - Clean start: $([[ "$reuse" == "1" ]] && echo "no" || echo "yes")
 - Reuse override: \`BEATER_GATE2_REUSE=$reuse\`
+- Outside-run wrapper: $([[ "$outside_wrapper" == "1" ]] && echo "yes" || echo "no")
 - Prebuilt pull policy: \`$prebuilt_pull_policy\`
 - Compose project: $project
 - Beater image reference: \`$beater_image_ref\`
