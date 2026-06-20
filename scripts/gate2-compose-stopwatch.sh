@@ -3,11 +3,13 @@ set -euo pipefail
 
 project="${COMPOSE_PROJECT_NAME:-beater-stopwatch}"
 keep="${KEEP_BEATER_COMPOSE:-1}"
+reuse="${BEATER_GATE2_REUSE:-0}"
 write_proof="${BEATER_GATE2_WRITE_PROOF:-0}"
 proof_path="${BEATER_GATE2_STOPWATCH_PROOF:-docs/demos/gate2-compose-stopwatch.md}"
 venv_dir="${BEATER_GATE2_QUICKSTART_VENV:-/tmp/beater-gate2-compose-otel-venv}"
 local_build="${BEATER_GATE2_LOCAL_BUILD:-0}"
 browser_proof="${BEATER_GATE2_BROWSER_PROOF:-0}"
+prebuilt_pull_policy="${BEATER_GATE2_PULL_POLICY:-always}"
 host_http_port="${BEATER_HTTP_PORT:-8080}"
 host_otlp_grpc_port="${BEATER_OTLP_GRPC_PORT:-4317}"
 host_dashboard_port="${BEATER_DASHBOARD_PORT:-3000}"
@@ -25,7 +27,7 @@ if [[ "$local_build" == "1" ]]; then
 else
   compose_files=(-f docker-compose.prebuilt.yml)
   startup_mode="prebuilt-image"
-  startup_args=(up -d --pull missing postgres nats minio beaterd dashboard)
+  startup_args=(up -d --pull "$prebuilt_pull_policy" postgres nats minio beaterd dashboard)
 fi
 
 compose() {
@@ -36,6 +38,14 @@ cleanup() {
   if [[ "$keep" != "1" ]]; then
     compose down -v --remove-orphans >/dev/null 2>&1 || true
   fi
+}
+
+clean_start() {
+  if [[ "$reuse" == "1" ]]; then
+    return 0
+  fi
+  compose down -v --remove-orphans >/dev/null 2>&1 || true
+  rm -rf "$venv_dir"
 }
 
 terminate_tree() {
@@ -119,6 +129,7 @@ first_trace_id() {
 
 trap cleanup EXIT
 
+run_before_deadline "clean previous Gate 2 state" clean_start
 run_before_deadline "compose startup ($startup_mode)" compose "${startup_args[@]}"
 wait_url "$api_url/health" "beaterd"
 wait_url "$dashboard_base_url/?tenant=demo&project=demo&environment=local" "dashboard"
@@ -167,6 +178,9 @@ if [[ "$write_proof" == "1" ]]; then
 - Duration: ${duration_seconds}s
 - Limit: 300s
 - Startup mode: $startup_mode
+- Clean start: $([[ "$reuse" == "1" ]] && echo "no" || echo "yes")
+- Reuse override: \`BEATER_GATE2_REUSE=$reuse\`
+- Prebuilt pull policy: \`$prebuilt_pull_policy\`
 - Compose project: $project
 - Snippet: \`examples/python/five_line_otel.py\`
 - OTLP endpoint: \`$otlp_url\`
@@ -200,9 +214,14 @@ OTLP endpoint:
 Startup mode:
   $startup_mode
 
+Clean start:
+  $([[ "$reuse" == "1" ]] && echo "no (BEATER_GATE2_REUSE=1)" || echo "yes")
+
 Set KEEP_BEATER_COMPOSE=0 to tear containers down automatically.
 Set BEATER_GATE2_LOCAL_BUILD=1 to build images from local source instead of
 pulling prebuilt GHCR images.
+Set BEATER_GATE2_REUSE=1 to skip the pre-run Compose down/volume removal and
+Python virtualenv deletion for local warm-loop debugging only.
 Set BEATER_GATE2_BROWSER_PROOF=1 to run the Playwright browser proof for the
 five-line quickstart trace inside the same 300s stopwatch window.
 EOF

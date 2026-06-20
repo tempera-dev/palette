@@ -129,8 +129,13 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("BEATER_GATE2_BROWSER_PROOF"));
     assert!(stopwatch_script.contains("npm run test:e2e:quickstart"));
     assert!(stopwatch_script.contains("PLAYWRIGHT_BASE_URL"));
+    assert!(stopwatch_script.contains("BEATER_GATE2_REUSE"));
+    assert!(stopwatch_script.contains("clean_start"));
+    assert!(stopwatch_script.contains("compose down -v --remove-orphans"));
+    assert!(stopwatch_script.contains("rm -rf \"$venv_dir\""));
     assert!(stopwatch_script.contains("docker-compose.prebuilt.yml"));
-    assert!(stopwatch_script.contains("--pull missing"));
+    assert!(stopwatch_script.contains("BEATER_GATE2_PULL_POLICY"));
+    assert!(stopwatch_script.contains("--pull \"$prebuilt_pull_policy\""));
     assert!(stopwatch_script.contains("BEATER_GATE2_LOCAL_BUILD"));
 
     let compose = read(root.join("docker-compose.yml"));
