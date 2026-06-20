@@ -139,7 +139,7 @@ Exact Docker Compose stopwatch proof for the mandate's clean-machine path:
 ```bash
 git clone https://github.com/jadenfix/beater.git
 cd beater
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 scripts/gate2-compose-stopwatch.sh
+BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```
 
 The script first removes any previous Compose project/volumes and deletes the
@@ -154,7 +154,9 @@ published by `.github/workflows/container-images.yml`; set
 dashboard images from source. Set `BEATER_GATE2_REUSE=1` only for local
 warm-loop debugging. Set `BEATER_GATE2_BROWSER_PROOF=1` to also run the
 Playwright browser proof for both the five-line trace and the all-kind nested
-agent waterfall inside the same stopwatch window.
+agent waterfall inside the same stopwatch window. Set
+`BEATER_GATE2_RECORD_DEMO=1` to write `docs/demos/gate2-compose-browser-demo.webm`
+and its SHA-pinned notes from the same browser session.
 
 The five-line snippet is intentionally plain OpenTelemetry. To run the exact
 manual step after `docker compose up -d --build`, install stock OTEL packages
@@ -207,7 +209,7 @@ BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
 To write the automated compose stopwatch artifact under `docs/demos/`:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 KEEP_BEATER_COMPOSE=0 scripts/gate2-compose-stopwatch.sh
+BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 KEEP_BEATER_COMPOSE=0 scripts/gate2-compose-stopwatch.sh
 ```
 
 Gate 2 still requires an unaided outside-person run before it can be called

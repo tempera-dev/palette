@@ -9,6 +9,9 @@ proof_path="${BEATER_GATE2_STOPWATCH_PROOF:-docs/demos/gate2-compose-stopwatch.m
 venv_dir="${BEATER_GATE2_QUICKSTART_VENV:-/tmp/beater-gate2-compose-otel-venv}"
 local_build="${BEATER_GATE2_LOCAL_BUILD:-0}"
 browser_proof="${BEATER_GATE2_BROWSER_PROOF:-0}"
+record_demo="${BEATER_GATE2_RECORD_DEMO:-0}"
+record_demo_video="${BEATER_GATE2_RECORD_VIDEO:-docs/demos/gate2-compose-browser-demo.webm}"
+record_demo_notes="${BEATER_GATE2_RECORD_NOTES:-docs/demos/gate2-compose-browser-demo.md}"
 prebuilt_pull_policy="${BEATER_GATE2_PULL_POLICY:-always}"
 host_http_port="${BEATER_HTTP_PORT:-8080}"
 host_otlp_grpc_port="${BEATER_OTLP_GRPC_PORT:-4317}"
@@ -21,6 +24,8 @@ deadline_epoch=$((start_epoch + 300))
 started_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 quickstart_browser_proof_status="not requested"
 waterfall_browser_proof_status="not requested"
+record_demo_status="not requested"
+record_demo_sha256="not requested"
 time_to_quickstart_click_seconds=""
 all_kind_trace_id=""
 all_kind_dashboard_url=""
@@ -28,6 +33,9 @@ git_sha="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
 os_arch="$(uname -sm 2>/dev/null || echo unknown)"
 docker_version="$(docker --version 2>/dev/null || echo unknown)"
 compose_version="$(docker compose version 2>/dev/null || echo unknown)"
+if [[ "$record_demo" == "1" ]]; then
+  browser_proof="1"
+fi
 all_kinds=(
   agent.run
   agent.turn
@@ -151,6 +159,17 @@ first_trace_id() {
   python3 -c 'import json,sys; print(json.load(sys.stdin)["items"][0]["trace_id"])'
 }
 
+sha256_file() {
+  local file="$1"
+  if command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$file" | awk '{print $1}'
+  elif command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$file" | awk '{print $1}'
+  else
+    echo "unknown"
+  fi
+}
+
 trap cleanup EXIT
 
 run_before_deadline "clean previous Gate 2 state" clean_start
@@ -202,12 +221,28 @@ if [[ "$browser_proof" == "1" ]]; then
   (
     cd web/dashboard
     run_before_deadline "all-kind waterfall browser proof" env BEATER_E2E_TRACE_ID="$all_kind_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_base_url" npx playwright test tests/e2e/dashboard.spec.ts
+    if [[ "$record_demo" == "1" ]]; then
+      run_before_deadline "Gate 2 compose browser recording" env \
+        BEATER_GATE2_RECORD_MODE=compose \
+        BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
+        BEATER_E2E_ALL_KIND_TRACE_ID="$all_kind_trace_id" \
+        BEATER_GATE2_RECORD_VIDEO="$record_demo_video" \
+        BEATER_GATE2_RECORD_NOTES="$record_demo_notes" \
+        PLAYWRIGHT_BASE_URL="$dashboard_base_url" \
+        npm run record:gate2
+    fi
   )
   waterfall_browser_proof_status="passed"
+  if [[ "$record_demo" == "1" ]]; then
+    record_demo_status="passed"
+    record_demo_sha256="$(sha256_file "$record_demo_video")"
+  fi
 fi
 
 ended_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 duration_seconds=$(($(date +%s) - start_epoch))
+time_to_quickstart_click_display="${time_to_quickstart_click_seconds:+${time_to_quickstart_click_seconds}s}"
+time_to_quickstart_click_display="${time_to_quickstart_click_display:-not requested}"
 image_summary="$(compose images 2>/dev/null || true)"
 if (( time_to_first_trace_seconds > 300 )); then
   echo "Time-to-first-trace exceeded 300s: ${time_to_first_trace_seconds}s" >&2
@@ -226,7 +261,7 @@ if [[ "$write_proof" == "1" ]]; then
 - Started: $started_at
 - Ended: $ended_at
 - Time-to-first-trace: ${time_to_first_trace_seconds}s
-- Time-to-quickstart-click: ${time_to_quickstart_click_seconds:-not requested}
+- Time-to-quickstart-click: $time_to_quickstart_click_display
 - Total duration: ${duration_seconds}s
 - Limit: 300s
 - Git SHA: \`$git_sha\`
@@ -246,6 +281,10 @@ if [[ "$write_proof" == "1" ]]; then
 - All-kind nested trace: \`${all_kind_trace_id:-not requested}\`
 - All-kind dashboard: ${all_kind_dashboard_url:-not requested}
 - All-kind waterfall browser proof: $waterfall_browser_proof_status
+- Browser recording: $record_demo_status
+- Browser recording artifact: \`$([[ "$record_demo" == "1" ]] && echo "$record_demo_video" || echo "not requested")\`
+- Browser recording notes: \`$([[ "$record_demo" == "1" ]] && echo "$record_demo_notes" || echo "not requested")\`
+- Browser recording SHA256: \`$record_demo_sha256\`
 
 ## Compose Images
 
@@ -259,7 +298,7 @@ outside-person run to fully close Gate 2.
 Regenerate:
 
 \`\`\`bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 KEEP_BEATER_COMPOSE=0 scripts/gate2-compose-stopwatch.sh
+BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 \`\`\`
 EOF
 fi
@@ -268,13 +307,19 @@ cat <<EOF
 Gate 2 compose stopwatch passed in ${time_to_first_trace_seconds}s to first trace (${duration_seconds}s total).
 
 Time to quickstart browser click:
-  ${time_to_quickstart_click_seconds:-not requested}
+  $time_to_quickstart_click_display
 
 Open the dashboard:
   $dashboard_url
 
 All-kind waterfall dashboard:
   ${all_kind_dashboard_url:-not requested}
+
+Browser recording:
+  $record_demo_status
+
+Browser recording artifact:
+  $([[ "$record_demo" == "1" ]] && echo "$record_demo_video" || echo "not requested")
 
 Five-line snippet:
   examples/python/five_line_otel.py
@@ -296,4 +341,6 @@ Python virtualenv deletion for local warm-loop debugging only.
 Set BEATER_GATE2_BROWSER_PROOF=1 to run the Playwright browser proof for the
 five-line quickstart trace and all-kind nested agent waterfall inside the same
 300s stopwatch window.
+Set BEATER_GATE2_RECORD_DEMO=1 to record the quickstart click-through and
+all-kind waterfall browser proof as a committed demo artifact.
 EOF

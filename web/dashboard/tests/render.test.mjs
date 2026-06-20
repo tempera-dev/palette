@@ -99,8 +99,15 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   const recorder = readFileSync(join(root, "tests/e2e/record-gate2-demo.mjs"), "utf8");
   assert.match(recorder, /recordVideo/);
   assert.match(recorder, /requireAttribute/);
+  assert.match(recorder, /BEATER_GATE2_RECORD_MODE/);
+  assert.match(recorder, /recordQuickstartFlow/);
+  assert.match(recorder, /recordAllKindFlow/);
+  assert.match(recorder, /gate2-compose-browser-demo\.webm/);
+  assert.match(recorder, /createHash\("sha256"\)/);
   assert.match(recorder, /data-depth/);
   assert.match(recorder, /data-icon/);
+  assert.match(recorder, /five-line-llm-call/);
+  assert.match(recorder, /hello from stock OpenTelemetry/);
   assert.match(recorder, /color\/icon-coded all-kind agent waterfall/);
   assert.match(recorder, /gate2-browser-demo\.webm/);
   const quickstart = readFileSync(join(root, "tests/e2e/quickstart.spec.ts"), "utf8");

@@ -36,7 +36,7 @@ outside the project who runs the flow unaided from a fresh clone.
 ```bash
 git clone https://github.com/jadenfix/beater.git
 cd beater
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 scripts/gate2-compose-stopwatch.sh
+BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
@@ -50,7 +50,8 @@ the recording.
 ## Required Evidence
 
 - Stopwatch proof file:
-- Screen recording:
+- Screen recording: `docs/demos/gate2-compose-browser-demo.webm`
+- Screen recording notes: `docs/demos/gate2-compose-browser-demo.md`
 - Screen recording SHA256:
 - Terminal output excerpt:
 - `docker compose images` excerpt:
@@ -77,6 +78,7 @@ the recording.
       the waterfall.
 - [ ] The browser proof passed for both the quickstart trace and all-kind
       waterfall.
+- [ ] The stopwatch script generated and reported the browser recording.
 - [ ] A screen recording of the full flow is committed under `docs/demos/`.
 - [ ] The runner completed the flow using only public repository instructions.
 

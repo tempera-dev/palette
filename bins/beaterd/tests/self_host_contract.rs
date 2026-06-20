@@ -133,6 +133,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("compose images"));
     assert!(stopwatch_script.contains("BEATER_GATE2_WRITE_PROOF"));
     assert!(stopwatch_script.contains("BEATER_GATE2_BROWSER_PROOF"));
+    assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_DEMO"));
+    assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_MODE=compose"));
+    assert!(stopwatch_script.contains("BEATER_E2E_QUICKSTART_TRACE_ID"));
+    assert!(stopwatch_script.contains("gate2-compose-browser-demo.webm"));
+    assert!(stopwatch_script.contains("Browser recording SHA256"));
+    assert!(stopwatch_script.contains("sha256_file"));
     assert!(stopwatch_script.contains("npm run test:e2e:quickstart"));
     assert!(stopwatch_script.contains("npx playwright test tests/e2e/dashboard.spec.ts"));
     assert!(stopwatch_script.contains("all_kind_trace_id"));
@@ -149,10 +155,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let outside_proof = read(root.join("docs/demos/gate2-outside-person-proof.md"));
     assert!(outside_proof.contains("Status: not yet completed"));
-    assert!(outside_proof.contains("BEATER_GATE2_BROWSER_PROOF=1"));
+    assert!(outside_proof.contains("BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1"));
     assert!(outside_proof.contains("Docker Compose version"));
     assert!(outside_proof.contains("Beater image digest"));
     assert!(outside_proof.contains("Screen recording SHA256"));
+    assert!(outside_proof.contains("gate2-compose-browser-demo.webm"));
+    assert!(outside_proof.contains("gate2-compose-browser-demo.md"));
     assert!(outside_proof.contains("Terminal output excerpt"));
     assert!(outside_proof.contains("http://127.0.0.1:3000/"));
     assert!(outside_proof.contains("Time-to-first-trace was 300 seconds or less"));
@@ -162,7 +170,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let readme = read(root.join("README.md"));
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
-    assert!(readme.contains("BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 scripts/gate2-compose-stopwatch.sh"));
+    assert!(readme.contains("BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh"));
+    assert!(readme.contains("gate2-compose-browser-demo.webm"));
 
     let requirements = read(root.join("REQUIREMENTS.md"));
     assert!(requirements.contains("docs/demos/gate2-outside-person-proof.md"));
@@ -213,6 +222,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let record_script = read(root.join("web/dashboard/tests/e2e/record-gate2-demo.mjs"));
     assert!(record_script.contains("recordVideo"));
+    assert!(record_script.contains("BEATER_GATE2_RECORD_MODE"));
+    assert!(record_script.contains("recordQuickstartFlow"));
+    assert!(record_script.contains("recordAllKindFlow"));
+    assert!(record_script.contains("gate2-compose-browser-demo.webm"));
+    assert!(record_script.contains("createHash(\"sha256\")"));
     assert!(record_script.contains("docs/demos"));
     assert!(record_script.contains("gate2-browser-demo.webm"));
 

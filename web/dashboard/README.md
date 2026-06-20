@@ -46,7 +46,7 @@ scripts/smoke-compose.sh
 For the clean-machine stopwatch path with the literal five-line OTEL snippet:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 scripts/gate2-compose-stopwatch.sh
+BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```
 
 That script runs the five-line snippet from the host through a temporary Python
@@ -57,6 +57,8 @@ the nested run -> turn -> step -> tool -> MCP waterfall. It pulls prebuilt GHCR
 images through `docker-compose.prebuilt.yml` by default; set
 `BEATER_GATE2_LOCAL_BUILD=1` to build images from source for development
 checks.
+With `BEATER_GATE2_RECORD_DEMO=1`, the same browser session records
+`docs/demos/gate2-compose-browser-demo.webm` plus SHA-pinned notes.
 
 For a strict-auth `beaterd`, set one server-only credential before starting the
 dashboard:
