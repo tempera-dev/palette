@@ -6,7 +6,7 @@ use beater_api::{router, ApiState};
 use beater_archive::{ArchiveManifest, ParquetTraceArchive};
 use beater_audit::SqliteAuditStore;
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
-use beater_bus::InMemoryBus;
+use beater_bus::{DurableBus, InMemoryBus};
 use beater_calibration::{CalibrationReport, SqliteCalibrationStore};
 use beater_core::{
     ApiKeyId, EnvironmentId, Money, OrganizationId, ProjectId, SpanId, TenantId, TenantScope,
@@ -25,8 +25,8 @@ use beater_human::{
     ReviewAnnotation, ReviewQueue, ReviewTask, ReviewTaskState, SqliteHumanReviewStore,
 };
 use beater_ingest::{
-    DeadLetterReplayReport, IngestPolicy, IngestQueueStatus, IngestService, NativeIngestRequest,
-    TraceIngestedDrainReport, TraceWriteDrainReport, TRACE_INGESTED_KIND,
+    DeadLetterReplayReport, IngestOutcome, IngestPolicy, IngestQueueStatus, IngestService,
+    NativeIngestRequest, TraceIngestedDrainReport, TraceWriteDrainReport, TRACE_INGESTED_KIND,
 };
 use beater_judge::{JudgeBrokerService, KeywordJudgeProvider, SqliteJudgeLedger};
 use beater_replay::{plan_replay, ReplayMode};
@@ -1209,6 +1209,79 @@ async fn buffered_ingest_drains_scoped_trace_writes_through_api() {
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(status.trace_write_depth, 0);
     assert_eq!(status.trace_ingested_depth, 0);
+}
+
+#[tokio::test]
+async fn duplicate_native_ingest_is_reconciled_through_api() {
+    let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+    let artifacts = Arc::new(
+        FsArtifactStore::new(tempdir.path().join("artifacts"))
+            .unwrap_or_else(|err| panic!("{err}")),
+    );
+    let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let bus = Arc::new(InMemoryBus::new(16));
+    let ingest = IngestService::new(
+        artifacts,
+        traces.clone(),
+        bus.clone(),
+        IngestPolicy::default(),
+    );
+    let app = router(ApiState::new(ingest, traces.clone()));
+    let request = native_request();
+    let body = serde_json::to_vec(&request).unwrap_or_else(|err| panic!("{err}"));
+
+    let first = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/traces/native")
+                .header("content-type", "application/json")
+                .body(Body::from(body.clone()))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(first.status(), StatusCode::OK);
+    let first_body = to_bytes(first.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let first_outcome: IngestOutcome =
+        serde_json::from_slice(&first_body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(first_outcome.ack.accepted_raw, 1);
+    assert_eq!(first_outcome.ack.accepted_spans, 1);
+    assert_eq!(first_outcome.ack.duplicate_raw, 0);
+    assert_eq!(first_outcome.ack.duplicate_spans, 0);
+
+    let second = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/traces/native")
+                .header("content-type", "application/json")
+                .body(Body::from(body))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(second.status(), StatusCode::OK);
+    let second_body = to_bytes(second.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let second_outcome: IngestOutcome =
+        serde_json::from_slice(&second_body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(second_outcome.ack.accepted_raw, 0);
+    assert_eq!(second_outcome.ack.accepted_spans, 0);
+    assert_eq!(second_outcome.ack.duplicate_raw, 1);
+    assert_eq!(second_outcome.ack.duplicate_spans, 1);
+    assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
+
+    let trace = traces
+        .get_trace(request.scope.tenant_id, request.trace_id)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(trace.spans.len(), 1);
 }
 
 #[tokio::test]
