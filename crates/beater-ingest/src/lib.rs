@@ -289,6 +289,7 @@ impl IngestService {
                 Ok(()) => {
                     report.completed += 1;
                     report.trace_refs.push(queued);
+                    self.bus.ack(message).await.map_err(map_bus_error)?;
                 }
                 Err(reason) => {
                     report.failed_work += 1;
@@ -718,6 +719,7 @@ impl IngestService {
                         trace_id: trace_id.clone(),
                     }));
                 report.trace_ids.extend(trace_ids);
+                self.bus.ack(message).await.map_err(map_bus_error)?;
                 Ok(())
             }
             Err(err) => {
@@ -1154,7 +1156,7 @@ pub async fn smoke_trace(service: &IngestService) -> Result<IngestOutcome, Inges
 #[cfg(test)]
 mod tests {
     use super::*;
-    use beater_bus::InMemoryBus;
+    use beater_bus::{DurableBus, InMemoryBus, SqliteDurableBus};
     use beater_core::{Page, PageRequest};
     use beater_schema::{RunFilter, RunSummary, SpanFilter, SpanSummary, TraceView};
     use beater_store_obj::FsArtifactStore;
@@ -1481,6 +1483,86 @@ mod tests {
         assert_eq!(downstream.completed, 1);
         assert_eq!(downstream.failed_work, 0);
         assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+    }
+
+    #[tokio::test]
+    async fn trace_ingested_unacked_work_recovers_after_sqlite_bus_reopen() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let trace_path = tempdir.path().join("traces.sqlite");
+        let bus_path = tempdir.path().join("bus.sqlite");
+        let traces =
+            Arc::new(SqliteTraceStore::open(&trace_path).unwrap_or_else(|err| panic!("{err}")));
+        let bus =
+            Arc::new(SqliteDurableBus::open(&bus_path, 16).unwrap_or_else(|err| panic!("{err}")));
+        let service = IngestService::new(
+            artifacts.clone(),
+            traces.clone(),
+            bus.clone(),
+            IngestPolicy::default(),
+        );
+        let request = fixture_request();
+
+        service
+            .buffer_native(request.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let write_report = service
+            .drain_trace_writes(10)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(write_report.downstream_published, 1);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
+
+        let leased = bus
+            .consume_kind_batch(TRACE_INGESTED_KIND, 1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(leased.len(), 1);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+        drop(service);
+        drop(bus);
+        drop(traces);
+
+        let recovered_bus =
+            Arc::new(SqliteDurableBus::open(&bus_path, 16).unwrap_or_else(|err| panic!("{err}")));
+        assert_eq!(
+            recovered_bus.depth_for_kind(TRACE_INGESTED_KIND).await,
+            Ok(1)
+        );
+        let recovered_traces =
+            Arc::new(SqliteTraceStore::open(&trace_path).unwrap_or_else(|err| panic!("{err}")));
+        let recovered = IngestService::new(
+            artifacts,
+            recovered_traces.clone(),
+            recovered_bus.clone(),
+            IngestPolicy::default(),
+        );
+        let downstream = recovered
+            .drain_trace_ingested(10, move |trace_ref| {
+                let recovered_traces = recovered_traces.clone();
+                async move {
+                    let trace = recovered_traces
+                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .await
+                        .map_err(|err| err.to_string())?;
+                    if trace.spans.len() != 1 {
+                        return Err(format!("expected one span, got {}", trace.spans.len()));
+                    }
+                    Ok(())
+                }
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(downstream.completed, 1);
+        assert_eq!(
+            recovered_bus.depth_for_kind(TRACE_INGESTED_KIND).await,
+            Ok(0)
+        );
     }
 
     #[tokio::test]

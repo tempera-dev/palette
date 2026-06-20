@@ -42,6 +42,7 @@ This repo now contains the first tested Rust vertical slice:
 - typed `StoreError`/provider/adapter errors across storage, judge, dataset, experiment, search, and review trait contracts
 - currency-checked `Money` math plus injectable core `Clock`
 - bounded in-memory bus plus SQLite durable bus with persisted retry and DLQ behavior
+- explicit bus ack/inflight semantics with SQLite recovery of unacked leased work after restart
 - buffered ingest mode that durably queues canonical trace writes before hot-store persistence
 - scoped trace-write drain/status API with typed 429 backpressure responses
 - native ingest pipeline with payload/attribute governance and trait-backed windowed quotas

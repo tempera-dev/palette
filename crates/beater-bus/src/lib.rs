@@ -99,6 +99,7 @@ pub trait DurableBus: Send + Sync {
         kind: &str,
         limit: usize,
     ) -> Result<Vec<BusMessage>, BusError>;
+    async fn ack(&self, message: BusMessage) -> Result<(), BusError>;
     async fn retry_or_dlq(&self, message: BusMessage, reason: String) -> Result<(), BusError>;
     async fn dlq(&self) -> Result<Vec<DeadLetter>, BusError>;
     async fn depth(&self) -> Result<usize, BusError>;
@@ -114,6 +115,7 @@ pub struct InMemoryBus {
 #[derive(Debug, Default)]
 struct BusState {
     queue: VecDeque<BusMessage>,
+    inflight: Vec<BusMessage>,
     dlq: Vec<DeadLetter>,
 }
 
@@ -130,21 +132,30 @@ impl InMemoryBus {
             .lock()
             .map_err(|err| BusError::Poisoned(err.to_string()))
     }
+
+    fn active_depth(state: &BusState) -> usize {
+        state.queue.len().saturating_add(state.inflight.len())
+    }
 }
 
 #[async_trait]
 impl DurableBus for InMemoryBus {
     async fn publish(&self, message: BusMessage) -> Result<PublishAck, BusError> {
         let mut state = self.lock()?;
-        if state.queue.iter().any(|queued| {
-            queued.tenant_id == message.tenant_id
-                && queued.project_id == message.project_id
-                && queued.kind == message.kind
-                && queued.idempotency_key == message.idempotency_key
-        }) {
+        let duplicate = state
+            .queue
+            .iter()
+            .chain(state.inflight.iter())
+            .any(|queued| {
+                queued.tenant_id == message.tenant_id
+                    && queued.project_id == message.project_id
+                    && queued.kind == message.kind
+                    && queued.idempotency_key == message.idempotency_key
+            });
+        if duplicate {
             return Ok(PublishAck::duplicate());
         }
-        if state.queue.len() >= self.capacity {
+        if Self::active_depth(&state) >= self.capacity {
             return Err(BusError::Backpressure {
                 capacity: self.capacity,
             });
@@ -158,6 +169,7 @@ impl DurableBus for InMemoryBus {
         let mut messages = Vec::new();
         for _ in 0..limit {
             if let Some(message) = state.queue.pop_front() {
+                state.inflight.push(message.clone());
                 messages.push(message);
             } else {
                 break;
@@ -177,6 +189,7 @@ impl DurableBus for InMemoryBus {
         while messages.len() < limit && index < state.queue.len() {
             if state.queue[index].kind == kind {
                 if let Some(message) = state.queue.remove(index) {
+                    state.inflight.push(message.clone());
                     messages.push(message);
                 }
             } else {
@@ -203,6 +216,7 @@ impl DurableBus for InMemoryBus {
                 && queued.kind == kind
             {
                 if let Some(message) = state.queue.remove(index) {
+                    state.inflight.push(message.clone());
                     messages.push(message);
                 }
             } else {
@@ -212,8 +226,19 @@ impl DurableBus for InMemoryBus {
         Ok(messages)
     }
 
+    async fn ack(&self, message: BusMessage) -> Result<(), BusError> {
+        let mut state = self.lock()?;
+        state
+            .inflight
+            .retain(|inflight| inflight.message_id != message.message_id);
+        Ok(())
+    }
+
     async fn retry_or_dlq(&self, mut message: BusMessage, reason: String) -> Result<(), BusError> {
         let mut state = self.lock()?;
+        state
+            .inflight
+            .retain(|inflight| inflight.message_id != message.message_id);
         message.attempts = message.attempts.saturating_add(1);
         if message.attempts >= message.max_attempts {
             state.dlq.push(DeadLetter {
@@ -223,7 +248,7 @@ impl DurableBus for InMemoryBus {
             });
             return Ok(());
         }
-        if state.queue.len() >= self.capacity {
+        if Self::active_depth(&state) >= self.capacity {
             state.dlq.push(DeadLetter {
                 message,
                 reason: format!("retry queue full after failure: {reason}"),
@@ -310,6 +335,20 @@ impl SqliteDurableBus {
                 CREATE INDEX IF NOT EXISTS idx_queue_order
                 ON queue_messages (enqueued_at, message_id);
 
+                CREATE TABLE IF NOT EXISTS inflight_messages (
+                    message_id TEXT PRIMARY KEY,
+                    tenant_id TEXT NOT NULL,
+                    project_id TEXT NOT NULL,
+                    idempotency_key TEXT NOT NULL,
+                    kind TEXT NOT NULL,
+                    leased_at TEXT NOT NULL,
+                    message_json TEXT NOT NULL,
+                    UNIQUE (tenant_id, project_id, kind, idempotency_key)
+                );
+
+                CREATE INDEX IF NOT EXISTS idx_inflight_kind
+                ON inflight_messages (kind, leased_at, message_id);
+
                 CREATE TABLE IF NOT EXISTS dead_letters (
                     message_id TEXT PRIMARY KEY,
                     tenant_id TEXT NOT NULL,
@@ -325,6 +364,7 @@ impl SqliteDurableBus {
                 "#,
             )
             .map_err(|err| BusError::Storage(err.to_string()))?;
+        Self::recover_inflight(&connection)?;
         Ok(())
     }
 
@@ -352,6 +392,51 @@ impl SqliteDurableBus {
             )
             .map(|count| count as usize)
             .map_err(|err| BusError::Storage(err.to_string()))
+    }
+
+    fn inflight_depth(connection: &Connection) -> Result<usize, BusError> {
+        connection
+            .query_row("SELECT COUNT(*) FROM inflight_messages", [], |row| {
+                row.get::<_, i64>(0)
+            })
+            .map(|count| count as usize)
+            .map_err(|err| BusError::Storage(err.to_string()))
+    }
+
+    fn active_depth(connection: &Connection) -> Result<usize, BusError> {
+        Ok(Self::queue_depth(connection)?.saturating_add(Self::inflight_depth(connection)?))
+    }
+
+    fn recover_inflight(connection: &Connection) -> Result<(), BusError> {
+        let mut messages = Vec::new();
+        {
+            let mut statement = connection
+                .prepare(
+                    r#"
+                    SELECT message_json
+                    FROM inflight_messages
+                    ORDER BY leased_at ASC, message_id ASC
+                    "#,
+                )
+                .map_err(|err| BusError::Storage(err.to_string()))?;
+            let rows = statement
+                .query_map([], |row| row.get::<_, String>(0))
+                .map_err(|err| BusError::Storage(err.to_string()))?;
+            for row in rows {
+                let json = row.map_err(|err| BusError::Storage(err.to_string()))?;
+                messages.push(
+                    serde_json::from_str::<BusMessage>(&json)
+                        .map_err(|err| BusError::Storage(err.to_string()))?,
+                );
+            }
+        }
+        for message in messages {
+            Self::insert_message(connection, &message)?;
+        }
+        connection
+            .execute("DELETE FROM inflight_messages", [])
+            .map_err(|err| BusError::Storage(err.to_string()))?;
+        Ok(())
     }
 
     fn insert_message(
@@ -411,6 +496,40 @@ impl SqliteDurableBus {
             .map_err(|err| BusError::Storage(err.to_string()))?;
         Ok(())
     }
+
+    fn insert_inflight(connection: &Connection, message: &BusMessage) -> Result<(), BusError> {
+        let message_json =
+            serde_json::to_string(message).map_err(|err| BusError::Storage(err.to_string()))?;
+        connection
+            .execute(
+                r#"
+                INSERT INTO inflight_messages
+                  (message_id, tenant_id, project_id, idempotency_key, kind, leased_at, message_json)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
+                "#,
+                params![
+                    message.message_id.as_str(),
+                    message.tenant_id.as_str(),
+                    message.project_id.as_str(),
+                    message.idempotency_key.as_str(),
+                    message.kind.as_str(),
+                    Utc::now().to_rfc3339(),
+                    message_json,
+                ],
+            )
+            .map_err(|err| BusError::Storage(err.to_string()))?;
+        Ok(())
+    }
+
+    fn delete_inflight(connection: &Connection, message_id: &str) -> Result<(), BusError> {
+        connection
+            .execute(
+                "DELETE FROM inflight_messages WHERE message_id = ?1",
+                params![message_id],
+            )
+            .map_err(|err| BusError::Storage(err.to_string()))?;
+        Ok(())
+    }
 }
 
 #[async_trait]
@@ -421,8 +540,10 @@ impl DurableBus for SqliteDurableBus {
             .query_row(
                 r#"
                 SELECT EXISTS(
-                    SELECT 1
-                    FROM queue_messages
+                    SELECT 1 FROM queue_messages
+                    WHERE tenant_id = ?1 AND project_id = ?2 AND kind = ?3 AND idempotency_key = ?4
+                    UNION ALL
+                    SELECT 1 FROM inflight_messages
                     WHERE tenant_id = ?1 AND project_id = ?2 AND kind = ?3 AND idempotency_key = ?4
                 )
                 "#,
@@ -439,7 +560,7 @@ impl DurableBus for SqliteDurableBus {
         if duplicate_exists {
             return Ok(PublishAck::duplicate());
         }
-        if Self::queue_depth(&connection)? >= self.capacity {
+        if Self::active_depth(&connection)? >= self.capacity {
             return Err(BusError::Backpressure {
                 capacity: self.capacity,
             });
@@ -478,8 +599,14 @@ impl DurableBus for SqliteDurableBus {
         .await
     }
 
+    async fn ack(&self, message: BusMessage) -> Result<(), BusError> {
+        let connection = self.lock()?;
+        Self::delete_inflight(&connection, &message.message_id)
+    }
+
     async fn retry_or_dlq(&self, mut message: BusMessage, reason: String) -> Result<(), BusError> {
         let connection = self.lock()?;
+        Self::delete_inflight(&connection, &message.message_id)?;
         message.attempts = message.attempts.saturating_add(1);
         if message.attempts >= message.max_attempts {
             let dead_letter = DeadLetter {
@@ -489,7 +616,7 @@ impl DurableBus for SqliteDurableBus {
             };
             return Self::insert_dead_letter(&connection, &dead_letter);
         }
-        if Self::queue_depth(&connection)? >= self.capacity {
+        if Self::active_depth(&connection)? >= self.capacity {
             let dead_letter = DeadLetter {
                 message,
                 reason: format!("retry queue full after failure: {reason}"),
@@ -630,20 +757,17 @@ impl SqliteDurableBus {
             Ok::<_, BusError>(selected)
         }?;
 
-        for (message_id, _) in &selected {
+        let mut messages = Vec::with_capacity(selected.len());
+        for (message_id, message_json) in selected {
+            let message = serde_json::from_str::<BusMessage>(&message_json)
+                .map_err(|err| BusError::Storage(err.to_string()))?;
+            Self::insert_inflight(&tx, &message)?;
             tx.execute(
                 "DELETE FROM queue_messages WHERE message_id = ?1",
                 params![message_id],
             )
             .map_err(|err| BusError::Storage(err.to_string()))?;
-        }
-
-        let mut messages = Vec::with_capacity(selected.len());
-        for (_, message_json) in selected {
-            messages.push(
-                serde_json::from_str::<BusMessage>(&message_json)
-                    .map_err(|err| BusError::Storage(err.to_string()))?,
-            );
+            messages.push(message);
         }
         tx.commit()
             .map_err(|err| BusError::Storage(err.to_string()))?;
@@ -690,6 +814,9 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(consumed, vec![trace_write]);
+        bus.ack(consumed[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(bus.depth_for_kind("trace.write_batch").await, Ok(0));
         assert_eq!(bus.depth_for_kind("trace.ingested").await, Ok(1));
         let remaining = bus
@@ -697,6 +824,9 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(remaining, vec![downstream]);
+        bus.ack(remaining[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
     }
 
     #[tokio::test]
@@ -729,6 +859,7 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         let healthy = batch.remove(0);
         assert_eq!(healthy.kind, "healthy");
+        bus.ack(healthy).await.unwrap_or_else(|err| panic!("{err}"));
 
         let mut batch = bus
             .consume_batch(1)
@@ -771,6 +902,45 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(batch, vec![first]);
+        reopened
+            .ack(batch[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(reopened.depth().await, Ok(0));
+    }
+
+    #[tokio::test]
+    async fn sqlite_bus_recovers_unacked_inflight_messages_on_reopen() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("bus.sqlite");
+        let bus = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
+        let message = fixture_message("crash-safe");
+
+        bus.publish(message.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let consumed = bus
+            .consume_batch(1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(consumed, vec![message.clone()]);
+        assert_eq!(bus.depth().await, Ok(0));
+        drop(bus);
+
+        let reopened = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(reopened.depth().await, Ok(1));
+        let recovered = reopened
+            .consume_batch(1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(recovered, vec![message]);
+        reopened
+            .ack(recovered[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        drop(reopened);
+
+        let reopened = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(reopened.depth().await, Ok(0));
     }
 
@@ -794,6 +964,9 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(consumed, vec![trace_write]);
+        bus.ack(consumed[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(bus.depth_for_kind("trace.write_batch").await, Ok(0));
         assert_eq!(bus.depth_for_kind("trace.ingested").await, Ok(1));
 
@@ -827,12 +1000,18 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(consumed, vec![a_message]);
+        bus.ack(consumed[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(bus.depth_for_kind("trace.write_batch").await, Ok(1));
         let remaining = bus
             .consume_batch(10)
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(remaining, vec![b_message]);
+        bus.ack(remaining[0].clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
     }
 
     #[tokio::test]
