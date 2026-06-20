@@ -37,6 +37,7 @@ use beater_human::{
 };
 use beater_ingest::{
     anonymous_auth_context, smoke_trace, IngestPolicy, IngestService, NativeIngestRequest,
+    TRACE_WRITE_BATCH_KIND,
 };
 use beater_judge::{
     JudgeBrokerRequest, JudgeBrokerService, JudgeLedgerStore, KeywordJudgeProvider,
@@ -464,32 +465,90 @@ async fn main() -> anyhow::Result<()> {
             let tenant = TenantId::new("demo")?;
             let project = ProjectId::new("demo")?;
             let environment = EnvironmentId::new("prod")?;
-            let trace_id = TraceId::new("ingest-outage-trace")?;
             let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
             let bus_path = data_dir.join("bus.sqlite");
-            let request = NativeIngestRequest {
-                scope: TenantScope::new(tenant.clone(), project.clone(), environment),
-                trace_id: trace_id.clone(),
-                span_id: SpanId::new("root")?,
-                parent_span_id: None,
-                seq: 1,
-                kind: AgentSpanKind::AgentRun,
-                name: "ingest outage fixture".to_string(),
-                status: SpanStatus::Ok,
-                start_time: Some(Utc::now()),
-                end_time: Some(Utc::now()),
-                model: None,
-                cost: None,
-                tokens: None,
-                input: Some(json!("accepted during trace store outage")),
-                output: Some(json!("recovered from durable queue")),
-                attributes: BTreeMap::new(),
-                redaction_class: RedactionClass::Internal,
-                idempotency_key: Some(IdempotencyKey::new("ingest-outage-fixture")?),
-                auth_context: None,
-            };
 
             let outage_bus = Arc::new(SqliteDurableBus::open(&bus_path, 128)?);
+            let explicit_error_request = ingest_outage_request(
+                &tenant,
+                &project,
+                &environment,
+                "ingest-outage-explicit-error",
+                "explicit-error-root",
+                "ingest-outage-explicit-error",
+                "explicit error during trace store outage",
+            )?;
+            let explicit_error_service = IngestService::new(
+                artifacts.clone(),
+                Arc::new(UnavailableTraceStore),
+                outage_bus.clone(),
+                IngestPolicy::default(),
+            );
+            let explicit_error = explicit_error_service
+                .ingest_native(explicit_error_request)
+                .await
+                .err()
+                .ok_or_else(|| anyhow::anyhow!("direct ingest should explicitly error"))?
+                .to_string();
+            if !explicit_error.contains("trace store unavailable") {
+                anyhow::bail!("unexpected explicit error: {explicit_error}");
+            }
+
+            let dlq_request = ingest_outage_request(
+                &tenant,
+                &project,
+                &environment,
+                "ingest-outage-dlq",
+                "dlq-root",
+                "ingest-outage-dlq",
+                "accepted then dlq during trace store outage",
+            )?;
+            let dlq_service = IngestService::new(
+                artifacts.clone(),
+                Arc::new(UnavailableTraceStore),
+                outage_bus.clone(),
+                IngestPolicy {
+                    trace_write_max_attempts: 1,
+                    ..IngestPolicy::default()
+                },
+            );
+            let dlq_buffered = dlq_service
+                .buffer_native(dlq_request)
+                .await
+                .context("buffer native trace that should later DLQ")?;
+            let dlq_report = dlq_service
+                .drain_trace_writes_for(&tenant, &project, 10)
+                .await
+                .context("drain trace write that should DLQ during outage")?;
+            if dlq_report.dead_lettered != 1 {
+                anyhow::bail!(
+                    "expected one dead-lettered trace write during outage, got {}",
+                    dlq_report.dead_lettered
+                );
+            }
+            let dlq_status = dlq_service
+                .queue_status(tenant.clone(), project.clone())
+                .await
+                .context("read DLQ status after outage")?;
+            let dead_letter = dlq_status
+                .dead_letters
+                .iter()
+                .find(|dead_letter| dead_letter.message.kind == TRACE_WRITE_BATCH_KIND)
+                .ok_or_else(|| anyhow::anyhow!("expected trace.write_batch dead letter"))?;
+            if !dead_letter.reason.contains("trace store unavailable") {
+                anyhow::bail!("unexpected DLQ reason: {}", dead_letter.reason);
+            }
+
+            let trace_id = TraceId::new("ingest-outage-recovered")?;
+            let recovery_request = ingest_outage_request(
+                &tenant,
+                &project,
+                &environment,
+                trace_id.as_str(),
+                "recovered-root",
+                "ingest-outage-recovered",
+                "accepted during trace store outage and recovered",
+            )?;
             let outage_service = IngestService::new(
                 artifacts.clone(),
                 Arc::new(UnavailableTraceStore),
@@ -497,7 +556,7 @@ async fn main() -> anyhow::Result<()> {
                 IngestPolicy::default(),
             );
             let buffered = outage_service
-                .buffer_native(request)
+                .buffer_native(recovery_request)
                 .await
                 .context("buffer native trace while trace store is unavailable")?;
             let retry_report = outage_service
@@ -541,9 +600,30 @@ async fn main() -> anyhow::Result<()> {
                 .queue_status(tenant.clone(), project.clone())
                 .await
                 .context("read ingest queue status")?;
+            let submitted_events = 3usize;
+            let explicit_errors = 1usize;
+            let dead_lettered = dlq_report.dead_lettered;
+            let recovered_events = usize::from(trace.spans.len() == 1);
+            let resolved_events = explicit_errors + dead_lettered + recovered_events;
+            let lost = submitted_events.saturating_sub(resolved_events);
+            if lost != 0 {
+                anyhow::bail!("chaos accounting lost {lost} event(s)");
+            }
             println!(
                 "{}",
                 serde_json::to_string_pretty(&json!({
+                    "no_silent_drop": {
+                        "submitted_events": submitted_events,
+                        "accepted_buffered": dlq_buffered.ack.accepted_spans + buffered.ack.accepted_spans,
+                        "explicit_errors": explicit_errors,
+                        "dead_lettered": dead_lettered,
+                        "recovered": recovered_events,
+                        "lost": lost
+                    },
+                    "explicit_error": explicit_error,
+                    "dlq_buffered": dlq_buffered,
+                    "dlq_report": dlq_report,
+                    "dlq_reason": dead_letter.reason,
                     "buffered": buffered,
                     "retry_report": retry_report,
                     "recovery_report": recovery_report,
@@ -1649,6 +1729,38 @@ fn local_bus(data_dir: &Path) -> anyhow::Result<Arc<dyn DurableBus>> {
         data_dir.join("bus.sqlite"),
         128,
     )?))
+}
+
+fn ingest_outage_request(
+    tenant: &TenantId,
+    project: &ProjectId,
+    environment: &EnvironmentId,
+    trace_id: &str,
+    span_id: &str,
+    idempotency_key: &str,
+    label: &str,
+) -> anyhow::Result<NativeIngestRequest> {
+    Ok(NativeIngestRequest {
+        scope: TenantScope::new(tenant.clone(), project.clone(), environment.clone()),
+        trace_id: TraceId::new(trace_id)?,
+        span_id: SpanId::new(span_id)?,
+        parent_span_id: None,
+        seq: 1,
+        kind: AgentSpanKind::AgentRun,
+        name: label.to_string(),
+        status: SpanStatus::Ok,
+        start_time: Some(Utc::now()),
+        end_time: Some(Utc::now()),
+        model: None,
+        cost: None,
+        tokens: None,
+        input: Some(json!({ "input": label })),
+        output: Some(json!({ "output": label })),
+        attributes: BTreeMap::new(),
+        redaction_class: RedactionClass::Internal,
+        idempotency_key: Some(IdempotencyKey::new(idempotency_key)?),
+        auth_context: None,
+    })
 }
 
 async fn run_local_smoke(data_dir: PathBuf) -> anyhow::Result<serde_json::Value> {

@@ -1885,6 +1885,133 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn trace_ingested_consumer_restart_then_dlq_replay_recovers_work() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let trace_path = tempdir.path().join("traces.sqlite");
+        let bus_path = tempdir.path().join("bus.sqlite");
+        let traces =
+            Arc::new(SqliteTraceStore::open(&trace_path).unwrap_or_else(|err| panic!("{err}")));
+        let bus =
+            Arc::new(SqliteDurableBus::open(&bus_path, 16).unwrap_or_else(|err| panic!("{err}")));
+        let service = IngestService::new(
+            artifacts.clone(),
+            traces.clone(),
+            bus.clone(),
+            IngestPolicy::default(),
+        );
+        let request = fixture_request();
+        let tenant_id = request.scope.tenant_id.clone();
+        let project_id = request.scope.project_id.clone();
+        let trace_id = request.trace_id.clone();
+
+        service
+            .buffer_native(request)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let write_report = service
+            .drain_trace_writes(10)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(write_report.downstream_published, 1);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
+
+        let leased = bus
+            .consume_kind_batch(TRACE_INGESTED_KIND, 1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(leased.len(), 1);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+        drop(service);
+        drop(bus);
+        drop(traces);
+
+        let restarted_bus =
+            Arc::new(SqliteDurableBus::open(&bus_path, 16).unwrap_or_else(|err| panic!("{err}")));
+        assert_eq!(
+            restarted_bus.depth_for_kind(TRACE_INGESTED_KIND).await,
+            Ok(1)
+        );
+        let restarted_traces =
+            Arc::new(SqliteTraceStore::open(&trace_path).unwrap_or_else(|err| panic!("{err}")));
+        let restarted = IngestService::new(
+            artifacts,
+            restarted_traces.clone(),
+            restarted_bus.clone(),
+            IngestPolicy::default(),
+        );
+
+        for attempt in 1..=3 {
+            let report = restarted
+                .drain_trace_ingested(10, |_| async {
+                    Err("simulated downstream outage after consumer restart".to_string())
+                })
+                .await
+                .unwrap_or_else(|err| panic!("{err}"));
+            assert_eq!(report.consumed, 1);
+            assert_eq!(report.failed_work, 1);
+            if attempt < 3 {
+                assert_eq!(report.retried, 1);
+                assert_eq!(report.dead_lettered, 0);
+            } else {
+                assert_eq!(report.retried, 0);
+                assert_eq!(report.dead_lettered, 1);
+            }
+        }
+
+        let status = restarted
+            .queue_status(tenant_id.clone(), project_id.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(status.trace_ingested_depth, 0);
+        assert_eq!(status.dead_letters.len(), 1);
+        assert!(status.dead_letters[0]
+            .reason
+            .contains("simulated downstream outage after consumer restart"));
+        let message_id = status.dead_letters[0].message.message_id.clone();
+
+        let replay = restarted
+            .replay_dead_letter(&tenant_id, &project_id, &message_id, true)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(replay.ack.accepted);
+        assert_eq!(
+            restarted_bus.depth_for_kind(TRACE_INGESTED_KIND).await,
+            Ok(1)
+        );
+        let replayed = restarted
+            .drain_trace_ingested(10, move |trace_ref| {
+                let restarted_traces = restarted_traces.clone();
+                let trace_id = trace_id.clone();
+                async move {
+                    let trace = restarted_traces
+                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .await
+                        .map_err(|err| err.to_string())?;
+                    if trace.trace_id != trace_id {
+                        return Err(format!("unexpected replayed trace {}", trace.trace_id));
+                    }
+                    if trace.spans.len() != 1 {
+                        return Err(format!("expected one span, got {}", trace.spans.len()));
+                    }
+                    Ok(())
+                }
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(replayed.completed, 1);
+        let final_status = restarted
+            .queue_status(tenant_id, project_id)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(final_status.trace_ingested_depth, 0);
+        assert!(final_status.dead_letters.is_empty());
+    }
+
+    #[tokio::test]
     async fn trace_write_worker_dlqs_invalid_payload_without_consuming_other_lanes() {
         let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
         let artifacts = Arc::new(

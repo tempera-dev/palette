@@ -96,7 +96,7 @@ This repo now contains the first tested Rust vertical slice:
 - `beaterd` runs configurable trace-write and trace-ingested background workers for buffered ingest and downstream indexing
 - live `beaterd` integration test proving OTLP HTTP and gRPC traces become readable and searchable through public APIs
 - `beaterctl bus-fixture` validates durable queue reopen, retry, DLQ, and replay behavior
-- `beaterctl ingest-outage-fixture` validates accepted buffered ingest, retry during TraceStore outage, and recovery drain
+- `beaterctl ingest-outage-fixture` validates no-silent-drop accounting across explicit error, DLQ, and recovery during a simulated TraceStore outage
 - `beaterctl replay-fixture` validates persisted cassette replay without live provider/tool calls
 - `beaterctl judge-fixture` validates encrypted BYOK secret persistence, cached judge calls, budget metering, and ledger redaction
 - `beaterctl usage-fixture` validates idempotent judge usage records and cached zero-cost audit records
