@@ -16,6 +16,7 @@ outside the project who runs the flow unaided from a fresh clone.
 - Docker Compose version:
 - Browser:
 - Network notes:
+- Preflight status:
 
 ## Repository
 
@@ -42,6 +43,11 @@ BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO
 No project maintainer may provide step-by-step help beyond public repo docs
 during the timed run.
 
+The script fails before Compose startup if Docker is unavailable, if Python,
+curl, or npm are missing, or if API `8080`, OTLP `4317`, or dashboard `3000`
+are already in use. For this outside-person proof, free those default ports
+instead of using alternate port environment variables.
+
 After the script prints the dashboard URLs, the runner must open
 `http://127.0.0.1:3000` in a normal browser, click the quickstart trace, click
 the `llm.call` span, and capture the evidence below. Cleanup can happen after
@@ -65,6 +71,8 @@ the recording.
 ## Pass Checklist
 
 - [ ] Fresh clone was used.
+- [ ] Docker was running before the stopwatch started.
+- [ ] Python, curl, and npm were available before the stopwatch started.
 - [ ] Default ports were used: API `127.0.0.1:8080`, OTLP `127.0.0.1:4317`,
       dashboard `127.0.0.1:3000`.
 - [ ] `BEATER_GATE2_REUSE` was not set.

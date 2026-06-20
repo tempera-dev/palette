@@ -131,6 +131,15 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("git rev-parse HEAD"));
     assert!(stopwatch_script.contains("docker compose version"));
     assert!(stopwatch_script.contains("compose images"));
+    assert!(stopwatch_script.contains("run_before_deadline \"Gate 2 proof preflight\" preflight"));
+    assert!(stopwatch_script.contains("require_command docker"));
+    assert!(stopwatch_script.contains("require_command curl"));
+    assert!(stopwatch_script.contains("require_command python3"));
+    assert!(stopwatch_script.contains("require_command npm"));
+    assert!(stopwatch_script.contains("docker info"));
+    assert!(stopwatch_script.contains("require_free_port \"$host_http_port\""));
+    assert!(stopwatch_script.contains("require_free_port \"$host_otlp_grpc_port\""));
+    assert!(stopwatch_script.contains("require_free_port \"$host_dashboard_port\""));
     assert!(stopwatch_script.contains("BEATER_GATE2_WRITE_PROOF"));
     assert!(stopwatch_script.contains("BEATER_GATE2_BROWSER_PROOF"));
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_DEMO"));
@@ -156,6 +165,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let outside_proof = read(root.join("docs/demos/gate2-outside-person-proof.md"));
     assert!(outside_proof.contains("Status: not yet completed"));
     assert!(outside_proof.contains("BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1"));
+    assert!(outside_proof.contains("Preflight status"));
+    assert!(outside_proof.contains("Docker was running before the stopwatch started"));
+    assert!(outside_proof.contains("Python, curl, and npm were available"));
     assert!(outside_proof.contains("Docker Compose version"));
     assert!(outside_proof.contains("Beater image digest"));
     assert!(outside_proof.contains("Screen recording SHA256"));
@@ -171,6 +183,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let readme = read(root.join("README.md"));
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh"));
+    assert!(readme.contains("checks Docker, Python, curl, browser-proof npm"));
     assert!(readme.contains("gate2-compose-browser-demo.webm"));
 
     let requirements = read(root.join("REQUIREMENTS.md"));

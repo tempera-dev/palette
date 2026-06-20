@@ -57,6 +57,8 @@ the nested run -> turn -> step -> tool -> MCP waterfall. It pulls prebuilt GHCR
 images through `docker-compose.prebuilt.yml` by default; set
 `BEATER_GATE2_LOCAL_BUILD=1` to build images from source for development
 checks.
+For outside-person evidence, the script preflights Docker, Python, curl, npm,
+and the default `8080`/`4317`/`3000` ports before Compose startup.
 With `BEATER_GATE2_RECORD_DEMO=1`, the same browser session records
 `docs/demos/gate2-compose-browser-demo.webm` plus SHA-pinned notes.
 

@@ -170,8 +170,70 @@ sha256_file() {
   fi
 }
 
+require_command() {
+  local command_name="$1"
+  if ! command -v "$command_name" >/dev/null 2>&1; then
+    echo "Missing required command: $command_name" >&2
+    return 1
+  fi
+}
+
+port_is_free() {
+  python3 - "$1" <<'PY'
+import socket
+import sys
+
+port = int(sys.argv[1])
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    sock.bind(("127.0.0.1", port))
+except OSError:
+    sys.exit(1)
+finally:
+    sock.close()
+PY
+}
+
+require_free_port() {
+  local port="$1"
+  local label="$2"
+  local env_name="$3"
+  if ! port_is_free "$port"; then
+    cat >&2 <<EOF
+Port $port for $label is already in use before Gate 2 Compose startup.
+
+For outside-person Gate 2 evidence, free the default port and rerun. For
+maintainer diagnostics only, set $env_name to an unused alternate port.
+EOF
+    return 1
+  fi
+}
+
+preflight() {
+  require_command docker
+  require_command curl
+  require_command python3
+  if [[ "$browser_proof" == "1" ]]; then
+    require_command npm
+  fi
+  if ! docker info >/dev/null 2>&1; then
+    echo "Docker daemon is not reachable; start Docker and rerun Gate 2 proof." >&2
+    return 1
+  fi
+  if ! docker compose version >/dev/null 2>&1; then
+    echo "Docker Compose v2 is required for Gate 2 proof." >&2
+    return 1
+  fi
+  if [[ "$reuse" != "1" ]]; then
+    require_free_port "$host_http_port" "beaterd HTTP" "BEATER_HTTP_PORT"
+    require_free_port "$host_otlp_grpc_port" "OTLP gRPC" "BEATER_OTLP_GRPC_PORT"
+    require_free_port "$host_dashboard_port" "dashboard" "BEATER_DASHBOARD_PORT"
+  fi
+}
+
 trap cleanup EXIT
 
+run_before_deadline "Gate 2 proof preflight" preflight
 run_before_deadline "clean previous Gate 2 state" clean_start
 run_before_deadline "compose startup ($startup_mode)" compose "${startup_args[@]}"
 wait_url "$api_url/health" "beaterd"
