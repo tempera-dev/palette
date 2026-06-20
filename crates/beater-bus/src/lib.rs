@@ -454,6 +454,17 @@ impl SqliteDurableBus {
         Ok(Self::queue_depth(connection)?.saturating_add(Self::inflight_depth(connection)?))
     }
 
+    fn inflight_exists(connection: &Connection, message_id: &str) -> Result<bool, BusError> {
+        connection
+            .query_row(
+                "SELECT COUNT(*) FROM inflight_messages WHERE message_id = ?1",
+                params![message_id],
+                |row| row.get::<_, i64>(0),
+            )
+            .map(|count| count > 0)
+            .map_err(|err| BusError::Storage(err.to_string()))
+    }
+
     fn active_duplicate_exists(
         connection: &Connection,
         message: &BusMessage,
@@ -668,8 +679,11 @@ impl DurableBus for SqliteDurableBus {
     }
 
     async fn retry_or_dlq(&self, mut message: BusMessage, reason: String) -> Result<(), BusError> {
-        let connection = self.lock()?;
-        Self::delete_inflight(&connection, &message.message_id)?;
+        let mut connection = self.lock()?;
+        let tx = connection
+            .transaction()
+            .map_err(|err| BusError::Storage(err.to_string()))?;
+        let source_is_inflight = Self::inflight_exists(&tx, &message.message_id)?;
         message.attempts = message.attempts.saturating_add(1);
         if message.attempts >= message.max_attempts {
             let dead_letter = DeadLetter {
@@ -677,17 +691,31 @@ impl DurableBus for SqliteDurableBus {
                 reason,
                 failed_at: Utc::now(),
             };
-            return Self::insert_dead_letter(&connection, &dead_letter);
+            Self::insert_dead_letter(&tx, &dead_letter)?;
+            Self::delete_inflight(&tx, &dead_letter.message.message_id)?;
+            tx.commit()
+                .map_err(|err| BusError::Storage(err.to_string()))?;
+            return Ok(());
         }
-        if Self::active_depth(&connection)? >= self.capacity {
+        let active_after_source_removal =
+            Self::active_depth(&tx)?.saturating_sub(usize::from(source_is_inflight));
+        if active_after_source_removal >= self.capacity {
             let dead_letter = DeadLetter {
                 message,
                 reason: format!("retry queue full after failure: {reason}"),
                 failed_at: Utc::now(),
             };
-            return Self::insert_dead_letter(&connection, &dead_letter);
+            Self::insert_dead_letter(&tx, &dead_letter)?;
+            Self::delete_inflight(&tx, &dead_letter.message.message_id)?;
+            tx.commit()
+                .map_err(|err| BusError::Storage(err.to_string()))?;
+            return Ok(());
         }
-        Self::insert_message(&connection, &message).map(|_| ())
+        Self::insert_message(&tx, &message)?;
+        Self::delete_inflight(&tx, &message.message_id)?;
+        tx.commit()
+            .map_err(|err| BusError::Storage(err.to_string()))?;
+        Ok(())
     }
 
     async fn replay_dead_letter(
@@ -1106,6 +1134,91 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn sqlite_retry_insert_failure_leaves_inflight_recoverable() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("bus.sqlite");
+        let bus = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
+        let message = fixture_message("retry-insert-fails");
+
+        bus.publish(message.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let consumed = bus
+            .consume_batch(1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(consumed, vec![message.clone()]);
+        install_abort_trigger(&bus, "fail_retry_insert", "queue_messages");
+
+        let error = bus
+            .retry_or_dlq(message.clone(), "transient failure".to_string())
+            .await
+            .unwrap_err();
+        assert!(
+            matches!(error, BusError::Storage(message) if message.contains("forced queue_messages insert failure"))
+        );
+        drop(bus);
+
+        let reopened = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(reopened.depth().await, Ok(1));
+        assert!(reopened
+            .dlq()
+            .await
+            .unwrap_or_else(|err| panic!("{err}"))
+            .is_empty());
+        let recovered = reopened
+            .consume_batch(1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(recovered.len(), 1);
+        assert_eq!(recovered[0].message_id, message.message_id);
+        assert_eq!(recovered[0].attempts, 0);
+    }
+
+    #[tokio::test]
+    async fn sqlite_dlq_insert_failure_leaves_inflight_recoverable() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("bus.sqlite");
+        let bus = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
+        let mut message = fixture_message("dlq-insert-fails");
+        message.max_attempts = 1;
+
+        bus.publish(message.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let consumed = bus
+            .consume_batch(1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(consumed, vec![message.clone()]);
+        install_abort_trigger(&bus, "fail_dlq_insert", "dead_letters");
+
+        let error = bus
+            .retry_or_dlq(message.clone(), "poison failure".to_string())
+            .await
+            .unwrap_err();
+        assert!(
+            matches!(error, BusError::Storage(message) if message.contains("forced dead_letters insert failure"))
+        );
+        drop(bus);
+
+        let reopened = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(reopened.depth().await, Ok(1));
+        assert!(reopened
+            .dlq()
+            .await
+            .unwrap_or_else(|err| panic!("{err}"))
+            .is_empty());
+        let recovered = reopened
+            .consume_batch(1)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(recovered.len(), 1);
+        assert_eq!(recovered[0].message_id, message.message_id);
+        assert_eq!(recovered[0].attempts, 0);
+    }
+
+    #[tokio::test]
     async fn sqlite_bus_consumes_one_kind_without_stealing_other_lanes() {
         let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
         let path = tempdir.path().join("bus.sqlite");
@@ -1270,5 +1383,20 @@ mod tests {
             kind,
             key.as_bytes().to_vec(),
         )
+    }
+
+    fn install_abort_trigger(bus: &SqliteDurableBus, trigger_name: &str, table_name: &str) {
+        let connection = bus.lock().unwrap_or_else(|err| panic!("{err}"));
+        connection
+            .execute_batch(&format!(
+                r#"
+                CREATE TEMP TRIGGER {trigger_name}
+                BEFORE INSERT ON {table_name}
+                BEGIN
+                  SELECT RAISE(ABORT, 'forced {table_name} insert failure');
+                END;
+                "#
+            ))
+            .unwrap_or_else(|err| panic!("{err}"));
     }
 }
