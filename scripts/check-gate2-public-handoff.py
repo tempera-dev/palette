@@ -110,6 +110,7 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
     run(
         [
             "python3",
+            "-B",
             "-m",
             "py_compile",
             "scripts/check-gate2-outside-readiness.py",

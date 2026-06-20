@@ -412,6 +412,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("clone"));
     assert!(public_handoff.contains("--depth"));
     assert!(public_handoff.contains("--branch"));
+    assert!(public_handoff.contains("\"-B\""));
     assert!(public_handoff.contains("main"));
     assert!(public_handoff.contains("public handoff clone is not the expected commit"));
     assert!(public_handoff.contains("scripts/check-gate2-outside-readiness.py"));
