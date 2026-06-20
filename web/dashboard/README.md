@@ -28,6 +28,18 @@ Open `http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local`.
 The filter bar supports status, canonical span kind, RFC3339 start window,
 model, release, cost micros, and latency milliseconds.
 
+For a clean local clone-to-browser proof from the repository root:
+
+```bash
+scripts/gate2-proof.sh
+```
+
+For the Docker Compose path from the repository root:
+
+```bash
+scripts/smoke-compose.sh
+```
+
 For a strict-auth `beaterd`, set one server-only credential before starting the
 dashboard:
 
@@ -52,6 +64,24 @@ npm run generate:api
 ```
 
 Do not hand-edit `lib/generated/api-types.ts`.
+
+To fail on OpenAPI/client drift from the repository root:
+
+```bash
+scripts/check-openapi-drift.sh
+```
+
+## Browser E2E
+
+With a live dashboard already pointed at a Beater API that has the stock OTLP
+Python smoke trace:
+
+```bash
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 npm run test:e2e
+```
+
+The Gate 2 proof script installs Chromium and runs this test unless
+`BEATER_GATE2_SKIP_BROWSER=1` is set.
 
 ## Vercel
 

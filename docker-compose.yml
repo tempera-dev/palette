@@ -1,0 +1,173 @@
+name: beater
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: beater
+      POSTGRES_USER: beater
+      POSTGRES_PASSWORD: beater
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./migrations/postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U beater -d beater"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  nats:
+    image: nats:2.11-alpine
+    command: ["-js", "-sd", "/data", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    volumes:
+      - nats-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8222/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  minio:
+    image: minio/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  beaterd:
+    build:
+      context: .
+      target: runtime
+    depends_on:
+      postgres:
+        condition: service_started
+      nats:
+        condition: service_started
+      minio:
+        condition: service_started
+    environment:
+      BEATER_TRACE_WRITE_DRAIN_INTERVAL_MS: "250"
+      BEATER_TRACE_INGESTED_DRAIN_INTERVAL_MS: "250"
+    ports:
+      - "8080:8080"
+      - "4317:4317"
+    volumes:
+      - beater-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  dashboard:
+    build:
+      context: ./web/dashboard
+    depends_on:
+      beaterd:
+        condition: service_healthy
+    environment:
+      BEATER_API_BASE_URL: http://beaterd:8080
+      NEXT_PUBLIC_BEATER_API_BASE_URL: http://localhost:8080
+      HOSTNAME: 0.0.0.0
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  beaterctl:
+    build:
+      context: .
+      target: runtime
+    profiles: ["tools"]
+    depends_on:
+      beaterd:
+        condition: service_healthy
+    entrypoint: ["beaterctl"]
+    command:
+      [
+        "smoke",
+        "--http-url",
+        "http://beaterd:8080",
+        "--otlp-grpc-url",
+        "http://beaterd:4317",
+        "--tenant-id",
+        "demo",
+        "--project-id",
+        "demo",
+        "--environment-id",
+        "local",
+        "--timeout-ms",
+        "20000"
+      ]
+
+  otel-python-smoke:
+    image: python:3.12-slim
+    profiles: ["tools"]
+    depends_on:
+      beaterd:
+        condition: service_healthy
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://beaterd:4317
+      BEATER_TENANT_ID: demo
+      BEATER_PROJECT_ID: demo
+      BEATER_ENVIRONMENT_ID: local
+    volumes:
+      - ./examples/python/otel_smoke.py:/otel_smoke.py:ro
+    command:
+      [
+        "sh",
+        "-c",
+        "pip install --no-cache-dir opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc >/tmp/pip.log && python /otel_smoke.py"
+      ]
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    profiles: ["clickhouse"]
+    environment:
+      CLICKHOUSE_DB: beater
+      CLICKHOUSE_USER: beater
+      CLICKHOUSE_PASSWORD: beater
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "8123:8123"
+      - "9002:9000"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./migrations/clickhouse:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8123/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  beater-data:
+  postgres-data:
+  nats-data:
+  minio-data:
+  clickhouse-data:

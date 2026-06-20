@@ -73,6 +73,10 @@ This repo now contains the first tested Rust vertical slice:
 - API route for native trace ingest and trace readback
 - API routes for trace lists, span detail, and redaction-aware span I/O inspection
 - `/openapi.json` documents the dashboard read surface and generates the dashboard TypeScript client
+- Dockerfile and `docker-compose.yml` for the current self-host topology
+- migration contracts for SQLite local runtime plus Postgres and ClickHouse scale/control-plane paths
+- stock OpenTelemetry Python example that emits an agent run with nested `llm.call` and `tool.call` spans
+- Gate 2 proof scripts for OpenAPI drift, local clone-to-browser smoke, and compose smoke
 - API route for tenant-scoped span search
 - API routes for admin key creation/revocation and strict trace/search/dataset/eval/alert authorization
 - API routes for provider-secret create/list/revoke, judge evaluation, and judge ledger readback
@@ -121,6 +125,39 @@ cargo run -q -p beaterctl -- gate-run-fixture --data-dir /tmp/beater-gate
 cargo run -q -p beaterctl -- review-fixture --data-dir /tmp/beater-review
 cargo run -q -p beaterctl -- calibration-fixture --data-dir /tmp/beater-calibration
 cargo run -q -p beaterd -- --data-dir /tmp/beaterd --judge-provider http-routing --auth-mode required
+```
+
+## Clean Clone To Browser
+
+Fast local proof with built binaries, a stock Python OpenTelemetry trace, and the
+Next dashboard:
+
+```bash
+scripts/gate2-proof.sh
+```
+
+Containerized self-host proof:
+
+```bash
+scripts/smoke-compose.sh
+```
+
+The compose topology starts `beaterd`, the dashboard, Postgres, NATS JetStream,
+and MinIO; ClickHouse is available with the `clickhouse` profile. The current
+`beaterd` runtime still stores local OSS state in SQLite under `--data-dir`.
+Postgres, NATS, MinIO, and ClickHouse are present as self-host topology and
+schema-contract services, not yet as fully wired Rust runtime backends.
+
+The browser proof should finish by opening:
+
+```text
+http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local
+```
+
+Run OpenAPI drift detection separately with:
+
+```bash
+scripts/check-openapi-drift.sh
 ```
 
 With `beaterd` running in local auth mode, remote smoke can target the live

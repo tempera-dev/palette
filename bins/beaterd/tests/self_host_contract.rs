@@ -1,0 +1,103 @@
+use std::fs;
+use std::path::PathBuf;
+
+#[test]
+fn self_host_files_define_gate_two_compose_surface() {
+    let root = repo_root();
+    let compose = read(root.join("docker-compose.yml"));
+    for service in ["postgres:", "nats:", "minio:", "beaterd:", "dashboard:"] {
+        assert!(
+            compose.contains(service),
+            "docker-compose.yml must define {service}"
+        );
+    }
+    assert!(compose.contains("profiles: [\"clickhouse\"]"));
+    assert!(compose.contains("http://beaterd:8080"));
+    assert!(compose.contains("http://beaterd:4317"));
+
+    let dockerfile = read(root.join("Dockerfile"));
+    assert!(dockerfile.contains("cargo-chef"));
+    assert!(dockerfile.contains("beaterd"));
+    assert!(dockerfile.contains("beaterctl"));
+
+    let dashboard_dockerfile = read(root.join("web/dashboard/Dockerfile"));
+    assert!(dashboard_dockerfile.contains("npm run build"));
+    assert!(dashboard_dockerfile.contains("server.js"));
+}
+
+#[test]
+fn migrations_cover_trace_store_and_queue_contracts() {
+    let root = repo_root();
+    let sqlite = read(root.join("migrations/sqlite/0001_local_beaterd.sql"));
+    let postgres = read(root.join("migrations/postgres/0001_initial.sql"));
+    for table in [
+        "raw_envelopes",
+        "spans",
+        "quota_counters",
+        "queue_messages",
+        "inflight_messages",
+        "dead_letters",
+        "api_keys",
+        "datasets",
+        "gate_runs",
+        "audit_events",
+        "replay_events",
+    ] {
+        assert!(
+            sqlite.contains(&format!("CREATE TABLE IF NOT EXISTS {table}")),
+            "sqlite migration must create {table}"
+        );
+        assert!(
+            postgres.contains(&format!("CREATE TABLE IF NOT EXISTS {table}")),
+            "postgres migration must create {table}"
+        );
+    }
+    assert!(sqlite.contains("api_key_id TEXT PRIMARY KEY"));
+    assert!(sqlite.contains("provider_secret_id TEXT PRIMARY KEY"));
+    assert!(sqlite.contains("PRIMARY KEY (tenant_id, project_id, trace_id, span_id, seq)"));
+    assert!(postgres.contains("PRIMARY KEY (tenant_id, project_id, trace_id, span_id, seq)"));
+    assert!(postgres.contains("idx_spans_tenant_kind_status"));
+
+    let clickhouse = read(root.join("migrations/clickhouse/0001_trace_store.sql"));
+    assert!(clickhouse.contains("CREATE TABLE IF NOT EXISTS beater.raw_envelopes"));
+    assert!(clickhouse.contains("CREATE TABLE IF NOT EXISTS beater.spans"));
+    assert!(clickhouse.contains("ORDER BY (tenant_id, project_id, environment_id, trace_id"));
+    assert!(clickhouse.contains("CREATE MATERIALIZED VIEW IF NOT EXISTS beater.trace_runs_mv"));
+}
+
+#[test]
+fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
+    let root = repo_root();
+    let compose_script = read(root.join("scripts/smoke-compose.sh"));
+    assert!(compose_script.contains("docker compose"));
+    assert!(compose_script.contains("compose run --rm beaterctl"));
+    assert!(compose_script.contains("compose run --rm otel-python-smoke"));
+    assert!(compose_script.contains("call-policy-model"));
+    assert!(compose_script.contains("Agent Trace Debugger"));
+
+    let proof_script = read(root.join("scripts/gate2-proof.sh"));
+    assert!(proof_script.contains("beaterctl\" smoke"));
+    assert!(proof_script.contains("examples/python/otel_smoke.py"));
+    assert!(proof_script.contains("npm run test:e2e"));
+    assert!(proof_script.contains("scripts/check-openapi-drift.sh"));
+
+    let python = read(root.join("examples/python/otel_smoke.py"));
+    assert!(python.contains("opentelemetry.exporter.otlp"));
+    assert!(python.contains("openinference.span.kind"));
+    assert!(python.contains("llm.call"));
+    assert!(python.contains("llm.model_name"));
+    assert!(python.contains("llm.cost.amount_micros"));
+    assert!(!python.contains("beaterctl"));
+}
+
+fn repo_root() -> PathBuf {
+    let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let Some(root) = manifest.parent().and_then(|path| path.parent()) else {
+        panic!("beaterd manifest must live under bins/beaterd");
+    };
+    root.to_path_buf()
+}
+
+fn read(path: PathBuf) -> String {
+    fs::read_to_string(&path).unwrap_or_else(|err| panic!("read {}: {err}", path.display()))
+}

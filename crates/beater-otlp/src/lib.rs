@@ -1,12 +1,13 @@
 use beater_core::{
-    EnvironmentId, IdempotencyKey, ProjectId, SpanId, TenantId, TenantScope, Timestamp, TraceId,
+    Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId, TenantScope,
+    Timestamp, TokenCounts, TraceId,
 };
 use beater_ingest::{
     anonymous_auth_context, CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest,
     RawTraceIngestRequest,
 };
 use beater_schema::{
-    AgentSpanKind, AuthContext, CanonicalAttrs, RedactionClass, SourceDialect, SpanStatus,
+    AgentSpanKind, AuthContext, CanonicalAttrs, ModelRef, RedactionClass, SourceDialect, SpanStatus,
 };
 use chrono::{TimeZone, Utc};
 use opentelemetry_proto::tonic::collector::trace::v1::{
@@ -308,6 +309,9 @@ fn convert_span(
 
     let status = convert_status(span.status.as_ref());
     let kind = infer_agent_span_kind(&attributes, span.kind);
+    let model = extract_model(&attributes);
+    let cost = extract_cost(&attributes);
+    let tokens = extract_tokens(&attributes);
     let start_time = unix_nano_to_timestamp(span.start_time_unix_nano);
     let end_time = unix_nano_to_timestamp(span.end_time_unix_nano);
     let seq = attributes
@@ -326,9 +330,9 @@ fn convert_span(
         status,
         start_time,
         end_time,
-        model: None,
-        cost: None,
-        tokens: None,
+        model,
+        cost,
+        tokens,
         input: attributes.remove("input.value"),
         output: attributes.remove("output.value"),
         attributes,
@@ -395,6 +399,152 @@ fn infer_agent_span_kind(attrs: &CanonicalAttrs, otel_kind: i32) -> AgentSpanKin
         span::SpanKind::Producer | span::SpanKind::Consumer => AgentSpanKind::AgentStep,
         span::SpanKind::Internal | span::SpanKind::Unspecified => AgentSpanKind::AgentStep,
     }
+}
+
+fn extract_model(attrs: &CanonicalAttrs) -> Option<ModelRef> {
+    let name = string_attr(
+        attrs,
+        &[
+            "llm.model_name",
+            "llm.model",
+            "gen_ai.request.model",
+            "gen_ai.response.model",
+            "model_name",
+            "model",
+        ],
+    )?;
+    let provider = string_attr(
+        attrs,
+        &[
+            "llm.provider",
+            "gen_ai.system",
+            "model.provider",
+            "provider",
+        ],
+    )
+    .or_else(|| infer_provider_from_model(&name))
+    .unwrap_or_else(|| "unknown".to_string());
+    Some(ModelRef { provider, name })
+}
+
+fn infer_provider_from_model(model: &str) -> Option<String> {
+    let lower = model.to_ascii_lowercase();
+    if lower.starts_with("gpt-") || lower.starts_with("o1") || lower.starts_with("o3") {
+        return Some("openai".to_string());
+    }
+    if lower.starts_with("claude-") {
+        return Some("anthropic".to_string());
+    }
+    None
+}
+
+fn extract_cost(attrs: &CanonicalAttrs) -> Option<Money> {
+    let amount_micros = i64_attr(
+        attrs,
+        &[
+            "llm.cost.amount_micros",
+            "llm.cost.micros",
+            "gen_ai.usage.cost_micros",
+            "cost.amount_micros",
+            "cost_micros",
+        ],
+    )?;
+    let currency = string_attr(
+        attrs,
+        &[
+            "llm.cost.currency",
+            "gen_ai.usage.cost_currency",
+            "cost.currency",
+            "currency",
+        ],
+    )
+    .unwrap_or_else(|| "USD".to_string());
+    if currency.eq_ignore_ascii_case("USD") {
+        Some(Money::new(amount_micros, Currency::Usd))
+    } else {
+        None
+    }
+}
+
+fn extract_tokens(attrs: &CanonicalAttrs) -> Option<TokenCounts> {
+    let input = u64_attr(
+        attrs,
+        &[
+            "llm.token_count.prompt",
+            "llm.usage.prompt_tokens",
+            "gen_ai.usage.input_tokens",
+            "input_tokens",
+        ],
+    )
+    .unwrap_or(0);
+    let output = u64_attr(
+        attrs,
+        &[
+            "llm.token_count.completion",
+            "llm.usage.completion_tokens",
+            "gen_ai.usage.output_tokens",
+            "output_tokens",
+        ],
+    )
+    .unwrap_or(0);
+    let reasoning = u64_attr(
+        attrs,
+        &[
+            "llm.token_count.reasoning",
+            "llm.usage.reasoning_tokens",
+            "gen_ai.usage.reasoning_tokens",
+            "reasoning_tokens",
+        ],
+    )
+    .unwrap_or(0);
+    let cache_read = u64_attr(
+        attrs,
+        &[
+            "llm.token_count.cache_read",
+            "llm.usage.cache_read_tokens",
+            "gen_ai.usage.cache_read_input_tokens",
+            "cache_read_tokens",
+        ],
+    )
+    .unwrap_or(0);
+    if input == 0 && output == 0 && reasoning == 0 && cache_read == 0 {
+        None
+    } else {
+        Some(TokenCounts {
+            input,
+            output,
+            reasoning,
+            cache_read,
+        })
+    }
+}
+
+fn string_attr(attrs: &CanonicalAttrs, keys: &[&str]) -> Option<String> {
+    keys.iter()
+        .find_map(|key| attrs.get(*key).and_then(Value::as_str))
+        .map(ToString::to_string)
+}
+
+fn i64_attr(attrs: &CanonicalAttrs, keys: &[&str]) -> Option<i64> {
+    keys.iter().find_map(|key| {
+        attrs.get(*key).and_then(|value| {
+            value
+                .as_i64()
+                .or_else(|| value.as_u64().and_then(|value| i64::try_from(value).ok()))
+                .or_else(|| value.as_str().and_then(|value| value.parse::<i64>().ok()))
+        })
+    })
+}
+
+fn u64_attr(attrs: &CanonicalAttrs, keys: &[&str]) -> Option<u64> {
+    keys.iter().find_map(|key| {
+        attrs.get(*key).and_then(|value| {
+            value
+                .as_u64()
+                .or_else(|| value.as_i64().and_then(|value| u64::try_from(value).ok()))
+                .or_else(|| value.as_str().and_then(|value| value.parse::<u64>().ok()))
+        })
+    })
 }
 
 fn any_value_to_json(value: Option<&AnyValue>) -> Value {
@@ -522,6 +672,23 @@ mod tests {
         assert_eq!(span.kind, AgentSpanKind::LlmCall);
         assert_eq!(span.status, SpanStatus::Ok);
         assert_eq!(
+            span.model,
+            Some(ModelRef {
+                provider: "openai".to_string(),
+                name: "gpt-demo".to_string(),
+            })
+        );
+        assert_eq!(span.cost, Some(Money::usd_micros(2500)));
+        assert_eq!(
+            span.tokens,
+            Some(TokenCounts {
+                input: 12,
+                output: 7,
+                reasoning: 3,
+                cache_read: 2,
+            })
+        );
+        assert_eq!(
             span.attributes["resource.service.name"],
             json!("checkout-agent")
         );
@@ -577,6 +744,14 @@ mod tests {
                         end_time_unix_nano: 1_700_000_001_000_000_000,
                         attributes: vec![
                             kv("openinference.span.kind", string_value("llm")),
+                            kv("llm.provider", string_value("openai")),
+                            kv("llm.model_name", string_value("gpt-demo")),
+                            kv("llm.cost.amount_micros", int_value(2500)),
+                            kv("llm.cost.currency", string_value("USD")),
+                            kv("llm.token_count.prompt", int_value(12)),
+                            kv("llm.token_count.completion", int_value(7)),
+                            kv("llm.token_count.reasoning", int_value(3)),
+                            kv("llm.token_count.cache_read", int_value(2)),
                             kv("input.value", string_value("hello")),
                             kv("output.value", string_value("world")),
                         ],
@@ -608,6 +783,12 @@ mod tests {
     fn string_value(value: &str) -> AnyValue {
         AnyValue {
             value: Some(any_value::Value::StringValue(value.to_string())),
+        }
+    }
+
+    fn int_value(value: i64) -> AnyValue {
+        AnyValue {
+            value: Some(any_value::Value::IntValue(value)),
         }
     }
 }
