@@ -606,6 +606,7 @@ dependencies = [
  "beater-secrets",
  "beater-security",
  "beater-store",
+ "beater-store-memory",
  "beater-store-obj",
  "beater-store-sql",
  "beater-usage",
@@ -823,6 +824,7 @@ dependencies = [
  "beater-core",
  "beater-schema",
  "beater-store",
+ "beater-store-memory",
  "beater-store-obj",
  "beater-store-sql",
  "chrono",
@@ -984,6 +986,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "beater-store-conformance"
+version = "0.1.0"
+dependencies = [
+ "beater-core",
+ "beater-schema",
+ "beater-store",
+ "chrono",
+ "serde_json",
+]
+
+[[package]]
+name = "beater-store-memory"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "beater-core",
+ "beater-schema",
+ "beater-store",
+ "beater-store-conformance",
+ "tokio",
+]
+
+[[package]]
 name = "beater-store-obj"
 version = "0.1.0"
 dependencies = [
@@ -1004,6 +1029,8 @@ dependencies = [
  "beater-core",
  "beater-schema",
  "beater-store",
+ "beater-store-conformance",
+ "beater-store-memory",
  "beater-store-obj",
  "chrono",
  "rusqlite",

@@ -10,6 +10,7 @@ beater-bus = { path = "../beater-bus" }
 beater-core = { path = "../beater-core" }
 beater-schema = { path = "../beater-schema" }
 beater-store = { path = "../beater-store" }
+beater-store-memory = { path = "../beater-store-memory" }
 chrono.workspace = true
 serde.workspace = true
 serde_json.workspace = true

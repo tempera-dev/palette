@@ -8,10 +8,8 @@ use beater_schema::{
     CanonicalTraceBatch, ModelRef, RawEnvelope, RedactionClass, SourceDialect, SpanStatus,
     TraceCompletionState, WriteAck, CANONICAL_SCHEMA_VERSION, RAW_SCHEMA_VERSION,
 };
-use beater_store::{
-    ArtifactStore, InMemoryQuotaLimiter, QuotaLimiter, QuotaReservationRequest, StoreError,
-    TraceStore,
-};
+use beater_store::{ArtifactStore, QuotaLimiter, QuotaReservationRequest, StoreError, TraceStore};
+use beater_store_memory::InMemoryQuotaLimiter;
 use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};

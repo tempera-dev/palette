@@ -26,6 +26,7 @@ beater-search = { path = "../beater-search" }
 beater-security = { path = "../beater-security" }
 beater-secrets = { path = "../beater-secrets" }
 beater-store = { path = "../beater-store" }
+beater-store-memory = { path = "../beater-store-memory" }
 beater-usage = { path = "../beater-usage" }
 chrono.workspace = true
 http.workspace = true

@@ -55,7 +55,8 @@ use beater_secrets::{
 use beater_security::{
     api_key_id_from_secret, verify_api_key, ApiScope, CreatedApiKey, SecurityError,
 };
-use beater_store::{InMemoryMetadataStore, MetadataStore, StoreError, TraceStore};
+use beater_store::{MetadataStore, StoreError, TraceStore};
+use beater_store_memory::InMemoryMetadataStore;
 use beater_usage::{
     judge_usage_from_dataset_eval_report, judge_usage_from_experiment_report,
     judge_usage_from_outcome, record_usage_batch, UsageLedgerStore, UsageRecordInsert,

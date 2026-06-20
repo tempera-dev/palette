@@ -39,9 +39,10 @@ use beater_search::{SearchIndex, SearchRequest, SearchResponse, TantivySearchInd
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_security::{api_key_id_from_secret, verify_webhook, ApiScope};
 use beater_store::{
-    ArtifactStore, EnvironmentMetadata, InMemoryMetadataStore, MetadataStore, OrganizationMetadata,
-    ProjectMetadata, StoreError, StoreResult, TraceStore,
+    ArtifactStore, EnvironmentMetadata, MetadataStore, OrganizationMetadata, ProjectMetadata,
+    StoreError, StoreResult, TraceStore,
 };
+use beater_store_memory::InMemoryMetadataStore;
 use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::{SqliteUsageLedger, UsageMeter, UsageSummary};
