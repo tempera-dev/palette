@@ -8,12 +8,16 @@ use beater_schema::{
     CanonicalTraceBatch, ModelRef, RawEnvelope, RedactionClass, SourceDialect, SpanStatus,
     TraceCompletionState, WriteAck, CANONICAL_SCHEMA_VERSION, RAW_SCHEMA_VERSION,
 };
-use beater_store::{ArtifactStore, StoreError, TraceStore};
-use chrono::{Duration, Utc};
+use beater_store::{
+    ArtifactStore, InMemoryQuotaLimiter, QuotaLimiter, QuotaReservationRequest, StoreError,
+    TraceStore,
+};
+use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use std::collections::{BTreeMap, BTreeSet, HashMap};
-use std::sync::{Arc, Mutex};
+use std::collections::{BTreeMap, BTreeSet};
+use std::future::Future;
+use std::sync::Arc;
 
 pub const TRACE_INGESTED_KIND: &str = "trace.ingested";
 pub const TRACE_WRITE_BATCH_KIND: &str = "trace.write_batch";
@@ -25,6 +29,8 @@ pub enum IngestError {
         tenant_id: String,
         project_id: String,
         limit: u64,
+        used: u64,
+        reset_at: Timestamp,
     },
     #[error("too many attributes: {count} > {limit}")]
     TooManyAttributes { count: usize, limit: usize },
@@ -47,7 +53,7 @@ pub struct IngestService {
     traces: Arc<dyn TraceStore>,
     bus: Arc<dyn DurableBus>,
     policy: IngestPolicy,
-    quota: Arc<Mutex<HashMap<String, u64>>>,
+    quota_limiter: Arc<dyn QuotaLimiter>,
 }
 
 impl IngestService {
@@ -62,15 +68,20 @@ impl IngestService {
             traces,
             bus,
             policy,
-            quota: Arc::new(Mutex::new(HashMap::new())),
+            quota_limiter: Arc::new(InMemoryQuotaLimiter::new()),
         }
+    }
+
+    pub fn with_quota_limiter(mut self, quota_limiter: Arc<dyn QuotaLimiter>) -> Self {
+        self.quota_limiter = quota_limiter;
+        self
     }
 
     pub async fn ingest_native(
         &self,
         request: NativeIngestRequest,
     ) -> Result<IngestOutcome, IngestError> {
-        self.enforce_quota_events(&request.scope, 1)?;
+        self.enforce_quota_events(&request.scope, 1).await?;
         let prepared = self.prepare_native_batch(request).await?;
         let ack = self
             .traces
@@ -96,7 +107,7 @@ impl IngestService {
         &self,
         request: NativeIngestRequest,
     ) -> Result<IngestOutcome, IngestError> {
-        self.enforce_quota_events(&request.scope, 1)?;
+        self.enforce_quota_events(&request.scope, 1).await?;
         let prepared = self.prepare_native_batch(request).await?;
         let publish = self.publish_trace_write(&prepared).await?;
         Ok(IngestOutcome {
@@ -110,7 +121,8 @@ impl IngestService {
         request: RawTraceIngestRequest,
     ) -> Result<IngestOutcome, IngestError> {
         let event_count = request.spans.len() as u64;
-        self.enforce_quota_events(&request.scope, event_count)?;
+        self.enforce_quota_events(&request.scope, event_count)
+            .await?;
         let prepared = self.prepare_raw_batch(request).await?;
         let ack = self
             .traces
@@ -137,7 +149,8 @@ impl IngestService {
         request: RawTraceIngestRequest,
     ) -> Result<IngestOutcome, IngestError> {
         let event_count = request.spans.len() as u64;
-        self.enforce_quota_events(&request.scope, event_count)?;
+        self.enforce_quota_events(&request.scope, event_count)
+            .await?;
         let prepared = self.prepare_raw_batch(request).await?;
         let publish = self.publish_trace_write(&prepared).await?;
         Ok(IngestOutcome {
@@ -172,6 +185,42 @@ impl IngestService {
         self.drain_trace_write_messages(messages).await
     }
 
+    pub async fn drain_trace_ingested<F, Fut>(
+        &self,
+        limit: usize,
+        process: F,
+    ) -> Result<TraceIngestedDrainReport, IngestError>
+    where
+        F: FnMut(QueuedTraceWork) -> Fut,
+        Fut: Future<Output = Result<(), String>>,
+    {
+        let messages = self
+            .bus
+            .consume_kind_batch(TRACE_INGESTED_KIND, limit)
+            .await
+            .map_err(map_bus_error)?;
+        self.drain_trace_ingested_messages(messages, process).await
+    }
+
+    pub async fn drain_trace_ingested_for<F, Fut>(
+        &self,
+        tenant_id: &TenantId,
+        project_id: &ProjectId,
+        limit: usize,
+        process: F,
+    ) -> Result<TraceIngestedDrainReport, IngestError>
+    where
+        F: FnMut(QueuedTraceWork) -> Fut,
+        Fut: Future<Output = Result<(), String>>,
+    {
+        let messages = self
+            .bus
+            .consume_scoped_kind_batch(tenant_id, project_id, TRACE_INGESTED_KIND, limit)
+            .await
+            .map_err(map_bus_error)?;
+        self.drain_trace_ingested_messages(messages, process).await
+    }
+
     async fn drain_trace_write_messages(
         &self,
         messages: Vec<BusMessage>,
@@ -186,6 +235,73 @@ impl IngestService {
         }
         report.trace_ids.sort();
         report.trace_ids.dedup();
+        report.trace_refs.sort();
+        report.trace_refs.dedup();
+        Ok(report)
+    }
+
+    async fn drain_trace_ingested_messages<F, Fut>(
+        &self,
+        messages: Vec<BusMessage>,
+        mut process: F,
+    ) -> Result<TraceIngestedDrainReport, IngestError>
+    where
+        F: FnMut(QueuedTraceWork) -> Fut,
+        Fut: Future<Output = Result<(), String>>,
+    {
+        let mut report = TraceIngestedDrainReport {
+            consumed: messages.len(),
+            ..TraceIngestedDrainReport::default()
+        };
+        for message in messages {
+            let will_dead_letter = message.attempts.saturating_add(1) >= message.max_attempts;
+            let queued = match serde_json::from_slice::<QueuedTraceWork>(&message.payload) {
+                Ok(queued) => queued,
+                Err(err) => {
+                    report.invalid_messages += 1;
+                    self.retry_or_dlq_trace_ingested_counted(
+                        message,
+                        format!("invalid trace.ingested payload: {err}"),
+                        will_dead_letter,
+                        &mut report,
+                    )
+                    .await?;
+                    continue;
+                }
+            };
+            if queued.tenant_id != message.tenant_id || queued.project_id != message.project_id {
+                report.invalid_messages += 1;
+                let reason = format!(
+                    "trace.ingested scope mismatch: message={}/{} payload={}/{}",
+                    message.tenant_id, message.project_id, queued.tenant_id, queued.project_id
+                );
+                self.retry_or_dlq_trace_ingested_counted(
+                    message,
+                    reason,
+                    will_dead_letter,
+                    &mut report,
+                )
+                .await?;
+                continue;
+            }
+
+            match process(queued.clone()).await {
+                Ok(()) => {
+                    report.completed += 1;
+                    report.trace_refs.push(queued);
+                }
+                Err(reason) => {
+                    report.failed_work += 1;
+                    self.retry_or_dlq_trace_ingested_counted(
+                        message,
+                        reason,
+                        will_dead_letter,
+                        &mut report,
+                    )
+                    .await?;
+                }
+            }
+        }
         report.trace_refs.sort();
         report.trace_refs.dedup();
         Ok(report)
@@ -636,7 +752,26 @@ impl IngestService {
         Ok(())
     }
 
-    fn enforce_quota_events(
+    async fn retry_or_dlq_trace_ingested_counted(
+        &self,
+        message: BusMessage,
+        reason: String,
+        will_dead_letter: bool,
+        report: &mut TraceIngestedDrainReport,
+    ) -> Result<(), IngestError> {
+        self.bus
+            .retry_or_dlq(message, reason)
+            .await
+            .map_err(map_bus_error)?;
+        if will_dead_letter {
+            report.dead_lettered += 1;
+        } else {
+            report.retried += 1;
+        }
+        Ok(())
+    }
+
+    async fn enforce_quota_events(
         &self,
         scope: &TenantScope,
         event_count: u64,
@@ -647,20 +782,29 @@ impl IngestService {
         if event_count == 0 {
             return Ok(());
         }
-        let key = format!("{}:{}", scope.tenant_id.as_str(), scope.project_id.as_str());
-        let mut quota = self
-            .quota
-            .lock()
-            .map_err(|err| IngestError::Other(anyhow::anyhow!("quota mutex poisoned: {err}")))?;
-        let count = quota.entry(key).or_insert(0);
-        if count.saturating_add(event_count) > limit {
+        let (window_start, reset_at) =
+            quota_window_bounds(Utc::now(), self.policy.quota_window_seconds)?;
+        let decision = self
+            .quota_limiter
+            .reserve_quota(QuotaReservationRequest {
+                tenant_id: scope.tenant_id.clone(),
+                project_id: scope.project_id.clone(),
+                amount: event_count,
+                limit,
+                window_start,
+                reset_at,
+            })
+            .await
+            .map_err(IngestError::Store)?;
+        if !decision.accepted {
             return Err(IngestError::QuotaExceeded {
                 tenant_id: scope.tenant_id.to_string(),
                 project_id: scope.project_id.to_string(),
-                limit,
+                limit: decision.limit,
+                used: decision.used,
+                reset_at: decision.reset_at,
             });
         }
-        *count += event_count;
         Ok(())
     }
 
@@ -728,6 +872,7 @@ pub struct IngestPolicy {
     pub allowed_attributes: Option<BTreeSet<String>>,
     pub denied_attributes: BTreeSet<String>,
     pub per_project_event_quota: Option<u64>,
+    pub quota_window_seconds: i64,
     pub trace_write_max_attempts: u32,
 }
 
@@ -740,6 +885,7 @@ impl Default for IngestPolicy {
             allowed_attributes: None,
             denied_attributes: BTreeSet::new(),
             per_project_event_quota: None,
+            quota_window_seconds: 60,
             trace_write_max_attempts: 3,
         }
     }
@@ -836,6 +982,17 @@ pub struct TraceWriteDrainReport {
     pub trace_ids: Vec<TraceId>,
 }
 
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TraceIngestedDrainReport {
+    pub consumed: usize,
+    pub completed: usize,
+    pub retried: usize,
+    pub dead_lettered: usize,
+    pub invalid_messages: usize,
+    pub failed_work: usize,
+    pub trace_refs: Vec<QueuedTraceWork>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct IngestQueueStatus {
     pub tenant_id: TenantId,
@@ -911,6 +1068,24 @@ fn trace_ids_for_batch(batch: &CanonicalTraceBatch) -> BTreeSet<TraceId> {
         .iter()
         .map(|span| span.trace_id.clone())
         .collect()
+}
+
+fn quota_window_bounds(
+    now: Timestamp,
+    window_seconds: i64,
+) -> Result<(Timestamp, Timestamp), IngestError> {
+    let window_seconds = window_seconds.max(1);
+    let window_start_seconds = now.timestamp().div_euclid(window_seconds) * window_seconds;
+    let reset_seconds = window_start_seconds
+        .checked_add(window_seconds)
+        .ok_or_else(|| IngestError::Other(anyhow::anyhow!("quota reset timestamp overflow")))?;
+    let window_start =
+        DateTime::<Utc>::from_timestamp(window_start_seconds, 0).ok_or_else(|| {
+            IngestError::Other(anyhow::anyhow!("invalid quota window start timestamp"))
+        })?;
+    let reset_at = DateTime::<Utc>::from_timestamp(reset_seconds, 0)
+        .ok_or_else(|| IngestError::Other(anyhow::anyhow!("invalid quota reset timestamp")))?;
+    Ok((window_start, reset_at))
 }
 
 fn map_bus_error(error: BusError) -> IngestError {
@@ -1258,6 +1433,57 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn trace_ingested_worker_processes_downstream_lane_after_write_drain() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+        let bus = Arc::new(InMemoryBus::new(16));
+        let service = IngestService::new(
+            artifacts,
+            traces.clone(),
+            bus.clone(),
+            IngestPolicy::default(),
+        );
+        let request = fixture_request();
+
+        service
+            .buffer_native(request.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let write_report = service
+            .drain_trace_writes(10)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(write_report.downstream_published, 1);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
+
+        let downstream = service
+            .drain_trace_ingested(10, |trace_ref| {
+                let traces = traces.clone();
+                async move {
+                    let trace = traces
+                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .await
+                        .map_err(|err| err.to_string())?;
+                    if trace.spans.len() != 1 {
+                        return Err(format!("expected one span, got {}", trace.spans.len()));
+                    }
+                    Ok(())
+                }
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(downstream.consumed, 1);
+        assert_eq!(downstream.completed, 1);
+        assert_eq!(downstream.failed_work, 0);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+    }
+
+    #[tokio::test]
     async fn trace_write_worker_dlqs_invalid_payload_without_consuming_other_lanes() {
         let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
         let artifacts = Arc::new(
@@ -1310,6 +1536,52 @@ mod tests {
         let dlq = bus.dlq().await.unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(dlq.len(), 1);
         assert!(dlq[0].reason.contains("invalid trace.write_batch payload"));
+    }
+
+    #[tokio::test]
+    async fn trace_ingested_worker_dlqs_invalid_payload_without_consuming_write_lane() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+        let bus = Arc::new(InMemoryBus::new(16));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let mut poison = BusMessage::new(
+            tenant.clone(),
+            project.clone(),
+            IdempotencyKey::new("poison-downstream").unwrap_or_else(|err| panic!("{err}")),
+            TRACE_INGESTED_KIND,
+            b"not-json".to_vec(),
+        );
+        poison.max_attempts = 1;
+        bus.publish(poison)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        bus.publish(BusMessage::new(
+            tenant,
+            project,
+            IdempotencyKey::new("trace-write").unwrap_or_else(|err| panic!("{err}")),
+            TRACE_WRITE_BATCH_KIND,
+            b"trace-write".to_vec(),
+        ))
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+
+        let service = IngestService::new(artifacts, traces, bus.clone(), IngestPolicy::default());
+        let report = service
+            .drain_trace_ingested(10, |_| async { Ok(()) })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(report.invalid_messages, 1);
+        assert_eq!(report.dead_lettered, 1);
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+        assert_eq!(bus.depth_for_kind(TRACE_WRITE_BATCH_KIND).await, Ok(1));
+        let dlq = bus.dlq().await.unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(dlq.len(), 1);
+        assert!(dlq[0].reason.contains("invalid trace.ingested payload"));
     }
 
     #[tokio::test]

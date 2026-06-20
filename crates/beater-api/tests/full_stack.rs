@@ -24,7 +24,8 @@ use beater_human::{
     ReviewAnnotation, ReviewQueue, ReviewTask, ReviewTaskState, SqliteHumanReviewStore,
 };
 use beater_ingest::{
-    IngestPolicy, IngestQueueStatus, IngestService, NativeIngestRequest, TraceWriteDrainReport,
+    IngestPolicy, IngestQueueStatus, IngestService, NativeIngestRequest, TraceIngestedDrainReport,
+    TraceWriteDrainReport,
 };
 use beater_judge::{JudgeBrokerService, KeywordJudgeProvider, SqliteJudgeLedger};
 use beater_replay::{plan_replay, ReplayMode};
@@ -129,6 +130,25 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     let trace: TraceView = serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(trace.spans.len(), 1);
     assert_eq!(trace.spans[0].kind, AgentSpanKind::AgentRun);
+
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/ingest/tenant/project/trace-ingested/drain?limit=10")
+                .body(Body::empty())
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::OK);
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let downstream: TraceIngestedDrainReport =
+        serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(downstream.completed, 1);
 
     let response = app
         .clone()
@@ -1081,6 +1101,25 @@ async fn buffered_ingest_drains_scoped_trace_writes_through_api() {
         .clone()
         .oneshot(
             Request::builder()
+                .method("POST")
+                .uri("/v1/ingest/tenant/project/trace-ingested/drain?limit=10")
+                .body(Body::empty())
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::OK);
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let downstream: TraceIngestedDrainReport =
+        serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(downstream.completed, 1);
+
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
                 .method("GET")
                 .uri("/v1/traces/tenant/trace")
                 .body(Body::empty())
@@ -1133,7 +1172,7 @@ async fn buffered_ingest_drains_scoped_trace_writes_through_api() {
     let status: IngestQueueStatus =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(status.trace_write_depth, 0);
-    assert_eq!(status.trace_ingested_depth, 1);
+    assert_eq!(status.trace_ingested_depth, 0);
 }
 
 #[tokio::test]

@@ -10,22 +10,24 @@ use beater_datasets::SqliteDatasetStore;
 use beater_experiments::SqliteExperimentStore;
 use beater_gates::SqliteGateStore;
 use beater_human::SqliteHumanReviewStore;
-use beater_ingest::{IngestPolicy, IngestService};
+use beater_ingest::{IngestPolicy, IngestService, QueuedTraceWork};
 use beater_judge::{
     HttpRoutingJudgeProvider, JudgeBrokerService, JudgeProvider, KeywordJudgeProvider,
     SqliteJudgeLedger,
 };
+use beater_otlp::{OtlpGrpcTraceService, TraceServiceServer};
 use beater_search::{SearchIndex, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::TraceStore;
 use beater_store_obj::FsArtifactStore;
-use beater_store_sql::{SqliteMetadataStore, SqliteTraceStore};
+use beater_store_sql::{SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore};
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, ValueEnum};
 use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Duration;
+use tonic::transport::Server;
 
 #[derive(Debug, Parser)]
 #[command(
@@ -35,6 +37,14 @@ use std::time::Duration;
 struct Args {
     #[arg(long, default_value = "127.0.0.1:8080")]
     addr: SocketAddr,
+    #[arg(long, default_value = "127.0.0.1:4317")]
+    otlp_grpc_addr: SocketAddr,
+    #[arg(long, default_value = "demo")]
+    default_tenant_id: String,
+    #[arg(long, default_value = "demo")]
+    default_project_id: String,
+    #[arg(long, default_value = "local")]
+    default_environment_id: String,
     #[arg(long, default_value = ".beater")]
     data_dir: PathBuf,
     #[arg(long, default_value_t = 1024)]
@@ -55,6 +65,12 @@ struct Args {
         default_value_t = 1000
     )]
     trace_write_drain_interval_ms: u64,
+    #[arg(
+        long,
+        env = "BEATER_TRACE_INGESTED_DRAIN_INTERVAL_MS",
+        default_value_t = 1000
+    )]
+    trace_ingested_drain_interval_ms: u64,
 }
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
@@ -80,6 +96,9 @@ async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     let artifacts = Arc::new(FsArtifactStore::new(args.data_dir.join("artifacts"))?);
     let traces = Arc::new(SqliteTraceStore::open(args.data_dir.join("traces.sqlite"))?);
+    let quota_limiter = Arc::new(SqliteQuotaLimiter::open(
+        args.data_dir.join("quotas.sqlite"),
+    )?);
     let metadata = Arc::new(SqliteMetadataStore::open(
         args.data_dir.join("metadata.sqlite"),
     )?);
@@ -131,15 +150,28 @@ async fn main() -> anyhow::Result<()> {
         ),
         BusBackendArg::Memory => Arc::new(InMemoryBus::new(args.bus_capacity)),
     };
-    let ingest = IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
+    let ingest = IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default())
+        .with_quota_limiter(quota_limiter);
     if args.trace_write_drain_interval_ms > 0 {
         spawn_trace_write_worker(
             ingest.clone(),
-            traces.clone(),
-            search.clone(),
             Duration::from_millis(args.trace_write_drain_interval_ms),
         );
     }
+    if args.trace_ingested_drain_interval_ms > 0 {
+        spawn_trace_ingested_worker(
+            ingest.clone(),
+            traces.clone(),
+            search.clone(),
+            Duration::from_millis(args.trace_ingested_drain_interval_ms),
+        );
+    }
+    let otlp_default_scope = beater_core::TenantScope::new(
+        beater_core::TenantId::new(args.default_tenant_id.clone())?,
+        beater_core::ProjectId::new(args.default_project_id.clone())?,
+        beater_core::EnvironmentId::new(args.default_environment_id.clone())?,
+    );
+    let otlp_grpc = OtlpGrpcTraceService::new(ingest.clone(), otlp_default_scope);
     let mut state =
         ApiState::with_integrations(ingest, traces, search, archive, datasets, experiments)
             .with_metadata(metadata)
@@ -159,16 +191,23 @@ async fn main() -> anyhow::Result<()> {
     let listener = tokio::net::TcpListener::bind(args.addr)
         .await
         .with_context(|| format!("bind {}", args.addr))?;
-    axum::serve(listener, app).await.context("serve beaterd")?;
+    let http_server = async move {
+        axum::serve(listener, app)
+            .await
+            .context("serve beaterd http")
+    };
+    let grpc_server = async move {
+        Server::builder()
+            .add_service(TraceServiceServer::new(otlp_grpc))
+            .serve(args.otlp_grpc_addr)
+            .await
+            .context("serve beaterd otlp grpc")
+    };
+    tokio::try_join!(http_server, grpc_server)?;
     Ok(())
 }
 
-fn spawn_trace_write_worker(
-    ingest: IngestService,
-    traces: Arc<SqliteTraceStore>,
-    search: Arc<TantivySearchIndex>,
-    interval: Duration,
-) {
+fn spawn_trace_write_worker(ingest: IngestService, interval: Duration) {
     tokio::spawn(async move {
         let mut ticker = tokio::time::interval(interval);
         loop {
@@ -180,27 +219,70 @@ fn spawn_trace_write_worker(
                     continue;
                 }
             };
-            for trace_ref in report.trace_refs {
-                match traces
-                    .get_trace(trace_ref.tenant_id.clone(), trace_ref.trace_id.clone())
-                    .await
-                {
-                    Ok(trace) => {
-                        if let Err(error) = search.index_spans(&trace.spans).await {
-                            eprintln!(
-                                "trace write indexing failed for tenant={} trace={}: {error}",
-                                trace_ref.tenant_id, trace_ref.trace_id
-                            );
-                        }
-                    }
-                    Err(error) => {
-                        eprintln!(
-                            "trace write readback failed for tenant={} trace={}: {error}",
-                            trace_ref.tenant_id, trace_ref.trace_id
-                        );
-                    }
-                }
+            if report.consumed > 0 && report.failed_writes > 0 {
+                eprintln!(
+                    "trace write drain completed with failed writes: consumed={} failed={} retried={} dlq={}",
+                    report.consumed, report.failed_writes, report.retried, report.dead_lettered
+                );
             }
         }
     });
+}
+
+fn spawn_trace_ingested_worker(
+    ingest: IngestService,
+    traces: Arc<SqliteTraceStore>,
+    search: Arc<TantivySearchIndex>,
+    interval: Duration,
+) {
+    tokio::spawn(async move {
+        let mut ticker = tokio::time::interval(interval);
+        loop {
+            ticker.tick().await;
+            let traces = traces.clone();
+            let search = search.clone();
+            let report = match ingest
+                .drain_trace_ingested(100, move |trace_ref| {
+                    let traces = traces.clone();
+                    let search = search.clone();
+                    async move { index_trace_ref(traces, search, trace_ref).await }
+                })
+                .await
+            {
+                Ok(report) => report,
+                Err(error) => {
+                    eprintln!("trace.ingested drain failed: {error}");
+                    continue;
+                }
+            };
+            if report.consumed > 0 && report.failed_work > 0 {
+                eprintln!(
+                    "trace.ingested drain completed with failed work: consumed={} failed={} retried={} dlq={}",
+                    report.consumed, report.failed_work, report.retried, report.dead_lettered
+                );
+            }
+        }
+    });
+}
+
+async fn index_trace_ref(
+    traces: Arc<SqliteTraceStore>,
+    search: Arc<TantivySearchIndex>,
+    trace_ref: QueuedTraceWork,
+) -> Result<(), String> {
+    let trace = traces
+        .get_trace(trace_ref.tenant_id.clone(), trace_ref.trace_id.clone())
+        .await
+        .map_err(|err| {
+            format!(
+                "trace.ingested readback failed for tenant={} trace={}: {err}",
+                trace_ref.tenant_id, trace_ref.trace_id
+            )
+        })?;
+    search.index_spans(&trace.spans).await.map_err(|err| {
+        format!(
+            "trace.ingested indexing failed for tenant={} trace={}: {err}",
+            trace_ref.tenant_id, trace_ref.trace_id
+        )
+    })
 }

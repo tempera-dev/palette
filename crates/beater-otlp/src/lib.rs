@@ -1,10 +1,17 @@
-use beater_core::{IdempotencyKey, SpanId, TenantScope, Timestamp, TraceId};
-use beater_ingest::{CanonicalSpanDraft, NativeIngestRequest, RawTraceIngestRequest};
+use beater_core::{
+    EnvironmentId, IdempotencyKey, ProjectId, SpanId, TenantId, TenantScope, Timestamp, TraceId,
+};
+use beater_ingest::{
+    anonymous_auth_context, CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest,
+    RawTraceIngestRequest,
+};
 use beater_schema::{
     AgentSpanKind, AuthContext, CanonicalAttrs, RedactionClass, SourceDialect, SpanStatus,
 };
 use chrono::{TimeZone, Utc};
-use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
+use opentelemetry_proto::tonic::collector::trace::v1::{
+    trace_service_server::TraceService, ExportTraceServiceRequest, ExportTraceServiceResponse,
+};
 use opentelemetry_proto::tonic::common::v1::{
     any_value, AnyValue, ArrayValue, InstrumentationScope,
 };
@@ -13,6 +20,14 @@ use opentelemetry_proto::tonic::trace::v1::{span, ResourceSpans, ScopeSpans, Spa
 use prost::Message;
 use serde_json::{json, Map, Value};
 use std::collections::BTreeMap;
+use tonic::metadata::MetadataMap;
+use tonic::{Request, Response, Status};
+
+pub use opentelemetry_proto::tonic::collector::trace::v1::trace_service_server::TraceServiceServer;
+
+const TENANT_METADATA_KEY: &str = "x-beater-tenant-id";
+const PROJECT_METADATA_KEY: &str = "x-beater-project-id";
+const ENVIRONMENT_METADATA_KEY: &str = "x-beater-environment-id";
 
 pub fn decode_export_trace_request(bytes: &[u8]) -> anyhow::Result<ExportTraceServiceRequest> {
     ExportTraceServiceRequest::decode(bytes).map_err(anyhow::Error::from)
@@ -20,6 +35,43 @@ pub fn decode_export_trace_request(bytes: &[u8]) -> anyhow::Result<ExportTraceSe
 
 pub fn encode_export_trace_request(request: &ExportTraceServiceRequest) -> Vec<u8> {
     request.encode_to_vec()
+}
+
+#[derive(Clone)]
+pub struct OtlpGrpcTraceService {
+    ingest: IngestService,
+    default_scope: TenantScope,
+}
+
+impl OtlpGrpcTraceService {
+    pub fn new(ingest: IngestService, default_scope: TenantScope) -> Self {
+        Self {
+            ingest,
+            default_scope,
+        }
+    }
+}
+
+#[tonic::async_trait]
+impl TraceService for OtlpGrpcTraceService {
+    async fn export(
+        &self,
+        request: Request<ExportTraceServiceRequest>,
+    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
+        let scope = scope_from_metadata(request.metadata(), &self.default_scope)?;
+        let export = request.into_inner();
+        let raw_bytes = encode_export_trace_request(&export);
+        let raw_request =
+            export_to_raw_trace_ingest_request(scope, raw_bytes, export, anonymous_auth_context())
+                .map_err(|err| Status::invalid_argument(err.to_string()))?;
+        self.ingest
+            .buffer_raw_trace_batch(raw_request)
+            .await
+            .map_err(status_from_ingest_error)?;
+        Ok(Response::new(ExportTraceServiceResponse {
+            partial_success: None,
+        }))
+    }
 }
 
 pub fn export_to_native_requests(
@@ -80,6 +132,45 @@ fn native_to_span_draft(request: NativeIngestRequest) -> CanonicalSpanDraft {
         input: request.input,
         output: request.output,
         attributes: request.attributes,
+    }
+}
+
+fn scope_from_metadata(
+    metadata: &MetadataMap,
+    default_scope: &TenantScope,
+) -> Result<TenantScope, Status> {
+    let tenant_id = metadata_text(metadata, TENANT_METADATA_KEY)
+        .map(TenantId::new)
+        .transpose()
+        .map_err(|err| Status::invalid_argument(err.to_string()))?
+        .unwrap_or_else(|| default_scope.tenant_id.clone());
+    let project_id = metadata_text(metadata, PROJECT_METADATA_KEY)
+        .map(ProjectId::new)
+        .transpose()
+        .map_err(|err| Status::invalid_argument(err.to_string()))?
+        .unwrap_or_else(|| default_scope.project_id.clone());
+    let environment_id = metadata_text(metadata, ENVIRONMENT_METADATA_KEY)
+        .map(EnvironmentId::new)
+        .transpose()
+        .map_err(|err| Status::invalid_argument(err.to_string()))?
+        .unwrap_or_else(|| default_scope.environment_id.clone());
+    Ok(TenantScope::new(tenant_id, project_id, environment_id))
+}
+
+fn metadata_text<'a>(metadata: &'a MetadataMap, key: &str) -> Option<&'a str> {
+    metadata.get(key).and_then(|value| value.to_str().ok())
+}
+
+fn status_from_ingest_error(error: IngestError) -> Status {
+    match error {
+        IngestError::QuotaExceeded { .. } | IngestError::Backpressure { .. } => {
+            Status::resource_exhausted(error.to_string())
+        }
+        IngestError::TooManyAttributes { .. } | IngestError::PayloadTooLarge { .. } => {
+            Status::invalid_argument(error.to_string())
+        }
+        IngestError::Store(_) => Status::unavailable(error.to_string()),
+        IngestError::Other(_) => Status::internal(error.to_string()),
     }
 }
 
@@ -361,11 +452,54 @@ fn hex(bytes: &[u8]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use beater_bus::{DurableBus, InMemoryBus};
     use beater_core::{EnvironmentId, ProjectId, TenantId};
+    use beater_ingest::{IngestPolicy, TRACE_WRITE_BATCH_KIND};
+    use beater_store_obj::FsArtifactStore;
+    use beater_store_sql::SqliteTraceStore;
     use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, KeyValue};
     use opentelemetry_proto::tonic::resource::v1::Resource;
     use opentelemetry_proto::tonic::trace::v1::{status, ResourceSpans, ScopeSpans, Span, Status};
     use std::collections::BTreeSet;
+    use std::sync::Arc;
+
+    #[tokio::test]
+    async fn grpc_trace_service_buffers_otlp_export_from_metadata_scope() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+        let bus = Arc::new(InMemoryBus::new(16));
+        let ingest = IngestService::new(artifacts, traces, bus.clone(), IngestPolicy::default());
+        let default_scope = TenantScope::new(
+            TenantId::new("default-tenant").unwrap_or_else(|err| panic!("{err}")),
+            ProjectId::new("default-project").unwrap_or_else(|err| panic!("{err}")),
+            EnvironmentId::new("local").unwrap_or_else(|err| panic!("{err}")),
+        );
+        let service = OtlpGrpcTraceService::new(ingest, default_scope);
+        let mut request = Request::new(fixture_export());
+        request.metadata_mut().insert(
+            TENANT_METADATA_KEY,
+            "tenant".parse().unwrap_or_else(|err| panic!("{err}")),
+        );
+        request.metadata_mut().insert(
+            PROJECT_METADATA_KEY,
+            "project".parse().unwrap_or_else(|err| panic!("{err}")),
+        );
+        request.metadata_mut().insert(
+            ENVIRONMENT_METADATA_KEY,
+            "prod".parse().unwrap_or_else(|err| panic!("{err}")),
+        );
+
+        let response = TraceService::export(&service, request)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert!(response.into_inner().partial_success.is_none());
+        assert_eq!(bus.depth_for_kind(TRACE_WRITE_BATCH_KIND).await, Ok(1));
+    }
 
     #[test]
     fn decodes_real_otlp_export_request_and_maps_agent_kinds() {

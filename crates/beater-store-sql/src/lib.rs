@@ -9,9 +9,10 @@ use beater_schema::{
 };
 use beater_store::{
     page_vec, EnvironmentMetadata, MetadataStore, OrganizationMetadata, ProjectMetadata,
-    RoleBinding, StoreError, StoreResult, TraceStore,
+    QuotaDecision, QuotaLimiter, QuotaReservationRequest, RoleBinding, StoreError, StoreResult,
+    TraceStore,
 };
-use chrono::DateTime;
+use chrono::{DateTime, Utc};
 use rusqlite::{params, Connection, OptionalExtension};
 use std::collections::BTreeSet;
 use std::fs;
@@ -26,6 +27,134 @@ pub struct SqliteTraceStore {
 #[derive(Clone)]
 pub struct SqliteMetadataStore {
     connection: Arc<Mutex<Connection>>,
+}
+
+#[derive(Clone)]
+pub struct SqliteQuotaLimiter {
+    connection: Arc<Mutex<Connection>>,
+}
+
+impl SqliteQuotaLimiter {
+    pub fn in_memory() -> StoreResult<Self> {
+        let connection = Connection::open_in_memory().map_err(StoreError::backend)?;
+        let limiter = Self {
+            connection: Arc::new(Mutex::new(connection)),
+        };
+        limiter.init()?;
+        Ok(limiter)
+    }
+
+    pub fn open(path: impl AsRef<Path>) -> StoreResult<Self> {
+        let path = path.as_ref();
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent).map_err(StoreError::backend)?;
+        }
+        let connection = Connection::open(path).map_err(StoreError::backend)?;
+        let limiter = Self {
+            connection: Arc::new(Mutex::new(connection)),
+        };
+        limiter.init()?;
+        Ok(limiter)
+    }
+
+    fn init(&self) -> StoreResult<()> {
+        let connection = self.lock()?;
+        connection
+            .execute_batch(
+                r#"
+                PRAGMA journal_mode = WAL;
+                PRAGMA foreign_keys = ON;
+
+                CREATE TABLE IF NOT EXISTS quota_counters (
+                    tenant_id TEXT NOT NULL,
+                    project_id TEXT NOT NULL,
+                    window_start TEXT NOT NULL,
+                    reset_at TEXT NOT NULL,
+                    used_events INTEGER NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    PRIMARY KEY (tenant_id, project_id, window_start)
+                );
+                "#,
+            )
+            .map_err(StoreError::backend)?;
+        Ok(())
+    }
+
+    fn lock(&self) -> StoreResult<std::sync::MutexGuard<'_, Connection>> {
+        self.connection
+            .lock()
+            .map_err(|err| StoreError::backend(format!("quota sqlite mutex poisoned: {err}")))
+    }
+}
+
+#[async_trait]
+impl QuotaLimiter for SqliteQuotaLimiter {
+    async fn reserve_quota(&self, request: QuotaReservationRequest) -> StoreResult<QuotaDecision> {
+        let mut connection = self.lock()?;
+        let tx = connection.transaction().map_err(StoreError::backend)?;
+        let current_used = tx
+            .query_row(
+                r#"
+                SELECT used_events
+                FROM quota_counters
+                WHERE tenant_id = ?1 AND project_id = ?2 AND window_start = ?3
+                "#,
+                params![
+                    request.tenant_id.as_str(),
+                    request.project_id.as_str(),
+                    request.window_start.to_rfc3339(),
+                ],
+                |row| row.get::<_, i64>(0),
+            )
+            .optional()
+            .map_err(StoreError::backend)?
+            .unwrap_or(0);
+        if current_used < 0 {
+            return Err(StoreError::integrity("negative quota counter"));
+        }
+        let current_used = current_used as u64;
+        let Some(new_used) = current_used.checked_add(request.amount) else {
+            return Err(StoreError::integrity("quota counter overflow"));
+        };
+        if new_used > request.limit {
+            tx.commit().map_err(StoreError::backend)?;
+            return Ok(QuotaDecision {
+                accepted: false,
+                used: current_used,
+                limit: request.limit,
+                reset_at: request.reset_at,
+            });
+        }
+
+        tx.execute(
+            r#"
+            INSERT INTO quota_counters
+              (tenant_id, project_id, window_start, reset_at, used_events, updated_at)
+            VALUES (?1, ?2, ?3, ?4, ?5, ?6)
+            ON CONFLICT(tenant_id, project_id, window_start) DO UPDATE SET
+              reset_at = excluded.reset_at,
+              used_events = excluded.used_events,
+              updated_at = excluded.updated_at
+            "#,
+            params![
+                request.tenant_id.as_str(),
+                request.project_id.as_str(),
+                request.window_start.to_rfc3339(),
+                request.reset_at.to_rfc3339(),
+                new_used as i64,
+                Utc::now().to_rfc3339(),
+            ],
+        )
+        .map_err(StoreError::backend)?;
+        tx.commit().map_err(StoreError::backend)?;
+
+        Ok(QuotaDecision {
+            accepted: true,
+            used: new_used,
+            limit: request.limit,
+            reset_at: request.reset_at,
+        })
+    }
 }
 
 impl SqliteMetadataStore {
@@ -671,7 +800,7 @@ mod tests {
         AgentSpanKind, ArtifactRef, AuthContext, RedactionClass, SourceDialect, SpanStatus,
         CANONICAL_SCHEMA_VERSION, RAW_SCHEMA_VERSION,
     };
-    use beater_store::{InMemoryMetadataStore, InMemoryTraceStore};
+    use beater_store::{InMemoryMetadataStore, InMemoryQuotaLimiter, InMemoryTraceStore};
     use chrono::{TimeZone, Utc};
     use serde_json::json;
     use std::collections::{BTreeMap, BTreeSet};
@@ -700,6 +829,19 @@ mod tests {
     #[tokio::test]
     async fn in_memory_metadata_store_conforms() {
         metadata_store_conformance(InMemoryMetadataStore::new()).await;
+    }
+
+    #[tokio::test]
+    async fn sqlite_quota_limiter_conforms() {
+        quota_limiter_conformance(
+            SqliteQuotaLimiter::in_memory().unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await;
+    }
+
+    #[tokio::test]
+    async fn in_memory_quota_limiter_conforms() {
+        quota_limiter_conformance(InMemoryQuotaLimiter::new()).await;
     }
 
     async fn trace_store_conformance<S>(store: S)
@@ -838,6 +980,73 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(bindings.len(), 1);
         assert!(bindings[0].permissions.contains("admin"));
+    }
+
+    async fn quota_limiter_conformance<L>(limiter: L)
+    where
+        L: QuotaLimiter,
+    {
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let window_start = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+        let reset_at = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 1, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+
+        let first = limiter
+            .reserve_quota(QuotaReservationRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                amount: 2,
+                limit: 3,
+                window_start,
+                reset_at,
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(first.accepted);
+        assert_eq!(first.used, 2);
+
+        let rejected = limiter
+            .reserve_quota(QuotaReservationRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                amount: 2,
+                limit: 3,
+                window_start,
+                reset_at,
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(!rejected.accepted);
+        assert_eq!(rejected.used, 2);
+        assert_eq!(rejected.reset_at, reset_at);
+
+        let next_window = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 1, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+        let next_reset = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 2, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+        let after_reset = limiter
+            .reserve_quota(QuotaReservationRequest {
+                tenant_id: tenant,
+                project_id: project,
+                amount: 3,
+                limit: 3,
+                window_start: next_window,
+                reset_at: next_reset,
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(after_reset.accepted);
+        assert_eq!(after_reset.used, 3);
     }
 
     fn fixture_batch() -> (

@@ -13,6 +13,15 @@ chrono.workspace = true
 opentelemetry-proto.workspace = true
 prost.workspace = true
 serde_json.workspace = true
+tonic.workspace = true
+
+[dev-dependencies]
+beater-bus = { path = "../beater-bus" }
+beater-store = { path = "../beater-store" }
+beater-store-obj = { path = "../beater-store-obj" }
+beater-store-sql = { path = "../beater-store-sql" }
+tempfile.workspace = true
+tokio.workspace = true
 
 [lints]
 workspace = true

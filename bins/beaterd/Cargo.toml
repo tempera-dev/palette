@@ -19,6 +19,7 @@ beater-gates = { path = "../../crates/beater-gates" }
 beater-human = { path = "../../crates/beater-human" }
 beater-ingest = { path = "../../crates/beater-ingest" }
 beater-judge = { path = "../../crates/beater-judge" }
+beater-otlp = { path = "../../crates/beater-otlp" }
 beater-search = { path = "../../crates/beater-search" }
 beater-secrets = { path = "../../crates/beater-secrets" }
 beater-store = { path = "../../crates/beater-store" }
@@ -28,6 +29,7 @@ beater-core = { path = "../../crates/beater-core" }
 beater-usage = { path = "../../crates/beater-usage" }
 clap.workspace = true
 tokio.workspace = true
+tonic.workspace = true
 
 [lints]
 workspace = true

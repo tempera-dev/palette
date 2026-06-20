@@ -113,6 +113,29 @@ pub struct RoleBinding {
     pub created_at: Timestamp,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct QuotaReservationRequest {
+    pub tenant_id: TenantId,
+    pub project_id: ProjectId,
+    pub amount: u64,
+    pub limit: u64,
+    pub window_start: Timestamp,
+    pub reset_at: Timestamp,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct QuotaDecision {
+    pub accepted: bool,
+    pub used: u64,
+    pub limit: u64,
+    pub reset_at: Timestamp,
+}
+
+#[async_trait]
+pub trait QuotaLimiter: Send + Sync {
+    async fn reserve_quota(&self, request: QuotaReservationRequest) -> StoreResult<QuotaDecision>;
+}
+
 #[async_trait]
 pub trait MetadataStore: Send + Sync {
     async fn put_organization(&self, organization: OrganizationMetadata) -> StoreResult<()>;
@@ -161,6 +184,24 @@ pub struct InMemoryMetadataStore {
 }
 
 #[derive(Clone, Default)]
+pub struct InMemoryQuotaLimiter {
+    state: std::sync::Arc<std::sync::Mutex<InMemoryQuotaState>>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct InMemoryQuotaCounter {
+    tenant_id: TenantId,
+    project_id: ProjectId,
+    window_start: Timestamp,
+    used: u64,
+}
+
+#[derive(Clone, Default)]
+struct InMemoryQuotaState {
+    counters: Vec<InMemoryQuotaCounter>,
+}
+
+#[derive(Clone, Default)]
 struct InMemoryMetadataState {
     organizations: Vec<OrganizationMetadata>,
     projects: Vec<ProjectMetadata>,
@@ -177,6 +218,59 @@ impl InMemoryMetadataStore {
         self.state
             .lock()
             .map_err(|err| StoreError::backend(format!("metadata store mutex poisoned: {err}")))
+    }
+}
+
+impl InMemoryQuotaLimiter {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    fn lock(&self) -> StoreResult<std::sync::MutexGuard<'_, InMemoryQuotaState>> {
+        self.state
+            .lock()
+            .map_err(|err| StoreError::backend(format!("quota limiter mutex poisoned: {err}")))
+    }
+}
+
+#[async_trait]
+impl QuotaLimiter for InMemoryQuotaLimiter {
+    async fn reserve_quota(&self, request: QuotaReservationRequest) -> StoreResult<QuotaDecision> {
+        let mut state = self.lock()?;
+        let counter = state.counters.iter_mut().find(|counter| {
+            counter.tenant_id == request.tenant_id
+                && counter.project_id == request.project_id
+                && counter.window_start == request.window_start
+        });
+        let current_used = counter.as_ref().map(|counter| counter.used).unwrap_or(0);
+        let Some(new_used) = current_used.checked_add(request.amount) else {
+            return Err(StoreError::integrity("quota counter overflow"));
+        };
+        if new_used > request.limit {
+            return Ok(QuotaDecision {
+                accepted: false,
+                used: current_used,
+                limit: request.limit,
+                reset_at: request.reset_at,
+            });
+        }
+
+        if let Some(counter) = counter {
+            counter.used = new_used;
+        } else {
+            state.counters.push(InMemoryQuotaCounter {
+                tenant_id: request.tenant_id,
+                project_id: request.project_id,
+                window_start: request.window_start,
+                used: new_used,
+            });
+        }
+        Ok(QuotaDecision {
+            accepted: true,
+            used: new_used,
+            limit: request.limit,
+            reset_at: request.reset_at,
+        })
     }
 }
 

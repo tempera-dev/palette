@@ -38,7 +38,7 @@ use beater_human::{
 };
 use beater_ingest::{
     anonymous_auth_context, IngestError, IngestOutcome, IngestQueueStatus, IngestService,
-    NativeIngestRequest, QueuedTraceWork, TraceWriteDrainReport,
+    NativeIngestRequest, TraceIngestedDrainReport, TraceWriteDrainReport,
 };
 use beater_judge::{
     JudgeBroker, JudgeBrokerError, JudgeBrokerOutcome, JudgeBrokerRequest, JudgeLedgerStore,
@@ -298,6 +298,10 @@ pub fn router(state: ApiState) -> Router {
             "/v1/ingest/:tenant_id/:project_id/trace-writes/drain",
             post(drain_trace_writes_route),
         )
+        .route(
+            "/v1/ingest/:tenant_id/:project_id/trace-ingested/drain",
+            post(drain_trace_ingested_route),
+        )
         .route("/v1/search/:tenant_id/spans", get(search_spans))
         .route(
             "/v1/archive/:tenant_id/:project_id/:trace_id",
@@ -400,7 +404,7 @@ async fn ingest_native(
     let outcome = if ingest_buffered(&params)? {
         state.ingest.buffer_native(request).await?
     } else {
-        ingest_and_index(&state, request).await?
+        state.ingest.ingest_native(request).await?
     };
     Ok(Json(outcome))
 }
@@ -638,7 +642,40 @@ async fn drain_trace_writes_route(
         .ingest
         .drain_trace_writes_for(&tenant_id, &project_id, limit)
         .await?;
-    index_trace_refs(&state, &report.trace_refs).await?;
+    Ok(Json(report))
+}
+
+async fn drain_trace_ingested_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Query(params): Query<DrainTraceWritesQuery>,
+) -> Result<Json<TraceIngestedDrainReport>, ApiError> {
+    let tenant_id =
+        TenantId::new(tenant_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
+    let project_id =
+        ProjectId::new(project_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
+    authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
+    let limit = params.limit.unwrap_or(100).min(1000);
+    let traces = state.traces.clone();
+    let search = state.search.clone();
+    let report = state
+        .ingest
+        .drain_trace_ingested_for(&tenant_id, &project_id, limit, move |trace_ref| {
+            let traces = traces.clone();
+            let search = search.clone();
+            async move {
+                let trace = traces
+                    .get_trace(trace_ref.tenant_id.clone(), trace_ref.trace_id.clone())
+                    .await
+                    .map_err(|err| err.to_string())?;
+                search
+                    .index_spans(&trace.spans)
+                    .await
+                    .map_err(|err| err.to_string())
+            }
+        })
+        .await?;
     Ok(Json(report))
 }
 
@@ -666,21 +703,11 @@ async fn ingest_otlp_http(
     let export = decode_export_trace_request(&body)?;
     let raw_request =
         export_to_raw_trace_ingest_request(scope.clone(), body.to_vec(), export, auth.context)?;
-    let trace_ids = raw_request
-        .spans
-        .iter()
-        .map(|span| span.trace_id.clone())
-        .collect::<BTreeSet<_>>();
     let buffered = ingest_buffered(&params)?;
     let outcome = if buffered {
         state.ingest.buffer_raw_trace_batch(raw_request).await?
     } else {
-        let outcome = state.ingest.ingest_raw_trace_batch(raw_request).await?;
-        if outcome.ack.accepted_spans > 0 {
-            let trace_ids = trace_ids.into_iter().collect::<Vec<_>>();
-            index_trace_ids(&state, &scope.tenant_id, &trace_ids).await?;
-        }
-        outcome
+        state.ingest.ingest_raw_trace_batch(raw_request).await?
     };
     Ok(Json(OtlpIngestOutcome {
         accepted_raw: outcome.ack.accepted_raw,
@@ -1642,49 +1669,6 @@ async fn evaluate_alert(
     Ok(Json(decision))
 }
 
-async fn ingest_and_index(
-    state: &ApiState,
-    request: NativeIngestRequest,
-) -> Result<IngestOutcome, ApiError> {
-    let tenant_id = request.scope.tenant_id.clone();
-    let trace_id = request.trace_id.clone();
-    let outcome = state.ingest.ingest_native(request).await?;
-    if outcome.ack.accepted_spans > 0 {
-        let trace = state.traces.get_trace(tenant_id, trace_id).await?;
-        state.search.index_spans(&trace.spans).await?;
-    }
-    Ok(outcome)
-}
-
-async fn index_trace_ids(
-    state: &ApiState,
-    tenant_id: &TenantId,
-    trace_ids: &[TraceId],
-) -> Result<(), ApiError> {
-    for trace_id in trace_ids {
-        let trace = state
-            .traces
-            .get_trace(tenant_id.clone(), trace_id.clone())
-            .await?;
-        state.search.index_spans(&trace.spans).await?;
-    }
-    Ok(())
-}
-
-async fn index_trace_refs(
-    state: &ApiState,
-    trace_refs: &[QueuedTraceWork],
-) -> Result<(), ApiError> {
-    for trace_ref in trace_refs {
-        let trace = state
-            .traces
-            .get_trace(trace_ref.tenant_id.clone(), trace_ref.trace_id.clone())
-            .await?;
-        state.search.index_spans(&trace.spans).await?;
-    }
-    Ok(())
-}
-
 fn dataset_store(state: &ApiState) -> Result<Arc<dyn DatasetStore>, ApiError> {
     state
         .datasets
@@ -2620,6 +2604,19 @@ mod tests {
                 Request::builder()
                     .method("GET")
                     .uri("/v1/traces/tenant/trace")
+                    .body(Body::empty())
+                    .unwrap_or_else(|err| panic!("{err}")),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(response.status(), StatusCode::OK);
+
+        let response = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/v1/ingest/tenant/project/trace-ingested/drain?limit=10")
                     .body(Body::empty())
                     .unwrap_or_else(|err| panic!("{err}")),
             )

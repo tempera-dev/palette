@@ -40,7 +40,7 @@ system, test output, or runtime behavior.
 | ID | Requirement | Evidence required |
 | --- | --- | --- |
 | R3.1 | Product code depends on a `TraceStore` trait. | `beater-store` is trait/error/fake only; concrete SQLite/filesystem implementations live in `beater-store-sql` and `beater-store-obj`; `cargo tree -p beater-store` has no `rusqlite` |
-| R3.2 | Local backend exists before ClickHouse assumptions leak. | `beater-store-sql` TraceStore conformance suite runs identical cases against SQLite and `InMemoryTraceStore`; `MetadataStore` conformance suite runs identical org/project/environment/RBAC cases against SQLite and `InMemoryMetadataStore`; filesystem artifact store has its own round-trip/hash test |
+| R3.2 | Local backend exists before ClickHouse assumptions leak. | `beater-store-sql` TraceStore conformance suite runs identical cases against SQLite and `InMemoryTraceStore`; `MetadataStore` conformance suite runs identical org/project/environment/RBAC cases against SQLite and `InMemoryMetadataStore`; `QuotaLimiter` conformance suite runs identical fixed-window cases against SQLite and `InMemoryQuotaLimiter`; filesystem artifact store has its own round-trip/hash test |
 | R3.3 | ClickHouse backend exists for scale. | ClickHouse migrations and testcontainers integration test |
 | R3.4 | Large payloads are artifact refs, not hot-row blobs. | Size-cap tests and object-store fixture |
 | R3.5 | Cold retention uses Parquet plus DataFusion. | Export/archive test and query fixture |
@@ -54,14 +54,14 @@ system, test output, or runtime behavior.
 | --- | --- | --- |
 | R4.1 | Backpressure is bounded and observable. | In-memory/SQLite bus capacity tests; buffered ingest API 429 full-stack test; load test still required before GA |
 | R4.2 | Durable buffer exists. | SQLite durable bus reopen/dedupe tests, `beaterd` SQLite bus default, buffered trace-write queue; NATS JetStream and Vercel Queues adapters still required for scale/hosted GA |
-| R4.3 | DLQ captures invalid or repeatedly failed events. | Bus DLQ tests, trace-write worker invalid payload DLQ test, `beaterctl bus-fixture`; replay path still required |
+| R4.3 | DLQ captures invalid or repeatedly failed events. | Bus DLQ tests, trace-write and trace-ingested worker invalid payload DLQ tests, `beaterctl bus-fixture`; replay path still required |
 | R4.4 | At-least-once delivery is reconciled by idempotency keys. | SQLite bus idempotent publish tests, SQLite `TraceStore` duplicate write tests; API duplicate-batch fixture still required |
 | R4.5 | Cardinality and payload governance are enforced. | Attribute cardinality, allow/deny, and truncation-to-artifact tests |
 | R4.6 | Tail-based sampling keeps errors, slow traces, and high-cost traces. | Policy tests with full-trace buffering |
 | R4.7 | Trace completion handles root-end, idle timeout, late spans, and clock skew. | Out-of-order distributed trace fixtures |
-| R4.8 | Per-project quotas produce explicit 429 semantics. | API tests for quota exhaustion and reset headers |
-| R4.9 | Poison messages cannot stall a queue shard or consumer group. | Lane-aware and scoped bus consumption tests plus trace-write worker invalid-payload DLQ test |
-| R4.10 | ClickHouse or TraceStore outage does not silently drop accepted events. | `buffer_native` outage/recovery unit test, buffered ingest + scoped drain full-stack API test, `beaterd` background trace-write drain worker, and `beaterctl ingest-outage-fixture` |
+| R4.8 | Per-project quotas produce explicit 429 semantics. | Ingest quota test exercises typed 429 error semantics through a trait-backed fixed-window limiter; SQLite/in-memory limiter conformance proves window reset behavior; API reset headers still required |
+| R4.9 | Poison messages cannot stall a queue shard or consumer group. | Lane-aware and scoped bus consumption tests plus trace-write and trace-ingested worker invalid-payload DLQ tests |
+| R4.10 | ClickHouse or TraceStore outage does not silently drop accepted events. | `buffer_native` outage/recovery unit test, buffered ingest + scoped drain full-stack API test, `beaterd` background trace-write drain worker, `beaterd` background trace-ingested downstream worker, and `beaterctl ingest-outage-fixture` |
 
 ## R5. Evaluators
 

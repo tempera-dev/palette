@@ -26,14 +26,16 @@ This repo now contains the first tested Rust vertical slice:
 - all-in-one `beaterd` HTTP server
 - `beaterctl smoke` local ingest command
 - OTLP/HTTP protobuf trace ingest endpoint with raw protobuf preservation
+- OTLP/gRPC TraceService ingest mounted by `beaterd` alongside axum
 - Tantivy-backed structured and full-text span search
 - Parquet/DataFusion cold trace archive export/query
 - canonical schema and agent span taxonomy
 - immutable raw envelope creation
 - raw-envelope lookup by tenant/project/idempotency key
 - filesystem artifact storage with hash verification
-- trait-only `beater-store` boundary with `TraceStore`/`ArtifactStore`/`MetadataStore`
+- trait-only `beater-store` boundary with `TraceStore`/`ArtifactStore`/`MetadataStore`/`QuotaLimiter`
 - SQLite and in-memory metadata store conformance coverage for org/project/environment/RBAC boundaries
+- SQLite and in-memory quota limiter conformance coverage for shared fixed-window project quotas
 - SQLite `TraceStore` implementation in `beater-store-sql`
 - filesystem artifact store implementation in `beater-store-obj`
 - typed `StoreError`/provider/adapter errors across storage, judge, dataset, experiment, search, and review trait contracts
@@ -41,7 +43,8 @@ This repo now contains the first tested Rust vertical slice:
 - bounded in-memory bus plus SQLite durable bus with persisted retry and DLQ behavior
 - buffered ingest mode that durably queues canonical trace writes before hot-store persistence
 - scoped trace-write drain/status API with typed 429 backpressure responses
-- native ingest pipeline with payload/attribute governance and quotas
+- native ingest pipeline with payload/attribute governance and trait-backed windowed quotas
+- `trace.ingested` downstream drain API and `beaterd` worker for off-hot-path search indexing with retry/DLQ handling
 - deterministic evaluator lane and judge-broker budget model
 - encrypted-at-rest BYOK provider-secret store for judge/model providers
 - judge broker with preflight budget reservation, request-hash cache hits, and SQLite audit ledger
@@ -75,7 +78,7 @@ This repo now contains the first tested Rust vertical slice:
 - API route for calibration over persisted dataset eval reports and human-labeled dataset cases
 - API routes and CLI fixture for online sampling and signed alert webhooks
 - `beaterd` defaults to a persistent SQLite bus backend, with an in-memory backend still available
-- `beaterd` runs a configurable background trace-write drain worker for buffered ingest
+- `beaterd` runs configurable trace-write and trace-ingested background workers for buffered ingest and downstream indexing
 - `beaterctl bus-fixture` validates durable queue reopen, retry, and DLQ behavior
 - `beaterctl ingest-outage-fixture` validates accepted buffered ingest, retry during TraceStore outage, and recovery drain
 - `beaterctl replay-fixture` validates persisted cassette replay without live provider/tool calls
