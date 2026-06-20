@@ -746,14 +746,12 @@ dependencies = [
 name = "beater-eval"
 version = "0.1.0"
 dependencies = [
- "async-trait",
  "beater-core",
  "beater-schema",
  "regex",
  "serde",
  "serde_json",
  "thiserror 1.0.69",
- "tokio",
 ]
 
 [[package]]

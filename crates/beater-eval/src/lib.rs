@@ -1,4 +1,3 @@
-use async_trait::async_trait;
 use beater_core::Money;
 use beater_schema::EvaluatorLane;
 use regex::Regex;
@@ -20,13 +19,6 @@ pub enum EvalError {
         expected: EvaluatorLane,
         actual: EvaluatorLane,
     },
-    #[error("judge budget exceeded: attempted {attempted_micros} micros, remaining {remaining_micros} micros")]
-    JudgeBudgetExceeded {
-        attempted_micros: i64,
-        remaining_micros: i64,
-    },
-    #[error("judge provider error: {0}")]
-    JudgeProvider(String),
     #[error("invalid regex: {0}")]
     InvalidRegex(String),
     #[error(
@@ -242,11 +234,6 @@ fn binary_score(pass: bool, metric: &str) -> ScoreResult {
     }
 }
 
-#[async_trait]
-pub trait JudgeProvider: Send + Sync {
-    async fn judge(&self, request: JudgeRequest) -> Result<JudgeResponse, EvalError>;
-}
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct JudgeRequest {
     pub rubric: String,
@@ -261,72 +248,6 @@ pub struct JudgeResponse {
     pub score: f64,
     pub rationale: String,
     pub cost: Money,
-}
-
-pub struct JudgeBroker<P> {
-    provider: P,
-    remaining_budget: std::sync::Mutex<Money>,
-}
-
-impl<P> JudgeBroker<P>
-where
-    P: JudgeProvider,
-{
-    pub fn new(provider: P, budget: Money) -> Self {
-        Self {
-            provider,
-            remaining_budget: std::sync::Mutex::new(budget),
-        }
-    }
-
-    pub async fn evaluate(
-        &self,
-        spec: &EvaluatorSpec,
-        case: &EvaluationCase,
-    ) -> Result<ScoreResult, EvalError> {
-        spec.validate_catalog_lane()?;
-        let EvaluatorKind::LlmJudge { rubric, model } = &spec.kind else {
-            return Err(EvalError::RequiresDeterministicLane(spec.id.clone()));
-        };
-        if spec.lane != EvaluatorLane::JudgeBroker {
-            return Err(EvalError::RequiresJudgeBroker(spec.id.clone()));
-        }
-
-        let response = self
-            .provider
-            .judge(JudgeRequest {
-                rubric: rubric.clone(),
-                model: model.clone(),
-                input: case.input.clone(),
-                output: case.output.clone(),
-                reference: case.reference.clone(),
-            })
-            .await
-            .map_err(|err| EvalError::JudgeProvider(err.to_string()))?;
-
-        let mut remaining = self.remaining_budget.lock().map_err(|err| {
-            EvalError::RequiresJudgeBroker(format!("budget mutex poisoned: {err}"))
-        })?;
-        if response.cost.amount_micros > remaining.amount_micros {
-            return Err(EvalError::JudgeBudgetExceeded {
-                attempted_micros: response.cost.amount_micros,
-                remaining_micros: remaining.amount_micros,
-            });
-        }
-        *remaining = remaining
-            .try_sub(&response.cost)
-            .map_err(|err| EvalError::RequiresJudgeBroker(err.to_string()))?;
-
-        Ok(ScoreResult {
-            score: response.score,
-            label: None,
-            evidence: serde_json::json!({
-                "rationale": response.rationale,
-                "cost_micros": response.cost.amount_micros,
-                "currency": response.cost.currency.as_str()
-            }),
-        })
-    }
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -444,7 +365,6 @@ fn sample_variance(values: &[f64]) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use beater_core::Money;
 
     #[test]
     fn evaluator_catalog_classifies_execution_lanes() {
@@ -486,8 +406,8 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
-    async fn deterministic_and_judge_lanes_are_separate() {
+    #[test]
+    fn deterministic_and_judge_lanes_are_separate() {
         let case = EvaluationCase {
             input: serde_json::json!("question"),
             output: serde_json::json!("answer"),
@@ -520,44 +440,6 @@ mod tests {
         ));
     }
 
-    #[tokio::test]
-    async fn judge_broker_meters_budget() {
-        let broker = JudgeBroker::new(
-            FixedJudgeProvider {
-                score: 0.75,
-                cost_micros: 20,
-            },
-            Money::usd_micros(30),
-        );
-        let spec = EvaluatorSpec {
-            id: "judge".to_string(),
-            lane: EvaluatorLane::JudgeBroker,
-            kind: EvaluatorKind::LlmJudge {
-                rubric: "correctness".to_string(),
-                model: "judge-model".to_string(),
-            },
-        };
-        let case = EvaluationCase {
-            input: serde_json::json!("question"),
-            output: serde_json::json!("answer"),
-            reference: None,
-            trace: None,
-        };
-
-        let first = broker
-            .evaluate(&spec, &case)
-            .await
-            .unwrap_or_else(|err| panic!("{err}"));
-        assert_eq!(first.score, 0.75);
-        assert!(matches!(
-            broker.evaluate(&spec, &case).await,
-            Err(EvalError::JudgeBudgetExceeded {
-                attempted_micros: 20,
-                remaining_micros: 10
-            })
-        ));
-    }
-
     #[test]
     fn gates_fail_underpowered_and_use_confidence_bounds() {
         let underpowered = compare_paired_scores(
@@ -584,21 +466,5 @@ mod tests {
 
         assert_eq!(comparison.decision, GateDecision::FailRegression);
         assert!(comparison.adjusted_alpha < 0.05);
-    }
-
-    struct FixedJudgeProvider {
-        score: f64,
-        cost_micros: i64,
-    }
-
-    #[async_trait]
-    impl JudgeProvider for FixedJudgeProvider {
-        async fn judge(&self, _request: JudgeRequest) -> Result<JudgeResponse, EvalError> {
-            Ok(JudgeResponse {
-                score: self.score,
-                rationale: "fixed".to_string(),
-                cost: Money::usd_micros(self.cost_micros),
-            })
-        }
     }
 }

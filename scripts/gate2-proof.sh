@@ -134,6 +134,13 @@ python_trace_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local
 wait_text "$python_trace_query" "gpt-demo" "stock Python OTLP trace"
 python_trace_id="$(curl -fsS "$python_trace_query" | first_trace_id)"
 
+OTEL_EXPORTER_OTLP_ENDPOINT="$grpc_url" \
+  "$venv_dir/bin/python" "$root/examples/python/five_line_otel.py"
+
+quickstart_trace_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-quickstart"
+wait_text "$quickstart_trace_query" "gpt-quickstart" "five-line stock Python OTLP trace"
+quickstart_trace_id="$(curl -fsS "$quickstart_trace_query" | first_trace_id)"
+
 (
   cd "$root/web/dashboard"
   npm run build
@@ -168,7 +175,10 @@ if [[ "${BEATER_GATE2_SKIP_BROWSER:-0}" != "1" ]]; then
   (
     cd "$root/web/dashboard"
     npx playwright install chromium
-    BEATER_E2E_TRACE_ID="$python_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_url" npm run test:e2e
+    BEATER_E2E_TRACE_ID="$python_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_url" \
+      npx playwright test tests/e2e/dashboard.spec.ts
+    BEATER_E2E_TRACE_ID="$quickstart_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_url" \
+      npm run test:e2e:quickstart
     if [[ "${BEATER_GATE2_RECORD_DEMO:-0}" == "1" ]]; then
       BEATER_E2E_TRACE_ID="$python_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_url" npm run record:gate2
     fi
@@ -192,4 +202,7 @@ Specific smoke trace:
 
 Python all-kind trace:
   $python_trace_dashboard
+
+Five-line quickstart trace:
+  $dashboard_url/?tenant=demo&project=demo&environment=local&trace=$quickstart_trace_id
 EOF

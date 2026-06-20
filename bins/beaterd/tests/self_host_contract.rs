@@ -112,7 +112,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let proof_script = read(root.join("scripts/gate2-proof.sh"));
     assert!(proof_script.contains("beaterctl\" smoke"));
     assert!(proof_script.contains("examples/python/otel_smoke.py"));
-    assert!(proof_script.contains("npm run test:e2e"));
+    assert!(proof_script.contains("examples/python/five_line_otel.py"));
+    assert!(proof_script.contains("quickstart_trace_id"));
+    assert!(proof_script.contains("npx playwright test tests/e2e/dashboard.spec.ts"));
+    assert!(proof_script.contains("npm run test:e2e:quickstart"));
     assert!(proof_script.contains("npm run record:gate2"));
     assert!(proof_script.contains("scripts/check-openapi-drift.sh"));
 
