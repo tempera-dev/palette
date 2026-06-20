@@ -10,6 +10,14 @@ FROM deps AS builder
 COPY . .
 RUN npm run build
 
+FROM mcr.microsoft.com/playwright:v1.57.0-noble AS e2e
+WORKDIR /workspace/web/dashboard
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+CMD ["npx", "playwright", "test"]
+
 FROM node:24-bookworm-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production

@@ -148,17 +148,16 @@ quickstart virtualenv, then runs `docker compose up`, sends
 `localhost:3000`, and fails if time-to-first-trace exceeds 300 seconds. It
 also records time-to-quickstart-click when browser proof is enabled. It leaves
 the dashboard running by default so a human can click through the trace.
-Before starting Compose it checks Docker, Python, curl, and browser-proof npm,
-removes any previous Beater stopwatch project, then checks the required host
-ports. For outside-person evidence, free the default `8080`/`4317`/`3000` ports
-rather than using alternate ports.
+Before starting Compose it checks Docker, Python, and curl. It removes any previous Beater stopwatch project, then checks the required host ports. For
+outside-person evidence, free the default `8080`/`4317`/`3000` ports rather than
+using alternate ports.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`; set
 `BEATER_GATE2_LOCAL_BUILD=1` when you intentionally want to build the server and
 dashboard images from source. Set `BEATER_GATE2_REUSE=1` only for local
 warm-loop debugging. Set `BEATER_GATE2_BROWSER_PROOF=1` to also run the
-Playwright browser proof for both the five-line trace and the all-kind nested
-agent waterfall inside the same stopwatch window. Set
+prebuilt `dashboard-e2e` Playwright browser proof for both the five-line trace
+and the all-kind nested agent waterfall inside the same stopwatch window. Set
 `BEATER_GATE2_RECORD_DEMO=1` to write `docs/demos/gate2-compose-browser-demo.webm`
 and its SHA-pinned notes from the same browser session.
 

@@ -29,6 +29,7 @@ record_demo_sha256="not requested"
 time_to_quickstart_click_seconds=""
 all_kind_trace_id=""
 all_kind_dashboard_url=""
+e2e_base_url="http://dashboard:3000"
 git_sha="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
 os_arch="$(uname -sm 2>/dev/null || echo unknown)"
 docker_version="$(docker --version 2>/dev/null || echo unknown)"
@@ -64,6 +65,16 @@ fi
 
 compose() {
   docker compose "${compose_files[@]}" -p "$project" "$@"
+}
+
+compose_run_e2e() {
+  local run_args=(run --rm)
+  if [[ "$local_build" == "1" ]]; then
+    run_args+=(--build)
+  else
+    run_args+=(--pull "$prebuilt_pull_policy")
+  fi
+  compose "${run_args[@]}" "$@"
 }
 
 cleanup() {
@@ -236,9 +247,6 @@ preflight_prerequisites() {
   require_command docker
   require_command curl
   require_command python3
-  if [[ "$browser_proof" == "1" ]]; then
-    require_command npm
-  fi
   if ! docker info >/dev/null 2>&1; then
     echo "Docker daemon is not reachable; start Docker and rerun Gate 2 proof." >&2
     return 1
@@ -283,12 +291,11 @@ wait_text "$dashboard_url" "hello from stock OpenTelemetry" "dashboard prompt de
 time_to_first_trace_seconds=$(($(date +%s) - start_epoch))
 
 if [[ "$browser_proof" == "1" ]]; then
-  (
-    cd web/dashboard
-    run_before_deadline "dashboard browser proof npm install" npm ci
-    run_before_deadline "dashboard browser proof chromium install" npx playwright install chromium
-    run_before_deadline "five-line dashboard browser proof" env BEATER_E2E_TRACE_ID="$trace_id" PLAYWRIGHT_BASE_URL="$dashboard_base_url" npm run test:e2e:quickstart
-  )
+  run_before_deadline "five-line dashboard browser proof" compose_run_e2e \
+    -e BEATER_E2E_TRACE_ID="$trace_id" \
+    -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
+    dashboard-e2e \
+    npx playwright test tests/e2e/quickstart.spec.ts
   quickstart_browser_proof_status="passed"
   time_to_quickstart_click_seconds=$(($(date +%s) - start_epoch))
   if (( time_to_quickstart_click_seconds > 300 )); then
@@ -307,20 +314,23 @@ if [[ "$browser_proof" == "1" ]]; then
     wait_text "$all_kind_dashboard_url" "$kind" "dashboard all-kind waterfall"
   done
 
-  (
-    cd web/dashboard
-    run_before_deadline "all-kind waterfall browser proof" env BEATER_E2E_TRACE_ID="$all_kind_trace_id" PLAYWRIGHT_BASE_URL="$dashboard_base_url" npx playwright test tests/e2e/dashboard.spec.ts
-    if [[ "$record_demo" == "1" ]]; then
-      run_before_deadline "Gate 2 compose browser recording" env \
-        BEATER_GATE2_RECORD_MODE=compose \
-        BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
-        BEATER_E2E_ALL_KIND_TRACE_ID="$all_kind_trace_id" \
-        BEATER_GATE2_RECORD_VIDEO="$record_demo_video" \
-        BEATER_GATE2_RECORD_NOTES="$record_demo_notes" \
-        PLAYWRIGHT_BASE_URL="$dashboard_base_url" \
-        npm run record:gate2
-    fi
-  )
+  run_before_deadline "all-kind waterfall browser proof" compose_run_e2e \
+    -e BEATER_E2E_TRACE_ID="$all_kind_trace_id" \
+    -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
+    dashboard-e2e \
+    npx playwright test tests/e2e/dashboard.spec.ts
+  if [[ "$record_demo" == "1" ]]; then
+    run_before_deadline "Gate 2 compose browser recording" compose_run_e2e \
+      -e BEATER_GATE2_RECORD_MODE=compose \
+      -e BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
+      -e BEATER_E2E_ALL_KIND_TRACE_ID="$all_kind_trace_id" \
+      -e BEATER_GATE2_RECORD_VIDEO="$record_demo_video" \
+      -e BEATER_GATE2_RECORD_NOTES="$record_demo_notes" \
+      -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
+      -e BEATER_GATE2_PUBLIC_DASHBOARD_BASE="$dashboard_base_url" \
+      dashboard-e2e \
+      npm run record:gate2
+  fi
   waterfall_browser_proof_status="passed"
   if [[ "$record_demo" == "1" ]]; then
     record_demo_status="passed"

@@ -99,6 +99,19 @@ services:
       timeout: 5s
       retries: 30
 
+  dashboard-e2e:
+    build:
+      context: ./web/dashboard
+      target: e2e
+    profiles: ["proof"]
+    depends_on:
+      dashboard:
+        condition: service_healthy
+    environment:
+      PLAYWRIGHT_BASE_URL: http://dashboard:3000
+    volumes:
+      - ./docs/demos:/workspace/docs/demos
+
   beaterctl:
     build:
       context: .

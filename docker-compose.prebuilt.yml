@@ -88,6 +88,17 @@ services:
       timeout: 5s
       retries: 30
 
+  dashboard-e2e:
+    image: ${BEATER_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/beater/dashboard-e2e:main}
+    profiles: ["proof"]
+    depends_on:
+      dashboard:
+        condition: service_healthy
+    environment:
+      PLAYWRIGHT_BASE_URL: http://dashboard:3000
+    volumes:
+      - ./docs/demos:/workspace/docs/demos
+
 volumes:
   postgres-data:
   nats-data:

@@ -11,6 +11,8 @@ fn self_host_files_define_gate_two_compose_surface() {
             "docker-compose.yml must define {service}"
         );
     }
+    assert!(compose.contains("dashboard-e2e:"));
+    assert!(compose.contains("target: e2e"));
     assert!(compose.contains("profiles: [\"clickhouse\"]"));
     assert!(compose.contains("http://beaterd:8080"));
     assert!(compose.contains("http://beaterd:4317"));
@@ -32,11 +34,23 @@ fn self_host_files_define_gate_two_compose_surface() {
 
     let dashboard_dockerfile = read(root.join("web/dashboard/Dockerfile"));
     assert!(dashboard_dockerfile.contains("npm run build"));
+    assert!(dashboard_dockerfile.contains("FROM mcr.microsoft.com/playwright:v1.57.0-noble AS e2e"));
+    assert!(dashboard_dockerfile.contains("CMD [\"npx\", \"playwright\", \"test\"]"));
     assert!(dashboard_dockerfile.contains("server.js"));
+    let dashboard_dockerignore = read(root.join("web/dashboard/.dockerignore"));
+    assert!(dashboard_dockerignore.contains("node_modules"));
+    assert!(dashboard_dockerignore.contains(".next"));
+    assert!(dashboard_dockerignore.contains("test-results"));
+    assert!(dashboard_dockerignore.contains("playwright-report"));
 
     let prebuilt_compose = read(root.join("docker-compose.prebuilt.yml"));
     assert!(prebuilt_compose.contains("ghcr.io/jadenfix/beater/beaterd:main"));
     assert!(prebuilt_compose.contains("ghcr.io/jadenfix/beater/dashboard:main"));
+    assert!(prebuilt_compose.contains("ghcr.io/jadenfix/beater/dashboard-e2e:main"));
+    assert!(prebuilt_compose.contains("dashboard-e2e:"));
+    assert!(prebuilt_compose.contains("profiles: [\"proof\"]"));
+    assert!(prebuilt_compose.contains("PLAYWRIGHT_BASE_URL: http://dashboard:3000"));
+    assert!(prebuilt_compose.contains("./docs/demos:/workspace/docs/demos"));
     assert!(!prebuilt_compose.contains("build:"));
     assert!(!prebuilt_compose.contains("BEATER_POSTGRES_PORT"));
     assert!(!prebuilt_compose.contains("BEATER_NATS_PORT"));
@@ -60,6 +74,10 @@ fn self_host_files_define_gate_two_compose_surface() {
         .contains("cache-to: type=gha,mode=max,scope=beaterctl-tools-${{ matrix.suffix }}"));
     assert!(image_workflow.contains("ghcr.io/${{ github.repository }}/beaterd:main"));
     assert!(image_workflow.contains("ghcr.io/${{ github.repository }}/dashboard:main"));
+    assert!(image_workflow.contains("Build and push dashboard e2e runner"));
+    assert!(image_workflow.contains("target: e2e"));
+    assert!(image_workflow.contains("ghcr.io/${{ github.repository }}/dashboard-e2e:main"));
+    assert!(image_workflow.contains("Publish dashboard e2e manifest"));
 
     let gate2_workflow = read(root.join(".github/workflows/gate2-proof-contract.yml"));
     assert!(gate2_workflow.contains("pull_request:"));
@@ -155,7 +173,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("require_command docker"));
     assert!(stopwatch_script.contains("require_command curl"));
     assert!(stopwatch_script.contains("require_command python3"));
-    assert!(stopwatch_script.contains("require_command npm"));
+    assert!(!stopwatch_script.contains("require_command npm"));
     assert!(stopwatch_script.contains("docker info"));
     assert!(stopwatch_script.contains("require_free_port \"$host_http_port\""));
     assert!(stopwatch_script.contains("require_free_port \"$host_otlp_grpc_port\""));
@@ -180,10 +198,16 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_DEMO"));
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_MODE=compose"));
     assert!(stopwatch_script.contains("BEATER_E2E_QUICKSTART_TRACE_ID"));
+    assert!(stopwatch_script.contains("compose_run_e2e"));
+    assert!(stopwatch_script.contains("run_args+=(--build)"));
+    assert!(stopwatch_script.contains("run_args+=(--pull \"$prebuilt_pull_policy\")"));
+    assert!(stopwatch_script.contains("dashboard-e2e"));
+    assert!(stopwatch_script.contains("e2e_base_url=\"http://dashboard:3000\""));
+    assert!(stopwatch_script.contains("BEATER_GATE2_PUBLIC_DASHBOARD_BASE"));
     assert!(stopwatch_script.contains("gate2-compose-browser-demo.webm"));
     assert!(stopwatch_script.contains("Browser recording SHA256"));
     assert!(stopwatch_script.contains("sha256_file"));
-    assert!(stopwatch_script.contains("npm run test:e2e:quickstart"));
+    assert!(stopwatch_script.contains("npx playwright test tests/e2e/quickstart.spec.ts"));
     assert!(stopwatch_script.contains("npx playwright test tests/e2e/dashboard.spec.ts"));
     assert!(stopwatch_script.contains("all_kind_trace_id"));
     assert!(stopwatch_script.contains("all-kind nested agent waterfall"));
@@ -270,7 +294,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1"));
     assert!(outside_proof.contains("Preflight status"));
     assert!(outside_proof.contains("Docker was running before the stopwatch started"));
-    assert!(outside_proof.contains("Python, curl, and npm were available"));
+    assert!(outside_proof.contains("Python and curl were available"));
+    assert!(outside_proof.contains("prebuilt `dashboard-e2e` container"));
     assert!(outside_proof.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(outside_proof.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(outside_proof.contains("--attest-outside-run"));
@@ -303,6 +328,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(readme.contains("removes any previous Beater stopwatch project"));
     assert!(readme.contains("gate2-compose-browser-demo.webm"));
+    assert!(readme.contains("prebuilt `dashboard-e2e` Playwright browser proof"));
+    assert!(readme.contains("checks Docker, Python, and curl"));
     assert!(readme.contains("mismatched trace IDs"));
     assert!(readme.contains("mismatched API/dashboard endpoints"));
     assert!(readme.contains("repo-relative `docs/demos/` artifacts"));
@@ -372,6 +399,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let record_script = read(root.join("web/dashboard/tests/e2e/record-gate2-demo.mjs"));
     assert!(record_script.contains("recordVideo"));
     assert!(record_script.contains("BEATER_GATE2_RECORD_MODE"));
+    assert!(record_script.contains("BEATER_GATE2_PUBLIC_DASHBOARD_BASE"));
     assert!(record_script.contains("recordQuickstartFlow"));
     assert!(record_script.contains("recordAllKindFlow"));
     assert!(record_script.contains("gate2-compose-browser-demo.webm"));

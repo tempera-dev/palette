@@ -161,7 +161,7 @@ The runner completed the flow using only public repository instructions.
 
 - [x] Fresh clone was used.
 - [x] Docker was running before the stopwatch started.
-- [x] Python, curl, and npm were available before the stopwatch started.
+- [x] Python and curl were available before the stopwatch started.
 - [x] Default ports were used: API `127.0.0.1:8080`, OTLP `127.0.0.1:4317`, dashboard `127.0.0.1:3000`.
 - [x] `BEATER_GATE2_REUSE` was not set.
 - [x] The script reported `Clean start: yes`.

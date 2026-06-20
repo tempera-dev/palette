@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const dashboardRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const repoRoot = resolve(dashboardRoot, "../..");
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
+const publicDashboardBase = process.env.BEATER_GATE2_PUBLIC_DASHBOARD_BASE ?? baseUrl;
 const mode = process.env.BEATER_GATE2_RECORD_MODE ?? "all-kind";
 const allKindTraceId =
   process.env.BEATER_E2E_ALL_KIND_TRACE_ID ??
@@ -191,7 +192,7 @@ stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 
 - Artifact: \`gate2-compose-browser-demo.webm\`
 - SHA256: \`${videoSha256}\`
-- Dashboard base: \`${baseUrl}\`
+- Dashboard base: \`${publicDashboardBase}\`
 - Quickstart trace: \`${quickstartTrace}\`
 - All-kind trace: \`${allKindTrace}\`
 - Shows: open dashboard -> click five-line trace -> click \`llm.call\` span -> read prompt, completion, model, tokens, cost, and latency -> inspect run -> turn -> step -> tool -> MCP waterfall.
