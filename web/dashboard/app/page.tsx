@@ -42,136 +42,165 @@ export default async function DashboardPage({
   };
   const data = await loadDashboardData(query);
   const spans = data.trace?.spans ?? [];
+  const activeRun =
+    data.runs.items.find((run) => run.trace_id === data.trace?.trace_id) ?? data.runs.items[0];
 
   return (
     <main className="shell">
       <header className="topbar">
-        <div className="brand-block">
-          <p className="eyebrow">Beater / {data.query.environmentId ?? "environment"}</p>
-          <h1>Agent Trace Debugger</h1>
-          <p className="scope-line">
-            {data.query.tenantId}
-            <span>/</span>
-            {data.query.projectId ?? "all-projects"}
-            <span>/</span>
-            {data.query.traceId ?? "latest trace"}
-          </p>
+        <div className="brand-lockup">
+          <div className="brand-block">
+            <p className="eyebrow">Beater / {data.query.environmentId ?? "environment"}</p>
+            <h1>Agent Trace Debugger</h1>
+            <p className="scope-line">
+              {data.query.tenantId}
+              <span>/</span>
+              {data.query.projectId ?? "all-projects"}
+              <span>/</span>
+              {data.query.traceId ?? "latest trace"}
+            </p>
+          </div>
         </div>
-        <div className="api-pill">{data.apiBaseUrl}</div>
+        <div className="api-pill">
+          <span>API</span>
+          <code>{data.apiBaseUrl}</code>
+        </div>
       </header>
 
+      <section className="summary-strip" aria-label="Trace summary">
+        <SummaryItem label="Status" value={activeRun ? statusLabel(activeRun.status) : "No trace"} />
+        <SummaryItem label="Spans" value={activeRun ? String(activeRun.span_count) : "0"} />
+        <SummaryItem label="Model" value={activeRun ? formatModels(activeRun.models) : "none"} />
+        <SummaryItem label="Cost" value={activeRun ? formatCost(activeRun.total_cost) : "none"} />
+        <SummaryItem
+          label="Latency"
+          value={activeRun ? formatLatency(activeRun.duration_ms) : "open"}
+        />
+        <SummaryItem
+          label="Release"
+          value={activeRun ? formatReleases(activeRun.release_ids) : "no release"}
+        />
+      </section>
+
       <section className="toolbar" aria-label="Trace filters">
-        <form className="filter-grid">
-          <label>
-            <span>Tenant</span>
-            <input name="tenant" defaultValue={data.query.tenantId} />
-          </label>
-          <label>
-            <span>Project</span>
-            <input name="project" defaultValue={data.query.projectId} />
-          </label>
-          <label>
-            <span>Environment</span>
-            <input name="environment" defaultValue={data.query.environmentId} />
-          </label>
-          <label>
-            <span>Trace</span>
-            <input name="trace" defaultValue={data.query.traceId} placeholder="latest" />
-          </label>
-          <label>
-            <span>Status</span>
-            <select name="status" defaultValue={data.query.status ?? ""}>
-              <option value="">Any</option>
-              <option value="ok">OK</option>
-              <option value="error">Error</option>
-              <option value="unset">Unset</option>
-            </select>
-          </label>
-          <label>
-            <span>Kind</span>
-            <select name="kind" defaultValue={data.query.kind ?? ""}>
-              <option value="">Any</option>
-              <option value="agent.run">agent.run</option>
-              <option value="agent.turn">agent.turn</option>
-              <option value="agent.plan">agent.plan</option>
-              <option value="agent.step">agent.step</option>
-              <option value="llm.call">llm.call</option>
-              <option value="tool.call">tool.call</option>
-              <option value="mcp.request">mcp.request</option>
-              <option value="retrieval.query">retrieval.query</option>
-              <option value="memory.read">memory.read</option>
-              <option value="memory.write">memory.write</option>
-              <option value="guardrail.check">guardrail.check</option>
-              <option value="human.review">human.review</option>
-              <option value="evaluator.run">evaluator.run</option>
-              <option value="replay.run">replay.run</option>
-            </select>
-          </label>
-          <label>
-            <span>Started After</span>
-            <input
-              name="started_after"
-              defaultValue={data.query.startedAfter}
-              placeholder="2026-01-01T00:00:00Z"
-            />
-          </label>
-          <label>
-            <span>Started Before</span>
-            <input
-              name="started_before"
-              defaultValue={data.query.startedBefore}
-              placeholder="2026-01-01T01:00:00Z"
-            />
-          </label>
-          <label>
-            <span>Model</span>
-            <input name="model" defaultValue={data.query.model} placeholder="gpt" />
-          </label>
-          <label>
-            <span>Release</span>
-            <input name="release" defaultValue={data.query.release} placeholder="release-a" />
-          </label>
-          <label>
-            <span>Min Cost</span>
-            <input
-              name="min_cost_micros"
-              type="number"
-              min="0"
-              defaultValue={numberInput(data.query.minCostMicros)}
-              placeholder="micros"
-            />
-          </label>
-          <label>
-            <span>Max Cost</span>
-            <input
-              name="max_cost_micros"
-              type="number"
-              min="0"
-              defaultValue={numberInput(data.query.maxCostMicros)}
-              placeholder="micros"
-            />
-          </label>
-          <label>
-            <span>Min Latency</span>
-            <input
-              name="min_latency_ms"
-              type="number"
-              min="0"
-              defaultValue={numberInput(data.query.minLatencyMs)}
-              placeholder="ms"
-            />
-          </label>
-          <label>
-            <span>Max Latency</span>
-            <input
-              name="max_latency_ms"
-              type="number"
-              min="0"
-              defaultValue={numberInput(data.query.maxLatencyMs)}
-              placeholder="ms"
-            />
-          </label>
-          <button type="submit">Apply</button>
+        <form className="filters">
+          <div className="filter-primary">
+            <label>
+              <span>Tenant</span>
+              <input name="tenant" defaultValue={data.query.tenantId} />
+            </label>
+            <label>
+              <span>Project</span>
+              <input name="project" defaultValue={data.query.projectId} />
+            </label>
+            <label>
+              <span>Environment</span>
+              <input name="environment" defaultValue={data.query.environmentId} />
+            </label>
+            <label className="trace-filter">
+              <span>Trace</span>
+              <input name="trace" defaultValue={data.query.traceId} placeholder="latest" />
+            </label>
+            <label>
+              <span>Status</span>
+              <select name="status" defaultValue={data.query.status ?? ""}>
+                <option value="">Any</option>
+                <option value="ok">OK</option>
+                <option value="error">Error</option>
+                <option value="unset">Unset</option>
+              </select>
+            </label>
+            <label>
+              <span>Kind</span>
+              <select name="kind" defaultValue={data.query.kind ?? ""}>
+                <option value="">Any</option>
+                <option value="agent.run">agent.run</option>
+                <option value="agent.turn">agent.turn</option>
+                <option value="agent.plan">agent.plan</option>
+                <option value="agent.step">agent.step</option>
+                <option value="llm.call">llm.call</option>
+                <option value="tool.call">tool.call</option>
+                <option value="mcp.request">mcp.request</option>
+                <option value="retrieval.query">retrieval.query</option>
+                <option value="memory.read">memory.read</option>
+                <option value="memory.write">memory.write</option>
+                <option value="guardrail.check">guardrail.check</option>
+                <option value="human.review">human.review</option>
+                <option value="evaluator.run">evaluator.run</option>
+                <option value="replay.run">replay.run</option>
+              </select>
+            </label>
+            <button type="submit">Apply</button>
+          </div>
+          <details className="advanced-filters" open={advancedFiltersActive(data.query)}>
+            <summary>Advanced filters</summary>
+            <div className="filter-secondary">
+              <label>
+                <span>Started After</span>
+                <input
+                  name="started_after"
+                  defaultValue={data.query.startedAfter}
+                  placeholder="2026-01-01T00:00:00Z"
+                />
+              </label>
+              <label>
+                <span>Started Before</span>
+                <input
+                  name="started_before"
+                  defaultValue={data.query.startedBefore}
+                  placeholder="2026-01-01T01:00:00Z"
+                />
+              </label>
+              <label>
+                <span>Model</span>
+                <input name="model" defaultValue={data.query.model} placeholder="gpt" />
+              </label>
+              <label>
+                <span>Release</span>
+                <input name="release" defaultValue={data.query.release} placeholder="release-a" />
+              </label>
+              <label>
+                <span>Min Cost</span>
+                <input
+                  name="min_cost_micros"
+                  type="number"
+                  min="0"
+                  defaultValue={numberInput(data.query.minCostMicros)}
+                  placeholder="micros"
+                />
+              </label>
+              <label>
+                <span>Max Cost</span>
+                <input
+                  name="max_cost_micros"
+                  type="number"
+                  min="0"
+                  defaultValue={numberInput(data.query.maxCostMicros)}
+                  placeholder="micros"
+                />
+              </label>
+              <label>
+                <span>Min Latency</span>
+                <input
+                  name="min_latency_ms"
+                  type="number"
+                  min="0"
+                  defaultValue={numberInput(data.query.minLatencyMs)}
+                  placeholder="ms"
+                />
+              </label>
+              <label>
+                <span>Max Latency</span>
+                <input
+                  name="max_latency_ms"
+                  type="number"
+                  min="0"
+                  defaultValue={numberInput(data.query.maxLatencyMs)}
+                  placeholder="ms"
+                />
+              </label>
+            </div>
+          </details>
         </form>
       </section>
 
@@ -187,11 +216,7 @@ export default async function DashboardPage({
             <div className="run-table-head" aria-hidden="true">
               <span>Status</span>
               <span>Trace</span>
-              <span>Spans</span>
-              <span>Model</span>
-              <span>Cost</span>
-              <span>Latency</span>
-              <span>Release</span>
+              <span>Summary</span>
             </div>
             {data.runs.items.map((run) => (
               <Link
@@ -204,11 +229,13 @@ export default async function DashboardPage({
                   <strong>{run.first_span_name}</strong>
                   <small>{run.trace_id}</small>
                 </span>
-                <span className="run-metric">{run.span_count}</span>
-                <span className="run-metric">{formatModels(run.models)}</span>
-                <span className="run-metric">{formatCost(run.total_cost)}</span>
-                <span className="run-metric">{formatLatency(run.duration_ms)}</span>
-                <span className="run-metric">{formatReleases(run.release_ids)}</span>
+                <span className="run-metrics">
+                  <span>{run.span_count} spans</span>
+                  <span>{formatModels(run.models)}</span>
+                  <span>{formatCost(run.total_cost)}</span>
+                  <span>{formatLatency(run.duration_ms)}</span>
+                  <span>{formatReleases(run.release_ids)}</span>
+                </span>
               </Link>
             ))}
             {data.runs.items.length === 0 ? (
@@ -219,7 +246,7 @@ export default async function DashboardPage({
 
         <section className="trace-pane" aria-label="Trace detail">
           <div className="section-heading">
-            <h2>{data.trace ? data.trace.trace_id : "No trace selected"}</h2>
+            <h2>Waterfall</h2>
             <span>{spans.length} spans</span>
           </div>
           <div className="waterfall" aria-label="Agent span waterfall">
@@ -293,6 +320,28 @@ export default async function DashboardPage({
   );
 }
 
+function SummaryItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="summary-item">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
+  );
+}
+
+function advancedFiltersActive(query: DashboardQuery): boolean {
+  return Boolean(
+    query.startedAfter ||
+      query.startedBefore ||
+      query.model ||
+      query.release ||
+      query.minCostMicros !== undefined ||
+      query.maxCostMicros !== undefined ||
+      query.minLatencyMs !== undefined ||
+      query.maxLatencyMs !== undefined
+  );
+}
+
 function SpanDetail({
   span,
   io,
@@ -306,8 +355,11 @@ function SpanDetail({
   return (
     <div className="detail-stack">
       <div className="span-identity">
-        <h3>{span.name}</h3>
-        <p>{span.span_id}</p>
+        <div>
+          <h3>{span.name}</h3>
+          <p>{span.span_id}</p>
+        </div>
+        <span className={`status ${span.status}`}>{statusLabel(span.status)}</span>
       </div>
       <dl className="metrics">
         <div>
