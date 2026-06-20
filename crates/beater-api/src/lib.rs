@@ -61,6 +61,7 @@ use beater_usage::{
     UsageSummary,
 };
 use chrono::Utc;
+use http::header::{HeaderName, HeaderValue, RETRY_AFTER};
 use http::{HeaderMap, StatusCode};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
@@ -2450,49 +2451,47 @@ fn judge_failure(error: JudgeBrokerError) -> ApiError {
 pub struct ApiError {
     status: StatusCode,
     message: String,
+    headers: Vec<(HeaderName, HeaderValue)>,
 }
 
 impl ApiError {
-    fn bad_request(message: String) -> Self {
+    fn with_status(status: StatusCode, message: String) -> Self {
         Self {
-            status: StatusCode::BAD_REQUEST,
+            status,
             message,
+            headers: Vec::new(),
         }
+    }
+
+    fn with_header(mut self, name: HeaderName, value: impl ToString) -> Self {
+        if let Ok(value) = HeaderValue::from_str(&value.to_string()) {
+            self.headers.push((name, value));
+        }
+        self
+    }
+
+    fn bad_request(message: String) -> Self {
+        Self::with_status(StatusCode::BAD_REQUEST, message)
     }
 
     fn internal(message: String) -> Self {
-        Self {
-            status: StatusCode::INTERNAL_SERVER_ERROR,
-            message,
-        }
+        Self::with_status(StatusCode::INTERNAL_SERVER_ERROR, message)
     }
 
     fn unauthorized(message: String) -> Self {
-        Self {
-            status: StatusCode::UNAUTHORIZED,
-            message,
-        }
+        Self::with_status(StatusCode::UNAUTHORIZED, message)
     }
 
     fn forbidden(message: String) -> Self {
-        Self {
-            status: StatusCode::FORBIDDEN,
-            message,
-        }
+        Self::with_status(StatusCode::FORBIDDEN, message)
     }
 
     fn not_found(message: String) -> Self {
-        Self {
-            status: StatusCode::NOT_FOUND,
-            message,
-        }
+        Self::with_status(StatusCode::NOT_FOUND, message)
     }
 
     fn not_implemented(message: String) -> Self {
-        Self {
-            status: StatusCode::NOT_IMPLEMENTED,
-            message,
-        }
+        Self::with_status(StatusCode::NOT_IMPLEMENTED, message)
     }
 }
 
@@ -2525,18 +2524,29 @@ impl From<anyhow::Error> for ApiError {
 impl From<IngestError> for ApiError {
     fn from(error: IngestError) -> Self {
         match error {
-            IngestError::QuotaExceeded { .. } | IngestError::Backpressure { .. } => Self {
-                status: StatusCode::TOO_MANY_REQUESTS,
-                message: error.to_string(),
-            },
-            IngestError::TooManyAttributes { .. } | IngestError::PayloadTooLarge { .. } => Self {
-                status: StatusCode::PAYLOAD_TOO_LARGE,
-                message: error.to_string(),
-            },
-            IngestError::NotFound(_) => Self {
-                status: StatusCode::NOT_FOUND,
-                message: error.to_string(),
-            },
+            IngestError::QuotaExceeded {
+                limit, reset_at, ..
+            } => {
+                let retry_after = reset_at
+                    .signed_duration_since(Utc::now())
+                    .num_seconds()
+                    .max(0);
+                Self::with_status(StatusCode::TOO_MANY_REQUESTS, error.to_string())
+                    .with_header(RETRY_AFTER, retry_after)
+                    .with_header(HeaderName::from_static("x-ratelimit-limit"), limit)
+                    .with_header(HeaderName::from_static("x-ratelimit-remaining"), 0)
+                    .with_header(
+                        HeaderName::from_static("x-ratelimit-reset"),
+                        reset_at.timestamp(),
+                    )
+            }
+            IngestError::Backpressure { .. } => {
+                Self::with_status(StatusCode::TOO_MANY_REQUESTS, error.to_string())
+            }
+            IngestError::TooManyAttributes { .. } | IngestError::PayloadTooLarge { .. } => {
+                Self::with_status(StatusCode::PAYLOAD_TOO_LARGE, error.to_string())
+            }
+            IngestError::NotFound(_) => Self::with_status(StatusCode::NOT_FOUND, error.to_string()),
             IngestError::Store(error) => error.into(),
             IngestError::Other(error) => Self::internal(error.to_string()),
         }
@@ -2546,18 +2556,11 @@ impl From<IngestError> for ApiError {
 impl From<StoreError> for ApiError {
     fn from(error: StoreError) -> Self {
         match error {
-            StoreError::NotFound(_) => Self {
-                status: StatusCode::NOT_FOUND,
-                message: error.to_string(),
-            },
-            StoreError::Conflict(_) => Self {
-                status: StatusCode::CONFLICT,
-                message: error.to_string(),
-            },
-            StoreError::Backpressure(_) => Self {
-                status: StatusCode::SERVICE_UNAVAILABLE,
-                message: error.to_string(),
-            },
+            StoreError::NotFound(_) => Self::with_status(StatusCode::NOT_FOUND, error.to_string()),
+            StoreError::Conflict(_) => Self::with_status(StatusCode::CONFLICT, error.to_string()),
+            StoreError::Backpressure(_) => {
+                Self::with_status(StatusCode::SERVICE_UNAVAILABLE, error.to_string())
+            }
             StoreError::Integrity(_) | StoreError::Backend(_) => Self::internal(error.to_string()),
         }
     }
@@ -2569,7 +2572,11 @@ impl IntoResponse for ApiError {
             "error": self.message,
             "status": self.status.as_u16()
         }));
-        (self.status, body).into_response()
+        let mut response = (self.status, body).into_response();
+        for (name, value) in self.headers {
+            response.headers_mut().insert(name, value);
+        }
+        response
     }
 }
 

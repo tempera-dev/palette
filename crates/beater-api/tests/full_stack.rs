@@ -46,6 +46,7 @@ use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::{SqliteUsageLedger, UsageMeter, UsageSummary};
 use chrono::{Duration, Utc};
+use http::header::RETRY_AFTER;
 use http::{Request, StatusCode};
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
@@ -1453,6 +1454,97 @@ async fn buffered_ingest_backpressure_returns_429() {
         .as_str()
         .unwrap_or_default()
         .contains("capacity 0"));
+}
+
+#[tokio::test]
+async fn api_quota_429_includes_reset_headers() {
+    let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+    let artifacts = Arc::new(
+        FsArtifactStore::new(tempdir.path().join("artifacts"))
+            .unwrap_or_else(|err| panic!("{err}")),
+    );
+    let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let bus = Arc::new(InMemoryBus::new(16));
+    let ingest = IngestService::new(
+        artifacts,
+        traces.clone(),
+        bus,
+        IngestPolicy {
+            per_project_event_quota: Some(1),
+            ..IngestPolicy::default()
+        },
+    );
+    let app = router(ApiState::new(ingest, traces));
+
+    let first = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/traces/native")
+                .header("content-type", "application/json")
+                .body(Body::from(
+                    serde_json::to_vec(&native_request()).unwrap_or_else(|err| panic!("{err}")),
+                ))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(first.status(), StatusCode::OK);
+
+    let mut second_request = native_request();
+    second_request.span_id = SpanId::new("quota-span-2").unwrap_or_else(|err| panic!("{err}"));
+    second_request.seq = 2;
+    let response = app
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/traces/native")
+                .header("content-type", "application/json")
+                .body(Body::from(
+                    serde_json::to_vec(&second_request).unwrap_or_else(|err| panic!("{err}")),
+                ))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+
+    assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+    let headers = response.headers().clone();
+    assert!(headers
+        .get(RETRY_AFTER)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.parse::<i64>().ok())
+        .is_some_and(|seconds| seconds >= 0));
+    assert_eq!(
+        headers
+            .get("x-ratelimit-limit")
+            .and_then(|value| value.to_str().ok()),
+        Some("1")
+    );
+    assert_eq!(
+        headers
+            .get("x-ratelimit-remaining")
+            .and_then(|value| value.to_str().ok()),
+        Some("0")
+    );
+    let reset_at = headers
+        .get("x-ratelimit-reset")
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.parse::<i64>().ok())
+        .unwrap_or_else(|| panic!("missing x-ratelimit-reset"));
+    assert!(reset_at >= Utc::now().timestamp());
+
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let error: serde_json::Value =
+        serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(error["status"], json!(429));
+    assert!(error["error"]
+        .as_str()
+        .unwrap_or_default()
+        .contains("quota exceeded"));
 }
 
 #[tokio::test]
