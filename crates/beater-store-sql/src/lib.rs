@@ -654,6 +654,49 @@ impl SqliteTraceStore {
         Ok(())
     }
 
+    async fn get_trace_with_project(
+        &self,
+        tenant: TenantId,
+        project: Option<ProjectId>,
+        trace: TraceId,
+    ) -> StoreResult<TraceView> {
+        let connection = self.lock()?;
+        let mut statement = connection
+            .prepare(
+                r#"
+                SELECT span_json
+                FROM spans
+                WHERE tenant_id = ?1
+                  AND (?2 IS NULL OR project_id = ?2)
+                  AND trace_id = ?3
+                ORDER BY seq ASC, start_time ASC
+                "#,
+            )
+            .map_err(StoreError::backend)?;
+        let rows = statement
+            .query_map(
+                params![
+                    tenant.as_str(),
+                    project.as_ref().map(|project_id| project_id.as_str()),
+                    trace.as_str()
+                ],
+                |row| row.get::<_, String>(0),
+            )
+            .map_err(StoreError::backend)?;
+
+        let mut spans = Vec::new();
+        for row in rows {
+            let json = row.map_err(StoreError::backend)?;
+            spans.push(serde_json::from_str::<CanonicalSpan>(&json).map_err(StoreError::backend)?);
+        }
+
+        Ok(TraceView {
+            tenant_id: tenant,
+            trace_id: trace,
+            spans,
+        })
+    }
+
     fn lock(&self) -> StoreResult<std::sync::MutexGuard<'_, Connection>> {
         self.connection
             .lock()
@@ -742,34 +785,17 @@ impl TraceStore for SqliteTraceStore {
     }
 
     async fn get_trace(&self, tenant: TenantId, trace: TraceId) -> StoreResult<TraceView> {
-        let connection = self.lock()?;
-        let mut statement = connection
-            .prepare(
-                r#"
-                SELECT span_json
-                FROM spans
-                WHERE tenant_id = ?1 AND trace_id = ?2
-                ORDER BY seq ASC, start_time ASC
-                "#,
-            )
-            .map_err(StoreError::backend)?;
-        let rows = statement
-            .query_map(params![tenant.as_str(), trace.as_str()], |row| {
-                row.get::<_, String>(0)
-            })
-            .map_err(StoreError::backend)?;
+        self.get_trace_with_project(tenant, None, trace).await
+    }
 
-        let mut spans = Vec::new();
-        for row in rows {
-            let json = row.map_err(StoreError::backend)?;
-            spans.push(serde_json::from_str::<CanonicalSpan>(&json).map_err(StoreError::backend)?);
-        }
-
-        Ok(TraceView {
-            tenant_id: tenant,
-            trace_id: trace,
-            spans,
-        })
+    async fn get_project_trace(
+        &self,
+        tenant: TenantId,
+        project: ProjectId,
+        trace: TraceId,
+    ) -> StoreResult<TraceView> {
+        self.get_trace_with_project(tenant, Some(project), trace)
+            .await
     }
 
     async fn get_raw_envelope(
@@ -795,7 +821,6 @@ impl TraceStore for SqliteTraceStore {
             .map(|json| serde_json::from_str::<RawEnvelope>(&json).map_err(StoreError::backend))
             .transpose()
     }
-
     async fn query_runs(
         &self,
         tenant: TenantId,

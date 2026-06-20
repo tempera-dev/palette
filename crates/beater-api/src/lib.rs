@@ -708,7 +708,11 @@ async fn drain_trace_ingested_route(
             let search = search.clone();
             async move {
                 let trace = traces
-                    .get_trace(trace_ref.tenant_id.clone(), trace_ref.trace_id.clone())
+                    .get_project_trace(
+                        trace_ref.tenant_id.clone(),
+                        trace_ref.project_id.clone(),
+                        trace_ref.trace_id.clone(),
+                    )
                     .await
                     .map_err(|err| err.to_string())?;
                 search
@@ -894,7 +898,7 @@ async fn get_trace(
         TenantId::new(tenant_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
     let trace_id = TraceId::new(trace_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
     let auth = authorize_tenant_route(&state, &headers, &tenant_id, ApiScope::TraceRead).await?;
-    let trace = state.traces.get_trace(tenant_id, trace_id).await?;
+    let trace = load_trace_for_auth_scope(&state, tenant_id, trace_id, &auth).await?;
     ensure_trace_auth_scope(&trace, &auth)?;
     if params.unmask.unwrap_or(false) {
         let trace =
@@ -969,7 +973,7 @@ async fn archive_trace(
     .await?;
     let trace = state
         .traces
-        .get_trace(tenant_id.clone(), trace_id.clone())
+        .get_project_trace(tenant_id.clone(), project_id.clone(), trace_id.clone())
         .await?;
     ensure_trace_project(&trace, &project_id)?;
     ensure_trace_auth_scope(&trace, &auth)?;
@@ -1103,7 +1107,10 @@ async fn promote_dataset_case(
         .map(SpanId::new)
         .transpose()
         .map_err(|err| ApiError::bad_request(err.to_string()))?;
-    let trace = state.traces.get_trace(tenant_id.clone(), trace_id).await?;
+    let trace = state
+        .traces
+        .get_project_trace(tenant_id.clone(), project_id.clone(), trace_id)
+        .await?;
     ensure_trace_project(&trace, &project_id)?;
     ensure_trace_auth_scope(&trace, &auth)?;
     let case = promote_trace_span_to_case(
@@ -1600,7 +1607,7 @@ async fn enqueue_review_task_from_trace_route(
         .map_err(|err| ApiError::bad_request(err.to_string()))?;
     let trace = state
         .traces
-        .get_trace(tenant_id.clone(), trace_id.clone())
+        .get_project_trace(tenant_id.clone(), project_id.clone(), trace_id.clone())
         .await?;
     ensure_trace_project(&trace, &project_id)?;
     ensure_trace_auth_scope(&trace, &auth)?;
@@ -1727,7 +1734,7 @@ async fn promote_review_annotation_route(
         .await?;
     let trace = state
         .traces
-        .get_trace(tenant_id.clone(), task.trace_id.clone())
+        .get_project_trace(tenant_id.clone(), project_id.clone(), task.trace_id.clone())
         .await?;
     ensure_trace_project(&trace, &project_id)?;
     ensure_trace_auth_scope(&trace, &auth)?;
@@ -1765,7 +1772,10 @@ async fn decide_online_sampling(
         ApiScope::TraceRead,
     )
     .await?;
-    let trace = state.traces.get_trace(tenant_id, trace_id).await?;
+    let trace = state
+        .traces
+        .get_project_trace(tenant_id, project_id.clone(), trace_id)
+        .await?;
     ensure_trace_project(&trace, &project_id)?;
     ensure_trace_auth_scope(&trace, &auth)?;
     Ok(Json(decide_trace_sampling(&trace, &policy)))
@@ -1799,7 +1809,10 @@ async fn evaluate_alert(
             "alert input must match route tenant/project/trace".to_string(),
         ));
     }
-    let trace = state.traces.get_trace(path_tenant, path_trace).await?;
+    let trace = state
+        .traces
+        .get_project_trace(path_tenant, path_project.clone(), path_trace)
+        .await?;
     ensure_trace_project(&trace, &path_project)?;
     ensure_trace_auth_scope(&trace, &auth)?;
     if trace.spans.is_empty() {
@@ -2428,6 +2441,21 @@ fn ensure_trace_auth_scope(trace: &TraceView, auth: &AuthDecision) -> Result<(),
     Ok(())
 }
 
+async fn load_trace_for_auth_scope(
+    state: &ApiState,
+    tenant_id: TenantId,
+    trace_id: TraceId,
+    auth: &AuthDecision,
+) -> Result<TraceView, ApiError> {
+    if let Some(project_id) = &auth.project_id {
+        return Ok(state
+            .traces
+            .get_project_trace(tenant_id, project_id.clone(), trace_id)
+            .await?);
+    }
+    Ok(state.traces.get_trace(tenant_id, trace_id).await?)
+}
+
 async fn load_span_for_route(
     state: ApiState,
     headers: HeaderMap,
@@ -2441,10 +2469,8 @@ async fn load_span_for_route(
     let trace_id = TraceId::new(trace_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
     let span_id = SpanId::new(span_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
     let auth = authorize_tenant_route(&state, &headers, &tenant_id, ApiScope::TraceRead).await?;
-    let trace = state
-        .traces
-        .get_trace(tenant_id.clone(), trace_id.clone())
-        .await?;
+    let trace =
+        load_trace_for_auth_scope(&state, tenant_id.clone(), trace_id.clone(), &auth).await?;
     ensure_trace_auth_scope(&trace, &auth)?;
     let trace = if params.unmask.unwrap_or(false) {
         authorize_and_audit_trace_unmask(&state, &headers, trace, auth, params.reason).await?

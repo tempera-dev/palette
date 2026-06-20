@@ -144,11 +144,30 @@ impl TraceStore for InMemoryTraceStore {
             .filter(|span| span.tenant_id == tenant && span.trace_id == trace)
             .cloned()
             .collect::<Vec<_>>();
-        spans.sort_by(|left, right| {
-            left.seq
-                .cmp(&right.seq)
-                .then_with(|| left.start_time.cmp(&right.start_time))
-        });
+        sort_trace_spans(&mut spans);
+        Ok(TraceView {
+            tenant_id: tenant,
+            trace_id: trace,
+            spans,
+        })
+    }
+
+    async fn get_project_trace(
+        &self,
+        tenant: TenantId,
+        project: ProjectId,
+        trace: TraceId,
+    ) -> StoreResult<TraceView> {
+        let state = self.lock()?;
+        let mut spans = state
+            .spans
+            .iter()
+            .filter(|span| {
+                span.tenant_id == tenant && span.project_id == project && span.trace_id == trace
+            })
+            .cloned()
+            .collect::<Vec<_>>();
+        sort_trace_spans(&mut spans);
         Ok(TraceView {
             tenant_id: tenant,
             trace_id: trace,
@@ -226,6 +245,14 @@ impl TraceStore for InMemoryTraceStore {
         });
         Ok(page_vec(spans, page))
     }
+}
+
+fn sort_trace_spans(spans: &mut [CanonicalSpan]) {
+    spans.sort_by(|left, right| {
+        left.seq
+            .cmp(&right.seq)
+            .then_with(|| left.start_time.cmp(&right.start_time))
+    });
 }
 
 #[async_trait]

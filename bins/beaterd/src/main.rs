@@ -396,7 +396,11 @@ async fn index_trace_ref(
     trace_ref: QueuedTraceWork,
 ) -> Result<(), String> {
     let trace = traces
-        .get_trace(trace_ref.tenant_id.clone(), trace_ref.trace_id.clone())
+        .get_project_trace(
+            trace_ref.tenant_id.clone(),
+            trace_ref.project_id.clone(),
+            trace_ref.trace_id.clone(),
+        )
         .await
         .map_err(|err| {
             format!(
@@ -441,6 +445,15 @@ impl TraceStore for FailSwitchTraceStore {
 
     async fn get_trace(&self, tenant: TenantId, trace: TraceId) -> StoreResult<TraceView> {
         self.inner.get_trace(tenant, trace).await
+    }
+
+    async fn get_project_trace(
+        &self,
+        tenant: TenantId,
+        project: ProjectId,
+        trace: TraceId,
+    ) -> StoreResult<TraceView> {
+        self.inner.get_project_trace(tenant, project, trace).await
     }
 
     async fn get_raw_envelope(

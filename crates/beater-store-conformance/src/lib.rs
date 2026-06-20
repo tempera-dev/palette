@@ -83,6 +83,42 @@ where
         .unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(runs.items.len(), 1);
     assert_eq!(runs.items[0].span_count, 2);
+
+    let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+    let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+    let other_project = ProjectId::new("other-project").unwrap_or_else(|err| panic!("{err}"));
+    let trace = TraceId::new("trace").unwrap_or_else(|err| panic!("{err}"));
+    let other_project_batch =
+        fixture_project_batch(&tenant, &other_project, &trace, "other-project-root", 3);
+    let write_other_project = store
+        .write_batch(other_project_batch)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(write_other_project.accepted_spans, 1);
+
+    let scoped_project = store
+        .get_project_trace(tenant.clone(), project, trace.clone())
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let scoped_other_project = store
+        .get_project_trace(tenant, other_project, trace)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+
+    assert_eq!(scoped_project.spans.len(), 2);
+    assert!(scoped_project
+        .spans
+        .iter()
+        .all(|span| span.project_id.as_str() == "project"));
+    assert_eq!(scoped_other_project.spans.len(), 1);
+    assert_eq!(
+        scoped_other_project.spans[0].span_id.as_str(),
+        "other-project-root"
+    );
+    assert_eq!(
+        scoped_other_project.spans[0].project_id.as_str(),
+        "other-project"
+    );
 }
 
 pub async fn assert_metadata_store_conformance<S>(store: S)
@@ -287,6 +323,59 @@ fn fixture_batch() -> (
         trace,
         idempotency_key,
     )
+}
+
+fn fixture_project_batch(
+    tenant: &TenantId,
+    project: &ProjectId,
+    trace: &TraceId,
+    span_id: &str,
+    seq: u64,
+) -> CanonicalTraceBatch {
+    let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
+    let idempotency_key = IdempotencyKey::new(format!(
+        "{}:{}:{}:raw",
+        tenant.as_str(),
+        project.as_str(),
+        trace.as_str()
+    ))
+    .unwrap_or_else(|err| panic!("{err}"));
+    let body_ref = artifact_ref("other-project-raw");
+    let raw = RawEnvelope {
+        schema_version: RAW_SCHEMA_VERSION,
+        tenant_id: tenant.clone(),
+        project_id: project.clone(),
+        environment_id: environment.clone(),
+        source: SourceDialect::Native,
+        source_schema_url: Some("beater://native/v1".to_string()),
+        source_schema_version: Some("1".to_string()),
+        received_at: Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp")),
+        idempotency_key,
+        payload_hash: body_ref.sha256.clone(),
+        body_ref: body_ref.clone(),
+        auth_context: AuthContext {
+            api_key_id: None,
+            scopes: BTreeSet::new(),
+        },
+    };
+    let span = canonical_span(CanonicalSpanFixture {
+        tenant,
+        project,
+        environment: &environment,
+        trace,
+        span: span_id,
+        seq,
+        kind: AgentSpanKind::AgentRun,
+        name: "other project run",
+        raw_ref: body_ref,
+    });
+    CanonicalTraceBatch {
+        raw_envelopes: vec![raw],
+        spans: vec![span],
+    }
 }
 
 struct CanonicalSpanFixture<'a> {

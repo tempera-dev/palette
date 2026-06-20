@@ -1807,7 +1807,11 @@ async fn run_local_smoke(data_dir: PathBuf) -> anyhow::Result<serde_json::Value>
                 let traces = traces.clone();
                 async move {
                     traces
-                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .get_project_trace(
+                            trace_ref.tenant_id,
+                            trace_ref.project_id,
+                            trace_ref.trace_id,
+                        )
                         .await
                         .map(|_| ())
                         .map_err(|err| err.to_string())
@@ -2295,6 +2299,15 @@ impl TraceStore for UnavailableTraceStore {
     async fn get_trace(
         &self,
         _tenant: TenantId,
+        _trace: TraceId,
+    ) -> beater_store::StoreResult<TraceView> {
+        Err(StoreError::Backend("trace store unavailable".to_string()))
+    }
+
+    async fn get_project_trace(
+        &self,
+        _tenant: TenantId,
+        _project: ProjectId,
         _trace: TraceId,
     ) -> beater_store::StoreResult<TraceView> {
         Err(StoreError::Backend("trace store unavailable".to_string()))

@@ -1311,6 +1311,93 @@ async fn duplicate_native_ingest_is_reconciled_through_api() {
 }
 
 #[tokio::test]
+async fn project_scoped_archive_routes_do_not_merge_same_trace_id_across_projects() {
+    let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+    let artifacts = Arc::new(
+        FsArtifactStore::new(tempdir.path().join("artifacts"))
+            .unwrap_or_else(|err| panic!("{err}")),
+    );
+    let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let search = Arc::new(TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let archive = ParquetTraceArchive::new(tempdir.path().join("archive"))
+        .unwrap_or_else(|err| panic!("{err}"));
+    let bus = Arc::new(InMemoryBus::new(16));
+    let ingest = IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
+    let app = router(ApiState::with_search_and_archive(
+        ingest, traces, search, archive,
+    ));
+
+    let project_request = native_request();
+    let mut other_project_request = native_request();
+    other_project_request.scope = TenantScope::new(
+        TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+        ProjectId::new("other-project").unwrap_or_else(|err| panic!("{err}")),
+        EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}")),
+    );
+    other_project_request.span_id = SpanId::new("other-span").unwrap_or_else(|err| panic!("{err}"));
+    other_project_request.idempotency_key =
+        Some(IdempotencyKey::new("other-project-same-trace").unwrap_or_else(|err| panic!("{err}")));
+
+    for request in [project_request, other_project_request] {
+        let response = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/v1/traces/native")
+                    .header("content-type", "application/json")
+                    .body(Body::from(
+                        serde_json::to_vec(&request).unwrap_or_else(|err| panic!("{err}")),
+                    ))
+                    .unwrap_or_else(|err| panic!("{err}")),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(response.status(), StatusCode::OK);
+    }
+
+    for project_id in ["project", "other-project"] {
+        let response = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri(format!("/v1/archive/tenant/{project_id}/trace"))
+                    .body(Body::empty())
+                    .unwrap_or_else(|err| panic!("{err}")),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(response.status(), StatusCode::OK);
+
+        let response = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("GET")
+                    .uri(format!(
+                        "/v1/archive/tenant/{project_id}/spans?trace_id=trace"
+                    ))
+                    .body(Body::empty())
+                    .unwrap_or_else(|err| panic!("{err}")),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(response.status(), StatusCode::OK);
+        let body = to_bytes(response.into_body(), 1024 * 1024)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let archive_response: serde_json::Value =
+            serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+        let rows = archive_response["rows"]
+            .as_array()
+            .unwrap_or_else(|| panic!("archive rows should be an array"));
+        assert_eq!(rows.len(), 1);
+        assert_eq!(rows[0]["project_id"], project_id);
+    }
+}
+
+#[tokio::test]
 async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
     let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
     let artifacts = Arc::new(

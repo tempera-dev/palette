@@ -55,6 +55,13 @@ pub trait TraceStore: Send + Sync {
 
     async fn get_trace(&self, tenant: TenantId, trace: TraceId) -> StoreResult<TraceView>;
 
+    async fn get_project_trace(
+        &self,
+        tenant: TenantId,
+        project: ProjectId,
+        trace: TraceId,
+    ) -> StoreResult<TraceView>;
+
     async fn get_raw_envelope(
         &self,
         tenant: TenantId,

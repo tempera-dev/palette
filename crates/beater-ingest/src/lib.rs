@@ -1910,7 +1910,11 @@ mod tests {
                 let traces = traces.clone();
                 async move {
                     let trace = traces
-                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .get_project_trace(
+                            trace_ref.tenant_id,
+                            trace_ref.project_id,
+                            trace_ref.trace_id,
+                        )
                         .await
                         .map_err(|err| err.to_string())?;
                     if trace.spans.len() != 1 {
@@ -1989,7 +1993,11 @@ mod tests {
                 let recovered_traces = recovered_traces.clone();
                 async move {
                     let trace = recovered_traces
-                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .get_project_trace(
+                            trace_ref.tenant_id,
+                            trace_ref.project_id,
+                            trace_ref.trace_id,
+                        )
                         .await
                         .map_err(|err| err.to_string())?;
                     if trace.spans.len() != 1 {
@@ -2112,7 +2120,11 @@ mod tests {
                 let trace_id = trace_id.clone();
                 async move {
                     let trace = restarted_traces
-                        .get_trace(trace_ref.tenant_id, trace_ref.trace_id)
+                        .get_project_trace(
+                            trace_ref.tenant_id,
+                            trace_ref.project_id,
+                            trace_ref.trace_id,
+                        )
                         .await
                         .map_err(|err| err.to_string())?;
                     if trace.trace_id != trace_id {
@@ -2335,6 +2347,15 @@ mod tests {
         async fn get_trace(
             &self,
             _tenant: TenantId,
+            _trace: TraceId,
+        ) -> beater_store::StoreResult<TraceView> {
+            Err(StoreError::Backend("trace store unavailable".to_string()))
+        }
+
+        async fn get_project_trace(
+            &self,
+            _tenant: TenantId,
+            _project: ProjectId,
             _trace: TraceId,
         ) -> beater_store::StoreResult<TraceView> {
             Err(StoreError::Backend("trace store unavailable".to_string()))
