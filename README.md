@@ -148,9 +148,10 @@ quickstart virtualenv, then runs `docker compose up`, sends
 `localhost:3000`, and fails if time-to-first-trace exceeds 300 seconds. It
 also records time-to-quickstart-click when browser proof is enabled. It leaves
 the dashboard running by default so a human can click through the trace.
-Before starting Compose it checks Docker, Python, curl, browser-proof npm, and
-the required host ports. For outside-person evidence, free the default
-`8080`/`4317`/`3000` ports rather than using alternate ports.
+Before starting Compose it checks Docker, Python, curl, and browser-proof npm,
+removes any previous Beater stopwatch project, then checks the required host
+ports. For outside-person evidence, free the default `8080`/`4317`/`3000` ports
+rather than using alternate ports.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`; set
 `BEATER_GATE2_LOCAL_BUILD=1` when you intentionally want to build the server and

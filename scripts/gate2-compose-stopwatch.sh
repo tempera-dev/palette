@@ -209,7 +209,7 @@ EOF
   fi
 }
 
-preflight() {
+preflight_prerequisites() {
   require_command docker
   require_command curl
   require_command python3
@@ -224,6 +224,9 @@ preflight() {
     echo "Docker Compose v2 is required for Gate 2 proof." >&2
     return 1
   fi
+}
+
+preflight_ports() {
   if [[ "$reuse" != "1" ]]; then
     require_free_port "$host_http_port" "beaterd HTTP" "BEATER_HTTP_PORT"
     require_free_port "$host_otlp_grpc_port" "OTLP gRPC" "BEATER_OTLP_GRPC_PORT"
@@ -233,8 +236,9 @@ preflight() {
 
 trap cleanup EXIT
 
-run_before_deadline "Gate 2 proof preflight" preflight
+run_before_deadline "Gate 2 prerequisite preflight" preflight_prerequisites
 run_before_deadline "clean previous Gate 2 state" clean_start
+run_before_deadline "Gate 2 port preflight" preflight_ports
 run_before_deadline "compose startup ($startup_mode)" compose "${startup_args[@]}"
 wait_url "$api_url/health" "beaterd"
 wait_url "$dashboard_base_url/?tenant=demo&project=demo&environment=local" "dashboard"

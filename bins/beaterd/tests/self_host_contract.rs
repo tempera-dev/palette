@@ -131,7 +131,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("git rev-parse HEAD"));
     assert!(stopwatch_script.contains("docker compose version"));
     assert!(stopwatch_script.contains("compose images"));
-    assert!(stopwatch_script.contains("run_before_deadline \"Gate 2 proof preflight\" preflight"));
+    assert!(stopwatch_script
+        .contains("run_before_deadline \"Gate 2 prerequisite preflight\" preflight_prerequisites"));
+    assert!(
+        stopwatch_script.contains("run_before_deadline \"Gate 2 port preflight\" preflight_ports")
+    );
     assert!(stopwatch_script.contains("require_command docker"));
     assert!(stopwatch_script.contains("require_command curl"));
     assert!(stopwatch_script.contains("require_command python3"));
@@ -140,6 +144,21 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("require_free_port \"$host_http_port\""));
     assert!(stopwatch_script.contains("require_free_port \"$host_otlp_grpc_port\""));
     assert!(stopwatch_script.contains("require_free_port \"$host_dashboard_port\""));
+    let prerequisite_preflight = stopwatch_script
+        .find("run_before_deadline \"Gate 2 prerequisite preflight\" preflight_prerequisites")
+        .expect("stopwatch script should run prerequisite preflight");
+    let clean_start = stopwatch_script
+        .find("run_before_deadline \"clean previous Gate 2 state\" clean_start")
+        .expect("stopwatch script should clean previous state");
+    let port_preflight = stopwatch_script
+        .find("run_before_deadline \"Gate 2 port preflight\" preflight_ports")
+        .expect("stopwatch script should run port preflight");
+    let compose_startup = stopwatch_script
+        .find("run_before_deadline \"compose startup ($startup_mode)\"")
+        .expect("stopwatch script should start compose");
+    assert!(prerequisite_preflight < clean_start);
+    assert!(clean_start < port_preflight);
+    assert!(port_preflight < compose_startup);
     assert!(stopwatch_script.contains("BEATER_GATE2_WRITE_PROOF"));
     assert!(stopwatch_script.contains("BEATER_GATE2_BROWSER_PROOF"));
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_DEMO"));
@@ -183,7 +202,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let readme = read(root.join("README.md"));
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh"));
-    assert!(readme.contains("checks Docker, Python, curl, browser-proof npm"));
+    assert!(readme.contains("removes any previous Beater stopwatch project"));
     assert!(readme.contains("gate2-compose-browser-demo.webm"));
 
     let requirements = read(root.join("REQUIREMENTS.md"));
