@@ -71,6 +71,7 @@ This repo now contains the first tested Rust vertical slice:
 - persisted replay cassette event store, deterministic/forked replay execution, and failure attribution
 - API-key hashing/scoping, persisted SQLite API-key metadata, last-used audit timestamp, and HMAC webhook signing primitives
 - optional strict API auth mode on `beaterd` with environment-bound scoped keys
+- checksummed SQLite migration runner wired into `beaterd` startup for local OSS stores
 - API route for native trace ingest and trace readback
 - API routes for trace lists, selected span detail, redaction-aware span I/O inspection, and audited unmask reads
 - `/openapi.json` documents the dashboard read surface and generates the dashboard TypeScript client

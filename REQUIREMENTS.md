@@ -29,7 +29,7 @@ system, test output, or runtime behavior.
 
 | ID | Requirement | Evidence required |
 | --- | --- | --- |
-| R2.1 | Canonical entities exist: Run, Span, Event, Artifact, DatasetVersion, Experiment, EvaluatorVersion, EvalResult, Gate, GateRun, ReviewQueue, ReviewTask, Annotation, CalibrationReport, UsageRecord, AuditEvent. | Schema definitions plus `migrations/sqlite`, `migrations/postgres`, and `migrations/clickhouse` schema contracts; runtime migration runner and Postgres/ClickHouse backends still required |
+| R2.1 | Canonical entities exist: Run, Span, Event, Artifact, DatasetVersion, Experiment, EvaluatorVersion, EvalResult, Gate, GateRun, ReviewQueue, ReviewTask, Annotation, CalibrationReport, UsageRecord, AuditEvent. | Schema definitions plus `migrations/sqlite`, `migrations/postgres`, and `migrations/clickhouse` schema contracts; `beaterd` executes the SQLite contract through a checksummed migration ledger before opening local stores; Postgres/ClickHouse runtime backends still required |
 | R2.2 | Every raw event has `schema_version`, source dialect, source schema version/URL, payload hash, and raw artifact ref. | Unit tests and sample stored raw envelopes |
 | R2.3 | Normalized spans store `normalizer_version`, canonical attrs, unmapped attrs, and raw ref. | Golden normalizer tests |
 | R2.4 | Old raw traces can be re-normalized after schema changes. | Migration/replay test that reprojects an old fixture into a new canonical version |

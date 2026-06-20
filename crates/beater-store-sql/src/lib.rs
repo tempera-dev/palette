@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use beater_core::{
-    Clock, EnvironmentId, IdempotencyKey, OrganizationId, Page, PageRequest, ProjectId,
+    sha256_hex, Clock, EnvironmentId, IdempotencyKey, OrganizationId, Page, PageRequest, ProjectId,
     SystemClock, TenantId, Timestamp, TraceId,
 };
 use beater_schema::{
@@ -19,6 +19,130 @@ use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration as StdDuration;
+
+const LOCAL_BEATERD_SQLITE_0001: &str =
+    include_str!("../../../migrations/sqlite/0001_local_beaterd.sql");
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct SqliteMigration {
+    pub version: u32,
+    pub name: &'static str,
+    pub sql: &'static str,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub struct SqliteMigrationReport {
+    pub applied: usize,
+    pub skipped: usize,
+}
+
+pub const LOCAL_BEATERD_SQLITE_MIGRATIONS: &[SqliteMigration] = &[SqliteMigration {
+    version: 1,
+    name: "0001_local_beaterd",
+    sql: LOCAL_BEATERD_SQLITE_0001,
+}];
+
+pub fn migrate_local_beaterd_sqlite(path: impl AsRef<Path>) -> StoreResult<SqliteMigrationReport> {
+    apply_sqlite_migrations(path, LOCAL_BEATERD_SQLITE_MIGRATIONS)
+}
+
+pub fn apply_sqlite_migrations(
+    path: impl AsRef<Path>,
+    migrations: &[SqliteMigration],
+) -> StoreResult<SqliteMigrationReport> {
+    let path = path.as_ref();
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(StoreError::backend)?;
+    }
+    let mut connection = Connection::open(path).map_err(StoreError::backend)?;
+    configure_sqlite_connection(&connection)?;
+    apply_sqlite_migrations_to_connection(&mut connection, migrations)
+}
+
+fn apply_sqlite_migrations_to_connection(
+    connection: &mut Connection,
+    migrations: &[SqliteMigration],
+) -> StoreResult<SqliteMigrationReport> {
+    connection
+        .execute_batch(
+            r#"
+            PRAGMA foreign_keys = ON;
+            CREATE TABLE IF NOT EXISTS _beater_schema_migrations (
+                version INTEGER PRIMARY KEY,
+                name TEXT NOT NULL,
+                checksum TEXT NOT NULL,
+                applied_at TEXT NOT NULL
+            );
+            "#,
+        )
+        .map_err(StoreError::backend)?;
+
+    let tx = connection
+        .transaction_with_behavior(TransactionBehavior::Immediate)
+        .map_err(StoreError::backend)?;
+    let mut report = SqliteMigrationReport::default();
+    for migration in migrations {
+        validate_migration(migration)?;
+        let checksum = sha256_hex(migration.sql.as_bytes());
+        let existing = tx
+            .query_row(
+                r#"
+                SELECT checksum
+                FROM _beater_schema_migrations
+                WHERE version = ?1
+                "#,
+                params![migration.version],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .map_err(StoreError::backend)?;
+        if let Some(existing) = existing {
+            if existing != checksum {
+                return Err(StoreError::integrity(format!(
+                    "sqlite migration {} checksum mismatch",
+                    migration.version
+                )));
+            }
+            report.skipped += 1;
+            continue;
+        }
+
+        tx.execute_batch(migration.sql)
+            .map_err(StoreError::backend)?;
+        tx.execute(
+            r#"
+            INSERT INTO _beater_schema_migrations
+              (version, name, checksum, applied_at)
+            VALUES (?1, ?2, ?3, ?4)
+            "#,
+            params![
+                migration.version,
+                migration.name,
+                checksum,
+                chrono::Utc::now().to_rfc3339(),
+            ],
+        )
+        .map_err(StoreError::backend)?;
+        report.applied += 1;
+    }
+    tx.commit().map_err(StoreError::backend)?;
+    Ok(report)
+}
+
+fn validate_migration(migration: &SqliteMigration) -> StoreResult<()> {
+    if migration.version == 0 {
+        return Err(StoreError::integrity(
+            "sqlite migration version must be positive",
+        ));
+    }
+    if migration.name.trim().is_empty() {
+        return Err(StoreError::integrity("sqlite migration name is empty"));
+    }
+    if migration.sql.trim().is_empty() {
+        return Err(StoreError::integrity("sqlite migration sql is empty"));
+    }
+    Ok(())
+}
 
 #[derive(Clone)]
 pub struct SqliteTraceStore {
@@ -171,6 +295,10 @@ impl QuotaLimiter for SqliteQuotaLimiter {
 }
 
 fn configure_quota_connection(connection: &Connection) -> StoreResult<()> {
+    configure_sqlite_connection(connection)
+}
+
+fn configure_sqlite_connection(connection: &Connection) -> StoreResult<()> {
     connection
         .busy_timeout(StdDuration::from_secs(5))
         .map_err(StoreError::backend)
@@ -843,6 +971,72 @@ mod tests {
     use beater_store_memory::{InMemoryMetadataStore, InMemoryQuotaLimiter, InMemoryTraceStore};
     use chrono::{TimeZone, Utc};
 
+    #[test]
+    fn local_sqlite_migration_executes_and_is_idempotent() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("beater.sqlite");
+
+        let first = migrate_local_beaterd_sqlite(&path).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(first.applied, 1);
+        assert_eq!(first.skipped, 0);
+
+        let connection = Connection::open(&path).unwrap_or_else(|err| panic!("{err}"));
+        assert!(sqlite_object_exists(&connection, "table", "raw_envelopes"));
+        assert!(sqlite_object_exists(
+            &connection,
+            "table",
+            "judge_audit_records"
+        ));
+        assert!(sqlite_object_exists(
+            &connection,
+            "table",
+            "calibration_reports"
+        ));
+        assert!(sqlite_object_exists(
+            &connection,
+            "table",
+            "_beater_schema_migrations"
+        ));
+        assert!(sqlite_column_exists(
+            &connection,
+            "judge_audit_records",
+            "evaluator_id"
+        ));
+        assert!(sqlite_column_exists(
+            &connection,
+            "calibration_reports",
+            "evaluator_version_id"
+        ));
+
+        let second = migrate_local_beaterd_sqlite(&path).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(second.applied, 0);
+        assert_eq!(second.skipped, 1);
+    }
+
+    #[test]
+    fn sqlite_migration_checksum_drift_is_rejected() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("beater.sqlite");
+        let first = SqliteMigration {
+            version: 42,
+            name: "test",
+            sql: "CREATE TABLE checksum_test (id TEXT PRIMARY KEY);",
+        };
+        let changed = SqliteMigration {
+            version: 42,
+            name: "test",
+            sql: "CREATE TABLE checksum_test_changed (id TEXT PRIMARY KEY);",
+        };
+
+        let report = apply_sqlite_migrations(&path, &[first]).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(report.applied, 1);
+
+        let error = apply_sqlite_migrations(&path, &[changed])
+            .err()
+            .unwrap_or_else(|| panic!("expected checksum drift rejection"));
+        assert!(error.to_string().contains("checksum mismatch"));
+    }
+
     #[tokio::test]
     async fn sqlite_trace_store_conforms() {
         assert_trace_store_conformance(
@@ -973,5 +1167,35 @@ mod tests {
     #[tokio::test]
     async fn in_memory_quota_limiter_conforms() {
         assert_quota_limiter_conformance(InMemoryQuotaLimiter::new()).await;
+    }
+
+    fn sqlite_object_exists(connection: &Connection, object_type: &str, name: &str) -> bool {
+        connection
+            .query_row(
+                r#"
+                SELECT COUNT(*)
+                FROM sqlite_master
+                WHERE type = ?1 AND name = ?2
+                "#,
+                params![object_type, name],
+                |row| row.get::<_, i64>(0),
+            )
+            .unwrap_or_else(|err| panic!("{err}"))
+            > 0
+    }
+
+    fn sqlite_column_exists(connection: &Connection, table: &str, column: &str) -> bool {
+        let escaped_table = table.replace('"', "\"\"");
+        let mut statement = connection
+            .prepare(&format!(r#"PRAGMA table_info("{escaped_table}")"#))
+            .unwrap_or_else(|err| panic!("{err}"));
+        let mut rows = statement.query([]).unwrap_or_else(|err| panic!("{err}"));
+        while let Some(row) = rows.next().unwrap_or_else(|err| panic!("{err}")) {
+            let name: String = row.get(1).unwrap_or_else(|err| panic!("{err}"));
+            if name == column {
+                return true;
+            }
+        }
+        false
     }
 }

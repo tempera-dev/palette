@@ -1116,6 +1116,7 @@ dependencies = [
  "beater-ingest",
  "beater-judge",
  "beater-otlp",
+ "beater-replay",
  "beater-schema",
  "beater-search",
  "beater-secrets",

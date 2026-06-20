@@ -24,7 +24,9 @@ use beater_search::{SearchIndex, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
-use beater_store_sql::{SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore};
+use beater_store_sql::{
+    migrate_local_beaterd_sqlite, SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore,
+};
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, ValueEnum};
 use std::fs;
@@ -119,39 +121,64 @@ enum JudgeProviderArg {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
-    let artifacts = Arc::new(FsArtifactStore::new(args.data_dir.join("artifacts"))?);
-    let sqlite_traces = Arc::new(SqliteTraceStore::open(args.data_dir.join("traces.sqlite"))?);
-    let traces: Arc<dyn TraceStore> = match args.test_trace_store_fail_write_while_path.clone() {
-        Some(path) => Arc::new(FailSwitchTraceStore::new(sqlite_traces.clone(), path)),
-        None => sqlite_traces.clone(),
-    };
+    let trace_db_path = args.data_dir.join("traces.sqlite");
     let quota_path = args
         .quota_db_path
         .clone()
         .unwrap_or_else(|| args.data_dir.join("quotas.sqlite"));
+    let metadata_db_path = args.data_dir.join("metadata.sqlite");
+    let dataset_db_path = args.data_dir.join("datasets.sqlite");
+    let experiment_db_path = args.data_dir.join("experiments.sqlite");
+    let gate_db_path = args.data_dir.join("gates.sqlite");
+    let review_db_path = args.data_dir.join("reviews.sqlite");
+    let calibration_db_path = args.data_dir.join("calibrations.sqlite");
+    let usage_db_path = args.data_dir.join("usage.sqlite");
+    let audit_db_path = args.data_dir.join("audit.sqlite");
+    let provider_secret_db_path = args.data_dir.join("provider-secrets.sqlite");
+    let judge_db_path = args.data_dir.join("judge.sqlite");
+    let bus_db_path = args.data_dir.join("bus.sqlite");
+    let security_db_path = args.data_dir.join("security.sqlite");
+    let mut sqlite_store_paths = vec![
+        trace_db_path.clone(),
+        quota_path.clone(),
+        metadata_db_path.clone(),
+        dataset_db_path.clone(),
+        experiment_db_path.clone(),
+        gate_db_path.clone(),
+        review_db_path.clone(),
+        calibration_db_path.clone(),
+        usage_db_path.clone(),
+        audit_db_path.clone(),
+        provider_secret_db_path.clone(),
+        judge_db_path.clone(),
+    ];
+    if matches!(args.bus_backend, BusBackendArg::Sqlite) {
+        sqlite_store_paths.push(bus_db_path.clone());
+    }
+    if matches!(args.auth_mode, AuthModeArg::Required) {
+        sqlite_store_paths.push(security_db_path.clone());
+    }
+    migrate_local_sqlite_stores(&sqlite_store_paths)?;
+
+    let artifacts = Arc::new(FsArtifactStore::new(args.data_dir.join("artifacts"))?);
+    let sqlite_traces = Arc::new(SqliteTraceStore::open(trace_db_path)?);
+    let traces: Arc<dyn TraceStore> = match args.test_trace_store_fail_write_while_path.clone() {
+        Some(path) => Arc::new(FailSwitchTraceStore::new(sqlite_traces.clone(), path)),
+        None => sqlite_traces.clone(),
+    };
     let quota_limiter = Arc::new(SqliteQuotaLimiter::open(quota_path)?);
-    let metadata = Arc::new(SqliteMetadataStore::open(
-        args.data_dir.join("metadata.sqlite"),
-    )?);
+    let metadata = Arc::new(SqliteMetadataStore::open(metadata_db_path)?);
     let search = Arc::new(TantivySearchIndex::open_or_create(
         args.data_dir.join("search"),
     )?);
     let archive = ParquetTraceArchive::new(args.data_dir.join("archive"))?;
-    let datasets = Arc::new(SqliteDatasetStore::open(
-        args.data_dir.join("datasets.sqlite"),
-    )?);
-    let experiments = Arc::new(SqliteExperimentStore::open(
-        args.data_dir.join("experiments.sqlite"),
-    )?);
-    let gates = Arc::new(SqliteGateStore::open(args.data_dir.join("gates.sqlite"))?);
-    let human_reviews = Arc::new(SqliteHumanReviewStore::open(
-        args.data_dir.join("reviews.sqlite"),
-    )?);
-    let calibrations = Arc::new(SqliteCalibrationStore::open(
-        args.data_dir.join("calibrations.sqlite"),
-    )?);
-    let usage = Arc::new(SqliteUsageLedger::open(args.data_dir.join("usage.sqlite"))?);
-    let audit = Arc::new(SqliteAuditStore::open(args.data_dir.join("audit.sqlite"))?);
+    let datasets = Arc::new(SqliteDatasetStore::open(dataset_db_path)?);
+    let experiments = Arc::new(SqliteExperimentStore::open(experiment_db_path)?);
+    let gates = Arc::new(SqliteGateStore::open(gate_db_path)?);
+    let human_reviews = Arc::new(SqliteHumanReviewStore::open(review_db_path)?);
+    let calibrations = Arc::new(SqliteCalibrationStore::open(calibration_db_path)?);
+    let usage = Arc::new(SqliteUsageLedger::open(usage_db_path)?);
+    let audit = Arc::new(SqliteAuditStore::open(audit_db_path)?);
     let provider_secret_keyring = match args.provider_secret_key.as_deref() {
         Some(encoded) => SecretKeyring::from_base64("env-v1", encoded)?,
         None => SecretKeyring::load_or_create_local_file(
@@ -160,10 +187,10 @@ async fn main() -> anyhow::Result<()> {
         )?,
     };
     let provider_secrets = Arc::new(EncryptedSqliteProviderSecretStore::open(
-        args.data_dir.join("provider-secrets.sqlite"),
+        provider_secret_db_path,
         provider_secret_keyring,
     )?);
-    let judge_ledger = Arc::new(SqliteJudgeLedger::open(args.data_dir.join("judge.sqlite"))?);
+    let judge_ledger = Arc::new(SqliteJudgeLedger::open(judge_db_path)?);
     let judge_provider: Arc<dyn JudgeProvider> = match args.judge_provider {
         JudgeProviderArg::Keyword => Arc::new(KeywordJudgeProvider::default()),
         JudgeProviderArg::HttpRouting => Arc::new(HttpRoutingJudgeProvider::default()),
@@ -176,8 +203,7 @@ async fn main() -> anyhow::Result<()> {
     ));
     let bus: Arc<dyn DurableBus> = match args.bus_backend {
         BusBackendArg::Sqlite => Arc::new(
-            SqliteDurableBus::open(args.data_dir.join("bus.sqlite"), args.bus_capacity)
-                .map_err(anyhow::Error::from)?,
+            SqliteDurableBus::open(bus_db_path, args.bus_capacity).map_err(anyhow::Error::from)?,
         ),
         BusBackendArg::Memory => Arc::new(InMemoryBus::new(args.bus_capacity)),
     };
@@ -225,9 +251,7 @@ async fn main() -> anyhow::Result<()> {
             .with_audit(audit)
             .with_judge(provider_secrets, judge_broker, judge_ledger);
     if matches!(args.auth_mode, AuthModeArg::Required) {
-        let api_keys = Arc::new(SqliteApiKeyStore::open(
-            args.data_dir.join("security.sqlite"),
-        )?);
+        let api_keys = Arc::new(SqliteApiKeyStore::open(security_db_path)?);
         state = state.require_auth(api_keys);
     }
     let app = router(state);
@@ -247,6 +271,17 @@ async fn main() -> anyhow::Result<()> {
             .context("serve beaterd otlp grpc")
     };
     tokio::try_join!(http_server, grpc_server)?;
+    Ok(())
+}
+
+fn migrate_local_sqlite_stores(paths: &[PathBuf]) -> anyhow::Result<()> {
+    let mut unique_paths = paths.to_vec();
+    unique_paths.sort();
+    unique_paths.dedup();
+    for path in unique_paths {
+        migrate_local_beaterd_sqlite(&path)
+            .with_context(|| format!("migrate local sqlite schema {}", path.display()))?;
+    }
     Ok(())
 }
 
