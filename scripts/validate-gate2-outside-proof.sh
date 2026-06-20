@@ -145,6 +145,27 @@ def require_equal(name: str, outside_value: str, stopwatch_value: str) -> None:
         fail(f"{name} mismatch between proof artifacts")
 
 
+def require_recording_shows_full_flow(notes_text: str) -> None:
+    shows = field_value_from(notes_text, "Shows", "screen recording notes")
+    required_fragments = [
+        "click five-line trace",
+        "`llm.call` span",
+        "prompt",
+        "completion",
+        "model",
+        "tokens",
+        "cost",
+        "latency",
+        "run -> turn -> step -> tool -> MCP",
+    ]
+    missing = [fragment for fragment in required_fragments if fragment not in shows]
+    if missing:
+        fail(
+            "screen recording notes Shows must describe the full Gate 2 flow; "
+            "missing: " + ", ".join(missing)
+        )
+
+
 def repo_path(value: str) -> Path:
     path = Path(value)
     return path if path.is_absolute() else repo / path
@@ -434,6 +455,7 @@ if notes_text:
     require_equal(
         "screen recording notes all-kind trace", all_kind_trace_id, notes_all_kind_trace
     )
+    require_recording_shows_full_flow(notes_text)
 
 require_max_300(
     duration_seconds(text, "Time-to-first-trace", "outside-person proof"),

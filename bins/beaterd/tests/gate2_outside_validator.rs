@@ -314,6 +314,23 @@ fn gate2_outside_validator_rejects_stale_recording_notes() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_recording_notes_without_full_gate2_flow() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.notes_path,
+        "read prompt, completion, model, tokens, cost, and latency -> ",
+        "",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording notes Shows must describe the full Gate 2 flow",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_bad_recording_hash() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -596,7 +613,7 @@ fn recording_notes(recording_name: &str) -> String {
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart trace: `{QUICKSTART_TRACE}`
 - All-kind trace: `{ALL_KIND_TRACE}`
-- Shows: open dashboard -> click five-line trace -> click `llm.call` span -> inspect run -> turn -> step -> tool -> MCP waterfall.
+- Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, tokens, cost, and latency -> inspect run -> turn -> step -> tool -> MCP waterfall.
 "#
     )
 }

@@ -299,6 +299,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("require_equal(\"commit SHA\""));
     assert!(outside_validator.contains("tenant"));
     assert!(outside_validator.contains("screen recording notes dashboard base"));
+    assert!(outside_validator.contains("require_recording_shows_full_flow"));
+    assert!(outside_validator.contains("screen recording notes Shows must describe"));
     assert!(outside_validator.contains("must be the concrete dashboard URL"));
     assert!(outside_validator.contains("OUTSIDE_RUN_ATTESTATION"));
     assert!(outside_validator.contains("\"Outside-run attestation\""));
@@ -364,6 +366,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("cross-checks default"));
     assert!(outside_proof.contains("image digests"));
     assert!(outside_proof.contains("screen-recording notes"));
+    assert!(outside_proof.contains("prompt, completion, model, tokens, cost, latency"));
     assert!(outside_proof.contains("SHA256 against the committed artifact"));
 
     let readme = read(root.join("README.md"));
@@ -386,6 +389,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("prebuilt GHCR image digests"));
     assert!(readme.contains("mismatched image digests"));
     assert!(readme.contains("recording notes from a different dashboard session"));
+    assert!(readme.contains("notes must also"));
     assert!(readme.contains("hash that does not match the committed file"));
     assert!(readme.contains("gate2-proof-contract"));
 
@@ -402,6 +406,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("repo-relative `docs/demos/` artifacts"));
     assert!(requirements.contains("prebuilt GHCR image digests"));
     assert!(requirements.contains("default API/OTLP/dashboard endpoints"));
+    assert!(requirements.contains("recording-notes full-flow check"));
     assert!(requirements.contains("recording-hash cross-checks"));
     assert!(requirements.contains("CI-enforced"));
 

@@ -250,7 +250,10 @@ mismatched API/dashboard endpoints, non-main or stale commit evidence,
 mismatched SHA-pinned image references, mismatched image digests,
 non-repo-relative `docs/demos/` artifacts, and non-prebuilt GHCR image digests.
 It rejects recording notes from a different dashboard session and any screen
-recording hash that does not match the committed file.
+recording hash that does not match the committed file. The notes must also
+describe the full recorded flow: quickstart trace, `llm.call`, prompt,
+completion, model, tokens, cost, latency, and run -> turn -> step -> tool ->
+MCP waterfall.
 The `gate2-proof-contract` GitHub workflow runs the validator template check
 and the executable proof-artifact fixture tests on pull requests and `main`.
 
