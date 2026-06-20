@@ -72,7 +72,7 @@ This repo now contains the first tested Rust vertical slice:
 - API-key hashing/scoping, persisted SQLite API-key metadata, last-used audit timestamp, and HMAC webhook signing primitives
 - optional strict API auth mode on `beaterd` with environment-bound scoped keys
 - API route for native trace ingest and trace readback
-- API routes for trace lists, span detail, redaction-aware span I/O inspection, and audited unmask reads
+- API routes for trace lists, selected span detail, redaction-aware span I/O inspection, and audited unmask reads
 - `/openapi.json` documents the dashboard read surface and generates the dashboard TypeScript client
 - multi-stage cargo-chef Dockerfile and `docker-compose.yml` for the current self-host topology
 - migration contracts for SQLite local runtime plus Postgres and ClickHouse scale/control-plane paths

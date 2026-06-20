@@ -7,11 +7,13 @@ export type Page<T> = {
 
 type TraceListOperation = operations["openapi_list_traces"];
 type TraceOperation = operations["openapi_get_trace"];
+type SpanOperation = operations["openapi_get_span"];
 type SpanIoOperation = operations["openapi_get_span_io"];
 type TraceListQuery = NonNullable<TraceListOperation["parameters"]["query"]>;
 type TraceListPathParams = TraceListOperation["parameters"]["path"];
 type TracePathParams = TraceOperation["parameters"]["path"];
 type TraceReadQuery = NonNullable<TraceOperation["parameters"]["query"]>;
+type SpanPathParams = SpanOperation["parameters"]["path"];
 type SpanIoPathParams = SpanIoOperation["parameters"]["path"];
 
 export type RunSummary = components["schemas"]["RunSummaryDoc"];
@@ -109,6 +111,19 @@ export function tracePath(query: DashboardQuery, traceId: string): string {
   }`;
 }
 
+export function spanPath(query: DashboardQuery, traceId: string, spanId: string): string {
+  const path: SpanPathParams = {
+    tenant_id: query.tenantId,
+    trace_id: traceId,
+    span_id: spanId
+  };
+  const params = traceReadParams(query);
+  const suffix = params.toString();
+  return `/v1/spans/${encodeURIComponent(path.tenant_id)}/${encodeURIComponent(
+    path.trace_id
+  )}/${encodeURIComponent(path.span_id)}${suffix ? `?${suffix}` : ""}`;
+}
+
 export function spanIoPath(query: DashboardQuery, traceId: string, spanId: string): string {
   const path: SpanIoPathParams = {
     tenant_id: query.tenantId,
@@ -138,10 +153,18 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
     const trace = activeTraceId
       ? await fetchJson<TraceView>(`${apiBaseUrl}${tracePath(query, activeTraceId)}`, headers)
       : null;
-    const selectedSpan =
+    const selectedSpanFromTrace =
       trace?.spans.find((span) => span.span_id === query.selectedSpanId) ??
       trace?.spans[0] ??
       null;
+    const activeSpanId = selectedSpanFromTrace?.span_id;
+    const selectedSpan =
+      trace && activeSpanId
+        ? await fetchJson<CanonicalSpan>(
+            `${apiBaseUrl}${spanPath(query, trace.trace_id, activeSpanId)}`,
+            headers
+          )
+        : null;
     const selectedIo =
       trace && selectedSpan
         ? await fetchJson<SpanIoResponse>(
@@ -151,7 +174,7 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
         : null;
     return {
       apiBaseUrl,
-      query: { ...query, traceId: activeTraceId },
+      query: { ...query, traceId: activeTraceId, selectedSpanId: activeSpanId },
       runs,
       trace,
       selectedSpan,

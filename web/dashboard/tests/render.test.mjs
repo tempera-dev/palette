@@ -38,8 +38,12 @@ test("dashboard client uses public beater read endpoints", () => {
   const api = readFileSync(join(root, "lib/api.ts"), "utf8");
   assert.match(api, /generated\/api-types/);
   assert.match(api, /TraceListPathParams/);
+  assert.match(api, /SpanOperation/);
+  assert.match(api, /SpanPathParams/);
   assert.match(api, /TraceReadQuery/);
   assert.match(api, /encodeURIComponent\(path\.tenant_id\)/);
+  assert.match(api, /spanPath/);
+  assert.match(api, /fetchJson<CanonicalSpan>/);
   assert.match(api, /traceReadParams/);
   assert.match(api, /params\.set\("unmask", "true"\)/);
   assert.match(api, /params\.set\("reason"/);
