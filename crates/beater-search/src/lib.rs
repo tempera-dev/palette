@@ -8,8 +8,8 @@ use serde_json::Value as JsonValue;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use tantivy::collector::TopDocs;
-use tantivy::query::{AllQuery, Query, QueryParser};
-use tantivy::schema::{Schema, TantivyDocument, Value, STORED, STRING, TEXT};
+use tantivy::query::{AllQuery, BooleanQuery, Occur, Query, QueryParser, TermQuery};
+use tantivy::schema::{IndexRecordOption, Schema, TantivyDocument, Value, STORED, STRING, TEXT};
 use tantivy::{doc, Index, IndexWriter, Term};
 
 #[async_trait]
@@ -129,19 +129,12 @@ impl SearchIndex for TantivySearchIndex {
                 self.fields.tool,
             ],
         );
-        let parsed: Box<dyn Query> = if query.text.trim().is_empty() {
-            Box::new(AllQuery)
-        } else {
-            parser
-                .parse_query(&query.text)
-                .with_context(|| format!("parse search query {:?}", query.text))
-                .into_store()?
-        };
+        let parsed = self.filtered_query(&query, &parser)?;
         let limit = query.limit.unwrap_or(50).clamp(1, 200);
         let top_docs = searcher
             .search(
-                &parsed,
-                &TopDocs::with_limit((limit * 5) as usize).order_by_score(),
+                parsed.as_ref(),
+                &TopDocs::with_limit(limit as usize).order_by_score(),
             )
             .context("search tantivy index")
             .into_store()?;
@@ -165,14 +158,92 @@ impl SearchIndex for TantivySearchIndex {
                 model: text_field(&doc, self.fields.model).into_store()?,
                 tool: text_field(&doc, self.fields.tool).into_store()?,
             };
-            if query.matches(&hit) {
-                hits.push(hit);
-            }
-            if hits.len() >= limit as usize {
-                break;
-            }
+            hits.push(hit);
         }
         Ok(SearchResponse { hits })
+    }
+}
+
+impl TantivySearchIndex {
+    fn filtered_query(
+        &self,
+        query: &SearchRequest,
+        parser: &QueryParser,
+    ) -> StoreResult<Box<dyn Query>> {
+        let mut clauses: Vec<(Occur, Box<dyn Query>)> = vec![(
+            Occur::Must,
+            exact_field_query(self.fields.tenant_id, query.tenant_id.as_str()),
+        )];
+        if query.text.trim().is_empty() {
+            clauses.push((Occur::Must, Box::new(AllQuery)));
+        } else {
+            clauses.push((
+                Occur::Must,
+                parser
+                    .parse_query(&query.text)
+                    .with_context(|| format!("parse search query {:?}", query.text))
+                    .into_store()?,
+            ));
+        }
+        if let Some(project_id) = &query.project_id {
+            clauses.push((
+                Occur::Must,
+                exact_field_query(self.fields.project_id, project_id.as_str()),
+            ));
+        }
+        if let Some(environment_id) = &query.environment_id {
+            clauses.push((
+                Occur::Must,
+                exact_field_query(self.fields.environment_id, environment_id),
+            ));
+        }
+        if let Some(trace_id) = &query.trace_id {
+            clauses.push((
+                Occur::Must,
+                exact_field_query(self.fields.trace_id, trace_id.as_str()),
+            ));
+        }
+        if let Some(span_id) = &query.span_id {
+            clauses.push((
+                Occur::Must,
+                exact_field_query(self.fields.span_id, span_id.as_str()),
+            ));
+        }
+        if let Some(kind) = &query.kind {
+            clauses.push((Occur::Must, exact_field_query(self.fields.kind, kind)));
+        }
+        if let Some(status) = &query.status {
+            clauses.push((Occur::Must, exact_field_query(self.fields.status, status)));
+        }
+        if let Some(model) = query.model.as_ref().filter(|value| !value.is_empty()) {
+            let model_parser = QueryParser::for_index(&self.index, vec![self.fields.model]);
+            clauses.push((
+                Occur::Must,
+                model_parser
+                    .parse_query(model)
+                    .with_context(|| format!("parse model search filter {model:?}"))
+                    .into_store()?,
+            ));
+        }
+        if let Some(tool) = query.tool.as_ref().filter(|value| !value.is_empty()) {
+            let tool_parser = QueryParser::for_index(&self.index, vec![self.fields.tool]);
+            clauses.push((
+                Occur::Must,
+                tool_parser
+                    .parse_query(tool)
+                    .with_context(|| format!("parse tool search filter {tool:?}"))
+                    .into_store()?,
+            ));
+        }
+
+        if clauses.len() == 1 {
+            Ok(clauses
+                .pop()
+                .unwrap_or_else(|| (Occur::Must, Box::new(AllQuery)))
+                .1)
+        } else {
+            Ok(Box::new(BooleanQuery::new(clauses)))
+        }
     }
 }
 
@@ -240,55 +311,6 @@ pub struct SearchRequest {
     pub limit: Option<u32>,
 }
 
-impl SearchRequest {
-    fn matches(&self, hit: &SearchHit) -> bool {
-        if hit.tenant_id != self.tenant_id.as_str() {
-            return false;
-        }
-        if let Some(project_id) = &self.project_id {
-            if hit.project_id != project_id.as_str() {
-                return false;
-            }
-        }
-        if let Some(environment_id) = &self.environment_id {
-            if &hit.environment_id != environment_id {
-                return false;
-            }
-        }
-        if let Some(trace_id) = &self.trace_id {
-            if hit.trace_id != trace_id.as_str() {
-                return false;
-            }
-        }
-        if let Some(span_id) = &self.span_id {
-            if hit.span_id != span_id.as_str() {
-                return false;
-            }
-        }
-        if let Some(kind) = &self.kind {
-            if &hit.kind != kind {
-                return false;
-            }
-        }
-        if let Some(status) = &self.status {
-            if &hit.status != status {
-                return false;
-            }
-        }
-        if let Some(model) = &self.model {
-            if !hit.model.contains(model) && !model.is_empty() {
-                return false;
-            }
-        }
-        if let Some(tool) = &self.tool {
-            if !hit.tool.contains(tool) && !tool.is_empty() {
-                return false;
-            }
-        }
-        true
-    }
-}
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SearchResponse {
     pub hits: Vec<SearchHit>,
@@ -313,6 +335,13 @@ fn text_field(doc: &TantivyDocument, field: tantivy::schema::Field) -> anyhow::R
     doc.get_first(field)
         .and_then(|value| value.as_str().map(ToString::to_string))
         .ok_or_else(|| anyhow!("search hit missing stored text field {:?}", field))
+}
+
+fn exact_field_query(field: tantivy::schema::Field, value: &str) -> Box<dyn Query> {
+    Box::new(TermQuery::new(
+        Term::from_field_text(field, value),
+        IndexRecordOption::Basic,
+    ))
 }
 
 fn doc_key(span: &CanonicalSpan) -> String {
@@ -426,6 +455,261 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn structured_filters_are_applied_inside_the_search_query() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let other_project = ProjectId::new("other-project").unwrap_or_else(|err| panic!("{err}"));
+        let mut spans = Vec::new();
+        for index_id in 0..20 {
+            spans.push(fixture_span_with_project(
+                &tenant,
+                &other_project,
+                &format!("other-trace-{index_id}"),
+                &format!("other-span-{index_id}"),
+                "refund refund refund refund refund failed loudly",
+                SpanStatus::Error,
+            ));
+        }
+        spans.push(fixture_span_with_project(
+            &tenant,
+            &project,
+            "target-trace",
+            "target-span",
+            "refund",
+            SpanStatus::Error,
+        ));
+        index
+            .index_spans(&spans)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                tenant_id: tenant.clone(),
+                text: "refund".to_string(),
+                project_id: Some(project),
+                limit: Some(1),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "target-trace");
+        assert_eq!(response.hits[0].project_id, "project");
+    }
+
+    #[tokio::test]
+    async fn tenant_filter_is_applied_inside_the_search_query() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let other_tenant = TenantId::new("other-tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let mut spans = Vec::new();
+        for index_id in 0..20 {
+            spans.push(fixture_span_with_project(
+                &other_tenant,
+                &project,
+                &format!("other-tenant-trace-{index_id}"),
+                &format!("other-tenant-span-{index_id}"),
+                "refund refund refund refund refund failed loudly",
+                SpanStatus::Error,
+            ));
+        }
+        spans.push(fixture_span_with_project(
+            &tenant,
+            &project,
+            "target-tenant-trace",
+            "target-tenant-span",
+            "refund",
+            SpanStatus::Error,
+        ));
+        index
+            .index_spans(&spans)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                tenant_id: tenant.clone(),
+                text: "refund".to_string(),
+                limit: Some(1),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "target-tenant-trace");
+        assert_eq!(response.hits[0].tenant_id, "tenant");
+    }
+
+    #[tokio::test]
+    async fn kind_and_status_filters_are_applied_inside_the_search_query() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let mut spans = Vec::new();
+        for index_id in 0..20 {
+            let mut span = fixture_span_with_project(
+                &tenant,
+                &project,
+                &format!("wrong-kind-trace-{index_id}"),
+                &format!("wrong-kind-span-{index_id}"),
+                "refund refund refund refund refund failed loudly",
+                SpanStatus::Ok,
+            );
+            span.kind = AgentSpanKind::LlmCall;
+            spans.push(span);
+        }
+        spans.push(fixture_span_with_project(
+            &tenant,
+            &project,
+            "target-kind-trace",
+            "target-kind-span",
+            "refund",
+            SpanStatus::Error,
+        ));
+        index
+            .index_spans(&spans)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                tenant_id: tenant.clone(),
+                text: "refund".to_string(),
+                kind: Some("tool.call".to_string()),
+                status: Some("error".to_string()),
+                limit: Some(1),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "target-kind-trace");
+        assert_eq!(response.hits[0].kind, "tool.call");
+        assert_eq!(response.hits[0].status, "error");
+    }
+
+    #[tokio::test]
+    async fn trace_and_span_filters_are_applied_inside_the_search_query() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let mut spans = Vec::new();
+        for index_id in 0..20 {
+            spans.push(fixture_span_with_project(
+                &tenant,
+                &project,
+                &format!("wrong-trace-{index_id}"),
+                &format!("wrong-span-{index_id}"),
+                "refund refund refund refund refund failed loudly",
+                SpanStatus::Error,
+            ));
+        }
+        spans.push(fixture_span_with_project(
+            &tenant,
+            &project,
+            "target-trace-filter",
+            "target-span-filter",
+            "refund",
+            SpanStatus::Error,
+        ));
+        index
+            .index_spans(&spans)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                tenant_id: tenant.clone(),
+                text: "refund".to_string(),
+                trace_id: Some(
+                    TraceId::new("target-trace-filter").unwrap_or_else(|err| panic!("{err}")),
+                ),
+                span_id: Some(
+                    SpanId::new("target-span-filter").unwrap_or_else(|err| panic!("{err}")),
+                ),
+                limit: Some(1),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "target-trace-filter");
+        assert_eq!(response.hits[0].span_id, "target-span-filter");
+    }
+
+    #[tokio::test]
+    async fn environment_model_and_tool_filters_are_applied_inside_the_search_query() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let wrong_environment = EnvironmentId::new("staging").unwrap_or_else(|err| panic!("{err}"));
+        let mut spans = Vec::new();
+        for index_id in 0..20 {
+            let mut span = fixture_span_with_project(
+                &tenant,
+                &project,
+                &format!("wrong-env-trace-{index_id}"),
+                &format!("wrong-env-span-{index_id}"),
+                "refund refund refund refund refund failed loudly",
+                SpanStatus::Error,
+            );
+            span.environment_id = wrong_environment.clone();
+            span.model = Some(ModelRef {
+                provider: "openai".to_string(),
+                name: "othermodel".to_string(),
+            });
+            span.attributes
+                .insert("tool.name".to_string(), json!("other_tool"));
+            spans.push(span);
+        }
+        let mut target = fixture_span_with_project(
+            &tenant,
+            &project,
+            "target-env-model-tool-trace",
+            "target-env-model-tool-span",
+            "refund",
+            SpanStatus::Error,
+        );
+        target.model = Some(ModelRef {
+            provider: "openai".to_string(),
+            name: "targetmodel".to_string(),
+        });
+        target
+            .attributes
+            .insert("tool.name".to_string(), json!("target_tool"));
+        spans.push(target);
+        index
+            .index_spans(&spans)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                tenant_id: tenant.clone(),
+                text: "refund".to_string(),
+                environment_id: Some("prod".to_string()),
+                model: Some("targetmodel".to_string()),
+                tool: Some("target_tool".to_string()),
+                limit: Some(1),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "target-env-model-tool-trace");
+        assert!(response.hits[0].model.contains("targetmodel"));
+        assert_eq!(response.hits[0].tool, "target_tool");
+    }
+
+    #[tokio::test]
     async fn reindex_replaces_existing_span_document() {
         let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
         let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
@@ -488,11 +772,29 @@ mod tests {
         name: &str,
         status: SpanStatus,
     ) -> CanonicalSpan {
+        fixture_span_with_project(
+            tenant_id,
+            &ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            trace_id,
+            span_id,
+            name,
+            status,
+        )
+    }
+
+    fn fixture_span_with_project(
+        tenant_id: &TenantId,
+        project_id: &ProjectId,
+        trace_id: &str,
+        span_id: &str,
+        name: &str,
+        status: SpanStatus,
+    ) -> CanonicalSpan {
         CanonicalSpan {
             schema_version: CANONICAL_SCHEMA_VERSION,
             normalizer_version: "test".to_string(),
             tenant_id: tenant_id.clone(),
-            project_id: ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            project_id: project_id.clone(),
             environment_id: EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}")),
             trace_id: TraceId::new(trace_id).unwrap_or_else(|err| panic!("{err}")),
             span_id: SpanId::new(span_id).unwrap_or_else(|err| panic!("{err}")),
