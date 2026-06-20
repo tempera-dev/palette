@@ -244,11 +244,7 @@ fn spans_to_batch(spans: &[CanonicalSpan]) -> anyhow::Result<RecordBatch> {
                 spans.iter().map(|span| span.seq).collect::<Vec<_>>(),
             )),
             strings(spans.iter().map(|span| span.kind.as_str().to_string())),
-            strings(
-                spans
-                    .iter()
-                    .map(|span| status_name(&span.status).to_string()),
-            ),
+            strings(spans.iter().map(|span| span.status.as_str().to_string())),
             strings(spans.iter().map(|span| span.name.clone())),
             strings(spans.iter().map(|span| span.start_time.to_rfc3339())),
             opt_strings(
@@ -274,7 +270,7 @@ fn spans_to_batch(spans: &[CanonicalSpan]) -> anyhow::Result<RecordBatch> {
             opt_strings(
                 spans
                     .iter()
-                    .map(|span| span.cost.as_ref().map(|cost| cost.currency.clone())),
+                    .map(|span| span.cost.as_ref().map(|cost| cost.currency.to_string())),
             ),
             opt_strings(
                 spans
@@ -365,7 +361,7 @@ fn build_query_sql(query: &ArchiveQuery) -> String {
         predicates.push(format!("kind = '{}'", sql_literal(kind.as_str())));
     }
     if let Some(status) = &query.status {
-        predicates.push(format!("status = '{}'", sql_literal(status_name(status))));
+        predicates.push(format!("status = '{}'", sql_literal(status.as_str())));
     }
 
     format!(
@@ -587,14 +583,6 @@ fn safe_segment(value: &str) -> String {
             }
         })
         .collect()
-}
-
-fn status_name(status: &SpanStatus) -> &'static str {
-    match status {
-        SpanStatus::Ok => "ok",
-        SpanStatus::Error => "error",
-        SpanStatus::Unset => "unset",
-    }
 }
 
 fn sql_literal(value: &str) -> String {

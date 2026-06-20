@@ -2,8 +2,39 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::fmt::{Display, Formatter};
+use std::time::SystemTime;
 
 pub type Timestamp = DateTime<Utc>;
+
+pub trait Clock: Send + Sync {
+    fn now(&self) -> Timestamp;
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub struct SystemClock;
+
+impl Clock for SystemClock {
+    fn now(&self) -> Timestamp {
+        DateTime::<Utc>::from(SystemTime::now())
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct FixedClock {
+    now: Timestamp,
+}
+
+impl FixedClock {
+    pub fn new(now: Timestamp) -> Self {
+        Self { now }
+    }
+}
+
+impl Clock for FixedClock {
+    fn now(&self) -> Timestamp {
+        self.now
+    }
+}
 
 #[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum IdError {
@@ -112,17 +143,78 @@ impl TenantScope {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum Currency {
+    #[serde(rename = "USD")]
+    Usd,
+}
+
+impl Currency {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Usd => "USD",
+        }
+    }
+}
+
+impl Display for Currency {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+#[derive(Debug, thiserror::Error, Clone, PartialEq, Eq)]
+pub enum MoneyError {
+    #[error("currency mismatch: {left} != {right}")]
+    CurrencyMismatch { left: Currency, right: Currency },
+    #[error("money amount overflow")]
+    Overflow,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Money {
     pub amount_micros: i64,
-    pub currency: String,
+    pub currency: Currency,
 }
 
 impl Money {
-    pub fn usd_micros(amount_micros: i64) -> Self {
+    pub fn new(amount_micros: i64, currency: Currency) -> Self {
         Self {
             amount_micros,
-            currency: "USD".to_string(),
+            currency,
+        }
+    }
+
+    pub fn usd_micros(amount_micros: i64) -> Self {
+        Self::new(amount_micros, Currency::Usd)
+    }
+
+    pub fn try_add(&self, other: &Self) -> Result<Self, MoneyError> {
+        self.ensure_same_currency(other)?;
+        let amount_micros = self
+            .amount_micros
+            .checked_add(other.amount_micros)
+            .ok_or(MoneyError::Overflow)?;
+        Ok(Self::new(amount_micros, self.currency))
+    }
+
+    pub fn try_sub(&self, other: &Self) -> Result<Self, MoneyError> {
+        self.ensure_same_currency(other)?;
+        let amount_micros = self
+            .amount_micros
+            .checked_sub(other.amount_micros)
+            .ok_or(MoneyError::Overflow)?;
+        Ok(Self::new(amount_micros, self.currency))
+    }
+
+    fn ensure_same_currency(&self, other: &Self) -> Result<(), MoneyError> {
+        if self.currency == other.currency {
+            Ok(())
+        } else {
+            Err(MoneyError::CurrencyMismatch {
+                left: self.currency,
+                right: other.currency,
+            })
         }
     }
 }
@@ -199,5 +291,19 @@ mod tests {
             cache_read: 100,
         };
         assert_eq!(counts.total(), 35);
+    }
+
+    #[test]
+    fn money_math_requires_matching_currency() {
+        let left = Money::usd_micros(100);
+        let right = Money::usd_micros(40);
+
+        assert_eq!(left.try_sub(&right), Ok(Money::usd_micros(60)));
+        assert_eq!(right.try_add(&left), Ok(Money::usd_micros(140)));
+        assert_eq!(
+            serde_json::to_value(Money::usd_micros(1)).unwrap_or_else(|err| panic!("{err}"))
+                ["currency"],
+            "USD"
+        );
     }
 }

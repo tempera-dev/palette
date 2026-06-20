@@ -8,7 +8,8 @@ use beater_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
 use beater_bus::InMemoryBus;
 use beater_calibration::{CalibrationReport, SqliteCalibrationStore};
 use beater_core::{
-    ApiKeyId, EnvironmentId, Money, ProjectId, SpanId, TenantId, TenantScope, TraceId,
+    ApiKeyId, EnvironmentId, Money, OrganizationId, ProjectId, SpanId, TenantId, TenantScope,
+    TraceId,
 };
 use beater_datasets::{
     Dataset, DatasetCase, DatasetEvalReport, DatasetVersionSnapshot, SqliteDatasetStore,
@@ -35,7 +36,10 @@ use beater_schema::{
 use beater_search::{SearchResponse, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_security::{api_key_id_from_secret, verify_webhook, ApiScope};
-use beater_store::{ArtifactStore, TraceStore};
+use beater_store::{
+    ArtifactStore, EnvironmentMetadata, InMemoryMetadataStore, MetadataStore, OrganizationMetadata,
+    ProjectMetadata, TraceStore,
+};
 use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::{SqliteUsageLedger, UsageMeter, UsageSummary};
@@ -1338,6 +1342,7 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
     let archive = ParquetTraceArchive::new(tempdir.path().join("strict-archive"))
         .unwrap_or_else(|err| panic!("{err}"));
     let api_keys = Arc::new(SqliteApiKeyStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let metadata = seeded_metadata_store().await;
     let audit = Arc::new(SqliteAuditStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
     let bus = Arc::new(InMemoryBus::new(16));
     let ingest = IngestService::new(
@@ -1348,6 +1353,7 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
     );
     let app = router(
         ApiState::with_search_and_archive(ingest, traces.clone(), search, archive)
+            .with_metadata(metadata)
             .with_audit(audit)
             .require_auth(api_keys.clone()),
     );
@@ -1741,6 +1747,45 @@ async fn get_usage_summary(app: &Router, admin_secret: Option<&str>) -> UsageSum
         .await
         .unwrap_or_else(|err| panic!("{err}"));
     serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"))
+}
+
+async fn seeded_metadata_store() -> Arc<InMemoryMetadataStore> {
+    let metadata = Arc::new(InMemoryMetadataStore::new());
+    let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+    let organization = OrganizationId::new("org").unwrap_or_else(|err| panic!("{err}"));
+    let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+    let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
+    let created_at = Utc::now();
+    metadata
+        .put_organization(OrganizationMetadata {
+            tenant_id: tenant.clone(),
+            organization_id: organization.clone(),
+            display_name: "Org".to_string(),
+            created_at,
+        })
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    metadata
+        .put_project(ProjectMetadata {
+            tenant_id: tenant.clone(),
+            organization_id: organization,
+            project_id: project.clone(),
+            display_name: "Project".to_string(),
+            created_at,
+        })
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    metadata
+        .put_environment(EnvironmentMetadata {
+            tenant_id: tenant,
+            project_id: project,
+            environment_id: environment,
+            display_name: "Production".to_string(),
+            created_at,
+        })
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    metadata
 }
 
 fn native_request() -> NativeIngestRequest {

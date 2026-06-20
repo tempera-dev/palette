@@ -1,10 +1,9 @@
 use beater_core::{
-    AgentReleaseId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId, DatasetVersionId,
+    AgentReleaseId, ApiKeyId, ArtifactId, Clock, DatasetCaseId, DatasetId, DatasetVersionId,
     EnvironmentId, EvalResultId, EvaluatorId, EvaluatorVersionId, ExperimentId, GateId,
     IdempotencyKey, Money, Page, PageRequest, ProjectId, PromptId, PromptVersionId, RunId,
     Sha256Hash, SpanId, TenantId, TenantScope, Timestamp, TokenCounts, TraceId, WebhookEndpointId,
 };
-use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
@@ -82,6 +81,26 @@ impl AgentSpanKind {
             Self::ReplayRun => "replay.run",
         }
     }
+
+    pub fn parse(value: &str) -> Option<Self> {
+        match value {
+            "agent.run" => Some(Self::AgentRun),
+            "agent.turn" => Some(Self::AgentTurn),
+            "agent.plan" => Some(Self::AgentPlan),
+            "agent.step" => Some(Self::AgentStep),
+            "llm.call" => Some(Self::LlmCall),
+            "tool.call" => Some(Self::ToolCall),
+            "mcp.request" => Some(Self::McpRequest),
+            "retrieval.query" => Some(Self::RetrievalQuery),
+            "memory.read" => Some(Self::MemoryRead),
+            "memory.write" => Some(Self::MemoryWrite),
+            "guardrail.check" => Some(Self::GuardrailCheck),
+            "human.review" => Some(Self::HumanReview),
+            "evaluator.run" => Some(Self::EvaluatorRun),
+            "replay.run" => Some(Self::ReplayRun),
+            _ => None,
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -90,6 +109,25 @@ pub enum SpanStatus {
     Ok,
     Error,
     Unset,
+}
+
+impl SpanStatus {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Ok => "ok",
+            Self::Error => "error",
+            Self::Unset => "unset",
+        }
+    }
+
+    pub fn parse(value: &str) -> Option<Self> {
+        match value {
+            "ok" => Some(Self::Ok),
+            "error" => Some(Self::Error),
+            "unset" => Some(Self::Unset),
+            _ => None,
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -387,8 +425,75 @@ pub fn make_idempotency_key(
     ))
 }
 
-pub fn now() -> Timestamp {
-    Utc::now()
+pub fn now(clock: &(impl Clock + ?Sized)) -> Timestamp {
+    clock.now()
+}
+
+pub fn span_matches(span: &CanonicalSpan, filter: &SpanFilter) -> bool {
+    if let Some(trace_id) = &filter.trace_id {
+        if span.trace_id != *trace_id {
+            return false;
+        }
+    }
+    if let Some(span_id) = &filter.span_id {
+        if span.span_id != *span_id {
+            return false;
+        }
+    }
+    if let Some(kind) = &filter.kind {
+        if span.kind != *kind {
+            return false;
+        }
+    }
+    if let Some(status) = &filter.status {
+        if span.status != *status {
+            return false;
+        }
+    }
+    true
+}
+
+pub fn span_summary(span: CanonicalSpan) -> SpanSummary {
+    SpanSummary {
+        tenant_id: span.tenant_id,
+        trace_id: span.trace_id,
+        span_id: span.span_id,
+        kind: span.kind,
+        name: span.name,
+        status: span.status,
+        started_at: span.start_time,
+        ended_at: span.end_time,
+    }
+}
+
+pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary> {
+    let mut runs = Vec::<RunSummary>::new();
+    for span in spans {
+        if let Some(run) = runs.iter_mut().find(|run| run.trace_id == span.trace_id) {
+            run.span_count += 1;
+            if run.status != SpanStatus::Error && span.status == SpanStatus::Error {
+                run.status = SpanStatus::Error;
+            }
+            run.ended_at = match (run.ended_at, span.ended_at) {
+                (Some(left), Some(right)) => Some(left.max(right)),
+                (None, Some(right)) => Some(right),
+                (left, None) => left,
+            };
+        } else {
+            runs.push(RunSummary {
+                tenant_id: tenant.clone(),
+                trace_id: span.trace_id,
+                first_span_name: span.name,
+                span_count: 1,
+                status: span.status,
+                started_at: span.started_at,
+                ended_at: span.ended_at,
+            });
+        }
+    }
+
+    runs.sort_by(|left, right| right.started_at.cmp(&left.started_at));
+    runs
 }
 
 #[cfg(test)]
@@ -401,6 +506,13 @@ mod tests {
         assert_eq!(AgentSpanKind::AgentRun.as_str(), "agent.run");
         assert_eq!(AgentSpanKind::McpRequest.as_str(), "mcp.request");
         assert_eq!(AgentSpanKind::ReplayRun.as_str(), "replay.run");
+        assert_eq!(
+            AgentSpanKind::parse("agent.step"),
+            Some(AgentSpanKind::AgentStep)
+        );
+        assert_eq!(AgentSpanKind::parse("bogus"), None);
+        assert_eq!(SpanStatus::Error.as_str(), "error");
+        assert_eq!(SpanStatus::parse("unset"), Some(SpanStatus::Unset));
     }
 
     #[test]

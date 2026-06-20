@@ -54,7 +54,7 @@ use beater_secrets::{
 use beater_security::{
     api_key_id_from_secret, verify_api_key, ApiScope, CreatedApiKey, SecurityError,
 };
-use beater_store::{StoreError, TraceStore};
+use beater_store::{InMemoryMetadataStore, MetadataStore, StoreError, TraceStore};
 use beater_usage::{
     judge_usage_from_dataset_eval_report, judge_usage_from_experiment_report,
     judge_usage_from_outcome, record_usage_batch, UsageLedgerStore, UsageRecordInsert,
@@ -80,6 +80,7 @@ pub enum AuthMode {
 pub struct ApiState {
     ingest: IngestService,
     traces: Arc<dyn TraceStore>,
+    metadata: Arc<dyn MetadataStore>,
     search: Arc<dyn SearchIndex>,
     archive: Option<ParquetTraceArchive>,
     datasets: Option<Arc<dyn DatasetStore>>,
@@ -102,6 +103,7 @@ impl ApiState {
         Self {
             ingest,
             traces,
+            metadata: Arc::new(InMemoryMetadataStore::new()),
             search: Arc::new(NoopSearchIndex),
             archive: None,
             datasets: None,
@@ -128,6 +130,7 @@ impl ApiState {
         Self {
             ingest,
             traces,
+            metadata: Arc::new(InMemoryMetadataStore::new()),
             search,
             archive: None,
             datasets: None,
@@ -155,6 +158,7 @@ impl ApiState {
         Self {
             ingest,
             traces,
+            metadata: Arc::new(InMemoryMetadataStore::new()),
             search,
             archive: Some(archive),
             datasets: None,
@@ -184,6 +188,7 @@ impl ApiState {
         Self {
             ingest,
             traces,
+            metadata: Arc::new(InMemoryMetadataStore::new()),
             search,
             archive: Some(archive),
             datasets: Some(datasets),
@@ -205,6 +210,11 @@ impl ApiState {
     pub fn require_auth(mut self, api_keys: Arc<dyn ApiKeyStore>) -> Self {
         self.auth_mode = AuthMode::Required;
         self.api_keys = Some(api_keys);
+        self
+    }
+
+    pub fn with_metadata(mut self, metadata: Arc<dyn MetadataStore>) -> Self {
+        self.metadata = metadata;
         self
     }
 
@@ -420,6 +430,7 @@ async fn create_api_key_route(
         ApiScope::Admin,
     )
     .await?;
+    ensure_environment_exists(&state, &tenant_id, &project_id, &environment_id).await?;
     let created = api_keys
         .create_key(CreateApiKeyRequest {
             tenant_id,
@@ -2195,6 +2206,32 @@ fn ensure_trace_project(trace: &TraceView, project_id: &ProjectId) -> Result<(),
     Ok(())
 }
 
+async fn ensure_environment_exists(
+    state: &ApiState,
+    tenant_id: &TenantId,
+    project_id: &ProjectId,
+    environment_id: &EnvironmentId,
+) -> Result<(), ApiError> {
+    let environment = state
+        .metadata
+        .get_environment(
+            tenant_id.clone(),
+            project_id.clone(),
+            environment_id.clone(),
+        )
+        .await?;
+    if environment.is_some() {
+        Ok(())
+    } else {
+        Err(ApiError::not_found(format!(
+            "environment {}/{}/{} not found",
+            tenant_id.as_str(),
+            project_id.as_str(),
+            environment_id.as_str()
+        )))
+    }
+}
+
 fn ensure_trace_has_span(trace: &TraceView, span_id: &SpanId) -> Result<(), ApiError> {
     if trace.spans.iter().any(|span| &span.span_id == span_id) {
         return Ok(());
@@ -2448,36 +2485,13 @@ impl ApiError {
 }
 
 fn parse_span_kind(value: String) -> Result<AgentSpanKind, ApiError> {
-    match value.as_str() {
-        "agent.run" => Ok(AgentSpanKind::AgentRun),
-        "agent.turn" => Ok(AgentSpanKind::AgentTurn),
-        "agent.plan" => Ok(AgentSpanKind::AgentPlan),
-        "agent.step" => Ok(AgentSpanKind::AgentStep),
-        "llm.call" => Ok(AgentSpanKind::LlmCall),
-        "tool.call" => Ok(AgentSpanKind::ToolCall),
-        "mcp.request" => Ok(AgentSpanKind::McpRequest),
-        "retrieval.query" => Ok(AgentSpanKind::RetrievalQuery),
-        "memory.read" => Ok(AgentSpanKind::MemoryRead),
-        "memory.write" => Ok(AgentSpanKind::MemoryWrite),
-        "guardrail.check" => Ok(AgentSpanKind::GuardrailCheck),
-        "human.review" => Ok(AgentSpanKind::HumanReview),
-        "evaluator.run" => Ok(AgentSpanKind::EvaluatorRun),
-        "replay.run" => Ok(AgentSpanKind::ReplayRun),
-        _ => Err(ApiError::bad_request(format!(
-            "unsupported span kind: {value}"
-        ))),
-    }
+    AgentSpanKind::parse(&value)
+        .ok_or_else(|| ApiError::bad_request(format!("unsupported span kind: {value}")))
 }
 
 fn parse_span_status(value: String) -> Result<SpanStatus, ApiError> {
-    match value.as_str() {
-        "ok" => Ok(SpanStatus::Ok),
-        "error" => Ok(SpanStatus::Error),
-        "unset" => Ok(SpanStatus::Unset),
-        _ => Err(ApiError::bad_request(format!(
-            "unsupported span status: {value}"
-        ))),
-    }
+    SpanStatus::parse(&value)
+        .ok_or_else(|| ApiError::bad_request(format!("unsupported span status: {value}")))
 }
 
 fn ingest_buffered(params: &IngestDurabilityQuery) -> Result<bool, ApiError> {

@@ -8,6 +8,7 @@ use beater_eval::{
 };
 use beater_schema::EvaluatorLane;
 use beater_secrets::ProviderSecretStore;
+use beater_store::{StoreError, StoreResult};
 use chrono::{DateTime, Utc};
 use reqwest::StatusCode as ReqwestStatusCode;
 use rusqlite::{params, Connection, OptionalExtension};
@@ -18,6 +19,20 @@ use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
+
+pub type JudgeProviderResult<T> = Result<T, JudgeProviderError>;
+
+#[derive(Debug, thiserror::Error, Clone, PartialEq, Eq)]
+pub enum JudgeProviderError {
+    #[error("judge provider error: {0}")]
+    Backend(String),
+}
+
+impl JudgeProviderError {
+    pub fn backend(error: impl std::fmt::Display) -> Self {
+        Self::Backend(error.to_string())
+    }
+}
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct ProviderCredentials {
@@ -59,7 +74,7 @@ pub trait JudgeProvider: Send + Sync {
         &self,
         request: JudgeRequest,
         credentials: ProviderCredentials,
-    ) -> anyhow::Result<JudgeResponse>;
+    ) -> JudgeProviderResult<JudgeResponse>;
 }
 
 #[async_trait]
@@ -75,7 +90,7 @@ where
         &self,
         request: JudgeRequest,
         credentials: ProviderCredentials,
-    ) -> anyhow::Result<JudgeResponse> {
+    ) -> JudgeProviderResult<JudgeResponse> {
         (**self).judge(request, credentials).await
     }
 }
@@ -144,15 +159,15 @@ pub trait JudgeLedgerStore: Send + Sync {
         tenant_id: TenantId,
         project_id: ProjectId,
         request_hash: Sha256Hash,
-    ) -> anyhow::Result<Option<CachedJudgeResponse>>;
+    ) -> StoreResult<Option<CachedJudgeResponse>>;
 
-    async fn append_record(&self, insert: JudgeAuditInsert) -> anyhow::Result<JudgeAuditRecord>;
+    async fn append_record(&self, insert: JudgeAuditInsert) -> StoreResult<JudgeAuditRecord>;
 
     async fn list_records(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<JudgeAuditRecord>>;
+    ) -> StoreResult<Vec<JudgeAuditRecord>>;
 }
 
 #[async_trait]
@@ -165,13 +180,13 @@ where
         tenant_id: TenantId,
         project_id: ProjectId,
         request_hash: Sha256Hash,
-    ) -> anyhow::Result<Option<CachedJudgeResponse>> {
+    ) -> StoreResult<Option<CachedJudgeResponse>> {
         (**self)
             .cached_response(tenant_id, project_id, request_hash)
             .await
     }
 
-    async fn append_record(&self, insert: JudgeAuditInsert) -> anyhow::Result<JudgeAuditRecord> {
+    async fn append_record(&self, insert: JudgeAuditInsert) -> StoreResult<JudgeAuditRecord> {
         (**self).append_record(insert).await
     }
 
@@ -179,7 +194,7 @@ where
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<JudgeAuditRecord>> {
+    ) -> StoreResult<Vec<JudgeAuditRecord>> {
         (**self).list_records(tenant_id, project_id).await
     }
 }
@@ -212,7 +227,7 @@ pub struct JudgeBrokerService<S, L, P> {
     secrets: S,
     ledger: L,
     provider: P,
-    remaining_budget_micros: Mutex<i64>,
+    remaining_budget: Mutex<Money>,
 }
 
 #[async_trait]
@@ -236,15 +251,15 @@ where
             secrets,
             ledger,
             provider,
-            remaining_budget_micros: Mutex::new(budget.amount_micros),
+            remaining_budget: Mutex::new(budget),
         }
     }
 
     pub fn remaining_budget(&self) -> Result<Money, JudgeBrokerError> {
-        let remaining = self.remaining_budget_micros.lock().map_err(|err| {
+        let remaining = self.remaining_budget.lock().map_err(|err| {
             JudgeBrokerError::Store(format!("judge budget mutex poisoned: {err}"))
         })?;
-        Ok(Money::usd_micros(*remaining))
+        Ok(remaining.clone())
     }
 
     pub async fn evaluate(
@@ -377,25 +392,29 @@ where
     }
 
     fn reserve_budget(&self, max_cost: &Money) -> Result<Money, JudgeBrokerError> {
-        let mut remaining = self.remaining_budget_micros.lock().map_err(|err| {
+        let mut remaining = self.remaining_budget.lock().map_err(|err| {
             JudgeBrokerError::Store(format!("judge budget mutex poisoned: {err}"))
         })?;
-        if max_cost.amount_micros > *remaining {
+        if max_cost.amount_micros > remaining.amount_micros {
             return Err(JudgeBrokerError::JudgeBudgetExceeded {
                 attempted_micros: max_cost.amount_micros,
-                remaining_micros: *remaining,
+                remaining_micros: remaining.amount_micros,
             });
         }
-        *remaining -= max_cost.amount_micros;
-        Ok(Money::usd_micros(*remaining))
+        *remaining = remaining
+            .try_sub(max_cost)
+            .map_err(|err| JudgeBrokerError::Store(err.to_string()))?;
+        Ok(remaining.clone())
     }
 
     fn refund_budget(&self, cost: &Money) -> Result<Money, JudgeBrokerError> {
-        let mut remaining = self.remaining_budget_micros.lock().map_err(|err| {
+        let mut remaining = self.remaining_budget.lock().map_err(|err| {
             JudgeBrokerError::Store(format!("judge budget mutex poisoned: {err}"))
         })?;
-        *remaining += cost.amount_micros;
-        Ok(Money::usd_micros(*remaining))
+        *remaining = remaining
+            .try_add(cost)
+            .map_err(|err| JudgeBrokerError::Store(err.to_string()))?;
+        Ok(remaining.clone())
     }
 
     fn finalize_budget_reservation(
@@ -403,12 +422,16 @@ where
         max_cost: &Money,
         actual_cost: &Money,
     ) -> Result<Money, JudgeBrokerError> {
-        let refund = max_cost.amount_micros - actual_cost.amount_micros;
-        let mut remaining = self.remaining_budget_micros.lock().map_err(|err| {
+        let refund = max_cost
+            .try_sub(actual_cost)
+            .map_err(|err| JudgeBrokerError::Store(err.to_string()))?;
+        let mut remaining = self.remaining_budget.lock().map_err(|err| {
             JudgeBrokerError::Store(format!("judge budget mutex poisoned: {err}"))
         })?;
-        *remaining += refund;
-        Ok(Money::usd_micros(*remaining))
+        *remaining = remaining
+            .try_add(&refund)
+            .map_err(|err| JudgeBrokerError::Store(err.to_string()))?;
+        Ok(remaining.clone())
     }
 }
 
@@ -529,8 +552,8 @@ impl JudgeLedgerStore for SqliteJudgeLedger {
         tenant_id: TenantId,
         project_id: ProjectId,
         request_hash: Sha256Hash,
-    ) -> anyhow::Result<Option<CachedJudgeResponse>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Option<CachedJudgeResponse>> {
+        let connection = self.lock().map_err(StoreError::backend)?;
         connection
             .query_row(
                 r#"
@@ -564,13 +587,13 @@ impl JudgeLedgerStore for SqliteJudgeLedger {
                 },
             )
             .optional()
-            .context("lookup cached judge response")
+            .map_err(StoreError::backend)
     }
 
-    async fn append_record(&self, insert: JudgeAuditInsert) -> anyhow::Result<JudgeAuditRecord> {
+    async fn append_record(&self, insert: JudgeAuditInsert) -> StoreResult<JudgeAuditRecord> {
         let record = JudgeAuditRecord {
             judge_call_id: JudgeCallId::new(Uuid::new_v4().to_string())
-                .map_err(|err| anyhow!(err))?,
+                .map_err(StoreError::backend)?,
             tenant_id: insert.tenant_id,
             project_id: insert.project_id,
             evaluator_id: insert.evaluator_id,
@@ -585,13 +608,12 @@ impl JudgeLedgerStore for SqliteJudgeLedger {
             cached: insert.cached,
             created_at: Utc::now(),
         };
-        let response_json =
-            serde_json::to_string(&insert.response).context("serialize judge response")?;
+        let response_json = serde_json::to_string(&insert.response).map_err(StoreError::backend)?;
         let provider_cost_json =
-            serde_json::to_string(&record.provider_cost).context("serialize provider cost")?;
+            serde_json::to_string(&record.provider_cost).map_err(StoreError::backend)?;
         let charged_cost_json =
-            serde_json::to_string(&record.charged_cost).context("serialize charged cost")?;
-        let connection = self.lock()?;
+            serde_json::to_string(&record.charged_cost).map_err(StoreError::backend)?;
+        let connection = self.lock().map_err(StoreError::backend)?;
         connection
             .execute(
                 r#"
@@ -620,7 +642,7 @@ impl JudgeLedgerStore for SqliteJudgeLedger {
                     response_json,
                 ],
             )
-            .context("append judge audit record")?;
+            .map_err(StoreError::backend)?;
         Ok(record)
     }
 
@@ -628,8 +650,8 @@ impl JudgeLedgerStore for SqliteJudgeLedger {
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<JudgeAuditRecord>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<JudgeAuditRecord>> {
+        let connection = self.lock().map_err(StoreError::backend)?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -641,16 +663,16 @@ impl JudgeLedgerStore for SqliteJudgeLedger {
                 ORDER BY created_at ASC, judge_call_id ASC
                 "#,
             )
-            .context("prepare list judge audit records")?;
+            .map_err(StoreError::backend)?;
         let rows = statement
             .query_map(
                 params![tenant_id.as_str(), project_id.as_str()],
                 decode_record,
             )
-            .context("query judge audit records")?;
+            .map_err(StoreError::backend)?;
         let mut records = Vec::new();
         for row in rows {
-            records.push(row.context("decode judge audit record")?);
+            records.push(row.map_err(StoreError::backend)?);
         }
         Ok(records)
     }
@@ -685,9 +707,9 @@ impl JudgeProvider for KeywordJudgeProvider {
         &self,
         request: JudgeRequest,
         credentials: ProviderCredentials,
-    ) -> anyhow::Result<JudgeResponse> {
+    ) -> JudgeProviderResult<JudgeResponse> {
         if credentials.secret_value().is_empty() {
-            return Err(anyhow!("provider credential is empty"));
+            return Err(JudgeProviderError::backend("provider credential is empty"));
         }
         let score = if request.reference.as_ref() == Some(&request.output) {
             1.0
@@ -773,7 +795,8 @@ impl JudgeProvider for OpenAiJudgeProvider {
         &self,
         request: JudgeRequest,
         credentials: ProviderCredentials,
-    ) -> anyhow::Result<JudgeResponse> {
+    ) -> JudgeProviderResult<JudgeResponse> {
+        let prompt = judge_prompt(&request).map_err(JudgeProviderError::backend)?;
         let body = serde_json::json!({
             "model": request.model,
             "temperature": 0,
@@ -785,7 +808,7 @@ impl JudgeProvider for OpenAiJudgeProvider {
                 },
                 {
                     "role": "user",
-                    "content": judge_prompt(&request)?
+                    "content": prompt
                 }
             ]
         });
@@ -798,17 +821,21 @@ impl JudgeProvider for OpenAiJudgeProvider {
             },
             self.config.retry_policy,
         )
-        .await?;
+        .await
+        .map_err(JudgeProviderError::backend)?;
         let payload: OpenAiChatCompletionResponse = response
             .json()
             .await
-            .context("decode openai judge response")?;
+            .context("decode openai judge response")
+            .map_err(JudgeProviderError::backend)?;
         let content = payload
             .choices
             .first()
             .map(|choice| choice.message.content.as_str())
-            .ok_or_else(|| anyhow!("openai judge response did not include a choice"))?;
-        let scored = parse_scored_judge_json(content)?;
+            .ok_or_else(|| {
+                JudgeProviderError::backend("openai judge response did not include a choice")
+            })?;
+        let scored = parse_scored_judge_json(content).map_err(JudgeProviderError::backend)?;
         Ok(JudgeResponse {
             score: scored.score,
             rationale: scored.rationale,
@@ -844,7 +871,8 @@ impl JudgeProvider for AnthropicJudgeProvider {
         &self,
         request: JudgeRequest,
         credentials: ProviderCredentials,
-    ) -> anyhow::Result<JudgeResponse> {
+    ) -> JudgeProviderResult<JudgeResponse> {
+        let prompt = judge_prompt(&request).map_err(JudgeProviderError::backend)?;
         let body = serde_json::json!({
             "model": request.model,
             "max_tokens": 512,
@@ -853,7 +881,7 @@ impl JudgeProvider for AnthropicJudgeProvider {
             "messages": [
                 {
                     "role": "user",
-                    "content": judge_prompt(&request)?
+                    "content": prompt
                 }
             ]
         });
@@ -867,18 +895,22 @@ impl JudgeProvider for AnthropicJudgeProvider {
             },
             self.config.retry_policy,
         )
-        .await?;
+        .await
+        .map_err(JudgeProviderError::backend)?;
         let payload: AnthropicMessagesResponse = response
             .json()
             .await
-            .context("decode anthropic judge response")?;
+            .context("decode anthropic judge response")
+            .map_err(JudgeProviderError::backend)?;
         let content = payload
             .content
             .iter()
             .find(|block| block.kind == "text")
             .map(|block| block.text.as_str())
-            .ok_or_else(|| anyhow!("anthropic judge response did not include text content"))?;
-        let scored = parse_scored_judge_json(content)?;
+            .ok_or_else(|| {
+                JudgeProviderError::backend("anthropic judge response did not include text content")
+            })?;
+        let scored = parse_scored_judge_json(content).map_err(JudgeProviderError::backend)?;
         Ok(JudgeResponse {
             score: scored.score,
             rationale: scored.rationale,
@@ -926,7 +958,7 @@ impl JudgeProvider for HttpRoutingJudgeProvider {
         &self,
         request: JudgeRequest,
         credentials: ProviderCredentials,
-    ) -> anyhow::Result<JudgeResponse> {
+    ) -> JudgeProviderResult<JudgeResponse> {
         if credentials.provider().eq_ignore_ascii_case("openai")
             || credentials
                 .provider()
@@ -936,10 +968,10 @@ impl JudgeProvider for HttpRoutingJudgeProvider {
         } else if credentials.provider().eq_ignore_ascii_case("anthropic") {
             self.anthropic.judge(request, credentials).await
         } else {
-            Err(anyhow!(
+            Err(JudgeProviderError::backend(format!(
                 "unsupported judge provider {}",
                 credentials.provider()
-            ))
+            )))
         }
     }
 }
@@ -1150,7 +1182,7 @@ fn score_from_response(response: &JudgeResponse, audit: &JudgeAuditRecord) -> Sc
             "cached": audit.cached,
             "provider_cost_micros": audit.provider_cost.amount_micros,
             "charged_cost_micros": audit.charged_cost.amount_micros,
-            "currency": audit.provider_cost.currency
+            "currency": audit.provider_cost.currency.as_str()
         }),
     }
 }
@@ -1599,9 +1631,11 @@ mod tests {
             &self,
             _request: JudgeRequest,
             credentials: ProviderCredentials,
-        ) -> anyhow::Result<JudgeResponse> {
+        ) -> JudgeProviderResult<JudgeResponse> {
             if credentials.secret_value() != "sk-live-secret" {
-                return Err(anyhow!("unexpected provider credential"));
+                return Err(JudgeProviderError::backend(
+                    "unexpected provider credential",
+                ));
             }
             self.calls.fetch_add(1, Ordering::SeqCst);
             Ok(JudgeResponse {

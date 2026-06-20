@@ -40,10 +40,13 @@ system, test output, or runtime behavior.
 | ID | Requirement | Evidence required |
 | --- | --- | --- |
 | R3.1 | Product code depends on a `TraceStore` trait. | `beater-store` is trait/error/fake only; concrete SQLite/filesystem implementations live in `beater-store-sql` and `beater-store-obj`; `cargo tree -p beater-store` has no `rusqlite` |
-| R3.2 | Local backend exists before ClickHouse assumptions leak. | `beater-store-sql` TraceStore conformance suite runs identical cases against SQLite and `InMemoryTraceStore`; filesystem artifact store has its own round-trip/hash test |
+| R3.2 | Local backend exists before ClickHouse assumptions leak. | `beater-store-sql` TraceStore conformance suite runs identical cases against SQLite and `InMemoryTraceStore`; `MetadataStore` conformance suite runs identical org/project/environment/RBAC cases against SQLite and `InMemoryMetadataStore`; filesystem artifact store has its own round-trip/hash test |
 | R3.3 | ClickHouse backend exists for scale. | ClickHouse migrations and testcontainers integration test |
 | R3.4 | Large payloads are artifact refs, not hot-row blobs. | Size-cap tests and object-store fixture |
 | R3.5 | Cold retention uses Parquet plus DataFusion. | Export/archive test and query fixture |
+| R3.6 | Public storage/eval trait contracts use typed errors. | Store/search/dataset/experiment/judge/review/auth/secret/usage/audit/replay/calibration/gate traits return `StoreResult`, `EvalError`, `JudgeProviderError`, or `AgentAdapterError`; `rg "async fn .*anyhow::Result" ...` only reports tests/helpers, not trait methods |
+| R3.7 | Foundational time and money primitives are replay-safe. | `beater-core` exposes `Clock`, `SystemClock`, `FixedClock`, typed `Currency`, and checked `Money::try_add`/`try_sub`; `rg "Utc::now()" crates/beater-core crates/beater-schema` returns no matches |
+| R3.8 | Canonical schema owns span/status mapping and run rollups. | `AgentSpanKind::parse`, `SpanStatus::{as_str,parse}`, `span_matches`, `span_summary`, and `roll_up_runs` live in `beater-schema`; storage/search/archive/API callers delegate to schema helpers |
 
 ## R4. Ingest Survival
 

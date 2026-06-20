@@ -6,6 +6,7 @@ use beater_core::{
 };
 use beater_datasets::{DatasetEvalReport, DatasetVersionSnapshot};
 use beater_schema::EvalResult;
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
@@ -77,14 +78,14 @@ pub struct CalibrationReport {
 
 #[async_trait]
 pub trait CalibrationStore: Send + Sync {
-    async fn write_report(&self, report: CalibrationReport) -> anyhow::Result<CalibrationReport>;
+    async fn write_report(&self, report: CalibrationReport) -> StoreResult<CalibrationReport>;
 
     async fn get_report(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         calibration_report_id: CalibrationReportId,
-    ) -> anyhow::Result<CalibrationReport>;
+    ) -> StoreResult<CalibrationReport>;
 
     async fn latest_report(
         &self,
@@ -93,7 +94,17 @@ pub trait CalibrationStore: Send + Sync {
         dataset_id: DatasetId,
         dataset_version_id: DatasetVersionId,
         evaluator_version_id: Option<EvaluatorVersionId>,
-    ) -> anyhow::Result<Option<CalibrationReport>>;
+    ) -> StoreResult<Option<CalibrationReport>>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone)]
@@ -171,9 +182,11 @@ impl SqliteCalibrationStore {
 
 #[async_trait]
 impl CalibrationStore for SqliteCalibrationStore {
-    async fn write_report(&self, report: CalibrationReport) -> anyhow::Result<CalibrationReport> {
-        let report_json = serde_json::to_string(&report).context("serialize calibration report")?;
-        let connection = self.lock()?;
+    async fn write_report(&self, report: CalibrationReport) -> StoreResult<CalibrationReport> {
+        let report_json = serde_json::to_string(&report)
+            .context("serialize calibration report")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -198,7 +211,8 @@ impl CalibrationStore for SqliteCalibrationStore {
                     report_json
                 ],
             )
-            .context("insert calibration report")?;
+            .context("insert calibration report")
+            .into_store()?;
         Ok(report)
     }
 
@@ -207,8 +221,8 @@ impl CalibrationStore for SqliteCalibrationStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         calibration_report_id: CalibrationReportId,
-    ) -> anyhow::Result<CalibrationReport> {
-        let connection = self.lock()?;
+    ) -> StoreResult<CalibrationReport> {
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -223,13 +237,18 @@ impl CalibrationStore for SqliteCalibrationStore {
                 ],
                 |row| row.get::<_, String>(0),
             )
-            .with_context(|| {
-                format!(
+            .optional()
+            .context("query calibration report")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(format!(
                     "calibration report {} not found",
                     calibration_report_id.as_str()
-                )
+                ))
             })?;
-        serde_json::from_str(&report_json).context("decode calibration report")
+        serde_json::from_str(&report_json)
+            .context("decode calibration report")
+            .into_store()
     }
 
     async fn latest_report(
@@ -239,9 +258,9 @@ impl CalibrationStore for SqliteCalibrationStore {
         dataset_id: DatasetId,
         dataset_version_id: DatasetVersionId,
         evaluator_version_id: Option<EvaluatorVersionId>,
-    ) -> anyhow::Result<Option<CalibrationReport>> {
+    ) -> StoreResult<Option<CalibrationReport>> {
         let evaluator_version_id = evaluator_version_id.as_ref().map(|id| id.as_str());
-        let connection = self.lock()?;
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -265,12 +284,14 @@ impl CalibrationStore for SqliteCalibrationStore {
                 |row| row.get::<_, String>(0),
             )
             .optional()
-            .context("query latest calibration report")?;
+            .context("query latest calibration report")
+            .into_store()?;
         report_json
             .map(|report_json| {
                 serde_json::from_str(&report_json).context("decode calibration report")
             })
             .transpose()
+            .into_store()
     }
 }
 

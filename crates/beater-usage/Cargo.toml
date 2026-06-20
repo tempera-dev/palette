@@ -12,6 +12,7 @@ beater-core = { path = "../beater-core" }
 beater-datasets = { path = "../beater-datasets" }
 beater-experiments = { path = "../beater-experiments" }
 beater-judge = { path = "../beater-judge" }
+beater-store = { path = "../beater-store" }
 chrono.workspace = true
 rusqlite.workspace = true
 serde.workspace = true

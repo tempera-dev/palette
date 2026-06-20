@@ -2,6 +2,7 @@ use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{ProjectId, Sha256Hash, SpanId, TenantId, Timestamp, TraceId};
 use beater_schema::{CanonicalSpan, ReplayCassette, SpanStatus};
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
@@ -96,25 +97,35 @@ impl ReplayEvent {
 
 #[async_trait]
 pub trait ReplayStore: Send + Sync {
-    async fn put_event(&self, event: ReplayEvent) -> anyhow::Result<ReplayEvent>;
+    async fn put_event(&self, event: ReplayEvent) -> StoreResult<ReplayEvent>;
 
     async fn list_events(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         trace_id: TraceId,
-    ) -> anyhow::Result<Vec<ReplayEvent>>;
+    ) -> StoreResult<Vec<ReplayEvent>>;
 
     async fn cassette(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         trace_id: TraceId,
-    ) -> anyhow::Result<ReplayCassette> {
+    ) -> StoreResult<ReplayCassette> {
         let events = self
             .list_events(tenant_id.clone(), project_id, trace_id.clone())
             .await?;
         Ok(cassette_from_events(tenant_id, trace_id, &events))
+    }
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
     }
 }
 
@@ -186,9 +197,11 @@ impl SqliteReplayStore {
 
 #[async_trait]
 impl ReplayStore for SqliteReplayStore {
-    async fn put_event(&self, event: ReplayEvent) -> anyhow::Result<ReplayEvent> {
-        let event_json = serde_json::to_string(&event).context("serialize replay event")?;
-        let connection = self.lock()?;
+    async fn put_event(&self, event: ReplayEvent) -> StoreResult<ReplayEvent> {
+        let event_json = serde_json::to_string(&event)
+            .context("serialize replay event")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -209,7 +222,8 @@ impl ReplayStore for SqliteReplayStore {
                     event_json,
                 ],
             )
-            .context("insert replay event")?;
+            .context("insert replay event")
+            .into_store()?;
         Ok(event)
     }
 
@@ -218,8 +232,8 @@ impl ReplayStore for SqliteReplayStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         trace_id: TraceId,
-    ) -> anyhow::Result<Vec<ReplayEvent>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<ReplayEvent>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -229,17 +243,23 @@ impl ReplayStore for SqliteReplayStore {
                 ORDER BY seq ASC, kind ASC, request_hash ASC
                 "#,
             )
-            .context("prepare replay event list")?;
+            .context("prepare replay event list")
+            .into_store()?;
         let rows = statement
             .query_map(
                 params![tenant_id.as_str(), project_id.as_str(), trace_id.as_str()],
                 |row| row.get::<_, String>(0),
             )
-            .context("query replay events")?;
+            .context("query replay events")
+            .into_store()?;
         let mut events = Vec::new();
         for row in rows {
-            let json = row.context("read replay event row")?;
-            events.push(serde_json::from_str::<ReplayEvent>(&json).context("decode replay event")?);
+            let json = row.context("read replay event row").into_store()?;
+            events.push(
+                serde_json::from_str::<ReplayEvent>(&json)
+                    .context("decode replay event")
+                    .into_store()?,
+            );
         }
         Ok(events)
     }

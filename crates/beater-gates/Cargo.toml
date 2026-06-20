@@ -11,6 +11,7 @@ async-trait.workspace = true
 beater-core = { path = "../beater-core" }
 beater-eval = { path = "../beater-eval" }
 beater-experiments = { path = "../beater-experiments" }
+beater-store = { path = "../beater-store" }
 chrono.workspace = true
 rusqlite.workspace = true
 serde.workspace = true

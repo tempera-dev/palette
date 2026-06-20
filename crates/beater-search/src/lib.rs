@@ -1,7 +1,8 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{ProjectId, SpanId, TenantId, TraceId};
-use beater_schema::{CanonicalSpan, SpanStatus};
+use beater_schema::CanonicalSpan;
+use beater_store::{StoreError, StoreResult};
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
 use std::path::Path;
@@ -13,8 +14,18 @@ use tantivy::{doc, Index, IndexWriter, Term};
 
 #[async_trait]
 pub trait SearchIndex: Send + Sync {
-    async fn index_spans(&self, spans: &[CanonicalSpan]) -> anyhow::Result<()>;
-    async fn search(&self, query: SearchRequest) -> anyhow::Result<SearchResponse>;
+    async fn index_spans(&self, spans: &[CanonicalSpan]) -> StoreResult<()>;
+    async fn search(&self, query: SearchRequest) -> StoreResult<SearchResponse>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone, Default)]
@@ -22,11 +33,11 @@ pub struct NoopSearchIndex;
 
 #[async_trait]
 impl SearchIndex for NoopSearchIndex {
-    async fn index_spans(&self, _spans: &[CanonicalSpan]) -> anyhow::Result<()> {
+    async fn index_spans(&self, _spans: &[CanonicalSpan]) -> StoreResult<()> {
         Ok(())
     }
 
-    async fn search(&self, _query: SearchRequest) -> anyhow::Result<SearchResponse> {
+    async fn search(&self, _query: SearchRequest) -> StoreResult<SearchResponse> {
         Ok(SearchResponse { hits: Vec::new() })
     }
 }
@@ -70,35 +81,44 @@ impl TantivySearchIndex {
 
 #[async_trait]
 impl SearchIndex for TantivySearchIndex {
-    async fn index_spans(&self, spans: &[CanonicalSpan]) -> anyhow::Result<()> {
+    async fn index_spans(&self, spans: &[CanonicalSpan]) -> StoreResult<()> {
         let mut writer = self
             .writer
             .lock()
-            .map_err(|err| anyhow!("search writer mutex poisoned: {err}"))?;
+            .map_err(|err| StoreError::backend(format!("search writer mutex poisoned: {err}")))?;
         for span in spans {
             let doc_key = doc_key(span);
             writer.delete_term(Term::from_field_text(self.fields.doc_key, &doc_key));
-            writer.add_document(doc!(
-                self.fields.doc_key => doc_key,
-                self.fields.tenant_id => span.tenant_id.as_str(),
-                self.fields.project_id => span.project_id.as_str(),
-                self.fields.environment_id => span.environment_id.as_str(),
-                self.fields.trace_id => span.trace_id.as_str(),
-                self.fields.span_id => span.span_id.as_str(),
-                self.fields.kind => span.kind.as_str(),
-                self.fields.status => status_name(&span.status),
-                self.fields.name => span.name.as_str(),
-                self.fields.model => model_text(span),
-                self.fields.tool => tool_text(span).unwrap_or_default(),
-                self.fields.text => searchable_text(span),
-            ))?;
+            writer
+                .add_document(doc!(
+                    self.fields.doc_key => doc_key,
+                    self.fields.tenant_id => span.tenant_id.as_str(),
+                    self.fields.project_id => span.project_id.as_str(),
+                    self.fields.environment_id => span.environment_id.as_str(),
+                    self.fields.trace_id => span.trace_id.as_str(),
+                    self.fields.span_id => span.span_id.as_str(),
+                    self.fields.kind => span.kind.as_str(),
+                    self.fields.status => span.status.as_str(),
+                    self.fields.name => span.name.as_str(),
+                    self.fields.model => model_text(span),
+                    self.fields.tool => tool_text(span).unwrap_or_default(),
+                    self.fields.text => searchable_text(span),
+                ))
+                .map_err(StoreError::backend)?;
         }
-        writer.commit().context("commit search index")?;
+        writer
+            .commit()
+            .context("commit search index")
+            .into_store()?;
         Ok(())
     }
 
-    async fn search(&self, query: SearchRequest) -> anyhow::Result<SearchResponse> {
-        let reader = self.index.reader().context("open search reader")?;
+    async fn search(&self, query: SearchRequest) -> StoreResult<SearchResponse> {
+        let reader = self
+            .index
+            .reader()
+            .context("open search reader")
+            .into_store()?;
         let searcher = reader.searcher();
         let parser = QueryParser::for_index(
             &self.index,
@@ -114,7 +134,8 @@ impl SearchIndex for TantivySearchIndex {
         } else {
             parser
                 .parse_query(&query.text)
-                .with_context(|| format!("parse search query {:?}", query.text))?
+                .with_context(|| format!("parse search query {:?}", query.text))
+                .into_store()?
         };
         let limit = query.limit.unwrap_or(50).clamp(1, 200);
         let top_docs = searcher
@@ -122,25 +143,27 @@ impl SearchIndex for TantivySearchIndex {
                 &parsed,
                 &TopDocs::with_limit((limit * 5) as usize).order_by_score(),
             )
-            .context("search tantivy index")?;
+            .context("search tantivy index")
+            .into_store()?;
 
         let mut hits = Vec::new();
         for (score, address) in top_docs {
             let doc = searcher
                 .doc::<TantivyDocument>(address)
-                .context("load search hit document")?;
+                .context("load search hit document")
+                .into_store()?;
             let hit = SearchHit {
                 score,
-                tenant_id: text_field(&doc, self.fields.tenant_id)?,
-                project_id: text_field(&doc, self.fields.project_id)?,
-                environment_id: text_field(&doc, self.fields.environment_id)?,
-                trace_id: text_field(&doc, self.fields.trace_id)?,
-                span_id: text_field(&doc, self.fields.span_id)?,
-                kind: text_field(&doc, self.fields.kind)?,
-                status: text_field(&doc, self.fields.status)?,
-                name: text_field(&doc, self.fields.name)?,
-                model: text_field(&doc, self.fields.model)?,
-                tool: text_field(&doc, self.fields.tool)?,
+                tenant_id: text_field(&doc, self.fields.tenant_id).into_store()?,
+                project_id: text_field(&doc, self.fields.project_id).into_store()?,
+                environment_id: text_field(&doc, self.fields.environment_id).into_store()?,
+                trace_id: text_field(&doc, self.fields.trace_id).into_store()?,
+                span_id: text_field(&doc, self.fields.span_id).into_store()?,
+                kind: text_field(&doc, self.fields.kind).into_store()?,
+                status: text_field(&doc, self.fields.status).into_store()?,
+                name: text_field(&doc, self.fields.name).into_store()?,
+                model: text_field(&doc, self.fields.model).into_store()?,
+                tool: text_field(&doc, self.fields.tool).into_store()?,
             };
             if query.matches(&hit) {
                 hits.push(hit);
@@ -303,14 +326,6 @@ fn doc_key(span: &CanonicalSpan) -> String {
     )
 }
 
-fn status_name(status: &SpanStatus) -> &'static str {
-    match status {
-        SpanStatus::Ok => "ok",
-        SpanStatus::Error => "error",
-        SpanStatus::Unset => "unset",
-    }
-}
-
 fn model_text(span: &CanonicalSpan) -> String {
     span.model
         .as_ref()
@@ -329,7 +344,7 @@ fn searchable_text(span: &CanonicalSpan) -> String {
     let mut pieces = vec![
         span.name.clone(),
         span.kind.as_str().to_string(),
-        status_name(&span.status).to_string(),
+        span.status.as_str().to_string(),
         model_text(span),
         tool_text(span).unwrap_or_default(),
     ];
@@ -364,7 +379,7 @@ fn value_to_text(value: &JsonValue) -> String {
 mod tests {
     use super::*;
     use beater_core::{EnvironmentId, ProjectId, TenantId};
-    use beater_schema::{AgentSpanKind, ModelRef, CANONICAL_SCHEMA_VERSION};
+    use beater_schema::{AgentSpanKind, ModelRef, SpanStatus, CANONICAL_SCHEMA_VERSION};
     use chrono::Utc;
     use serde_json::json;
     use std::collections::BTreeMap;

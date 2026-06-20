@@ -6,6 +6,7 @@ use beater_core::{
 };
 use beater_eval::{ExperimentComparison, GateDecision, GatePolicy};
 use beater_experiments::{ExperimentRunReport, ExperimentStore};
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
@@ -65,23 +66,33 @@ pub struct GateRunReport {
 
 #[async_trait]
 pub trait GateStore: Send + Sync {
-    async fn put_gate(&self, gate: GateDefinition) -> anyhow::Result<GateDefinition>;
+    async fn put_gate(&self, gate: GateDefinition) -> StoreResult<GateDefinition>;
 
     async fn get_gate(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         gate_id: GateId,
-    ) -> anyhow::Result<GateDefinition>;
+    ) -> StoreResult<GateDefinition>;
 
-    async fn write_run(&self, report: GateRunReport) -> anyhow::Result<GateRunReport>;
+    async fn write_run(&self, report: GateRunReport) -> StoreResult<GateRunReport>;
 
     async fn latest_run(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         gate_id: GateId,
-    ) -> anyhow::Result<Option<GateRunReport>>;
+    ) -> StoreResult<Option<GateRunReport>>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone)]
@@ -165,9 +176,11 @@ impl SqliteGateStore {
 
 #[async_trait]
 impl GateStore for SqliteGateStore {
-    async fn put_gate(&self, gate: GateDefinition) -> anyhow::Result<GateDefinition> {
-        let definition_json = serde_json::to_string(&gate).context("serialize gate definition")?;
-        let connection = self.lock()?;
+    async fn put_gate(&self, gate: GateDefinition) -> StoreResult<GateDefinition> {
+        let definition_json = serde_json::to_string(&gate)
+            .context("serialize gate definition")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -195,7 +208,8 @@ impl GateStore for SqliteGateStore {
                     definition_json,
                 ],
             )
-            .context("upsert gate definition")?;
+            .context("upsert gate definition")
+            .into_store()?;
         Ok(gate)
     }
 
@@ -204,8 +218,8 @@ impl GateStore for SqliteGateStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         gate_id: GateId,
-    ) -> anyhow::Result<GateDefinition> {
-        let connection = self.lock()?;
+    ) -> StoreResult<GateDefinition> {
+        let connection = self.lock().into_store()?;
         let definition_json = connection
             .query_row(
                 r#"
@@ -216,13 +230,20 @@ impl GateStore for SqliteGateStore {
                 params![tenant_id.as_str(), project_id.as_str(), gate_id.as_str()],
                 |row| row.get::<_, String>(0),
             )
-            .with_context(|| format!("gate {} not found", gate_id.as_str()))?;
-        serde_json::from_str(&definition_json).context("decode gate definition")
+            .optional()
+            .context("query gate definition")
+            .into_store()?
+            .ok_or_else(|| StoreError::NotFound(format!("gate {} not found", gate_id.as_str())))?;
+        serde_json::from_str(&definition_json)
+            .context("decode gate definition")
+            .into_store()
     }
 
-    async fn write_run(&self, report: GateRunReport) -> anyhow::Result<GateRunReport> {
-        let report_json = serde_json::to_string(&report).context("serialize gate run report")?;
-        let connection = self.lock()?;
+    async fn write_run(&self, report: GateRunReport) -> StoreResult<GateRunReport> {
+        let report_json = serde_json::to_string(&report)
+            .context("serialize gate run report")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -243,7 +264,8 @@ impl GateStore for SqliteGateStore {
                     report_json,
                 ],
             )
-            .context("insert gate run")?;
+            .context("insert gate run")
+            .into_store()?;
         Ok(report)
     }
 
@@ -252,8 +274,8 @@ impl GateStore for SqliteGateStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         gate_id: GateId,
-    ) -> anyhow::Result<Option<GateRunReport>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Option<GateRunReport>> {
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -267,10 +289,12 @@ impl GateStore for SqliteGateStore {
                 |row| row.get::<_, String>(0),
             )
             .optional()
-            .context("query latest gate run")?;
+            .context("query latest gate run")
+            .into_store()?;
         report_json
             .map(|report_json| serde_json::from_str(&report_json).context("decode gate run report"))
             .transpose()
+            .into_store()
     }
 }
 
@@ -302,7 +326,7 @@ pub async fn run_gate(
             .ok_or_else(|| anyhow!("no experiment run found for gate {}", gate.gate_id.as_str()))?,
     };
     let report = evaluate_gate(&gate, &experiment)?;
-    gate_store.write_run(report).await
+    Ok(gate_store.write_run(report).await?)
 }
 
 pub fn evaluate_gate(

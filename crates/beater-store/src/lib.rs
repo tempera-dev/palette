@@ -1,9 +1,13 @@
 use async_trait::async_trait;
-use beater_core::{IdempotencyKey, Page, PageRequest, ProjectId, TenantId, TraceId};
-use beater_schema::{
-    ArtifactRef, CanonicalTraceBatch, RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanSummary,
-    TraceView, WriteAck,
+use beater_core::{
+    EnvironmentId, IdempotencyKey, OrganizationId, Page, PageRequest, ProjectId, TenantId,
+    Timestamp, TraceId,
 };
+use beater_schema::{
+    roll_up_runs, span_matches, span_summary, ArtifactRef, CanonicalTraceBatch, RawEnvelope,
+    RunFilter, RunSummary, SpanFilter, SpanSummary, TraceView, WriteAck,
+};
+use std::collections::BTreeSet;
 
 pub type StoreResult<T> = Result<T, StoreError>;
 
@@ -73,9 +77,230 @@ pub trait TraceStore: Send + Sync {
     ) -> StoreResult<Page<SpanSummary>>;
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct OrganizationMetadata {
+    pub tenant_id: TenantId,
+    pub organization_id: OrganizationId,
+    pub display_name: String,
+    pub created_at: Timestamp,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ProjectMetadata {
+    pub tenant_id: TenantId,
+    pub organization_id: OrganizationId,
+    pub project_id: ProjectId,
+    pub display_name: String,
+    pub created_at: Timestamp,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct EnvironmentMetadata {
+    pub tenant_id: TenantId,
+    pub project_id: ProjectId,
+    pub environment_id: EnvironmentId,
+    pub display_name: String,
+    pub created_at: Timestamp,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct RoleBinding {
+    pub tenant_id: TenantId,
+    pub project_id: Option<ProjectId>,
+    pub principal_id: String,
+    pub role: String,
+    pub permissions: BTreeSet<String>,
+    pub created_at: Timestamp,
+}
+
+#[async_trait]
+pub trait MetadataStore: Send + Sync {
+    async fn put_organization(&self, organization: OrganizationMetadata) -> StoreResult<()>;
+
+    async fn get_organization(
+        &self,
+        tenant_id: TenantId,
+        organization_id: OrganizationId,
+    ) -> StoreResult<Option<OrganizationMetadata>>;
+
+    async fn put_project(&self, project: ProjectMetadata) -> StoreResult<()>;
+
+    async fn get_project(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+    ) -> StoreResult<Option<ProjectMetadata>>;
+
+    async fn put_environment(&self, environment: EnvironmentMetadata) -> StoreResult<()>;
+
+    async fn get_environment(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        environment_id: EnvironmentId,
+    ) -> StoreResult<Option<EnvironmentMetadata>>;
+
+    async fn put_role_binding(&self, binding: RoleBinding) -> StoreResult<()>;
+
+    async fn list_role_bindings(
+        &self,
+        tenant_id: TenantId,
+        project_id: Option<ProjectId>,
+        principal_id: String,
+    ) -> StoreResult<Vec<RoleBinding>>;
+}
+
 #[derive(Clone, Default)]
 pub struct InMemoryTraceStore {
     state: std::sync::Arc<std::sync::Mutex<InMemoryTraceState>>,
+}
+
+#[derive(Clone, Default)]
+pub struct InMemoryMetadataStore {
+    state: std::sync::Arc<std::sync::Mutex<InMemoryMetadataState>>,
+}
+
+#[derive(Clone, Default)]
+struct InMemoryMetadataState {
+    organizations: Vec<OrganizationMetadata>,
+    projects: Vec<ProjectMetadata>,
+    environments: Vec<EnvironmentMetadata>,
+    role_bindings: Vec<RoleBinding>,
+}
+
+impl InMemoryMetadataStore {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    fn lock(&self) -> StoreResult<std::sync::MutexGuard<'_, InMemoryMetadataState>> {
+        self.state
+            .lock()
+            .map_err(|err| StoreError::backend(format!("metadata store mutex poisoned: {err}")))
+    }
+}
+
+#[async_trait]
+impl MetadataStore for InMemoryMetadataStore {
+    async fn put_organization(&self, organization: OrganizationMetadata) -> StoreResult<()> {
+        let mut state = self.lock()?;
+        if let Some(existing) = state.organizations.iter_mut().find(|existing| {
+            existing.tenant_id == organization.tenant_id
+                && existing.organization_id == organization.organization_id
+        }) {
+            *existing = organization;
+        } else {
+            state.organizations.push(organization);
+        }
+        Ok(())
+    }
+
+    async fn get_organization(
+        &self,
+        tenant_id: TenantId,
+        organization_id: OrganizationId,
+    ) -> StoreResult<Option<OrganizationMetadata>> {
+        let state = self.lock()?;
+        Ok(state
+            .organizations
+            .iter()
+            .find(|organization| {
+                organization.tenant_id == tenant_id
+                    && organization.organization_id == organization_id
+            })
+            .cloned())
+    }
+
+    async fn put_project(&self, project: ProjectMetadata) -> StoreResult<()> {
+        let mut state = self.lock()?;
+        if let Some(existing) = state.projects.iter_mut().find(|existing| {
+            existing.tenant_id == project.tenant_id && existing.project_id == project.project_id
+        }) {
+            *existing = project;
+        } else {
+            state.projects.push(project);
+        }
+        Ok(())
+    }
+
+    async fn get_project(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+    ) -> StoreResult<Option<ProjectMetadata>> {
+        let state = self.lock()?;
+        Ok(state
+            .projects
+            .iter()
+            .find(|project| project.tenant_id == tenant_id && project.project_id == project_id)
+            .cloned())
+    }
+
+    async fn put_environment(&self, environment: EnvironmentMetadata) -> StoreResult<()> {
+        let mut state = self.lock()?;
+        if let Some(existing) = state.environments.iter_mut().find(|existing| {
+            existing.tenant_id == environment.tenant_id
+                && existing.project_id == environment.project_id
+                && existing.environment_id == environment.environment_id
+        }) {
+            *existing = environment;
+        } else {
+            state.environments.push(environment);
+        }
+        Ok(())
+    }
+
+    async fn get_environment(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        environment_id: EnvironmentId,
+    ) -> StoreResult<Option<EnvironmentMetadata>> {
+        let state = self.lock()?;
+        Ok(state
+            .environments
+            .iter()
+            .find(|environment| {
+                environment.tenant_id == tenant_id
+                    && environment.project_id == project_id
+                    && environment.environment_id == environment_id
+            })
+            .cloned())
+    }
+
+    async fn put_role_binding(&self, binding: RoleBinding) -> StoreResult<()> {
+        let mut state = self.lock()?;
+        if let Some(existing) = state.role_bindings.iter_mut().find(|existing| {
+            existing.tenant_id == binding.tenant_id
+                && existing.project_id == binding.project_id
+                && existing.principal_id == binding.principal_id
+                && existing.role == binding.role
+        }) {
+            *existing = binding;
+        } else {
+            state.role_bindings.push(binding);
+        }
+        Ok(())
+    }
+
+    async fn list_role_bindings(
+        &self,
+        tenant_id: TenantId,
+        project_id: Option<ProjectId>,
+        principal_id: String,
+    ) -> StoreResult<Vec<RoleBinding>> {
+        let state = self.lock()?;
+        Ok(state
+            .role_bindings
+            .iter()
+            .filter(|binding| {
+                binding.tenant_id == tenant_id
+                    && binding.project_id == project_id
+                    && binding.principal_id == principal_id
+            })
+            .cloned()
+            .collect())
+    }
 }
 
 #[derive(Clone, Default)]
@@ -217,16 +442,8 @@ impl TraceStore for InMemoryTraceStore {
             .spans
             .iter()
             .filter(|span| span.tenant_id == tenant && span_matches(span, &filter))
-            .map(|span| SpanSummary {
-                tenant_id: span.tenant_id.clone(),
-                trace_id: span.trace_id.clone(),
-                span_id: span.span_id.clone(),
-                kind: span.kind.clone(),
-                name: span.name.clone(),
-                status: span.status.clone(),
-                started_at: span.start_time,
-                ended_at: span.end_time,
-            })
+            .cloned()
+            .map(span_summary)
             .collect::<Vec<_>>();
         spans.sort_by(|left, right| {
             right
@@ -237,62 +454,6 @@ impl TraceStore for InMemoryTraceStore {
         });
         Ok(page_vec(spans, page))
     }
-}
-
-pub fn span_matches(span: &beater_schema::CanonicalSpan, filter: &SpanFilter) -> bool {
-    if let Some(trace_id) = &filter.trace_id {
-        if span.trace_id != *trace_id {
-            return false;
-        }
-    }
-    if let Some(span_id) = &filter.span_id {
-        if span.span_id != *span_id {
-            return false;
-        }
-    }
-    if let Some(kind) = &filter.kind {
-        if span.kind != *kind {
-            return false;
-        }
-    }
-    if let Some(status) = &filter.status {
-        if span.status != *status {
-            return false;
-        }
-    }
-    true
-}
-
-pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary> {
-    let mut runs = Vec::<RunSummary>::new();
-    for span in spans {
-        if let Some(run) = runs.iter_mut().find(|run| run.trace_id == span.trace_id) {
-            run.span_count += 1;
-            if run.status != beater_schema::SpanStatus::Error
-                && span.status == beater_schema::SpanStatus::Error
-            {
-                run.status = beater_schema::SpanStatus::Error;
-            }
-            run.ended_at = match (run.ended_at, span.ended_at) {
-                (Some(left), Some(right)) => Some(left.max(right)),
-                (None, Some(right)) => Some(right),
-                (left, None) => left,
-            };
-        } else {
-            runs.push(RunSummary {
-                tenant_id: tenant.clone(),
-                trace_id: span.trace_id,
-                first_span_name: span.name,
-                span_count: 1,
-                status: span.status,
-                started_at: span.started_at,
-                ended_at: span.ended_at,
-            });
-        }
-    }
-
-    runs.sort_by(|left, right| right.started_at.cmp(&left.started_at));
-    runs
 }
 
 pub fn page_vec<T>(mut items: Vec<T>, page: PageRequest) -> Page<T> {

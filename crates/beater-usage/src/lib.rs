@@ -4,6 +4,7 @@ use beater_core::{Money, ProjectId, TenantId, Timestamp, UsageRecordId};
 use beater_datasets::DatasetEvalReport;
 use beater_experiments::{CaseExperimentScore, ExperimentRunReport};
 use beater_judge::JudgeBrokerOutcome;
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
@@ -89,19 +90,29 @@ pub struct UsageSummary {
 
 #[async_trait]
 pub trait UsageLedgerStore: Send + Sync {
-    async fn record_usage(&self, insert: UsageRecordInsert) -> anyhow::Result<UsageRecord>;
+    async fn record_usage(&self, insert: UsageRecordInsert) -> StoreResult<UsageRecord>;
 
     async fn list_usage(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<UsageRecord>>;
+    ) -> StoreResult<Vec<UsageRecord>>;
 
     async fn summarize_usage(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<UsageSummary>;
+    ) -> StoreResult<UsageSummary>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone)]
@@ -206,9 +217,10 @@ impl SqliteUsageLedger {
 
 #[async_trait]
 impl UsageLedgerStore for SqliteUsageLedger {
-    async fn record_usage(&self, insert: UsageRecordInsert) -> anyhow::Result<UsageRecord> {
+    async fn record_usage(&self, insert: UsageRecordInsert) -> StoreResult<UsageRecord> {
         let record = UsageRecord {
-            usage_record_id: UsageRecordId::new(Uuid::new_v4().to_string())?,
+            usage_record_id: UsageRecordId::new(Uuid::new_v4().to_string())
+                .map_err(StoreError::backend)?,
             tenant_id: insert.tenant_id,
             project_id: insert.project_id,
             meter: insert.meter,
@@ -219,8 +231,10 @@ impl UsageLedgerStore for SqliteUsageLedger {
             attributes: insert.attributes,
             created_at: Utc::now(),
         };
-        let record_json = serde_json::to_string(&record).context("serialize usage record")?;
-        let connection = self.lock()?;
+        let record_json = serde_json::to_string(&record)
+            .context("serialize usage record")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -242,7 +256,8 @@ impl UsageLedgerStore for SqliteUsageLedger {
                     record_json
                 ],
             )
-            .context("insert usage record")?;
+            .context("insert usage record")
+            .into_store()?;
         Self::select_by_unique(
             &connection,
             &record.tenant_id,
@@ -251,14 +266,15 @@ impl UsageLedgerStore for SqliteUsageLedger {
             record.source_kind,
             &record.source_id,
         )
+        .into_store()
     }
 
     async fn list_usage(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<UsageRecord>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<UsageRecord>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -268,16 +284,22 @@ impl UsageLedgerStore for SqliteUsageLedger {
                 ORDER BY created_at ASC, usage_record_id ASC
                 "#,
             )
-            .context("prepare usage list query")?;
+            .context("prepare usage list query")
+            .into_store()?;
         let rows = statement
             .query_map(params![tenant_id.as_str(), project_id.as_str()], |row| {
                 row.get::<_, String>(0)
             })
-            .context("query usage list")?;
+            .context("query usage list")
+            .into_store()?;
         let mut records = Vec::new();
         for row in rows {
-            let record_json = row.context("read usage record row")?;
-            records.push(serde_json::from_str(&record_json).context("decode usage record")?);
+            let record_json = row.context("read usage record row").into_store()?;
+            records.push(
+                serde_json::from_str(&record_json)
+                    .context("decode usage record")
+                    .into_store()?,
+            );
         }
         Ok(records)
     }
@@ -286,8 +308,8 @@ impl UsageLedgerStore for SqliteUsageLedger {
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<UsageSummary> {
-        let connection = self.lock()?;
+    ) -> StoreResult<UsageSummary> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -298,7 +320,8 @@ impl UsageLedgerStore for SqliteUsageLedger {
                 ORDER BY meter ASC, unit ASC
                 "#,
             )
-            .context("prepare usage summary query")?;
+            .context("prepare usage summary query")
+            .into_store()?;
         let rows = statement
             .query_map(params![tenant_id.as_str(), project_id.as_str()], |row| {
                 Ok((
@@ -307,10 +330,11 @@ impl UsageLedgerStore for SqliteUsageLedger {
                     row.get::<_, i64>(2)?,
                 ))
             })
-            .context("query usage summary")?;
+            .context("query usage summary")
+            .into_store()?;
         let mut totals = BTreeMap::new();
         for row in rows {
-            let (meter, unit, quantity) = row.context("read usage summary row")?;
+            let (meter, unit, quantity) = row.context("read usage summary row").into_store()?;
             totals.insert(meter, UsageTotal { quantity, unit });
         }
         Ok(UsageSummary {
@@ -352,7 +376,7 @@ pub fn judge_usage_from_outcome(outcome: &JudgeBrokerOutcome) -> UsageRecordInse
             "score": audit.score,
             "provider_cost_micros": audit.provider_cost.amount_micros,
             "charged_cost_micros": audit.charged_cost.amount_micros,
-            "currency": audit.charged_cost.currency,
+            "currency": audit.charged_cost.currency.as_str(),
             "cached": audit.cached,
             "remaining_budget_micros": outcome.remaining_budget.amount_micros
         }),
@@ -454,7 +478,7 @@ fn experiment_score_usage(
 }
 
 fn money_unit(cost: &Money) -> String {
-    format!("{}_micros", cost.currency.to_ascii_lowercase())
+    format!("{}_micros", cost.currency.as_str().to_ascii_lowercase())
 }
 
 #[derive(Clone, Copy)]

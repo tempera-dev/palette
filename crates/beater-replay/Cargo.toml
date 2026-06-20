@@ -9,6 +9,7 @@ anyhow.workspace = true
 async-trait.workspace = true
 beater-core = { path = "../beater-core" }
 beater-schema = { path = "../beater-schema" }
+beater-store = { path = "../beater-store" }
 chrono.workspace = true
 rusqlite.workspace = true
 serde.workspace = true

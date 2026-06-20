@@ -1,6 +1,7 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{ProjectId, ProviderSecretId, TenantId, Timestamp};
+use beater_store::{StoreError, StoreResult};
 use chrono::{DateTime, Utc};
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
@@ -90,14 +91,14 @@ pub trait ProviderSecretStore: Send + Sync {
     async fn put_secret(
         &self,
         request: PutProviderSecretRequest,
-    ) -> anyhow::Result<ProviderSecretMetadata>;
+    ) -> StoreResult<ProviderSecretMetadata>;
 
     async fn get_secret(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
-    ) -> anyhow::Result<Option<ProviderSecret>>;
+    ) -> StoreResult<Option<ProviderSecret>>;
 
     async fn revoke_secret(
         &self,
@@ -105,13 +106,13 @@ pub trait ProviderSecretStore: Send + Sync {
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
         rotated_at: Timestamp,
-    ) -> anyhow::Result<Option<RevokedProviderSecret>>;
+    ) -> StoreResult<Option<RevokedProviderSecret>>;
 
     async fn list_secret_metadata(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<ProviderSecretMetadata>>;
+    ) -> StoreResult<Vec<ProviderSecretMetadata>>;
 }
 
 #[async_trait]
@@ -122,7 +123,7 @@ where
     async fn put_secret(
         &self,
         request: PutProviderSecretRequest,
-    ) -> anyhow::Result<ProviderSecretMetadata> {
+    ) -> StoreResult<ProviderSecretMetadata> {
         (**self).put_secret(request).await
     }
 
@@ -131,7 +132,7 @@ where
         tenant_id: TenantId,
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
-    ) -> anyhow::Result<Option<ProviderSecret>> {
+    ) -> StoreResult<Option<ProviderSecret>> {
         (**self)
             .get_secret(tenant_id, project_id, provider_secret_id)
             .await
@@ -143,7 +144,7 @@ where
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
         rotated_at: Timestamp,
-    ) -> anyhow::Result<Option<RevokedProviderSecret>> {
+    ) -> StoreResult<Option<RevokedProviderSecret>> {
         (**self)
             .revoke_secret(tenant_id, project_id, provider_secret_id, rotated_at)
             .await
@@ -153,8 +154,18 @@ where
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<ProviderSecretMetadata>> {
+    ) -> StoreResult<Vec<ProviderSecretMetadata>> {
         (**self).list_secret_metadata(tenant_id, project_id).await
+    }
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
     }
 }
 
@@ -230,10 +241,10 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
     async fn put_secret(
         &self,
         request: PutProviderSecretRequest,
-    ) -> anyhow::Result<ProviderSecretMetadata> {
+    ) -> StoreResult<ProviderSecretMetadata> {
         let metadata = ProviderSecretMetadata {
             provider_secret_id: ProviderSecretId::new(Uuid::new_v4().to_string())
-                .map_err(|err| anyhow!(err))?,
+                .map_err(StoreError::backend)?,
             tenant_id: request.tenant_id,
             project_id: request.project_id,
             provider: request.provider,
@@ -242,7 +253,7 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
             created_at: Utc::now(),
             rotated_at: None,
         };
-        let connection = self.lock()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -264,7 +275,8 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
                     metadata.rotated_at.as_ref().map(|time| time.to_rfc3339()),
                 ],
             )
-            .context("insert provider secret")?;
+            .context("insert provider secret")
+            .into_store()?;
         Ok(metadata)
     }
 
@@ -273,8 +285,8 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
-    ) -> anyhow::Result<Option<ProviderSecret>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Option<ProviderSecret>> {
+        let connection = self.lock().into_store()?;
         connection
             .query_row(
                 r#"
@@ -295,6 +307,7 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
             )
             .optional()
             .context("get provider secret")
+            .into_store()
     }
 
     async fn revoke_secret(
@@ -303,8 +316,8 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
         rotated_at: Timestamp,
-    ) -> anyhow::Result<Option<RevokedProviderSecret>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Option<RevokedProviderSecret>> {
+        let connection = self.lock().into_store()?;
         let changed = connection
             .execute(
                 r#"
@@ -321,7 +334,8 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
                     rotated_at.to_rfc3339()
                 ],
             )
-            .context("revoke provider secret")?;
+            .context("revoke provider secret")
+            .into_store()?;
         if changed == 0 {
             return Ok(None);
         }
@@ -336,8 +350,8 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<ProviderSecretMetadata>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<ProviderSecretMetadata>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -348,15 +362,20 @@ impl ProviderSecretStore for SqliteProviderSecretStore {
                 ORDER BY created_at DESC, provider_secret_id ASC
                 "#,
             )
-            .context("prepare list provider secrets")?;
+            .context("prepare list provider secrets")
+            .into_store()?;
         let rows = statement
             .query_map(params![tenant_id.as_str(), project_id.as_str()], |row| {
                 decode_metadata(row)
             })
-            .context("query provider secret metadata")?;
+            .context("query provider secret metadata")
+            .into_store()?;
         let mut records = Vec::new();
         for row in rows {
-            records.push(row.context("decode provider secret metadata")?);
+            records.push(
+                row.context("decode provider secret metadata")
+                    .into_store()?,
+            );
         }
         Ok(records)
     }

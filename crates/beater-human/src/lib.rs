@@ -6,8 +6,9 @@ use beater_core::{
 };
 use beater_datasets::{promote_trace_span_to_case, DatasetCase};
 use beater_schema::TraceView;
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
-use rusqlite::{params, Connection};
+use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::fs;
@@ -110,16 +111,16 @@ pub struct SubmitAnnotationRequest {
 
 #[async_trait]
 pub trait HumanReviewStore: Send + Sync {
-    async fn create_queue(&self, request: CreateReviewQueueRequest) -> anyhow::Result<ReviewQueue>;
+    async fn create_queue(&self, request: CreateReviewQueueRequest) -> StoreResult<ReviewQueue>;
 
     async fn get_queue(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         queue_id: ReviewQueueId,
-    ) -> anyhow::Result<ReviewQueue>;
+    ) -> StoreResult<ReviewQueue>;
 
-    async fn enqueue_task(&self, request: EnqueueReviewTaskRequest) -> anyhow::Result<ReviewTask>;
+    async fn enqueue_task(&self, request: EnqueueReviewTaskRequest) -> StoreResult<ReviewTask>;
 
     async fn get_task(
         &self,
@@ -127,7 +128,7 @@ pub trait HumanReviewStore: Send + Sync {
         project_id: ProjectId,
         queue_id: ReviewQueueId,
         task_id: ReviewTaskId,
-    ) -> anyhow::Result<ReviewTask>;
+    ) -> StoreResult<ReviewTask>;
 
     async fn list_tasks(
         &self,
@@ -135,12 +136,12 @@ pub trait HumanReviewStore: Send + Sync {
         project_id: ProjectId,
         queue_id: ReviewQueueId,
         state: Option<ReviewTaskState>,
-    ) -> anyhow::Result<Vec<ReviewTask>>;
+    ) -> StoreResult<Vec<ReviewTask>>;
 
     async fn submit_annotation(
         &self,
         request: SubmitAnnotationRequest,
-    ) -> anyhow::Result<ReviewAnnotation>;
+    ) -> StoreResult<ReviewAnnotation>;
 
     async fn get_annotation(
         &self,
@@ -149,7 +150,7 @@ pub trait HumanReviewStore: Send + Sync {
         queue_id: ReviewQueueId,
         task_id: ReviewTaskId,
         annotation_id: AnnotationId,
-    ) -> anyhow::Result<ReviewAnnotation>;
+    ) -> StoreResult<ReviewAnnotation>;
 
     async fn list_annotations(
         &self,
@@ -157,7 +158,17 @@ pub trait HumanReviewStore: Send + Sync {
         project_id: ProjectId,
         queue_id: ReviewQueueId,
         task_id: ReviewTaskId,
-    ) -> anyhow::Result<Vec<ReviewAnnotation>>;
+    ) -> StoreResult<Vec<ReviewAnnotation>>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone)]
@@ -258,19 +269,23 @@ impl SqliteHumanReviewStore {
 
 #[async_trait]
 impl HumanReviewStore for SqliteHumanReviewStore {
-    async fn create_queue(&self, request: CreateReviewQueueRequest) -> anyhow::Result<ReviewQueue> {
+    async fn create_queue(&self, request: CreateReviewQueueRequest) -> StoreResult<ReviewQueue> {
+        let queue_id = match request.queue_id {
+            Some(queue_id) => queue_id,
+            None => ReviewQueueId::new(Uuid::new_v4().to_string()).map_err(StoreError::backend)?,
+        };
         let queue = ReviewQueue {
             tenant_id: request.tenant_id,
             project_id: request.project_id,
-            queue_id: request
-                .queue_id
-                .unwrap_or(ReviewQueueId::new(Uuid::new_v4().to_string())?),
+            queue_id,
             name: request.name,
             annotation_schema: request.annotation_schema,
             created_at: Utc::now(),
         };
-        let queue_json = serde_json::to_string(&queue).context("serialize review queue")?;
-        let connection = self.lock()?;
+        let queue_json = serde_json::to_string(&queue)
+            .context("serialize review queue")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -287,7 +302,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     queue_json
                 ],
             )
-            .context("insert review queue")?;
+            .context("insert review queue")
+            .into_store()?;
         Ok(queue)
     }
 
@@ -296,8 +312,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         queue_id: ReviewQueueId,
-    ) -> anyhow::Result<ReviewQueue> {
-        let connection = self.lock()?;
+    ) -> StoreResult<ReviewQueue> {
+        let connection = self.lock().into_store()?;
         let queue_json = connection
             .query_row(
                 r#"
@@ -308,11 +324,18 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 params![tenant_id.as_str(), project_id.as_str(), queue_id.as_str()],
                 |row| row.get::<_, String>(0),
             )
-            .with_context(|| format!("review queue {} not found", queue_id.as_str()))?;
-        serde_json::from_str(&queue_json).context("decode review queue")
+            .optional()
+            .context("query review queue")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(format!("review queue {} not found", queue_id.as_str()))
+            })?;
+        serde_json::from_str(&queue_json)
+            .context("decode review queue")
+            .into_store()
     }
 
-    async fn enqueue_task(&self, request: EnqueueReviewTaskRequest) -> anyhow::Result<ReviewTask> {
+    async fn enqueue_task(&self, request: EnqueueReviewTaskRequest) -> StoreResult<ReviewTask> {
         let queue = self
             .get_queue(
                 request.tenant_id.clone(),
@@ -320,14 +343,16 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 request.queue_id.clone(),
             )
             .await?;
+        let task_id = match request.task_id {
+            Some(task_id) => task_id,
+            None => ReviewTaskId::new(Uuid::new_v4().to_string()).map_err(StoreError::backend)?,
+        };
         let now = Utc::now();
         let task = ReviewTask {
             tenant_id: queue.tenant_id,
             project_id: queue.project_id,
             queue_id: queue.queue_id,
-            task_id: request
-                .task_id
-                .unwrap_or(ReviewTaskId::new(Uuid::new_v4().to_string())?),
+            task_id,
             trace_id: request.trace_id,
             span_id: request.span_id,
             dataset_id: request.dataset_id,
@@ -337,8 +362,10 @@ impl HumanReviewStore for SqliteHumanReviewStore {
             created_at: now,
             updated_at: now,
         };
-        let task_json = serde_json::to_string(&task).context("serialize review task")?;
-        let connection = self.lock()?;
+        let task_json = serde_json::to_string(&task)
+            .context("serialize review task")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -363,7 +390,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     task_json
                 ],
             )
-            .context("insert review task")?;
+            .context("insert review task")
+            .into_store()?;
         Ok(task)
     }
 
@@ -373,9 +401,9 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         project_id: ProjectId,
         queue_id: ReviewQueueId,
         task_id: ReviewTaskId,
-    ) -> anyhow::Result<ReviewTask> {
-        let connection = self.lock()?;
-        get_task_locked(&connection, &tenant_id, &project_id, &queue_id, &task_id)
+    ) -> StoreResult<ReviewTask> {
+        let connection = self.lock().into_store()?;
+        get_task_locked(&connection, &tenant_id, &project_id, &queue_id, &task_id).into_store()
     }
 
     async fn list_tasks(
@@ -384,8 +412,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         project_id: ProjectId,
         queue_id: ReviewQueueId,
         state: Option<ReviewTaskState>,
-    ) -> anyhow::Result<Vec<ReviewTask>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<ReviewTask>> {
+        let connection = self.lock().into_store()?;
         let mut tasks = Vec::new();
         if let Some(state) = state {
             let mut statement = connection
@@ -397,7 +425,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     ORDER BY priority DESC, created_at ASC, task_id ASC
                     "#,
                 )
-                .context("prepare filtered review task list")?;
+                .context("prepare filtered review task list")
+                .into_store()?;
             let rows = statement
                 .query_map(
                     params![
@@ -408,10 +437,15 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     ],
                     |row| row.get::<_, String>(0),
                 )
-                .context("query filtered review tasks")?;
+                .context("query filtered review tasks")
+                .into_store()?;
             for row in rows {
-                let task_json = row.context("read review task row")?;
-                tasks.push(serde_json::from_str(&task_json).context("decode review task")?);
+                let task_json = row.context("read review task row").into_store()?;
+                tasks.push(
+                    serde_json::from_str(&task_json)
+                        .context("decode review task")
+                        .into_store()?,
+                );
             }
         } else {
             let mut statement = connection
@@ -423,16 +457,22 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     ORDER BY priority DESC, created_at ASC, task_id ASC
                     "#,
                 )
-                .context("prepare review task list")?;
+                .context("prepare review task list")
+                .into_store()?;
             let rows = statement
                 .query_map(
                     params![tenant_id.as_str(), project_id.as_str(), queue_id.as_str()],
                     |row| row.get::<_, String>(0),
                 )
-                .context("query review tasks")?;
+                .context("query review tasks")
+                .into_store()?;
             for row in rows {
-                let task_json = row.context("read review task row")?;
-                tasks.push(serde_json::from_str(&task_json).context("decode review task")?);
+                let task_json = row.context("read review task row").into_store()?;
+                tasks.push(
+                    serde_json::from_str(&task_json)
+                        .context("decode review task")
+                        .into_store()?,
+                );
             }
         }
         Ok(tasks)
@@ -441,7 +481,7 @@ impl HumanReviewStore for SqliteHumanReviewStore {
     async fn submit_annotation(
         &self,
         request: SubmitAnnotationRequest,
-    ) -> anyhow::Result<ReviewAnnotation> {
+    ) -> StoreResult<ReviewAnnotation> {
         let now = Utc::now();
         let mut task = self
             .get_task(
@@ -451,14 +491,16 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 request.task_id.clone(),
             )
             .await?;
+        let annotation_id = match request.annotation_id {
+            Some(annotation_id) => annotation_id,
+            None => AnnotationId::new(Uuid::new_v4().to_string()).map_err(StoreError::backend)?,
+        };
         let annotation = ReviewAnnotation {
             tenant_id: request.tenant_id,
             project_id: request.project_id,
             queue_id: request.queue_id,
             task_id: request.task_id,
-            annotation_id: request
-                .annotation_id
-                .unwrap_or(AnnotationId::new(Uuid::new_v4().to_string())?),
+            annotation_id,
             reviewer_id: request.reviewer_id,
             verdict: request.verdict,
             payload: request.payload,
@@ -466,10 +508,13 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         };
         task.state = ReviewTaskState::Submitted;
         task.updated_at = now;
-        let task_json = serde_json::to_string(&task).context("serialize submitted review task")?;
-        let annotation_json =
-            serde_json::to_string(&annotation).context("serialize review annotation")?;
-        let connection = self.lock()?;
+        let task_json = serde_json::to_string(&task)
+            .context("serialize submitted review task")
+            .into_store()?;
+        let annotation_json = serde_json::to_string(&annotation)
+            .context("serialize review annotation")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -490,7 +535,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     annotation_json
                 ],
             )
-            .context("insert review annotation")?;
+            .context("insert review annotation")
+            .into_store()?;
         connection
             .execute(
                 r#"
@@ -508,7 +554,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                     task.task_id.as_str()
                 ],
             )
-            .context("mark review task submitted")?;
+            .context("mark review task submitted")
+            .into_store()?;
         Ok(annotation)
     }
 
@@ -519,8 +566,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         queue_id: ReviewQueueId,
         task_id: ReviewTaskId,
         annotation_id: AnnotationId,
-    ) -> anyhow::Result<ReviewAnnotation> {
-        let connection = self.lock()?;
+    ) -> StoreResult<ReviewAnnotation> {
+        let connection = self.lock().into_store()?;
         let annotation_json = connection
             .query_row(
                 r#"
@@ -541,8 +588,18 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 ],
                 |row| row.get::<_, String>(0),
             )
-            .with_context(|| format!("review annotation {} not found", annotation_id.as_str()))?;
-        serde_json::from_str(&annotation_json).context("decode review annotation")
+            .optional()
+            .context("query review annotation")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(format!(
+                    "review annotation {} not found",
+                    annotation_id.as_str()
+                ))
+            })?;
+        serde_json::from_str(&annotation_json)
+            .context("decode review annotation")
+            .into_store()
     }
 
     async fn list_annotations(
@@ -551,8 +608,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         project_id: ProjectId,
         queue_id: ReviewQueueId,
         task_id: ReviewTaskId,
-    ) -> anyhow::Result<Vec<ReviewAnnotation>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<ReviewAnnotation>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -562,7 +619,8 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 ORDER BY created_at ASC, annotation_id ASC
                 "#,
             )
-            .context("prepare review annotation list")?;
+            .context("prepare review annotation list")
+            .into_store()?;
         let rows = statement
             .query_map(
                 params![
@@ -573,12 +631,16 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 ],
                 |row| row.get::<_, String>(0),
             )
-            .context("query review annotations")?;
+            .context("query review annotations")
+            .into_store()?;
         let mut annotations = Vec::new();
         for row in rows {
-            let annotation_json = row.context("read review annotation row")?;
-            annotations
-                .push(serde_json::from_str(&annotation_json).context("decode review annotation")?);
+            let annotation_json = row.context("read review annotation row").into_store()?;
+            annotations.push(
+                serde_json::from_str(&annotation_json)
+                    .context("decode review annotation")
+                    .into_store()?,
+            );
         }
         Ok(annotations)
     }

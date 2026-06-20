@@ -1,12 +1,13 @@
 use super::{
-    ProviderSecret, ProviderSecretMetadata, ProviderSecretStore, PutProviderSecretRequest,
-    RevokedProviderSecret,
+    IntoStoreResult, ProviderSecret, ProviderSecretMetadata, ProviderSecretStore,
+    PutProviderSecretRequest, RevokedProviderSecret,
 };
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use base64::engine::general_purpose::STANDARD_NO_PAD;
 use base64::Engine;
 use beater_core::{ProjectId, ProviderSecretId, TenantId, Timestamp};
+use beater_store::{StoreError, StoreResult};
 use chacha20poly1305::aead::{Aead, KeyInit, Payload};
 use chacha20poly1305::{ChaCha20Poly1305, Key, Nonce};
 use chrono::{DateTime, Utc};
@@ -301,10 +302,10 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
     async fn put_secret(
         &self,
         request: PutProviderSecretRequest,
-    ) -> anyhow::Result<ProviderSecretMetadata> {
+    ) -> StoreResult<ProviderSecretMetadata> {
         let metadata = ProviderSecretMetadata {
             provider_secret_id: ProviderSecretId::new(Uuid::new_v4().to_string())
-                .map_err(|err| anyhow!(err))?,
+                .map_err(StoreError::backend)?,
             tenant_id: request.tenant_id,
             project_id: request.project_id,
             provider: request.provider,
@@ -313,8 +314,10 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
             created_at: Utc::now(),
             rotated_at: None,
         };
-        let encrypted = self.encrypt_secret(&metadata, &request.secret_value)?;
-        let connection = self.lock()?;
+        let encrypted = self
+            .encrypt_secret(&metadata, &request.secret_value)
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -338,7 +341,8 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
                     metadata.rotated_at.as_ref().map(|time| time.to_rfc3339()),
                 ],
             )
-            .context("insert encrypted provider secret")?;
+            .context("insert encrypted provider secret")
+            .into_store()?;
         Ok(metadata)
     }
 
@@ -347,9 +351,9 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
-    ) -> anyhow::Result<Option<ProviderSecret>> {
+    ) -> StoreResult<Option<ProviderSecret>> {
         let row = {
-            let connection = self.lock()?;
+            let connection = self.lock().into_store()?;
             connection
                 .query_row(
                     r#"
@@ -369,12 +373,15 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
                     decode_encrypted_secret_row,
                 )
                 .optional()
-                .context("get encrypted provider secret")?
+                .context("get encrypted provider secret")
+                .into_store()?
         };
         let Some(row) = row else {
             return Ok(None);
         };
-        let secret_value = self.decrypt_secret(&row.metadata, row.encrypted)?;
+        let secret_value = self
+            .decrypt_secret(&row.metadata, row.encrypted)
+            .into_store()?;
         Ok(Some(ProviderSecret::from_decrypted(
             row.metadata,
             secret_value,
@@ -387,8 +394,8 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
         project_id: ProjectId,
         provider_secret_id: ProviderSecretId,
         rotated_at: Timestamp,
-    ) -> anyhow::Result<Option<RevokedProviderSecret>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Option<RevokedProviderSecret>> {
+        let connection = self.lock().into_store()?;
         let changed = connection
             .execute(
                 r#"
@@ -405,7 +412,8 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
                     rotated_at.to_rfc3339()
                 ],
             )
-            .context("revoke encrypted provider secret")?;
+            .context("revoke encrypted provider secret")
+            .into_store()?;
         if changed == 0 {
             return Ok(None);
         }
@@ -420,8 +428,8 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<ProviderSecretMetadata>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<ProviderSecretMetadata>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -432,15 +440,20 @@ impl ProviderSecretStore for EncryptedSqliteProviderSecretStore {
                 ORDER BY created_at DESC, provider_secret_id ASC
                 "#,
             )
-            .context("prepare list encrypted provider secrets")?;
+            .context("prepare list encrypted provider secrets")
+            .into_store()?;
         let rows = statement
             .query_map(params![tenant_id.as_str(), project_id.as_str()], |row| {
                 decode_metadata(row)
             })
-            .context("query encrypted provider secret metadata")?;
+            .context("query encrypted provider secret metadata")
+            .into_store()?;
         let mut records = Vec::new();
         for row in rows {
-            records.push(row.context("decode encrypted provider secret metadata")?);
+            records.push(
+                row.context("decode encrypted provider secret metadata")
+                    .into_store()?,
+            );
         }
         Ok(records)
     }

@@ -19,7 +19,7 @@ use beater_search::{SearchIndex, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::TraceStore;
 use beater_store_obj::FsArtifactStore;
-use beater_store_sql::SqliteTraceStore;
+use beater_store_sql::{SqliteMetadataStore, SqliteTraceStore};
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, ValueEnum};
 use std::net::SocketAddr;
@@ -80,6 +80,9 @@ async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     let artifacts = Arc::new(FsArtifactStore::new(args.data_dir.join("artifacts"))?);
     let traces = Arc::new(SqliteTraceStore::open(args.data_dir.join("traces.sqlite"))?);
+    let metadata = Arc::new(SqliteMetadataStore::open(
+        args.data_dir.join("metadata.sqlite"),
+    )?);
     let search = Arc::new(TantivySearchIndex::open_or_create(
         args.data_dir.join("search"),
     )?);
@@ -139,6 +142,7 @@ async fn main() -> anyhow::Result<()> {
     }
     let mut state =
         ApiState::with_integrations(ingest, traces, search, archive, datasets, experiments)
+            .with_metadata(metadata)
             .with_gates(gates)
             .with_human_reviews(human_reviews)
             .with_calibrations(calibrations)

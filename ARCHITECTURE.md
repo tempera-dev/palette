@@ -158,13 +158,13 @@ The operational split is logical first, physical later.
 beater/
   Cargo.toml
   crates/
-    beater-core/          # IDs, entity types, errors, time, money, tenant scope
-    beater-schema/        # canonical event/run/span/eval schemas and versions
+    beater-core/          # IDs, entity types, typed money, clocks, tenant scope
+    beater-schema/        # canonical event/run/span/eval schemas, mappings, rollups
     beater-otlp/          # tonic/prost OTLP receive and export
     beater-normalize/     # OTLP/OI/GenAI/Vercel/LangSmith/Phoenix -> canonical
     beater-ingest/        # auth, quota, raw append, normalization, sampling
-    beater-store/         # TraceStore, MetadataStore, ArtifactStore traits
-    beater-store-sql/     # SQLite/Postgres TraceStore for dev/small installs
+    beater-store/         # TraceStore, MetadataStore, ArtifactStore traits and StoreError
+    beater-store-sql/     # SQLite TraceStore/MetadataStore for dev/small installs
     beater-store-ch/      # ClickHouse TraceStore for scale
     beater-store-obj/     # object_store-backed artifacts and raw envelopes
     beater-bus/           # NATS JetStream default, Vercel Queues, Kafka adapter

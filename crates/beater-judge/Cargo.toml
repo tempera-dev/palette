@@ -11,6 +11,7 @@ beater-core = { path = "../beater-core" }
 beater-eval = { path = "../beater-eval" }
 beater-schema = { path = "../beater-schema" }
 beater-secrets = { path = "../beater-secrets" }
+beater-store = { path = "../beater-store" }
 chrono.workspace = true
 rusqlite.workspace = true
 reqwest.workspace = true

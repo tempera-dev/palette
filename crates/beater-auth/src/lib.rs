@@ -2,6 +2,7 @@ use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{ApiKeyId, EnvironmentId, ProjectId, TenantId, Timestamp};
 use beater_security::{create_api_key, ApiKeyRecord, ApiScope, CreatedApiKey};
+use beater_store::{StoreError, StoreResult};
 use chrono::{DateTime, Utc};
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
@@ -27,17 +28,18 @@ pub struct RevokedApiKey {
 
 #[async_trait]
 pub trait ApiKeyStore: Send + Sync {
-    async fn put_key(&self, record: ApiKeyRecord) -> anyhow::Result<()>;
+    async fn put_key(&self, record: ApiKeyRecord) -> StoreResult<()>;
 
-    async fn get_key(&self, api_key_id: ApiKeyId) -> anyhow::Result<Option<ApiKeyRecord>>;
+    async fn get_key(&self, api_key_id: ApiKeyId) -> StoreResult<Option<ApiKeyRecord>>;
 
-    async fn create_key(&self, request: CreateApiKeyRequest) -> anyhow::Result<CreatedApiKey> {
+    async fn create_key(&self, request: CreateApiKeyRequest) -> StoreResult<CreatedApiKey> {
         let created = create_api_key(
             request.tenant_id,
             request.project_id,
             request.environment_id,
             request.scopes,
-        )?;
+        )
+        .map_err(StoreError::backend)?;
         self.put_key(created.record.clone()).await?;
         Ok(created)
     }
@@ -46,10 +48,19 @@ pub trait ApiKeyStore: Send + Sync {
         &self,
         api_key_id: ApiKeyId,
         rotated_at: Timestamp,
-    ) -> anyhow::Result<Option<RevokedApiKey>>;
+    ) -> StoreResult<Option<RevokedApiKey>>;
 
-    async fn touch_last_used(&self, api_key_id: ApiKeyId, used_at: Timestamp)
-        -> anyhow::Result<()>;
+    async fn touch_last_used(&self, api_key_id: ApiKeyId, used_at: Timestamp) -> StoreResult<()>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone)]
@@ -120,9 +131,11 @@ impl SqliteApiKeyStore {
 
 #[async_trait]
 impl ApiKeyStore for SqliteApiKeyStore {
-    async fn put_key(&self, record: ApiKeyRecord) -> anyhow::Result<()> {
-        let connection = self.lock()?;
-        let scopes_json = serde_json::to_string(&record.scopes).context("serialize api scopes")?;
+    async fn put_key(&self, record: ApiKeyRecord) -> StoreResult<()> {
+        let connection = self.lock().into_store()?;
+        let scopes_json = serde_json::to_string(&record.scopes)
+            .context("serialize api scopes")
+            .into_store()?;
         connection
             .execute(
                 r#"
@@ -155,12 +168,13 @@ impl ApiKeyStore for SqliteApiKeyStore {
                     record.last_used_at.map(|time| time.to_rfc3339()),
                 ],
             )
-            .context("upsert api key")?;
+            .context("upsert api key")
+            .into_store()?;
         Ok(())
     }
 
-    async fn get_key(&self, api_key_id: ApiKeyId) -> anyhow::Result<Option<ApiKeyRecord>> {
-        let connection = self.lock()?;
+    async fn get_key(&self, api_key_id: ApiKeyId) -> StoreResult<Option<ApiKeyRecord>> {
+        let connection = self.lock().into_store()?;
         connection
             .query_row(
                 r#"
@@ -174,14 +188,15 @@ impl ApiKeyStore for SqliteApiKeyStore {
             )
             .optional()
             .context("get api key")
+            .into_store()
     }
 
     async fn revoke_key(
         &self,
         api_key_id: ApiKeyId,
         rotated_at: Timestamp,
-    ) -> anyhow::Result<Option<RevokedApiKey>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Option<RevokedApiKey>> {
+        let connection = self.lock().into_store()?;
         let changed = connection
             .execute(
                 r#"
@@ -191,7 +206,8 @@ impl ApiKeyStore for SqliteApiKeyStore {
                 "#,
                 params![api_key_id.as_str(), rotated_at.to_rfc3339()],
             )
-            .context("revoke api key")?;
+            .context("revoke api key")
+            .into_store()?;
         if changed == 0 {
             return Ok(None);
         }
@@ -202,12 +218,8 @@ impl ApiKeyStore for SqliteApiKeyStore {
         }))
     }
 
-    async fn touch_last_used(
-        &self,
-        api_key_id: ApiKeyId,
-        used_at: Timestamp,
-    ) -> anyhow::Result<()> {
-        let connection = self.lock()?;
+    async fn touch_last_used(&self, api_key_id: ApiKeyId, used_at: Timestamp) -> StoreResult<()> {
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -217,7 +229,8 @@ impl ApiKeyStore for SqliteApiKeyStore {
                 "#,
                 params![api_key_id.as_str(), used_at.to_rfc3339()],
             )
-            .context("touch api key last_used_at")?;
+            .context("touch api key last_used_at")
+            .into_store()?;
         Ok(())
     }
 }

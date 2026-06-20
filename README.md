@@ -32,9 +32,12 @@ This repo now contains the first tested Rust vertical slice:
 - immutable raw envelope creation
 - raw-envelope lookup by tenant/project/idempotency key
 - filesystem artifact storage with hash verification
-- trait-only `beater-store` boundary with `TraceStore`/`ArtifactStore`
+- trait-only `beater-store` boundary with `TraceStore`/`ArtifactStore`/`MetadataStore`
+- SQLite and in-memory metadata store conformance coverage for org/project/environment/RBAC boundaries
 - SQLite `TraceStore` implementation in `beater-store-sql`
 - filesystem artifact store implementation in `beater-store-obj`
+- typed `StoreError`/provider/adapter errors across storage, judge, dataset, experiment, search, and review trait contracts
+- currency-checked `Money` math plus injectable core `Clock`
 - bounded in-memory bus plus SQLite durable bus with persisted retry and DLQ behavior
 - buffered ingest mode that durably queues canonical trace writes before hot-store persistence
 - scoped trace-write drain/status API with typed 429 backpressure responses

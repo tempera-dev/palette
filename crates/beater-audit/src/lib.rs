@@ -1,6 +1,7 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{ApiKeyId, AuditEventId, EnvironmentId, ProjectId, TenantId, Timestamp, TraceId};
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
@@ -84,13 +85,23 @@ pub struct PiiUnmaskAuditInput {
 
 #[async_trait]
 pub trait AuditStore: Send + Sync {
-    async fn append_event(&self, insert: AuditEventInsert) -> anyhow::Result<AuditEvent>;
+    async fn append_event(&self, insert: AuditEventInsert) -> StoreResult<AuditEvent>;
 
     async fn list_events(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<AuditEvent>>;
+    ) -> StoreResult<Vec<AuditEvent>>;
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 #[derive(Clone)]
@@ -166,9 +177,10 @@ impl SqliteAuditStore {
 
 #[async_trait]
 impl AuditStore for SqliteAuditStore {
-    async fn append_event(&self, insert: AuditEventInsert) -> anyhow::Result<AuditEvent> {
+    async fn append_event(&self, insert: AuditEventInsert) -> StoreResult<AuditEvent> {
         let event = AuditEvent {
-            audit_event_id: AuditEventId::new(Uuid::new_v4().to_string())?,
+            audit_event_id: AuditEventId::new(Uuid::new_v4().to_string())
+                .map_err(StoreError::backend)?,
             tenant_id: insert.tenant_id,
             project_id: insert.project_id,
             environment_id: insert.environment_id,
@@ -181,8 +193,10 @@ impl AuditStore for SqliteAuditStore {
             attributes: insert.attributes,
             created_at: Utc::now(),
         };
-        let event_json = serde_json::to_string(&event).context("serialize audit event")?;
-        let connection = self.lock()?;
+        let event_json = serde_json::to_string(&event)
+            .context("serialize audit event")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -205,7 +219,8 @@ impl AuditStore for SqliteAuditStore {
                     event_json
                 ],
             )
-            .context("insert audit event")?;
+            .context("insert audit event")
+            .into_store()?;
         Ok(event)
     }
 
@@ -213,8 +228,8 @@ impl AuditStore for SqliteAuditStore {
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
-    ) -> anyhow::Result<Vec<AuditEvent>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<AuditEvent>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -224,17 +239,23 @@ impl AuditStore for SqliteAuditStore {
                 ORDER BY created_at ASC, audit_event_id ASC
                 "#,
             )
-            .context("prepare audit event list query")?;
+            .context("prepare audit event list query")
+            .into_store()?;
         let rows = statement
             .query_map(params![tenant_id.as_str(), project_id.as_str()], |row| {
                 row.get::<_, String>(0)
             })
-            .context("query audit events")?;
+            .context("query audit events")
+            .into_store()?;
 
         let mut events = Vec::new();
         for row in rows {
-            let event_json = row.context("read audit event row")?;
-            events.push(serde_json::from_str(&event_json).context("decode audit event")?);
+            let event_json = row.context("read audit event row").into_store()?;
+            events.push(
+                serde_json::from_str(&event_json)
+                    .context("decode audit event")
+                    .into_store()?,
+            );
         }
         Ok(events)
     }

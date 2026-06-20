@@ -8,6 +8,7 @@ use beater_core::{
 use beater_eval::{evaluate_deterministic, EvaluationCase, EvaluatorSpec, ScoreResult};
 use beater_judge::{JudgeBroker, JudgeBrokerOutcome, JudgeBrokerRequest};
 use beater_schema::{CanonicalSpan, EvalReproducibility, EvalResult, TraceView};
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
@@ -25,16 +26,16 @@ pub trait DatasetStore: Send + Sync {
         tenant_id: TenantId,
         project_id: ProjectId,
         name: String,
-    ) -> anyhow::Result<Dataset>;
+    ) -> StoreResult<Dataset>;
 
-    async fn put_case(&self, case: DatasetCase) -> anyhow::Result<DatasetCase>;
+    async fn put_case(&self, case: DatasetCase) -> StoreResult<DatasetCase>;
 
     async fn list_cases(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         dataset_id: DatasetId,
-    ) -> anyhow::Result<Vec<DatasetCase>>;
+    ) -> StoreResult<Vec<DatasetCase>>;
 
     async fn create_version(
         &self,
@@ -42,7 +43,7 @@ pub trait DatasetStore: Send + Sync {
         project_id: ProjectId,
         dataset_id: DatasetId,
         case_ids: Option<Vec<DatasetCaseId>>,
-    ) -> anyhow::Result<DatasetVersionSnapshot>;
+    ) -> StoreResult<DatasetVersionSnapshot>;
 
     async fn get_version(
         &self,
@@ -50,19 +51,16 @@ pub trait DatasetStore: Send + Sync {
         project_id: ProjectId,
         dataset_id: DatasetId,
         version_id: DatasetVersionId,
-    ) -> anyhow::Result<DatasetVersionSnapshot>;
+    ) -> StoreResult<DatasetVersionSnapshot>;
 
-    async fn write_eval_report(
-        &self,
-        report: DatasetEvalReport,
-    ) -> anyhow::Result<DatasetEvalReport>;
+    async fn write_eval_report(&self, report: DatasetEvalReport) -> StoreResult<DatasetEvalReport>;
 
     async fn get_eval_report(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         report_id: String,
-    ) -> anyhow::Result<DatasetEvalReport>;
+    ) -> StoreResult<DatasetEvalReport>;
 
     async fn latest_eval_report(
         &self,
@@ -71,7 +69,7 @@ pub trait DatasetStore: Send + Sync {
         dataset_id: DatasetId,
         version_id: DatasetVersionId,
         evaluator_version_id: Option<EvaluatorVersionId>,
-    ) -> anyhow::Result<Option<DatasetEvalReport>>;
+    ) -> StoreResult<Option<DatasetEvalReport>>;
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -251,16 +249,18 @@ impl DatasetStore for SqliteDatasetStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         name: String,
-    ) -> anyhow::Result<Dataset> {
+    ) -> StoreResult<Dataset> {
         let dataset = Dataset {
             tenant_id,
             project_id,
-            dataset_id: DatasetId::new(Uuid::new_v4().to_string())?,
+            dataset_id: DatasetId::new(Uuid::new_v4().to_string()).map_err(StoreError::backend)?,
             name,
             created_at: Utc::now(),
         };
-        let dataset_json = serde_json::to_string(&dataset).context("serialize dataset")?;
-        let connection = self.lock()?;
+        let dataset_json = serde_json::to_string(&dataset)
+            .context("serialize dataset")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -277,13 +277,16 @@ impl DatasetStore for SqliteDatasetStore {
                     dataset_json
                 ],
             )
-            .context("insert dataset")?;
+            .context("insert dataset")
+            .into_store()?;
         Ok(dataset)
     }
 
-    async fn put_case(&self, case: DatasetCase) -> anyhow::Result<DatasetCase> {
-        let case_json = serde_json::to_string(&case).context("serialize dataset case")?;
-        let connection = self.lock()?;
+    async fn put_case(&self, case: DatasetCase) -> StoreResult<DatasetCase> {
+        let case_json = serde_json::to_string(&case)
+            .context("serialize dataset case")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -302,7 +305,8 @@ impl DatasetStore for SqliteDatasetStore {
                     case_json
                 ],
             )
-            .context("insert dataset case")?;
+            .context("insert dataset case")
+            .into_store()?;
         Ok(case)
     }
 
@@ -311,8 +315,8 @@ impl DatasetStore for SqliteDatasetStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         dataset_id: DatasetId,
-    ) -> anyhow::Result<Vec<DatasetCase>> {
-        let connection = self.lock()?;
+    ) -> StoreResult<Vec<DatasetCase>> {
+        let connection = self.lock().into_store()?;
         let mut statement = connection
             .prepare(
                 r#"
@@ -322,14 +326,16 @@ impl DatasetStore for SqliteDatasetStore {
                 ORDER BY created_at ASC, case_id ASC
                 "#,
             )
-            .context("prepare list dataset cases")?;
+            .context("prepare list dataset cases")
+            .into_store()?;
         let rows = statement
             .query_map(
                 params![tenant_id.as_str(), project_id.as_str(), dataset_id.as_str()],
                 |row| row.get::<_, String>(0),
             )
-            .context("query dataset cases")?;
-        decode_json_rows(rows, "dataset case")
+            .context("query dataset cases")
+            .into_store()?;
+        decode_json_rows(rows, "dataset case").into_store()
     }
 
     async fn create_version(
@@ -338,26 +344,30 @@ impl DatasetStore for SqliteDatasetStore {
         project_id: ProjectId,
         dataset_id: DatasetId,
         case_ids: Option<Vec<DatasetCaseId>>,
-    ) -> anyhow::Result<DatasetVersionSnapshot> {
+    ) -> StoreResult<DatasetVersionSnapshot> {
         let all_cases = self
             .list_cases(tenant_id.clone(), project_id.clone(), dataset_id.clone())
             .await?;
-        let cases = select_cases(all_cases, case_ids)?;
+        let cases = select_cases(all_cases, case_ids).into_store()?;
         if cases.is_empty() {
-            return Err(anyhow!("cannot create a dataset version with no cases"));
+            return Err(StoreError::Conflict(
+                "cannot create a dataset version with no cases".to_string(),
+            ));
         }
         let snapshot = DatasetVersionSnapshot {
             tenant_id,
             project_id,
             dataset_id,
-            version_id: DatasetVersionId::new(Uuid::new_v4().to_string())?,
+            version_id: DatasetVersionId::new(Uuid::new_v4().to_string())
+                .map_err(StoreError::backend)?,
             cases,
             created_at: Utc::now(),
         };
-        let mut connection = self.lock()?;
+        let mut connection = self.lock().into_store()?;
         let tx = connection
             .transaction()
-            .context("begin dataset version transaction")?;
+            .context("begin dataset version transaction")
+            .into_store()?;
         tx.execute(
             r#"
             INSERT INTO dataset_versions
@@ -372,7 +382,8 @@ impl DatasetStore for SqliteDatasetStore {
                 snapshot.created_at.to_rfc3339()
             ],
         )
-        .context("insert dataset version")?;
+        .context("insert dataset version")
+        .into_store()?;
         for (position, case) in snapshot.cases.iter().enumerate() {
             tx.execute(
                 r#"
@@ -389,9 +400,12 @@ impl DatasetStore for SqliteDatasetStore {
                     position as i64
                 ],
             )
-            .context("insert dataset version case")?;
+            .context("insert dataset version case")
+            .into_store()?;
         }
-        tx.commit().context("commit dataset version transaction")?;
+        tx.commit()
+            .context("commit dataset version transaction")
+            .into_store()?;
         Ok(snapshot)
     }
 
@@ -401,8 +415,8 @@ impl DatasetStore for SqliteDatasetStore {
         project_id: ProjectId,
         dataset_id: DatasetId,
         version_id: DatasetVersionId,
-    ) -> anyhow::Result<DatasetVersionSnapshot> {
-        let connection = self.lock()?;
+    ) -> StoreResult<DatasetVersionSnapshot> {
+        let connection = self.lock().into_store()?;
         let created_at = connection
             .query_row(
                 r#"
@@ -418,9 +432,15 @@ impl DatasetStore for SqliteDatasetStore {
                 ],
                 |row| row.get::<_, String>(0),
             )
-            .with_context(|| format!("dataset version {} not found", version_id.as_str()))?;
+            .optional()
+            .context("query dataset version")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(format!("dataset version {} not found", version_id.as_str()))
+            })?;
         let created_at = chrono::DateTime::parse_from_rfc3339(&created_at)
-            .context("parse dataset version created_at")?
+            .context("parse dataset version created_at")
+            .into_store()?
             .with_timezone(&Utc);
         let mut statement = connection
             .prepare(
@@ -439,7 +459,8 @@ impl DatasetStore for SqliteDatasetStore {
                 ORDER BY vc.position ASC
                 "#,
             )
-            .context("prepare get dataset version cases")?;
+            .context("prepare get dataset version cases")
+            .into_store()?;
         let rows = statement
             .query_map(
                 params![
@@ -450,8 +471,9 @@ impl DatasetStore for SqliteDatasetStore {
                 ],
                 |row| row.get::<_, String>(0),
             )
-            .context("query dataset version cases")?;
-        let cases = decode_json_rows(rows, "dataset version case")?;
+            .context("query dataset version cases")
+            .into_store()?;
+        let cases = decode_json_rows(rows, "dataset version case").into_store()?;
         Ok(DatasetVersionSnapshot {
             tenant_id,
             project_id,
@@ -462,13 +484,11 @@ impl DatasetStore for SqliteDatasetStore {
         })
     }
 
-    async fn write_eval_report(
-        &self,
-        report: DatasetEvalReport,
-    ) -> anyhow::Result<DatasetEvalReport> {
-        let report_json =
-            serde_json::to_string(&report).context("serialize dataset eval report")?;
-        let connection = self.lock()?;
+    async fn write_eval_report(&self, report: DatasetEvalReport) -> StoreResult<DatasetEvalReport> {
+        let report_json = serde_json::to_string(&report)
+            .context("serialize dataset eval report")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -487,7 +507,8 @@ impl DatasetStore for SqliteDatasetStore {
                     report_json
                 ],
             )
-            .context("insert dataset eval report")?;
+            .context("insert dataset eval report")
+            .into_store()?;
         Ok(report)
     }
 
@@ -496,8 +517,8 @@ impl DatasetStore for SqliteDatasetStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         report_id: String,
-    ) -> anyhow::Result<DatasetEvalReport> {
-        let connection = self.lock()?;
+    ) -> StoreResult<DatasetEvalReport> {
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -508,8 +529,13 @@ impl DatasetStore for SqliteDatasetStore {
                 params![tenant_id.as_str(), project_id.as_str(), report_id],
                 |row| row.get::<_, String>(0),
             )
-            .context("dataset eval report not found")?;
-        serde_json::from_str(&report_json).context("decode dataset eval report")
+            .optional()
+            .context("query dataset eval report")
+            .into_store()?
+            .ok_or_else(|| StoreError::NotFound("dataset eval report not found".to_string()))?;
+        serde_json::from_str(&report_json)
+            .context("decode dataset eval report")
+            .into_store()
     }
 
     async fn latest_eval_report(
@@ -519,9 +545,9 @@ impl DatasetStore for SqliteDatasetStore {
         dataset_id: DatasetId,
         version_id: DatasetVersionId,
         evaluator_version_id: Option<EvaluatorVersionId>,
-    ) -> anyhow::Result<Option<DatasetEvalReport>> {
+    ) -> StoreResult<Option<DatasetEvalReport>> {
         let evaluator_version_id = evaluator_version_id.as_ref().map(|id| id.as_str());
-        let connection = self.lock()?;
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -545,12 +571,14 @@ impl DatasetStore for SqliteDatasetStore {
                 |row| row.get::<_, String>(0),
             )
             .optional()
-            .context("query latest dataset eval report")?;
+            .context("query latest dataset eval report")
+            .into_store()?;
         report_json
             .map(|report_json| {
                 serde_json::from_str(&report_json).context("decode dataset eval report")
             })
             .transpose()
+            .into_store()
     }
 }
 
@@ -595,6 +623,16 @@ pub fn promote_trace_span_to_case(
         input_artifact_hashes: artifact_hashes(span),
         created_at: Utc::now(),
     })
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
+    }
 }
 
 pub fn evaluate_dataset_version(
@@ -771,7 +809,7 @@ fn eval_result_from_judge_outcome(
                 "cached": audit.cached,
                 "provider_cost_micros": audit.provider_cost.amount_micros,
                 "charged_cost_micros": audit.charged_cost.amount_micros,
-                "currency": audit.provider_cost.currency
+                "currency": audit.provider_cost.currency.as_str()
             }),
             judge_seed: None,
             judge_rubric_version: Some(spec.eval.evaluator_version_id.as_str().to_string()),

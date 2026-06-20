@@ -11,6 +11,7 @@ use beater_eval::{
 };
 use beater_judge::{JudgeBroker, JudgeBrokerOutcome, JudgeBrokerRequest};
 use beater_schema::EvaluatorLane;
+use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
@@ -23,14 +24,14 @@ use uuid::Uuid;
 
 #[async_trait]
 pub trait ExperimentStore: Send + Sync {
-    async fn write_run(&self, report: ExperimentRunReport) -> anyhow::Result<ExperimentRunReport>;
+    async fn write_run(&self, report: ExperimentRunReport) -> StoreResult<ExperimentRunReport>;
 
     async fn get_run(
         &self,
         tenant_id: TenantId,
         project_id: ProjectId,
         experiment_run_id: ExperimentRunId,
-    ) -> anyhow::Result<ExperimentRunReport>;
+    ) -> StoreResult<ExperimentRunReport>;
 
     async fn latest_run(
         &self,
@@ -38,7 +39,7 @@ pub trait ExperimentStore: Send + Sync {
         project_id: ProjectId,
         dataset_id: Option<DatasetId>,
         evaluator_version_id: Option<EvaluatorVersionId>,
-    ) -> anyhow::Result<Option<ExperimentRunReport>>;
+    ) -> StoreResult<Option<ExperimentRunReport>>;
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -125,13 +126,25 @@ pub struct AgentRunOutput {
     pub trace: Option<Value>,
 }
 
+#[derive(Debug, thiserror::Error, Clone, PartialEq, Eq)]
+pub enum AgentAdapterError {
+    #[error("agent adapter error: {0}")]
+    Backend(String),
+}
+
+impl AgentAdapterError {
+    pub fn backend(error: impl std::fmt::Display) -> Self {
+        Self::Backend(error.to_string())
+    }
+}
+
 #[async_trait]
 pub trait AgentAdapter: Send + Sync {
     async fn run_case(
         &self,
         case: beater_datasets::DatasetCase,
         context: HarnessContext,
-    ) -> anyhow::Result<AgentRunOutput>;
+    ) -> Result<AgentRunOutput, AgentAdapterError>;
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -164,7 +177,7 @@ impl AgentAdapter for StaticAgentAdapter {
         &self,
         case: beater_datasets::DatasetCase,
         context: HarnessContext,
-    ) -> anyhow::Result<AgentRunOutput> {
+    ) -> Result<AgentRunOutput, AgentAdapterError> {
         Ok(AgentRunOutput {
             output: self.output.clone(),
             trace: Some(serde_json::json!({
@@ -196,7 +209,7 @@ impl AgentAdapter for ReferenceAgentAdapter {
         &self,
         case: beater_datasets::DatasetCase,
         context: HarnessContext,
-    ) -> anyhow::Result<AgentRunOutput> {
+    ) -> Result<AgentRunOutput, AgentAdapterError> {
         Ok(AgentRunOutput {
             output: case.reference.clone().unwrap_or(Value::Null),
             trace: Some(serde_json::json!({
@@ -206,6 +219,16 @@ impl AgentAdapter for ReferenceAgentAdapter {
                 "input": case.input
             })),
         })
+    }
+}
+
+trait IntoStoreResult<T> {
+    fn into_store(self) -> StoreResult<T>;
+}
+
+impl<T> IntoStoreResult<T> for anyhow::Result<T> {
+    fn into_store(self) -> StoreResult<T> {
+        self.map_err(StoreError::backend)
     }
 }
 
@@ -277,9 +300,11 @@ impl SqliteExperimentStore {
 
 #[async_trait]
 impl ExperimentStore for SqliteExperimentStore {
-    async fn write_run(&self, report: ExperimentRunReport) -> anyhow::Result<ExperimentRunReport> {
-        let report_json = serde_json::to_string(&report).context("serialize experiment report")?;
-        let connection = self.lock()?;
+    async fn write_run(&self, report: ExperimentRunReport) -> StoreResult<ExperimentRunReport> {
+        let report_json = serde_json::to_string(&report)
+            .context("serialize experiment report")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
         connection
             .execute(
                 r#"
@@ -303,7 +328,8 @@ impl ExperimentStore for SqliteExperimentStore {
                     report_json,
                 ],
             )
-            .context("insert experiment run")?;
+            .context("insert experiment run")
+            .into_store()?;
         Ok(report)
     }
 
@@ -312,8 +338,8 @@ impl ExperimentStore for SqliteExperimentStore {
         tenant_id: TenantId,
         project_id: ProjectId,
         experiment_run_id: ExperimentRunId,
-    ) -> anyhow::Result<ExperimentRunReport> {
-        let connection = self.lock()?;
+    ) -> StoreResult<ExperimentRunReport> {
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -328,8 +354,18 @@ impl ExperimentStore for SqliteExperimentStore {
                 ],
                 |row| row.get::<_, String>(0),
             )
-            .with_context(|| format!("experiment run {} not found", experiment_run_id.as_str()))?;
-        serde_json::from_str(&report_json).context("decode experiment run report")
+            .optional()
+            .context("query experiment run")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(format!(
+                    "experiment run {} not found",
+                    experiment_run_id.as_str()
+                ))
+            })?;
+        serde_json::from_str(&report_json)
+            .context("decode experiment run report")
+            .into_store()
     }
 
     async fn latest_run(
@@ -338,10 +374,10 @@ impl ExperimentStore for SqliteExperimentStore {
         project_id: ProjectId,
         dataset_id: Option<DatasetId>,
         evaluator_version_id: Option<EvaluatorVersionId>,
-    ) -> anyhow::Result<Option<ExperimentRunReport>> {
+    ) -> StoreResult<Option<ExperimentRunReport>> {
         let dataset_id = dataset_id.as_ref().map(|id| id.as_str());
         let evaluator_version_id = evaluator_version_id.as_ref().map(|id| id.as_str());
-        let connection = self.lock()?;
+        let connection = self.lock().into_store()?;
         let report_json = connection
             .query_row(
                 r#"
@@ -363,12 +399,14 @@ impl ExperimentStore for SqliteExperimentStore {
                 |row| row.get::<_, String>(0),
             )
             .optional()
-            .context("query latest experiment run")?;
+            .context("query latest experiment run")
+            .into_store()?;
         report_json
             .map(|report_json| {
                 serde_json::from_str(&report_json).context("decode latest experiment run report")
             })
             .transpose()
+            .into_store()
     }
 }
 

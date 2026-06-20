@@ -16,6 +16,8 @@ pub enum EvalError {
         attempted_micros: i64,
         remaining_micros: i64,
     },
+    #[error("judge provider error: {0}")]
+    JudgeProvider(String),
     #[error("invalid regex: {0}")]
     InvalidRegex(String),
     #[error(
@@ -112,7 +114,7 @@ fn binary_score(pass: bool, metric: &str) -> ScoreResult {
 
 #[async_trait]
 pub trait JudgeProvider: Send + Sync {
-    async fn judge(&self, request: JudgeRequest) -> anyhow::Result<JudgeResponse>;
+    async fn judge(&self, request: JudgeRequest) -> Result<JudgeResponse, EvalError>;
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -133,7 +135,7 @@ pub struct JudgeResponse {
 
 pub struct JudgeBroker<P> {
     provider: P,
-    remaining_budget_micros: std::sync::Mutex<i64>,
+    remaining_budget: std::sync::Mutex<Money>,
 }
 
 impl<P> JudgeBroker<P>
@@ -143,7 +145,7 @@ where
     pub fn new(provider: P, budget: Money) -> Self {
         Self {
             provider,
-            remaining_budget_micros: std::sync::Mutex::new(budget.amount_micros),
+            remaining_budget: std::sync::Mutex::new(budget),
         }
     }
 
@@ -169,18 +171,20 @@ where
                 reference: case.reference.clone(),
             })
             .await
-            .map_err(EvalError::from_anyhow)?;
+            .map_err(|err| EvalError::JudgeProvider(err.to_string()))?;
 
-        let mut remaining = self.remaining_budget_micros.lock().map_err(|err| {
+        let mut remaining = self.remaining_budget.lock().map_err(|err| {
             EvalError::RequiresJudgeBroker(format!("budget mutex poisoned: {err}"))
         })?;
-        if response.cost.amount_micros > *remaining {
+        if response.cost.amount_micros > remaining.amount_micros {
             return Err(EvalError::JudgeBudgetExceeded {
                 attempted_micros: response.cost.amount_micros,
-                remaining_micros: *remaining,
+                remaining_micros: remaining.amount_micros,
             });
         }
-        *remaining -= response.cost.amount_micros;
+        *remaining = remaining
+            .try_sub(&response.cost)
+            .map_err(|err| EvalError::RequiresJudgeBroker(err.to_string()))?;
 
         Ok(ScoreResult {
             score: response.score,
@@ -188,15 +192,9 @@ where
             evidence: serde_json::json!({
                 "rationale": response.rationale,
                 "cost_micros": response.cost.amount_micros,
-                "currency": response.cost.currency
+                "currency": response.cost.currency.as_str()
             }),
         })
-    }
-}
-
-impl EvalError {
-    fn from_anyhow(error: anyhow::Error) -> Self {
-        Self::RequiresJudgeBroker(error.to_string())
     }
 }
 
@@ -424,7 +422,7 @@ mod tests {
 
     #[async_trait]
     impl JudgeProvider for FixedJudgeProvider {
-        async fn judge(&self, _request: JudgeRequest) -> anyhow::Result<JudgeResponse> {
+        async fn judge(&self, _request: JudgeRequest) -> Result<JudgeResponse, EvalError> {
             Ok(JudgeResponse {
                 score: self.score,
                 rationale: "fixed".to_string(),
