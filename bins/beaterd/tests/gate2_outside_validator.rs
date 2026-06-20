@@ -170,6 +170,30 @@ fn gate2_public_handoff_verifier_full_run_rejects_noncanonical_fixture_source() 
         output,
         "--full-run executes the exact scripts/gate2-outside-run.sh path",
     );
+    assert!(
+        !clone_parent.path().join("beater").exists(),
+        "noncanonical --full-run rejection must happen before creating a clone"
+    );
+}
+
+#[test]
+fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
+    let script = fs::read_to_string(repo_root().join("scripts/check-gate2-public-handoff.py"))
+        .expect("read Gate 2 public handoff verifier");
+
+    assert!(script.contains("preflight_full_run_runtime"));
+    assert!(script.contains("require_full_run_source(args)"));
+    assert!(script.contains("shutil.which"));
+    assert!(script.contains("socket.create_connection"));
+    assert!(script.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
+    assert!(script.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
+    assert!(script.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
+    assert!(script.contains("run([\"docker\", \"info\"]"));
+    assert!(script.contains("run([\"docker\", \"compose\", \"version\"]"));
+    assert!(script.contains("cleanup_local_stopwatch_compose"));
+    assert!(script.contains("free it rather than setting"));
+    assert!(script.contains("cleaning the beater-stopwatch Compose project"));
+    assert!(script.contains("preflight_full_run_runtime(args)"));
 }
 
 #[test]

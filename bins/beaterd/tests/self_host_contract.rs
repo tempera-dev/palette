@@ -431,6 +431,22 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("--registry-fixture"));
     assert!(public_handoff.contains("--skip-local-readiness"));
     assert!(public_handoff.contains("import time"));
+    assert!(public_handoff.contains("import shutil"));
+    assert!(public_handoff.contains("import socket"));
+    assert!(public_handoff.contains("FULL_RUN_PORTS"));
+    assert!(public_handoff.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
+    assert!(public_handoff.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
+    assert!(public_handoff.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
+    assert!(public_handoff.contains("preflight_full_run_runtime"));
+    assert!(public_handoff.contains("require_full_run_source(args)"));
+    assert!(public_handoff.contains("shutil.which"));
+    assert!(public_handoff.contains("socket.create_connection"));
+    assert!(public_handoff.contains("--registry-fixture"));
+    assert!(public_handoff.contains("does not support"));
+    assert!(public_handoff.contains("run([\"docker\", \"info\"]"));
+    assert!(public_handoff.contains("run([\"docker\", \"compose\", \"version\"]"));
+    assert!(public_handoff.contains("cleanup_local_stopwatch_compose"));
+    assert!(public_handoff.contains("free it rather than setting"));
     assert!(public_handoff.contains("clone_started_epoch = int(time.time())"));
     assert!(public_handoff.contains("env[\"BEATER_GATE2_CLONE_STARTED_EPOCH\"]"));
     assert!(
@@ -468,6 +484,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("Docker Compose version"));
     assert!(outside_proof.contains("scripts/check-gate2-public-handoff.py"));
     assert!(outside_proof.contains("executes the cloned `scripts/gate2-outside-run.sh` wrapper"));
+    assert!(outside_proof.contains("preflights the local runtime"));
+    assert!(outside_proof.contains("reachable Docker daemon"));
+    assert!(outside_proof.contains("free default"));
     assert!(outside_proof.contains("fixture or fork URLs"));
     assert!(outside_proof.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(outside_proof.contains("fresh clone from"));
@@ -514,6 +533,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("scripts/gate2-outside-run.sh"));
     assert!(readme.contains("scripts/check-gate2-public-handoff.py"));
     assert!(readme.contains("executes the cloned `scripts/gate2-outside-run.sh` wrapper"));
+    assert!(readme.contains("preflights the local runtime"));
+    assert!(readme.contains("reachable Docker daemon"));
+    assert!(readme.contains("free default"));
     assert!(readme.contains("fixture or fork URLs"));
     assert!(readme.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(readme.contains("Outside-run wrapper: yes"));
@@ -583,6 +605,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("recording-file WebM/min-size guard"));
     assert!(requirements.contains("recording-hash cross-checks"));
     assert!(requirements.contains("public multi-arch GHCR images"));
+    assert!(requirements.contains("Gate 2 `--full-run` public handoff verification"));
+    assert!(requirements.contains("canonical public source, Docker, Docker Compose v2"));
+    assert!(requirements.contains("free default `8080`/`4317`/`3000` ports"));
+    assert!(requirements.contains("maintainer-only runtime evidence"));
     assert!(requirements.contains("CI-enforced"));
 
     let compose = read(root.join("docker-compose.yml"));

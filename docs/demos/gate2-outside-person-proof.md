@@ -127,13 +127,15 @@ For stronger maintainer preflight before handoff, run:
 scripts/check-gate2-public-handoff.py --full-run
 ```
 
-That mode executes the cloned `scripts/gate2-outside-run.sh` wrapper with the
-clone-start timestamp captured before the verifier's `git clone`, then cleans
-up the `beater-stopwatch` Compose project after the wrapper exits. It proves
-the exact public outside-run path and images can run, but it is not
-outside-person evidence and does not close this proof file. `--full-run` is
-intentionally supported only for the canonical public GitHub/GHCR handoff, not
-fixture or fork URLs.
+That mode first preflights the local runtime: canonical public source URL only,
+`docker`, Docker Compose v2, `curl`, reachable Docker daemon, and free default
+ports after removing any previous `beater-stopwatch` Compose project. It then
+executes the cloned `scripts/gate2-outside-run.sh` wrapper with the clone-start
+timestamp captured before the verifier's `git clone`, and cleans up the
+`beater-stopwatch` Compose project after the wrapper exits. It proves the exact
+public outside-run path and images can run, but it is not outside-person
+evidence and does not close this proof file. `--full-run` is intentionally
+supported only for the canonical public GitHub/GHCR handoff, not fixture or fork URLs.
 
 The validator reads the listed stopwatch proof file and screen-recording notes,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,

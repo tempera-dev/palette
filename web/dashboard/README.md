@@ -125,8 +125,10 @@ scripts/check-gate2-public-handoff.py --full-run
 ```
 
 That performs a fresh public clone and executes the real prebuilt-image
-stopwatch path with cleanup. It verifies the hosted images and dashboard
-runtime, but it does not replace the outside-person proof.
+stopwatch path with cleanup. In `--full-run` mode it first preflights the local
+runtime for Docker, Docker Compose v2, curl, reachable Docker, canonical public
+source, and free default `8080`/`4317`/`3000` ports. It verifies the hosted
+images and dashboard runtime, but it does not replace the outside-person proof.
 
 ## Vercel
 

@@ -16,6 +16,12 @@ system, test output, or runtime behavior.
 | R0.6 | CI can be blocked on regression gates. | Persisted `GateStore` tests, `/v1/gates` API test, `beaterctl gate-run` nonzero exit test, deterministic and judge-backed experiment fixture tests, and example GitHub Actions workflow |
 | R0.7 | Production traffic can be sampled for online evals and alerts. | Sampling policy tests and alert delivery tests |
 
+Gate 2 `--full-run` public handoff verification is maintainer-only runtime evidence.
+It must preflight canonical public source, Docker, Docker Compose v2,
+curl, reachable Docker, and free default `8080`/`4317`/`3000` ports before the
+public clone/full wrapper run, while still leaving the unaided outside-person
+proof as the only Gate 2 completion evidence.
+
 ## R1. Architecture Shape
 
 | ID | Requirement | Evidence required |

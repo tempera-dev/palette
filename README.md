@@ -258,15 +258,16 @@ with Docker running and default ports `8080`, `4317`, and `3000` free:
 scripts/check-gate2-public-handoff.py --full-run
 ```
 
-That mode still performs the clean public clone and wrapper dry run, then
-executes the cloned `scripts/gate2-outside-run.sh` wrapper with the clone-start
-timestamp captured before the verifier's `git clone`. After the wrapper
-finishes, the verifier cleans up the `beater-stopwatch` Compose project. This
-is maintainer runtime evidence that the exact public outside-run path, current
-GHCR images, OTLP ingest, dashboard render, browser proof, and browser
-recording work; it is not a substitute for the required outside-person proof
-below. `--full-run` is intentionally supported only for the canonical public
-GitHub/GHCR handoff, not fixture or fork URLs.
+That mode first preflights the local runtime: canonical public source URL only,
+`docker`, Docker Compose v2, `curl`, reachable Docker daemon, and free default
+ports after removing any previous `beater-stopwatch` Compose project. It then
+performs the clean public clone and wrapper dry run, executes the cloned `scripts/gate2-outside-run.sh` wrapper with the clone-start timestamp captured
+before the verifier's `git clone`, and cleans up the `beater-stopwatch` Compose
+project after the wrapper exits. This is maintainer runtime evidence that the
+exact public outside-run path, current GHCR images, OTLP ingest, dashboard
+render, browser proof, and browser recording work; it is not a substitute for
+the required outside-person proof below. `--full-run` is intentionally supported
+only for the canonical public GitHub/GHCR handoff, not fixture or fork URLs.
 
 Use [docs/demos/gate2-outside-person-proof.md](docs/demos/gate2-outside-person-proof.md)
 as the required evidence template for that run. After the outside runner has

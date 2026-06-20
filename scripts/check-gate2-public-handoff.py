@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
+import socket
 import subprocess
 import tempfile
 import time
@@ -10,6 +12,11 @@ from pathlib import Path
 
 
 REMOTE_URL = "https://github.com/jadenfix/beater.git"
+FULL_RUN_PORTS = [
+    (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
+    (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
+    (3000, "dashboard", "BEATER_DASHBOARD_PORT"),
+]
 
 
 def repo_root() -> Path:
@@ -54,6 +61,83 @@ def run_local_readiness(args: argparse.Namespace) -> None:
     if args.registry_fixture:
         command.extend(["--registry-fixture", str(Path(args.registry_fixture).resolve())])
     run(command, cwd=repo_root())
+
+
+def port_is_free(port: int) -> bool:
+    try:
+        with socket.create_connection(("127.0.0.1", port), timeout=0.25):
+            return False
+    except OSError:
+        return True
+
+
+def require_full_run_source(args: argparse.Namespace) -> None:
+    if not args.full_run:
+        return
+    if args.source_url != REMOTE_URL:
+        raise SystemExit(
+            "--full-run executes the exact scripts/gate2-outside-run.sh path and "
+            "is only supported against the canonical public GitHub repo and GHCR images"
+        )
+    if args.registry_fixture:
+        raise SystemExit(
+            "--full-run verifies canonical public GHCR images and does not support "
+            "--registry-fixture"
+        )
+
+
+def cleanup_local_stopwatch_compose() -> None:
+    result = subprocess.run(
+        [
+            "docker",
+            "compose",
+            "-f",
+            "docker-compose.prebuilt.yml",
+            "-p",
+            "beater-stopwatch",
+            "down",
+            "-v",
+            "--remove-orphans",
+        ],
+        cwd=repo_root(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise SystemExit(
+            "Gate 2 full-run preflight could not clean the beater-stopwatch "
+            f"Compose project before checking ports:\n{result.stdout}"
+        )
+
+
+def preflight_full_run_runtime(args: argparse.Namespace) -> None:
+    if not args.full_run:
+        return
+
+    require_full_run_source(args)
+
+    missing = [name for name in ["docker", "curl"] if shutil.which(name) is None]
+    if missing:
+        raise SystemExit(
+            "--full-run requires local command(s): " + ", ".join(sorted(missing))
+        )
+
+    run(["docker", "info"], cwd=repo_root(), quiet=True)
+    run(["docker", "compose", "version"], cwd=repo_root(), quiet=True)
+    cleanup_local_stopwatch_compose()
+
+    occupied = [
+        f"{port} ({label}; free it rather than setting {env_name})"
+        for port, label, env_name in FULL_RUN_PORTS
+        if not port_is_free(port)
+    ]
+    if occupied:
+        raise SystemExit(
+            "--full-run requires the outside-person default ports to be free after "
+            "cleaning the beater-stopwatch Compose project:\n  "
+            + "\n  ".join(occupied)
+        )
 
 
 OUTSIDE_ENV_NAMES = [
@@ -216,12 +300,6 @@ def run_cloned_full_run(
     if not args.full_run:
         return
 
-    if args.source_url != REMOTE_URL:
-        raise SystemExit(
-            "--full-run executes the exact scripts/gate2-outside-run.sh path and "
-            "is only supported against the canonical public GitHub repo and GHCR images"
-        )
-
     env = clean_outside_env()
     env["BEATER_GATE2_CLONE_STARTED_EPOCH"] = str(clone_started_epoch)
     try:
@@ -281,6 +359,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     expected_commit = args.expected_commit or current_commit()
+    preflight_full_run_runtime(args)
     run_local_readiness(args)
     clone_dir, temp_owner, clone_started_epoch = clone_repo(args, expected_commit)
     try:
