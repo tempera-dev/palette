@@ -181,12 +181,23 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("--pull \"$prebuilt_pull_policy\""));
     assert!(stopwatch_script.contains("BEATER_GATE2_LOCAL_BUILD"));
 
+    let outside_validator = read(root.join("scripts/validate-gate2-outside-proof.sh"));
+    assert!(outside_validator.contains("--allow-pending"));
+    assert!(outside_validator.contains("Status must be 'completed.'"));
+    assert!(outside_validator.contains("BEATER_GATE2_REUSE=1"));
+    assert!(outside_validator.contains("BEATER_DASHBOARD_PORT="));
+    assert!(outside_validator.contains("http://127.0.0.1:3000/"));
+    assert!(outside_validator.contains("all pass-checklist boxes must be checked"));
+    assert!(outside_validator.contains("hashlib.sha256"));
+    assert!(outside_validator.contains("screen recording sha mismatch"));
+
     let outside_proof = read(root.join("docs/demos/gate2-outside-person-proof.md"));
     assert!(outside_proof.contains("Status: not yet completed"));
     assert!(outside_proof.contains("BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1"));
     assert!(outside_proof.contains("Preflight status"));
     assert!(outside_proof.contains("Docker was running before the stopwatch started"));
     assert!(outside_proof.contains("Python, curl, and npm were available"));
+    assert!(outside_proof.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(outside_proof.contains("Docker Compose version"));
     assert!(outside_proof.contains("Beater image digest"));
     assert!(outside_proof.contains("Screen recording SHA256"));
@@ -202,11 +213,13 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let readme = read(root.join("README.md"));
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh"));
+    assert!(readme.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(readme.contains("removes any previous Beater stopwatch project"));
     assert!(readme.contains("gate2-compose-browser-demo.webm"));
 
     let requirements = read(root.join("REQUIREMENTS.md"));
     assert!(requirements.contains("docs/demos/gate2-outside-person-proof.md"));
+    assert!(requirements.contains("scripts/validate-gate2-outside-proof.sh"));
 
     let compose = read(root.join("docker-compose.yml"));
     assert!(compose.contains("otel-python-quickstart"));

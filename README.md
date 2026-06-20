@@ -218,7 +218,11 @@ BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO
 
 Gate 2 still requires an unaided outside-person run before it can be called
 passed. Use [docs/demos/gate2-outside-person-proof.md](docs/demos/gate2-outside-person-proof.md)
-as the required evidence template for that run.
+as the required evidence template for that run, then validate it with:
+
+```bash
+scripts/validate-gate2-outside-proof.sh
+```
 
 Warm-loop debugging can skip the pre-run cleanup, but this is not acceptable
 evidence for Gate 2:

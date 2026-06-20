@@ -54,6 +54,12 @@ After the script prints the dashboard URLs, the runner must open
 the `llm.call` span, and capture the evidence below. Cleanup can happen after
 the recording.
 
+After replacing this template with completed evidence, run:
+
+```bash
+scripts/validate-gate2-outside-proof.sh
+```
+
 ## Required Evidence
 
 - Stopwatch proof file:
