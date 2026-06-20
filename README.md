@@ -224,6 +224,12 @@ as the required evidence template for that run, then validate it with:
 scripts/validate-gate2-outside-proof.sh
 ```
 
+The validator checks the outside-person template, stopwatch proof file, and
+screen-recording notes from the same run. It rejects alternate ports, warm-loop
+reuse, placeholder dashboard URLs, mismatched trace IDs, mismatched commit SHA,
+recording notes from a different dashboard session, and any screen recording
+hash that does not match the committed file.
+
 Warm-loop debugging can skip the pre-run cleanup, but this is not acceptable
 evidence for Gate 2:
 

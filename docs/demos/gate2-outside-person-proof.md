@@ -60,6 +60,11 @@ After replacing this template with completed evidence, run:
 scripts/validate-gate2-outside-proof.sh
 ```
 
+The validator reads the listed stopwatch proof file and screen-recording notes,
+then cross-checks default ports, clean-start status, browser-proof status,
+trace IDs, dashboard URLs, commit SHA, and the screen-recording SHA256 against
+the committed artifact.
+
 ## Required Evidence
 
 - Stopwatch proof file:

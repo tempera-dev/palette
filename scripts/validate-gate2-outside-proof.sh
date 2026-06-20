@@ -19,6 +19,8 @@ import hashlib
 import re
 import sys
 from pathlib import Path
+from typing import Optional
+from urllib.parse import parse_qs, urlparse
 
 proof_path = Path(sys.argv[1])
 allow_pending = sys.argv[2] == "1"
@@ -29,6 +31,18 @@ if not proof_path.exists():
     raise SystemExit(f"missing outside-person proof file: {proof_path}")
 
 text = proof_path.read_text()
+DEFAULT_DASHBOARD_BASE = "http://127.0.0.1:3000"
+DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
+FORBIDDEN_EVIDENCE = [
+    "http://127.0.0.1:13003",
+    "http://127.0.0.1:13008",
+    "http://127.0.0.1:13080",
+    "http://127.0.0.1:14317",
+    "BEATER_DASHBOARD_PORT=",
+    "BEATER_HTTP_PORT=",
+    "BEATER_OTLP_GRPC_PORT=",
+    "BEATER_GATE2_REUSE=1",
+]
 
 
 def fail(message: str) -> None:
@@ -40,12 +54,78 @@ def require_snippet(snippet: str, description: str) -> None:
         fail(f"missing {description}: {snippet}")
 
 
-def field_value(name: str) -> str:
-    match = re.search(rf"^- {re.escape(name)}:\s*(.*)$", text, re.MULTILINE)
+def clean_value(value: str) -> str:
+    return value.strip().strip("`").strip()
+
+
+def field_value_from(source_text: str, name: str, source_name: str) -> str:
+    match = re.search(rf"^- {re.escape(name)}:[ \t]*(.*)$", source_text, re.MULTILINE)
     if not match:
-        fail(f"missing field: {name}")
+        fail(f"missing field in {source_name}: {name}")
         return ""
-    return match.group(1).strip().strip("`")
+    return clean_value(match.group(1))
+
+
+def field_value(name: str) -> str:
+    return field_value_from(text, name, "outside-person proof")
+
+
+def parse_seconds_from_value(value: str, field_name: str, source_name: str) -> Optional[int]:
+    match = re.fullmatch(r"([0-9]+)\s*(?:s|sec|secs|second|seconds)?", value)
+    if not match:
+        fail(f"{field_name} in {source_name} must be a numeric second count")
+        return None
+    return int(match.group(1))
+
+
+def duration_seconds(source_text: str, field_name: str, source_name: str) -> Optional[int]:
+    return parse_seconds_from_value(
+        field_value_from(source_text, field_name, source_name), field_name, source_name
+    )
+
+
+def require_max_300(seconds: Optional[int], field_name: str, source_name: str) -> None:
+    if seconds is not None and seconds > 300:
+        fail(f"{field_name} in {source_name} exceeds 300 seconds")
+
+
+def require_trace_id(name: str, value: str, source_name: str) -> None:
+    if not re.fullmatch(r"[0-9a-f]{32}", value):
+        fail(f"{name} in {source_name} must be a lowercase 32-character trace id")
+
+
+def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
+    parsed = urlparse(value)
+    if parsed.scheme != "http" or parsed.netloc != "127.0.0.1:3000":
+        fail(f"{name} must use {DEFAULT_DASHBOARD_BASE}")
+    if "..." in value:
+        fail(f"{name} must be the concrete dashboard URL, not a placeholder")
+    params = parse_qs(parsed.query)
+    for key, expected in [
+        ("tenant", "demo"),
+        ("project", "demo"),
+        ("environment", "local"),
+        ("trace", trace_id),
+    ]:
+        actual = params.get(key, [])
+        if actual != [expected]:
+            fail(f"{name} must include {key}={expected}")
+
+
+def require_equal(name: str, outside_value: str, stopwatch_value: str) -> None:
+    if outside_value != stopwatch_value:
+        fail(f"{name} mismatch between proof artifacts")
+
+
+def repo_path(value: str) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else repo / path
+
+
+def forbid_alternate_evidence(source_text: str, source_name: str) -> None:
+    for forbidden in FORBIDDEN_EVIDENCE:
+        if forbidden in source_text:
+            fail(f"{source_name} must not use alternate/warm-loop evidence: {forbidden}")
 
 
 status_match = re.search(r"^Status:\s*(.+)$", text, re.MULTILINE)
@@ -99,10 +179,14 @@ for field in [
     "Time-to-quickstart-click",
     "Total proof duration",
     "Stopwatch proof file",
+    "Screen recording",
+    "Screen recording notes",
     "Screen recording SHA256",
     "Terminal output excerpt",
     "Quickstart trace ID",
+    "Quickstart dashboard URL",
     "All-kind nested trace ID",
+    "All-kind dashboard URL",
 ]:
     value = field_value(field)
     if not value or value.endswith(":") or "none / describe" in value:
@@ -113,35 +197,26 @@ if unresolved_fields:
 if "- [ ]" in text:
     fail("all pass-checklist boxes must be checked")
 
-for forbidden in [
-    "http://127.0.0.1:13003",
-    "http://127.0.0.1:13008",
-    "http://127.0.0.1:13080",
-    "BEATER_DASHBOARD_PORT=",
-    "BEATER_HTTP_PORT=",
-    "BEATER_OTLP_GRPC_PORT=",
-    "BEATER_GATE2_REUSE=1",
-]:
-    if forbidden in text:
-        fail(f"outside-person proof must not use alternate/warm-loop evidence: {forbidden}")
+forbid_alternate_evidence(text, "outside-person proof")
 
+quickstart_trace_id = field_value("Quickstart trace ID")
+all_kind_trace_id = field_value("All-kind nested trace ID")
+require_trace_id("Quickstart trace ID", quickstart_trace_id, "outside-person proof")
+require_trace_id("All-kind nested trace ID", all_kind_trace_id, "outside-person proof")
 quickstart_url = field_value("Quickstart dashboard URL")
 all_kind_url = field_value("All-kind dashboard URL")
-for name, value in [
-    ("Quickstart dashboard URL", quickstart_url),
-    ("All-kind dashboard URL", all_kind_url),
-]:
-    if not value.startswith("http://127.0.0.1:3000/"):
-        fail(f"{name} must use http://127.0.0.1:3000/")
+require_default_dashboard_url("Quickstart dashboard URL", quickstart_url, quickstart_trace_id)
+require_default_dashboard_url("All-kind dashboard URL", all_kind_url, all_kind_trace_id)
 
 recording = field_value("Screen recording")
-recording_path = repo / recording if recording else Path("")
+recording_path = repo_path(recording) if recording else Path("")
 if recording and not recording_path.exists():
     fail(f"screen recording does not exist: {recording}")
 notes = field_value("Screen recording notes")
-notes_path = repo / notes if notes else Path("")
+notes_path = repo_path(notes) if notes else Path("")
 if notes and not notes_path.exists():
     fail(f"screen recording notes do not exist: {notes}")
+notes_text = notes_path.read_text() if notes and notes_path.exists() else ""
 sha = field_value("Screen recording SHA256")
 if sha and not re.fullmatch(r"[0-9a-f]{64}", sha):
     fail("Screen recording SHA256 must be a lowercase 64-character sha256")
@@ -150,12 +225,126 @@ if recording and recording_path.exists() and re.fullmatch(r"[0-9a-f]{64}", sha):
     if actual != sha:
         fail(f"screen recording sha mismatch: expected {sha}, got {actual}")
 
-duration_match = re.search(r"- Time-to-first-trace:\s*([0-9]+)s?", text)
-if duration_match and int(duration_match.group(1)) > 300:
-    fail("Time-to-first-trace exceeds 300 seconds")
-click_match = re.search(r"- Time-to-quickstart-click:\s*([0-9]+)s?", text)
-if click_match and int(click_match.group(1)) > 300:
-    fail("Time-to-quickstart-click exceeds 300 seconds")
+if notes_text:
+    forbid_alternate_evidence(notes_text, "screen recording notes")
+    notes_artifact = field_value_from(notes_text, "Artifact", "screen recording notes")
+    notes_sha = field_value_from(notes_text, "SHA256", "screen recording notes")
+    notes_dashboard_base = field_value_from(
+        notes_text, "Dashboard base", "screen recording notes"
+    )
+    notes_quickstart_trace = field_value_from(
+        notes_text, "Quickstart trace", "screen recording notes"
+    )
+    notes_all_kind_trace = field_value_from(
+        notes_text, "All-kind trace", "screen recording notes"
+    )
+    if recording and notes_artifact != Path(recording).name:
+        fail("screen recording notes artifact must match the screen recording filename")
+    require_equal("screen recording notes sha256", sha, notes_sha)
+    if notes_dashboard_base != DEFAULT_DASHBOARD_BASE:
+        fail(
+            "screen recording notes dashboard base must be "
+            f"{DEFAULT_DASHBOARD_BASE}, got {notes_dashboard_base!r}"
+        )
+    require_trace_id(
+        "Quickstart trace", notes_quickstart_trace, "screen recording notes"
+    )
+    require_trace_id("All-kind trace", notes_all_kind_trace, "screen recording notes")
+    require_equal(
+        "screen recording notes quickstart trace",
+        quickstart_trace_id,
+        notes_quickstart_trace,
+    )
+    require_equal(
+        "screen recording notes all-kind trace", all_kind_trace_id, notes_all_kind_trace
+    )
+
+require_max_300(
+    duration_seconds(text, "Time-to-first-trace", "outside-person proof"),
+    "Time-to-first-trace",
+    "outside-person proof",
+)
+require_max_300(
+    duration_seconds(text, "Time-to-quickstart-click", "outside-person proof"),
+    "Time-to-quickstart-click",
+    "outside-person proof",
+)
+
+stopwatch_proof = field_value("Stopwatch proof file")
+stopwatch_path = repo_path(stopwatch_proof) if stopwatch_proof else Path("")
+stopwatch_text = ""
+if stopwatch_proof and not stopwatch_path.exists():
+    fail(f"stopwatch proof file does not exist: {stopwatch_proof}")
+elif stopwatch_proof:
+    stopwatch_text = stopwatch_path.read_text()
+
+if stopwatch_text:
+    forbid_alternate_evidence(stopwatch_text, "stopwatch proof")
+    for field, expected in [
+        ("Clean start", "yes"),
+        ("Reuse override", "BEATER_GATE2_REUSE=0"),
+        ("Quickstart browser proof", "passed"),
+        ("All-kind waterfall browser proof", "passed"),
+        ("Browser recording", "passed"),
+        ("OTLP endpoint", DEFAULT_OTLP_ENDPOINT),
+    ]:
+        actual = field_value_from(stopwatch_text, field, "stopwatch proof")
+        if actual != expected:
+            fail(f"{field} in stopwatch proof must be {expected!r}, got {actual!r}")
+
+    stopwatch_first_trace = duration_seconds(
+        stopwatch_text, "Time-to-first-trace", "stopwatch proof"
+    )
+    stopwatch_quickstart_click = duration_seconds(
+        stopwatch_text, "Time-to-quickstart-click", "stopwatch proof"
+    )
+    require_max_300(stopwatch_first_trace, "Time-to-first-trace", "stopwatch proof")
+    require_max_300(
+        stopwatch_quickstart_click, "Time-to-quickstart-click", "stopwatch proof"
+    )
+
+    stopwatch_quickstart_trace = field_value_from(
+        stopwatch_text, "Quickstart trace", "stopwatch proof"
+    )
+    stopwatch_all_kind_trace = field_value_from(
+        stopwatch_text, "All-kind nested trace", "stopwatch proof"
+    )
+    require_trace_id("Quickstart trace", stopwatch_quickstart_trace, "stopwatch proof")
+    require_trace_id("All-kind nested trace", stopwatch_all_kind_trace, "stopwatch proof")
+    require_equal("quickstart trace id", quickstart_trace_id, stopwatch_quickstart_trace)
+    require_equal("all-kind trace id", all_kind_trace_id, stopwatch_all_kind_trace)
+
+    stopwatch_quickstart_url = field_value_from(
+        stopwatch_text, "Quickstart dashboard", "stopwatch proof"
+    )
+    stopwatch_all_kind_url = field_value_from(
+        stopwatch_text, "All-kind dashboard", "stopwatch proof"
+    )
+    require_default_dashboard_url(
+        "Quickstart dashboard", stopwatch_quickstart_url, stopwatch_quickstart_trace
+    )
+    require_default_dashboard_url(
+        "All-kind dashboard", stopwatch_all_kind_url, stopwatch_all_kind_trace
+    )
+    require_equal("quickstart dashboard URL", quickstart_url, stopwatch_quickstart_url)
+    require_equal("all-kind dashboard URL", all_kind_url, stopwatch_all_kind_url)
+
+    stopwatch_recording = field_value_from(
+        stopwatch_text, "Browser recording artifact", "stopwatch proof"
+    )
+    stopwatch_notes = field_value_from(
+        stopwatch_text, "Browser recording notes", "stopwatch proof"
+    )
+    stopwatch_sha = field_value_from(
+        stopwatch_text, "Browser recording SHA256", "stopwatch proof"
+    )
+    require_equal("screen recording path", recording, stopwatch_recording)
+    require_equal("screen recording notes path", notes, stopwatch_notes)
+    require_equal("screen recording sha256", sha, stopwatch_sha)
+
+    outside_commit_sha = field_value("Commit SHA")
+    stopwatch_commit_sha = field_value_from(stopwatch_text, "Git SHA", "stopwatch proof")
+    require_equal("commit SHA", outside_commit_sha, stopwatch_commit_sha)
 
 if errors:
     print("Gate 2 outside-person proof is not valid:", file=sys.stderr)
