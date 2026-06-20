@@ -54,6 +54,9 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains(OUTSIDE_RUN_ATTESTATION));
     assert!(generated_text.contains("- API endpoint: http://127.0.0.1:8080"));
     assert!(generated_text.contains("- Dashboard base: http://127.0.0.1:3000"));
+    assert!(generated_text.contains("- Clone URL: https://github.com/jadenfix/beater.git"));
+    assert!(generated_text.contains("- Branch: main"));
+    assert!(generated_text.contains("- Worktree clean: yes"));
     assert!(generated_text.contains(&format!(
         "- Beater image reference: ghcr.io/jadenfix/beater/beaterd:{}",
         current_head()
@@ -199,6 +202,53 @@ fn gate2_outside_wrapper_rejects_compose_cleanup_override() {
 }
 
 #[test]
+fn gate2_outside_wrapper_rejects_non_main_branch() {
+    let fixture = write_outside_wrapper_fixture_repo("feature-proof");
+
+    let output = run_outside_wrapper_dry_run_in_repo(fixture.path(), None);
+
+    assert_failure(
+        output,
+        "outside-person evidence must run from the main branch; got 'feature-proof'",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_wrong_origin() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    git_success(
+        fixture.path(),
+        &[
+            "remote",
+            "set-url",
+            "origin",
+            "https://github.com/jadenfix/beater-fork.git",
+        ],
+    );
+
+    let output = run_outside_wrapper_dry_run_in_repo(fixture.path(), None);
+
+    assert_failure(
+        output,
+        "outside-person evidence must run from origin 'https://github.com/jadenfix/beater.git'",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_dirty_worktree() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    fs::write(fixture.path().join("dirty.txt"), "dirty")
+        .unwrap_or_else(|err| panic!("write dirty fixture file: {err}"));
+
+    let output = run_outside_wrapper_dry_run_in_repo(fixture.path(), None);
+
+    assert_failure(
+        output,
+        "outside-person evidence must run from a clean worktree",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_stopwatch_without_wrapper_marker() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -245,6 +295,71 @@ fn gate2_outside_validator_rejects_noncanonical_compose_project() {
     assert_failure(
         output,
         "Compose project in stopwatch proof must be 'beater-stopwatch'",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_non_main_stopwatch_branch() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.stopwatch_path,
+        "- Git branch: `main`",
+        "- Git branch: `feature-proof`",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "Git branch in stopwatch proof must be 'main'");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_wrong_clone_url() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Clone URL: `https://github.com/jadenfix/beater.git`",
+        "- Clone URL: `https://github.com/jadenfix/beater-fork.git`",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Clone URL must be https://github.com/jadenfix/beater.git",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_wrong_stopwatch_origin() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.stopwatch_path,
+        "- Git origin: `https://github.com/jadenfix/beater.git`",
+        "- Git origin: `https://github.com/jadenfix/beater-fork.git`",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Git origin in stopwatch proof must be 'https://github.com/jadenfix/beater.git'",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_dirty_stopwatch_worktree() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.stopwatch_path,
+        "- Git worktree clean: yes",
+        "- Git worktree clean: no",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Git worktree clean in stopwatch proof must be 'yes'",
     );
 }
 
@@ -658,6 +773,7 @@ Status: completed.
 - Clone URL: `https://github.com/jadenfix/beater.git`
 - Commit SHA: {commit_sha}
 - Branch: main
+- Worktree clean: yes
 - OS/arch: Darwin arm64
 - Beater image reference: ghcr.io/jadenfix/beater/beaterd:{commit_sha}
 - Dashboard image reference: ghcr.io/jadenfix/beater/dashboard:{commit_sha}
@@ -734,6 +850,9 @@ fn stopwatch_proof(recording: &str, notes: &str) -> String {
 - Total duration: 40s
 - Limit: 300s
 - Git SHA: `{commit_sha}`
+- Git branch: `main`
+- Git origin: `https://github.com/jadenfix/beater.git`
+- Git worktree clean: yes
 - OS/arch: `Darwin arm64`
 - Docker: `Docker version 29.2.0`
 - Docker Compose: `Docker Compose version v5.0.2`
@@ -836,7 +955,7 @@ fn run_generator_with_attestation(
         .arg("--date")
         .arg("2026-06-20")
         .arg("--branch")
-        .arg("main")
+        .arg("feature-ignored")
         .arg("--network-notes")
         .arg("public docs only")
         .arg("--terminal-output-excerpt")
@@ -889,10 +1008,15 @@ fn run_public_handoff_with_fixture(
 }
 
 fn run_outside_wrapper_dry_run(extra_env: Option<(&str, &str)>) -> Output {
-    let root = repo_root();
-    let mut command = Command::new(root.join("scripts/gate2-outside-run.sh"));
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    run_outside_wrapper_dry_run_in_repo(fixture.path(), extra_env)
+}
+
+fn run_outside_wrapper_dry_run_in_repo(repo: &Path, extra_env: Option<(&str, &str)>) -> Output {
+    let mut command = Command::new("bash");
     command
-        .current_dir(root)
+        .arg(repo.join("scripts/gate2-outside-run.sh"))
+        .current_dir(repo)
         .env("BEATER_GATE2_OUTSIDE_RUN_DRY_RUN", "1")
         .env_remove("BEATER_DASHBOARD_PORT")
         .env_remove("BEATER_HTTP_PORT")
@@ -917,7 +1041,7 @@ fn run_outside_wrapper_dry_run(extra_env: Option<(&str, &str)>) -> Output {
     }
     command
         .output()
-        .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper dry-run: {err}"))
+        .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper fixture dry-run: {err}"))
 }
 
 fn assert_success(output: Output, expected_stdout: &str) {
@@ -1044,6 +1168,33 @@ fn write_public_handoff_fixture_repo() -> TempDir {
     git_success(fixture.path(), &["add", "."]);
     git_success(fixture.path(), &["commit", "-m", "fixture"]);
     git_success(fixture.path(), &["branch", "-M", "main"]);
+    fixture
+}
+
+fn write_outside_wrapper_fixture_repo(branch: &str) -> TempDir {
+    let root = repo_root();
+    let fixture = TempDir::new().expect("create outside wrapper fixture repo");
+
+    copy_fixture_file(&root, fixture.path(), "scripts/gate2-outside-run.sh");
+
+    git_success(fixture.path(), &["init"]);
+    git_success(
+        fixture.path(),
+        &["config", "user.email", "fixture@example.invalid"],
+    );
+    git_success(fixture.path(), &["config", "user.name", "Gate 2 Fixture"]);
+    git_success(fixture.path(), &["add", "."]);
+    git_success(fixture.path(), &["commit", "-m", "fixture"]);
+    git_success(fixture.path(), &["branch", "-M", branch]);
+    git_success(
+        fixture.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/jadenfix/beater.git",
+        ],
+    );
     fixture
 }
 

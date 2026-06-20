@@ -179,6 +179,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("time_to_first_trace_seconds > 300"));
     assert!(stopwatch_script.contains("time_to_quickstart_click_seconds > 300"));
     assert!(stopwatch_script.contains("git rev-parse HEAD"));
+    assert!(stopwatch_script.contains("git branch --show-current"));
+    assert!(stopwatch_script.contains("git remote get-url origin"));
+    assert!(stopwatch_script.contains("git status --porcelain"));
+    assert!(stopwatch_script.contains("Git branch"));
+    assert!(stopwatch_script.contains("Git origin"));
+    assert!(stopwatch_script.contains("Git worktree clean"));
     assert!(stopwatch_script.contains("docker compose version"));
     assert!(stopwatch_script.contains("compose images"));
     assert!(stopwatch_script
@@ -260,6 +266,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("Dashboard base"));
 
     let outside_run = read(root.join("scripts/gate2-outside-run.sh"));
+    assert!(outside_run.contains("require_git_provenance"));
+    assert!(outside_run.contains("https://github.com/jadenfix/beater.git"));
+    assert!(outside_run.contains("outside-person evidence must run from the main branch"));
+    assert!(outside_run.contains("outside-person evidence must run from origin"));
+    assert!(outside_run.contains("outside-person evidence must run from a clean worktree"));
+    assert!(outside_run.contains("BEATER_GATE2_EXPECTED_ORIGIN"));
     assert!(outside_run.contains("BEATER_GATE2_WRITE_PROOF=1"));
     assert!(outside_run.contains("BEATER_GATE2_BROWSER_PROOF=1"));
     assert!(outside_run.contains("BEATER_GATE2_RECORD_DEMO=1"));
@@ -320,6 +332,14 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
         .contains("Commit SHA must match current HEAD or be an evidence-only ancestor"));
     assert!(outside_validator.contains("docs/demos evidence changes"));
     assert!(outside_validator.contains("Branch must be main"));
+    assert!(outside_validator.contains("Clone URL must be"));
+    assert!(outside_validator.contains("Worktree clean must be yes"));
+    assert!(outside_validator.contains("(\"Git branch\", \"main\")"));
+    assert!(outside_validator.contains("(\"Git origin\", EXPECTED_CLONE_URL)"));
+    assert!(outside_validator.contains("(\"Git worktree clean\", \"yes\")"));
+    assert!(outside_validator.contains("require_equal(\"branch\""));
+    assert!(outside_validator.contains("require_equal(\"clone URL\""));
+    assert!(outside_validator.contains("require_equal(\"worktree clean\""));
     assert!(outside_validator.contains("runner relationship/prior exposure"));
     assert!(outside_validator.contains("forbid_alternate_evidence(stopwatch_text"));
     assert!(outside_validator.contains("forbid_alternate_evidence(notes_text"));
@@ -351,6 +371,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_generator.contains("CANONICAL_COMMAND"));
     assert!(outside_generator.contains("scripts/gate2-outside-run.sh"));
     assert!(outside_generator.contains("Outside-run wrapper"));
+    assert!(outside_generator.contains("Git branch"));
+    assert!(outside_generator.contains("Git origin"));
+    assert!(outside_generator.contains("Git worktree clean"));
     assert!(outside_generator.contains("OUTSIDE_RUN_ATTESTATION"));
     assert!(outside_generator.contains("--runner-name"));
     assert!(outside_generator.contains("--prior-exposure"));
@@ -403,6 +426,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("BEATER_GATE2_RECORD_NOTES"));
     assert!(public_handoff.contains("KEEP_BEATER_COMPOSE"));
     assert!(public_handoff.contains("COMPOSE_PROJECT_NAME"));
+    assert!(public_handoff.contains("BEATER_GATE2_EXPECTED_ORIGIN"));
     assert!(public_handoff.contains("--registry-fixture"));
     assert!(public_handoff.contains("--skip-local-readiness"));
 
@@ -412,6 +436,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("sets the required proof/browser/recording flags"));
     assert!(outside_proof.contains("Outside-run wrapper:"));
     assert!(outside_proof.contains("Outside-run wrapper: yes"));
+    assert!(outside_proof.contains("Git branch: main"));
+    assert!(outside_proof.contains("Git worktree clean: yes"));
+    assert!(outside_proof.contains("Worktree clean"));
     assert!(outside_proof.contains("prebuilt image"));
     assert!(outside_proof.contains("evidence artifact path"));
     assert!(outside_proof.contains("Compose project"));
@@ -455,6 +482,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("Outside-run attestation"));
     assert!(outside_proof.contains("Prior Beater repo exposure"));
     assert!(outside_proof.contains("default API/OTLP/dashboard endpoints"));
+    assert!(outside_proof.contains("tested public GitHub origin"));
     assert!(outside_proof.contains("cross-checks default"));
     assert!(outside_proof.contains("image digests"));
     assert!(outside_proof.contains("screen-recording notes"));

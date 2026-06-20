@@ -137,6 +137,7 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
 
     env = os.environ.copy()
     env["BEATER_GATE2_OUTSIDE_RUN_DRY_RUN"] = "1"
+    env["BEATER_GATE2_EXPECTED_ORIGIN"] = args.source_url
     for name in [
         "BEATER_DASHBOARD_PORT",
         "BEATER_HTTP_PORT",

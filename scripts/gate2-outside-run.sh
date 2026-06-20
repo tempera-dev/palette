@@ -4,6 +4,10 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 dry_run="${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-0}"
+expected_origin="https://github.com/jadenfix/beater.git"
+if [[ "$dry_run" == "1" && -n "${BEATER_GATE2_EXPECTED_ORIGIN:-}" ]]; then
+  expected_origin="$BEATER_GATE2_EXPECTED_ORIGIN"
+fi
 
 fail() {
   echo "Gate 2 outside-run preflight failed: $*" >&2
@@ -29,10 +33,29 @@ require_unset() {
   fi
 }
 
+require_git_provenance() {
+  local branch
+  local origin
+  local dirty
+  branch="$(git -C "$repo_root" branch --show-current 2>/dev/null || true)"
+  if [[ "$branch" != "main" ]]; then
+    fail "outside-person evidence must run from the main branch; got '${branch:-detached}'"
+  fi
+  origin="$(git -C "$repo_root" remote get-url origin 2>/dev/null || true)"
+  if [[ "$origin" != "$expected_origin" ]]; then
+    fail "outside-person evidence must run from origin '$expected_origin'; got '${origin:-missing}'"
+  fi
+  dirty="$(git -C "$repo_root" status --porcelain 2>/dev/null || true)"
+  if [[ -n "$dirty" ]]; then
+    fail "outside-person evidence must run from a clean worktree"
+  fi
+}
+
 if [[ $# -ne 0 ]]; then
   fail "this wrapper takes no arguments"
 fi
 
+require_git_provenance
 require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
 require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
 require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"

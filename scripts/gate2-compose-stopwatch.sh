@@ -32,6 +32,15 @@ all_kind_trace_id=""
 all_kind_dashboard_url=""
 e2e_base_url="http://dashboard:3000"
 git_sha="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+git_branch="$(git branch --show-current 2>/dev/null || echo unknown)"
+git_branch="${git_branch:-detached}"
+git_origin="$(git remote get-url origin 2>/dev/null || echo unknown)"
+git_worktree_status="$(git status --porcelain 2>/dev/null || true)"
+if [[ -n "$git_worktree_status" ]]; then
+  git_worktree_clean="no"
+else
+  git_worktree_clean="yes"
+fi
 os_arch="$(uname -sm 2>/dev/null || echo unknown)"
 docker_version="$(docker --version 2>/dev/null || echo unknown)"
 compose_version="$(docker compose version 2>/dev/null || echo unknown)"
@@ -409,6 +418,9 @@ if [[ "$write_proof" == "1" ]]; then
 - Total duration: ${duration_seconds}s
 - Limit: 300s
 - Git SHA: \`$git_sha\`
+- Git branch: \`$git_branch\`
+- Git origin: \`$git_origin\`
+- Git worktree clean: $git_worktree_clean
 - OS/arch: \`$os_arch\`
 - Docker: \`$docker_version\`
 - Docker Compose: \`$compose_version\`

@@ -35,6 +35,7 @@ text = proof_path.read_text()
 DEFAULT_API_ENDPOINT = "http://127.0.0.1:8080"
 DEFAULT_DASHBOARD_BASE = "http://127.0.0.1:3000"
 DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
+EXPECTED_CLONE_URL = "https://github.com/jadenfix/beater.git"
 MIN_RECORDING_BYTES = 64 * 1024
 OUTSIDE_RUN_ATTESTATION = (
     "I attest that I am not a Beater project maintainer, I received no "
@@ -281,8 +282,10 @@ for field in [
     "Browser",
     "Preflight status",
     "Outside-run attestation",
+    "Clone URL",
     "Commit SHA",
     "Branch",
+    "Worktree clean",
     "OS/arch",
     "Beater image reference",
     "Dashboard image reference",
@@ -336,6 +339,12 @@ for outside_contradiction in [
 branch = field_value("Branch")
 if branch != "main":
     fail(f"Branch must be main, got {branch!r}")
+clone_url = field_value("Clone URL")
+if clone_url != EXPECTED_CLONE_URL:
+    fail(f"Clone URL must be {EXPECTED_CLONE_URL}, got {clone_url!r}")
+worktree_clean = field_value("Worktree clean")
+if worktree_clean != "yes":
+    fail("Worktree clean must be yes")
 commit_sha = field_value("Commit SHA")
 require_current_or_evidence_only_commit(commit_sha)
 
@@ -503,6 +512,9 @@ if stopwatch_text:
         ("Startup mode", "prebuilt-image"),
         ("Reuse override", "BEATER_GATE2_REUSE=0"),
         ("Outside-run wrapper", "yes"),
+        ("Git branch", "main"),
+        ("Git origin", EXPECTED_CLONE_URL),
+        ("Git worktree clean", "yes"),
         ("Prebuilt pull policy", "always"),
         ("Compose project", "beater-stopwatch"),
         ("Quickstart browser proof", "passed"),
@@ -693,6 +705,14 @@ if stopwatch_text:
     outside_commit_sha = field_value("Commit SHA")
     stopwatch_commit_sha = field_value_from(stopwatch_text, "Git SHA", "stopwatch proof")
     require_equal("commit SHA", outside_commit_sha, stopwatch_commit_sha)
+    stopwatch_branch = field_value_from(stopwatch_text, "Git branch", "stopwatch proof")
+    require_equal("branch", branch, stopwatch_branch)
+    stopwatch_origin = field_value_from(stopwatch_text, "Git origin", "stopwatch proof")
+    require_equal("clone URL", clone_url, stopwatch_origin)
+    stopwatch_worktree_clean = field_value_from(
+        stopwatch_text, "Git worktree clean", "stopwatch proof"
+    )
+    require_equal("worktree clean", worktree_clean, stopwatch_worktree_clean)
 
 if errors:
     print("Gate 2 outside-person proof is not valid:", file=sys.stderr)

@@ -119,9 +119,10 @@ unaided using public repository instructions.
 
 ## Repository
 
-- Clone URL: `https://github.com/jadenfix/beater.git`
+- Clone URL: {field_value(stopwatch_text, "Git origin", stopwatch_rel)}
 - Commit SHA: {field_value(stopwatch_text, "Git SHA", stopwatch_rel)}
-- Branch: {args.branch}
+- Branch: {field_value(stopwatch_text, "Git branch", stopwatch_rel)}
+- Worktree clean: {field_value(stopwatch_text, "Git worktree clean", stopwatch_rel)}
 - OS/arch: {field_value(stopwatch_text, "OS/arch", stopwatch_rel)}
 - Beater image reference: {field_value(stopwatch_text, "Beater image reference", stopwatch_rel)}
 - Dashboard image reference: {field_value(stopwatch_text, "Dashboard image reference", stopwatch_rel)}
@@ -220,7 +221,11 @@ def parse_args():
     parser.add_argument("--failure-notes", default="")
     parser.add_argument("--runner-notes", default="")
     parser.add_argument("--date", default=dt.date.today().isoformat())
-    parser.add_argument("--branch", default=git_branch())
+    parser.add_argument(
+        "--branch",
+        default=git_branch(),
+        help=argparse.SUPPRESS,
+    )
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--no-validate", action="store_true")
     args = parser.parse_args()

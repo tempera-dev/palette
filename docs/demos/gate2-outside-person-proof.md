@@ -24,6 +24,7 @@ outside the project who runs the flow unaided from a fresh clone.
 - Clone URL: `https://github.com/jadenfix/beater.git`
 - Commit SHA:
 - Branch:
+- Worktree clean:
 - OS/arch:
 - Beater image reference:
 - Dashboard image reference:
@@ -54,11 +55,13 @@ No project maintainer may provide step-by-step help beyond public repo docs
 during the timed run.
 
 The wrapper sets the required proof/browser/recording flags and rejects
-warm-loop reuse, local source builds, alternate ports, and mutable pull-policy
-overrides, plus prebuilt image, evidence artifact path, Compose project, and
-teardown overrides, before the stopwatch starts. The stopwatch proof records
-`Outside-run wrapper: yes`; completed outside-person evidence is invalid without
-that marker.
+non-`main` checkouts, non-canonical GitHub origins, dirty worktrees, warm-loop reuse,
+local source builds, alternate ports, mutable pull-policy overrides,
+prebuilt image overrides, evidence artifact path overrides, Compose project overrides,
+and teardown overrides before the stopwatch starts. The stopwatch proof records
+`Outside-run wrapper: yes`, `Git branch: main`, the Git origin, and
+`Git worktree clean: yes`; completed outside-person evidence is invalid without
+those markers.
 
 The script fails before Compose startup if Docker is unavailable, if curl is
 missing, or if API `8080`, OTLP `4317`, or dashboard `3000` are still in use
@@ -111,8 +114,8 @@ multi-arch GHCR images for the exact commit.
 The validator reads the listed stopwatch proof file and screen-recording notes,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, SHA-pinned prebuilt GHCR image
-references, prebuilt GHCR image digests, and the tested `main` commit SHA. If
-the proof commit is newer than the tested
+references, prebuilt GHCR image digests, and the tested public GitHub origin,
+`main` branch, clean-worktree state, and commit SHA. If the proof commit is newer than the tested
 SHA, every later change must be under `docs/demos/`. It verifies
 screen-recording SHA256 against the committed artifact, requires the artifact to
 be a WebM capture of at least 64 KiB with a WebM/EBML header, and requires the
