@@ -320,15 +320,12 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
         ],
         cwd=clone_dir,
     )
-    run(
-        [
-            "bash",
-            "-n",
-            "scripts/gate2-outside-run.sh",
-            "scripts/validate-gate2-outside-proof.sh",
-        ],
-        cwd=clone_dir,
-    )
+    for script in [
+        "scripts/gate2-outside-run.sh",
+        "scripts/gate2-compose-stopwatch.sh",
+        "scripts/validate-gate2-outside-proof.sh",
+    ]:
+        run(["bash", "-n", script], cwd=clone_dir)
 
     readiness = ["scripts/check-gate2-outside-readiness.py"]
     if args.source_url != REMOTE_URL:

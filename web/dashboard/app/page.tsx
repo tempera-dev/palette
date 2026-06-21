@@ -512,11 +512,6 @@ function SpanDetail({
         </div>
         <span className={`status ${span.status}`}>{statusLabel(span.status)}</span>
       </div>
-      <div className="detail-tabs" aria-label="Detail sections">
-        <span className="active">Overview</span>
-        <span>I/O</span>
-        <span>Attrs</span>
-      </div>
       <dl className="metrics">
         <div>
           <dt>Status</dt>

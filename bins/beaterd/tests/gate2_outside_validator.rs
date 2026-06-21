@@ -114,6 +114,9 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
         r#"BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh"#
     ));
     assert!(generated_text.contains("- Outside-run wrapper: yes"));
+    assert!(generated_text.contains("- `docker compose images` excerpt:"));
+    assert!(generated_text.contains("ghcr.io/jadenfix/beater/beaterd"));
+    assert!(generated_text.contains("ghcr.io/jadenfix/beater/dashboard"));
     assert!(generated_text.contains(
         "- [x] The runner completed the flow using only public repository instructions."
     ));
@@ -190,6 +193,34 @@ fn gate2_public_handoff_verifier_accepts_clean_clone_fixture() {
     let output = run_public_handoff_with_fixture(&source_url, &fixture_head, registry.path());
 
     assert_success(output, "Gate 2 public handoff clone passed");
+}
+
+#[test]
+fn gate2_public_handoff_verifier_rejects_invalid_stopwatch_shell() {
+    let registry = tempdir("create registry fixture dir");
+    write_registry_fixtures(registry.path());
+    let fixture_repo = write_public_handoff_fixture_repo();
+    fs::write(
+        fixture_repo
+            .path()
+            .join("scripts/gate2-compose-stopwatch.sh"),
+        "#!/usr/bin/env bash\nif true; then\n",
+    )
+    .unwrap_or_else(|err| panic!("write invalid stopwatch fixture: {err}"));
+    git_success(
+        fixture_repo.path(),
+        &["add", "scripts/gate2-compose-stopwatch.sh"],
+    );
+    git_success(
+        fixture_repo.path(),
+        &["commit", "-m", "break stopwatch syntax"],
+    );
+    let fixture_head = git_output(fixture_repo.path(), &["rev-parse", "HEAD"]);
+    let source_url = format!("file://{}", fixture_repo.path().display());
+
+    let output = run_public_handoff_with_fixture(&source_url, &fixture_head, registry.path());
+
+    assert_failure(output, "scripts/gate2-compose-stopwatch.sh");
 }
 
 #[test]
@@ -530,17 +561,30 @@ fn gate2_outside_validator_rejects_untracked_recording_artifacts() {
 #[test]
 fn gate2_outside_validator_rejects_missing_compose_images_excerpt() {
     let fixture = ValidatorFixture::new();
-    replace(
-        &fixture.proof_path,
-        "- `docker compose images` excerpt: beaterd and dashboard images present\n",
-        "",
-    );
+    replace(&fixture.proof_path, &compose_images_excerpt_line(), "");
 
     let output = run_validator(&fixture.proof_path);
 
     assert_failure(
         output,
         "missing field in outside-person proof: `docker compose images` excerpt",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_placeholder_compose_images_excerpt() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        &compose_images_excerpt_line(),
+        "- `docker compose images` excerpt: beaterd and dashboard images present\n",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "`docker compose images` excerpt must include ghcr.io/jadenfix/beater/beaterd",
     );
 }
 
@@ -706,6 +750,20 @@ fn gate2_outside_validator_rejects_missing_prior_exposure() {
         output,
         "unresolved required fields: Prior Beater repo exposure",
     );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_failed_preflight_status() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Preflight status: passed",
+        "- Preflight status: failed",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "Preflight status must be passed");
 }
 
 #[test]
@@ -1120,7 +1178,7 @@ The runner completed the flow using only public repository instructions.
 - Screen recording notes: `{notes}`
 - Screen recording SHA256: {RECORDING_SHA}
 - Terminal output excerpt: generated proof says browser recording passed
-- `docker compose images` excerpt: beaterd and dashboard images present
+{compose_images_excerpt}
 - Quickstart trace ID: {QUICKSTART_TRACE}
 - Quickstart dashboard URL: `http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}`
 - All-kind nested trace ID: {ALL_KIND_TRACE}
@@ -1146,7 +1204,15 @@ The runner completed the flow using only public repository instructions.
 - [x] The stopwatch script generated and reported the browser recording.
 - [x] A screen recording of the full flow is committed under `docs/demos/`.
 - [x] The runner completed the flow using only public repository instructions.
-"#,
+	"#,
+        compose_images_excerpt = compose_images_excerpt_line().trim_end(),
+    )
+}
+
+fn compose_images_excerpt_line() -> String {
+    let commit_sha = current_head();
+    format!(
+        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha}\n"
     )
 }
 
@@ -1202,6 +1268,14 @@ fn stopwatch_proof(recording: &str, notes: &str) -> String {
 - Browser recording artifact: `{recording}`
 - Browser recording notes: `{notes}`
 - Browser recording SHA256: `{RECORDING_SHA}`
+
+## Compose Images
+
+```text
+CONTAINER                      REPOSITORY                          TAG                                        PLATFORM            IMAGE ID            SIZE                CREATED
+beater-stopwatch-beaterd-1     ghcr.io/jadenfix/beater/beaterd     {commit_sha}   linux/arm64         bbbbbbbbbbbb        88.4MB              1 minute ago
+beater-stopwatch-dashboard-1   ghcr.io/jadenfix/beater/dashboard   {commit_sha}   linux/arm64         cccccccccccc        99.2MB              1 minute ago
+```
 "#,
     )
 }
@@ -1655,6 +1729,7 @@ fn write_public_handoff_fixture_repo() -> TempDir {
         "scripts/check-gate2-outside-readiness.py",
         "scripts/check-gate2-public-handoff.py",
         "scripts/gate2-outside-run.sh",
+        "scripts/gate2-compose-stopwatch.sh",
         "scripts/generate-gate2-outside-proof.py",
         "scripts/validate-gate2-outside-proof.sh",
         "docker-compose.yml",

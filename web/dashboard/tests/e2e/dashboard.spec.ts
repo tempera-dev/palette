@@ -82,10 +82,14 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   await waterfall.getByText("call-policy-model").click();
 
   const detail = page.getByLabel("Span detail");
+  await expect(page.getByLabel("Detail sections")).toHaveCount(0);
   await expect(detail).toContainText("openai/gpt-demo");
   await expect(detail).toContainText("Tokens");
   await expect(detail).toContainText("Latency");
   await expect(detail).toContainText("USD 0.002500");
+  await expect(detail.getByRole("heading", { name: "Input" })).toBeVisible();
+  await expect(detail.getByRole("heading", { name: "Output" })).toBeVisible();
+  await expect(detail.getByRole("heading", { name: "Attributes" })).toBeVisible();
   await expect(detail).toContainText("Can this order be refunded after 31 days?");
   await expect(detail).toContainText("Escalate because the order is outside the standard window.");
 });

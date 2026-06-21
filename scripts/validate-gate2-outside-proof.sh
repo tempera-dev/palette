@@ -144,6 +144,15 @@ def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
             fail(f"{name} must include {key}={expected}")
 
 
+def require_compose_images_excerpt(value: str, commit_sha: str) -> None:
+    for image in ["beaterd", "dashboard"]:
+        repo = f"ghcr.io/jadenfix/beater/{image}"
+        if repo not in value:
+            fail(f"`docker compose images` excerpt must include {repo}")
+    if commit_sha not in value:
+        fail("`docker compose images` excerpt must include the checked-out commit SHA")
+
+
 def require_equal(name: str, outside_value: str, stopwatch_value: str) -> None:
     if outside_value != stopwatch_value:
         fail(f"{name} mismatch between proof artifacts")
@@ -358,6 +367,9 @@ if unresolved_fields:
 outside_run_attestation = field_value("Outside-run attestation")
 if outside_run_attestation != OUTSIDE_RUN_ATTESTATION:
     fail("Outside-run attestation must match the required unaided outside-run statement")
+preflight_status = field_value("Preflight status")
+if preflight_status != "passed":
+    fail("Preflight status must be passed")
 
 relationship = field_value("Organization or relationship to project").lower()
 prior_exposure = field_value("Prior Beater repo exposure").lower()
@@ -404,6 +416,8 @@ if "- [ ]" in text:
     fail("all pass-checklist boxes must be checked")
 
 forbid_alternate_evidence(text, "outside-person proof")
+compose_images_excerpt = field_value("`docker compose images` excerpt")
+require_compose_images_excerpt(compose_images_excerpt, commit_sha)
 
 quickstart_trace_id = field_value("Quickstart trace ID")
 all_kind_trace_id = field_value("All-kind nested trace ID")

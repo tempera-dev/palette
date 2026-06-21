@@ -32,6 +32,8 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /span-track/);
   assert.match(page, /SpanDetail/);
   assert.match(page, /IoBlock/);
+  assert.doesNotMatch(page, /Detail sections/);
+  assert.doesNotMatch(page, /detail-tabs/);
   assert.match(page, /RedactionControls/);
   assert.match(page, /Unmask redacted I\/O/);
   assert.match(page, /name="unmask"/);
@@ -78,7 +80,7 @@ test("dashboard chrome stays dense and tool-like", () => {
   assert.match(css, /\.span-line\[data-status="error"\]/);
   assert.match(css, /\.kind-icon svg \{/);
   assert.match(css, /\.detail-kind svg \{/);
-  assert.match(css, /\.detail-tabs/);
+  assert.doesNotMatch(css, /\.detail-tabs/);
   assert.match(css, /\.span-track \{/);
   assert.match(css, /left: var\(--offset\);/);
   assert.match(css, /background: var\(--kind-color\);/);

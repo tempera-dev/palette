@@ -1106,33 +1106,6 @@ button:hover {
   width: 17px;
 }
 
-.detail-tabs {
-  background: var(--surface-muted);
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  overflow: hidden;
-}
-
-.detail-tabs span {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  min-height: 30px;
-  padding: 8px 10px;
-  text-align: center;
-}
-
-.detail-tabs span + span {
-  border-left: 1px solid var(--line);
-}
-
-.detail-tabs .active {
-  background: #fff;
-  color: var(--ink);
-}
-
 .metrics {
   border: 1px solid var(--line);
   border-radius: 5px;
