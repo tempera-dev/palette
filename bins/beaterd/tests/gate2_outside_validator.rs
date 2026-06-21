@@ -345,6 +345,28 @@ fn gate2_outside_generator_rejects_invalid_date() {
 }
 
 #[test]
+fn gate2_outside_generator_rejects_placeholder_source_field() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture
+        .dir
+        .path()
+        .join("placeholder-source-generated-proof.md");
+    replace(
+        &fixture.stopwatch_path,
+        "- Docker: `Docker version 29.2.0`",
+        "- Docker: `Docker TBD version`",
+    );
+
+    let output = run_generator(&fixture.stopwatch_path, &generated);
+
+    assert_failure(output, "Docker contains placeholder text");
+    assert!(
+        !generated.exists(),
+        "generator must not write completed proof from placeholder stopwatch evidence"
+    );
+}
+
+#[test]
 fn gate2_outside_generator_rejects_duplicate_source_field_without_writing() {
     let fixture = ValidatorFixture::new();
     let generated = fixture
@@ -1308,6 +1330,25 @@ fn gate2_outside_validator_rejects_ellipsis_required_field_value() {
     let output = run_validator(&fixture.proof_path);
 
     assert_failure(output, "unresolved required fields: Browser");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_embedded_placeholder_in_copied_source_field() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Docker version: Docker version 29.2.0",
+        "- Docker version: Docker TBD version",
+    );
+    replace(
+        &fixture.stopwatch_path,
+        "- Docker: `Docker version 29.2.0`",
+        "- Docker: `Docker TBD version`",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "unresolved required fields: Docker version");
 }
 
 #[test]

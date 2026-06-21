@@ -847,11 +847,10 @@ for field in REQUIRED_PROOF_FIELDS:
         or value.endswith(":")
         or "none / describe" in value
         or normalized_value in UNRESOLVED_REQUIRED_VALUES
+        or contains_placeholder_fragment(value)
     ):
         unresolved_fields.append(field)
-    if field in CONCRETE_REQUIRED_FIELDS and (
-        normalized_value == "none" or contains_placeholder_fragment(value)
-    ):
+    if field in CONCRETE_REQUIRED_FIELDS and normalized_value == "none":
         unresolved_fields.append(field)
 if unresolved_fields:
     fail("unresolved required fields: " + ", ".join(dict.fromkeys(unresolved_fields)))

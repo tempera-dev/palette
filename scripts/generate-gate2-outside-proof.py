@@ -65,6 +65,8 @@ def field_value(source_text, name, source_name):
     value = clean_value(matches[0])
     if not value or value.lower() in UNRESOLVED_REQUIRED_VALUES:
         raise SystemExit(f"unusable field in {source_name}: {name}={value!r}")
+    if EMBEDDED_PLACEHOLDER.search(value):
+        raise SystemExit(f"unusable field in {source_name}: {name} contains placeholder text")
     return value
 
 

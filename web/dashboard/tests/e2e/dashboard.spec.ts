@@ -44,12 +44,14 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   }
   await expect(waterfall).toContainText("lookup-order-tool");
 
-  const run = waterfall.locator('[data-span-seq="1"]');
-  const turn = waterfall.locator('[data-span-seq="2"]');
-  const step = waterfall.locator('[data-span-seq="4"]');
-  const llm = waterfall.locator('[data-span-seq="8"]');
-  const tool = waterfall.locator('[data-span-seq="9"]');
-  const mcp = waterfall.locator('[data-span-seq="10"]');
+  const spanRow = (kind: string, name: string) =>
+    waterfall.locator(`[data-kind="${kind}"]`).filter({ hasText: name }).first();
+  const run = spanRow("agent.run", "refund-agent-run");
+  const turn = spanRow("agent.turn", "customer-refund-turn");
+  const step = spanRow("agent.step", "execute-refund-step");
+  const llm = spanRow("llm.call", "call-policy-model");
+  const tool = spanRow("tool.call", "lookup-order-tool");
+  const mcp = spanRow("mcp.request", "mcp-order-service");
 
   await expect(run).toContainText("refund-agent-run");
   await expect(turn).toContainText("customer-refund-turn");
@@ -93,13 +95,26 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
     2
   );
 
-  const orderedSeqs = await waterfall.locator("[data-span-id]").evaluateAll((rows) =>
-    rows.map((row) => row.getAttribute("data-span-seq"))
+  const orderedSpans = await waterfall.locator("[data-span-id]").evaluateAll((rows) =>
+    rows.map((row) => ({
+      kind: row.getAttribute("data-kind"),
+      text: row.textContent ?? ""
+    }))
   );
-  expect(orderedSeqs.indexOf("1")).toBeLessThan(orderedSeqs.indexOf("2"));
-  expect(orderedSeqs.indexOf("2")).toBeLessThan(orderedSeqs.indexOf("4"));
-  expect(orderedSeqs.indexOf("4")).toBeLessThan(orderedSeqs.indexOf("9"));
-  expect(orderedSeqs.indexOf("9")).toBeLessThan(orderedSeqs.indexOf("10"));
+  const indexOfSpan = (kind: string, name: string) =>
+    orderedSpans.findIndex((span) => span.kind === kind && span.text.includes(name));
+  const runIndex = indexOfSpan("agent.run", "refund-agent-run");
+  const turnIndex = indexOfSpan("agent.turn", "customer-refund-turn");
+  const stepIndex = indexOfSpan("agent.step", "execute-refund-step");
+  const toolIndex = indexOfSpan("tool.call", "lookup-order-tool");
+  const mcpIndex = indexOfSpan("mcp.request", "mcp-order-service");
+  for (const index of [runIndex, turnIndex, stepIndex, toolIndex, mcpIndex]) {
+    expect(index).toBeGreaterThanOrEqual(0);
+  }
+  expect(runIndex).toBeLessThan(turnIndex);
+  expect(turnIndex).toBeLessThan(stepIndex);
+  expect(stepIndex).toBeLessThan(toolIndex);
+  expect(toolIndex).toBeLessThan(mcpIndex);
 
   await llm.click();
 
@@ -208,7 +223,10 @@ test("keeps the trace console inside the viewport on desktop and mobile", async 
 
     if (viewport.width === 390) {
       const timingLayout = await page
-        .locator('[data-span-seq="8"] .duration')
+        .getByLabel("Agent span waterfall")
+        .locator('[data-kind="llm.call"]')
+        .filter({ hasText: "call-policy-model" })
+        .locator(".duration")
         .first()
         .evaluate((node) => {
           const track = node.querySelector(".span-track");
@@ -292,8 +310,13 @@ test("supports keyboard focus across filters, traces, spans, and unmask controls
   await page.locator(".run-row").first().focus();
   await expect(page.locator(".run-row").first()).toBeFocused();
 
-  await page.locator('[data-span-seq="8"]').focus();
-  await expect(page.locator('[data-span-seq="8"]')).toBeFocused();
+  const llmSpan = page
+    .getByLabel("Agent span waterfall")
+    .locator('[data-kind="llm.call"]')
+    .filter({ hasText: "call-policy-model" })
+    .first();
+  await llmSpan.focus();
+  await expect(llmSpan).toBeFocused();
 
   await page.goto(
     `/?tenant=demo&project=demo&environment=local${traceParam}&unmask=true&reason=keyboard-test`

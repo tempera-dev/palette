@@ -386,12 +386,14 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(recorder, /createHash\("sha256"\)/);
   assert.match(recorder, /data-depth/);
   assert.match(recorder, /data-icon/);
-  assert.match(recorder, /data-span-seq/);
+  assert.doesNotMatch(recorder, /data-span-seq/);
   assert.match(recorder, /five-line-llm-call/);
   assert.match(recorder, /hello from stock OpenTelemetry/);
   assert.match(recorder, /color\/icon-coded all-kind agent waterfall/);
   assert.match(recorder, /gate2-browser-demo\.webm/);
   const quickstart = readFileSync(join(root, "tests/e2e/quickstart.spec.ts"), "utf8");
+  assert.match(quickstart, /BEATER_E2E_QUICKSTART_TRACE_ID/);
+  assert.doesNotMatch(quickstart, /BEATER_E2E_TRACE_ID/);
   assert.match(quickstart, /five-line-llm-call/);
   assert.match(quickstart, /gpt-quickstart/);
   assert.match(quickstart, /page\.goto\("\/\?tenant=demo&project=demo&environment=local&kind=llm\.call&model=gpt-quickstart"\)/);

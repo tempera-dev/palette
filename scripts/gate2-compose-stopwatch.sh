@@ -417,7 +417,7 @@ EOF
 
 if [[ "$browser_proof" == "1" ]]; then
   run_before_deadline "five-line dashboard browser proof" compose_run_e2e \
-    -e BEATER_E2E_TRACE_ID="$trace_id" \
+    -e BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
     -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
     dashboard-e2e \
     npx playwright test tests/e2e/quickstart.spec.ts

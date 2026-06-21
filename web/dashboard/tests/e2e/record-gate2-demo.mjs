@@ -120,12 +120,12 @@ async function recordAllKindFlow(page) {
   await page.goto(`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}`);
   await page.getByRole("heading", { name: "Agent Trace Debugger" }).waitFor();
   const waterfall = page.getByLabel("Agent span waterfall");
-  const run = waterfall.locator('[data-span-seq="1"]');
-  const turn = waterfall.locator('[data-span-seq="2"]');
-  const step = waterfall.locator('[data-span-seq="4"]');
-  const llm = waterfall.locator('[data-span-seq="8"]');
-  const tool = waterfall.locator('[data-span-seq="9"]');
-  const mcp = waterfall.locator('[data-span-seq="10"]');
+  const run = spanRow(waterfall, "agent.run", "refund-agent-run");
+  const turn = spanRow(waterfall, "agent.turn", "customer-refund-turn");
+  const step = spanRow(waterfall, "agent.step", "execute-refund-step");
+  const llm = spanRow(waterfall, "llm.call", "call-policy-model");
+  const tool = spanRow(waterfall, "tool.call", "lookup-order-tool");
+  const mcp = spanRow(waterfall, "mcp.request", "mcp-order-service");
   await run.getByText("refund-agent-run").waitFor();
   await turn.getByText("customer-refund-turn").waitFor();
   await step.getByText("execute-refund-step").waitFor();
@@ -150,6 +150,10 @@ async function recordAllKindFlow(page) {
   await tool.click();
   await detail.locator(".io").filter({ hasText: "Input" }).getByText("ord_123").waitFor();
   await page.waitForTimeout(1000);
+}
+
+function spanRow(waterfall, kind, name) {
+  return waterfall.locator(`[data-kind="${kind}"]`).filter({ hasText: name }).first();
 }
 
 function allKindNotes(videoSha256) {
@@ -198,7 +202,7 @@ Recorded from the literal five-line stock OpenTelemetry quickstart trace.
 Regenerate with:
 
 \`\`\`bash
-BEATER_E2E_TRACE_ID=<quickstart-trace-id> BEATER_GATE2_RECORD_MODE=quickstart npm run record:gate2
+BEATER_E2E_QUICKSTART_TRACE_ID=<quickstart-trace-id> BEATER_GATE2_RECORD_MODE=quickstart npm run record:gate2
 \`\`\`
 
 For the Docker Compose stopwatch proof that records the full quickstart plus
