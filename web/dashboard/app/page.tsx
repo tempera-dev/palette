@@ -1,13 +1,19 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
+  Activity,
   BadgePercent,
   Bot,
   BrainCircuit,
+  Clock3,
   CircleDot,
   ClipboardList,
+  Cpu,
   Database,
   DatabaseZap,
+  DollarSign,
+  GitBranch,
+  Layers3,
   ListChecks,
   MessageSquareText,
   Network,
@@ -94,17 +100,41 @@ export default async function DashboardPage({
       </header>
 
       <section className="summary-strip" aria-label="Trace summary">
-        <SummaryItem label="Status" value={activeRun ? statusLabel(activeRun.status) : "No trace"} />
-        <SummaryItem label="Spans" value={activeRun ? String(activeRun.span_count) : "0"} />
-        <SummaryItem label="Model" value={activeRun ? formatModels(activeRun.models) : "none"} />
-        <SummaryItem label="Cost" value={activeRun ? formatCost(activeRun.total_cost) : "none"} />
+        <SummaryItem
+          label="Status"
+          value={activeRun ? statusLabel(activeRun.status) : "No trace"}
+          tone={activeRun?.status ?? "unset"}
+          Icon={Activity}
+        />
+        <SummaryItem
+          label="Spans"
+          value={activeRun ? String(activeRun.span_count) : "0"}
+          tone="structure"
+          Icon={Layers3}
+        />
+        <SummaryItem
+          label="Model"
+          value={activeRun ? formatModels(activeRun.models) : "none"}
+          tone="model"
+          Icon={Cpu}
+        />
+        <SummaryItem
+          label="Cost"
+          value={activeRun ? formatCost(activeRun.total_cost) : "none"}
+          tone="cost"
+          Icon={DollarSign}
+        />
         <SummaryItem
           label="Latency"
           value={activeRun ? formatLatency(activeRun.duration_ms) : "open"}
+          tone="latency"
+          Icon={Clock3}
         />
         <SummaryItem
           label="Release"
           value={activeRun ? formatReleases(activeRun.release_ids) : "no release"}
+          tone="release"
+          Icon={GitBranch}
         />
       </section>
 
@@ -258,6 +288,7 @@ export default async function DashboardPage({
               <Link
                 key={run.trace_id}
                 className={run.trace_id === data.trace?.trace_id ? "run-row active" : "run-row"}
+                data-status={run.status}
                 href={hrefFor(data.query, { trace: run.trace_id, span: undefined })}
               >
                 <span className={`status ${run.status}`}>{statusLabel(run.status)}</span>
@@ -372,11 +403,26 @@ export default async function DashboardPage({
   );
 }
 
-function SummaryItem({ label, value }: { label: string; value: string }) {
+function SummaryItem({
+  label,
+  value,
+  tone,
+  Icon
+}: {
+  label: string;
+  value: string;
+  tone: string;
+  Icon: LucideIcon;
+}) {
   return (
-    <div className="summary-item">
-      <span>{label}</span>
-      <strong>{value}</strong>
+    <div className={`summary-item tone-${tone}`}>
+      <span className="summary-icon" aria-hidden="true">
+        <Icon />
+      </span>
+      <span className="summary-copy">
+        <span>{label}</span>
+        <strong>{value}</strong>
+      </span>
     </div>
   );
 }
@@ -404,11 +450,23 @@ function SpanDetail({
   query: DashboardQuery;
 }) {
   const hasRedactedIo = io ? isRedactedIo(io.input) || isRedactedIo(io.output) : false;
+  const icon = kindIcon(span.kind);
+  const KindGlyph = icon.Icon;
   return (
     <div className="detail-stack">
       <div className="span-identity">
+        <span
+          className={`kind-icon detail-kind ${kindClass(span.kind)}`}
+          aria-label={`${span.kind} icon`}
+          data-icon={icon.key}
+          title={icon.title}
+        >
+          <KindGlyph aria-hidden="true" />
+          <span className="sr-only">{icon.title}</span>
+        </span>
         <div>
           <h3>{span.name}</h3>
+          <p>{span.kind}</p>
           <p>{span.span_id}</p>
         </div>
         <span className={`status ${span.status}`}>{statusLabel(span.status)}</span>
