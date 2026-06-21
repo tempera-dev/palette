@@ -611,7 +611,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("gate2-compose-browser-demo.webm"));
     assert!(outside_proof.contains("gate2-compose-browser-demo.md"));
     assert!(outside_proof.contains("Terminal output excerpt"));
-    assert!(outside_proof.contains("http://127.0.0.1:3000/"));
+    assert!(outside_proof.contains("Dashboard base: `http://127.0.0.1:3000`"));
+    assert!(!outside_proof.contains("http://127.0.0.1:3000/..."));
+    assert!(!outside_proof.contains("none / describe"));
+    assert!(!outside_proof.contains("`python3` is required after the timed run"));
     assert!(outside_proof.contains("Time-to-first-trace was 300 seconds or less"));
     assert!(outside_proof.contains("Time-to-first-trace includes clone time"));
     assert!(outside_proof.contains("Time-to-quickstart-click was 300 seconds or less"));
