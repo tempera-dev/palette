@@ -193,6 +193,29 @@ test("keeps an explicitly opened trace coherent when secondary filters exclude i
   await expect(waterfall).toContainText("call-policy-model");
 });
 
+test("does not fake-select the first span for a stale span query param", async ({ page }) => {
+  const traceParam = process.env.BEATER_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+    : "&kind=llm.call&model=gpt-demo&release=compose-demo";
+
+  await page.goto(
+    `/?tenant=demo&project=demo&environment=local${traceParam}&span=missing-span`
+  );
+
+  await expect(page.getByRole("heading", { name: "Agent Trace Debugger" })).toBeVisible();
+  await expect(page.locator(".notice")).toContainText(
+    "Span missing-span was not found in trace"
+  );
+  const waterfall = page.getByLabel("Agent span waterfall");
+  await expect(waterfall).toContainText("call-policy-model");
+  await expect(waterfall.locator('[aria-current="location"]')).toHaveCount(0);
+  await expect(page.getByLabel("Span detail")).toContainText("Select a span in the waterfall.");
+  await expect(page.getByRole("link", { name: "Refresh" })).not.toHaveAttribute(
+    "href",
+    /span=missing-span/
+  );
+});
+
 test("keeps the trace console inside the viewport on desktop and mobile", async ({ page }) => {
   const traceParam = process.env.BEATER_E2E_TRACE_ID
     ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`

@@ -121,7 +121,7 @@ export default async function DashboardPage({
             className="refresh-action"
             href={hrefFor(data.query, {
               trace: data.query.traceId,
-              span: data.query.selectedSpanId
+              span: data.query.selectedSpanId && data.selectedSpan ? data.selectedSpan.span_id : undefined
             })}
           >
             <RotateCcw aria-hidden="true" />

@@ -177,8 +177,16 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
     }
   }
 
-  const selectedSpanFromTrace =
-    trace?.spans.find((span) => span.span_id === query.selectedSpanId) ?? trace?.spans[0] ?? null;
+  const requestedSpanFromTrace =
+    trace && query.selectedSpanId
+      ? trace.spans.find((span) => span.span_id === query.selectedSpanId) ?? null
+      : null;
+  const selectedSpanFromTrace = query.selectedSpanId
+    ? requestedSpanFromTrace
+    : trace?.spans[0] ?? null;
+  if (trace && query.selectedSpanId && !requestedSpanFromTrace) {
+    error = `Span ${query.selectedSpanId} was not found in trace ${trace.trace_id}.`;
+  }
   const activeSpanId = selectedSpanFromTrace?.span_id;
 
   if (trace && activeSpanId) {

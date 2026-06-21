@@ -311,6 +311,53 @@ test("dashboard loader preserves trace context when span I/O fails", async () =>
   assert.match(data.error, /span I\/O unavailable/);
 });
 
+test("dashboard loader does not select a fallback span for stale span URLs", async () => {
+  const runs = {
+    items: [{ trace_id: "trace-1", root_name: "run", span_count: 1 }],
+    next_cursor: null
+  };
+  const span = {
+    trace_id: "trace-1",
+    span_id: "span-1",
+    parent_span_id: null,
+    name: "call-policy-model",
+    kind: "llm.call",
+    status: "ok",
+    start_time: "2026-01-01T00:00:00Z",
+    end_time: "2026-01-01T00:00:01Z",
+    attributes: {},
+    unmapped_attrs: {},
+    events: [],
+    links: [],
+    tokens: { input: 1, output: 2, cache_read: 3, reasoning: 4 },
+    cost: null,
+    model: null
+  };
+  const trace = { trace_id: "trace-1", spans: [span] };
+  const requests = [];
+  const { loadDashboardData } = loadDashboardApiModule({
+    fetch: async (url) => {
+      const href = String(url);
+      requests.push(href);
+      if (href.includes("/v1/traces/demo?")) return okJson(runs);
+      if (href.includes("/v1/traces/demo/trace-1")) return okJson(trace);
+      throw new Error(`unexpected fetch ${href}`);
+    }
+  });
+
+  const data = await loadDashboardData({
+    tenantId: "demo",
+    traceId: "trace-1",
+    selectedSpanId: "missing-span"
+  });
+
+  assert.equal(data.trace?.trace_id, "trace-1");
+  assert.equal(data.selectedSpan, null);
+  assert.equal(data.selectedIo, null);
+  assert.match(data.error, /Span missing-span was not found in trace trace-1/);
+  assert.equal(requests.some((href) => href.includes("/v1/spans/")), false);
+});
+
 function okJson(value) {
   return {
     ok: true,
