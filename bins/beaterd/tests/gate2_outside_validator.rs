@@ -29,6 +29,24 @@ fn gate2_outside_validator_allows_pending_template_with_allow_pending() {
 }
 
 #[test]
+fn gate2_outside_validator_resolves_default_template_from_script_path() {
+    let root = repo_root();
+    let cwd = tempdir("create non-repo validator cwd");
+    let output = Command::new("bash")
+        .arg(root.join("scripts/validate-gate2-outside-proof.sh"))
+        .arg("--allow-pending")
+        .current_dir(cwd.path())
+        .env_remove("BEATER_GATE2_OUTSIDE_PROOF")
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside validator outside repo cwd: {err}"));
+
+    assert_success(
+        output,
+        "Gate 2 outside-person proof is pending but structurally valid",
+    );
+}
+
+#[test]
 fn gate2_outside_docs_use_fail_fast_clone_command() {
     let root = repo_root();
     for rel in [

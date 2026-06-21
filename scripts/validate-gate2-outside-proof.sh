@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+repo_root="$(cd -- "$script_dir/.." && pwd -P)"
 proof_path="${BEATER_GATE2_OUTSIDE_PROOF:-docs/demos/gate2-outside-person-proof.md}"
 allow_pending=0
 
@@ -14,7 +16,7 @@ if [[ $# -ne 0 ]]; then
   exit 2
 fi
 
-python3 - "$proof_path" "$allow_pending" <<'PY'
+python3 - "$proof_path" "$allow_pending" "$repo_root" <<'PY'
 import hashlib
 import os
 import re
@@ -24,9 +26,10 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
 
-proof_path = Path(sys.argv[1])
+proof_arg = Path(sys.argv[1])
 allow_pending = sys.argv[2] == "1"
-repo = Path.cwd()
+repo = Path(sys.argv[3]).resolve()
+proof_path = proof_arg if proof_arg.is_absolute() else repo / proof_arg
 errors: list[str] = []
 
 if not proof_path.exists():
