@@ -216,7 +216,7 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
 
     require_full_run_source(args)
 
-    missing = [name for name in ["docker", "curl"] if shutil.which(name) is None]
+    missing = [name for name in ["docker", "curl", "ffprobe"] if shutil.which(name) is None]
     if shutil.which("shasum") is None and shutil.which("sha256sum") is None:
         missing.append("shasum or sha256sum")
     if missing:

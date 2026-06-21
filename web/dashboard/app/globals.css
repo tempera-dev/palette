@@ -1078,9 +1078,22 @@ button:hover {
 
 .duration {
   align-items: center;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: minmax(84px, 1fr) auto;
+  display: block;
+  min-width: 0;
+  position: relative;
+}
+
+.duration > span:last-child {
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  border-radius: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1;
+  padding: 2px 0 2px 6px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .span-track {
@@ -1287,8 +1300,14 @@ button:hover {
   border-right: 1px solid var(--line);
 }
 
-.metrics div:nth-last-child(-n + 2) {
+.metrics div:nth-last-child(-n + 2):nth-child(odd),
+.metrics div:last-child:nth-child(even) {
   border-bottom: 0;
+}
+
+.metrics div:last-child:nth-child(odd) {
+  border-right: 0;
+  grid-column: 1 / -1;
 }
 
 dd {

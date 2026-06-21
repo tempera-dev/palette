@@ -23,8 +23,8 @@ instrument agent -> inspect trace -> promote failure to dataset -> run evals
 
 This is the public clean-clone path Gate 2 is measured on. Prerequisites:
 Docker Desktop or another local Docker daemon, Docker Compose v2, `git`, `curl`,
-`shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`, `4317`, and `3000`
-free. Remote `DOCKER_HOST` values and
+`ffprobe`, `shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`,
+`4317`, and `3000` free. Remote `DOCKER_HOST` values and
 remote Docker contexts are rejected because the browser proof connects to
 `127.0.0.1`.
 The public Compose path uses prebuilt Beater images and digest-pinned
@@ -192,9 +192,9 @@ visible in `localhost:3000`, and fails if time-to-first-trace exceeds 300
 seconds. It also records time-to-quickstart-click when browser proof is
 enabled. It leaves the dashboard running by default so a human can click
 through the trace.
-Before starting Compose it checks local Docker, Docker Compose, curl, and SHA
-tooling, and it requires `python3` 3.9+ before the timed run so proof generation and
-validation cannot fail late on missing local tooling.
+Before starting Compose it checks local Docker, Docker Compose, curl, `ffprobe`,
+and SHA tooling, and it requires `python3` 3.9+ before the timed run so proof
+generation and validation cannot fail late on missing local tooling.
 It removes any previous Beater stopwatch project, then checks the required host
 ports. For outside-person evidence, free the default
 `8080`/`4317`/`3000` ports rather than using alternate ports.
@@ -277,8 +277,8 @@ scripts/check-gate2-public-handoff.py --full-run
 ```
 
 That mode first preflights the local runtime: canonical public source URL only,
-`docker`, Docker Compose v2, `curl`, local Docker daemon, SHA tooling, and free
-default ports after removing any previous `beater-stopwatch` Compose project.
+`docker`, Docker Compose v2, `curl`, `ffprobe`, local Docker daemon, SHA tooling,
+and free default ports after removing any previous `beater-stopwatch` Compose project.
 Remote `DOCKER_HOST` values and remote Docker contexts fail before clone or
 Compose cleanup. It runs `scripts/check-gate2-outside-readiness.py`, performs a
 fresh clone from `https://github.com/jadenfix/beater.git`, verifies the clone is on the exact
@@ -326,17 +326,18 @@ Then validate it with:
 scripts/validate-gate2-outside-proof.sh
 ```
 
-The validator checks the outside-person template, stopwatch proof file, and
-screen-recording notes from the same run. It rejects alternate ports, warm-loop
-reuse, placeholder dashboard URLs, mismatched trace IDs, mismatched commit SHA,
+The validator checks the outside-person template, stopwatch proof file,
+screen-recording notes, and playable WebM metadata from the same run. It rejects
+alternate ports, warm-loop reuse, placeholder dashboard URLs, mismatched trace IDs,
+mismatched commit SHA,
 mismatched API/dashboard endpoints, non-main or stale commit evidence,
 mismatched SHA-pinned image references, mismatched image digests,
 non-repo-relative `docs/demos/` artifacts, and non-prebuilt GHCR image digests.
 It rejects recording notes from a different dashboard session and any screen
 recording hash that does not match the committed file. The recording artifact
-must be a WebM capture of at least 64 KiB with EBML/WebM, Segment, Info, Tracks,
-Cluster, and video-track structure, and artifact paths must not traverse
-symlinks. The notes must also describe the full recorded flow: quickstart trace,
+must be a playable WebM capture of at least 64 KiB with EBML/WebM, Segment,
+Info, Tracks, Cluster, and video-track structure, and artifact paths must not
+traverse symlinks. The notes must also describe the full recorded flow: quickstart trace,
 `llm.call`, prompt, completion, model, tokens, cost, latency, and run -> turn ->
 step -> tool -> MCP waterfall. The completed proof must additionally include
 the runner's own `llm.call` detail and waterfall observations, not only the

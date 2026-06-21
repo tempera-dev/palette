@@ -63,7 +63,7 @@ FORBIDDEN_EVIDENCE = [
     "BEATER_OTLP_GRPC_PORT=",
     "BEATER_GATE2_REUSE=1",
 ]
-proof_abs = proof_path if proof_path.is_absolute() else repo / proof_path
+proof_abs = proof_path
 default_proof_abs = repo / "docs/demos/gate2-outside-person-proof.md"
 ALLOW_UNTRACKED_ARTIFACTS = (
     os.environ.get("BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS") == "1"
@@ -525,6 +525,7 @@ def require_webm_recording(recording_path: Path) -> None:
 
     ffprobe = shutil.which("ffprobe")
     if not ffprobe:
+        fail("screen recording validation requires ffprobe on PATH")
         return
     try:
         probe = subprocess.run(

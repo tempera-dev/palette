@@ -345,6 +345,10 @@ preflight_prerequisites() {
     echo "Gate 2 recording proof requires shasum or sha256sum before the stopwatch starts." >&2
     return 1
   fi
+  if [[ "$record_demo" == "1" ]] && ! command -v ffprobe >/dev/null 2>&1; then
+    echo "Gate 2 recording proof requires ffprobe before the stopwatch starts." >&2
+    return 1
+  fi
   if [[ -n "${DOCKER_HOST:-}" && "${DOCKER_HOST:-}" != unix://* && "${DOCKER_HOST:-}" != npipe://* ]]; then
     echo "Gate 2 outside-person proof requires a local Docker daemon because the browser proof uses 127.0.0.1." >&2
     echo "Unset DOCKER_HOST or switch to a local Docker context and rerun." >&2

@@ -74,6 +74,9 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     ));
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(readme.contains("and `python3` 3.9+; local ports"));
+    assert!(readme.contains("`ffprobe`, `shasum` or `sha256sum`"));
+    assert!(readme.contains("curl, `ffprobe`,\nand SHA tooling"));
+    assert!(readme.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
     assert!(readme.contains("requires `python3` 3.9+ before the timed run"));
     assert!(!readme.contains("`python3` for post-run proof generation"));
     assert!(!readme.contains("`python3` is required afterward"));
@@ -89,7 +92,11 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     let proof_template = fs::read_to_string(root.join("docs/demos/gate2-outside-person-proof.md"))
         .unwrap_or_else(|err| panic!("read outside proof template: {err}"));
     assert!(proof_template.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
-    assert!(proof_template.contains("Python\n3.9 or newer is required"));
+    assert!(proof_template.contains("Python 3.9 or newer is required"));
+    assert!(proof_template.contains("curl\nor `ffprobe` is missing"));
+    assert!(proof_template.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
+    assert!(proof_template.contains("`ffprobe` playable-video metadata"));
+    assert!(proof_template.contains("playable WebM"));
     assert!(!proof_template.contains("none / describe"));
     assert!(!proof_template.contains("`python3` is required after the timed run"));
     assert!(!proof_template.contains("http://127.0.0.1:3000/..."));
@@ -148,6 +155,18 @@ fn gate2_outside_validator_accepts_matching_default_port_artifacts() {
     let output = run_validator(&fixture.proof_path);
 
     assert_success(output, "Gate 2 outside-person proof is complete and valid");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_missing_ffprobe_for_completed_proof() {
+    let fixture = ValidatorFixture::new();
+
+    let output = run_validator_without_ffprobe(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording validation requires ffprobe on PATH",
+    );
 }
 
 #[test]
@@ -314,6 +333,31 @@ fn gate2_outside_generator_rejects_duplicate_source_field_without_writing() {
     assert!(
         !generated.exists(),
         "generator must not write proof from duplicate source fields"
+    );
+}
+
+#[test]
+fn gate2_outside_generator_reports_validation_failure_without_traceback() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture
+        .dir
+        .path()
+        .join("validation-failed-generated-proof.md");
+
+    let output = run_generator_without_fake_ffprobe(&fixture.stopwatch_path, &generated);
+
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        !stderr.contains("Traceback"),
+        "generator must report validator failure without a Python traceback:\n{stderr}"
+    );
+    assert_failure(
+        output,
+        "screen recording validation requires ffprobe on PATH",
+    );
+    assert!(
+        !generated.exists(),
+        "generator must not write proof when post-generation validation fails"
     );
 }
 
@@ -747,6 +791,7 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("preflight_full_run_runtime"));
     assert!(script.contains("require_full_run_source(args)"));
     assert!(script.contains("shutil.which"));
+    assert!(script.contains("\"ffprobe\""));
     assert!(script.contains("socket.create_connection"));
     assert!(script.contains("def port_owner_hint"));
     assert!(script.contains("lsof"));
@@ -780,6 +825,7 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
         .unwrap_or_else(|err| panic!("read Gate 2 compose stopwatch script: {err}"));
 
     assert!(script.contains("Open $dashboard_url in a normal browser for the quickstart trace."));
+    assert!(script.contains("Gate 2 recording proof requires ffprobe before the stopwatch starts."));
     assert!(script
         .contains("Confirm prompt, completion, model, tokens, cost, and latency are visible."));
     assert!(script.contains(
@@ -1004,6 +1050,37 @@ fn gate2_outside_wrapper_rejects_missing_clone_timer_for_real_run() {
     assert_failure(
         output,
         "BEATER_GATE2_CLONE_STARTED_EPOCH must be set before git clone",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_missing_ffprobe_before_stopwatch() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    write_stopwatch_env_stub(fixture.path());
+    git_success(fixture.path(), &["add", "."]);
+    git_success(fixture.path(), &["commit", "-m", "add stopwatch stub"]);
+    let path_dir = tempdir("create outside wrapper PATH without ffprobe");
+    for name in ["git", "dirname", "python3"] {
+        symlink(&command_executable(name), path_dir.path().join(name))
+            .unwrap_or_else(|err| panic!("symlink {name} fixture: {err}"));
+    }
+
+    let mut command = Command::new("/bin/bash");
+    command
+        .arg(fixture.path().join("scripts/gate2-outside-run.sh"))
+        .current_dir(fixture.path());
+    clear_outside_env(&mut command);
+    command
+        .env("PATH", path_dir.path())
+        .env("BEATER_GATE2_CLONE_STARTED_EPOCH", "1800000000");
+    let output = command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper without ffprobe: {err}"));
+
+    assert_failure(output, "missing required command 'ffprobe'");
+    assert!(
+        !fixture.path().join("wrapper-real-env.txt").exists(),
+        "outside wrapper must fail before executing the stopwatch script"
     );
 }
 
@@ -1867,6 +1944,21 @@ fn gate2_outside_validator_rejects_tiny_webm_recording() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_unplayable_webm_recording() {
+    let fixture = ValidatorFixture::new();
+
+    let output = run_validator_with_ffprobe_script(
+        &fixture.proof_path,
+        "#!/bin/sh\nprintf 'not playable\\n' >&2\nexit 1\n",
+    );
+
+    assert_failure(
+        output,
+        "screen recording must be a playable WebM video: ffprobe failed",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_symlink_recording_artifact() {
     let fixture = ValidatorFixture::new();
     fs::remove_file(&fixture.recording_path)
@@ -2260,13 +2352,39 @@ fn run_validator(proof_path: &Path) -> Output {
 }
 
 fn run_validator_with_args(proof_path: &Path, args: &[&str]) -> Output {
+    let ffprobe =
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+    run_validator_with_path(proof_path, args, Some(&ffprobe))
+}
+
+fn run_validator_with_ffprobe_script(proof_path: &Path, script: &str) -> Output {
+    let ffprobe = fake_ffprobe_dir(script);
+    run_validator_with_path(proof_path, &[], Some(&ffprobe))
+}
+
+fn run_validator_without_ffprobe(proof_path: &Path) -> Output {
+    let path_dir = tempdir("create validator PATH without ffprobe");
+    symlink(
+        &command_executable("python3"),
+        path_dir.path().join("python3"),
+    )
+    .unwrap_or_else(|err| panic!("symlink python3 fixture: {err}"));
+    run_validator_with_path(proof_path, &[], Some(&path_dir))
+}
+
+fn run_validator_with_path(proof_path: &Path, args: &[&str], path_dir: Option<&TempDir>) -> Output {
     let root = repo_root();
-    Command::new("bash")
+    let mut command = Command::new("/bin/bash");
+    command
         .arg(root.join("scripts/validate-gate2-outside-proof.sh"))
         .args(args)
         .current_dir(root)
         .env("BEATER_GATE2_OUTSIDE_PROOF", proof_path)
-        .env("BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS", "1")
+        .env("BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS", "1");
+    if let Some(path_dir) = path_dir {
+        command.env("PATH", path_with_tempdir(path_dir));
+    }
+    command
         .output()
         .unwrap_or_else(|err| panic!("run Gate 2 outside proof validator: {err}"))
 }
@@ -2313,6 +2431,33 @@ fn run_generator_without_observations(stopwatch_path: &Path, output_path: &Path)
     run_generator_with_options(stopwatch_path, output_path, true, true, false)
 }
 
+fn run_generator_without_fake_ffprobe(stopwatch_path: &Path, output_path: &Path) -> Output {
+    let path_dir = tempdir("create generator PATH without ffprobe");
+    symlink(
+        &command_executable("python3"),
+        path_dir.path().join("python3"),
+    )
+    .unwrap_or_else(|err| panic!("symlink python3 fixture: {err}"));
+    let mut command = generator_command(
+        stopwatch_path,
+        output_path,
+        "Validator Fixture Runner",
+        "Chromium",
+    );
+    command
+        .arg("--attest-outside-run")
+        .arg("--network-notes")
+        .arg("public docs only")
+        .arg("--llm-observation")
+        .arg(LLM_OBSERVATION)
+        .arg("--waterfall-observation")
+        .arg(WATERFALL_OBSERVATION)
+        .env("PATH", path_with_tempdir(&path_dir));
+    command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside proof generator without ffprobe: {err}"))
+}
+
 fn run_generator_with_runner_name(
     stopwatch_path: &Path,
     output_path: &Path,
@@ -2356,6 +2501,34 @@ fn run_generator_with_options_and_runner(
     runner_name: &str,
     browser: &str,
 ) -> Output {
+    let ffprobe =
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+    let mut command = generator_command(stopwatch_path, output_path, runner_name, browser);
+    command.env("PATH", path_with_tempdir(&ffprobe));
+    if attest {
+        command.arg("--attest-outside-run");
+    }
+    if include_network_notes {
+        command.arg("--network-notes").arg("public docs only");
+    }
+    if include_observations {
+        command
+            .arg("--llm-observation")
+            .arg(LLM_OBSERVATION)
+            .arg("--waterfall-observation")
+            .arg(WATERFALL_OBSERVATION);
+    }
+    command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside proof generator: {err}"))
+}
+
+fn generator_command(
+    stopwatch_path: &Path,
+    output_path: &Path,
+    runner_name: &str,
+    browser: &str,
+) -> Command {
     let root = repo_root();
     let mut command = Command::new("python3");
     command
@@ -2386,22 +2559,7 @@ fn run_generator_with_options_and_runner(
         .arg("No extra runner notes.")
         .current_dir(root)
         .env("BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS", "1");
-    if attest {
-        command.arg("--attest-outside-run");
-    }
-    if include_network_notes {
-        command.arg("--network-notes").arg("public docs only");
-    }
-    if include_observations {
-        command
-            .arg("--llm-observation")
-            .arg(LLM_OBSERVATION)
-            .arg("--waterfall-observation")
-            .arg(WATERFALL_OBSERVATION);
-    }
     command
-        .output()
-        .unwrap_or_else(|err| panic!("run Gate 2 outside proof generator: {err}"))
 }
 
 fn run_readiness_with_fixture(registry_path: &Path) -> Output {
@@ -2552,6 +2710,10 @@ esac
         ),
     );
     write_executable(&dir.path().join("curl"), "#!/bin/sh\nexit 0\n");
+    write_executable(
+        &dir.path().join("ffprobe"),
+        "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n",
+    );
     if include_sha_tool {
         write_executable(
             &dir.path().join("shasum"),
@@ -2567,11 +2729,25 @@ esac
 }
 
 fn path_with_public_handoff_runtime(runtime: &FakePublicHandoffRuntime) -> String {
+    path_with_dir(Path::new(&runtime.path_env))
+}
+
+fn fake_ffprobe_dir(script: &str) -> TempDir {
+    let dir = tempdir("create fake ffprobe PATH");
+    write_executable(&dir.path().join("ffprobe"), script);
+    dir
+}
+
+fn path_with_tempdir(dir: &TempDir) -> String {
+    path_with_dir(dir.path())
+}
+
+fn path_with_dir(dir: &Path) -> String {
     let existing_path = std::env::var_os("PATH").unwrap_or_default();
-    let mut paths = vec![PathBuf::from(&runtime.path_env)];
+    let mut paths = vec![dir.to_path_buf()];
     paths.extend(std::env::split_paths(&existing_path));
     std::env::join_paths(paths)
-        .unwrap_or_else(|err| panic!("build fake public handoff PATH: {err}"))
+        .unwrap_or_else(|err| panic!("build fixture PATH: {err}"))
         .to_string_lossy()
         .into_owned()
 }
@@ -2647,12 +2823,15 @@ fn run_outside_wrapper_real_preflight_in_repo(repo: &Path) -> Output {
 }
 
 fn run_outside_wrapper_real_with_clone_timer_in_repo(repo: &Path, clone_started: &str) -> Output {
+    let ffprobe =
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
     let mut command = Command::new("bash");
     command
         .arg(repo.join("scripts/gate2-outside-run.sh"))
         .current_dir(repo);
     clear_outside_env(&mut command);
     command
+        .env("PATH", path_with_tempdir(&ffprobe))
         .env("BEATER_GATE2_CLONE_STARTED_EPOCH", clone_started)
         .output()
         .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper fixture real run: {err}"))

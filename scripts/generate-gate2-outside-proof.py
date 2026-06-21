@@ -312,6 +312,9 @@ def main():
                 check=True,
             )
             temp_path.replace(output_path)
+        except subprocess.CalledProcessError as err:
+            temp_path.unlink(missing_ok=True)
+            raise SystemExit(err.returncode) from None
         except BaseException:
             temp_path.unlink(missing_ok=True)
             raise

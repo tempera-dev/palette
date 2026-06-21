@@ -73,11 +73,11 @@ stopwatch proof records
 those markers.
 
 The script fails before Compose startup if local Docker is unavailable, if curl
-is missing, if recording SHA tooling is missing, or if API `8080`, OTLP `4317`,
-or dashboard `3000` are still in use after it removes any previous Beater
-stopwatch project. It also requires `python3` before the timed run so proof
-generation and validation cannot fail late on missing local tooling; Python
-3.9 or newer is required. The stock
+or `ffprobe` is missing, if recording SHA tooling is missing, or if API `8080`,
+OTLP `4317`, or dashboard `3000` are still in use after it removes any previous
+Beater stopwatch project. It also requires `python3` before the timed run so
+proof generation and validation cannot fail late on missing local tooling;
+Python 3.9 or newer is required. The stock
 OpenTelemetry Python snippet runs in the prebuilt `otel-python` container, and
 browser proof runs in the prebuilt `dashboard-e2e` container. Remote
 `DOCKER_HOST` values and remote Docker contexts are rejected because the browser
@@ -127,8 +127,8 @@ scripts/check-gate2-public-handoff.py --full-run
 ```
 
 That mode first preflights the local runtime: canonical public source URL only,
-`docker`, Docker Compose v2, `curl`, local Docker daemon, SHA tooling, and free
-default ports after removing any previous `beater-stopwatch` Compose project.
+`docker`, Docker Compose v2, `curl`, `ffprobe`, local Docker daemon, SHA tooling,
+and free default ports after removing any previous `beater-stopwatch` Compose project.
 Remote `DOCKER_HOST` values and remote Docker contexts fail before clone or
 Compose cleanup. It runs `scripts/check-gate2-outside-readiness.py`, performs a
 fresh clone from `https://github.com/jadenfix/beater.git`, verifies the clone is on the exact
@@ -147,15 +147,16 @@ If Docker is unavailable on the maintainer machine, run
 performs the public clone, exact-commit, wrapper dry-run, proof-structure, and
 multi-arch GHCR-image checks, but it is not a runtime handoff proof.
 
-The validator reads the listed stopwatch proof file and screen-recording notes,
+The validator reads the listed stopwatch proof file, screen-recording notes, and
+`ffprobe` playable-video metadata,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, SHA-pinned prebuilt GHCR image
 references, prebuilt GHCR image digests, and the tested public GitHub origin,
-`main` branch, clean-worktree state, and commit SHA. If the proof commit is newer than the tested
-SHA, every later change must be under `docs/demos/`. It verifies
+`main` branch, clean-worktree state, and commit SHA. If the proof commit is newer
+than the tested SHA, every later change must be under `docs/demos/`. It verifies
 screen-recording SHA256 against the committed artifact, requires the artifact to
-be a WebM capture of at least 64 KiB with EBML/WebM, Segment, Info, Tracks, and
-Cluster structure plus a video track, and requires the recording notes to
+be a playable WebM capture of at least 64 KiB with EBML/WebM, Segment, Info,
+Tracks, and Cluster structure plus a video track, and requires the recording notes to
 describe the full click-through: quickstart trace, `llm.call`, prompt,
 completion, model, tokens, cost, latency, and run -> turn -> step -> tool -> MCP
 waterfall. Stopwatch, recording, and notes paths must be repo-relative paths

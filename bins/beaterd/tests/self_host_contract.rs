@@ -627,8 +627,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("cross-checks default"));
     assert!(outside_proof.contains("image digests"));
     assert!(outside_proof.contains("screen-recording notes"));
-    assert!(outside_proof.contains("WebM capture of at least 64 KiB"));
-    assert!(outside_proof.contains("EBML/WebM, Segment, Info, Tracks, and"));
+    assert!(outside_proof.contains("`ffprobe` playable-video metadata"));
+    assert!(outside_proof.contains("playable WebM capture of at least 64 KiB"));
+    assert!(outside_proof.contains("EBML/WebM, Segment, Info,"));
     assert!(outside_proof.contains("must not resolve through symlinks"));
     for fragment in ["prompt", "completion", "model", "tokens", "cost", "latency"] {
         assert!(outside_proof.contains(fragment));
@@ -642,6 +643,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("executes the cloned `scripts/gate2-outside-run.sh` wrapper"));
     assert!(readme.contains("preflights the local runtime"));
     assert!(readme.contains("local Docker daemon"));
+    assert!(readme.contains("`ffprobe`"));
     assert!(readme.contains("SHA tooling"));
     assert!(readme.contains("free the default"));
     assert!(readme.contains("fixture or fork URLs"));
@@ -670,16 +672,17 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("`beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR"));
     assert!(readme.contains("mismatched SHA-pinned image references"));
     assert!(readme.contains("time-to-quickstart-click"));
-    assert!(readme.contains("checks local Docker, Docker Compose, curl, and SHA"));
+    assert!(readme.contains("checks local Docker, Docker Compose, curl, `ffprobe`,"));
     assert!(readme.contains("mismatched trace IDs"));
     assert!(readme.contains("mismatched API/dashboard endpoints"));
     assert!(readme.contains("repo-relative `docs/demos/` artifacts"));
     assert!(readme.contains("prebuilt GHCR image digests"));
     assert!(readme.contains("mismatched image digests"));
     assert!(readme.contains("recording notes from a different dashboard session"));
-    assert!(readme.contains("WebM capture of at least 64 KiB"));
-    assert!(readme.contains("EBML/WebM, Segment, Info, Tracks"));
-    assert!(readme.contains("artifact paths must not traverse"));
+    assert!(readme.contains("playable WebM metadata"));
+    assert!(readme.contains("playable WebM capture of at least 64 KiB"));
+    assert!(readme.contains("EBML/WebM, Segment,"));
+    assert!(readme.contains("artifact paths must not\ntraverse symlinks"));
     assert!(readme.contains("The notes"));
     assert!(readme.contains("must also describe the full recorded flow"));
     assert!(readme.contains("hash that does not match the committed file"));

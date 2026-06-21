@@ -67,6 +67,13 @@ PY
   fi
 }
 
+require_recording_probe() {
+  if [[ "$dry_run" == "1" ]]; then
+    return 0
+  fi
+  require_command ffprobe "completed outside-person proof validation requires playable WebM verification"
+}
+
 require_git_provenance() {
   local branch
   local origin
@@ -92,6 +99,7 @@ fi
 require_git_provenance
 require_clone_timer
 require_python3
+require_recording_probe
 require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
 require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
 require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"

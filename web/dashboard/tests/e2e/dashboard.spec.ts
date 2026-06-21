@@ -76,8 +76,17 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   expect(axisRail).not.toBeNull();
   expect(rootTrack).not.toBeNull();
   expect(mcpTrack).not.toBeNull();
-  expect(Math.abs((rootTrack?.x ?? 0) - (axisRail?.x ?? 0))).toBeLessThanOrEqual(2);
-  expect(Math.abs((mcpTrack?.x ?? 0) - (axisRail?.x ?? 0))).toBeLessThanOrEqual(2);
+  if (!axisRail || !rootTrack || !mcpTrack) throw new Error("missing timeline geometry");
+  expect(Math.abs(rootTrack.x - axisRail.x)).toBeLessThanOrEqual(2);
+  expect(Math.abs(mcpTrack.x - axisRail.x)).toBeLessThanOrEqual(2);
+  expect(Math.abs(rootTrack.width - axisRail.width)).toBeLessThanOrEqual(2);
+  expect(Math.abs(mcpTrack.width - axisRail.width)).toBeLessThanOrEqual(2);
+  expect(Math.abs(rootTrack.x + rootTrack.width - (axisRail.x + axisRail.width))).toBeLessThanOrEqual(
+    2
+  );
+  expect(Math.abs(mcpTrack.x + mcpTrack.width - (axisRail.x + axisRail.width))).toBeLessThanOrEqual(
+    2
+  );
 
   const orderedNames = await waterfall.locator("[data-span-name]").evaluateAll((rows) =>
     rows.map((row) => row.getAttribute("data-span-name"))
@@ -203,6 +212,46 @@ test("keeps the trace console inside the viewport on desktop and mobile", async 
       offenders: []
     });
   }
+});
+
+test("keeps odd metric grids visually closed", async ({ page }) => {
+  const traceParam = process.env.BEATER_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+    : "&kind=llm.call&model=gpt-demo&release=compose-demo";
+
+  await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);
+  await expect(page.getByRole("heading", { name: "Agent Trace Debugger" })).toBeVisible();
+
+  const metrics = await page.evaluate(() => {
+    const container = document.createElement("dl");
+    container.className = "metrics";
+    container.style.width = "400px";
+    for (let index = 0; index < 7; index += 1) {
+      const cell = document.createElement("div");
+      const term = document.createElement("dt");
+      const description = document.createElement("dd");
+      term.textContent = `Metric ${index + 1}`;
+      description.textContent = String(index + 1);
+      cell.append(term, description);
+      container.append(cell);
+    }
+    document.body.append(container);
+    const cells = Array.from(container.children) as HTMLElement[];
+    const rects = cells.map((cell) => cell.getBoundingClientRect());
+    const styles = cells.map((cell) => getComputedStyle(cell));
+    const result = {
+      penultimateBorderWidth: styles[5].borderBottomWidth,
+      lastBorderWidth: styles[6].borderBottomWidth,
+      normalWidth: rects[0].width,
+      lastWidth: rects[6].width
+    };
+    container.remove();
+    return result;
+  });
+
+  expect(metrics.penultimateBorderWidth).not.toBe("0px");
+  expect(metrics.lastBorderWidth).toBe("0px");
+  expect(metrics.lastWidth).toBeGreaterThan(metrics.normalWidth * 1.8);
 });
 
 test("supports keyboard focus across filters, traces, spans, and unmask controls", async ({
