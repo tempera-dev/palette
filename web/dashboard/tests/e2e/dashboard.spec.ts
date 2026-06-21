@@ -89,3 +89,33 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   await expect(detail).toContainText("Can this order be refunded after 31 days?");
   await expect(detail).toContainText("Escalate because the order is outside the standard window.");
 });
+
+test("keeps the trace console inside the viewport on desktop and mobile", async ({ page }) => {
+  const traceParam = process.env.BEATER_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+    : "&kind=llm.call&model=gpt-demo&release=compose-demo";
+
+  for (const viewport of [
+    { width: 1440, height: 1000 },
+    { width: 390, height: 900 }
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);
+    await expect(page.getByRole("heading", { name: "Agent Trace Debugger" })).toBeVisible();
+    const overflow = await page.evaluate(() => ({
+      documentWidth: document.documentElement.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+      offenders: Array.from(document.querySelectorAll("*"))
+        .filter((element) => element.getBoundingClientRect().right > window.innerWidth + 1)
+        .map((element) =>
+          typeof element.className === "string" ? element.className : element.tagName
+        )
+        .slice(0, 5)
+    }));
+    expect(overflow).toEqual({
+      documentWidth: overflow.viewportWidth,
+      viewportWidth: overflow.viewportWidth,
+      offenders: []
+    });
+  }
+});

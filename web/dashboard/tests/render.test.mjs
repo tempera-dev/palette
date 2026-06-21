@@ -51,28 +51,40 @@ test("dashboard page exposes the trace inspection surface", () => {
 
 test("dashboard chrome stays dense and tool-like", () => {
   const css = readFileSync(join(root, "app/globals.css"), "utf8");
-  assert.match(css, /--canvas: #f7f8fa/);
-  assert.match(css, /--header: #101418/);
-  assert.match(css, /\.topbar \{\n  align-items: center;\n  background: var\(--header\);/);
-  assert.match(css, /\.workspace \{\n  display: grid;/);
-  assert.match(css, /grid-template-areas:\n    "traces detail"\n    "waterfall detail";/);
+  assert.match(css, /--canvas: #f4f6f8/);
+  assert.match(css, /font-variant-numeric: tabular-nums/);
+  assert.match(css, /\.command-bar \{/);
+  assert.match(css, /\.connection-control/);
+  assert.match(css, /\.workspace \{/);
+  assert.match(css, /grid-template-areas: "traces waterfall detail";/);
+  assert.match(
+    css,
+    /grid-template-columns: minmax\(286px, 360px\) minmax\(520px, 1fr\) minmax\(334px, 410px\);/
+  );
   assert.match(css, /\.summary-strip \{\n  background: var\(--surface\);/);
-  assert.match(css, /\.summary-item \{\n  align-items: center;/);
-  assert.match(css, /grid-template-columns: 30px minmax\(0, 1fr\);/);
-  assert.match(css, /\.summary-icon svg \{/);
+  assert.match(css, /\.summary-item::before/);
+  assert.match(css, /\.query-chip/);
+  assert.match(css, /\.filter-reset/);
   assert.match(css, /\.span-detail \{\n  align-self: start;/);
-  assert.match(css, /grid-template-columns:\n    62px minmax\(180px, 1\.35fr\)/);
-  assert.match(css, /\.run-row::before/);
+  assert.match(css, /\.run-state/);
+  assert.match(css, /\.run-metrics/);
   assert.match(css, /\.run-row\[data-status="error"\]/);
   assert.match(css, /\.run-cell::before/);
-  assert.match(css, /\.waterfall-head,\n\.span-line \{/);
+  assert.match(css, /\.timeline-axis/);
+  assert.match(css, /\.axis-tick/);
+  assert.match(css, /\.waterfall-head,\n\.span-line,\n\.timeline-axis \{/);
   assert.match(css, /\.span-line\[data-kind="llm\.call"\] \{/);
-  assert.match(css, /--kind-color: var\(--teal\);/);
+  assert.match(css, /--kind-color: var\(--accent\);/);
+  assert.match(css, /\.span-line\[data-status="error"\]/);
   assert.match(css, /\.kind-icon svg \{/);
   assert.match(css, /\.detail-kind svg \{/);
+  assert.match(css, /\.detail-tabs/);
   assert.match(css, /\.span-track \{/);
   assert.match(css, /left: var\(--offset\);/);
-  assert.match(css, /var\(--kind-color\),/);
+  assert.match(css, /background: var\(--kind-color\);/);
+  assert.doesNotMatch(css, /--header:/);
+  assert.doesNotMatch(css, /\.summary-icon/);
+  assert.doesNotMatch(css, /font-weight: 7[3-9]0/);
   assert.doesNotMatch(css, /--bg-grid/);
   assert.doesNotMatch(css, /linear-gradient\(var\(--bg-grid\)/);
   assert.doesNotMatch(css, /\.workspace,\n\.notice \{\n  background/);

@@ -5,15 +5,10 @@ import {
   BadgePercent,
   Bot,
   BrainCircuit,
-  Clock3,
   CircleDot,
   ClipboardList,
-  Cpu,
   Database,
   DatabaseZap,
-  DollarSign,
-  GitBranch,
-  Layers3,
   ListChecks,
   MessageSquareText,
   Network,
@@ -69,76 +64,112 @@ export default async function DashboardPage({
   const spans = data.trace?.spans ?? [];
   const activeRun =
     data.runs.items.find((run) => run.trace_id === data.trace?.trace_id) ?? data.runs.items[0];
+  const failedSpanCount = spans.filter((span) => span.status === "error").length;
+  const tokenTotal = spans.reduce((total, span) => total + spanTokenTotal(span), 0);
+  const activeFilters = filterChips(data.query);
 
   return (
     <main className="shell">
-      <header className="topbar">
-        <div className="brand-lockup">
+      <header className="command-bar">
+        <div className="product-lockup">
           <div className="brand-mark" aria-hidden="true">
             B
           </div>
-          <div className="brand-block">
+          <div className="product-copy">
             <p className="eyebrow">
               Beater
-              <span>{data.query.environmentId ?? "environment"}</span>
+              <span>Trace console</span>
             </p>
             <h1>Agent Trace Debugger</h1>
-            <p className="scope-line">
-              {data.query.tenantId}
+            <p className="scope-breadcrumb" aria-label="Current scope">
+              <span>{data.query.tenantId}</span>
               <span>/</span>
-              {data.query.projectId ?? "all-projects"}
+              <span>{data.query.projectId ?? "all-projects"}</span>
               <span>/</span>
-              {data.query.traceId ?? "latest trace"}
+              <span>{data.query.environmentId ?? "environment"}</span>
+              <span>/</span>
+              <span>{data.query.traceId ?? "latest trace"}</span>
             </p>
           </div>
         </div>
-        <div className="api-pill">
-          <span className="live-dot" aria-hidden="true" />
-          <span>Read API</span>
-          <code>{data.apiBaseUrl}</code>
+        <div className="command-actions">
+          <div className="connection-control">
+            <Activity aria-hidden="true" />
+            <span className="live-dot" aria-hidden="true" />
+            <span>Read API</span>
+            <code>{data.apiBaseUrl}</code>
+          </div>
+          <Link
+            className="refresh-action"
+            href={hrefFor(data.query, {
+              trace: data.query.traceId,
+              span: data.query.selectedSpanId
+            })}
+          >
+            <RotateCcw aria-hidden="true" />
+            <span>Refresh</span>
+          </Link>
         </div>
       </header>
 
       <section className="summary-strip" aria-label="Trace summary">
         <SummaryItem
-          label="Status"
+          label="Run status"
           value={activeRun ? statusLabel(activeRun.status) : "No trace"}
+          meta={data.query.environmentId ?? "environment"}
           tone={activeRun?.status ?? "unset"}
-          Icon={Activity}
         />
         <SummaryItem
           label="Spans"
           value={activeRun ? String(activeRun.span_count) : "0"}
+          meta={`${failedSpanCount} failed`}
           tone="structure"
-          Icon={Layers3}
         />
         <SummaryItem
           label="Model"
           value={activeRun ? formatModels(activeRun.models) : "none"}
+          meta={activeRun ? formatReleases(activeRun.release_ids) : "no release"}
           tone="model"
-          Icon={Cpu}
         />
         <SummaryItem
           label="Cost"
           value={activeRun ? formatCost(activeRun.total_cost) : "none"}
+          meta="run total"
           tone="cost"
-          Icon={DollarSign}
         />
         <SummaryItem
           label="Latency"
           value={activeRun ? formatLatency(activeRun.duration_ms) : "open"}
+          meta="wall clock"
           tone="latency"
-          Icon={Clock3}
         />
         <SummaryItem
-          label="Release"
-          value={activeRun ? formatReleases(activeRun.release_ids) : "no release"}
+          label="Tokens"
+          value={tokenTotal > 0 ? tokenTotal.toLocaleString("en-US") : "none"}
+          meta="input + output"
           tone="release"
-          Icon={GitBranch}
         />
       </section>
 
       <section className="toolbar" aria-label="Trace filters">
+        <div className="query-row">
+          <div className="query-heading">
+            <SearchIcon aria-hidden="true" />
+            <span>Query</span>
+          </div>
+          <div className="query-chips" aria-label="Active filters">
+            {activeFilters.length > 0 ? (
+              activeFilters.map((chip) => (
+                <span className="query-chip" key={`${chip.label}:${chip.value}`}>
+                  {chip.label}
+                  <strong>{chip.value}</strong>
+                </span>
+              ))
+            ) : (
+              <span className="query-chip muted">No secondary filters</span>
+            )}
+          </div>
+        </div>
         <form className="filters">
           <div className="filter-primary">
             <label>
@@ -190,6 +221,9 @@ export default async function DashboardPage({
               <SearchIcon aria-hidden="true" />
               <span>Apply</span>
             </button>
+            <Link className="filter-reset" href={scopeHref(data.query)}>
+              Reset
+            </Link>
           </div>
           <details className="advanced-filters" open={advancedFiltersActive(data.query)}>
             <summary>
@@ -276,13 +310,8 @@ export default async function DashboardPage({
           </div>
           <div className="run-table">
             <div className="run-table-head" aria-hidden="true">
-              <span>Status</span>
               <span>Trace</span>
-              <span>Spans</span>
-              <span>Model</span>
-              <span>Cost</span>
-              <span>Latency</span>
-              <span>Release</span>
+              <span>Signals</span>
             </div>
             {data.runs.items.map((run) => (
               <Link
@@ -291,25 +320,37 @@ export default async function DashboardPage({
                 data-status={run.status}
                 href={hrefFor(data.query, { trace: run.trace_id, span: undefined })}
               >
-                <span className={`status ${run.status}`}>{statusLabel(run.status)}</span>
-                <span className="run-name">
-                  <strong>{run.first_span_name}</strong>
-                  <small>{run.trace_id}</small>
-                </span>
-                <span className="run-cell metric-emphasis" data-label="Spans">
-                  {run.span_count}
-                </span>
-                <span className="run-cell" data-label="Model">
-                  {formatModels(run.models)}
-                </span>
-                <span className="run-cell" data-label="Cost">
-                  {formatCost(run.total_cost)}
-                </span>
-                <span className="run-cell" data-label="Latency">
-                  {formatLatency(run.duration_ms)}
-                </span>
-                <span className="run-cell" data-label="Release">
-                  {formatReleases(run.release_ids)}
+                <span className={`run-state ${run.status}`} aria-hidden="true" />
+                <span className="run-body">
+                  <span className="run-title-line">
+                    <span className="run-name">
+                      <strong>{run.first_span_name}</strong>
+                      <small>{run.trace_id}</small>
+                    </span>
+                    <span className={`status ${run.status}`}>{statusLabel(run.status)}</span>
+                  </span>
+                  <span className="run-metrics">
+                    <span className="run-cell metric-emphasis" data-label="Spans">
+                      <span className="sr-only">Spans </span>
+                      {run.span_count}
+                    </span>
+                    <span className="run-cell" data-label="Latency">
+                      <span className="sr-only">Latency </span>
+                      {formatLatency(run.duration_ms)}
+                    </span>
+                    <span className="run-cell" data-label="Cost">
+                      <span className="sr-only">Cost </span>
+                      {formatCost(run.total_cost)}
+                    </span>
+                    <span className="run-cell" data-label="Model">
+                      <span className="sr-only">Model </span>
+                      {formatModels(run.models)}
+                    </span>
+                    <span className="run-cell" data-label="Release">
+                      <span className="sr-only">Release </span>
+                      {formatReleases(run.release_ids)}
+                    </span>
+                  </span>
                 </span>
               </Link>
             ))}
@@ -325,6 +366,7 @@ export default async function DashboardPage({
             <span>{spans.length} spans</span>
           </div>
           <div className="waterfall" aria-label="Agent span waterfall">
+            {spans.length > 0 ? <TimelineAxis spans={spans} /> : null}
             {spans.length > 0 ? (
               <div className="waterfall-head" aria-hidden="true">
                 <span>Span</span>
@@ -347,6 +389,7 @@ export default async function DashboardPage({
                   }
                   data-depth={depth}
                   data-kind={span.kind}
+                  data-status={span.status}
                   data-span-name={span.name}
                   style={
                     {
@@ -406,22 +449,20 @@ export default async function DashboardPage({
 function SummaryItem({
   label,
   value,
-  tone,
-  Icon
+  meta,
+  tone
 }: {
   label: string;
   value: string;
+  meta: string;
   tone: string;
-  Icon: LucideIcon;
 }) {
   return (
     <div className={`summary-item tone-${tone}`}>
-      <span className="summary-icon" aria-hidden="true">
-        <Icon />
-      </span>
       <span className="summary-copy">
         <span>{label}</span>
         <strong>{value}</strong>
+        <small>{meta}</small>
       </span>
     </div>
   );
@@ -471,6 +512,11 @@ function SpanDetail({
         </div>
         <span className={`status ${span.status}`}>{statusLabel(span.status)}</span>
       </div>
+      <div className="detail-tabs" aria-label="Detail sections">
+        <span className="active">Overview</span>
+        <span>I/O</span>
+        <span>Attrs</span>
+      </div>
       <dl className="metrics">
         <div>
           <dt>Status</dt>
@@ -491,6 +537,14 @@ function SpanDetail({
         <div>
           <dt>Latency</dt>
           <dd>{formatDuration(span.start_time, span.end_time)}</dd>
+        </div>
+        <div>
+          <dt>Parent</dt>
+          <dd>{span.parent_span_id ?? "root"}</dd>
+        </div>
+        <div>
+          <dt>Started</dt>
+          <dd>{formatTimestamp(span.start_time)}</dd>
         </div>
       </dl>
       <RedactionControls span={span} query={query} hasRedactedIo={hasRedactedIo} />
@@ -616,6 +670,48 @@ function numberInput(input: number | undefined): string | undefined {
   return input === undefined ? undefined : String(input);
 }
 
+function spanTokenTotal(span: CanonicalSpan): number {
+  if (!span.tokens) return 0;
+  return span.tokens.input + span.tokens.output + span.tokens.reasoning;
+}
+
+function formatTimestamp(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toISOString().replace("T", " ").replace(/\.\d{3}Z$/, "Z");
+}
+
+function filterChips(query: DashboardQuery): { label: string; value: string }[] {
+  const chips: { label: string; value: string }[] = [];
+  if (query.status) chips.push({ label: "Status", value: query.status });
+  if (query.kind) chips.push({ label: "Kind", value: query.kind });
+  if (query.model) chips.push({ label: "Model", value: query.model });
+  if (query.release) chips.push({ label: "Release", value: query.release });
+  if (query.startedAfter) chips.push({ label: "After", value: query.startedAfter });
+  if (query.startedBefore) chips.push({ label: "Before", value: query.startedBefore });
+  if (query.minCostMicros !== undefined) {
+    chips.push({ label: "Min cost", value: String(query.minCostMicros) });
+  }
+  if (query.maxCostMicros !== undefined) {
+    chips.push({ label: "Max cost", value: String(query.maxCostMicros) });
+  }
+  if (query.minLatencyMs !== undefined) {
+    chips.push({ label: "Min latency", value: `${query.minLatencyMs} ms` });
+  }
+  if (query.maxLatencyMs !== undefined) {
+    chips.push({ label: "Max latency", value: `${query.maxLatencyMs} ms` });
+  }
+  return chips;
+}
+
+function scopeHref(query: DashboardQuery): string {
+  const params = new URLSearchParams();
+  params.set("tenant", query.tenantId);
+  if (query.projectId) params.set("project", query.projectId);
+  if (query.environmentId) params.set("environment", query.environmentId);
+  return `/?${params.toString()}`;
+}
+
 function hrefFor(
   query: DashboardQuery,
   next: { trace?: string; span?: string | undefined; unmask?: boolean | undefined }
@@ -672,6 +768,60 @@ function spanTimeline(
   const available = Math.max(4, 100 - offset);
   const width = Math.min(available, Math.max(4, (duration / traceDuration) * 100));
   return { offset: `${offset.toFixed(1)}%`, width: `${width.toFixed(1)}%` };
+}
+
+function TimelineAxis({ spans }: { spans: CanonicalSpan[] }) {
+  const axis = traceAxis(spans);
+  if (!axis) return null;
+  return (
+    <div className="timeline-axis" aria-label="Trace timeline scale">
+      <span className="axis-label">Timeline</span>
+      <span className="axis-rail">
+        {axis.ticks.map((tick, index) => (
+          <span
+            className="axis-tick"
+            key={`${tick.label}-${index}`}
+            style={{ "--tick": tick.offset } as React.CSSProperties}
+          >
+            <i aria-hidden="true" />
+            <b>{tick.label}</b>
+          </span>
+        ))}
+      </span>
+    </div>
+  );
+}
+
+function traceAxis(
+  spans: CanonicalSpan[]
+): { ticks: { offset: string; label: string }[] } | null {
+  const bounds = spans
+    .map((span) => {
+      const start = Date.parse(span.start_time);
+      const end = span.end_time ? Date.parse(span.end_time) : start;
+      if (!Number.isFinite(start) || !Number.isFinite(end)) return null;
+      return { start, end: Math.max(start, end) };
+    })
+    .filter((span): span is { start: number; end: number } => span !== null);
+  if (bounds.length === 0) return null;
+  const start = Math.min(...bounds.map((span) => span.start));
+  const end = Math.max(...bounds.map((span) => span.end));
+  const duration = Math.max(1, end - start);
+  const tickCount = duration < 10 ? 2 : 4;
+  const ticks = Array.from({ length: tickCount + 1 }, (_, index) => {
+    const ratio = index / tickCount;
+    return {
+      offset: `${(ratio * 100).toFixed(1)}%`,
+      label: formatAxisDuration(duration * ratio)
+    };
+  });
+  return { ticks };
+}
+
+function formatAxisDuration(ms: number): string {
+  if (ms > 0 && ms < 10) return `${ms.toFixed(1)} ms`;
+  if (ms < 1000) return `${Math.round(ms)} ms`;
+  return `${(ms / 1000).toFixed(1)} s`;
 }
 
 function kindClass(kind: string): string {
