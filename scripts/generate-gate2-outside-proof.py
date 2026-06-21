@@ -31,12 +31,12 @@ def clean_value(value):
     return value.strip().strip("`").strip()
 
 
-def require_meaningful_arg(name, value):
+def require_meaningful_arg(name, value, *, allow_none=False):
     cleaned = clean_value(value)
     if (
         not cleaned
         or cleaned.lower() in UNRESOLVED_REQUIRED_VALUES
-        or cleaned.lower() == "none"
+        or (cleaned.lower() == "none" and not allow_none)
         or EMBEDDED_PLACEHOLDER.search(cleaned)
     ):
         raise SystemExit(f"{name} must be provided with a concrete value")
@@ -70,6 +70,16 @@ def field_value(source_text, name, source_name):
     return value
 
 
+def timestamp_date(source_text, name, source_name):
+    value = field_value(source_text, name, source_name)
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value):
+        raise SystemExit(f"{name} in {source_name} must be UTC ISO-8601")
+    try:
+        return dt.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ").date().isoformat()
+    except ValueError:
+        raise SystemExit(f"{name} in {source_name} must be a valid UTC timestamp") from None
+
+
 def repo_root():
     return Path(__file__).resolve().parent.parent
 
@@ -88,11 +98,13 @@ def compose_images_excerpt(stopwatch_text, stopwatch_path):
     lines = [line.strip() for line in match.group(1).splitlines() if line.strip()]
     if not lines:
         return f"see {relative_or_absolute(stopwatch_path)}"
-    long_running_repos = {
+    gate2_repos = {
         "ghcr.io/jadenfix/beater/beaterd",
         "ghcr.io/jadenfix/beater/dashboard",
+        "ghcr.io/jadenfix/beater/dashboard-e2e",
+        "ghcr.io/jadenfix/beater/otel-python",
     }
-    services = [line for line in lines if long_running_repos.intersection(line.split())]
+    services = [line for line in lines if gate2_repos.intersection(line.split())]
     if services:
         return " | ".join(services)
     return " | ".join(lines[:3])
@@ -141,13 +153,20 @@ def build_proof(args, stopwatch_path, stopwatch_text):
     )
     runner_name = require_meaningful_arg("--runner-name", args.runner_name)
     relationship = require_meaningful_arg("--relationship", args.relationship)
-    prior_exposure = require_meaningful_arg("--prior-exposure", args.prior_exposure)
+    prior_exposure = require_meaningful_arg(
+        "--prior-exposure", args.prior_exposure, allow_none=True
+    )
     machine_os = require_meaningful_arg("--machine-os", args.machine_os)
     browser = require_meaningful_arg("--browser", args.browser)
     preflight_status = require_meaningful_arg(
         "--preflight-status", args.preflight_status
     )
-    proof_date = require_date_arg("--date", args.date)
+    run_date = timestamp_date(stopwatch_text, "Clone started at", stopwatch_rel)
+    proof_date = require_date_arg("--date", args.date) if args.date else run_date
+    if proof_date != run_date:
+        raise SystemExit(
+            f"--date must match Clone started at UTC date {run_date}, got {proof_date}"
+        )
 
     return f"""# Gate 2 Outside-Person Proof
 
@@ -284,7 +303,11 @@ def parse_args():
     parser.add_argument("--compose-logs-saved", default="")
     parser.add_argument("--failure-notes", default="")
     parser.add_argument("--runner-notes", default="")
-    parser.add_argument("--date", default=dt.date.today().isoformat())
+    parser.add_argument(
+        "--date",
+        default=None,
+        help="Proof date. Defaults to the UTC date from stopwatch Clone started at.",
+    )
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--no-validate", action="store_true")
     args = parser.parse_args()

@@ -334,6 +334,8 @@ mismatched commit SHA,
 mismatched API/dashboard endpoints, non-main or stale commit evidence,
 mismatched SHA-pinned image references, mismatched image digests,
 wrong or missing stock quickstart snippet markers,
+proof dates that do not match the timed clone start,
+compose image excerpts missing runner images,
 non-repo-relative `docs/demos/` artifacts, and non-prebuilt GHCR image digests.
 It rejects recording notes from a different dashboard session. It rejects
 uncommitted non-evidence worktree changes at closure. It rejects any screen

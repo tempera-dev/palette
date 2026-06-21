@@ -96,7 +96,9 @@ After the stopwatch command finishes, prefer generating completed evidence from
 the stopwatch proof instead of manually copying fields. Replace every identity
 and environment example below with the runner's actual values. Do not leave
 placeholder values such as `...`; the generator and validator reject unresolved
-evidence.
+evidence. `--prior-exposure "none"` is valid when the runner has never seen the
+repository before, and the proof date defaults to the UTC date captured in the
+stopwatch proof's `Clone started at` field.
 
 ```bash
 scripts/generate-gate2-outside-proof.py \
@@ -153,7 +155,7 @@ The validator reads the listed stopwatch proof file, screen-recording notes, and
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, SHA-pinned prebuilt GHCR image
 references, prebuilt GHCR image digests, stock quickstart snippet markers, and
-the tested public GitHub origin,
+the tested public GitHub origin, Date-to-clone-start consistency,
 `main` branch, clean-worktree state, and commit SHA. If the proof commit is newer
 than the tested SHA, every later committed change must be under `docs/demos/`;
 uncommitted non-evidence worktree changes are rejected at closure. It verifies

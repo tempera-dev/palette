@@ -227,14 +227,8 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     )));
     assert!(generated_text.contains("ghcr.io/jadenfix/beater/beaterd"));
     assert!(generated_text.contains("ghcr.io/jadenfix/beater/dashboard"));
-    assert!(
-        !generated_text.contains("beater-stopwatch-dashboard-e2e-run-1"),
-        "generated outside proof should keep the compose excerpt to long-running service rows"
-    );
-    assert!(
-        !generated_text.contains("beater-stopwatch-otel-python-quickstart-run-1"),
-        "generated outside proof should keep one-shot tool containers out of the compose excerpt"
-    );
+    assert!(generated_text.contains("beater-stopwatch-dashboard-e2e-run-1"));
+    assert!(generated_text.contains("beater-stopwatch-otel-python-quickstart-run-1"));
     assert!(generated_text.contains(
         "- [x] The runner completed the flow using only public repository instructions."
     ));
@@ -345,6 +339,44 @@ fn gate2_outside_generator_rejects_invalid_date() {
         !generated.exists(),
         "generator must not write completed proof with a non-ISO date"
     );
+}
+
+#[test]
+fn gate2_outside_generator_rejects_date_not_matching_clone_start() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture
+        .dir
+        .path()
+        .join("mismatched-date-generated-proof.md");
+
+    let output = run_generator_with_date(&fixture.stopwatch_path, &generated, "2026-06-21");
+
+    assert_failure(
+        output,
+        "--date must match Clone started at UTC date 2026-06-20",
+    );
+    assert!(
+        !generated.exists(),
+        "generator must not write completed proof with a mismatched run date"
+    );
+}
+
+#[test]
+fn gate2_outside_generator_accepts_prior_exposure_none_and_defaults_run_date() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture.dir.path().join("prior-none-generated-proof.md");
+
+    let output = run_generator_with_prior_exposure(&fixture.stopwatch_path, &generated, "none");
+
+    assert_success(output, "Wrote Gate 2 outside-person proof");
+    assert_success(
+        run_validator(&generated),
+        "Gate 2 outside-person proof is complete and valid",
+    );
+    let generated_text = fs::read_to_string(&generated)
+        .unwrap_or_else(|err| panic!("read {}: {err}", generated.display()));
+    assert!(generated_text.contains("- Prior Beater repo exposure: none"));
+    assert!(generated_text.contains("- Date: 2026-06-20"));
 }
 
 #[test]
@@ -1499,20 +1531,60 @@ fn gate2_outside_validator_rejects_placeholder_compose_images_excerpt() {
 }
 
 #[test]
-fn gate2_outside_validator_accepts_compose_images_excerpt_from_long_running_services() {
+fn gate2_outside_validator_accepts_compose_images_excerpt_from_all_gate2_services() {
     let fixture = ValidatorFixture::new();
     let commit_sha = current_head();
     replace(
         &fixture.proof_path,
         &compose_images_excerpt_line(),
         &format!(
-            "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha}\n"
+            "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha} | beater-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/beater/dashboard-e2e {commit_sha} | beater-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/beater/otel-python {commit_sha}\n"
         ),
     );
 
     let output = run_validator(&fixture.proof_path);
 
     assert_success(output, "Gate 2 outside-person proof is complete and valid");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_compose_images_missing_dashboard_e2e() {
+    let fixture = ValidatorFixture::new();
+    let commit_sha = current_head();
+    replace(
+        &fixture.proof_path,
+        &compose_images_excerpt_line(),
+        &format!(
+            "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha} | beater-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/beater/otel-python {commit_sha}\n"
+        ),
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "`docker compose images` excerpt must include ghcr.io/jadenfix/beater/dashboard-e2e tagged with the checked-out commit SHA",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_compose_images_missing_otel_python() {
+    let fixture = ValidatorFixture::new();
+    let commit_sha = current_head();
+    replace(
+        &fixture.proof_path,
+        &compose_images_excerpt_line(),
+        &format!(
+            "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha} | beater-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/beater/dashboard-e2e {commit_sha}\n"
+        ),
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "`docker compose images` excerpt must include ghcr.io/jadenfix/beater/otel-python tagged with the checked-out commit SHA",
+    );
 }
 
 #[test]
@@ -1692,6 +1764,23 @@ fn gate2_outside_validator_rejects_invalid_runner_date() {
     assert_failure(
         output,
         "Date in outside-person proof must be a valid date like 2026-06-20",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_runner_date_not_matching_clone_start() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Date: 2026-06-20",
+        "- Date: 2026-06-21",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Date in outside-person proof must match Clone started at UTC date 2026-06-20",
     );
 }
 
@@ -1896,6 +1985,20 @@ fn gate2_outside_validator_rejects_missing_prior_exposure() {
         output,
         "unresolved required fields: Prior Beater repo exposure",
     );
+}
+
+#[test]
+fn gate2_outside_validator_accepts_prior_exposure_none() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Prior Beater repo exposure: no prior exposure",
+        "- Prior Beater repo exposure: none",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_success(output, "Gate 2 outside-person proof is complete and valid");
 }
 
 #[test]
@@ -2579,7 +2682,7 @@ The runner completed the flow using only public repository instructions.
 fn compose_images_excerpt_line() -> String {
     let commit_sha = current_head();
     format!(
-        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha}\n"
+        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha} | beater-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/beater/dashboard-e2e {commit_sha} | beater-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/beater/otel-python {commit_sha}\n"
     )
 }
 
@@ -2807,6 +2910,34 @@ fn run_generator_with_runner_name(
     )
 }
 
+fn run_generator_with_prior_exposure(
+    stopwatch_path: &Path,
+    output_path: &Path,
+    prior_exposure: &str,
+) -> Output {
+    let ffprobe =
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+    let mut command = generator_command_with_prior_exposure(
+        stopwatch_path,
+        output_path,
+        "Validator Fixture Runner",
+        "Chromium",
+        prior_exposure,
+    );
+    command
+        .arg("--attest-outside-run")
+        .arg("--network-notes")
+        .arg("public docs only")
+        .arg("--llm-observation")
+        .arg(LLM_OBSERVATION)
+        .arg("--waterfall-observation")
+        .arg(WATERFALL_OBSERVATION)
+        .env("PATH", path_with_tempdir(&ffprobe));
+    command.output().unwrap_or_else(|err| {
+        panic!("run Gate 2 outside proof generator with prior exposure: {err}")
+    })
+}
+
 fn run_generator_with_date(stopwatch_path: &Path, output_path: &Path, date: &str) -> Output {
     let ffprobe =
         fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
@@ -2887,6 +3018,22 @@ fn generator_command(
     runner_name: &str,
     browser: &str,
 ) -> Command {
+    generator_command_with_prior_exposure(
+        stopwatch_path,
+        output_path,
+        runner_name,
+        browser,
+        "no prior exposure",
+    )
+}
+
+fn generator_command_with_prior_exposure(
+    stopwatch_path: &Path,
+    output_path: &Path,
+    runner_name: &str,
+    browser: &str,
+    prior_exposure: &str,
+) -> Command {
     let root = repo_root();
     let mut command = Command::new("python3");
     command
@@ -2900,15 +3047,13 @@ fn generator_command(
         .arg("--relationship")
         .arg("external validation fixture")
         .arg("--prior-exposure")
-        .arg("no prior exposure")
+        .arg(prior_exposure)
         .arg("--machine-os")
         .arg("macOS arm64")
         .arg("--browser")
         .arg(browser)
         .arg("--preflight-status")
         .arg("passed")
-        .arg("--date")
-        .arg("2026-06-20")
         .arg("--compose-logs-saved")
         .arg("temp fixture")
         .arg("--failure-notes")

@@ -306,7 +306,7 @@ def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
 
 def require_compose_images_excerpt(value: str, commit_sha: str) -> None:
     segments = [segment.strip() for segment in re.split(r"[|\n]", value) if segment.strip()]
-    for image in ["beaterd", "dashboard"]:
+    for image in ["beaterd", "dashboard", "dashboard-e2e", "otel-python"]:
         repo = f"ghcr.io/jadenfix/beater/{image}"
         if not any(repo in segment and commit_sha in segment for segment in segments):
             fail(f"`docker compose images` excerpt must include {repo} tagged with the checked-out commit SHA")
@@ -854,14 +854,15 @@ def contains_placeholder_fragment(value: str) -> bool:
     return bool(EMBEDDED_PLACEHOLDER.search(value))
 
 
-def require_date_field(name: str, value: str, source_name: str) -> None:
+def require_date_field(name: str, value: str, source_name: str) -> Optional[dt.date]:
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
         fail(f"{name} in {source_name} must be a valid date like 2026-06-20")
-        return
+        return None
     try:
-        dt.date.fromisoformat(value)
+        return dt.date.fromisoformat(value)
     except ValueError:
         fail(f"{name} in {source_name} must be a valid date like 2026-06-20")
+        return None
 
 
 def contradiction_text(value: str) -> str:
@@ -891,12 +892,16 @@ for field in REQUIRED_PROOF_FIELDS:
         or contains_placeholder_fragment(value)
     ):
         unresolved_fields.append(field)
-    if field in CONCRETE_REQUIRED_FIELDS and normalized_value == "none":
+    if (
+        field in CONCRETE_REQUIRED_FIELDS
+        and normalized_value == "none"
+        and field != "Prior Beater repo exposure"
+    ):
         unresolved_fields.append(field)
 if unresolved_fields:
     fail("unresolved required fields: " + ", ".join(dict.fromkeys(unresolved_fields)))
 
-require_date_field("Date", field_value("Date"), "outside-person proof")
+proof_date = require_date_field("Date", field_value("Date"), "outside-person proof")
 
 outside_run_attestation = field_value("Outside-run attestation")
 if outside_run_attestation != OUTSIDE_RUN_ATTESTATION:
@@ -946,6 +951,18 @@ if timing_start_source != "external-clone":
 clone_started_at = field_value("Clone started at")
 if clone_started_at == "not provided":
     fail("Clone started at must be captured before git clone")
+clone_started_timestamp = timestamp_value(
+    text, "Clone started at", "outside-person proof"
+)
+if (
+    proof_date is not None
+    and clone_started_timestamp is not None
+    and proof_date != clone_started_timestamp.date()
+):
+    fail(
+        "Date in outside-person proof must match Clone started at UTC date "
+        f"{clone_started_timestamp.date().isoformat()}"
+    )
 require_timeline(
     text,
     "outside-person proof",
