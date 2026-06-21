@@ -130,6 +130,9 @@ enum JudgeProviderArg {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
+    if args.test_http_trace_store_url.is_some() && !cfg!(debug_assertions) {
+        anyhow::bail!("--test-http-trace-store-url is only supported in debug/test builds");
+    }
     let trace_db_path = args.data_dir.join("traces.sqlite");
     let quota_path = args
         .quota_db_path
@@ -473,7 +476,11 @@ struct HttpTraceStore {
 impl HttpTraceStore {
     fn new(base_url: String) -> Self {
         Self {
-            client: reqwest::Client::new(),
+            client: reqwest::Client::builder()
+                .connect_timeout(Duration::from_secs(1))
+                .timeout(Duration::from_secs(3))
+                .build()
+                .unwrap_or_else(|err| panic!("http trace store test client must build: {err}")),
             base_url: base_url.trim_end_matches('/').to_string(),
         }
     }

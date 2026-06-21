@@ -71,6 +71,34 @@ def port_is_free(port: int) -> bool:
         return True
 
 
+def port_owner_hint(port: int) -> str:
+    if shutil.which("lsof"):
+        command = ["lsof", "-nP", f"-iTCP:{port}", "-sTCP:LISTEN"]
+    elif shutil.which("ss"):
+        command = ["ss", "-ltnp", f"sport = :{port}"]
+    else:
+        return f"    install lsof or ss to identify the process holding TCP {port}"
+
+    result = subprocess.run(
+        command,
+        cwd=repo_root(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    output = result.stdout.strip()
+    if not output:
+        return f"    no listener details available for TCP {port}"
+    return "\n".join(f"    {line}" for line in output.splitlines())
+
+
+def occupied_port_message(port: int, label: str, env_name: str) -> str:
+    return (
+        f"{port} ({label}; free it rather than setting {env_name})\n"
+        f"{port_owner_hint(port)}"
+    )
+
+
 def require_full_run_source(args: argparse.Namespace) -> None:
     if not args.full_run:
         return
@@ -128,7 +156,7 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
     cleanup_local_stopwatch_compose()
 
     occupied = [
-        f"{port} ({label}; free it rather than setting {env_name})"
+        occupied_port_message(port, label, env_name)
         for port, label, env_name in FULL_RUN_PORTS
         if not port_is_free(port)
     ]

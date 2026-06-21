@@ -831,6 +831,10 @@ async fn queue_status(http_url: &str) -> anyhow::Result<serde_json::Value> {
 
 async fn assert_only_dead_letter(http_url: &str, message_id: &str) -> anyhow::Result<()> {
     let status = queue_status(http_url).await?;
+    let total_depth = status
+        .get("total_depth")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
     let trace_write_depth = status
         .get("trace_write_depth")
         .and_then(serde_json::Value::as_u64)
@@ -844,6 +848,7 @@ async fn assert_only_dead_letter(http_url: &str, message_id: &str) -> anyhow::Re
         .and_then(serde_json::Value::as_array)
         .cloned()
         .unwrap_or_default();
+    assert_eq!(total_depth, 0, "unexpected live queue depth");
     assert_eq!(trace_write_depth, 0, "unexpected trace.write queue depth");
     assert_eq!(
         trace_ingested_depth, 0,
@@ -901,13 +906,32 @@ async fn wait_for_dead_letter(
 }
 
 async fn replay_dead_letter(http_url: &str, message_id: &str) -> anyhow::Result<()> {
-    reqwest::Client::new()
+    let report = reqwest::Client::new()
         .post(format!(
             "{http_url}/v1/ingest/demo/demo/dead-letters/{message_id}/replay"
         ))
         .send()
         .await?
-        .error_for_status()?;
+        .error_for_status()?
+        .json::<serde_json::Value>()
+        .await?;
+    assert_eq!(
+        report.get("message_id").and_then(serde_json::Value::as_str),
+        Some(message_id)
+    );
+    assert_eq!(
+        report
+            .get("reset_attempts")
+            .and_then(serde_json::Value::as_bool),
+        Some(true)
+    );
+    assert_eq!(
+        report
+            .get("ack")
+            .and_then(|ack| ack.get("accepted"))
+            .and_then(serde_json::Value::as_bool),
+        Some(true)
+    );
     Ok(())
 }
 

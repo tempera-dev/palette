@@ -243,37 +243,7 @@ def forbid_alternate_evidence(source_text: str, source_name: str) -> None:
             fail(f"{source_name} must not use alternate/warm-loop evidence: {forbidden}")
 
 
-status_match = re.search(r"^Status:\s*(.+)$", text, re.MULTILINE)
-status = status_match.group(1).strip() if status_match else ""
-if not status:
-    fail("missing Status line")
-elif status == "not yet completed." and allow_pending:
-    pass
-elif status != "completed.":
-    fail("Status must be 'completed.' for Gate 2 closure")
-
-for snippet, description in [
-    ("scripts/gate2-outside-run.sh", "canonical outside-run command"),
-    ("BEATER_GATE2_CLONE_STARTED_EPOCH", "clone-to-browser stopwatch command"),
-    ("http://127.0.0.1:3000", "default dashboard URL"),
-    ("Time-to-first-trace was 300 seconds or less", "first-trace checklist item"),
-    ("Time-to-first-trace includes clone time", "clone-inclusive timing checklist item"),
-    ("Time-to-quickstart-click was 300 seconds or less", "browser-click checklist item"),
-    ("using only public repository instructions", "unaided-run requirement"),
-]:
-    require_snippet(snippet, description)
-
-if allow_pending and status == "not yet completed.":
-    if errors:
-        print("Gate 2 outside-person proof template is invalid:", file=sys.stderr)
-        for error in errors:
-            print(f"- {error}", file=sys.stderr)
-        raise SystemExit(1)
-    print(f"Gate 2 outside-person proof is pending but structurally valid: {proof_path}")
-    raise SystemExit(0)
-
-unresolved_fields = []
-for field in [
+REQUIRED_PROOF_FIELDS = [
     "Name",
     "Organization or relationship to project",
     "Prior Beater repo exposure",
@@ -316,11 +286,53 @@ for field in [
     "Screen recording notes",
     "Screen recording SHA256",
     "Terminal output excerpt",
+    "`docker compose images` excerpt",
     "Quickstart trace ID",
     "Quickstart dashboard URL",
     "All-kind nested trace ID",
     "All-kind dashboard URL",
+    "`docker compose` logs saved",
+    "Failure notes, if any",
+]
+
+
+def require_pending_template_fields() -> None:
+    for field in REQUIRED_PROOF_FIELDS:
+        field_value_from(text, field, "pending outside-person proof template")
+
+
+status_match = re.search(r"^Status:\s*(.+)$", text, re.MULTILINE)
+status = status_match.group(1).strip() if status_match else ""
+if not status:
+    fail("missing Status line")
+elif status == "not yet completed." and allow_pending:
+    pass
+elif status != "completed.":
+    fail("Status must be 'completed.' for Gate 2 closure")
+
+for snippet, description in [
+    ("scripts/gate2-outside-run.sh", "canonical outside-run command"),
+    ("BEATER_GATE2_CLONE_STARTED_EPOCH", "clone-to-browser stopwatch command"),
+    ("http://127.0.0.1:3000", "default dashboard URL"),
+    ("Time-to-first-trace was 300 seconds or less", "first-trace checklist item"),
+    ("Time-to-first-trace includes clone time", "clone-inclusive timing checklist item"),
+    ("Time-to-quickstart-click was 300 seconds or less", "browser-click checklist item"),
+    ("using only public repository instructions", "unaided-run requirement"),
 ]:
+    require_snippet(snippet, description)
+
+if allow_pending and status == "not yet completed.":
+    require_pending_template_fields()
+    if errors:
+        print("Gate 2 outside-person proof template is invalid:", file=sys.stderr)
+        for error in errors:
+            print(f"- {error}", file=sys.stderr)
+        raise SystemExit(1)
+    print(f"Gate 2 outside-person proof is pending but structurally valid: {proof_path}")
+    raise SystemExit(0)
+
+unresolved_fields = []
+for field in REQUIRED_PROOF_FIELDS:
     value = field_value(field)
     if not value or value.endswith(":") or "none / describe" in value:
         unresolved_fields.append(field)

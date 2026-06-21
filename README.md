@@ -30,14 +30,16 @@ third-party service images for deterministic pulls.
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -lc 't="$(date +%s)"; git clone https://github.com/jadenfix/beater.git; cd beater; BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -lc 't="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
-When the script finishes, open the printed dashboard URL or
-`http://127.0.0.1:3000`, click the quickstart trace, then click the
+Run it from a directory that does not already contain `beater/`; reruns should
+start from a new or empty parent directory. When the script finishes, open the
+printed quickstart dashboard URL, click the quickstart trace, then click the
 `llm.call` span. You should see the prompt, completion, model, tokens, cost, and
-latency, plus the nested agent waterfall. Gate 2 is not closed until someone
-outside the project completes this unaided in 5 minutes or less and fills
+latency. Then open the printed all-kind dashboard URL and verify the run -> turn
+-> step -> tool -> MCP waterfall. Gate 2 is not closed until someone outside
+the project completes this unaided in 5 minutes or less and fills
 [docs/demos/gate2-outside-person-proof.md](docs/demos/gate2-outside-person-proof.md).
 
 ## Current State
@@ -118,7 +120,7 @@ This repo now contains the first tested Rust vertical slice:
 - `beaterd` runs configurable trace-write and trace-ingested background workers for buffered ingest and downstream indexing
 - live `beaterd` integration test proving OTLP HTTP and gRPC traces become readable and searchable through public APIs
 - live `beaterd` integration test proving accepted buffered trace-write work survives worker kill/restart, can DLQ on TraceStore outage, and replays to a readable/searchable trace
-- live `beaterd` integration test proving accepted buffered trace-write work survives a killed external TraceStore sidecar, lands in DLQ with no canonical write, and replays after storage returns
+- live `beaterd` integration test proving accepted buffered trace-write work survives an unavailable external TraceStore endpoint, lands in DLQ with no canonical write, and replays after storage returns
 - live `beaterd` integration test proving trace-ingested work recovers after consumer kill, restart, DLQ, and replay
 - live `beaterd` integration test proving storage write failure accounts events as explicit error, DLQ, or recovered with no silent loss
 - `beaterctl bus-fixture` validates durable queue reopen, retry, DLQ, and replay behavior
@@ -162,8 +164,11 @@ Exact Docker Compose stopwatch proof for the mandate's clean-machine path:
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -lc 't="$(date +%s)"; git clone https://github.com/jadenfix/beater.git; cd beater; BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -lc 't="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
+
+Run it from a directory that does not already contain `beater/`; reruns should
+start from a new or empty parent directory.
 
 The outside-run wrapper rejects non-`main` checkouts, non-canonical GitHub
 origins, dirty worktrees, warm-loop reuse, local source builds, alternate ports,

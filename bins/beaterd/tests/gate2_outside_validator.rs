@@ -29,6 +29,48 @@ fn gate2_outside_validator_allows_pending_template_with_allow_pending() {
 }
 
 #[test]
+fn gate2_outside_docs_use_fail_fast_clone_command() {
+    let root = repo_root();
+    for rel in [
+        "README.md",
+        "docs/demos/gate2-outside-person-proof.md",
+        "scripts/generate-gate2-outside-proof.py",
+    ] {
+        let text =
+            fs::read_to_string(root.join(rel)).unwrap_or_else(|err| panic!("read {rel}: {err}"));
+        assert!(
+            !text.contains("git clone https://github.com/jadenfix/beater.git; cd beater"),
+            "{rel} must not allow stale-clone semicolon chaining"
+        );
+    }
+
+    let readme = fs::read_to_string(root.join("README.md"))
+        .unwrap_or_else(|err| panic!("read README.md: {err}"));
+    assert!(readme.contains(r#"git clone https://github.com/jadenfix/beater.git && cd beater &&"#));
+}
+
+#[test]
+fn gate2_pending_template_rejects_missing_required_field_label() {
+    let fixture =
+        TempDir::new().unwrap_or_else(|err| panic!("create pending proof fixture: {err}"));
+    let proof_path = fixture.path().join("pending-proof.md");
+    let source = fs::read_to_string(repo_root().join("docs/demos/gate2-outside-person-proof.md"))
+        .unwrap_or_else(|err| panic!("read pending proof template: {err}"));
+    fs::write(
+        &proof_path,
+        source.replace("- `docker compose images` excerpt:\n", ""),
+    )
+    .unwrap_or_else(|err| panic!("write {}: {err}", proof_path.display()));
+
+    let output = run_validator_with_args(&proof_path, &["--allow-pending"]);
+
+    assert_failure(
+        output,
+        "missing field in pending outside-person proof template: `docker compose images` excerpt",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_accepts_matching_default_port_artifacts() {
     let fixture = ValidatorFixture::new();
 
@@ -185,6 +227,9 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("require_full_run_source(args)"));
     assert!(script.contains("shutil.which"));
     assert!(script.contains("socket.create_connection"));
+    assert!(script.contains("def port_owner_hint"));
+    assert!(script.contains("lsof"));
+    assert!(script.contains("install lsof or ss to identify the process holding TCP"));
     assert!(script.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
     assert!(script.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
     assert!(script.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
@@ -369,6 +414,23 @@ fn gate2_outside_validator_rejects_missing_stopwatch_proof() {
     let output = run_validator(&fixture.proof_path);
 
     assert_failure(output, "stopwatch proof file does not exist");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_missing_compose_images_excerpt() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- `docker compose images` excerpt: beaterd and dashboard images present\n",
+        "",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "missing field in outside-person proof: `docker compose images` excerpt",
+    );
 }
 
 #[test]
@@ -1041,9 +1103,14 @@ fn recording_notes(recording_name: &str) -> String {
 }
 
 fn run_validator(proof_path: &Path) -> Output {
+    run_validator_with_args(proof_path, &[])
+}
+
+fn run_validator_with_args(proof_path: &Path, args: &[&str]) -> Output {
     let root = repo_root();
     Command::new("bash")
         .arg(root.join("scripts/validate-gate2-outside-proof.sh"))
+        .args(args)
         .current_dir(root)
         .env("BEATER_GATE2_OUTSIDE_PROOF", proof_path)
         .output()

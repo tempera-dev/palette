@@ -52,11 +52,13 @@ outside the project who runs the flow unaided from a fresh clone.
 ## Commands
 
 ```bash
-bash -lc 't="$(date +%s)"; git clone https://github.com/jadenfix/beater.git; cd beater; BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -lc 't="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
 during the timed run.
+Run the command from a directory that does not already contain `beater/`; reruns
+must start from a new or empty parent directory.
 
 The wrapper sets the required proof/browser/recording flags and rejects
 non-`main` checkouts, non-canonical GitHub origins, dirty worktrees, warm-loop reuse,
@@ -77,10 +79,12 @@ Python snippet runs in the prebuilt `otel-python` container, and browser proof
 runs in the prebuilt `dashboard-e2e` container. For this outside-person proof,
 free those default ports instead of using alternate port environment variables.
 
-After the script prints the dashboard URLs, the runner must open
-`http://127.0.0.1:3000` in a normal browser, click the quickstart trace, click
-the `llm.call` span, and capture the evidence below. Cleanup can happen after
-the recording.
+After the script prints the dashboard URLs, the runner must open the
+quickstart dashboard URL in a normal browser, click the quickstart trace, click
+the `llm.call` span, and capture prompt, completion, model, tokens, cost, and
+latency. Then the runner must open the all-kind dashboard URL and capture the
+run -> turn -> step -> tool -> MCP waterfall. Cleanup can happen after the
+recording.
 
 After the stopwatch command finishes, prefer generating completed evidence from
 the stopwatch proof instead of manually copying fields:

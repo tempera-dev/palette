@@ -151,8 +151,7 @@ unaided using public repository instructions.
 
 ```bash
 BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
-git clone https://github.com/jadenfix/beater.git
-cd beater
+git clone https://github.com/jadenfix/beater.git && cd beater
 BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" {CANONICAL_COMMAND}
 ```
 
