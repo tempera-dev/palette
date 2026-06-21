@@ -572,6 +572,16 @@ fn gate2_outside_validator_rejects_missing_compose_images_excerpt() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_duplicate_proof_field() {
+    let fixture = ValidatorFixture::new();
+    append(&fixture.proof_path, "\n- Branch: feature-hidden\n");
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "duplicate field in outside-person proof: Branch");
+}
+
+#[test]
 fn gate2_outside_validator_rejects_placeholder_compose_images_excerpt() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -617,6 +627,19 @@ fn gate2_outside_validator_rejects_non_main_stopwatch_branch() {
     let output = run_validator(&fixture.proof_path);
 
     assert_failure(output, "Git branch in stopwatch proof must be 'main'");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_duplicate_stopwatch_field() {
+    let fixture = ValidatorFixture::new();
+    append(
+        &fixture.stopwatch_path,
+        "\n- Git branch: `feature-hidden`\n",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "duplicate field in stopwatch proof: Git branch");
 }
 
 #[test]
@@ -1661,6 +1684,13 @@ fn replace(path: &Path, from: &str, to: &str) {
     );
     fs::write(path, text.replace(from, to))
         .unwrap_or_else(|err| panic!("write {}: {err}", path.display()));
+}
+
+fn append(path: &Path, suffix: &str) {
+    let mut text =
+        fs::read_to_string(path).unwrap_or_else(|err| panic!("read {}: {err}", path.display()));
+    text.push_str(suffix);
+    fs::write(path, text).unwrap_or_else(|err| panic!("write {}: {err}", path.display()));
 }
 
 fn repo_root() -> PathBuf {

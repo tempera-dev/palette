@@ -75,11 +75,13 @@ def clean_value(value: str) -> str:
 
 
 def field_value_from(source_text: str, name: str, source_name: str) -> str:
-    match = re.search(rf"^- {re.escape(name)}:[ \t]*(.*)$", source_text, re.MULTILINE)
-    if not match:
+    matches = re.findall(rf"^- {re.escape(name)}:[ \t]*(.*)$", source_text, re.MULTILINE)
+    if not matches:
         fail(f"missing field in {source_name}: {name}")
         return ""
-    return clean_value(match.group(1))
+    if len(matches) > 1:
+        fail(f"duplicate field in {source_name}: {name}")
+    return clean_value(matches[0])
 
 
 def field_value(name: str) -> str:

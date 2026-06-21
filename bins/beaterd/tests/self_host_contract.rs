@@ -138,7 +138,20 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(gate2_workflow.contains("permissions:"));
     assert!(gate2_workflow.contains("contents: read"));
     assert!(gate2_workflow.contains("cargo fmt --all -- --check"));
-    assert!(gate2_workflow.contains("bash -n scripts/validate-gate2-outside-proof.sh"));
+    assert!(gate2_workflow.contains("bash -n \"$script\""));
+    for script in [
+        "scripts/check-openapi-drift.sh",
+        "scripts/gate2-compose-stopwatch.sh",
+        "scripts/gate2-outside-run.sh",
+        "scripts/gate2-proof.sh",
+        "scripts/smoke-compose.sh",
+        "scripts/validate-gate2-outside-proof.sh",
+    ] {
+        assert!(
+            gate2_workflow.contains(script),
+            "gate2-proof-contract must syntax-check {script}"
+        );
+    }
     assert!(
         gate2_workflow.contains("python3 -m py_compile scripts/check-gate2-outside-readiness.py")
     );
