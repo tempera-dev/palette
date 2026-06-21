@@ -164,7 +164,7 @@ export default async function DashboardPage({
         <SummaryItem
           label="Tokens"
           value={tokenTotal > 0 ? tokenTotal.toLocaleString("en-US") : "none"}
-          meta="input + output"
+          meta="input + output + cached + reasoning"
           tone="release"
         />
       </section>
@@ -434,12 +434,11 @@ export default async function DashboardPage({
                   <span className="span-name">
                     <span
                       className={`kind-icon ${kindClass(span.kind)}`}
-                      aria-label={`${span.kind} icon`}
+                      aria-hidden="true"
                       data-icon={icon.key}
                       title={icon.title}
                     >
                       <KindGlyph aria-hidden="true" />
-                      <span className="sr-only">{icon.title}</span>
                     </span>
                     <span className="span-title">
                       <span>{span.name}</span>
@@ -539,12 +538,11 @@ function SpanDetail({
       <div className="span-identity">
         <span
           className={`kind-icon detail-kind ${kindClass(span.kind)}`}
-          aria-label={`${span.kind} icon`}
+          aria-hidden="true"
           data-icon={icon.key}
           title={icon.title}
         >
           <KindGlyph aria-hidden="true" />
-          <span className="sr-only">{icon.title}</span>
         </span>
         <div>
           <h3>{span.name}</h3>
@@ -900,7 +898,7 @@ function stringAttribute(attributes: unknown, keys: string[]): string | null {
 
 function spanTokenTotal(span: CanonicalSpan): number {
   if (!span.tokens) return 0;
-  return span.tokens.input + span.tokens.output + span.tokens.reasoning;
+  return span.tokens.input + span.tokens.output + span.tokens.cache_read + span.tokens.reasoning;
 }
 
 function spanAncestry(span: CanonicalSpan, spans: CanonicalSpan[]): CanonicalSpan[] {

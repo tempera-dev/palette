@@ -204,3 +204,35 @@ test("keeps the trace console inside the viewport on desktop and mobile", async 
     });
   }
 });
+
+test("supports keyboard focus across filters, traces, spans, and unmask controls", async ({
+  page
+}) => {
+  const traceParam = process.env.BEATER_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+    : "&kind=llm.call&model=gpt-demo&release=compose-demo";
+
+  await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);
+  await expect(page.getByRole("heading", { name: "Agent Trace Debugger" })).toBeVisible();
+
+  const tenant = page.locator('input[name="tenant"]');
+  await tenant.focus();
+  await expect(tenant).toBeFocused();
+
+  await page.keyboard.press("Tab");
+  await expect(page.locator('input[name="project"]')).toBeFocused();
+
+  await page.locator(".run-row").first().focus();
+  await expect(page.locator(".run-row").first()).toBeFocused();
+
+  await page.locator('[data-span-name="call-policy-model"]').focus();
+  await expect(page.locator('[data-span-name="call-policy-model"]')).toBeFocused();
+
+  await page.goto(
+    `/?tenant=demo&project=demo&environment=local${traceParam}&unmask=true&reason=keyboard-test`
+  );
+  const redactedView = page.getByRole("link", { name: "Redacted view" });
+  await expect(redactedView).toBeVisible();
+  await redactedView.focus();
+  await expect(redactedView).toBeFocused();
+});

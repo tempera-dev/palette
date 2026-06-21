@@ -147,40 +147,9 @@ function traceReadParams(query: DashboardQuery): URLSearchParams {
 export async function loadDashboardData(query: DashboardQuery): Promise<DashboardData> {
   const apiBaseUrl = dashboardApiBaseUrl();
   const headers = dashboardApiHeaders(query);
+  let runs: Page<RunSummary>;
   try {
-    const runs = await fetchJson<Page<RunSummary>>(`${apiBaseUrl}${traceListPath(query)}`, headers);
-    const activeTraceId = query.traceId || runs.items[0]?.trace_id;
-    const trace = activeTraceId
-      ? await fetchJson<TraceView>(`${apiBaseUrl}${tracePath(query, activeTraceId)}`, headers)
-      : null;
-    const selectedSpanFromTrace =
-      trace?.spans.find((span) => span.span_id === query.selectedSpanId) ??
-      trace?.spans[0] ??
-      null;
-    const activeSpanId = selectedSpanFromTrace?.span_id;
-    const selectedSpan =
-      trace && activeSpanId
-        ? await fetchJson<CanonicalSpan>(
-            `${apiBaseUrl}${spanPath(query, trace.trace_id, activeSpanId)}`,
-            headers
-          )
-        : null;
-    const selectedIo =
-      trace && selectedSpan
-        ? await fetchJson<SpanIoResponse>(
-            `${apiBaseUrl}${spanIoPath(query, trace.trace_id, selectedSpan.span_id)}`,
-            headers
-          )
-        : null;
-    return {
-      apiBaseUrl,
-      query,
-      runs,
-      trace,
-      selectedSpan,
-      selectedIo,
-      error: null
-    };
+    runs = await fetchJson<Page<RunSummary>>(`${apiBaseUrl}${traceListPath(query)}`, headers);
   } catch (error) {
     return {
       apiBaseUrl,
@@ -189,9 +158,64 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
       trace: null,
       selectedSpan: null,
       selectedIo: null,
-      error: error instanceof Error ? error.message : String(error)
+      error: errorMessage(error)
     };
   }
+
+  const activeTraceId = query.traceId || runs.items[0]?.trace_id;
+  let trace: TraceView | null = null;
+  let selectedSpan: CanonicalSpan | null = null;
+  let selectedIo: SpanIoResponse | null = null;
+  let error: string | null = null;
+
+  if (activeTraceId) {
+    try {
+      trace = await fetchJson<TraceView>(`${apiBaseUrl}${tracePath(query, activeTraceId)}`, headers);
+    } catch (traceError) {
+      error = errorMessage(traceError);
+    }
+  }
+
+  const selectedSpanFromTrace =
+    trace?.spans.find((span) => span.span_id === query.selectedSpanId) ?? trace?.spans[0] ?? null;
+  const activeSpanId = selectedSpanFromTrace?.span_id;
+
+  if (trace && activeSpanId) {
+    try {
+      selectedSpan = await fetchJson<CanonicalSpan>(
+        `${apiBaseUrl}${spanPath(query, trace.trace_id, activeSpanId)}`,
+        headers
+      );
+    } catch (spanError) {
+      selectedSpan = selectedSpanFromTrace;
+      error = errorMessage(spanError);
+    }
+  }
+
+  if (trace && selectedSpan) {
+    try {
+      selectedIo = await fetchJson<SpanIoResponse>(
+        `${apiBaseUrl}${spanIoPath(query, trace.trace_id, selectedSpan.span_id)}`,
+        headers
+      );
+    } catch (ioError) {
+      error = errorMessage(ioError);
+    }
+  }
+
+  return {
+    apiBaseUrl,
+    query,
+    runs,
+    trace,
+    selectedSpan,
+    selectedIo,
+    error
+  };
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
 }
 
 async function fetchJson<T>(url: string, headers: HeadersInit): Promise<T> {

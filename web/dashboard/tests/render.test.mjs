@@ -7,7 +7,7 @@ import ts from "typescript";
 
 const root = new URL("..", import.meta.url).pathname;
 
-function loadDashboardApiModule() {
+function loadDashboardApiModule(context = {}) {
   const source = readFileSync(join(root, "lib/api.ts"), "utf8");
   const { outputText } = ts.transpileModule(source, {
     compilerOptions: {
@@ -23,7 +23,8 @@ function loadDashboardApiModule() {
       exports: module.exports,
       module,
       process,
-      URLSearchParams
+      URLSearchParams,
+      ...context
     },
     { filename: "lib/api.ts" }
   );
@@ -48,6 +49,10 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /data-icon/);
   assert.match(page, /<KindGlyph aria-hidden="true" \/>/);
   assert.match(page, /className="sr-only"/);
+  assert.match(page, /aria-hidden="true"\n                      data-icon=\{icon\.key\}/);
+  assert.doesNotMatch(page, /aria-label=\{`\$\{span\.kind\} icon`\}/);
+  assert.match(page, /span\.tokens\.cache_read/);
+  assert.match(page, /input \+ output \+ cached \+ reasoning/);
   assert.doesNotMatch(page, /label: "AI"/);
   assert.doesNotMatch(page, /label: "Fn"/);
   assert.match(page, /data-label="Spans"/);
@@ -133,6 +138,7 @@ test("dashboard chrome stays dense and tool-like", () => {
   assert.match(css, /\.span-line\[aria-current="location"\]/);
   assert.match(css, /\.kind-icon svg \{/);
   assert.match(css, /\.detail-kind svg \{/);
+  assert.doesNotMatch(css, /\.muted-copy/);
   assert.doesNotMatch(css, /\.detail-tabs/);
   assert.match(css, /\.span-path \{/);
   assert.match(css, /\.path-node\.llm \{/);
@@ -172,12 +178,15 @@ test("dashboard client uses public beater read endpoints", () => {
   assert.match(api, /\/v1\/spans\//);
   assert.match(api, /\/io/);
   assert.match(api, /const activeTraceId = query\.traceId \|\| runs\.items\[0\]\?\.trace_id/);
-  assert.match(api, /query,\n      runs,/);
+  assert.match(api, /query,\n\s+runs,/);
   assert.doesNotMatch(api, /query: \{ \.\.\.query, traceId: activeTraceId/);
   assert.match(api, /BEATER_API_TOKEN/);
   assert.match(api, /x-beater-project-id/);
   assert.match(api, /x-beater-environment-id/);
   assert.match(api, /formatApiError\(response\.status, response\.statusText/);
+  assert.match(api, /let runs: Page<RunSummary>;/);
+  assert.match(api, /selectedSpan = selectedSpanFromTrace;/);
+  assert.match(api, /selectedIo = await fetchJson<SpanIoResponse>/);
 });
 
 test("dashboard API errors stay concise and user-facing", () => {
@@ -203,6 +212,67 @@ test("dashboard API errors stay concise and user-facing", () => {
   assert.equal(long.length, "API 500 Internal Server Error: ".length + 240);
   assert.ok(long.endsWith("..."));
 });
+
+test("dashboard loader preserves trace context when span I/O fails", async () => {
+  const runs = {
+    items: [{ trace_id: "trace-1", root_name: "run", span_count: 1 }],
+    next_cursor: null
+  };
+  const span = {
+    trace_id: "trace-1",
+    span_id: "span-1",
+    parent_span_id: null,
+    name: "call-policy-model",
+    kind: "llm.call",
+    status: "ok",
+    start_time: "2026-01-01T00:00:00Z",
+    end_time: "2026-01-01T00:00:01Z",
+    attributes: {},
+    unmapped_attrs: {},
+    events: [],
+    links: [],
+    tokens: { input: 1, output: 2, cache_read: 3, reasoning: 4 },
+    cost: null,
+    model: null
+  };
+  const trace = { trace_id: "trace-1", spans: [span] };
+  const { loadDashboardData } = loadDashboardApiModule({
+    fetch: async (url) => {
+      const href = String(url);
+      if (href.includes("/v1/traces/demo?")) return okJson(runs);
+      if (href.includes("/v1/traces/demo/trace-1")) return okJson(trace);
+      if (href.includes("/v1/spans/demo/trace-1/span-1/io")) {
+        return errorJson(503, "Service Unavailable", { message: "span I/O unavailable" });
+      }
+      if (href.includes("/v1/spans/demo/trace-1/span-1")) return okJson(span);
+      throw new Error(`unexpected fetch ${href}`);
+    }
+  });
+
+  const data = await loadDashboardData({ tenantId: "demo" });
+
+  assert.equal(data.runs.items.length, 1);
+  assert.equal(data.trace?.trace_id, "trace-1");
+  assert.equal(data.selectedSpan?.span_id, "span-1");
+  assert.equal(data.selectedIo, null);
+  assert.match(data.error, /span I\/O unavailable/);
+});
+
+function okJson(value) {
+  return {
+    ok: true,
+    json: async () => value
+  };
+}
+
+function errorJson(status, statusText, value) {
+  return {
+    ok: false,
+    status,
+    statusText,
+    text: async () => JSON.stringify(value)
+  };
+}
 
 test("generated api client is produced from the checked-in openapi snapshot", () => {
   const spec = readFileSync(join(root, "openapi/beater-read-api.json"), "utf8");
