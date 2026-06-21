@@ -29,6 +29,9 @@ use beater_store_sql::{
 };
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, ValueEnum};
+use serde::de::DeserializeOwned;
+use serde::Serialize;
+use serde_json::json;
 use std::fs;
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
@@ -102,6 +105,8 @@ struct Args {
         env = "BEATER_TEST_TRACE_STORE_FAIL_WRITE_WHILE_PATH"
     )]
     test_trace_store_fail_write_while_path: Option<PathBuf>,
+    #[arg(long, hide = true, env = "BEATER_TEST_HTTP_TRACE_STORE_URL")]
+    test_http_trace_store_url: Option<String>,
 }
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
@@ -166,9 +171,13 @@ async fn main() -> anyhow::Result<()> {
 
     let artifacts = Arc::new(FsArtifactStore::new(args.data_dir.join("artifacts"))?);
     let sqlite_traces = Arc::new(SqliteTraceStore::open(trace_db_path)?);
-    let traces: Arc<dyn TraceStore> = match args.test_trace_store_fail_write_while_path.clone() {
-        Some(path) => Arc::new(FailSwitchTraceStore::new(sqlite_traces.clone(), path)),
-        None => sqlite_traces.clone(),
+    let traces: Arc<dyn TraceStore> = if let Some(url) = args.test_http_trace_store_url.clone() {
+        Arc::new(HttpTraceStore::new(url))
+    } else {
+        match args.test_trace_store_fail_write_while_path.clone() {
+            Some(path) => Arc::new(FailSwitchTraceStore::new(sqlite_traces.clone(), path)),
+            None => sqlite_traces.clone(),
+        }
     };
     let quota_limiter = Arc::new(SqliteQuotaLimiter::open(quota_path)?);
     let metadata = Arc::new(SqliteMetadataStore::open(metadata_db_path)?);
@@ -452,6 +461,120 @@ async fn index_trace_ref(
             trace_ref.tenant_id, trace_ref.trace_id
         )
     })
+}
+
+// Hidden live-test adapter for proving external TraceStore outages over TCP.
+#[derive(Clone)]
+struct HttpTraceStore {
+    client: reqwest::Client,
+    base_url: String,
+}
+
+impl HttpTraceStore {
+    fn new(base_url: String) -> Self {
+        Self {
+            client: reqwest::Client::new(),
+            base_url: base_url.trim_end_matches('/').to_string(),
+        }
+    }
+
+    async fn post_json<B, T>(&self, path: &str, body: B) -> StoreResult<T>
+    where
+        B: Serialize,
+        T: DeserializeOwned,
+    {
+        let url = format!("{}/trace-store/{path}", self.base_url);
+        let response = self
+            .client
+            .post(&url)
+            .json(&body)
+            .send()
+            .await
+            .map_err(|err| {
+                StoreError::backend(format!("http trace store {path} request failed: {err}"))
+            })?;
+        let status = response.status();
+        if !status.is_success() {
+            let body = response
+                .text()
+                .await
+                .unwrap_or_else(|err| format!("failed to read error body: {err}"));
+            return Err(StoreError::backend(format!(
+                "http trace store {path} returned {status}: {body}"
+            )));
+        }
+        response.json::<T>().await.map_err(|err| {
+            StoreError::backend(format!("http trace store {path} decode failed: {err}"))
+        })
+    }
+}
+
+#[async_trait::async_trait]
+impl TraceStore for HttpTraceStore {
+    async fn write_batch(&self, batch: CanonicalTraceBatch) -> StoreResult<WriteAck> {
+        self.post_json("write-batch", batch).await
+    }
+
+    async fn get_trace(&self, tenant: TenantId, trace: TraceId) -> StoreResult<TraceView> {
+        self.post_json(
+            "get-trace",
+            json!({
+                "tenant_id": tenant,
+                "trace_id": trace,
+            }),
+        )
+        .await
+    }
+
+    async fn get_project_trace(
+        &self,
+        tenant: TenantId,
+        project: ProjectId,
+        trace: TraceId,
+    ) -> StoreResult<TraceView> {
+        self.post_json(
+            "get-project-trace",
+            json!({
+                "tenant_id": tenant,
+                "project_id": project,
+                "trace_id": trace,
+            }),
+        )
+        .await
+    }
+
+    async fn get_raw_envelope(
+        &self,
+        _tenant: TenantId,
+        _project: ProjectId,
+        _idempotency_key: IdempotencyKey,
+    ) -> StoreResult<Option<RawEnvelope>> {
+        Err(StoreError::backend(
+            "http trace store test adapter does not support get_raw_envelope",
+        ))
+    }
+
+    async fn query_runs(
+        &self,
+        _tenant: TenantId,
+        _filter: RunFilter,
+        _page: PageRequest,
+    ) -> StoreResult<Page<RunSummary>> {
+        Err(StoreError::backend(
+            "http trace store test adapter does not support query_runs",
+        ))
+    }
+
+    async fn query_spans(
+        &self,
+        _tenant: TenantId,
+        _filter: SpanFilter,
+        _page: PageRequest,
+    ) -> StoreResult<Page<SpanSummary>> {
+        Err(StoreError::backend(
+            "http trace store test adapter does not support query_spans",
+        ))
+    }
 }
 
 #[derive(Clone)]

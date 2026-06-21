@@ -1,4 +1,9 @@
+use axum::{extract::State, http::StatusCode, routing::post, Json, Router};
+use beater_core::{ProjectId, TenantId, TraceId};
 use beater_otlp::encode_export_trace_request;
+use beater_schema::{CanonicalTraceBatch, TraceView, WriteAck};
+use beater_store::{StoreError, TraceStore};
+use beater_store_sql::SqliteTraceStore;
 use opentelemetry_proto::tonic::collector::trace::v1::{
     trace_service_client::TraceServiceClient, ExportTraceServiceRequest,
 };
@@ -7,11 +12,14 @@ use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
     span, status, ResourceSpans, ScopeSpans, Span, Status,
 };
+use serde::Deserialize;
 use std::net::{SocketAddr, TcpListener};
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
-use std::sync::OnceLock;
+use std::sync::{Arc, OnceLock};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use tokio::sync::oneshot;
+use tokio::task::JoinHandle;
 use tonic::metadata::MetadataValue;
 use tonic::Request as TonicRequest;
 
@@ -278,6 +286,73 @@ async fn beaterd_trace_write_kill_replay_preserves_buffered_trace() -> anyhow::R
 }
 
 #[tokio::test]
+async fn beaterd_external_trace_store_kill_replays_buffered_trace() -> anyhow::Result<()> {
+    let _guard = live_smoke_guard().await;
+    let tempdir = tempfile::tempdir()?;
+    let data_dir = tempdir.path().join("beaterd");
+    let trace_store_path = tempdir.path().join("external-trace-store.sqlite");
+    let trace_store_addr = free_addr()?;
+    let trace_store = ExternalTraceStoreSidecar::spawn(trace_store_addr, &trace_store_path).await?;
+    let marker_path = tempdir
+        .path()
+        .join("trace-write-leased-before-storage-kill");
+    let hold_path = tempdir.path().join("trace-write-hold-before-storage-kill");
+    std::fs::write(&hold_path, b"hold")?;
+    let addrs = free_addrs(2)?;
+    let http_addr = addrs[0];
+    let grpc_addr = addrs[1];
+    let _server = BeaterdChild::spawn_with_options(
+        &data_dir,
+        http_addr,
+        grpc_addr,
+        BeaterdSpawnOptions {
+            trace_write_max_attempts: Some(1),
+            trace_write_lease_marker: Some(marker_path.clone()),
+            trace_write_hold_path: Some(hold_path.clone()),
+            http_trace_store_url: Some(trace_store.url()),
+            ..BeaterdSpawnOptions::default()
+        },
+    )?;
+    let http_url = format!("http://{http_addr}");
+    wait_for_health(&http_url).await?;
+
+    let (trace_id, buffered_response) =
+        post_otlp_http_with_durability(&http_url, "external trace store killed", Some("buffered"))
+            .await?;
+    assert_eq!(buffered_response.status(), reqwest::StatusCode::OK);
+    let buffered_ack = buffered_response.json::<serde_json::Value>().await?;
+    assert_eq!(buffered_ack["accepted_raw"], 1);
+    assert_eq!(buffered_ack["accepted_spans"], 1);
+    assert_eq!(buffered_ack["downstream_queued"], true);
+    wait_for_file(&marker_path, Duration::from_secs(5)).await?;
+    trace_store.stop().await?;
+    std::fs::remove_file(&hold_path)?;
+    let dead_letter = wait_for_dead_letter(
+        &http_url,
+        "trace.write_batch",
+        "http trace store write-batch request failed",
+        Duration::from_secs(5),
+    )
+    .await?;
+    assert_only_dead_letter(&http_url, &dead_letter).await?;
+
+    let recovered_trace_store =
+        ExternalTraceStoreSidecar::spawn(trace_store_addr, &trace_store_path).await?;
+    assert_trace_span_count(&http_url, &trace_id, 0).await?;
+    assert_search_hit_count(&http_url, &trace_id, 0).await?;
+
+    replay_dead_letter(&http_url, &dead_letter).await?;
+    let trace = wait_for_trace(&http_url, &trace_id).await?;
+    assert_eq!(span_count(&trace), 1);
+    let search = wait_for_search_hit(&http_url, &trace_id).await?;
+    assert_eq!(hit_count(&search), 1);
+    wait_for_queue_empty(&http_url, Duration::from_secs(5)).await?;
+    recovered_trace_store.stop().await?;
+
+    Ok(())
+}
+
+#[tokio::test]
 async fn beaterd_storage_failure_accounts_every_event_without_silent_drop() -> anyhow::Result<()> {
     let _guard = live_smoke_guard().await;
     let tempdir = tempfile::tempdir()?;
@@ -335,19 +410,7 @@ async fn beaterd_storage_failure_accounts_every_event_without_silent_drop() -> a
     assert_trace_span_count(&http_url, &dlq_trace_id, 0).await?;
     assert_search_hit_count(&http_url, &explicit_trace_id, 0).await?;
     assert_search_hit_count(&http_url, &dlq_trace_id, 0).await?;
-    let final_status = queue_status(&http_url).await?;
-    let dead_letters = final_status
-        .get("dead_letters")
-        .and_then(serde_json::Value::as_array)
-        .cloned()
-        .unwrap_or_default();
-    assert_eq!(dead_letters.len(), 1);
-    let final_message_id = dead_letters[0]
-        .get("message")
-        .and_then(|message| message.get("message_id"))
-        .and_then(serde_json::Value::as_str)
-        .ok_or_else(|| anyhow::anyhow!("dead letter missing message id"))?;
-    assert_eq!(final_message_id, dead_letter);
+    assert_only_dead_letter(&http_url, &dead_letter).await?;
 
     let submitted_events = 3usize;
     let explicit_errors = 1usize;
@@ -371,6 +434,7 @@ struct BeaterdSpawnOptions {
     trace_write_max_attempts: Option<u32>,
     trace_write_lease_marker: Option<PathBuf>,
     trace_write_hold_path: Option<PathBuf>,
+    http_trace_store_url: Option<String>,
     trace_ingested_lease_marker: Option<PathBuf>,
     trace_ingested_hold_path: Option<PathBuf>,
     trace_ingested_fail_while_path: Option<PathBuf>,
@@ -433,6 +497,9 @@ impl BeaterdChild {
         if let Some(path) = options.trace_write_hold_path {
             command.arg("--test-trace-write-hold-path").arg(path);
         }
+        if let Some(url) = options.http_trace_store_url {
+            command.arg("--test-http-trace-store-url").arg(url);
+        }
         if let Some(path) = options.trace_ingested_lease_marker {
             command.arg("--test-trace-ingested-lease-marker").arg(path);
         }
@@ -467,6 +534,133 @@ impl Drop for BeaterdChild {
         let _ = self.child.kill();
         let _ = self.child.wait();
     }
+}
+
+struct ExternalTraceStoreSidecar {
+    addr: SocketAddr,
+    shutdown: Option<oneshot::Sender<()>>,
+    task: Option<JoinHandle<std::io::Result<()>>>,
+}
+
+#[derive(Clone)]
+struct ExternalTraceStoreState {
+    traces: Arc<SqliteTraceStore>,
+}
+
+#[derive(Deserialize)]
+struct TraceStoreGetTraceRequest {
+    tenant_id: TenantId,
+    trace_id: TraceId,
+}
+
+#[derive(Deserialize)]
+struct TraceStoreGetProjectTraceRequest {
+    tenant_id: TenantId,
+    project_id: ProjectId,
+    trace_id: TraceId,
+}
+
+impl ExternalTraceStoreSidecar {
+    async fn spawn(addr: SocketAddr, trace_store_path: &Path) -> anyhow::Result<Self> {
+        let traces = Arc::new(SqliteTraceStore::open(trace_store_path)?);
+        let state = ExternalTraceStoreState { traces };
+        let app = Router::new()
+            .route("/trace-store/write-batch", post(sidecar_write_batch))
+            .route("/trace-store/get-trace", post(sidecar_get_trace))
+            .route(
+                "/trace-store/get-project-trace",
+                post(sidecar_get_project_trace),
+            )
+            .with_state(state);
+        let listener = tokio::net::TcpListener::bind(addr).await?;
+        let addr = listener.local_addr()?;
+        let (shutdown, shutdown_rx) = oneshot::channel();
+        let task = tokio::spawn(async move {
+            axum::serve(listener, app)
+                .with_graceful_shutdown(async {
+                    let _ = shutdown_rx.await;
+                })
+                .await
+        });
+        Ok(Self {
+            addr,
+            shutdown: Some(shutdown),
+            task: Some(task),
+        })
+    }
+
+    fn url(&self) -> String {
+        format!("http://{}", self.addr)
+    }
+
+    async fn stop(mut self) -> anyhow::Result<()> {
+        if let Some(shutdown) = self.shutdown.take() {
+            let _ = shutdown.send(());
+        }
+        if let Some(task) = self.task.take() {
+            task.await
+                .map_err(|err| anyhow::anyhow!("trace store sidecar join failed: {err}"))??;
+        }
+        Ok(())
+    }
+}
+
+impl Drop for ExternalTraceStoreSidecar {
+    fn drop(&mut self) {
+        if let Some(shutdown) = self.shutdown.take() {
+            let _ = shutdown.send(());
+        }
+        if let Some(task) = &self.task {
+            task.abort();
+        }
+    }
+}
+
+async fn sidecar_write_batch(
+    State(state): State<ExternalTraceStoreState>,
+    Json(batch): Json<CanonicalTraceBatch>,
+) -> Result<Json<WriteAck>, (StatusCode, String)> {
+    state
+        .traces
+        .write_batch(batch)
+        .await
+        .map(Json)
+        .map_err(sidecar_store_error)
+}
+
+async fn sidecar_get_trace(
+    State(state): State<ExternalTraceStoreState>,
+    Json(request): Json<TraceStoreGetTraceRequest>,
+) -> Result<Json<TraceView>, (StatusCode, String)> {
+    state
+        .traces
+        .get_trace(request.tenant_id, request.trace_id)
+        .await
+        .map(Json)
+        .map_err(sidecar_store_error)
+}
+
+async fn sidecar_get_project_trace(
+    State(state): State<ExternalTraceStoreState>,
+    Json(request): Json<TraceStoreGetProjectTraceRequest>,
+) -> Result<Json<TraceView>, (StatusCode, String)> {
+    state
+        .traces
+        .get_project_trace(request.tenant_id, request.project_id, request.trace_id)
+        .await
+        .map(Json)
+        .map_err(sidecar_store_error)
+}
+
+fn sidecar_store_error(error: StoreError) -> (StatusCode, String) {
+    let status = match error {
+        StoreError::NotFound(_) => StatusCode::NOT_FOUND,
+        StoreError::Conflict(_) => StatusCode::CONFLICT,
+        StoreError::Backpressure(_) => StatusCode::SERVICE_UNAVAILABLE,
+        StoreError::Integrity(_) => StatusCode::UNPROCESSABLE_ENTITY,
+        StoreError::Backend(_) => StatusCode::INTERNAL_SERVER_ERROR,
+    };
+    (status, error.to_string())
 }
 
 async fn live_smoke_guard() -> tokio::sync::MutexGuard<'static, ()> {
@@ -633,6 +827,36 @@ async fn queue_status(http_url: &str) -> anyhow::Result<serde_json::Value> {
         .error_for_status()?
         .json::<serde_json::Value>()
         .await?)
+}
+
+async fn assert_only_dead_letter(http_url: &str, message_id: &str) -> anyhow::Result<()> {
+    let status = queue_status(http_url).await?;
+    let trace_write_depth = status
+        .get("trace_write_depth")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
+    let trace_ingested_depth = status
+        .get("trace_ingested_depth")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
+    let dead_letters = status
+        .get("dead_letters")
+        .and_then(serde_json::Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    assert_eq!(trace_write_depth, 0, "unexpected trace.write queue depth");
+    assert_eq!(
+        trace_ingested_depth, 0,
+        "unexpected trace.ingested queue depth"
+    );
+    assert_eq!(dead_letters.len(), 1);
+    let actual_message_id = dead_letters[0]
+        .get("message")
+        .and_then(|message| message.get("message_id"))
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| anyhow::anyhow!("dead letter missing message id"))?;
+    assert_eq!(actual_message_id, message_id);
+    Ok(())
 }
 
 async fn wait_for_dead_letter(

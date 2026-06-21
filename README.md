@@ -118,6 +118,7 @@ This repo now contains the first tested Rust vertical slice:
 - `beaterd` runs configurable trace-write and trace-ingested background workers for buffered ingest and downstream indexing
 - live `beaterd` integration test proving OTLP HTTP and gRPC traces become readable and searchable through public APIs
 - live `beaterd` integration test proving accepted buffered trace-write work survives worker kill/restart, can DLQ on TraceStore outage, and replays to a readable/searchable trace
+- live `beaterd` integration test proving accepted buffered trace-write work survives a killed external TraceStore sidecar, lands in DLQ with no canonical write, and replays after storage returns
 - live `beaterd` integration test proving trace-ingested work recovers after consumer kill, restart, DLQ, and replay
 - live `beaterd` integration test proving storage write failure accounts events as explicit error, DLQ, or recovered with no silent loss
 - `beaterctl bus-fixture` validates durable queue reopen, retry, DLQ, and replay behavior
