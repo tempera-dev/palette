@@ -892,6 +892,80 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
 }
 
 #[test]
+fn gate2_public_handoff_port_owner_hint_reports_command_and_cwd() {
+    let root = repo_root();
+    let tools = tempdir("create fake port owner tools");
+    write_executable(
+        &tools.path().join("lsof"),
+        r#"#!/bin/sh
+for arg in "$@"; do
+  if [ "$arg" = "-t" ]; then
+    printf '43210\n43210\n'
+    exit 0
+  fi
+  if [ "$arg" = "-Fn" ]; then
+    printf 'p43210\nn/tmp/outside-dashboard\n'
+    exit 0
+  fi
+done
+printf 'COMMAND   PID USER FD TYPE DEVICE SIZE/OFF NODE NAME\n'
+printf 'node    43210 user 13u IPv6 0x1 0t0 TCP *:3000 (LISTEN)\n'
+"#,
+    );
+    write_executable(
+        &tools.path().join("ps"),
+        "#!/bin/sh\nprintf 'next-server (v14.2.15)\\n'\n",
+    );
+
+    let output = Command::new(python3_executable())
+        .arg("-c")
+        .arg(
+            r#"
+import importlib.util
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+spec = importlib.util.spec_from_file_location("handoff", path)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+print(module.port_owner_hint(3000))
+"#,
+        )
+        .arg(root.join("scripts/check-gate2-public-handoff.py"))
+        .current_dir(&root)
+        .env("PATH", path_with_isolated_tempdir(&tools))
+        .output()
+        .unwrap_or_else(|err| panic!("run port owner hint fixture: {err}"));
+
+    if !output.status.success() {
+        panic!(
+            "port owner hint fixture failed\nstdout:\n{}\nstderr:\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains("node    43210"),
+        "port owner hint must include raw listener output\n{stdout}"
+    );
+    assert!(
+        stdout.contains("process 43210 command: next-server (v14.2.15)"),
+        "port owner hint must include process command\n{stdout}"
+    );
+    assert!(
+        stdout.contains("process 43210 cwd: /tmp/outside-dashboard"),
+        "port owner hint must include process cwd\n{stdout}"
+    );
+    assert_eq!(
+        stdout.matches("process 43210 command").count(),
+        1,
+        "port owner hint must dedupe listener pids\n{stdout}"
+    );
+}
+
+#[test]
 fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     let script = fs::read_to_string(repo_root().join("scripts/gate2-compose-stopwatch.sh"))
         .unwrap_or_else(|err| panic!("read Gate 2 compose stopwatch script: {err}"));
