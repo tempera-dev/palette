@@ -2,7 +2,7 @@ name: beater
 
 services:
   postgres:
-    image: postgres:17-alpine
+    image: postgres:17-alpine@sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4
     environment:
       POSTGRES_DB: beater
       POSTGRES_USER: beater
@@ -17,7 +17,7 @@ services:
       retries: 20
 
   nats:
-    image: nats:2.11-alpine
+    image: nats:2.11-alpine@sha256:e4bf19f15fd3218814a4e3c9e0064e1334bd8aa20d5984b9f1a0afd084f8cc00
     command: ["-js", "-sd", "/data", "-m", "8222"]
     volumes:
       - nats-data:/data
@@ -28,7 +28,7 @@ services:
       retries: 20
 
   minio:
-    image: minio/minio:latest
+    image: minio/minio:latest@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
     command: ["server", "/data", "--console-address", ":9001"]
     environment:
       MINIO_ROOT_USER: minioadmin

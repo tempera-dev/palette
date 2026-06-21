@@ -24,6 +24,8 @@ instrument agent -> inspect trace -> promote failure to dataset -> run evals
 This is the public clean-clone path Gate 2 is measured on. Prerequisites:
 Docker Desktop or another reachable Docker daemon, Docker Compose v2, `git`, and
 `curl`, with local ports `8080`, `4317`, and `3000` free.
+The public Compose path uses prebuilt Beater images and digest-pinned
+third-party service images for deterministic pulls.
 
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 

@@ -11,6 +11,40 @@ from pathlib import Path
 IMAGE_NAMES = ["beaterd", "dashboard", "dashboard-e2e", "otel-python"]
 EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
 REMOTE_URL = "https://github.com/jadenfix/beater.git"
+PINNED_THIRD_PARTY_IMAGES = {
+    "docker-compose.yml": [
+        (
+            "postgres:17-alpine",
+            "sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4",
+        ),
+        (
+            "nats:2.11-alpine",
+            "sha256:e4bf19f15fd3218814a4e3c9e0064e1334bd8aa20d5984b9f1a0afd084f8cc00",
+        ),
+        (
+            "minio/minio:latest",
+            "sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e",
+        ),
+        (
+            "clickhouse/clickhouse-server:latest",
+            "sha256:07afc18d8a9706eb9d85c5c5d2752e5270f91bbc2894caeaecb73e4d0f603bf5",
+        ),
+    ],
+    "docker-compose.prebuilt.yml": [
+        (
+            "postgres:17-alpine",
+            "sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4",
+        ),
+        (
+            "nats:2.11-alpine",
+            "sha256:e4bf19f15fd3218814a4e3c9e0064e1334bd8aa20d5984b9f1a0afd084f8cc00",
+        ),
+        (
+            "minio/minio:latest",
+            "sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e",
+        ),
+    ],
+}
 
 
 def repo_root() -> Path:
@@ -116,8 +150,22 @@ def require_registry_images(args: argparse.Namespace, commit: str) -> None:
             raise SystemExit(
                 f"platforms mismatch for {image_name}:{commit}: "
                 f"expected {EXPECTED_PLATFORMS}, got {platforms}"
-            )
+        )
         print(f"ok image ghcr.io/jadenfix/beater/{image_name}:{commit} {platforms}")
+
+
+def require_pinned_third_party_images() -> None:
+    for compose_name, images in PINNED_THIRD_PARTY_IMAGES.items():
+        compose = (repo_root() / compose_name).read_text()
+        compose_lines = {line.strip() for line in compose.splitlines()}
+        for image, digest in images:
+            pinned = f"image: {image}@{digest}"
+            floating = f"image: {image}"
+            if pinned not in compose_lines:
+                raise SystemExit(f"{compose_name} must pin {image} to {digest}")
+            if floating in compose_lines:
+                raise SystemExit(f"{compose_name} must not use floating image tag {image}")
+            print(f"ok pinned {compose_name} {image}@{digest}")
 
 
 def parse_args() -> argparse.Namespace:
@@ -152,6 +200,7 @@ def main() -> None:
     args = parse_args()
     commit = current_commit()
     require_repo_shape(args)
+    require_pinned_third_party_images()
     validate_outside_proof_template()
     require_registry_images(args, commit)
     print(f"Gate 2 outside-run readiness passed for {commit}")

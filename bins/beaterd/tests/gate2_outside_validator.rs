@@ -1372,6 +1372,8 @@ fn write_public_handoff_fixture_repo() -> TempDir {
         "scripts/gate2-outside-run.sh",
         "scripts/generate-gate2-outside-proof.py",
         "scripts/validate-gate2-outside-proof.sh",
+        "docker-compose.yml",
+        "docker-compose.prebuilt.yml",
         "docs/demos/gate2-outside-person-proof.md",
     ] {
         copy_fixture_file(&root, fixture.path(), rel);
