@@ -22,10 +22,14 @@ def clean_value(value):
 
 
 def field_value(source_text, name, source_name):
-    match = re.search(r"^- " + re.escape(name) + r":[ \t]*(.*)$", source_text, re.MULTILINE)
-    if not match:
+    matches = re.findall(
+        r"^- " + re.escape(name) + r":[ \t]*(.*)$", source_text, re.MULTILINE
+    )
+    if not matches:
         raise SystemExit(f"missing field in {source_name}: {name}")
-    value = clean_value(match.group(1))
+    if len(matches) > 1:
+        raise SystemExit(f"duplicate field in {source_name}: {name}")
+    value = clean_value(matches[0])
     if not value or value == "not requested" or value == "unknown":
         raise SystemExit(f"unusable field in {source_name}: {name}={value!r}")
     return value

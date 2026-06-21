@@ -178,6 +178,27 @@ fn gate2_outside_generator_requires_explicit_attestation() {
 }
 
 #[test]
+fn gate2_outside_generator_rejects_duplicate_source_field_without_writing() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture
+        .dir
+        .path()
+        .join("duplicate-source-field-generated-proof.md");
+    append(
+        &fixture.stopwatch_path,
+        "\n- Docker: `Docker version hidden-conflict`\n",
+    );
+
+    let output = run_generator(&fixture.stopwatch_path, &generated);
+
+    assert_failure(output, "duplicate field in");
+    assert!(
+        !generated.exists(),
+        "generator must not write proof from duplicate source fields"
+    );
+}
+
+#[test]
 fn gate2_outside_generator_refuses_non_pending_output_with_pending_phrase() {
     let fixture = ValidatorFixture::new();
     let existing = fixture.dir.path().join("existing-outside-proof.md");
