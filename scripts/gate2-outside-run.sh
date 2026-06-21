@@ -68,9 +68,6 @@ PY
 }
 
 require_recording_probe() {
-  if [[ "$dry_run" == "1" ]]; then
-    return 0
-  fi
   require_command ffprobe "completed outside-person proof validation requires playable WebM verification"
 }
 

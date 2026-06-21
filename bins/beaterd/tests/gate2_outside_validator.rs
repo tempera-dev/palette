@@ -1113,6 +1113,30 @@ fn gate2_outside_wrapper_dry_run_rejects_unusable_python3() {
 }
 
 #[test]
+fn gate2_outside_wrapper_dry_run_rejects_missing_ffprobe() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    let path_dir = tempdir("create outside wrapper dry-run PATH without ffprobe");
+    for name in ["git", "dirname", "python3"] {
+        symlink(&command_executable(name), path_dir.path().join(name))
+            .unwrap_or_else(|err| panic!("symlink {name} fixture: {err}"));
+    }
+
+    let mut command = Command::new("/bin/bash");
+    command
+        .arg(fixture.path().join("scripts/gate2-outside-run.sh"))
+        .current_dir(fixture.path());
+    clear_outside_env(&mut command);
+    command
+        .env("PATH", path_dir.path())
+        .env("BEATER_GATE2_OUTSIDE_RUN_DRY_RUN", "1");
+    let output = command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper dry-run without ffprobe: {err}"));
+
+    assert_failure(output, "missing required command 'ffprobe'");
+}
+
+#[test]
 fn gate2_outside_wrapper_rejects_alternate_dashboard_port() {
     let output = run_outside_wrapper_dry_run(Some(("BEATER_DASHBOARD_PORT", "13080")));
 
