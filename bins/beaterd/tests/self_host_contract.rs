@@ -379,6 +379,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("must be tracked by git before Gate 2 closure"));
     assert!(outside_validator.contains("screen recording must start with a WebM/EBML header"));
     assert!(outside_validator.contains("screen recording must declare WebM DocType"));
+    assert!(outside_validator.contains("screen recording WebM must contain a Segment element"));
+    assert!(outside_validator.contains("screen recording WebM must contain an Info element"));
+    assert!(outside_validator.contains("screen recording WebM must contain a video track"));
+    assert!(outside_validator.contains("must not be a symlink"));
     assert!(outside_validator.contains("subprocess.check_output"));
     assert!(outside_validator.contains("parse_qs"));
     assert!(outside_validator.contains("screen recording sha mismatch"));
@@ -621,8 +625,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("image digests"));
     assert!(outside_proof.contains("screen-recording notes"));
     assert!(outside_proof.contains("WebM capture of at least 64 KiB"));
-    assert!(outside_proof.contains("WebM/EBML header"));
-    assert!(outside_proof.contains("prompt, completion, model, tokens, cost, latency"));
+    assert!(outside_proof.contains("EBML/WebM, Segment, Info, Tracks, and"));
+    assert!(outside_proof.contains("must not resolve through symlinks"));
+    for fragment in ["prompt", "completion", "model", "tokens", "cost", "latency"] {
+        assert!(outside_proof.contains(fragment));
+    }
     assert!(outside_proof.contains("SHA256 against the committed artifact"));
 
     let readme = read(root.join("README.md"));
@@ -668,7 +675,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("mismatched image digests"));
     assert!(readme.contains("recording notes from a different dashboard session"));
     assert!(readme.contains("WebM capture of at least 64 KiB"));
-    assert!(readme.contains("WebM/EBML header"));
+    assert!(readme.contains("EBML/WebM, Segment, Info, Tracks"));
+    assert!(readme.contains("artifact paths must not traverse"));
     assert!(readme.contains("The notes"));
     assert!(readme.contains("must also describe the full recorded flow"));
     assert!(readme.contains("hash that does not match the committed file"));
@@ -696,11 +704,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("otel-python"));
     assert!(requirements.contains("recording-notes"));
     assert!(requirements.contains("outside-run attestation"));
-    assert!(requirements.contains("repo-relative `docs/demos/` artifacts"));
+    assert!(requirements.contains("repo-relative non-symlink `docs/demos/` artifacts"));
     assert!(requirements.contains("prebuilt GHCR image digests"));
     assert!(requirements.contains("default API/OTLP/dashboard endpoints"));
     assert!(requirements.contains("recording-notes full-flow check"));
-    assert!(requirements.contains("recording-file WebM/min-size guard"));
+    assert!(requirements.contains("recording-file WebM/min-size/structure guard"));
     assert!(requirements.contains("recording-hash cross-checks"));
     assert!(requirements.contains("public multi-arch GHCR images"));
     assert!(requirements.contains("Gate 2 `--full-run` public handoff verification"));

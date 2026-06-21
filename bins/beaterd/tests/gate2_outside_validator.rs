@@ -7,7 +7,7 @@ use tempfile::TempDir;
 
 const QUICKSTART_TRACE: &str = "11111111111111111111111111111111";
 const ALL_KIND_TRACE: &str = "22222222222222222222222222222222";
-const RECORDING_SHA: &str = "8dbf7556fbb705c3e00d5ec7604b3ce82482f7743f937d008d0913a96d0284dc";
+const RECORDING_SHA: &str = "3dac802bc8f2db03406d0d76e4e1618ed5b516a2cf3d286589e1a588cf6e6534";
 const BEATER_IMAGE_DIGEST: &str =
     "ghcr.io/jadenfix/beater/beaterd@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 const DASHBOARD_IMAGE_DIGEST: &str =
@@ -1327,6 +1327,34 @@ fn gate2_outside_validator_rejects_non_webm_recording() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_padded_webm_header_recording() {
+    let fixture = ValidatorFixture::new();
+    fs::write(&fixture.recording_path, padded_webm_header_bytes())
+        .unwrap_or_else(|err| panic!("write {}: {err}", fixture.recording_path.display()));
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording WebM must contain a Segment element",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_marker_only_fake_webm_recording() {
+    let fixture = ValidatorFixture::new();
+    fs::write(&fixture.recording_path, marker_only_fake_webm_bytes())
+        .unwrap_or_else(|err| panic!("write {}: {err}", fixture.recording_path.display()));
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording WebM must contain a Segment element",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_tiny_webm_recording() {
     let fixture = ValidatorFixture::new();
     fs::write(
@@ -1345,6 +1373,77 @@ fn gate2_outside_validator_rejects_tiny_webm_recording() {
         output,
         "screen recording must be a real WebM capture of at least",
     );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_symlink_recording_artifact() {
+    let fixture = ValidatorFixture::new();
+    fs::remove_file(&fixture.recording_path)
+        .unwrap_or_else(|err| panic!("remove {}: {err}", fixture.recording_path.display()));
+    symlink(
+        repo_root().join("docs/demos/gate2-compose-browser-demo.webm"),
+        &fixture.recording_path,
+    )
+    .unwrap_or_else(|err| panic!("symlink recording artifact: {err}"));
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "Screen recording must not be a symlink");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_symlink_recording_notes_artifact_without_traceback() {
+    let fixture = ValidatorFixture::new();
+    let target = fixture.notes_path.with_file_name("binary-notes-target.md");
+    fs::write(&target, [0xff, 0xfe, 0xfd])
+        .unwrap_or_else(|err| panic!("write binary notes target: {err}"));
+    fs::remove_file(&fixture.notes_path)
+        .unwrap_or_else(|err| panic!("remove {}: {err}", fixture.notes_path.display()));
+    symlink(&target, &fixture.notes_path)
+        .unwrap_or_else(|err| panic!("symlink recording notes artifact: {err}"));
+
+    let output = run_validator(&fixture.proof_path);
+
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        !stderr.contains("Traceback"),
+        "validator must report invalid symlink notes without a Python traceback:\n{stderr}"
+    );
+    assert_failure(output, "Screen recording notes must not be a symlink");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_symlink_parent_artifact_path() {
+    let fixture = ValidatorFixture::new();
+    let link_parent = TempDir::new_in(repo_root().join("docs/demos"))
+        .unwrap_or_else(|err| panic!("create symlink parent fixture dir: {err}"));
+    let linked_dir = link_parent.path().join("linked-artifacts");
+    symlink(fixture._artifact_dir.path(), &linked_dir)
+        .unwrap_or_else(|err| panic!("symlink artifact parent dir: {err}"));
+    let linked_recording = repo_relative_path(&linked_dir.join("recording.webm"));
+    replace(
+        &fixture.proof_path,
+        &fixture.recording_field,
+        &linked_recording,
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "Screen recording must not be a symlink");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_symlink_stopwatch_artifact() {
+    let fixture = ValidatorFixture::new();
+    let target = fixture.stopwatch_path.with_file_name("stopwatch-target.md");
+    fs::rename(&fixture.stopwatch_path, &target)
+        .unwrap_or_else(|err| panic!("rename stopwatch fixture: {err}"));
+    symlink(&target, &fixture.stopwatch_path)
+        .unwrap_or_else(|err| panic!("symlink stopwatch artifact: {err}"));
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "Stopwatch proof file must not be a symlink");
 }
 
 #[test]
@@ -2120,9 +2219,22 @@ fn write_registry_manifest(dir: &Path, image: &str, platforms: &[&str]) {
 }
 
 fn recording_bytes() -> Vec<u8> {
+    fs::read(repo_root().join("docs/demos/gate2-compose-browser-demo.webm"))
+        .unwrap_or_else(|err| panic!("read committed Gate 2 compose recording fixture: {err}"))
+}
+
+fn padded_webm_header_bytes() -> Vec<u8> {
     let mut bytes =
         bytes_from_hex("1a45dfa39f4286810142f7810142f2810442f381084282847765626d4287810242858102");
     bytes.resize(70_000, 0);
+    bytes
+}
+
+fn marker_only_fake_webm_bytes() -> Vec<u8> {
+    let mut bytes = padded_webm_header_bytes();
+    bytes.extend(bytes_from_hex(
+        "0018538067001549a966001654ae6b001f43b6750083810100a388000102030405060708",
+    ));
     bytes
 }
 

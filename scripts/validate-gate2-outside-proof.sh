@@ -21,6 +21,7 @@ import hashlib
 import datetime as dt
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -319,8 +320,171 @@ def require_recording_shows_full_flow(notes_text: str) -> None:
         )
 
 
+EBML_ID = 0x1A45DFA3
+DOCTYPE_ID = 0x4282
+SEGMENT_ID = 0x18538067
+INFO_ID = 0x1549A966
+TRACKS_ID = 0x1654AE6B
+TRACK_ENTRY_ID = 0xAE
+TRACK_TYPE_ID = 0x83
+CLUSTER_ID = 0x1F43B675
+SIMPLE_BLOCK_ID = 0xA3
+BLOCK_GROUP_ID = 0xA0
+BLOCK_ID = 0xA1
+
+
+def read_vint(
+    data: bytes, offset: int, limit: int, max_len: int, strip_marker: bool
+) -> Optional[tuple[int, int, bool]]:
+    if offset >= limit:
+        return None
+    first = data[offset]
+    if first == 0:
+        return None
+    marker = 0x80
+    length = 1
+    while length <= max_len and not (first & marker):
+        marker >>= 1
+        length += 1
+    if length > max_len or offset + length > limit:
+        return None
+    value = first & (marker - 1) if strip_marker else first
+    for index in range(1, length):
+        value = (value << 8) | data[offset + index]
+    unknown_size = strip_marker and value == (1 << (7 * length)) - 1
+    return value, length, unknown_size
+
+
+def read_ebml_element(
+    data: bytes, offset: int, limit: int
+) -> Optional[tuple[int, int, int, int]]:
+    id_info = read_vint(data, offset, limit, 4, False)
+    if id_info is None:
+        return None
+    element_id, id_len, _ = id_info
+    size_info = read_vint(data, offset + id_len, limit, 8, True)
+    if size_info is None:
+        return None
+    size, size_len, unknown_size = size_info
+    payload_start = offset + id_len + size_len
+    payload_end = limit if unknown_size else payload_start + size
+    if payload_end > limit or payload_start > payload_end:
+        return None
+    return element_id, payload_start, payload_end, payload_end
+
+
+def ebml_children(data: bytes, start: int, end: int) -> list[tuple[int, int, int, int]]:
+    children = []
+    offset = start
+    while offset < end:
+        element = read_ebml_element(data, offset, end)
+        if element is None:
+            break
+        children.append(element)
+        next_offset = element[3]
+        if next_offset <= offset:
+            break
+        offset = next_offset
+    return children
+
+
+def ebml_uint(data: bytes, start: int, end: int) -> Optional[int]:
+    if start >= end:
+        return None
+    value = 0
+    for byte in data[start:end]:
+        value = (value << 8) | byte
+    return value
+
+
+def tracks_have_video(data: bytes, start: int, end: int) -> bool:
+    for element_id, payload_start, payload_end, _ in ebml_children(data, start, end):
+        if element_id != TRACK_ENTRY_ID:
+            continue
+        for child_id, child_start, child_end, _ in ebml_children(
+            data, payload_start, payload_end
+        ):
+            if child_id == TRACK_TYPE_ID and ebml_uint(data, child_start, child_end) == 1:
+                return True
+    return False
+
+
+def cluster_has_block_payload(data: bytes, start: int, end: int) -> bool:
+    for element_id, payload_start, payload_end, _ in ebml_children(data, start, end):
+        if element_id == SIMPLE_BLOCK_ID and payload_end - payload_start > 4:
+            return True
+        if element_id != BLOCK_GROUP_ID:
+            continue
+        for child_id, child_start, child_end, _ in ebml_children(
+            data, payload_start, payload_end
+        ):
+            if child_id == BLOCK_ID and child_end - child_start > 4:
+                return True
+    return False
+
+
+def require_webm_structure(recording_bytes: bytes) -> None:
+    ebml = read_ebml_element(recording_bytes, 0, len(recording_bytes))
+    if ebml is None or ebml[0] != EBML_ID:
+        fail("screen recording must start with a valid EBML header element")
+        return
+
+    doc_type = None
+    for element_id, payload_start, payload_end, _ in ebml_children(
+        recording_bytes, ebml[1], ebml[2]
+    ):
+        if element_id == DOCTYPE_ID:
+            doc_type = recording_bytes[payload_start:payload_end]
+            break
+    if doc_type != b"webm":
+        fail("screen recording must declare WebM DocType in its EBML header")
+
+    segment = None
+    for element in ebml_children(recording_bytes, ebml[3], len(recording_bytes)):
+        if element[0] == SEGMENT_ID:
+            segment = element
+            break
+    if segment is None:
+        fail("screen recording WebM must contain a Segment element")
+        return
+
+    has_info = False
+    has_tracks = False
+    has_video_track = False
+    has_cluster = False
+    has_block_payload = False
+    for element_id, payload_start, payload_end, _ in ebml_children(
+        recording_bytes, segment[1], segment[2]
+    ):
+        if element_id == INFO_ID:
+            has_info = True
+        elif element_id == TRACKS_ID:
+            has_tracks = True
+            has_video_track = has_video_track or tracks_have_video(
+                recording_bytes, payload_start, payload_end
+            )
+        elif element_id == CLUSTER_ID:
+            has_cluster = True
+            has_block_payload = has_block_payload or cluster_has_block_payload(
+                recording_bytes, payload_start, payload_end
+            )
+        if has_info and has_tracks and has_video_track and has_cluster and has_block_payload:
+            break
+
+    if not has_info:
+        fail("screen recording WebM must contain an Info element")
+    if not has_tracks:
+        fail("screen recording WebM must contain a Tracks element")
+    if not has_video_track:
+        fail("screen recording WebM must contain a video track")
+    if not has_cluster:
+        fail("screen recording WebM must contain a Cluster element")
+    if not has_block_payload:
+        fail("screen recording WebM must contain a Cluster block payload")
+
+
 def require_webm_recording(recording_path: Path) -> None:
-    recording_bytes = recording_path.read_bytes()
+    recording_bytes = read_validated_bytes(recording_path, "Screen recording")
     if len(recording_bytes) < MIN_RECORDING_BYTES:
         fail(
             "screen recording must be a real WebM capture of at least "
@@ -330,27 +494,89 @@ def require_webm_recording(recording_path: Path) -> None:
         fail("screen recording must start with a WebM/EBML header")
     if b"webm" not in recording_bytes[:4096]:
         fail("screen recording must declare WebM DocType in its EBML header")
+    require_webm_structure(recording_bytes)
+
+    ffprobe = shutil.which("ffprobe")
+    if not ffprobe:
+        return
+    try:
+        probe = subprocess.run(
+            [
+                ffprobe,
+                "-v",
+                "error",
+                "-select_streams",
+                "v:0",
+                "-show_entries",
+                "stream=codec_type",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "default=noprint_wrappers=1:nokey=0",
+                str(recording_path),
+            ],
+            cwd=repo,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except OSError as err:
+        fail(f"screen recording ffprobe validation failed to start: {err}")
+        return
+    if probe.returncode != 0:
+        fail("screen recording must be a playable WebM video: ffprobe failed")
+        return
+    if "codec_type=video" not in probe.stdout:
+        fail("screen recording must contain a video stream")
+    duration_match = re.search(r"^duration=([0-9]+(?:\.[0-9]+)?)$", probe.stdout, re.MULTILINE)
+    if not duration_match or float(duration_match.group(1)) <= 0:
+        fail("screen recording must have a positive video duration")
 
 
-def repo_artifact_path(value: str, name: str) -> Path:
+def repo_artifact_path(value: str, name: str) -> Optional[Path]:
     path = Path(value)
+    valid = True
     if path.is_absolute():
         fail(f"{name} must be a repo-relative path under docs/demos")
+        valid = False
     if ".." in path.parts:
         fail(f"{name} must not contain '..'")
+        valid = False
     if len(path.parts) < 2 or path.parts[0] != "docs" or path.parts[1] != "demos":
         fail(f"{name} must live under docs/demos")
+        valid = False
+    if not valid:
+        return None
     return repo / path
 
 
-def require_tracked_artifact(path: Path, name: str) -> None:
-    if ALLOW_UNTRACKED_ARTIFACTS:
-        return
+def require_tracked_artifact(path: Path, name: str) -> bool:
     try:
-        rel = path.resolve().relative_to(repo.resolve())
+        rel = path.relative_to(repo)
     except ValueError:
         fail(f"{name} must be inside the repository")
-        return
+        return False
+    probe = repo
+    for part in rel.parts:
+        probe = probe / part
+        try:
+            if probe.is_symlink():
+                fail(f"{name} must not be a symlink: {rel}")
+                return False
+        except OSError as err:
+            fail(f"{name} could not be inspected for symlinks: {err}")
+            return False
+    if not path.is_file():
+        fail(f"{name} must be a regular file: {rel}")
+        return False
+    try:
+        path.resolve().relative_to(repo.resolve())
+    except ValueError:
+        fail(f"{name} must resolve inside the repository")
+        return False
+    if ALLOW_UNTRACKED_ARTIFACTS:
+        return True
     try:
         subprocess.check_call(
             ["git", "ls-files", "--error-unmatch", "--", str(rel)],
@@ -360,6 +586,38 @@ def require_tracked_artifact(path: Path, name: str) -> None:
         )
     except (OSError, subprocess.CalledProcessError):
         fail(f"{name} must be tracked by git before Gate 2 closure: {rel}")
+        return False
+    return True
+
+
+def validated_artifact_path(value: str, name: str, missing_message: str) -> Optional[Path]:
+    path = repo_artifact_path(value, name)
+    if path is None:
+        return None
+    if not path.exists():
+        fail(missing_message)
+        return None
+    if not require_tracked_artifact(path, name):
+        return None
+    return path
+
+
+def read_validated_text(path: Path, name: str) -> str:
+    try:
+        return path.read_text()
+    except UnicodeDecodeError:
+        fail(f"{name} must be valid UTF-8 text")
+    except OSError as err:
+        fail(f"{name} could not be read: {err}")
+    return ""
+
+
+def read_validated_bytes(path: Path, name: str) -> bytes:
+    try:
+        return path.read_bytes()
+    except OSError as err:
+        fail(f"{name} could not be read: {err}")
+    return b""
 
 
 def git_output(args: list[str]) -> str:
@@ -646,24 +904,32 @@ require_default_dashboard_url("Quickstart dashboard URL", quickstart_url, quicks
 require_default_dashboard_url("All-kind dashboard URL", all_kind_url, all_kind_trace_id)
 
 recording = field_value("Screen recording")
-recording_path = repo_artifact_path(recording, "Screen recording") if recording else Path("")
-if recording and not recording_path.exists():
-    fail(f"screen recording does not exist: {recording}")
-elif recording:
-    require_tracked_artifact(recording_path, "Screen recording")
+recording_path = (
+    validated_artifact_path(
+        recording,
+        "Screen recording",
+        f"screen recording does not exist: {recording}",
+    )
+    if recording
+    else None
+)
 notes = field_value("Screen recording notes")
-notes_path = repo_artifact_path(notes, "Screen recording notes") if notes else Path("")
-if notes and not notes_path.exists():
-    fail(f"screen recording notes do not exist: {notes}")
-elif notes:
-    require_tracked_artifact(notes_path, "Screen recording notes")
-notes_text = notes_path.read_text() if notes and notes_path.exists() else ""
+notes_path = (
+    validated_artifact_path(
+        notes,
+        "Screen recording notes",
+        f"screen recording notes do not exist: {notes}",
+    )
+    if notes
+    else None
+)
+notes_text = read_validated_text(notes_path, "Screen recording notes") if notes_path else ""
 sha = field_value("Screen recording SHA256")
 if sha and not re.fullmatch(r"[0-9a-f]{64}", sha):
     fail("Screen recording SHA256 must be a lowercase 64-character sha256")
-if recording and recording_path.exists() and re.fullmatch(r"[0-9a-f]{64}", sha):
+if recording_path and re.fullmatch(r"[0-9a-f]{64}", sha):
     require_webm_recording(recording_path)
-    actual = hashlib.sha256(recording_path.read_bytes()).hexdigest()
+    actual = hashlib.sha256(read_validated_bytes(recording_path, "Screen recording")).hexdigest()
     if actual != sha:
         fail(f"screen recording sha mismatch: expected {sha}, got {actual}")
 
@@ -715,16 +981,17 @@ require_max_300(
 
 stopwatch_proof = field_value("Stopwatch proof file")
 stopwatch_path = (
-    repo_artifact_path(stopwatch_proof, "Stopwatch proof file")
+    validated_artifact_path(
+        stopwatch_proof,
+        "Stopwatch proof file",
+        f"stopwatch proof file does not exist: {stopwatch_proof}",
+    )
     if stopwatch_proof
-    else Path("")
+    else None
 )
 stopwatch_text = ""
-if stopwatch_proof and not stopwatch_path.exists():
-    fail(f"stopwatch proof file does not exist: {stopwatch_proof}")
-elif stopwatch_proof:
-    require_tracked_artifact(stopwatch_path, "Stopwatch proof file")
-    stopwatch_text = stopwatch_path.read_text()
+if stopwatch_path:
+    stopwatch_text = read_validated_text(stopwatch_path, "Stopwatch proof file")
 
 if stopwatch_text:
     forbid_alternate_evidence(stopwatch_text, "stopwatch proof")
