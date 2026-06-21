@@ -118,6 +118,16 @@ def occupied_port_message(port: int, label: str, env_name: str) -> str:
     )
 
 
+def fixture_full_run_enabled(args: argparse.Namespace) -> bool:
+    return (
+        args.full_run
+        and os.environ.get("BEATER_GATE2_FIXTURE_FULL_RUN") == "1"
+        and args.source_url == REMOTE_URL
+        and bool(args.registry_fixture)
+        and args.skip_local_readiness
+    )
+
+
 def require_full_run_source(args: argparse.Namespace) -> None:
     if not args.full_run:
         return
@@ -126,7 +136,7 @@ def require_full_run_source(args: argparse.Namespace) -> None:
             "--full-run executes the exact scripts/gate2-outside-run.sh path and "
             "is only supported against the canonical public GitHub repo and GHCR images"
         )
-    if args.registry_fixture:
+    if args.registry_fixture and not fixture_full_run_enabled(args):
         raise SystemExit(
             "--full-run verifies canonical public GHCR images and does not support "
             "--registry-fixture"
@@ -220,6 +230,13 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
     require_local_docker_context()
     cleanup_local_stopwatch_compose()
 
+    if fixture_full_run_enabled(args):
+        print(
+            "fixture full-run mode skips host port socket checks; this is test "
+            "coverage only, not outside-person evidence"
+        )
+        return
+
     occupied = [
         occupied_port_message(port, label, env_name)
         for port, label, env_name in FULL_RUN_PORTS
@@ -257,6 +274,7 @@ OUTSIDE_ENV_NAMES = [
     "BEATER_GATE2_RECORD_NOTES",
     "KEEP_BEATER_COMPOSE",
     "COMPOSE_PROJECT_NAME",
+    "BEATER_GATE2_FIXTURE_FULL_RUN",
 ]
 
 
@@ -264,6 +282,9 @@ def clean_outside_env() -> dict[str, str]:
     env = os.environ.copy()
     for name in OUTSIDE_ENV_NAMES:
         env.pop(name, None)
+    for name in list(env):
+        if name.startswith("GIT_CONFIG_"):
+            env.pop(name, None)
     return env
 
 
@@ -301,7 +322,14 @@ def clone_repo(
     if clone_branch != "main":
         raise SystemExit(f"public handoff clone must be on main, got {clone_branch!r}")
 
-    clone_origin = run(["git", "remote", "get-url", "origin"], cwd=clone_dir, quiet=True)
+    if fixture_full_run_enabled(args):
+        run(["git", "config", "remote.origin.url", REMOTE_URL], cwd=clone_dir, quiet=True)
+        clone_origin = run(
+            ["git", "config", "--get", "remote.origin.url"], cwd=clone_dir, quiet=True
+        )
+    else:
+        clone_origin = run(["git", "remote", "get-url", "origin"], cwd=clone_dir, quiet=True)
+
     if clone_origin != args.source_url:
         raise SystemExit(
             f"public handoff clone origin must be {args.source_url!r}, got {clone_origin!r}"
@@ -333,7 +361,7 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
         run(["bash", "-n", script], cwd=clone_dir)
 
     readiness = ["scripts/check-gate2-outside-readiness.py"]
-    if args.source_url != REMOTE_URL:
+    if args.source_url != REMOTE_URL or fixture_full_run_enabled(args):
         readiness.append("--skip-repo-shape")
     if registry_fixture:
         readiness.extend(["--registry-fixture", registry_fixture])
@@ -420,7 +448,12 @@ def main() -> None:
     try:
         run_cloned_checks(args, clone_dir)
         run_cloned_full_run(args, clone_dir, clone_started_epoch)
-        mode = "full run" if args.full_run else "clone"
+        if fixture_full_run_enabled(args):
+            mode = "fixture full run"
+        elif args.full_run:
+            mode = "full run"
+        else:
+            mode = "clone"
         print(f"Gate 2 public handoff {mode} passed for {expected_commit}: {clone_dir}")
     finally:
         if temp_owner is not None and not args.keep_clone:

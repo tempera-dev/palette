@@ -491,6 +491,110 @@ fn gate2_public_handoff_verifier_full_run_rejects_noncanonical_fixture_source() 
 }
 
 #[test]
+fn gate2_public_handoff_verifier_full_run_rejects_registry_fixture_without_fixture_flag() {
+    let registry = tempdir("create registry fixture dir");
+    let clone_parent = tempdir("create public handoff clone parent");
+
+    let output = run_public_handoff_full_run_with_fixture(
+        "https://github.com/jadenfix/beater.git",
+        &current_head(),
+        registry.path(),
+        clone_parent.path(),
+    );
+
+    assert_failure(
+        output,
+        "--full-run verifies canonical public GHCR images and does not support --registry-fixture",
+    );
+    assert!(
+        !clone_parent.path().join("beater").exists(),
+        "canonical --full-run must reject registry fixtures before creating a clone"
+    );
+}
+
+#[test]
+fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() {
+    let registry = tempdir("create registry fixture dir");
+    let clone_parent = tempdir("create public handoff clone parent");
+    write_registry_fixtures(registry.path());
+    let fixture_repo = write_public_handoff_fixture_repo();
+    write_stopwatch_env_stub(fixture_repo.path());
+    git_success(
+        fixture_repo.path(),
+        &["add", "scripts/gate2-compose-stopwatch.sh"],
+    );
+    git_success(
+        fixture_repo.path(),
+        &["commit", "-m", "stub stopwatch runtime"],
+    );
+    let fixture_head = git_output(fixture_repo.path(), &["rev-parse", "HEAD"]);
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+    let fixture_url = format!("file://{}", fixture_repo.path().display());
+    let git_rewrite_key = format!("url.{fixture_url}.insteadOf");
+    let root = repo_root();
+    let mut command = Command::new("python3");
+    command
+        .arg(root.join("scripts/check-gate2-public-handoff.py"))
+        .arg("--skip-local-readiness")
+        .arg("--expected-commit")
+        .arg(&fixture_head)
+        .arg("--registry-fixture")
+        .arg(registry.path())
+        .arg("--clone-parent")
+        .arg(clone_parent.path())
+        .arg("--full-run")
+        .current_dir(&root)
+        .env("PATH", path_with_public_handoff_runtime(&runtime))
+        .env_remove("DOCKER_HOST")
+        .env("BEATER_GATE2_FIXTURE_FULL_RUN", "1")
+        .env("GIT_CONFIG_COUNT", "1")
+        .env("GIT_CONFIG_KEY_0", git_rewrite_key)
+        .env(
+            "GIT_CONFIG_VALUE_0",
+            "https://github.com/jadenfix/beater.git",
+        );
+
+    let output = command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 public handoff full-run fixture: {err}"));
+
+    assert_success(output, "Gate 2 public handoff fixture full run passed");
+    let clone_dir = clone_parent.path().join("beater");
+    let clone_origin = git_output(&clone_dir, &["remote", "get-url", "origin"]);
+    assert_eq!(clone_origin, "https://github.com/jadenfix/beater.git");
+    let env_marker = fs::read_to_string(clone_dir.join("wrapper-real-env.txt"))
+        .unwrap_or_else(|err| panic!("read cloned wrapper runtime marker: {err}"));
+    assert!(env_marker.contains("write=1"));
+    assert!(env_marker.contains("browser=1"));
+    assert!(env_marker.contains("record=1"));
+    assert!(env_marker.contains("post_slo=unset"));
+    assert!(env_marker.contains("reuse=0"));
+    assert!(env_marker.contains("local_build=0"));
+    assert!(env_marker.contains("pull_policy=always"));
+    assert!(env_marker.contains("keep=1"));
+    assert!(env_marker.contains("outside_wrapper=1"));
+    assert!(env_marker.contains("dry=unset"));
+    assert!(env_marker.contains("expected_origin=unset"));
+    assert!(env_marker.contains("dashboard_port=unset"));
+    assert!(env_marker.contains("fixture_full_run=unset"));
+    assert!(env_marker.contains("git_config_count=unset"));
+    assert!(
+        env_marker.contains("clone_started=") && !env_marker.contains("clone_started=unset"),
+        "full-run fixture must pass clone-start timing into the wrapper\n{env_marker}"
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log)
+        .unwrap_or_else(|err| panic!("read fake Docker log: {err}"));
+    assert!(docker_log.contains("info"));
+    assert!(docker_log.contains("compose version"));
+    assert!(docker_log.contains("context inspect"));
+    assert_eq!(
+        docker_log.matches("down -v --remove-orphans").count(),
+        2,
+        "full-run fixture should clean Compose before and after the wrapper\n{docker_log}"
+    );
+}
+
+#[test]
 fn gate2_public_handoff_full_run_rejects_missing_sha_tooling_before_clone() {
     let clone_parent = tempdir("create public handoff clone parent");
     let runtime = fake_public_handoff_runtime(false, "unix:///var/run/docker.sock");
@@ -2227,6 +2331,16 @@ esac
     }
 }
 
+fn path_with_public_handoff_runtime(runtime: &FakePublicHandoffRuntime) -> String {
+    let existing_path = std::env::var_os("PATH").unwrap_or_default();
+    let mut paths = vec![PathBuf::from(&runtime.path_env)];
+    paths.extend(std::env::split_paths(&existing_path));
+    std::env::join_paths(paths)
+        .unwrap_or_else(|err| panic!("build fake public handoff PATH: {err}"))
+        .to_string_lossy()
+        .into_owned()
+}
+
 fn python3_executable() -> PathBuf {
     let output = Command::new("python3")
         .arg("-c")
@@ -2323,6 +2437,7 @@ fn clear_outside_env(command: &mut Command) {
         "BEATER_GATE2_RECORD_NOTES",
         "KEEP_BEATER_COMPOSE",
         "COMPOSE_PROJECT_NAME",
+        "BEATER_GATE2_FIXTURE_FULL_RUN",
     ] {
         command.env_remove(name);
     }
@@ -2501,6 +2616,8 @@ set -euo pipefail
   echo "expected_origin=${BEATER_GATE2_EXPECTED_ORIGIN:-unset}"
   echo "clone_started=${BEATER_GATE2_CLONE_STARTED_EPOCH:-unset}"
   echo "dashboard_port=${BEATER_DASHBOARD_PORT:-unset}"
+  echo "fixture_full_run=${BEATER_GATE2_FIXTURE_FULL_RUN:-unset}"
+  echo "git_config_count=${GIT_CONFIG_COUNT:-unset}"
 } > wrapper-real-env.txt
 echo "fixture outside wrapper runtime executed"
 "#,
