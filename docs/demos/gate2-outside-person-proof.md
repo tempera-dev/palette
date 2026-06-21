@@ -76,7 +76,8 @@ The script fails before Compose startup if local Docker is unavailable, if curl
 is missing, if recording SHA tooling is missing, or if API `8080`, OTLP `4317`,
 or dashboard `3000` are still in use after it removes any previous Beater
 stopwatch project. It also requires `python3` before the timed run so proof
-generation and validation cannot fail late on missing local tooling. The stock
+generation and validation cannot fail late on missing local tooling; Python
+3.9 or newer is required. The stock
 OpenTelemetry Python snippet runs in the prebuilt `otel-python` container, and
 browser proof runs in the prebuilt `dashboard-e2e` container. Remote
 `DOCKER_HOST` values and remote Docker contexts are rejected because the browser

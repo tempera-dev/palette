@@ -73,8 +73,8 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
         "reaches the first trace and quickstart browser click unaided in\n5 minutes or less"
     ));
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
-    assert!(readme.contains("and `python3`; local ports"));
-    assert!(readme.contains("requires `python3` before the timed run"));
+    assert!(readme.contains("and `python3` 3.9+; local ports"));
+    assert!(readme.contains("requires `python3` 3.9+ before the timed run"));
     assert!(!readme.contains("`python3` for post-run proof generation"));
     assert!(!readme.contains("`python3` is required afterward"));
     assert!(readme.contains("--llm-observation"));
@@ -89,7 +89,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     let proof_template = fs::read_to_string(root.join("docs/demos/gate2-outside-person-proof.md"))
         .unwrap_or_else(|err| panic!("read outside proof template: {err}"));
     assert!(proof_template.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
-    assert!(proof_template.contains("requires `python3` before the timed run"));
+    assert!(proof_template.contains("Python\n3.9 or newer is required"));
     assert!(!proof_template.contains("none / describe"));
     assert!(!proof_template.contains("`python3` is required after the timed run"));
     assert!(!proof_template.contains("http://127.0.0.1:3000/..."));
@@ -372,6 +372,38 @@ fn gate2_outside_readiness_rejects_missing_image_platform() {
     let output = run_readiness_with_fixture(registry.path());
 
     assert_failure(output, "platforms mismatch for dashboard");
+}
+
+#[test]
+fn gate2_outside_readiness_reports_missing_origin_without_traceback() {
+    let root = repo_root();
+    let fixture = tempdir("create readiness fixture without origin");
+    copy_fixture_file(
+        &root,
+        fixture.path(),
+        "scripts/check-gate2-outside-readiness.py",
+    );
+    git_success(fixture.path(), &["init"]);
+    git_success(
+        fixture.path(),
+        &["config", "user.email", "fixture@example.invalid"],
+    );
+    git_success(fixture.path(), &["config", "user.name", "Gate 2 Fixture"]);
+    git_success(fixture.path(), &["add", "."]);
+    git_success(fixture.path(), &["commit", "-m", "fixture"]);
+    git_success(fixture.path(), &["branch", "-M", "main"]);
+
+    let output = Command::new("python3")
+        .arg(
+            fixture
+                .path()
+                .join("scripts/check-gate2-outside-readiness.py"),
+        )
+        .current_dir(fixture.path())
+        .output()
+        .unwrap_or_else(|err| panic!("run readiness checker without origin: {err}"));
+
+    assert_failure(output, "git remote get-url origin failed");
 }
 
 #[test]
@@ -822,6 +854,40 @@ fn gate2_outside_wrapper_dry_run_rejects_missing_python3() {
 }
 
 #[test]
+fn gate2_outside_wrapper_dry_run_rejects_unusable_python3() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    let path_dir = tempdir("create outside wrapper dry-run PATH with unusable python3");
+    symlink(&command_executable("git"), path_dir.path().join("git"))
+        .unwrap_or_else(|err| panic!("symlink git fixture: {err}"));
+    symlink(
+        &command_executable("dirname"),
+        path_dir.path().join("dirname"),
+    )
+    .unwrap_or_else(|err| panic!("symlink dirname fixture: {err}"));
+    write_executable(
+        &path_dir.path().join("python3"),
+        "#!/bin/sh\nif [ \"$1\" = \"-c\" ]; then printf '3.8.18\\n'; exit 0; fi\nexit 1\n",
+    );
+
+    let mut command = Command::new("/bin/bash");
+    command
+        .arg(fixture.path().join("scripts/gate2-outside-run.sh"))
+        .current_dir(fixture.path());
+    clear_outside_env(&mut command);
+    command
+        .env("PATH", path_dir.path())
+        .env("BEATER_GATE2_OUTSIDE_RUN_DRY_RUN", "1");
+    let output = command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper dry-run with bad python3: {err}"));
+
+    assert_failure(
+        output,
+        "python3 must be version 3.9 or newer for proof generation and validation; got '3.8.18'",
+    );
+}
+
+#[test]
 fn gate2_outside_wrapper_rejects_alternate_dashboard_port() {
     let output = run_outside_wrapper_dry_run(Some(("BEATER_DASHBOARD_PORT", "13080")));
 
@@ -1138,6 +1204,26 @@ fn gate2_outside_validator_rejects_placeholder_compose_images_excerpt() {
     assert_failure(
         output,
         "`docker compose images` excerpt must include ghcr.io/jadenfix/beater/beaterd",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_incomplete_compose_images_excerpt() {
+    let fixture = ValidatorFixture::new();
+    let commit_sha = current_head();
+    replace(
+        &fixture.proof_path,
+        &compose_images_excerpt_line(),
+        &format!(
+            "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha}\n"
+        ),
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "`docker compose images` excerpt must include ghcr.io/jadenfix/beater/dashboard-e2e",
     );
 }
 
@@ -2085,7 +2171,7 @@ The runner completed the flow using only public repository instructions.
 fn compose_images_excerpt_line() -> String {
     let commit_sha = current_head();
     format!(
-        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha}\n"
+        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha} | beater-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/beater/dashboard-e2e {commit_sha} | beater-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/beater/otel-python {commit_sha}\n"
     )
 }
 
@@ -2148,6 +2234,8 @@ fn stopwatch_proof(recording: &str, notes: &str) -> String {
 CONTAINER                      REPOSITORY                          TAG                                        PLATFORM            IMAGE ID            SIZE                CREATED
 beater-stopwatch-beaterd-1     ghcr.io/jadenfix/beater/beaterd     {commit_sha}   linux/arm64         bbbbbbbbbbbb        88.4MB              1 minute ago
 beater-stopwatch-dashboard-1   ghcr.io/jadenfix/beater/dashboard   {commit_sha}   linux/arm64         cccccccccccc        99.2MB              1 minute ago
+beater-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/beater/dashboard-e2e {commit_sha} linux/arm64 eeeeeeeeeeee 132MB 1 minute ago
+beater-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/beater/otel-python {commit_sha} linux/arm64 aaaaaaaaaaaa 116MB 1 minute ago
 ```
 "#,
     )

@@ -302,7 +302,7 @@ def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
 
 
 def require_compose_images_excerpt(value: str, commit_sha: str) -> None:
-    for image in ["beaterd", "dashboard"]:
+    for image in ["beaterd", "dashboard", "dashboard-e2e", "otel-python"]:
         repo = f"ghcr.io/jadenfix/beater/{image}"
         if repo not in value:
             fail(f"`docker compose images` excerpt must include {repo}")

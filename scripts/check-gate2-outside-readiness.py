@@ -43,16 +43,19 @@ def repo_root() -> Path:
 
 
 def run_git(args: list[str]) -> str:
-    return subprocess.check_output(
-        ["git", *args], cwd=repo_root(), text=True, stderr=subprocess.DEVNULL
-    ).strip()
+    command = ["git", *args]
+    try:
+        return subprocess.check_output(
+            command, cwd=repo_root(), text=True, stderr=subprocess.DEVNULL
+        ).strip()
+    except FileNotFoundError as err:
+        raise SystemExit("git is required to check Gate 2 outside-run readiness") from err
+    except subprocess.CalledProcessError as err:
+        raise SystemExit(f"{' '.join(command)} failed in {repo_root()}") from err
 
 
 def current_commit() -> str:
-    try:
-        commit = run_git(["rev-parse", "HEAD"])
-    except (OSError, subprocess.CalledProcessError) as err:
-        raise SystemExit(f"could not read git HEAD: {err}") from err
+    commit = run_git(["rev-parse", "HEAD"])
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
         raise SystemExit(f"git HEAD is not a lowercase 40-character SHA: {commit!r}")
     return commit

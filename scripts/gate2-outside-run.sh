@@ -54,6 +54,19 @@ require_command() {
   fi
 }
 
+require_python3() {
+  require_command python3 "post-run proof generation and validation require python3 3.9+"
+  if ! python3 - <<'PY' >/dev/null 2>&1
+import sys
+raise SystemExit(0 if sys.version_info >= (3, 9) else 1)
+PY
+  then
+    local version
+    version="$(python3 -c 'import sys; print(".".join(str(part) for part in sys.version_info[:3]))' 2>/dev/null || true)"
+    fail "python3 must be version 3.9 or newer for proof generation and validation; got '${version:-unknown}'"
+  fi
+}
+
 require_git_provenance() {
   local branch
   local origin
@@ -78,7 +91,7 @@ fi
 
 require_git_provenance
 require_clone_timer
-require_command python3 "post-run proof generation and validation require python3"
+require_python3
 require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
 require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
 require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"

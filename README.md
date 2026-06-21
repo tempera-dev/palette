@@ -23,7 +23,7 @@ instrument agent -> inspect trace -> promote failure to dataset -> run evals
 
 This is the public clean-clone path Gate 2 is measured on. Prerequisites:
 Docker Desktop or another local Docker daemon, Docker Compose v2, `git`, `curl`,
-`shasum` or `sha256sum`, and `python3`; local ports `8080`, `4317`, and `3000`
+`shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`, `4317`, and `3000`
 free. Remote `DOCKER_HOST` values and
 remote Docker contexts are rejected because the browser proof connects to
 `127.0.0.1`.
@@ -193,7 +193,7 @@ seconds. It also records time-to-quickstart-click when browser proof is
 enabled. It leaves the dashboard running by default so a human can click
 through the trace.
 Before starting Compose it checks local Docker, Docker Compose, curl, and SHA
-tooling, and it requires `python3` before the timed run so proof generation and
+tooling, and it requires `python3` 3.9+ before the timed run so proof generation and
 validation cannot fail late on missing local tooling.
 It removes any previous Beater stopwatch project, then checks the required host
 ports. For outside-person evidence, free the default
