@@ -44,12 +44,20 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   }
   await expect(waterfall).toContainText("lookup-order-tool");
 
-  const run = waterfall.locator('[data-span-name="refund-agent-run"]');
-  const turn = waterfall.locator('[data-span-name="customer-refund-turn"]');
-  const step = waterfall.locator('[data-span-name="execute-refund-step"]');
-  const tool = waterfall.locator('[data-span-name="lookup-order-tool"]');
-  const mcp = waterfall.locator('[data-span-name="mcp-order-service"]');
+  const run = waterfall.locator('[data-span-seq="1"]');
+  const turn = waterfall.locator('[data-span-seq="2"]');
+  const step = waterfall.locator('[data-span-seq="4"]');
+  const llm = waterfall.locator('[data-span-seq="8"]');
+  const tool = waterfall.locator('[data-span-seq="9"]');
+  const mcp = waterfall.locator('[data-span-seq="10"]');
 
+  await expect(run).toContainText("refund-agent-run");
+  await expect(turn).toContainText("customer-refund-turn");
+  await expect(step).toContainText("execute-refund-step");
+  await expect(llm).toContainText("call-policy-model");
+  await expect(tool).toContainText("lookup-order-tool");
+  await expect(mcp).toContainText("mcp-order-service");
+  await expect(run).toHaveAttribute("data-span-id", /.+/);
   await expect(run).toHaveAttribute("data-kind", "agent.run");
   await expect(turn).toHaveAttribute("data-kind", "agent.turn");
   await expect(step).toHaveAttribute("data-kind", "agent.step");
@@ -61,12 +69,9 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   await expect(tool).toHaveAttribute("data-depth", "3");
   await expect(mcp).toHaveAttribute("data-depth", "4");
   await expect(run.locator(".kind-icon")).toHaveAttribute("data-icon", "agent-run");
-  await expect(waterfall.locator('[data-span-name="call-policy-model"] .kind-icon')).toHaveAttribute(
-    "data-icon",
-    "llm"
-  );
-  await expect(waterfall.locator('[data-span-name="call-policy-model"] .span-track')).toBeVisible();
-  await expect(waterfall.locator('[data-span-name="call-policy-model"] .span-bar')).toBeVisible();
+  await expect(llm.locator(".kind-icon")).toHaveAttribute("data-icon", "llm");
+  await expect(llm.locator(".span-track")).toBeVisible();
+  await expect(llm.locator(".span-bar")).toBeVisible();
   await expect(tool.locator(".kind-icon")).toHaveAttribute("data-icon", "tool");
   await expect(mcp.locator(".kind-icon")).toHaveAttribute("data-icon", "mcp");
 
@@ -88,29 +93,18 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
     2
   );
 
-  const orderedNames = await waterfall.locator("[data-span-name]").evaluateAll((rows) =>
-    rows.map((row) => row.getAttribute("data-span-name"))
+  const orderedSeqs = await waterfall.locator("[data-span-id]").evaluateAll((rows) =>
+    rows.map((row) => row.getAttribute("data-span-seq"))
   );
-  expect(orderedNames.indexOf("refund-agent-run")).toBeLessThan(
-    orderedNames.indexOf("customer-refund-turn")
-  );
-  expect(orderedNames.indexOf("customer-refund-turn")).toBeLessThan(
-    orderedNames.indexOf("execute-refund-step")
-  );
-  expect(orderedNames.indexOf("execute-refund-step")).toBeLessThan(
-    orderedNames.indexOf("lookup-order-tool")
-  );
-  expect(orderedNames.indexOf("lookup-order-tool")).toBeLessThan(
-    orderedNames.indexOf("mcp-order-service")
-  );
+  expect(orderedSeqs.indexOf("1")).toBeLessThan(orderedSeqs.indexOf("2"));
+  expect(orderedSeqs.indexOf("2")).toBeLessThan(orderedSeqs.indexOf("4"));
+  expect(orderedSeqs.indexOf("4")).toBeLessThan(orderedSeqs.indexOf("9"));
+  expect(orderedSeqs.indexOf("9")).toBeLessThan(orderedSeqs.indexOf("10"));
 
-  await waterfall.getByText("call-policy-model").click();
+  await llm.click();
 
   const detail = page.getByLabel("Span detail");
-  await expect(waterfall.locator('[data-span-name="call-policy-model"]')).toHaveAttribute(
-    "aria-current",
-    "location"
-  );
+  await expect(llm).toHaveAttribute("aria-current", "location");
   const selectedPath = page.getByLabel("Selected span path");
   await expect(selectedPath).toContainText("agent.run");
   await expect(selectedPath).toContainText("refund-agent-run");
@@ -118,7 +112,7 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   await expect(selectedPath).toContainText("customer-refund-turn");
   await expect(selectedPath).toContainText("llm.call");
   await expect(selectedPath).toContainText("call-policy-model");
-  await expect(detail.locator(".metrics").filter({ hasText: "Depth" })).toContainText("3");
+  await expect(detail.getByLabel("Span metrics").filter({ hasText: "Depth" })).toContainText("3");
   await expect(page.getByLabel("Detail sections")).toHaveCount(0);
   await expect(detail).toContainText("openai/gpt-demo");
   await expect(detail).toContainText("Tokens");
@@ -129,20 +123,20 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
   await expect(detail.getByRole("heading", { name: "Attributes", exact: true })).toBeVisible();
   await expect(detail.getByRole("heading", { name: "Canonical" })).toBeVisible();
   await expect(detail.getByRole("heading", { name: "Unmapped" })).toBeVisible();
-  await expect(detail.locator(".io").filter({ hasText: "Input" }).locator("pre")).toHaveText(
+  await expect(detail.getByLabel("Input I/O").locator("pre")).toHaveText(
     "Can this order be refunded after 31 days?"
   );
-  await expect(detail.locator(".io").filter({ hasText: "Output" }).locator("pre")).toHaveText(
+  await expect(detail.getByLabel("Output I/O").locator("pre")).toHaveText(
     "Escalate because the order is outside the standard window."
   );
   await expect(detail).toContainText("Can this order be refunded after 31 days?");
   await expect(detail).toContainText("Escalate because the order is outside the standard window.");
 
-  await waterfall.getByText("lookup-order-tool").click();
-  await expect(detail.locator(".io").filter({ hasText: "Input" }).locator("pre")).toHaveText(
+  await tool.click();
+  await expect(detail.getByLabel("Input I/O").locator("pre")).toHaveText(
     '{\n  "order_id": "ord_123"\n}'
   );
-  await expect(detail.locator(".io").filter({ hasText: "Output" }).locator("pre")).toHaveText(
+  await expect(detail.getByLabel("Output I/O").locator("pre")).toHaveText(
     '{\n  "status": "delivered",\n  "age_days": 31\n}'
   );
 });
@@ -214,7 +208,7 @@ test("keeps the trace console inside the viewport on desktop and mobile", async 
 
     if (viewport.width === 390) {
       const timingLayout = await page
-        .locator('[data-span-name="call-policy-model"] .duration')
+        .locator('[data-span-seq="8"] .duration')
         .first()
         .evaluate((node) => {
           const track = node.querySelector(".span-track");
@@ -298,8 +292,8 @@ test("supports keyboard focus across filters, traces, spans, and unmask controls
   await page.locator(".run-row").first().focus();
   await expect(page.locator(".run-row").first()).toBeFocused();
 
-  await page.locator('[data-span-name="call-policy-model"]').focus();
-  await expect(page.locator('[data-span-name="call-policy-model"]')).toBeFocused();
+  await page.locator('[data-span-seq="8"]').focus();
+  await expect(page.locator('[data-span-seq="8"]')).toBeFocused();
 
   await page.goto(
     `/?tenant=demo&project=demo&environment=local${traceParam}&unmask=true&reason=keyboard-test`

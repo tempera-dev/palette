@@ -287,6 +287,8 @@ def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
     parsed = urlparse(value)
     if parsed.scheme != "http" or parsed.netloc != "127.0.0.1:3000":
         fail(f"{name} must use {DEFAULT_DASHBOARD_BASE}")
+    if parsed.path not in ("", "/"):
+        fail(f"{name} must use the dashboard root path")
     if "..." in value:
         fail(f"{name} must be the concrete dashboard URL, not a placeholder")
     params = parse_qs(parsed.query)
@@ -302,12 +304,11 @@ def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
 
 
 def require_compose_images_excerpt(value: str, commit_sha: str) -> None:
+    segments = [segment.strip() for segment in re.split(r"[|\n]", value) if segment.strip()]
     for image in ["beaterd", "dashboard"]:
         repo = f"ghcr.io/jadenfix/beater/{image}"
-        if repo not in value:
-            fail(f"`docker compose images` excerpt must include {repo}")
-    if commit_sha not in value:
-        fail("`docker compose images` excerpt must include the checked-out commit SHA")
+        if not any(repo in segment and commit_sha in segment for segment in segments):
+            fail(f"`docker compose images` excerpt must include {repo} tagged with the checked-out commit SHA")
 
 
 def require_equal(name: str, outside_value: str, stopwatch_value: str) -> None:
@@ -797,6 +798,45 @@ UNRESOLVED_REQUIRED_VALUES = {
     "tbd",
     "todo",
 }
+CONCRETE_REQUIRED_FIELDS = {
+    "Name",
+    "Organization or relationship to project",
+    "Prior Beater repo exposure",
+    "Machine and OS",
+    "Browser",
+    "Network notes",
+}
+EMBEDDED_PLACEHOLDER = re.compile(r"(^|[\s:;,/()_-])(\.\.\.|…|tbd|todo)($|[\s:;,/()_-])", re.I)
+
+
+def contains_placeholder_fragment(value: str) -> bool:
+    return bool(EMBEDDED_PLACEHOLDER.search(value))
+
+
+def require_date_field(name: str, value: str, source_name: str) -> None:
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        fail(f"{name} in {source_name} must be a valid date like 2026-06-20")
+        return
+    try:
+        dt.date.fromisoformat(value)
+    except ValueError:
+        fail(f"{name} in {source_name} must be a valid date like 2026-06-20")
+
+
+def contradiction_text(value: str) -> str:
+    cleaned = value.lower()
+    negated_patterns = [
+        r"\bnot\s+(?:a\s+|an\s+)?(?:beater\s+project\s+)?maintainer\b",
+        r"\bno\s+(?:beater\s+)?maintainer\s+role\b",
+        r"\bnot\s+(?:an\s+)?internal\b",
+        r"\bnot\s+(?:an\s+)?employee\b",
+        r"\bnot\s+(?:a\s+)?founder\b",
+        r"\bno\s+(?:beater\s+team|project\s+team)\s+role\b",
+        r"\bnot\s+(?:on|part\s+of)\s+(?:the\s+)?(?:beater\s+team|project\s+team)\b",
+    ]
+    for pattern in negated_patterns:
+        cleaned = re.sub(pattern, "", cleaned)
+    return cleaned
 
 unresolved_fields = []
 for field in REQUIRED_PROOF_FIELDS:
@@ -809,8 +849,14 @@ for field in REQUIRED_PROOF_FIELDS:
         or normalized_value in UNRESOLVED_REQUIRED_VALUES
     ):
         unresolved_fields.append(field)
+    if field in CONCRETE_REQUIRED_FIELDS and (
+        normalized_value == "none" or contains_placeholder_fragment(value)
+    ):
+        unresolved_fields.append(field)
 if unresolved_fields:
-    fail("unresolved required fields: " + ", ".join(unresolved_fields))
+    fail("unresolved required fields: " + ", ".join(dict.fromkeys(unresolved_fields)))
+
+require_date_field("Date", field_value("Date"), "outside-person proof")
 
 outside_run_attestation = field_value("Outside-run attestation")
 if outside_run_attestation != OUTSIDE_RUN_ATTESTATION:
@@ -819,8 +865,8 @@ preflight_status = field_value("Preflight status")
 if preflight_status != "passed":
     fail("Preflight status must be passed")
 
-relationship = field_value("Organization or relationship to project").lower()
-prior_exposure = field_value("Prior Beater repo exposure").lower()
+relationship = contradiction_text(field_value("Organization or relationship to project"))
+prior_exposure = contradiction_text(field_value("Prior Beater repo exposure"))
 for outside_contradiction in [
     "maintainer",
     "internal",

@@ -23,8 +23,10 @@ test("renders the five-line stock OTLP quickstart trace in a browser", async ({ 
 
   const waterfall = page.getByLabel("Agent span waterfall");
   await expect(waterfall).toContainText("five-line-llm-call");
-  const llm = waterfall.locator('[data-span-name="five-line-llm-call"]');
+  const llm = waterfall.locator('[data-kind="llm.call"]');
   await expect(llm).toHaveCount(1);
+  await expect(llm).toContainText("five-line-llm-call");
+  await expect(llm).toHaveAttribute("data-span-id", /.+/);
   await expect(llm).toHaveAttribute("data-kind", "llm.call");
   await expect(llm).toHaveAttribute("data-depth", "0");
   await expect(llm.locator(".kind-icon")).toHaveAttribute("data-icon", "llm");

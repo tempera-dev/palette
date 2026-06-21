@@ -38,14 +38,12 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /Agent span waterfall/);
   assert.match(page, /lucide-react/);
   assert.match(page, /kindIcon/);
-  assert.match(page, /type KindIcon = \{ key: string; Icon: LucideIcon; title: string \}/);
-  assert.match(page, /Activity/);
-  assert.match(page, /BrainCircuit/);
-  assert.match(page, /const KindGlyph = icon\.Icon/);
   assert.match(page, /data-depth/);
   assert.match(page, /data-kind/);
   assert.match(page, /data-status/);
-  assert.match(page, /data-span-name/);
+  assert.match(page, /data-span-id/);
+  assert.match(page, /data-span-seq/);
+  assert.doesNotMatch(page, /data-span-name/);
   assert.match(page, /data-icon/);
   assert.match(page, /<KindGlyph aria-hidden="true" \/>/);
   assert.match(page, /className="sr-only"/);
@@ -85,6 +83,8 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /data-outside-filters/);
   assert.match(page, /aria-current=\{isSelected \? "location" : undefined\}/);
   assert.match(page, /aria-label="Selected span path"/);
+  assert.match(page, /aria-label="Span metrics"/);
+  assert.match(page, /aria-label=\{`\$\{label\} I\/O`\}/);
   assert.match(page, /spanAncestry/);
   assert.match(page, /apiHostLabel/);
   assert.doesNotMatch(page, /No secondary filters/);
@@ -225,6 +225,21 @@ test("dashboard time formatters hide invalid backend timing", () => {
   assert.equal(formatLatency(Number.POSITIVE_INFINITY), "open");
   assert.equal(formatLatency(-1), "open");
   assert.equal(formatLatency(999), "999 ms");
+});
+
+test("dashboard span depth stops on malformed parent cycles", () => {
+  const { spanDepth } = loadDashboardApiModule();
+  const a = {
+    span_id: "a",
+    parent_span_id: "b"
+  };
+  const b = {
+    span_id: "b",
+    parent_span_id: "a"
+  };
+
+  assert.equal(spanDepth(a, [a, b]), 1);
+  assert.equal(spanDepth(b, [a, b]), 1);
 });
 
 test("dashboard read URLs send unmask reason only with unmask=true", () => {
@@ -371,6 +386,7 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(recorder, /createHash\("sha256"\)/);
   assert.match(recorder, /data-depth/);
   assert.match(recorder, /data-icon/);
+  assert.match(recorder, /data-span-seq/);
   assert.match(recorder, /five-line-llm-call/);
   assert.match(recorder, /hello from stock OpenTelemetry/);
   assert.match(recorder, /color\/icon-coded all-kind agent waterfall/);
@@ -382,6 +398,7 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(quickstart, /toHaveValue\(""\)/);
   assert.match(quickstart, /placeholder", \/latest: \//);
   assert.match(quickstart, /toHaveCount\(1\)/);
+  assert.match(quickstart, /data-span-id/);
   assert.doesNotMatch(quickstart, /waterfall\.getByText\("five-line-llm-call"\)\.click/);
   assert.match(quickstart, /traceRow\.click\(\)/);
   assert.match(quickstart, /toHaveURL/);

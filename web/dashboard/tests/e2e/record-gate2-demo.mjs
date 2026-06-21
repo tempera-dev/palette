@@ -90,9 +90,11 @@ async function recordQuickstartFlow(page) {
     : traceList.getByRole("link").filter({ hasText: "five-line-llm-call" }).first();
   await traceRow.click();
   const waterfall = page.getByLabel("Agent span waterfall");
-  const llm = waterfall.locator('[data-span-name="five-line-llm-call"]');
+  const llm = waterfall.locator('[data-kind="llm.call"]');
+  await llm.getByText("five-line-llm-call").waitFor();
   await requireAttribute(llm, "data-kind", "llm.call");
   await requireAttribute(llm, "data-depth", "0");
+  await requireAttribute(llm, "data-span-id", /.+/);
   await requireAttribute(llm.locator(".kind-icon"), "data-icon", "llm");
   await llm.click();
   const detail = page.getByLabel("Span detail");
@@ -118,30 +120,26 @@ async function recordAllKindFlow(page) {
   await page.goto(`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}`);
   await page.getByRole("heading", { name: "Agent Trace Debugger" }).waitFor();
   const waterfall = page.getByLabel("Agent span waterfall");
-  await requireAttribute(waterfall.locator('[data-span-name="refund-agent-run"]'), "data-depth", "0");
-  await requireAttribute(
-    waterfall.locator('[data-span-name="customer-refund-turn"]'),
-    "data-depth",
-    "1"
-  );
-  await requireAttribute(
-    waterfall.locator('[data-span-name="execute-refund-step"]'),
-    "data-depth",
-    "2"
-  );
-  await requireAttribute(waterfall.locator('[data-span-name="lookup-order-tool"]'), "data-depth", "3");
-  await requireAttribute(waterfall.locator('[data-span-name="mcp-order-service"]'), "data-depth", "4");
-  await requireAttribute(
-    waterfall.locator('[data-span-name="call-policy-model"] .kind-icon'),
-    "data-icon",
-    "llm"
-  );
-  await requireAttribute(
-    waterfall.locator('[data-span-name="mcp-order-service"] .kind-icon'),
-    "data-icon",
-    "mcp"
-  );
-  await waterfall.getByText("call-policy-model").click();
+  const run = waterfall.locator('[data-span-seq="1"]');
+  const turn = waterfall.locator('[data-span-seq="2"]');
+  const step = waterfall.locator('[data-span-seq="4"]');
+  const llm = waterfall.locator('[data-span-seq="8"]');
+  const tool = waterfall.locator('[data-span-seq="9"]');
+  const mcp = waterfall.locator('[data-span-seq="10"]');
+  await run.getByText("refund-agent-run").waitFor();
+  await turn.getByText("customer-refund-turn").waitFor();
+  await step.getByText("execute-refund-step").waitFor();
+  await llm.getByText("call-policy-model").waitFor();
+  await tool.getByText("lookup-order-tool").waitFor();
+  await mcp.getByText("mcp-order-service").waitFor();
+  await requireAttribute(run, "data-depth", "0");
+  await requireAttribute(turn, "data-depth", "1");
+  await requireAttribute(step, "data-depth", "2");
+  await requireAttribute(tool, "data-depth", "3");
+  await requireAttribute(mcp, "data-depth", "4");
+  await requireAttribute(llm.locator(".kind-icon"), "data-icon", "llm");
+  await requireAttribute(mcp.locator(".kind-icon"), "data-icon", "mcp");
+  await llm.click();
   const detail = page.getByLabel("Span detail");
   await detail
     .locator(".io")
@@ -149,7 +147,7 @@ async function recordAllKindFlow(page) {
     .getByText("Can this order be refunded after 31 days?")
     .waitFor();
   await page.waitForTimeout(1000);
-  await page.getByLabel("Agent span waterfall").getByText("lookup-order-tool").click();
+  await tool.click();
   await detail.locator(".io").filter({ hasText: "Input" }).getByText("ord_123").waitFor();
   await page.waitForTimeout(1000);
 }
@@ -249,6 +247,12 @@ The mandate still requires the outside-person run recorded in
 async function requireAttribute(locator, name, expected) {
   await locator.waitFor();
   const actual = await locator.getAttribute(name);
+  if (expected instanceof RegExp) {
+    if (!actual || !expected.test(actual)) {
+      throw new Error(`expected ${name} to match ${expected}, got ${actual}`);
+    }
+    return;
+  }
   if (actual !== expected) {
     throw new Error(`expected ${name}=${expected}, got ${actual}`);
   }

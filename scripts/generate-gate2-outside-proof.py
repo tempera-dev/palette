@@ -24,6 +24,7 @@ UNRESOLVED_REQUIRED_VALUES = {
     "tbd",
     "todo",
 }
+EMBEDDED_PLACEHOLDER = re.compile(r"(^|[\s:;,/()_-])(\.\.\.|…|tbd|todo)($|[\s:;,/()_-])", re.I)
 
 
 def clean_value(value):
@@ -32,8 +33,24 @@ def clean_value(value):
 
 def require_meaningful_arg(name, value):
     cleaned = clean_value(value)
-    if not cleaned or cleaned.lower() in UNRESOLVED_REQUIRED_VALUES:
+    if (
+        not cleaned
+        or cleaned.lower() in UNRESOLVED_REQUIRED_VALUES
+        or cleaned.lower() == "none"
+        or EMBEDDED_PLACEHOLDER.search(cleaned)
+    ):
         raise SystemExit(f"{name} must be provided with a concrete value")
+    return cleaned
+
+
+def require_date_arg(name, value):
+    cleaned = require_meaningful_arg(name, value)
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", cleaned):
+        raise SystemExit(f"{name} must be YYYY-MM-DD")
+    try:
+        dt.date.fromisoformat(cleaned)
+    except ValueError:
+        raise SystemExit(f"{name} must be YYYY-MM-DD") from None
     return cleaned
 
 
@@ -69,11 +86,11 @@ def compose_images_excerpt(stopwatch_text, stopwatch_path):
     lines = [line.strip() for line in match.group(1).splitlines() if line.strip()]
     if not lines:
         return f"see {relative_or_absolute(stopwatch_path)}"
-    services = [
-        line
-        for line in lines
-        if "beaterd" in line or "dashboard" in line or "otel-python" in line
-    ]
+    long_running_repos = {
+        "ghcr.io/jadenfix/beater/beaterd",
+        "ghcr.io/jadenfix/beater/dashboard",
+    }
+    services = [line for line in lines if long_running_repos.intersection(line.split())]
     if services:
         return " | ".join(services)
     return " | ".join(lines[:3])
@@ -128,7 +145,7 @@ def build_proof(args, stopwatch_path, stopwatch_text):
     preflight_status = require_meaningful_arg(
         "--preflight-status", args.preflight_status
     )
-    proof_date = require_meaningful_arg("--date", args.date)
+    proof_date = require_date_arg("--date", args.date)
 
     return f"""# Gate 2 Outside-Person Proof
 

@@ -422,7 +422,8 @@ export default async function DashboardPage({
                   data-depth={depth}
                   data-kind={span.kind}
                   data-status={span.status}
-                  data-span-name={span.name}
+                  data-span-id={span.span_id}
+                  data-span-seq={span.seq}
                   style={
                     {
                       "--depth": depth,
@@ -494,7 +495,7 @@ function SummaryItem({
   tone: string;
 }) {
   return (
-    <div className={`summary-item tone-${tone}`}>
+    <div className={`summary-item tone-${tone}`} aria-label={label}>
       <span className="summary-copy">
         <span>{label}</span>
         <strong>{value}</strong>
@@ -570,7 +571,7 @@ function SpanDetail({
           </span>
         ))}
       </div>
-      <dl className="metrics">
+      <dl className="metrics" aria-label="Span metrics">
         <div>
           <dt>Depth</dt>
           <dd>{String(ancestry.length - 1)}</dd>
@@ -726,7 +727,7 @@ function IoBlock({ label, value }: { label: string; value: SpanIoResponse["input
   }
   if (value?.kind === "redacted") body = value.reason;
   return (
-    <div className={ioClassName(value)}>
+    <div className={ioClassName(value)} aria-label={`${label} I/O`}>
       <div className="io-head">
         <h4>{label}</h4>
         <span>{ioStatus(value)}</span>

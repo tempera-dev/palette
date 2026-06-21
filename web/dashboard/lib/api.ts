@@ -300,8 +300,10 @@ export function spanDepth(span: CanonicalSpan, spans: CanonicalSpan[]): number {
   let depth = 0;
   let parent = span.parent_span_id;
   const byId = new Map(spans.map((candidate) => [candidate.span_id, candidate]));
-  while (parent && byId.has(parent) && depth < 12) {
+  const seen = new Set([span.span_id]);
+  while (parent && byId.has(parent) && !seen.has(parent) && depth < 12) {
     depth += 1;
+    seen.add(parent);
     parent = byId.get(parent)?.parent_span_id ?? null;
   }
   return depth;

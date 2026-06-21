@@ -224,6 +224,14 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     )));
     assert!(generated_text.contains("ghcr.io/jadenfix/beater/beaterd"));
     assert!(generated_text.contains("ghcr.io/jadenfix/beater/dashboard"));
+    assert!(
+        !generated_text.contains("beater-stopwatch-dashboard-e2e-run-1"),
+        "generated outside proof should keep the compose excerpt to long-running service rows"
+    );
+    assert!(
+        !generated_text.contains("beater-stopwatch-otel-python-quickstart-run-1"),
+        "generated outside proof should keep one-shot tool containers out of the compose excerpt"
+    );
     assert!(generated_text.contains(
         "- [x] The runner completed the flow using only public repository instructions."
     ));
@@ -319,6 +327,20 @@ fn gate2_outside_generator_rejects_placeholder_runner_identity() {
     assert!(
         !generated.exists(),
         "generator must not write completed proof with placeholder runner identity"
+    );
+}
+
+#[test]
+fn gate2_outside_generator_rejects_invalid_date() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture.dir.path().join("invalid-date-generated-proof.md");
+
+    let output = run_generator_with_date(&fixture.stopwatch_path, &generated, "06/20/2026");
+
+    assert_failure(output, "--date must be YYYY-MM-DD");
+    assert!(
+        !generated.exists(),
+        "generator must not write completed proof with a non-ISO date"
     );
 }
 
@@ -1265,6 +1287,20 @@ fn gate2_outside_validator_rejects_placeholder_required_field_value() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_embedded_placeholder_required_field_value() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Machine and OS: macOS arm64",
+        "- Machine and OS: Ubuntu TBD machine",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(output, "unresolved required fields: Machine and OS");
+}
+
+#[test]
 fn gate2_outside_validator_rejects_ellipsis_required_field_value() {
     let fixture = ValidatorFixture::new();
     replace(&fixture.proof_path, "- Browser: Chromium", "- Browser: ...");
@@ -1306,6 +1342,26 @@ fn gate2_outside_validator_accepts_compose_images_excerpt_from_long_running_serv
     let output = run_validator(&fixture.proof_path);
 
     assert_success(output, "Gate 2 outside-person proof is complete and valid");
+}
+
+#[test]
+fn gate2_outside_validator_rejects_compose_images_with_stale_service_tags() {
+    let fixture = ValidatorFixture::new();
+    let commit_sha = current_head();
+    replace(
+        &fixture.proof_path,
+        &compose_images_excerpt_line(),
+        &format!(
+            "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd stale-sha | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard stale-sha | unrelated-image {commit_sha}\n"
+        ),
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "`docker compose images` excerpt must include ghcr.io/jadenfix/beater/beaterd tagged with the checked-out commit SHA",
+    );
 }
 
 #[test]
@@ -1448,6 +1504,23 @@ fn gate2_outside_validator_rejects_invalid_utc_timestamp() {
     assert_failure(
         output,
         "Ended at in outside-person proof must be UTC ISO-8601",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_invalid_runner_date() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "- Date: 2026-06-20",
+        "- Date: 06/20/2026",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Date in outside-person proof must be a valid date like 2026-06-20",
     );
 }
 
@@ -1624,6 +1697,20 @@ fn gate2_outside_validator_rejects_maintainer_relationship() {
 }
 
 #[test]
+fn gate2_outside_validator_accepts_negated_employee_relationship_disclosure() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "external validation fixture",
+        "external evaluator; not internal; not an employee",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_success(output, "Gate 2 outside-person proof is complete and valid");
+}
+
+#[test]
 fn gate2_outside_validator_rejects_missing_prior_exposure() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -1779,6 +1866,23 @@ fn gate2_outside_validator_rejects_dashboard_url_trace_mismatch() {
     assert_failure(
         output,
         &format!("Quickstart dashboard URL must include trace={QUICKSTART_TRACE}"),
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_dashboard_url_with_non_root_path() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        "http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace=",
+        "http://127.0.0.1:3000/not-dashboard?tenant=demo&project=demo&environment=local&trace=",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "Quickstart dashboard URL must use the dashboard root path",
     );
 }
 
@@ -2281,7 +2385,7 @@ The runner completed the flow using only public repository instructions.
 fn compose_images_excerpt_line() -> String {
     let commit_sha = current_head();
     format!(
-        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha} | beater-stopwatch-dashboard-e2e-run-1 ghcr.io/jadenfix/beater/dashboard-e2e {commit_sha} | beater-stopwatch-otel-python-quickstart-run-1 ghcr.io/jadenfix/beater/otel-python {commit_sha}\n"
+        "- `docker compose images` excerpt: beater-stopwatch-beaterd-1 ghcr.io/jadenfix/beater/beaterd {commit_sha} | beater-stopwatch-dashboard-1 ghcr.io/jadenfix/beater/dashboard {commit_sha}\n"
     )
 }
 
@@ -2490,6 +2594,31 @@ fn run_generator_with_runner_name(
         runner_name,
         "Chromium",
     )
+}
+
+fn run_generator_with_date(stopwatch_path: &Path, output_path: &Path, date: &str) -> Output {
+    let ffprobe =
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+    let mut command = generator_command(
+        stopwatch_path,
+        output_path,
+        "Validator Fixture Runner",
+        "Chromium",
+    );
+    command
+        .arg("--attest-outside-run")
+        .arg("--network-notes")
+        .arg("public docs only")
+        .arg("--llm-observation")
+        .arg(LLM_OBSERVATION)
+        .arg("--waterfall-observation")
+        .arg(WATERFALL_OBSERVATION)
+        .arg("--date")
+        .arg(date)
+        .env("PATH", path_with_tempdir(&ffprobe));
+    command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside proof generator with date: {err}"))
 }
 
 fn run_generator_with_options(
