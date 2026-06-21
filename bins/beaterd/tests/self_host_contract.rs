@@ -449,6 +449,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let outside_readiness = read(root.join("scripts/check-gate2-outside-readiness.py"));
     assert!(outside_readiness.contains("IMAGE_NAMES"));
     assert!(outside_readiness.contains("EXPECTED_PLATFORMS"));
+    assert!(outside_readiness.contains("COMMON_PINNED_THIRD_PARTY_IMAGES"));
+    assert!(outside_readiness.contains("CLICKHOUSE_PINNED_THIRD_PARTY_IMAGE"));
+    assert!(outside_readiness.contains("*COMMON_PINNED_THIRD_PARTY_IMAGES"));
     assert!(outside_readiness.contains("linux/amd64"));
     assert!(outside_readiness.contains("linux/arm64"));
     assert!(outside_readiness.contains("scripts/validate-gate2-outside-proof.sh"));
@@ -505,6 +508,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("[\"docker\", \"context\", \"inspect\""));
     assert!(public_handoff.contains("requires a local Docker daemon"));
     assert!(public_handoff.contains("requires a local Docker context"));
+    assert!(public_handoff.contains("STOPWATCH_COMPOSE_DOWN"));
+    assert!(public_handoff.contains("def cleanup_stopwatch_compose"));
+    assert!(public_handoff.contains("cleanup_stopwatch_compose(repo_root(), fatal=True)"));
+    assert!(public_handoff.contains("cleanup_stopwatch_compose(clone_dir, fatal=False)"));
     assert!(public_handoff.contains("cleanup_local_stopwatch_compose"));
     assert!(public_handoff.contains("free it rather than setting"));
     assert!(public_handoff.contains("clone_started_epoch = int(time.time())"));

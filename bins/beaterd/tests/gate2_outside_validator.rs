@@ -316,6 +316,10 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("[\"docker\", \"context\", \"inspect\""));
     assert!(script.contains("requires a local Docker daemon"));
     assert!(script.contains("requires a local Docker context"));
+    assert!(script.contains("STOPWATCH_COMPOSE_DOWN"));
+    assert!(script.contains("def cleanup_stopwatch_compose"));
+    assert!(script.contains("cleanup_stopwatch_compose(repo_root(), fatal=True)"));
+    assert!(script.contains("cleanup_stopwatch_compose(clone_dir, fatal=False)"));
     assert!(script.contains("cleanup_local_stopwatch_compose"));
     assert!(script.contains("free it rather than setting"));
     assert!(script.contains("cleaning the beater-stopwatch Compose project"));

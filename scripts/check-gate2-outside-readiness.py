@@ -11,39 +11,30 @@ from pathlib import Path
 IMAGE_NAMES = ["beaterd", "dashboard", "dashboard-e2e", "otel-python"]
 EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
 REMOTE_URL = "https://github.com/jadenfix/beater.git"
+COMMON_PINNED_THIRD_PARTY_IMAGES = [
+    (
+        "postgres:17-alpine",
+        "sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4",
+    ),
+    (
+        "nats:2.11-alpine",
+        "sha256:e4bf19f15fd3218814a4e3c9e0064e1334bd8aa20d5984b9f1a0afd084f8cc00",
+    ),
+    (
+        "minio/minio:latest",
+        "sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e",
+    ),
+]
+CLICKHOUSE_PINNED_THIRD_PARTY_IMAGE = (
+    "clickhouse/clickhouse-server:latest",
+    "sha256:07afc18d8a9706eb9d85c5c5d2752e5270f91bbc2894caeaecb73e4d0f603bf5",
+)
 PINNED_THIRD_PARTY_IMAGES = {
     "docker-compose.yml": [
-        (
-            "postgres:17-alpine",
-            "sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4",
-        ),
-        (
-            "nats:2.11-alpine",
-            "sha256:e4bf19f15fd3218814a4e3c9e0064e1334bd8aa20d5984b9f1a0afd084f8cc00",
-        ),
-        (
-            "minio/minio:latest",
-            "sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e",
-        ),
-        (
-            "clickhouse/clickhouse-server:latest",
-            "sha256:07afc18d8a9706eb9d85c5c5d2752e5270f91bbc2894caeaecb73e4d0f603bf5",
-        ),
+        *COMMON_PINNED_THIRD_PARTY_IMAGES,
+        CLICKHOUSE_PINNED_THIRD_PARTY_IMAGE,
     ],
-    "docker-compose.prebuilt.yml": [
-        (
-            "postgres:17-alpine",
-            "sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4",
-        ),
-        (
-            "nats:2.11-alpine",
-            "sha256:e4bf19f15fd3218814a4e3c9e0064e1334bd8aa20d5984b9f1a0afd084f8cc00",
-        ),
-        (
-            "minio/minio:latest",
-            "sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e",
-        ),
-    ],
+    "docker-compose.prebuilt.yml": COMMON_PINNED_THIRD_PARTY_IMAGES,
 }
 
 

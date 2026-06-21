@@ -17,6 +17,17 @@ FULL_RUN_PORTS = [
     (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
     (3000, "dashboard", "BEATER_DASHBOARD_PORT"),
 ]
+STOPWATCH_COMPOSE_DOWN = [
+    "docker",
+    "compose",
+    "-f",
+    "docker-compose.prebuilt.yml",
+    "-p",
+    "beater-stopwatch",
+    "down",
+    "-v",
+    "--remove-orphans",
+]
 
 
 def repo_root() -> Path:
@@ -154,29 +165,31 @@ def require_local_docker_context() -> None:
         )
 
 
-def cleanup_local_stopwatch_compose() -> None:
+def cleanup_stopwatch_compose(cwd: Path, *, fatal: bool) -> None:
     result = subprocess.run(
-        [
-            "docker",
-            "compose",
-            "-f",
-            "docker-compose.prebuilt.yml",
-            "-p",
-            "beater-stopwatch",
-            "down",
-            "-v",
-            "--remove-orphans",
-        ],
-        cwd=repo_root(),
+        STOPWATCH_COMPOSE_DOWN,
+        cwd=cwd,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
     )
-    if result.returncode != 0:
+    if result.returncode == 0:
+        return
+    if fatal:
         raise SystemExit(
             "Gate 2 full-run preflight could not clean the beater-stopwatch "
             f"Compose project before checking ports:\n{result.stdout}"
         )
+    print(
+        "warning: Gate 2 full-run cleanup failed; clean the "
+        "beater-stopwatch Compose project manually if needed"
+    )
+    if result.stdout:
+        print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+
+
+def cleanup_local_stopwatch_compose() -> None:
+    cleanup_stopwatch_compose(repo_root(), fatal=True)
 
 
 def preflight_full_run_runtime(args: argparse.Namespace) -> None:
@@ -331,30 +344,7 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
 
 
 def cleanup_cloned_compose(clone_dir: Path) -> None:
-    result = subprocess.run(
-        [
-            "docker",
-            "compose",
-            "-f",
-            "docker-compose.prebuilt.yml",
-            "-p",
-            "beater-stopwatch",
-            "down",
-            "-v",
-            "--remove-orphans",
-        ],
-        cwd=clone_dir,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-    )
-    if result.returncode != 0:
-        print(
-            "warning: Gate 2 full-run cleanup failed; clean the "
-            "beater-stopwatch Compose project manually if needed"
-        )
-        if result.stdout:
-            print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+    cleanup_stopwatch_compose(clone_dir, fatal=False)
 
 
 def run_cloned_full_run(
