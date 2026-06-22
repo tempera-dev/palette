@@ -1336,6 +1336,10 @@ button:hover {
   overflow: hidden;
 }
 
+.span-proof-strip.with-confirmation {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .span-proof-strip div {
   background: #f8fafb;
   border-right: 1px solid var(--line);
@@ -1356,6 +1360,13 @@ button:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.span-proof-strip .confirmation-code dd {
+  font-family:
+    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0;
 }
 
 dd {
@@ -1751,12 +1762,20 @@ pre {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .span-proof-strip.with-confirmation {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .span-proof-strip div:nth-child(2n) {
     border-right: 0;
   }
 
   .span-proof-strip div:nth-child(n + 3) {
     border-top: 1px solid var(--line);
+  }
+
+  .span-proof-strip.with-confirmation div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 
   .span-identity {

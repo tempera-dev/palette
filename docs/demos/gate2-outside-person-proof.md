@@ -50,6 +50,8 @@ For the short unaided runner instructions, use
 - Script-to-quickstart-click:
 - Quickstart click source:
 - Manual quickstart confirmation:
+- Manual confirmation code:
+- Manual confirmation salt:
 - Total proof duration:
 - Script duration:
 - Outside-run wrapper:
@@ -103,10 +105,12 @@ the runner must open that filtered trace-list URL in a normal browser; do not
 wait for the script to finish. The manual checkpoint prints the seconds
 remaining in the 5-minute clone-to-click SLO, which already includes clone and
 image-pull time. Click the quickstart trace, click the `llm.call` span, and
-capture prompt, completion, model, token breakdown, cost, and latency. Press
-Enter in the terminal only after that manual click-through is complete; this
+capture prompt, completion, model, token breakdown, cost, latency, and the
+`Confirm` code shown in the selected detail. Type that confirmation code in the
+terminal and press Enter only after the manual click-through is complete; this
 records `Quickstart click source: manual-outside-runner`,
-`Manual quickstart confirmation: yes`, and the 5-minute quickstart-click SLO.
+`Manual quickstart confirmation: yes`, `Manual confirmation code: <code>`, the
+per-run manual confirmation salt, and the 5-minute quickstart-click SLO.
 Then keep the script running for the post-SLO automated browser proof, all-kind
 trace, and recording evidence, open the all-kind dashboard URL, and capture the
 run -> turn -> step -> tool -> MCP waterfall. Cleanup can happen after the
@@ -146,7 +150,7 @@ scripts/generate-gate2-outside-proof.py \
   --machine-os "Ubuntu 24.04 x86_64" \
   --browser "Chrome stable" \
   --network-notes "home Wi-Fi; no VPN" \
-  --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, and latency" \
+  --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code" \
   --waterfall-observation "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting" \
   --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard" \
   --compose-logs-saved "docs/demos/gate2-outside-compose.log" \
@@ -188,8 +192,8 @@ GitHub remote, this proof file's structure, and public multi-arch GHCR images
 for the exact commit. The verifier executes the second clone's
 `scripts/gate2-outside-run.sh` wrapper with the clone-start timestamp captured
 immediately before that second `git clone`, waits until the wrapper prints the
-manual quickstart checkpoint, auto-confirms that checkpoint for diagnostic
-automation only, and cleans up the `beater-stopwatch` Compose project after the
+manual quickstart checkpoint, computes and enters the derived confirmation code
+for diagnostic automation only, and cleans up the `beater-stopwatch` Compose project after the
 wrapper exits. It proves the exact public outside-run path and images can run,
 but it is not outside-person evidence and does not close this proof file. Its
 generated report is `Status: diagnostic.` and default outside-person validation
@@ -221,7 +225,8 @@ be a playable WebM capture of at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, and Cluster structure plus a video track, and
 requires the recording notes to declare `Recording mode: compose` and describe
 the full click-through: quickstart trace, `llm.call`, prompt, completion, model,
-token breakdown, cost, latency, and run -> turn -> step -> tool -> MCP waterfall.
+token breakdown, cost, latency, confirmation code, and run -> turn -> step ->
+tool -> MCP waterfall.
 Stopwatch, recording, notes, and saved compose-log paths must be repo-relative
 paths under `docs/demos/` and must not resolve through symlinks. Saved
 compose-log evidence must be a committed/clean file at closure, or an immutable
@@ -239,6 +244,7 @@ GitHub Actions run/job URL under
 - Runner waterfall observation:
 - `docker compose images` excerpt:
 - Quickstart trace ID:
+- Quickstart span ID:
 - Quickstart dashboard URL:
 - All-kind nested trace ID:
 - All-kind dashboard URL:
@@ -257,10 +263,10 @@ GitHub Actions run/job URL under
 - [ ] The script reported `Clean start: yes`.
 - [ ] Time-to-first-trace was 300 seconds or less.
 - [ ] Time-to-first-trace includes clone time.
-- [ ] Manual quickstart click confirmation was recorded before 300 seconds.
+- [ ] Manual quickstart click confirmation code was recorded before 300 seconds.
 - [ ] The five-line stock OpenTelemetry trace appeared in `localhost:3000`.
 - [ ] Clicking the `llm.call` span showed prompt, completion, model, token
-      breakdown, cost, and latency.
+      breakdown, cost, latency, and confirmation code.
 - [ ] The all-kind trace rendered run -> turn -> step -> tool -> MCP nesting in
       the waterfall.
 - [ ] The browser proof passed for both the quickstart trace and all-kind

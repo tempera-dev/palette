@@ -35,9 +35,9 @@ When the terminal prints `Open this quickstart trace-list URL first:`, open that
 URL in a normal browser immediately. Do not wait for the script to finish.
 
 Click the quickstart trace, then click the `llm.call` span. Confirm that the
-prompt, completion, model, token breakdown, cost, and latency are visible.
-Only then press Enter in the terminal. The terminal checkpoint must happen
-before the 5-minute clone-to-click SLO expires.
+prompt, completion, model, token breakdown, cost, latency, and the `Confirm`
+code are visible. Type that confirmation code in the terminal, then press Enter.
+The terminal checkpoint must happen before the 5-minute clone-to-click SLO expires.
 
 ## Post-SLO Evidence
 

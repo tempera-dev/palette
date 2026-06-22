@@ -11,6 +11,8 @@
 - Script-to-quickstart-click: 56s
 - Quickstart click source: automated-browser-proof
 - Manual quickstart confirmation: not requested
+- Manual confirmation code: not requested
+- Manual confirmation salt: `not requested`
 - Total duration: 110s
 - Script duration: 110s
 - Limit: 300s
@@ -42,6 +44,7 @@
 - Dashboard base: `http://127.0.0.1:3001`
 - Quickstart release ID: `gate2-3d9c7bc5ad38-1782145474-83545`
 - Quickstart trace: `3725033cbe940f1674a9d19ab72d3904`
+- Quickstart span: `not requested`
 - Quickstart dashboard: http://127.0.0.1:3001/?tenant=demo&project=demo&environment=local&trace=3725033cbe940f1674a9d19ab72d3904
 - Quickstart browser proof: passed
 - All-kind nested trace: `4849bef9a116057c6f481016b3d604f7`

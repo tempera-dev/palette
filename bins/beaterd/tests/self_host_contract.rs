@@ -939,8 +939,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("run_with_manual_checkpoint_confirmation("));
     assert!(public_handoff.contains("cleanup_cloned_compose"));
     assert!(public_handoff.contains("docker-compose.prebuilt.yml"));
-    assert!(public_handoff.contains("Auto-confirming the manual quickstart checkpoint"));
-    assert!(public_handoff.contains("diagnostic auto-confirmed the manual checkpoint"));
+    assert!(public_handoff.contains("Entering the derived manual quickstart confirmation code"));
+    assert!(public_handoff.contains("quickstart_llm_span_id"));
+    assert!(public_handoff.contains("diagnostic entered the derived manual confirmation code"));
     assert!(public_handoff.contains("def public_clone_env"));
     assert!(public_handoff.contains("GIT_CONFIG_GLOBAL"));
     assert!(public_handoff.contains("--diagnostic-report"));
@@ -990,7 +991,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(
         outside_proof.contains("waits until the wrapper prints the\nmanual quickstart checkpoint")
     );
-    assert!(outside_proof.contains("auto-confirms that checkpoint for diagnostic\nautomation only"));
+    assert!(outside_proof.contains(
+        "computes and enters the derived confirmation code\nfor diagnostic automation only"
+    ));
     assert!(outside_proof.contains("preflights the local runtime"));
     assert!(outside_proof
         .contains("downloads the raw public preflight from the expected immutable commit"));
@@ -1044,9 +1047,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("Time-to-first-trace was 300 seconds or less"));
     assert!(outside_proof.contains("Time-to-first-trace includes clone time"));
     assert!(outside_proof
-        .contains("Manual quickstart click confirmation was recorded before 300 seconds"));
+        .contains("Manual quickstart click confirmation code was recorded before 300 seconds"));
     assert!(outside_proof.contains("Quickstart click source"));
     assert!(outside_proof.contains("Manual quickstart confirmation"));
+    assert!(outside_proof.contains("Manual confirmation code"));
+    assert!(outside_proof.contains("Quickstart span ID"));
     assert!(outside_proof.contains("run -> turn -> step -> tool -> MCP"));
     assert!(outside_proof.contains("using only public repository instructions"));
     assert!(outside_proof.contains("Outside-run attestation"));
@@ -1088,7 +1093,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("uses a second fresh clone"));
     assert!(readme.contains("executes the second clone's\n`scripts/gate2-outside-run.sh` wrapper"));
     assert!(readme.contains("waits until the wrapper prints the\nmanual quickstart checkpoint"));
-    assert!(readme.contains("auto-confirms that checkpoint for diagnostic\nautomation only"));
+    assert!(readme.contains(
+        "computes and enters the derived confirmation code\nfor diagnostic automation only"
+    ));
     assert!(readme.contains("preflights the local runtime"));
     assert!(
         readme.contains("downloads the raw public preflight from the expected immutable commit")
@@ -1141,6 +1148,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("mismatched SHA-pinned image references"));
     assert!(readme.contains("Time-to-quickstart-click"));
     assert!(readme.contains("manual\nquickstart click confirmation"));
+    assert!(readme.contains("Manual confirmation code"));
     assert!(readme.contains("checks local Docker, Docker Compose, curl, `ffprobe`,"));
     assert!(readme.contains("mismatched trace IDs"));
     assert!(readme.contains("mismatched API/dashboard endpoints"));
@@ -1335,6 +1343,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(quickstart_e2e.contains("hello from stock OpenTelemetry"));
     assert!(quickstart_e2e.contains("hello from Beater"));
     assert!(quickstart_e2e.contains("data-icon"));
+    assert!(quickstart_e2e.contains("selectedSpanId"));
+    assert!(quickstart_e2e.contains("confirmationCode(selectedTraceId, selectedSpanId)"));
     assert!(quickstart_e2e.contains("12 total, 5 prompt, 7 completion"));
     assert!(quickstart_e2e.contains("Span metrics"));
     assert!(quickstart_e2e.contains("Latency"));
@@ -1358,7 +1368,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
     assert!(runner_card.contains("Do not wait for the script to finish"));
-    assert!(runner_card.contains("prompt, completion, model, token breakdown, cost, and latency"));
+    assert!(
+        runner_card.contains("prompt, completion, model, token breakdown, cost, latency, and the")
+    );
+    assert!(runner_card.contains("Type that confirmation code in the terminal"));
     assert!(runner_card.contains("run -> turn -> step -> tool -> MCP"));
     assert!(runner_card.contains("scripts/validate-gate2-outside-proof.sh"));
 }

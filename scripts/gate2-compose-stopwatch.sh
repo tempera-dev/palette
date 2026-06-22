@@ -50,6 +50,9 @@ time_to_quickstart_click_seconds=""
 script_to_quickstart_click_seconds=""
 quickstart_click_source="not requested"
 manual_quickstart_confirmation="not requested"
+manual_quickstart_confirmation_code="not requested"
+manual_quickstart_confirmation_salt="not requested"
+quickstart_span_id=""
 all_kind_trace_id=""
 all_kind_dashboard_url=""
 outside_runner_next_steps=""
@@ -65,6 +68,8 @@ else
   git_worktree_clean="yes"
 fi
 gate2_run_id="${BEATER_GATE2_RUN_ID:-gate2-${git_sha:0:12}-${start_epoch}-$$}"
+quickstart_confirmation_salt="${BEATER_GATE2_CONFIRMATION_SALT:-gate2-${start_epoch}-$$-${RANDOM:-0}-${RANDOM:-0}-${RANDOM:-0}}"
+export BEATER_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"
 os_arch="$(uname -sm 2>/dev/null || echo unknown)"
 docker_version="$(docker --version 2>/dev/null || echo unknown)"
 compose_version="$(docker compose version 2>/dev/null || echo unknown)"
@@ -267,6 +272,11 @@ confirm_manual_quickstart_click() {
     echo "Timed out before manual quickstart click confirmation." >&2
     return 1
   fi
+  if [[ -z "${quickstart_confirmation_code:-}" ]]; then
+    echo "Missing quickstart confirmation code before manual checkpoint." >&2
+    return 1
+  fi
+  local entered_code
   cat <<EOF
 
 Manual outside-run checkpoint:
@@ -274,16 +284,23 @@ Manual outside-run checkpoint:
   In a normal browser, open the quickstart trace-list URL above first, click the
   quickstart trace, click the llm.call span, and confirm prompt, completion,
   model, token breakdown, cost, and latency are visible.
-  Press Enter here only after that manual click-through is complete.
+  Type the confirmation code shown in the selected llm.call detail, then press Enter.
 EOF
-  if ! IFS= read -r -t "$remaining" _manual_quickstart_confirmation; then
+  if ! IFS= read -r -t "$remaining" entered_code; then
     echo "Timed out waiting for manual quickstart click confirmation." >&2
+    return 1
+  fi
+  entered_code="$(printf '%s' "$entered_code" | tr '[:lower:]' '[:upper:]' | tr -d '[:space:]')"
+  if [[ "$entered_code" != "$quickstart_confirmation_code" ]]; then
+    echo "Manual quickstart confirmation code did not match the selected llm.call detail." >&2
     return 1
   fi
   script_to_quickstart_click_seconds=$(($(date +%s) - start_epoch))
   time_to_quickstart_click_seconds=$(($(date +%s) - timing_start_epoch))
   quickstart_click_source="manual-outside-runner"
   manual_quickstart_confirmation="yes"
+  manual_quickstart_confirmation_code="$quickstart_confirmation_code"
+  manual_quickstart_confirmation_salt="$quickstart_confirmation_salt"
   if (( time_to_quickstart_click_seconds > 300 )); then
     echo "Time-to-quickstart-click exceeded 300s: ${time_to_quickstart_click_seconds}s" >&2
     return 1
@@ -292,6 +309,12 @@ EOF
 
 first_trace_id() {
   sed -n 's/.*"trace_id"[[:space:]]*:[[:space:]]*"\([0-9a-f]\{32\}\)".*/\1/p' | head -n 1
+}
+
+first_llm_span_id() {
+  tr '{' '\n' \
+    | sed -n '/"kind"[[:space:]]*:[[:space:]]*"llm.call"/s/.*"span_id"[[:space:]]*:[[:space:]]*"\([0-9a-f]\{16\}\)".*/\1/p' \
+    | head -n 1
 }
 
 sha256_file() {
@@ -303,6 +326,29 @@ sha256_file() {
   else
     echo "unknown"
   fi
+}
+
+sha256_text() {
+  local text="$1"
+  if command -v shasum >/dev/null 2>&1; then
+    printf '%s' "$text" | shasum -a 256 | awk '{print $1}'
+  elif command -v sha256sum >/dev/null 2>&1; then
+    printf '%s' "$text" | sha256sum | awk '{print $1}'
+  else
+    echo "unknown"
+  fi
+}
+
+quickstart_confirmation_code_for_span() {
+  local trace="$1"
+  local span="$2"
+  local digest
+  digest="$(sha256_text "gate2:$quickstart_confirmation_salt:$trace:$span")"
+  if [[ ! "$digest" =~ ^[0-9a-f]{64}$ ]]; then
+    echo "Could not compute quickstart confirmation code for span $span in trace $trace" >&2
+    return 1
+  fi
+  printf '%s\n' "${digest:0:8}" | tr '[:lower:]' '[:upper:]'
 }
 
 recording_probe() {
@@ -495,8 +541,8 @@ EOF
 preflight_prerequisites() {
   require_command docker
   require_command curl
-  if [[ "$record_demo" == "1" ]] && ! command -v shasum >/dev/null 2>&1 && ! command -v sha256sum >/dev/null 2>&1; then
-    echo "Gate 2 recording proof requires shasum or sha256sum before the stopwatch starts." >&2
+  if ! command -v shasum >/dev/null 2>&1 && ! command -v sha256sum >/dev/null 2>&1; then
+    echo "Gate 2 stopwatch requires shasum or sha256sum before the stopwatch starts." >&2
     return 1
   fi
   if [[ "$record_demo" == "1" ]] && ! command -v ffprobe >/dev/null 2>&1; then
@@ -552,6 +598,12 @@ if [[ -z "$trace_id" ]]; then
   echo "Could not parse quickstart trace_id from $quickstart_query" >&2
   exit 1
 fi
+quickstart_span_id="$(curl -fsS "$api_url/v1/traces/demo/$trace_id" | first_llm_span_id)"
+if [[ -z "$quickstart_span_id" ]]; then
+  echo "Could not parse quickstart span_id from $api_url/v1/traces/demo/$trace_id" >&2
+  exit 1
+fi
+quickstart_confirmation_code="$(quickstart_confirmation_code_for_span "$trace_id" "$quickstart_span_id")"
 dashboard_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&trace=$trace_id"
 quickstart_list_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"
 
@@ -581,7 +633,7 @@ if [[ "$outside_wrapper" == "1" ]]; then
 Outside-run timing-critical browser step:
   Open the quickstart trace-list URL above in a normal browser now; do not wait for the script to finish.
   Click the quickstart trace, then click the llm.call span.
-  Confirm prompt, completion, model, token breakdown, cost, and latency are visible before 5 minutes.
+  Confirm prompt, completion, model, token breakdown, cost, latency, and the confirmation code are visible before 5 minutes.
   Keep this command running for the post-SLO all-kind and recording evidence.
 EOF
 fi
@@ -719,6 +771,8 @@ if [[ "$write_proof" == "1" ]]; then
 - Script-to-quickstart-click: $script_to_quickstart_click_display
 - Quickstart click source: $quickstart_click_source
 - Manual quickstart confirmation: $manual_quickstart_confirmation
+- Manual confirmation code: $manual_quickstart_confirmation_code
+- Manual confirmation salt: \`$manual_quickstart_confirmation_salt\`
 - Total duration: ${duration_seconds}s
 - Script duration: ${script_duration_seconds}s
 - Limit: 300s
@@ -750,6 +804,7 @@ if [[ "$write_proof" == "1" ]]; then
 - Dashboard base: \`$dashboard_base_url\`
 - Quickstart release ID: \`$gate2_run_id\`
 - Quickstart trace: \`$trace_id\`
+- Quickstart span: \`$quickstart_span_id\`
 - Quickstart dashboard: $dashboard_url
 - Quickstart browser proof: $quickstart_browser_proof_status
 - All-kind nested trace: \`${all_kind_trace_id:-not requested}\`
@@ -777,7 +832,7 @@ if [[ "$outside_wrapper" == "1" ]]; then
 Outside-run next steps:
   1. If you have not already done so, open $quickstart_list_url in a normal browser for the quickstart trace list.
   2. Click the quickstart trace, then click the llm.call span.
-  3. Confirm prompt, completion, model, token breakdown, cost, and latency are visible.
+  3. Confirm prompt, completion, model, token breakdown, cost, latency, and the confirmation code are visible.
   4. Open ${all_kind_dashboard_url:-not requested} in a normal browser for the all-kind waterfall.
   5. Confirm run -> turn -> step -> tool -> MCP nesting is visible.
   6. Use the saved docker compose logs artifact as evidence: $compose_logs_artifact

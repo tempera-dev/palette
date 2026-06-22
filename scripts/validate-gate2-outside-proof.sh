@@ -80,7 +80,7 @@ OUTSIDE_RECORDING_NOTE = (
     "This recording was generated during the outside-person stopwatch path."
 )
 DIAGNOSTIC_ATTESTATION = (
-    "Diagnostic maintainer full-run auto-confirmed the manual checkpoint; "
+    "Diagnostic maintainer full-run entered the derived manual confirmation code; "
     "this is not outside-person evidence and cannot close Gate 2."
 )
 FORBIDDEN_EVIDENCE = [
@@ -290,6 +290,31 @@ def require_max_300(seconds: Optional[int], field_name: str, source_name: str) -
 def require_trace_id(name: str, value: str, source_name: str) -> None:
     if not re.fullmatch(r"[0-9a-f]{32}", value):
         fail(f"{name} in {source_name} must be a lowercase 32-character trace id")
+
+
+def require_span_id(name: str, value: str, source_name: str) -> None:
+    if not re.fullmatch(r"[0-9a-f]{16}", value):
+        fail(f"{name} in {source_name} must be a lowercase 16-character span id")
+
+
+def require_confirmation_salt(name: str, value: str, source_name: str) -> None:
+    if not re.fullmatch(r"[A-Za-z0-9._:-]{16,}", value):
+        fail(f"{name} in {source_name} must be a concrete per-run salt")
+
+
+def quickstart_confirmation_code(salt: str, trace_id: str, span_id: str) -> str:
+    return hashlib.sha256(f"gate2:{salt}:{trace_id}:{span_id}".encode()).hexdigest()[:8].upper()
+
+
+def require_confirmation_code(
+    name: str, value: str, salt: str, trace_id: str, span_id: str, source_name: str
+) -> None:
+    expected = quickstart_confirmation_code(salt, trace_id, span_id)
+    if value != expected:
+        fail(
+            f"{name} in {source_name} must be {expected} for quickstart span "
+            f"{span_id} in trace {trace_id}"
+        )
 
 
 def require_quickstart_release_id(value: str, commit_sha: str, source_name: str) -> None:
@@ -523,6 +548,7 @@ def require_recording_shows_full_flow(notes_text: str) -> None:
         "token breakdown",
         "cost",
         "latency",
+        "confirmation code",
         "run -> turn -> step -> tool -> MCP",
     ]
     missing = [fragment for fragment in required_fragments if fragment not in shows]
@@ -1057,6 +1083,8 @@ REQUIRED_PROOF_FIELDS = [
     "Script-to-quickstart-click",
     "Quickstart click source",
     "Manual quickstart confirmation",
+    "Manual confirmation code",
+    "Manual confirmation salt",
     "Total proof duration",
     "Script duration",
     "Outside-run wrapper",
@@ -1069,6 +1097,7 @@ REQUIRED_PROOF_FIELDS = [
     "Runner waterfall observation",
     "`docker compose images` excerpt",
     "Quickstart trace ID",
+    "Quickstart span ID",
     "Quickstart dashboard URL",
     "All-kind nested trace ID",
     "All-kind dashboard URL",
@@ -1105,7 +1134,7 @@ required_snippets = [
     ("Time-to-first-trace was 300 seconds or less", "first-trace checklist item"),
     ("Time-to-first-trace includes clone time", "clone-inclusive timing checklist item"),
     (
-        "Manual quickstart click confirmation was recorded before 300 seconds",
+        "Manual quickstart click confirmation code was recorded before 300 seconds",
         "manual browser-click checklist item",
     ),
 ]
@@ -1260,6 +1289,13 @@ if quickstart_click_source != "manual-outside-runner":
 manual_quickstart_confirmation = field_value("Manual quickstart confirmation")
 if manual_quickstart_confirmation != "yes":
     fail("Manual quickstart confirmation must be yes for outside-person evidence")
+manual_confirmation_code = field_value("Manual confirmation code")
+manual_confirmation_salt = field_value("Manual confirmation salt")
+require_confirmation_salt(
+    "Manual confirmation salt",
+    manual_confirmation_salt,
+    "outside-person proof",
+)
 timing_start_source = field_value("Timing start source")
 if timing_start_source != "external-clone":
     fail("Timing start source must be external-clone for outside-person evidence")
@@ -1293,10 +1329,20 @@ forbid_alternate_evidence(text, "outside-person proof")
 compose_images_excerpt = field_value("`docker compose images` excerpt")
 
 quickstart_trace_id = field_value("Quickstart trace ID")
+quickstart_span_id = field_value("Quickstart span ID")
 all_kind_trace_id = field_value("All-kind nested trace ID")
 quickstart_release_id = field_value("Quickstart release ID")
 require_trace_id("Quickstart trace ID", quickstart_trace_id, "outside-person proof")
+require_span_id("Quickstart span ID", quickstart_span_id, "outside-person proof")
 require_trace_id("All-kind nested trace ID", all_kind_trace_id, "outside-person proof")
+require_confirmation_code(
+    "Manual confirmation code",
+    manual_confirmation_code,
+    manual_confirmation_salt,
+    quickstart_trace_id,
+    quickstart_span_id,
+    "outside-person proof",
+)
 require_quickstart_release_id(
     quickstart_release_id, commit_sha, "outside-person proof"
 )
@@ -1393,7 +1439,16 @@ require_compose_logs_saved(field_value("`docker compose` logs saved"))
 require_runner_observation(
     "Runner llm.call observation",
     field_value("Runner llm.call observation"),
-    ["llm.call", "prompt", "completion", "model", "token breakdown", "cost", "latency"],
+    [
+        "llm.call",
+        "prompt",
+        "completion",
+        "model",
+        "token breakdown",
+        "cost",
+        "latency",
+        "confirmation code",
+    ],
 )
 require_runner_observation(
     "Runner waterfall observation",
@@ -1617,12 +1672,46 @@ if stopwatch_text:
     stopwatch_quickstart_trace = field_value_from(
         stopwatch_text, "Quickstart trace", "stopwatch proof"
     )
+    stopwatch_quickstart_span = field_value_from(
+        stopwatch_text, "Quickstart span", "stopwatch proof"
+    )
+    stopwatch_manual_confirmation_code = field_value_from(
+        stopwatch_text, "Manual confirmation code", "stopwatch proof"
+    )
+    stopwatch_manual_confirmation_salt = field_value_from(
+        stopwatch_text, "Manual confirmation salt", "stopwatch proof"
+    )
     stopwatch_all_kind_trace = field_value_from(
         stopwatch_text, "All-kind nested trace", "stopwatch proof"
     )
     require_trace_id("Quickstart trace", stopwatch_quickstart_trace, "stopwatch proof")
+    require_span_id("Quickstart span", stopwatch_quickstart_span, "stopwatch proof")
+    require_confirmation_salt(
+        "Manual confirmation salt",
+        stopwatch_manual_confirmation_salt,
+        "stopwatch proof",
+    )
     require_trace_id("All-kind nested trace", stopwatch_all_kind_trace, "stopwatch proof")
+    require_confirmation_code(
+        "Manual confirmation code",
+        stopwatch_manual_confirmation_code,
+        stopwatch_manual_confirmation_salt,
+        stopwatch_quickstart_trace,
+        stopwatch_quickstart_span,
+        "stopwatch proof",
+    )
     require_equal("quickstart trace id", quickstart_trace_id, stopwatch_quickstart_trace)
+    require_equal("quickstart span id", quickstart_span_id, stopwatch_quickstart_span)
+    require_equal(
+        "manual confirmation code",
+        manual_confirmation_code,
+        stopwatch_manual_confirmation_code,
+    )
+    require_equal(
+        "manual confirmation salt",
+        manual_confirmation_salt,
+        stopwatch_manual_confirmation_salt,
+    )
     require_equal("all-kind trace id", all_kind_trace_id, stopwatch_all_kind_trace)
 
     stopwatch_quickstart_url = field_value_from(

@@ -17,7 +17,7 @@ OUTSIDE_RUN_ATTESTATION = (
     "clone, and I completed the Gate 2 flow unaided."
 )
 DIAGNOSTIC_ATTESTATION = (
-    "Diagnostic maintainer full-run auto-confirmed the manual checkpoint; "
+    "Diagnostic maintainer full-run entered the derived manual confirmation code; "
     "this is not outside-person evidence and cannot close Gate 2."
 )
 UNRESOLVED_REQUIRED_VALUES = {
@@ -216,7 +216,7 @@ def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
         "--network-notes",
         "... network used; mention VPN/proxy if any ...",
         "--llm-observation",
-        "... clicked llm.call and saw prompt, completion, model, token breakdown, cost, and latency ...",
+        "... clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code ...",
         "--waterfall-observation",
         "... opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting ...",
         "--terminal-output-excerpt",
@@ -306,21 +306,21 @@ def build_proof(args, stopwatch_path, stopwatch_text):
     if args.diagnostic_report:
         proof_intro = (
             "Maintainer diagnostic report generated from the stopwatch proof listed below. "
-            "This is not outside-person evidence, auto-confirms the manual checkpoint for "
-            "automation, and cannot close Gate 2."
+            "This is not outside-person evidence, computes the manual confirmation "
+            "code for automation, and cannot close Gate 2."
         )
         command_note = (
             "The maintainer diagnostic full-run exercised the public wrapper path and "
-            "auto-confirmed the manual quickstart checkpoint. This is not outside-person "
-            "evidence."
+            "entered the derived manual quickstart confirmation code. This is not "
+            "outside-person evidence."
         )
         recording_checklist = (
             "- [x] A screen recording of the diagnostic full-run was generated under "
             "`docs/demos/`."
         )
         runner_checklist = (
-            "- [x] The diagnostic verifier auto-confirmed the manual quickstart "
-            "checkpoint; not outside-person evidence."
+            "- [x] The diagnostic verifier entered the derived manual quickstart "
+            "confirmation code; not outside-person evidence."
         )
     else:
         proof_intro = (
@@ -384,6 +384,8 @@ Status: {status}
 - Script-to-quickstart-click: {field_value(stopwatch_text, "Script-to-quickstart-click", stopwatch_rel)}
 - Quickstart click source: {field_value(stopwatch_text, "Quickstart click source", stopwatch_rel)}
 - Manual quickstart confirmation: {field_value(stopwatch_text, "Manual quickstart confirmation", stopwatch_rel)}
+- Manual confirmation code: {field_value(stopwatch_text, "Manual confirmation code", stopwatch_rel)}
+- Manual confirmation salt: {field_value(stopwatch_text, "Manual confirmation salt", stopwatch_rel)}
 - Total proof duration: {field_value(stopwatch_text, "Total duration", stopwatch_rel)}
 - Script duration: {field_value(stopwatch_text, "Script duration", stopwatch_rel)}
 - Outside-run wrapper: {field_value(stopwatch_text, "Outside-run wrapper", stopwatch_rel)}
@@ -407,6 +409,7 @@ bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/j
 - Runner waterfall observation: {waterfall_observation}
 - `docker compose images` excerpt: {compose_images_excerpt(stopwatch_text, stopwatch_path)}
 - Quickstart trace ID: {field_value(stopwatch_text, "Quickstart trace", stopwatch_rel)}
+- Quickstart span ID: {field_value(stopwatch_text, "Quickstart span", stopwatch_rel)}
 - Quickstart dashboard URL: `{quickstart_dashboard_url}`
 - All-kind nested trace ID: {field_value(stopwatch_text, "All-kind nested trace", stopwatch_rel)}
 - All-kind dashboard URL: `{all_kind_dashboard_url}`
@@ -424,9 +427,9 @@ bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/j
 - [x] The script reported `Clean start: yes`.
 - [x] Time-to-first-trace was 300 seconds or less.
 - [x] Time-to-first-trace includes clone time.
-- [x] Manual quickstart click confirmation was recorded before 300 seconds.
+- [x] Manual quickstart click confirmation code was recorded before 300 seconds.
 - [x] The five-line stock OpenTelemetry trace appeared in `localhost:3000`.
-- [x] Clicking the `llm.call` span showed prompt, completion, model, token breakdown, cost, and latency.
+- [x] Clicking the `llm.call` span showed prompt, completion, model, token breakdown, cost, latency, and confirmation code.
 - [x] The all-kind trace rendered run -> turn -> step -> tool -> MCP nesting in the waterfall.
 - [x] The browser proof passed for both the quickstart trace and all-kind waterfall.
 - [x] The stopwatch script generated and reported the browser recording.

@@ -83,6 +83,27 @@ function outputPath(value, fallbackName) {
   return resolve(repoRoot, value);
 }
 
+function confirmationCode(traceId, spanId) {
+  const salt = process.env.BEATER_GATE2_CONFIRMATION_SALT ?? "";
+  return createHash("sha256")
+    .update(`gate2:${salt}:${traceId}:${spanId}`)
+    .digest("hex")
+    .slice(0, 8)
+    .toUpperCase();
+}
+
+function selectedTraceId(page, fallback) {
+  const traceId = fallback ?? new URL(page.url()).searchParams.get("trace");
+  if (!traceId) throw new Error("recording flow did not select a trace id");
+  return traceId;
+}
+
+async function selectedSpanId(locator) {
+  const spanId = await locator.getAttribute("data-span-id");
+  if (!spanId) throw new Error("recording flow did not select a span id");
+  return spanId;
+}
+
 async function recordQuickstartFlow(page) {
   await page.goto(
     `${baseUrl}/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart`
@@ -108,6 +129,11 @@ async function recordQuickstartFlow(page) {
   await waitForMetric(detail, "Tokens", "12 total, 5 prompt, 7 completion");
   await waitForMetric(detail, "Cost", "USD 0.001200");
   await waitForMetric(detail, "Latency", /(?:\d+ ms|\d+\.\d+ s)/);
+  await waitForMetric(
+    detail,
+    "Confirm",
+    confirmationCode(selectedTraceId(page, quickstartTraceId), await selectedSpanId(llm))
+  );
   await detail
     .locator(".io")
     .filter({ hasText: "Prompt" })
@@ -153,6 +179,11 @@ async function recordAllKindFlow(page) {
   await waitForMetric(detail, "Tokens", "33 total, 18 prompt, 11 completion, 4 reasoning");
   await waitForMetric(detail, "Cost", "USD 0.002500");
   await waitForMetric(detail, "Latency", /(?:\d+ ms|\d+\.\d+ s)/);
+  await waitForMetric(
+    detail,
+    "Confirm",
+    confirmationCode(selectedTraceId(page, allKindTraceId), await selectedSpanId(llm))
+  );
   await detail
     .locator(".io")
     .filter({ hasText: "Prompt" })
@@ -190,7 +221,7 @@ Recorded from the stock OpenTelemetry Python trace produced by \`examples/python
 - SHA256: \`${videoSha256}\`
 - Recording mode: all-kind
 - Dashboard: \`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}\`
-- Shows: trace table, color/icon-coded all-kind agent waterfall, run -> turn -> step -> tool -> MCP nesting, \`llm.call\` prompt/completion/model/token breakdown/cost/latency, and tool-call I/O.
+- Shows: trace table, color/icon-coded all-kind agent waterfall, run -> turn -> step -> tool -> MCP nesting, \`llm.call\` prompt/completion/model/token breakdown/cost/latency/confirmation code, and tool-call I/O.
 
 Regenerate with:
 
@@ -221,7 +252,7 @@ Recorded from the literal five-line stock OpenTelemetry quickstart trace.
 - SHA256: \`${videoSha256}\`
 - Recording mode: quickstart
 - Dashboard: \`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}\`
-- Shows: trace table, click five-line trace, click \`llm.call\` span, read prompt, completion, model, token breakdown, cost, and latency.
+- Shows: trace table, click five-line trace, click \`llm.call\` span, read prompt, completion, model, token breakdown, cost, latency, and confirmation code.
 
 Regenerate with:
 
@@ -262,7 +293,7 @@ stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 - Dashboard base: \`${publicDashboardBase}\`
 - Quickstart trace: \`${quickstartTrace}\`
 - All-kind trace: \`${allKindTrace}\`
-- Shows: open dashboard -> click five-line trace -> click \`llm.call\` span -> read prompt, completion, model, token breakdown, cost, and latency -> inspect run -> turn -> step -> tool -> MCP waterfall.
+- Shows: open dashboard -> click five-line trace -> click \`llm.call\` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.
 
 ${portNote}
 

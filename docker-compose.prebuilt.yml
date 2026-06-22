@@ -68,6 +68,7 @@ services:
     environment:
       BEATER_API_BASE_URL: http://beaterd:8080
       NEXT_PUBLIC_BEATER_API_BASE_URL: http://localhost:${BEATER_HTTP_PORT:-8080}
+      BEATER_GATE2_CONFIRMATION_SALT: ${BEATER_GATE2_CONFIRMATION_SALT:-}
       HOSTNAME: 0.0.0.0
       PORT: "3000"
     ports:
@@ -92,6 +93,7 @@ services:
         condition: service_healthy
     environment:
       PLAYWRIGHT_BASE_URL: http://dashboard:3000
+      BEATER_GATE2_CONFIRMATION_SALT: ${BEATER_GATE2_CONFIRMATION_SALT:-}
     volumes:
       - ./docs/demos:/workspace/docs/demos
 

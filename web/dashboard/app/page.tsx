@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { createHash } from "node:crypto";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
@@ -548,6 +549,7 @@ function SpanDetail({
   const artifacts = spanArtifactRefs(span);
   const ancestry = spanAncestry(span, spans);
   const ioLabels = spanIoLabels(span.kind);
+  const confirmationCode = spanConfirmationCode(span, query);
   return (
     <div className="detail-stack">
       <div className="span-identity">
@@ -569,7 +571,12 @@ function SpanDetail({
         </div>
         <span className={`status ${span.status}`}>{statusLabel(span.status)}</span>
       </div>
-      <dl className="span-proof-strip" aria-label="Selected span essentials">
+      <dl
+        className={
+          confirmationCode ? "span-proof-strip with-confirmation" : "span-proof-strip"
+        }
+        aria-label="Selected span essentials"
+      >
         <div>
           <dt>Model</dt>
           <dd>{span.model ? `${span.model.provider}/${span.model.name}` : "none"}</dd>
@@ -586,6 +593,12 @@ function SpanDetail({
           <dt>Latency</dt>
           <dd>{formatDuration(span.start_time, span.end_time)}</dd>
         </div>
+        {confirmationCode ? (
+          <div className="confirmation-code">
+            <dt>Confirm</dt>
+            <dd>{confirmationCode}</dd>
+          </div>
+        ) : null}
       </dl>
       <RedactionControls span={span} query={query} hasRedactedIo={hasRedactedIo} />
       <section className="detail-section" aria-label="Span I/O">
@@ -774,6 +787,17 @@ function IoBlock({ label, value }: { label: string; value: SpanIoResponse["input
 function spanIoLabels(kind: string): { input: string; output: string } {
   if (kind === "llm.call") return { input: "Prompt", output: "Completion" };
   return { input: "Input", output: "Output" };
+}
+
+function spanConfirmationCode(span: CanonicalSpan, query: DashboardQuery): string | null {
+  if (span.kind !== "llm.call") return null;
+  if (query.selectedSpanId !== span.span_id) return null;
+  const salt = process.env.BEATER_GATE2_CONFIRMATION_SALT ?? "";
+  return createHash("sha256")
+    .update(`gate2:${salt}:${span.trace_id}:${span.span_id}`)
+    .digest("hex")
+    .slice(0, 8)
+    .toUpperCase();
 }
 
 function JsonPanel({ label, value }: { label: string; value: unknown }) {

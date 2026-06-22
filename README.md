@@ -59,9 +59,10 @@ trace-list URL in a normal browser; do not wait for the script to finish. The
 terminal checkpoint prints the seconds remaining in the 5-minute clone-to-click
 SLO, which already includes clone and image-pull time. Click the quickstart
 trace, then click the `llm.call` span. You should see the prompt, completion,
-model, token breakdown, cost, and latency. Press Enter in the terminal only
-after that manual click-through is complete; the stopwatch records that as the
-quickstart-click SLO. Then keep the script running for the post-SLO automated
+model, token breakdown, cost, latency, and the `Confirm` code. Type that
+confirmation code in the terminal and press Enter only after that manual
+click-through is complete; the stopwatch records that as the quickstart-click
+SLO. Then keep the script running for the post-SLO automated
 browser proof, all-kind and recording evidence, open the printed all-kind
 dashboard URL, and verify the run -> turn -> step -> tool -> MCP waterfall. Gate 2 is not closed
 until someone outside the project reaches the first trace and confirms the
@@ -206,8 +207,9 @@ moving-target clone races fail before the wrapper starts.
 As soon as the first `Open this quickstart trace-list URL first:` URL appears,
 open that filtered trace-list URL in a normal browser and click the quickstart
 trace, then click the `llm.call` span. The manual checkpoint prints the
-remaining seconds in the 5-minute clone-to-click SLO. Press Enter in the
-terminal only after prompt, completion, model, token breakdown, cost, and latency are visible.
+remaining seconds in the 5-minute clone-to-click SLO. Type the `Confirm` code
+shown in the selected span detail and press Enter only after prompt,
+completion, model, token breakdown, cost, latency, and the code are visible.
 Do not wait for the script to finish; it continues with automated browser
 proof, the all-kind waterfall trace, and the recording after the timed manual
 quickstart click. Keep the command running until those post-SLO evidence steps
@@ -229,9 +231,9 @@ from the runner's Enter confirmation after manually clicking the trace and
 `llm.call` span, not from the automated Playwright proof. It also sets an
 `Outside-run wrapper: yes` marker in the stopwatch proof; completed
 outside-person proof validation rejects evidence without that marker, rejects
-local automated stopwatch footers, requires an outside-run stopwatch source
-artifact marker, and cross-checks the stopwatch branch, origin, and
-worktree-clean status. The script first removes any previous Compose
+local automated stopwatch footers, requires an outside-run stopwatch source artifact
+marker, and cross-checks the stopwatch branch, origin, and worktree-clean
+status. The script first removes any previous Compose
 project/volumes and fails if that clean start does not complete, then runs
 `docker compose up`, sends `examples/python/five_line_otel.py` from the
 prebuilt stock OpenTelemetry Python runner container, waits until the trace is
@@ -356,8 +358,8 @@ this proof file's structure, and public current-SHA multi-arch
 exact commit. The verifier executes the second clone's
 `scripts/gate2-outside-run.sh` wrapper with the clone-start timestamp captured
 immediately before that second `git clone`, waits until the wrapper prints the
-manual quickstart checkpoint, auto-confirms that checkpoint for diagnostic
-automation only, and cleans up the `beater-stopwatch` Compose project after the
+manual quickstart checkpoint, computes and enters the derived confirmation code
+for diagnostic automation only, and cleans up the `beater-stopwatch` Compose project after the
 wrapper exits. This is maintainer runtime evidence that the exact public
 outside-run path, current GHCR images, OTLP ingest, dashboard render, browser
 proof, and browser recording work; it is not a substitute for the required
@@ -405,7 +407,7 @@ scripts/generate-gate2-outside-proof.py \
   --machine-os "Ubuntu 24.04 x86_64" \
   --browser "Chrome stable" \
   --network-notes "home Wi-Fi; no VPN" \
-  --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, and latency" \
+  --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code" \
   --waterfall-observation "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting" \
   --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard" \
   --compose-logs-saved "docs/demos/gate2-outside-compose.log" \
@@ -444,15 +446,17 @@ uncommitted non-evidence worktree changes at closure. It rejects any screen
 recording hash that does not match the committed file. It requires
 `Quickstart click source: manual-outside-runner` and
 `Manual quickstart confirmation: yes` in both the completed proof and the
-stopwatch artifact, and the stopwatch artifact must identify itself as an
-outside-run stopwatch source artifact rather than an automated local proof. The
+stopwatch artifact, recomputes `Manual confirmation code` from the per-run salt
+plus quickstart trace and span IDs, and the stopwatch artifact must identify
+itself as an outside-run stopwatch source artifact rather than an automated local proof. The
 recording artifact must be a playable WebM capture of
 at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, Cluster, and video-track structure, and
 artifact paths must not traverse symlinks. The notes must declare
 `Recording mode: compose` and describe the full recorded flow: quickstart trace,
-`llm.call`, prompt, completion, model, token breakdown, cost, latency, and run
--> turn -> step -> tool -> MCP waterfall. The completed proof must additionally include
+`llm.call`, prompt, completion, model, token breakdown, cost, latency,
+confirmation code, and run -> turn -> step -> tool -> MCP waterfall. The
+completed proof must additionally include
 the runner's own `llm.call` detail and waterfall observations, not only the
 automated browser recording notes.
 The `gate2-proof-contract` GitHub workflow runs the validator template check

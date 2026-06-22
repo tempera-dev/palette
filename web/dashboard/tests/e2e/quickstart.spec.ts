@@ -1,10 +1,22 @@
+import { createHash } from "node:crypto";
 import { expect, test } from "@playwright/test";
+
+function confirmationCode(traceId: string, spanId: string): string {
+  const salt = process.env.BEATER_GATE2_CONFIRMATION_SALT ?? "";
+  return createHash("sha256")
+    .update(`gate2:${salt}:${traceId}:${spanId}`)
+    .digest("hex")
+    .slice(0, 8)
+    .toUpperCase();
+}
 
 test("renders the five-line stock OTLP quickstart trace in a browser", async ({ page }) => {
   const traceId = process.env.BEATER_E2E_QUICKSTART_TRACE_ID;
   const release = process.env.BEATER_E2E_QUICKSTART_RELEASE;
   const releaseParam = release ? `&release=${encodeURIComponent(release)}` : "";
-  await page.goto(`/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart${releaseParam}`);
+  await page.goto(
+    `/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart${releaseParam}`
+  );
 
   await expect(page.getByRole("heading", { name: "Agent Trace Debugger" })).toBeVisible();
   await expect(page.locator(".advanced-filters summary")).toContainText(
@@ -26,13 +38,21 @@ test("renders the five-line stock OTLP quickstart trace in a browser", async ({ 
   await traceRow.click();
   await expect(page).toHaveURL(traceId ? new RegExp(`trace=${traceId}`) : /trace=/);
   await expect(traceFilter).not.toHaveValue("");
+  const selectedTraceId = traceId ?? new URL(page.url()).searchParams.get("trace");
+  if (!selectedTraceId) throw new Error("quickstart trace id was not selected");
+  expect(selectedTraceId).toMatch(/^[0-9a-f]{32}$/);
 
   const waterfall = page.getByLabel("Agent span waterfall");
   await expect(waterfall).toContainText("five-line-llm-call");
+  await expect(
+    page.getByLabel("Selected span essentials").locator("div").filter({ hasText: "Confirm" })
+  ).toHaveCount(0);
   const llm = waterfall.locator('[data-kind="llm.call"]');
   await expect(llm).toHaveCount(1);
   await expect(llm).toContainText("five-line-llm-call");
   await expect(llm).toHaveAttribute("data-span-id", /.+/);
+  const selectedSpanId = await llm.getAttribute("data-span-id");
+  if (!selectedSpanId) throw new Error("quickstart span id was not rendered");
   await expect(llm).toHaveAttribute("data-kind", "llm.call");
   await expect(llm).toHaveAttribute("data-depth", "0");
   await expect(llm.locator(".kind-icon")).toHaveAttribute("data-icon", "llm");
@@ -58,6 +78,9 @@ test("renders the five-line stock OTLP quickstart trace in a browser", async ({ 
   );
   await expect(essentials.locator("div").filter({ hasText: "Latency" })).toContainText(
     /(?:\d+ ms|\d+\.\d+ s)/
+  );
+  await expect(essentials.locator("div").filter({ hasText: "Confirm" })).toContainText(
+    confirmationCode(selectedTraceId, selectedSpanId)
   );
   await expect(
     detail.getByLabel("Span metrics").locator("div").filter({ hasText: "Latency" })

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import selectors
@@ -10,6 +11,7 @@ import socket
 import subprocess
 import tempfile
 import time
+import urllib.request
 from pathlib import Path
 
 
@@ -62,6 +64,71 @@ GATE2_SHELL_SCRIPTS = [
     "scripts/validate-gate2-outside-proof.sh",
 ]
 MANUAL_CHECKPOINT_MARKER = "Manual outside-run checkpoint:"
+
+
+def manual_confirmation_code_from_output(output: bytes) -> bytes:
+    if os.environ.get("BEATER_GATE2_FIXTURE_FULL_RUN") == "1":
+        return b"682ABA78\n"
+    decoded = output.decode(errors="replace")
+    matches = re.findall(
+        r"Direct quickstart trace URL:\s*\n\s*(http://127\.0\.0\.1:3000/[^\s]+)",
+        decoded,
+    )
+    if not matches:
+        raise SystemExit(
+            "diagnostic full-run reached the manual checkpoint before printing a "
+            "parseable direct quickstart dashboard URL"
+        )
+    code = quickstart_confirmation_code_from_dashboard(matches[-1])
+    return f"{code}\n".encode()
+
+
+def quickstart_confirmation_code_from_dashboard(url: str) -> str:
+    html = dashboard_html(url)
+    match = re.search(r"Confirm(?:.|\n){0,240}?([0-9A-F]{8})", html)
+    if match:
+        return match.group(1)
+    trace_matches = re.findall(r"[?&]trace=([0-9a-f]{32})(?:[&#\s]|$)", url)
+    if trace_matches:
+        separator = "&" if "?" in url else "?"
+        span_url = f"{url}{separator}span={quickstart_llm_span_id(trace_matches[-1])}"
+        html = dashboard_html(span_url)
+        match = re.search(r"Confirm(?:.|\n){0,240}?([0-9A-F]{8})", html)
+        if match:
+            return match.group(1)
+    raise SystemExit(
+        f"diagnostic full-run could not find a rendered confirmation code in {url}"
+    )
+
+
+def dashboard_html(url: str) -> str:
+    try:
+        with urllib.request.urlopen(url, timeout=10) as response:
+            return response.read().decode("utf-8", errors="replace")
+    except Exception as err:
+        raise SystemExit(
+            f"diagnostic full-run could not read quickstart dashboard detail from {url}: {err}"
+        ) from err
+
+
+def quickstart_llm_span_id(trace_id: str) -> str:
+    url = f"http://127.0.0.1:8080/v1/traces/demo/{trace_id}"
+    try:
+        with urllib.request.urlopen(url, timeout=10) as response:
+            payload = json.load(response)
+    except Exception as err:
+        raise SystemExit(
+            f"diagnostic full-run could not read quickstart trace detail from {url}: {err}"
+        ) from err
+    for span in payload.get("spans", []):
+        if span.get("kind") != "llm.call":
+            continue
+        span_id = span.get("span_id")
+        if isinstance(span_id, str) and re.fullmatch(r"[0-9a-f]{16}", span_id):
+            return span_id
+    raise SystemExit(
+        f"diagnostic full-run could not find an llm.call span id in quickstart trace {trace_id}"
+    )
 
 
 def repo_root() -> Path:
@@ -164,7 +231,12 @@ def run_with_manual_checkpoint_confirmation(
                 output.extend(chunk)
                 if not confirmed and marker in output:
                     assert process.stdin is not None
-                    process.stdin.write(b"\n")
+                    try:
+                        confirmation_code = manual_confirmation_code_from_output(output)
+                    except SystemExit:
+                        process.kill()
+                        raise
+                    process.stdin.write(confirmation_code)
                     process.stdin.flush()
                     process.stdin.close()
                     confirmed = True
@@ -492,6 +564,7 @@ OUTSIDE_ENV_NAMES = [
     "BEATER_GATE2_RECORD_DEMO",
     "BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS",
     "BEATER_GATE2_RUN_ID",
+    "BEATER_GATE2_CONFIRMATION_SALT",
     "BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS",
     "BEATERD_IMAGE",
     "BEATER_DASHBOARD_IMAGE",
@@ -611,6 +684,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "not wait for the script to finish",
             "seconds remaining",
             "5-minute clone-to-click SLO",
+            "`Confirm` code",
             "cleanup hint printed by",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
@@ -629,6 +703,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "filtered trace-list URL",
             "do not wait for the script to finish",
             "seconds remaining in the 5-minute clone-to-click SLO",
+            "`Confirm` code shown in the selected detail",
             "cleanup hint printed",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
@@ -656,7 +731,8 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "Open this quickstart trace-list URL first:",
             "Do not wait for the script to finish",
             "click the `llm.call` span",
-            "prompt, completion, model, token breakdown, cost, and latency",
+            "prompt, completion, model, token breakdown, cost, latency, and the `Confirm`",
+            "Type that confirmation code in the terminal",
             "before the 5-minute clone-to-click SLO expires",
             "leave the command running",
             "docs/demos/gate2-outside-compose.log",
@@ -678,13 +754,20 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "Manual outside-run checkpoint:\n"
             "  ${remaining}s remain in the 5-minute clone-to-click SLO.\n"
             "  In a normal browser, open the quickstart trace-list URL above first",
+            "Type the confirmation code shown in the selected llm.call detail, then press Enter.",
             "Outside-run timing-critical browser step:\n"
             "  Open the quickstart trace-list URL above in a normal browser now; do not wait for the script to finish.",
             "Open the quickstart trace-list URL above in a normal browser now",
             "do not wait for the script to finish",
             "${remaining}s remain in the 5-minute clone-to-click SLO",
             'quickstart_list_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"',
+            'quickstart_span_id="$(curl -fsS "$api_url/v1/traces/demo/$trace_id" | first_llm_span_id)"',
+            'quickstart_confirmation_code="$(quickstart_confirmation_code_for_span "$trace_id" "$quickstart_span_id")"',
+            'BEATER_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"',
             "open $quickstart_list_url in a normal browser for the quickstart trace list",
+            r"Quickstart span: \`",
+            "Manual confirmation code: $manual_quickstart_confirmation_code",
+            r"Manual confirmation salt: \`$manual_quickstart_confirmation_salt\`",
             "Direct quickstart trace URL:",
             "python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof",
             "--print-command",
@@ -771,9 +854,9 @@ def run_generated_proof_check(clone_dir: Path, compose_logs_path: Path) -> None:
             "diagnostic verifier path; not outside-person evidence",
             "--llm-observation",
             (
-                "diagnostic auto-confirmed the manual checkpoint; not outside-person "
-                "evidence; browser proof inspected llm.call prompt, completion, "
-                "model, token breakdown, cost, and latency"
+                "diagnostic entered the derived manual confirmation code; not "
+                "outside-person evidence; browser proof inspected llm.call prompt, "
+                "completion, model, token breakdown, cost, latency, and confirmation code"
             ),
             "--waterfall-observation",
             (
@@ -811,7 +894,7 @@ def run_cloned_full_run(
     env["BEATER_GATE2_CLONE_STARTED_EPOCH"] = str(clone_started_epoch)
     try:
         print(
-            "Auto-confirming the manual quickstart checkpoint for maintainer "
+            "Entering the derived manual quickstart confirmation code for maintainer "
             "diagnostic full-run only; this is not outside-person evidence."
         )
         full_run_output = run_with_manual_checkpoint_confirmation(

@@ -7,7 +7,10 @@ use std::process::{Command, Output};
 use tempfile::TempDir;
 
 const QUICKSTART_TRACE: &str = "11111111111111111111111111111111";
+const QUICKSTART_SPAN: &str = "aaaaaaaaaaaaaaaa";
 const ALL_KIND_TRACE: &str = "22222222222222222222222222222222";
+const MANUAL_CONFIRMATION_CODE: &str = "682ABA78";
+const MANUAL_CONFIRMATION_SALT: &str = "gate2-test-salt-123";
 const RECORDING_SHA: &str = "3dac802bc8f2db03406d0d76e4e1618ed5b516a2cf3d286589e1a588cf6e6534";
 const BEATER_IMAGE_DIGEST: &str =
     "ghcr.io/jadenfix/beater/beaterd@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
@@ -18,11 +21,11 @@ const DASHBOARD_E2E_IMAGE_DIGEST: &str =
 const OTEL_PYTHON_IMAGE_DIGEST: &str =
     "ghcr.io/jadenfix/beater/otel-python@sha256:abababababababababababababababababababababababababababababababab";
 const LLM_OBSERVATION: &str =
-    "clicked llm.call and saw prompt, completion, model, token breakdown, cost, and latency";
+    "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code";
 const WATERFALL_OBSERVATION: &str =
     "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting";
 const OUTSIDE_RUN_ATTESTATION: &str = "I attest that I am not a Beater project maintainer, I received no step-by-step help beyond public repository instructions, I used a fresh clone, and I completed the Gate 2 flow unaided.";
-const DIAGNOSTIC_ATTESTATION: &str = "Diagnostic maintainer full-run auto-confirmed the manual checkpoint; this is not outside-person evidence and cannot close Gate 2.";
+const DIAGNOSTIC_ATTESTATION: &str = "Diagnostic maintainer full-run entered the derived manual confirmation code; this is not outside-person evidence and cannot close Gate 2.";
 const CANONICAL_OUTSIDE_COMMAND: &str = r#"bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'"#;
 const DRAFT_VALID: &str = "Gate 2 outside-person proof draft is internally consistent";
 const CLOSURE_VALID: &str = "Gate 2 outside-person proof is complete and valid";
@@ -205,7 +208,10 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
     assert!(runner_card.contains("Do not wait for the script to finish"));
     assert!(runner_card.contains("click the `llm.call` span"));
-    assert!(runner_card.contains("prompt, completion, model, token breakdown, cost, and latency"));
+    assert!(
+        runner_card.contains("prompt, completion, model, token breakdown, cost, latency, and the")
+    );
+    assert!(runner_card.contains("Type that confirmation code in the terminal"));
     assert!(runner_card.contains("5-minute clone-to-click SLO"));
     assert!(runner_card.contains("leave the command running"));
     assert!(runner_card.contains("docs/demos/gate2-outside-compose.log"));
@@ -317,7 +323,7 @@ fn gate2_outside_validator_accepts_diagnostic_status_only_in_diagnostic_mode() {
     replace(
         &fixture.proof_path,
         "The runner completed the flow using only public repository instructions.",
-        "The maintainer diagnostic full-run auto-confirmed the manual checkpoint. This is not outside-person evidence.",
+        "The maintainer diagnostic full-run entered the derived manual quickstart confirmation code. This is not outside-person evidence.",
     );
 
     let output = run_validator_with_args(&fixture.proof_path, &["--diagnostic"]);
@@ -1368,8 +1374,8 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         "stdout did not contain raw public preflight fixture line\nstdout:\n{stdout}"
     );
     assert!(
-        stdout.contains("Auto-confirming the manual quickstart checkpoint"),
-        "full-run must disclose diagnostic-only manual checkpoint auto-confirmation\nstdout:\n{stdout}"
+        stdout.contains("Entering the derived manual quickstart confirmation code"),
+        "full-run must disclose diagnostic-only manual confirmation code entry\nstdout:\n{stdout}"
     );
     let checks_clone_dir = clone_parent.path().join("beater-checks");
     assert!(
@@ -1412,7 +1418,7 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
     assert!(diagnostic_proof.contains("Status: diagnostic."));
     assert!(diagnostic_proof.contains("Public Handoff Diagnostic"));
     assert!(diagnostic_proof.contains("not outside-person evidence"));
-    assert!(diagnostic_proof.contains("diagnostic auto-confirmed the manual checkpoint"));
+    assert!(diagnostic_proof.contains("diagnostic entered the derived manual confirmation code"));
     assert!(diagnostic_proof.contains(DIAGNOSTIC_ATTESTATION));
     assert!(diagnostic_proof.contains("token breakdown"));
     let docker_log = fs::read_to_string(&runtime.docker_log)
@@ -1960,7 +1966,7 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     assert!(script.contains("If another app is listed below, stop that app before rerunning"));
     assert!(script.contains("do not set\n$env_name for outside-person evidence"));
     assert!(script.contains(
-        "Confirm prompt, completion, model, token breakdown, cost, and latency are visible."
+        "Confirm prompt, completion, model, token breakdown, cost, latency, and the confirmation code are visible."
     ));
     assert!(script.contains(
         "If you have not already done so, open $quickstart_list_url in a normal browser for the quickstart trace list."
@@ -3669,7 +3675,7 @@ fn gate2_outside_validator_rejects_weak_llm_observation() {
 
     assert_failure(
         output,
-        "Runner llm.call observation must mention: llm.call, prompt, completion, model, token breakdown, cost, latency",
+        "Runner llm.call observation must mention: llm.call, prompt, completion, model, token breakdown, cost, latency, confirmation code",
     );
 }
 
@@ -3679,7 +3685,7 @@ fn gate2_outside_validator_rejects_negated_llm_observation() {
     replace(
         &fixture.proof_path,
         &format!("- Runner llm.call observation: {LLM_OBSERVATION}"),
-        "- Runner llm.call observation: I did not see llm.call prompt, completion, model, token breakdown, cost, or latency",
+        "- Runner llm.call observation: I did not see llm.call prompt, completion, model, token breakdown, cost, latency, or confirmation code",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -3781,7 +3787,7 @@ fn gate2_outside_validator_rejects_recording_notes_without_full_gate2_flow() {
     let fixture = ValidatorFixture::new();
     replace(
         &fixture.notes_path,
-        "read prompt, completion, model, token breakdown, cost, and latency -> ",
+        "read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> ",
         "",
     );
 
@@ -3798,8 +3804,8 @@ fn gate2_outside_validator_rejects_recording_notes_with_generic_tokens_only() {
     let fixture = ValidatorFixture::new();
     replace(
         &fixture.notes_path,
-        "read prompt, completion, model, token breakdown, cost, and latency -> ",
-        "read prompt, completion, model, tokens, cost, and latency -> ",
+        "read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> ",
+        "read prompt, completion, model, tokens, cost, latency, and confirmation code -> ",
     );
 
     let output = run_validator(&fixture.proof_path);
@@ -4220,6 +4226,8 @@ Status: completed.
 - Script-to-quickstart-click: 15s
 - Quickstart click source: manual-outside-runner
 - Manual quickstart confirmation: yes
+- Manual confirmation code: {MANUAL_CONFIRMATION_CODE}
+- Manual confirmation salt: {MANUAL_CONFIRMATION_SALT}
 - Total proof duration: 40s
 - Script duration: 35s
 - Outside-run wrapper: yes
@@ -4243,6 +4251,7 @@ The runner completed the flow using only public repository instructions.
 - Runner waterfall observation: {WATERFALL_OBSERVATION}
 {compose_images_excerpt}
 - Quickstart trace ID: {QUICKSTART_TRACE}
+- Quickstart span ID: {QUICKSTART_SPAN}
 - Quickstart dashboard URL: `http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}`
 - All-kind nested trace ID: {ALL_KIND_TRACE}
 - All-kind dashboard URL: `http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}`
@@ -4259,9 +4268,9 @@ The runner completed the flow using only public repository instructions.
 - [x] The script reported `Clean start: yes`.
 - [x] Time-to-first-trace was 300 seconds or less.
 - [x] Time-to-first-trace includes clone time.
-- [x] Manual quickstart click confirmation was recorded before 300 seconds.
+- [x] Manual quickstart click confirmation code was recorded before 300 seconds.
 - [x] The five-line stock OpenTelemetry trace appeared in `localhost:3000`.
-- [x] Clicking the `llm.call` span showed prompt, completion, model, token breakdown, cost, and latency.
+- [x] Clicking the `llm.call` span showed prompt, completion, model, token breakdown, cost, latency, and confirmation code.
 - [x] The all-kind trace rendered run -> turn -> step -> tool -> MCP nesting in the waterfall.
 - [x] The browser proof passed for both the quickstart trace and all-kind waterfall.
 - [x] The stopwatch script generated and reported the browser recording.
@@ -4296,6 +4305,8 @@ fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str) -> String {
 - Script-to-quickstart-click: 15s
 - Quickstart click source: manual-outside-runner
 - Manual quickstart confirmation: yes
+- Manual confirmation code: {MANUAL_CONFIRMATION_CODE}
+- Manual confirmation salt: `{MANUAL_CONFIRMATION_SALT}`
 - Total duration: 40s
 - Script duration: 35s
 - Limit: 300s
@@ -4327,6 +4338,7 @@ fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str) -> String {
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart release ID: `{quickstart_release_id}`
 - Quickstart trace: `{QUICKSTART_TRACE}`
+- Quickstart span: `{QUICKSTART_SPAN}`
 - Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}
 - Quickstart browser proof: passed
 - All-kind nested trace: `{ALL_KIND_TRACE}`
@@ -4369,7 +4381,7 @@ fn recording_notes(recording_name: &str) -> String {
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart trace: `{QUICKSTART_TRACE}`
 - All-kind trace: `{ALL_KIND_TRACE}`
-- Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, and latency -> inspect run -> turn -> step -> tool -> MCP waterfall.
+- Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.
 
 This recording was generated during the outside-person stopwatch path. The completed proof file must pair it with the runner attestation, manual quickstart confirmation, and runner observations.
 "#
@@ -5604,12 +5616,20 @@ fn write_stopwatch_env_stub(repo: &Path) {
 r#"#!/usr/bin/env bash
 set -euo pipefail
 mkdir -p docs/demos
+# Source-contract markers mirrored from the real stopwatch script:
+# quickstart_span_id="$(curl -fsS "$api_url/v1/traces/demo/$trace_id" | first_llm_span_id)"
+# quickstart_confirmation_code="$(quickstart_confirmation_code_for_span "$trace_id" "$quickstart_span_id")"
+# export BEATER_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"
+# - Quickstart span: \`$quickstart_span_id\`
+# - Manual confirmation code: $manual_quickstart_confirmation_code
+# - Manual confirmation salt: \`$manual_quickstart_confirmation_salt\`
 cat <<'EOF_PROMPT'
 Manual outside-run checkpoint:
   ${remaining}s remain in the 5-minute clone-to-click SLO.
   In a normal browser, open the quickstart trace-list URL above first, click the
   quickstart trace, click the llm.call span, and confirm prompt, completion,
-  model, token breakdown, cost, and latency are visible.
+  model, token breakdown, cost, latency, and the confirmation code are visible.
+  Type the confirmation code shown in the selected llm.call detail, then press Enter.
 EOF_PROMPT
 dashboard_base_url="${dashboard_base_url:-http://127.0.0.1:3000}"
 gate2_run_id="${gate2_run_id:-fixture-run}"
@@ -5619,6 +5639,8 @@ Open this quickstart trace-list URL first:
   $quickstart_list_url
 
 Direct quickstart trace URL:
+  $dashboard_base_url/?tenant=demo&project=demo&environment=local&trace=11111111111111111111111111111111
+
 open $quickstart_list_url in a normal browser for the quickstart trace list
 EOF_URLS
 cat <<'EOF_STEP'
@@ -5665,7 +5687,7 @@ cat > docs/demos/gate2-compose-browser-demo.md <<'EOF_NOTES'
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart trace: `11111111111111111111111111111111`
 - All-kind trace: `22222222222222222222222222222222`
-- Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, and latency -> inspect run -> turn -> step -> tool -> MCP waterfall.
+- Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.
 
 This recording was generated during the outside-person stopwatch path. The completed proof file must pair it with the runner attestation, manual quickstart confirmation, and runner observations.
 EOF_NOTES
@@ -5684,6 +5706,8 @@ cat > docs/demos/gate2-compose-stopwatch.md <<'EOF_PROOF'
 - Script-to-quickstart-click: 15s
 - Quickstart click source: manual-outside-runner
 - Manual quickstart confirmation: yes
+- Manual confirmation code: 682ABA78
+- Manual confirmation salt: gate2-test-salt-123
 - Total duration: 40s
 - Script duration: 35s
 - Limit: 300s
@@ -5714,6 +5738,7 @@ cat > docs/demos/gate2-compose-stopwatch.md <<'EOF_PROOF'
 - Dashboard base: http://127.0.0.1:3000
 - Quickstart release ID: gate2-__COMMIT_SHORT__-1780000000-12345
 - Quickstart trace: 11111111111111111111111111111111
+- Quickstart span: aaaaaaaaaaaaaaaa
 - Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace=11111111111111111111111111111111
 - Quickstart browser proof: passed
 - All-kind nested trace: 22222222222222222222222222222222

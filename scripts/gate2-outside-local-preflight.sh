@@ -100,7 +100,7 @@ require_command curl "the timed run checks the local Beater API"
 require_command ffprobe "completed proof validation verifies the WebM recording"
 require_python3
 
-for env_name in COMPOSE_FILE COMPOSE_PROJECT_NAME COMPOSE_PROFILES; do
+for env_name in COMPOSE_FILE COMPOSE_PROJECT_NAME COMPOSE_PROFILES BEATER_GATE2_CONFIRMATION_SALT; do
   if [[ -n "${!env_name:-}" ]]; then
     fail "$env_name must be unset for outside-person evidence; the public command controls the Compose topology"
   fi
@@ -111,7 +111,7 @@ if [[ -e beater ]]; then
 fi
 
 if ! command -v shasum >/dev/null 2>&1 && ! command -v sha256sum >/dev/null 2>&1; then
-  fail "missing required command 'shasum' or 'sha256sum' (recording hash proof)"
+  fail "missing required command 'shasum' or 'sha256sum' (confirmation code and recording hash proof)"
 fi
 
 if ! docker_endpoint_is_local "${DOCKER_HOST:-}"; then
