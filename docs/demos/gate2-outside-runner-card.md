@@ -22,10 +22,12 @@ Do not set Beater, Docker Compose, or alternate port environment variables.
 Run this exact command from Bash, zsh, Git Bash, or WSL2:
 
 ```bash
-bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
-The timer includes clone and image-pull time.
+The command downloads preflight from the resolved public commit SHA, verifies
+the clone still matches that SHA, and includes clone and image-pull time in the
+timer.
 
 ## Timed Browser Step
 

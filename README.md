@@ -41,17 +41,19 @@ are not started in the timed default path until the Rust runtime uses them.
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 Run it from a directory that does not already contain `beater/`; reruns should
 start from a new or empty parent directory. If an aborted previous attempt left
 default ports occupied by `beater-stopwatch`, use the cleanup hint printed by
-the preflight before rerunning. The command runs
-`scripts/gate2-outside-local-preflight.sh` from the public repo before the
-stopwatch starts, so missing local tooling, remote Docker contexts, and occupied
-default ports fail before the timed attempt. The cloned wrapper repeats those
-checks before Compose startup. As soon as the first
+the preflight before rerunning. The command resolves the public `main` commit,
+downloads `scripts/gate2-outside-local-preflight.sh` from that immutable SHA
+into a temp file, and runs it before the stopwatch starts, so missing local
+tooling, remote Docker contexts, and occupied default ports fail before the
+timed attempt. After cloning, it verifies the clone HEAD still matches the
+resolved SHA before running the outside wrapper. The cloned wrapper repeats
+those checks before Compose startup. As soon as the first
 `Open this quickstart trace-list URL first:` URL appears, open that filtered
 trace-list URL in a normal browser; do not wait for the script to finish. The
 terminal checkpoint prints the seconds remaining in the 5-minute clone-to-click
@@ -189,16 +191,18 @@ Exact Docker Compose stopwatch proof for the mandate's clean-machine path:
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 Run it from a directory that does not already contain `beater/`; reruns should
 start from a new or empty parent directory. If an aborted previous attempt left
 default ports occupied by `beater-stopwatch`, use the cleanup hint printed by
-the preflight before rerunning. The one-liner runs the public
-`scripts/gate2-outside-local-preflight.sh` before `t="$(date +%s)"`, so missing
-tools, remote Docker contexts, and occupied default ports fail before the timed
-attempt starts.
+the preflight before rerunning. The one-liner resolves `refs/heads/main`,
+downloads the public `scripts/gate2-outside-local-preflight.sh` from that
+immutable SHA before `t="$(date +%s)"`, and verifies the cloned checkout still
+matches that SHA before running the wrapper. Missing tools, remote Docker
+contexts, and occupied default ports fail before the timed attempt starts;
+moving-target clone races fail before the wrapper starts.
 As soon as the first `Open this quickstart trace-list URL first:` URL appears,
 open that filtered trace-list URL in a normal browser and click the quickstart
 trace, then click the `llm.call` span. The manual checkpoint prints the
@@ -340,9 +344,8 @@ scripts/check-gate2-public-handoff.py --full-run
 That mode first preflights the local runtime: canonical public source URL only,
 `docker`, Docker Compose v2, `curl`, `ffprobe`, local Docker daemon, SHA tooling,
 and free default ports after removing any previous `beater-stopwatch` Compose project.
-It then runs the same raw public preflight pipe the outside runner uses,
-`curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash`,
-under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
+It then downloads the raw public preflight from the expected immutable commit
+and runs it under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
 remote Docker contexts fail before clone or Compose cleanup. It runs
 `scripts/check-gate2-outside-readiness.py`, uses one fresh clone from
 `https://github.com/jadenfix/beater.git` for exact-commit, cloned readiness, and

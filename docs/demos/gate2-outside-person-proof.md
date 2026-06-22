@@ -57,7 +57,7 @@ For the short unaided runner instructions, use
 ## Commands
 
 ```bash
-bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
@@ -177,9 +177,8 @@ scripts/check-gate2-public-handoff.py --full-run
 That mode first preflights the local runtime: canonical public source URL only,
 `docker`, Docker Compose v2, `curl`, `ffprobe`, local Docker daemon, SHA tooling,
 and free default ports after removing any previous `beater-stopwatch` Compose project.
-It then runs the same raw public preflight pipe the outside runner uses,
-`curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash`,
-under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
+It then downloads the raw public preflight from the expected immutable commit
+and runs it under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
 remote Docker contexts fail before clone or Compose cleanup. It runs
 `scripts/check-gate2-outside-readiness.py`, uses one fresh clone from
 `https://github.com/jadenfix/beater.git` for exact-commit, cloned readiness, and

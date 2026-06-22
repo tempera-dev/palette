@@ -825,11 +825,21 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let public_handoff = read(root.join("scripts/check-gate2-public-handoff.py"));
     assert!(public_handoff.contains("https://github.com/jadenfix/beater.git"));
     assert!(public_handoff.contains("RAW_PUBLIC_PREFLIGHT_COMMAND"));
-    assert!(public_handoff.contains("RAW_PREFLIGHT_URL"));
-    assert!(public_handoff.contains("https://raw.githubusercontent.com/jadenfix/beater/main/"));
+    assert!(public_handoff.contains("RAW_PREFLIGHT_URL_PREFIX"));
+    assert!(public_handoff.contains("REMOTE_MAIN_REF"));
+    assert!(public_handoff.contains("PUBLIC_SHA_RESOLUTION_COMMAND"));
+    assert!(public_handoff.contains("CLONE_VERIFICATION_COMMAND"));
+    assert!(public_handoff.contains("OUTSIDE_RUNNER_COMMAND"));
+    assert!(public_handoff.contains("raw_public_preflight_command_for_sha"));
+    assert!(public_handoff.contains("https://raw.githubusercontent.com/jadenfix/beater"));
+    assert!(public_handoff.contains("refs/heads/main"));
+    assert!(public_handoff.contains("git ls-remote --exit-code"));
+    assert!(public_handoff.contains("-o \"$preflight\""));
+    assert!(public_handoff.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(!public_handoff.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(public_handoff.contains("scripts/gate2-outside-local-preflight.sh"));
     assert!(public_handoff.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
-    assert!(public_handoff.contains("run_raw_public_preflight(args)"));
+    assert!(public_handoff.contains("run_raw_public_preflight(args, expected_commit)"));
     assert!(public_handoff.contains("git"));
     assert!(public_handoff.contains("clone"));
     assert!(public_handoff.contains("clone_command = [\"git\", \"clone\""));
@@ -871,7 +881,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("\"COMPOSE_FILE\""));
     assert!(public_handoff.contains("\"COMPOSE_PROFILES\""));
     let raw_preflight_idx = public_handoff
-        .find("run_raw_public_preflight(args)")
+        .find("run_raw_public_preflight(args, expected_commit)")
         .expect("raw public preflight call in public handoff verifier");
     let clone_idx = public_handoff
         .find("clone_dir, temp_owner, clone_started_epoch = clone_repo")
@@ -982,10 +992,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     );
     assert!(outside_proof.contains("auto-confirms that checkpoint for diagnostic\nautomation only"));
     assert!(outside_proof.contains("preflights the local runtime"));
-    assert!(outside_proof.contains("runs the same raw public preflight pipe"));
-    assert!(outside_proof.contains(
-        "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
-    ));
+    assert!(outside_proof
+        .contains("downloads the raw public preflight from the expected immutable commit"));
+    assert!(!outside_proof.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(outside_proof.contains("under `bash -o pipefail -lc` before any clone"));
     assert!(outside_proof.contains("local Docker daemon"));
     assert!(outside_proof.contains("SHA tooling"));
@@ -1081,10 +1090,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("waits until the wrapper prints the\nmanual quickstart checkpoint"));
     assert!(readme.contains("auto-confirms that checkpoint for diagnostic\nautomation only"));
     assert!(readme.contains("preflights the local runtime"));
-    assert!(readme.contains("runs the same raw public preflight pipe"));
-    assert!(readme.contains(
-        "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
-    ));
+    assert!(
+        readme.contains("downloads the raw public preflight from the expected immutable commit")
+    );
+    assert!(readme.contains("git ls-remote --exit-code"));
+    assert!(readme.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(!readme.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(readme.contains("under `bash -o pipefail -lc` before any clone"));
     assert!(readme.contains("local Docker daemon"));
     assert!(readme.contains("`ffprobe`, `shasum` or `sha256sum`"));
@@ -1173,10 +1184,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(requirements.contains("public-clone handoff verifier"));
     assert!(requirements
-        .contains("raw public local preflight pipe under `bash -o pipefail -lc` before any clone"));
-    assert!(requirements.contains(
-        "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
-    ));
+        .contains("download the canonical public preflight from the expected immutable commit"));
+    assert!(!requirements.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(requirements.contains("requires the clone to match the current commit"));
     assert!(requirements.contains(
         "alternate-port/image-override/artifact-path/compose-file/compose-profile/compose-project/teardown/run-id/registry-fixture evidence"
@@ -1206,7 +1215,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("recording-hash cross-checks"));
     assert!(requirements.contains("public multi-arch GHCR images"));
     assert!(requirements.contains("Gate 2 `--full-run` public handoff verification"));
-    assert!(requirements.contains("raw canonical public preflight pipe"));
+    assert!(requirements.contains("canonical public preflight from the expected immutable commit"));
     assert!(requirements.contains("free default `8080`/`4317`/`3000` ports"));
     assert!(requirements.contains("maintainer-only runtime evidence"));
     assert!(requirements.contains("CI-enforced"));
@@ -1341,7 +1350,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let runner_card = read(root.join("docs/demos/gate2-outside-runner-card.md"));
     assert!(runner_card.contains("# Gate 2 Outside Runner Card"));
     assert!(runner_card.contains("bash -o pipefail -lc"));
-    assert!(runner_card.contains("gate2-outside-local-preflight.sh | bash"));
+    assert!(runner_card.contains("git ls-remote --exit-code"));
+    assert!(runner_card.contains("gate2-outside-local-preflight.sh\" -o \"$preflight\""));
+    assert!(runner_card.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(!runner_card.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(runner_card.contains("BEATER_GATE2_CLONE_STARTED_EPOCH"));
     assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));

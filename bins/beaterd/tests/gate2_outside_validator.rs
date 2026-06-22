@@ -23,7 +23,7 @@ const WATERFALL_OBSERVATION: &str =
     "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting";
 const OUTSIDE_RUN_ATTESTATION: &str = "I attest that I am not a Beater project maintainer, I received no step-by-step help beyond public repository instructions, I used a fresh clone, and I completed the Gate 2 flow unaided.";
 const DIAGNOSTIC_ATTESTATION: &str = "Diagnostic maintainer full-run auto-confirmed the manual checkpoint; this is not outside-person evidence and cannot close Gate 2.";
-const CANONICAL_OUTSIDE_COMMAND: &str = r#"bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'"#;
+const CANONICAL_OUTSIDE_COMMAND: &str = r#"bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'"#;
 const DRAFT_VALID: &str = "Gate 2 outside-person proof draft is internally consistent";
 const CLOSURE_VALID: &str = "Gate 2 outside-person proof is complete and valid";
 
@@ -83,7 +83,14 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     let readme = fs::read_to_string(root.join("README.md"))
         .unwrap_or_else(|err| panic!("read README.md: {err}"));
     assert!(readme.contains(r#"git clone https://github.com/jadenfix/beater.git && cd beater &&"#));
-    assert!(readme.contains("gate2-outside-local-preflight.sh | bash && t=\"$(date +%s)\""));
+    assert!(readme.contains(
+        "git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main"
+    ));
+    assert!(readme.contains("sha=\"${sha_line%%[[:space:]]*}\""));
+    assert!(readme.contains("mktemp \"${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX\""));
+    assert!(readme.contains("gate2-outside-local-preflight.sh\" -o \"$preflight\" && bash \"$preflight\" && t=\"$(date +%s)\""));
+    assert!(readme.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(!readme.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(readme.contains("bash -o pipefail -lc"));
     assert!(readme.contains("confirms the\nquickstart browser click unaided in 5"));
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
@@ -135,7 +142,12 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(proof_template.contains("Python 3.9 or newer is required"));
     assert!(proof_template.contains("before the stopwatch starts"));
-    assert!(proof_template.contains("gate2-outside-local-preflight.sh | bash && t=\"$(date +%s)\""));
+    assert!(proof_template.contains(
+        "git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main"
+    ));
+    assert!(proof_template.contains("gate2-outside-local-preflight.sh\" -o \"$preflight\" && bash \"$preflight\" && t=\"$(date +%s)\""));
+    assert!(proof_template.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(!proof_template.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(proof_template.contains("bash -o pipefail -lc"));
     assert!(proof_template.contains("curl\nor `ffprobe` is missing"));
     assert!(proof_template.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
@@ -187,7 +199,9 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("Use this card for the unaided Gate 2 run"));
     assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
     assert!(runner_card.contains(CANONICAL_OUTSIDE_COMMAND));
-    assert!(runner_card.contains("The timer includes clone and image-pull time"));
+    assert!(runner_card.contains("downloads preflight from the resolved public commit SHA"));
+    assert!(runner_card.contains("verifies\nthe clone still matches that SHA"));
+    assert!(runner_card.contains("includes clone and image-pull time"));
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
     assert!(runner_card.contains("Do not wait for the script to finish"));
     assert!(runner_card.contains("click the `llm.call` span"));
@@ -1418,19 +1432,18 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         "full-run fixture should invoke raw preflight through bash -o pipefail -lc\n{bash_log}"
     );
     assert!(
-        bash_log.contains(
-            "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
-        ),
-        "full-run fixture should pass the raw public preflight pipe to bash -lc\n{bash_log}"
+        bash_log.contains("mktemp \"${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX\""),
+        "full-run fixture should create a temp preflight script through bash -lc\n{bash_log}"
     );
+    assert!(bash_log.contains("-o \"$preflight\" && bash \"$preflight\""));
+    assert!(!bash_log.contains("gate2-outside-local-preflight.sh | bash"));
     let curl_log = fs::read_to_string(&runtime.curl_log)
         .unwrap_or_else(|err| panic!("read fake curl log: {err}"));
     assert!(
-        curl_log.contains(
-            "-fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh"
-        ),
-        "full-run fixture should exercise the raw public preflight pipe before clone\n{curl_log}"
+        curl_log.contains("/scripts/gate2-outside-local-preflight.sh -o "),
+        "full-run fixture should download the raw public preflight to a temp file before clone\n{curl_log}"
     );
+    assert!(!curl_log.contains("/main/scripts/gate2-outside-local-preflight.sh"));
 }
 
 #[test]
@@ -1550,10 +1563,8 @@ exit 7
     );
     let curl_log = fs::read_to_string(&runtime.curl_log)
         .unwrap_or_else(|err| panic!("read fake curl log: {err}"));
-    assert_eq!(
-        curl_log.trim(),
-        "-fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh"
-    );
+    assert!(curl_log.contains("/scripts/gate2-outside-local-preflight.sh -o "));
+    assert!(!curl_log.contains("/main/scripts/gate2-outside-local-preflight.sh"));
     assert!(
         !clone_parent.path().join("beater-checks").exists(),
         "raw public preflight failure must stop before the static-check clone"
@@ -1571,17 +1582,28 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
 
     assert!(script.contains("preflight_full_run_runtime"));
     assert!(script.contains("RAW_PUBLIC_PREFLIGHT_COMMAND"));
-    assert!(script.contains("run_raw_public_preflight(args)"));
+    assert!(script.contains("PUBLIC_SHA_RESOLUTION_COMMAND"));
+    assert!(script.contains("CLONE_VERIFICATION_COMMAND"));
+    assert!(script.contains("OUTSIDE_RUNNER_COMMAND"));
+    assert!(script.contains("raw_public_preflight_command_for_sha"));
+    assert!(script.contains("run_raw_public_preflight(args, expected_commit)"));
     assert!(script.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
-    assert!(script.contains("raw public preflight pipe before"));
+    assert!(script.contains("immutable raw public preflight before"));
     assert!(script.contains("before any clone"));
     assert!(script.contains("curl -fsSL"));
+    assert!(script.contains("-o \"$preflight\""));
+    assert!(script.contains("mktemp"));
+    assert!(script.contains("refs/heads/main"));
+    assert!(script.contains("git ls-remote --exit-code"));
+    assert!(script.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(!script.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(script.contains("gate2-outside-local-preflight.sh"));
     assert!(script.contains("require_full_run_source(args)"));
     assert!(script.contains("shutil.which"));
     assert!(script.contains("\"bash\""));
     assert!(script.contains("\"ffprobe\""));
     assert!(script.contains("\"git\""));
+    assert!(script.contains("\"mktemp\""));
     assert!(script.contains("\"python3\""));
     assert!(script.contains("socket.create_connection"));
     assert!(script.contains("def port_owner_hint"));
@@ -1619,7 +1641,7 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("full_clone_dir, full_temp_owner, full_clone_started_epoch"));
     assert!(script.contains("expected_commit, \"beater\""));
     let raw_preflight_idx = script
-        .find("run_raw_public_preflight(args)")
+        .find("run_raw_public_preflight(args, expected_commit)")
         .expect("raw public preflight call in verifier");
     let clone_idx = script
         .find("clone_dir, temp_owner, clone_started_epoch = clone_repo")
@@ -4889,7 +4911,7 @@ fn fake_public_handoff_runtime(
             python.display()
         )
     });
-    for name in ["git", "head"] {
+    for name in ["git", "head", "mktemp"] {
         let executable = command_executable(name);
         symlink(&executable, dir.path().join(name)).unwrap_or_else(|err| {
             panic!(
@@ -4949,9 +4971,28 @@ esac
         &format!(
             r#"#!/bin/sh
 printf '%s\n' "$*" >> {curl_log}
-case "$*" in
-  "-fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh")
-    cat <<'EOF_PREFLIGHT'
+url=""
+output=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -fsSL)
+      shift
+      url="${{1:-}}"
+      ;;
+    -o)
+      shift
+      output="${{1:-}}"
+      ;;
+  esac
+  shift || break
+done
+case "$url" in
+  https://raw.githubusercontent.com/jadenfix/beater/*/scripts/gate2-outside-local-preflight.sh)
+    if [ -z "$output" ]; then
+      printf 'missing curl -o output path\n' >&2
+      exit 2
+    fi
+    cat > "$output" <<'EOF_PREFLIGHT'
 #!/usr/bin/env bash
 set -euo pipefail
 echo "fixture raw public preflight passed"

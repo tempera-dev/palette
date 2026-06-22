@@ -59,9 +59,14 @@ DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
 EXPECTED_CLONE_URL = "https://github.com/jadenfix/beater.git"
 EXPECTED_QUICKSTART_SNIPPET = "examples/python/five_line_otel.py"
 EXPECTED_OUTSIDE_COMMAND = (
-    "bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/"
-    "scripts/gate2-outside-local-preflight.sh | bash && t=\"$(date +%s)\" && git clone "
-    "https://github.com/jadenfix/beater.git && cd beater && "
+    "bash -o pipefail -lc 'sha_line=\"$(git ls-remote --exit-code "
+    "https://github.com/jadenfix/beater.git refs/heads/main)\" && "
+    "sha=\"${sha_line%%[[:space:]]*}\" && test -n \"$sha\" && "
+    "preflight=\"$(mktemp \"${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX\")\" && "
+    "curl -fsSL \"https://raw.githubusercontent.com/jadenfix/beater/$sha/"
+    "scripts/gate2-outside-local-preflight.sh\" -o \"$preflight\" && bash \"$preflight\" && "
+    "t=\"$(date +%s)\" && git clone https://github.com/jadenfix/beater.git && cd beater && "
+    "test \"$(git rev-parse HEAD)\" = \"$sha\" && "
     "BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" scripts/gate2-outside-run.sh'"
 )
 MIN_RECORDING_BYTES = 64 * 1024

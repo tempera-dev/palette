@@ -14,11 +14,28 @@ from pathlib import Path
 
 
 REMOTE_URL = "https://github.com/jadenfix/beater.git"
-RAW_PREFLIGHT_URL = (
-    "https://raw.githubusercontent.com/jadenfix/beater/main/"
-    "scripts/gate2-outside-local-preflight.sh"
+REMOTE_MAIN_REF = "refs/heads/main"
+RAW_PREFLIGHT_PATH = "scripts/gate2-outside-local-preflight.sh"
+RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/beater"
+PUBLIC_SHA_RESOLUTION_COMMAND = (
+    f'sha_line="$(git ls-remote --exit-code {REMOTE_URL} {REMOTE_MAIN_REF})" && '
+    'sha="${sha_line%%[[:space:]]*}" && test -n "$sha"'
 )
-RAW_PUBLIC_PREFLIGHT_COMMAND = f"curl -fsSL {RAW_PREFLIGHT_URL} | bash"
+RAW_PUBLIC_PREFLIGHT_COMMAND = (
+    'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
+    f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/$sha/{RAW_PREFLIGHT_PATH}" '
+    '-o "$preflight" && bash "$preflight"'
+)
+CLONE_VERIFICATION_COMMAND = (
+    f"git clone {REMOTE_URL} && cd beater && "
+    'test "$(git rev-parse HEAD)" = "$sha" && '
+    'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+)
+OUTSIDE_RUNNER_COMMAND = (
+    f"bash -o pipefail -lc '{PUBLIC_SHA_RESOLUTION_COMMAND} && "
+    f'{RAW_PUBLIC_PREFLIGHT_COMMAND} && t="$(date +%s)" && '
+    f"{CLONE_VERIFICATION_COMMAND}'"
+)
 FULL_RUN_PORTS = [
     (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
     (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
@@ -394,7 +411,7 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
 
     require_full_run_source(args)
 
-    required_commands = ["bash", "curl", "docker", "ffprobe", "git", "python3"]
+    required_commands = ["bash", "curl", "docker", "ffprobe", "git", "mktemp", "python3"]
     missing = [name for name in required_commands if shutil.which(name) is None]
     if shutil.which("shasum") is None and shutil.which("sha256sum") is None:
         missing.append("shasum or sha256sum")
@@ -429,13 +446,24 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
         )
 
 
-def run_raw_public_preflight(args: argparse.Namespace) -> None:
+def raw_public_preflight_command_for_sha(expected_commit: str) -> str:
+    return (
+        'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
+        f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/{expected_commit}/{RAW_PREFLIGHT_PATH}" '
+        '-o "$preflight" && bash "$preflight"'
+    )
+
+
+def run_raw_public_preflight(args: argparse.Namespace, expected_commit: str) -> None:
     if not args.full_run:
         return
     require_full_run_source(args)
     env = dict(os.environ)
     env["BEATER_GATE2_RAW_PREFLIGHT_PATH"] = env.get("PATH", "")
-    shell_command = f'PATH="$BEATER_GATE2_RAW_PREFLIGHT_PATH"; {RAW_PUBLIC_PREFLIGHT_COMMAND}'
+    shell_command = (
+        'PATH="$BEATER_GATE2_RAW_PREFLIGHT_PATH"; '
+        f"{raw_public_preflight_command_for_sha(expected_commit)}"
+    )
     try:
         run(
             ["bash", "-o", "pipefail", "-lc", shell_command],
@@ -619,9 +647,12 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "`ffprobe` (installed by common `ffmpeg` packages)",
             "local ports `8080`, `4317`, and `3000` free",
             "Run from an empty parent directory that does not already contain `beater/`",
+            OUTSIDE_RUNNER_COMMAND,
+            PUBLIC_SHA_RESOLUTION_COMMAND,
             RAW_PUBLIC_PREFLIGHT_COMMAND,
-            "git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" scripts/gate2-outside-run.sh",
-            "The timer includes clone and image-pull time",
+            CLONE_VERIFICATION_COMMAND,
+            'test "$(git rev-parse HEAD)" = "$sha"',
+            "includes clone and image-pull time",
             "Open this quickstart trace-list URL first:",
             "Do not wait for the script to finish",
             "click the `llm.call` span",
@@ -833,7 +864,7 @@ def parse_args() -> argparse.Namespace:
         "--full-run",
         action="store_true",
         help=(
-            "Preflight the local runtime and raw public preflight pipe before any clone; "
+            "Preflight the local runtime and immutable raw public preflight before any clone; "
             "after the clean-clone dry-run checks, run the exact "
             "outside-run wrapper in the clone with clone-start timing, then "
             "clean up Compose. This is a maintainer runtime verifier, not "
@@ -848,7 +879,7 @@ def main() -> None:
     expected_commit = args.expected_commit or current_commit()
     temp_owners: list[tempfile.TemporaryDirectory | None] = []
     preflight_full_run_runtime(args)
-    run_raw_public_preflight(args)
+    run_raw_public_preflight(args, expected_commit)
     run_local_readiness(args)
     checks_clone_name = "beater-checks" if args.full_run else "beater"
     clone_dir, temp_owner, clone_started_epoch = clone_repo(
