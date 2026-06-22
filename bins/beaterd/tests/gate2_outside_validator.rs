@@ -1480,6 +1480,48 @@ fn gate2_outside_local_preflight_rejects_existing_clone_destination_before_docke
 }
 
 #[test]
+fn gate2_outside_local_preflight_rejects_compose_file_before_docker() {
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+
+    let output = run_outside_local_preflight_with_runtime(
+        &runtime,
+        Some(("COMPOSE_FILE", "docker-compose.yml")),
+        None,
+    );
+
+    assert_failure(
+        output,
+        "COMPOSE_FILE must be unset for outside-person evidence",
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "COMPOSE_FILE must fail before Docker probes\n{docker_log}"
+    );
+}
+
+#[test]
+fn gate2_outside_local_preflight_rejects_compose_profiles_before_docker() {
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+
+    let output = run_outside_local_preflight_with_runtime(
+        &runtime,
+        Some(("COMPOSE_PROFILES", "deps")),
+        None,
+    );
+
+    assert_failure(
+        output,
+        "COMPOSE_PROFILES must be unset for outside-person evidence",
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "COMPOSE_PROFILES must fail before Docker probes\n{docker_log}"
+    );
+}
+
+#[test]
 fn gate2_public_handoff_port_owner_hint_reports_command_and_cwd() {
     let root = repo_root();
     let tools = tempdir("create fake port owner tools");
@@ -1856,6 +1898,26 @@ fn gate2_outside_wrapper_rejects_compose_project_override() {
     assert_failure(
         output,
         "COMPOSE_PROJECT_NAME must be unset for outside-person evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_compose_file_override() {
+    let output = run_outside_wrapper_dry_run(Some(("COMPOSE_FILE", "docker-compose.yml")));
+
+    assert_failure(
+        output,
+        "COMPOSE_FILE must be unset for outside-person evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_compose_profiles_override() {
+    let output = run_outside_wrapper_dry_run(Some(("COMPOSE_PROFILES", "deps")));
+
+    assert_failure(
+        output,
+        "COMPOSE_PROFILES must be unset for outside-person evidence",
     );
 }
 
@@ -4450,7 +4512,10 @@ fn run_outside_local_preflight_with_runtime(
         .arg(repo_root().join("scripts/gate2-outside-local-preflight.sh"))
         .current_dir(cwd)
         .env("PATH", &runtime.path_env)
-        .env_remove("DOCKER_HOST");
+        .env_remove("DOCKER_HOST")
+        .env_remove("COMPOSE_FILE")
+        .env_remove("COMPOSE_PROJECT_NAME")
+        .env_remove("COMPOSE_PROFILES");
     if let Some((name, value)) = docker_host {
         command.env(name, value);
     }
@@ -4698,7 +4763,9 @@ fn clear_outside_env(command: &mut Command) {
         "BEATER_GATE2_RECORD_VIDEO",
         "BEATER_GATE2_RECORD_NOTES",
         "KEEP_BEATER_COMPOSE",
+        "COMPOSE_FILE",
         "COMPOSE_PROJECT_NAME",
+        "COMPOSE_PROFILES",
         "BEATER_GATE2_FIXTURE_FULL_RUN",
     ] {
         command.env_remove(name);

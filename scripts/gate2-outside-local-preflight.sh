@@ -89,6 +89,12 @@ require_command curl "the timed run checks the local Beater API"
 require_command ffprobe "completed proof validation verifies the WebM recording"
 require_python3
 
+for env_name in COMPOSE_FILE COMPOSE_PROJECT_NAME COMPOSE_PROFILES; do
+  if [[ -n "${!env_name:-}" ]]; then
+    fail "$env_name must be unset for outside-person evidence; the public command controls the Compose topology"
+  fi
+done
+
 if [[ -e beater ]]; then
   fail "current directory already contains ./beater; run from a new or empty parent directory before cloning"
 fi

@@ -138,7 +138,9 @@ require_unset BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS "outside evidence m
 require_unset BEATER_GATE2_STOPWATCH_PROOF "the outside run must write docs/demos/gate2-compose-stopwatch.md"
 require_unset BEATER_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
 require_unset BEATER_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
+require_unset COMPOSE_FILE "the outside run must use the wrapper's prebuilt compose file"
 require_unset COMPOSE_PROJECT_NAME "the outside run must use the default beater-stopwatch Compose project"
+require_unset COMPOSE_PROFILES "the outside run must not activate optional Compose profiles"
 
 export BEATER_GATE2_WRITE_PROOF=1
 export BEATER_GATE2_BROWSER_PROOF=1

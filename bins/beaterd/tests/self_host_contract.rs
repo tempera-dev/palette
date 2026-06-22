@@ -457,7 +457,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_run.contains("docs/demos/gate2-compose-browser-demo.webm"));
     assert!(outside_run.contains("docs/demos/gate2-compose-browser-demo.md"));
     assert!(outside_run.contains("require_unset_or_value KEEP_BEATER_COMPOSE 1"));
+    assert!(outside_run.contains("require_unset COMPOSE_FILE"));
     assert!(outside_run.contains("require_unset COMPOSE_PROJECT_NAME"));
+    assert!(outside_run.contains("require_unset COMPOSE_PROFILES"));
     assert!(outside_run.contains("default beater-stopwatch Compose project"));
     assert!(outside_run.contains("export KEEP_BEATER_COMPOSE=1"));
     assert!(outside_run.contains("scripts/gate2-compose-stopwatch.sh"));
@@ -477,6 +479,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_local_preflight.contains("docker context inspect"));
     assert!(outside_local_preflight.contains("Docker Compose v2"));
     assert!(outside_local_preflight.contains("browser proof uses 127.0.0.1"));
+    assert!(outside_local_preflight.contains("COMPOSE_FILE"));
+    assert!(outside_local_preflight.contains("COMPOSE_PROJECT_NAME"));
+    assert!(outside_local_preflight.contains("COMPOSE_PROFILES"));
+    assert!(outside_local_preflight.contains("public command controls the Compose topology"));
     assert!(outside_local_preflight.contains("current directory already contains ./beater"));
     assert!(outside_local_preflight.contains("free TCP $port before starting the stopwatch"));
     assert!(outside_local_preflight.contains("print_port_owner_details"));
