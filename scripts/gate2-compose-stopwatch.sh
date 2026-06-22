@@ -270,9 +270,10 @@ confirm_manual_quickstart_click() {
   cat <<EOF
 
 Manual outside-run checkpoint:
-  In a normal browser, open the quickstart URL above, click the quickstart trace,
-  click the llm.call span, and confirm prompt, completion, model, token breakdown,
-  cost, and latency are visible.
+  ${remaining}s remain in the 5-minute clone-to-click SLO.
+  In a normal browser, open the quickstart trace-list URL above first, click the
+  quickstart trace, click the llm.call span, and confirm prompt, completion,
+  model, token breakdown, cost, and latency are visible.
   Press Enter here only after that manual click-through is complete.
 EOF
   if ! IFS= read -r -t "$remaining" _manual_quickstart_confirmation; then
@@ -567,7 +568,7 @@ fi
 cat <<EOF
 Gate 2 first trace visible in ${time_to_first_trace_seconds}s.
 
-Open the dashboard:
+Open this quickstart trace-list URL first:
   $quickstart_list_url
 
 Direct quickstart trace URL:
@@ -578,7 +579,7 @@ if [[ "$outside_wrapper" == "1" ]]; then
   cat <<EOF
 
 Outside-run timing-critical browser step:
-  Open the quickstart URL above in a normal browser now; do not wait for the script to finish.
+  Open the quickstart trace-list URL above in a normal browser now; do not wait for the script to finish.
   Click the quickstart trace, then click the llm.call span.
   Confirm prompt, completion, model, token breakdown, cost, and latency are visible before 5 minutes.
   Keep this command running for the post-SLO all-kind and recording evidence.
@@ -819,7 +820,7 @@ Script-to-first-trace:
 Time to quickstart browser click:
   $time_to_quickstart_click_display
 
-Open the dashboard:
+Open this quickstart trace-list URL first:
   $quickstart_list_url
 
 Direct quickstart trace URL:

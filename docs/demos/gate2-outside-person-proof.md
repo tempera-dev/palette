@@ -61,7 +61,9 @@ bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beat
 No project maintainer may provide step-by-step help beyond public repo docs
 during the timed run.
 Run the command from a directory that does not already contain `beater/`; reruns
-must start from a new or empty parent directory.
+must start from a new or empty parent directory. If an aborted previous attempt
+left default ports occupied by `beater-stopwatch`, use the cleanup hint printed
+by the preflight before rerunning.
 
 The wrapper sets the required proof/browser/recording flags and rejects
 non-`main` checkouts, non-canonical GitHub origins, dirty worktrees, warm-loop reuse,
@@ -94,12 +96,14 @@ port environment variables. If preflight reports another process on a default
 port, stop that app and rerun. Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`,
 or `COMPOSE_PROFILES`; the public command controls the Compose topology.
 
-As soon as the first `Open the dashboard:` quickstart URL appears, the runner
-must open that filtered trace-list URL in a normal browser; do not wait for the script to finish.
-Click the quickstart trace, click the `llm.call` span, and capture prompt,
-completion, model, token breakdown, cost, and latency. Press Enter in the
-terminal only after that manual click-through is complete; this records
-`Quickstart click source: manual-outside-runner`,
+As soon as the first `Open this quickstart trace-list URL first:` URL appears,
+the runner must open that filtered trace-list URL in a normal browser; do not
+wait for the script to finish. The manual checkpoint prints the seconds
+remaining in the 5-minute clone-to-click SLO, which already includes clone and
+image-pull time. Click the quickstart trace, click the `llm.call` span, and
+capture prompt, completion, model, token breakdown, cost, and latency. Press
+Enter in the terminal only after that manual click-through is complete; this
+records `Quickstart click source: manual-outside-runner`,
 `Manual quickstart confirmation: yes`, and the 5-minute quickstart-click SLO.
 Then keep the script running for the post-SLO automated browser proof, all-kind
 trace, and recording evidence, open the all-kind dashboard URL, and capture the

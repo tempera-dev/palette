@@ -628,6 +628,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_local_preflight.contains("COMPOSE_PROFILES"));
     assert!(outside_local_preflight.contains("public command controls the Compose topology"));
     assert!(outside_local_preflight.contains("current directory already contains ./beater"));
+    assert!(outside_local_preflight.contains("If this is a stale Beater Gate 2 run"));
+    assert!(outside_local_preflight.contains("docker-compose.prebuilt.yml -p beater-stopwatch"));
+    assert!(outside_local_preflight.contains("label=com.docker.compose.project=beater-stopwatch"));
     assert!(outside_local_preflight.contains("free TCP $port before starting the stopwatch"));
     assert!(outside_local_preflight.contains("print_port_owner_details"));
     assert!(outside_local_preflight.contains("process $pid command:"));
@@ -1322,7 +1325,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(quickstart_e2e.contains("Latency"));
 
     let readme = read(root.join("README.md"));
-    assert!(readme.contains("As soon as the first `Open the dashboard:` quickstart URL appears"));
+    assert!(readme
+        .contains("As soon as the first `Open this quickstart trace-list URL first:` URL appears"));
+    assert!(readme.contains("cleanup hint printed by"));
+    assert!(readme.contains("seconds remaining in the 5-minute clone-to-click"));
     assert!(readme.contains("not wait for the script to finish"));
 }
 

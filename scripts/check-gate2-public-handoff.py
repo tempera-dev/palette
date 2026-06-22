@@ -571,9 +571,12 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         clone_dir,
         "README.md",
         [
-            "As soon as the first `Open the dashboard:` quickstart URL appears",
+            "As soon as the first `Open this quickstart trace-list URL first:` URL appears",
             "open that filtered trace-list URL",
             "not wait for the script to finish",
+            "seconds remaining",
+            "5-minute clone-to-click\nSLO",
+            "cleanup hint printed by",
         ],
         contract="quickstart handoff guidance",
     )
@@ -581,9 +584,11 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         clone_dir,
         "docs/demos/gate2-outside-person-proof.md",
         [
-            "As soon as the first `Open the dashboard:` quickstart URL appears",
+            "As soon as the first `Open this quickstart trace-list URL first:` URL appears",
             "filtered trace-list URL",
-            "do not wait for the script to finish",
+            "do not\nwait for the script to finish",
+            "seconds\nremaining in the 5-minute clone-to-click SLO",
+            "cleanup hint printed",
         ],
         contract="quickstart handoff guidance",
     )
@@ -591,8 +596,9 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         clone_dir,
         "scripts/gate2-compose-stopwatch.sh",
         [
-            "Open the quickstart URL above in a normal browser now",
+            "Open the quickstart trace-list URL above in a normal browser now",
             "do not wait for the script to finish",
+            "${remaining}s remain in the 5-minute clone-to-click SLO",
             'quickstart_list_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"',
             "open $quickstart_list_url in a normal browser for the quickstart trace list",
             "Direct quickstart trace URL:",

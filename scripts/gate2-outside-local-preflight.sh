@@ -83,6 +83,17 @@ print_port_owner_details() {
   done < <(lsof -nP -t -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk '!seen[$0]++' || true)
 }
 
+print_stale_beater_cleanup_hint() {
+  cat >&2 <<'EOF'
+If this is a stale Beater Gate 2 run, clean the old Compose project before
+rerunning the timed command:
+  if [ -d beater ]; then (cd beater && docker compose -f docker-compose.prebuilt.yml -p beater-stopwatch down -v --remove-orphans); fi
+  docker ps -aq --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker rm -f "$id"; done
+  docker volume ls -q --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker volume rm "$id"; done
+  docker network ls -q --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker network rm "$id"; done
+EOF
+}
+
 require_command git "the timed run clones the public Beater repo"
 require_command docker "the timed run starts the public Docker Compose topology"
 require_command curl "the timed run checks the local Beater API"
@@ -119,6 +130,7 @@ for port in 8080 4317 3000; do
   if ! port_is_free "$port"; then
     echo "TCP $port is already in use before the timed Gate 2 run." >&2
     print_port_owner "$port"
+    print_stale_beater_cleanup_hint
     fail "free TCP $port before starting the stopwatch; do not use alternate ports for outside-person evidence"
   fi
 done

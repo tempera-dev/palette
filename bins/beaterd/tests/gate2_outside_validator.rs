@@ -1788,8 +1788,9 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     let script = fs::read_to_string(repo_root().join("scripts/gate2-compose-stopwatch.sh"))
         .unwrap_or_else(|err| panic!("read Gate 2 compose stopwatch script: {err}"));
 
-    assert!(script.contains("Open the quickstart URL above in a normal browser now"));
+    assert!(script.contains("Open the quickstart trace-list URL above in a normal browser now"));
     assert!(script.contains("do not wait for the script to finish"));
+    assert!(script.contains("${remaining}s remain in the 5-minute clone-to-click SLO"));
     assert!(script.contains("quickstart_list_url="));
     assert!(script.contains("kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"));
     assert!(script.contains("Direct quickstart trace URL:"));
@@ -5409,6 +5410,7 @@ Manual outside-run checkpoint:
   wrapper reaches the timing-critical quickstart browser checkpoint.
 EOF_PROMPT
 # Public handoff contract strings retained for cloned verifier checks.
+# ${remaining}s remain in the 5-minute clone-to-click SLO.
 # quickstart_list_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"
 # Direct quickstart trace URL:
 # open $quickstart_list_url in a normal browser for the quickstart trace list
@@ -5417,7 +5419,7 @@ if ! IFS= read -r _manual_checkpoint_confirmation; then
   exit 42
 fi
 {
-  echo "Open the quickstart URL above in a normal browser now; do not wait for the script to finish."
+  echo "Open the quickstart trace-list URL above in a normal browser now; do not wait for the script to finish."
   echo "manual_checkpoint_confirmed=yes"
   echo "write=${BEATER_GATE2_WRITE_PROOF:-unset}"
   echo "browser=${BEATER_GATE2_BROWSER_PROOF:-unset}"
