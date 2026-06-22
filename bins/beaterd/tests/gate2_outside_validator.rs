@@ -23,7 +23,7 @@ const WATERFALL_OBSERVATION: &str =
     "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting";
 const OUTSIDE_RUN_ATTESTATION: &str = "I attest that I am not a Beater project maintainer, I received no step-by-step help beyond public repository instructions, I used a fresh clone, and I completed the Gate 2 flow unaided.";
 const DIAGNOSTIC_ATTESTATION: &str = "Diagnostic maintainer full-run auto-confirmed the manual checkpoint; this is not outside-person evidence and cannot close Gate 2.";
-const CANONICAL_OUTSIDE_COMMAND: &str = r#"bash -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'"#;
+const CANONICAL_OUTSIDE_COMMAND: &str = r#"bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'"#;
 const DRAFT_VALID: &str = "Gate 2 outside-person proof draft is internally consistent";
 const CLOSURE_VALID: &str = "Gate 2 outside-person proof is complete and valid";
 
@@ -83,6 +83,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
         .unwrap_or_else(|err| panic!("read README.md: {err}"));
     assert!(readme.contains(r#"git clone https://github.com/jadenfix/beater.git && cd beater &&"#));
     assert!(readme.contains("gate2-outside-local-preflight.sh | bash && t=\"$(date +%s)\""));
+    assert!(readme.contains("bash -o pipefail -lc"));
     assert!(readme.contains("confirms the\nquickstart browser click unaided in 5"));
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(readme.contains("and `python3` 3.9+; local ports"));
@@ -112,6 +113,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("Python 3.9 or newer is required"));
     assert!(proof_template.contains("before the stopwatch starts"));
     assert!(proof_template.contains("gate2-outside-local-preflight.sh | bash && t=\"$(date +%s)\""));
+    assert!(proof_template.contains("bash -o pipefail -lc"));
     assert!(proof_template.contains("curl\nor `ffprobe` is missing"));
     assert!(proof_template.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
     assert!(proof_template.contains("`ffprobe` playable-video metadata"));
@@ -1048,6 +1050,10 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         "stdout did not contain diagnostic validator pass line\nstdout:\n{stdout}"
     );
     assert!(
+        stdout.contains("fixture raw public preflight passed"),
+        "stdout did not contain raw public preflight fixture line\nstdout:\n{stdout}"
+    );
+    assert!(
         stdout.contains("Auto-confirming the manual quickstart checkpoint"),
         "full-run must disclose diagnostic-only manual checkpoint auto-confirmation\nstdout:\n{stdout}"
     );
@@ -1104,6 +1110,14 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         docker_log.matches("down -v --remove-orphans").count(),
         2,
         "full-run fixture should clean Compose before and after the wrapper\n{docker_log}"
+    );
+    let curl_log = fs::read_to_string(&runtime.curl_log)
+        .unwrap_or_else(|err| panic!("read fake curl log: {err}"));
+    assert!(
+        curl_log.contains(
+            "-fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh"
+        ),
+        "full-run fixture should exercise the raw public preflight pipe before clone\n{curl_log}"
     );
 }
 
@@ -1181,14 +1195,80 @@ fn gate2_public_handoff_full_run_rejects_remote_docker_context_before_cleanup() 
 }
 
 #[test]
+fn gate2_public_handoff_full_run_rejects_raw_preflight_curl_failure_before_clone() {
+    let registry = tempdir("create registry fixture dir");
+    let clone_parent = tempdir("create public handoff clone parent");
+    write_registry_fixtures(registry.path());
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+    write_executable(
+        &Path::new(&runtime.path_env).join("curl"),
+        &format!(
+            r#"#!/bin/sh
+printf '%s\n' "$*" >> {curl_log}
+printf 'fixture raw preflight curl failure\n' >&2
+exit 7
+"#,
+            curl_log = shell_single_quote(&runtime.curl_log.to_string_lossy())
+        ),
+    );
+    let root = repo_root();
+    let mut command = Command::new("python3");
+    command
+        .arg(root.join("scripts/check-gate2-public-handoff.py"))
+        .arg("--skip-local-readiness")
+        .arg("--expected-commit")
+        .arg(current_head())
+        .arg("--registry-fixture")
+        .arg(registry.path())
+        .arg("--clone-parent")
+        .arg(clone_parent.path())
+        .arg("--full-run")
+        .current_dir(&root)
+        .env("PATH", &runtime.path_env)
+        .env("BEATER_GATE2_FIXTURE_FULL_RUN", "1")
+        .env_remove("DOCKER_HOST");
+
+    let output = command
+        .output()
+        .unwrap_or_else(|err| panic!("run full-run raw public preflight failure: {err}"));
+
+    assert_failure(
+        output,
+        "Gate 2 raw public local preflight failed before clone",
+    );
+    let curl_log = fs::read_to_string(&runtime.curl_log)
+        .unwrap_or_else(|err| panic!("read fake curl log: {err}"));
+    assert_eq!(
+        curl_log.trim(),
+        "-fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh"
+    );
+    assert!(
+        !clone_parent.path().join("beater-checks").exists(),
+        "raw public preflight failure must stop before the static-check clone"
+    );
+    assert!(
+        !clone_parent.path().join("beater").exists(),
+        "raw public preflight failure must stop before the runtime clone"
+    );
+}
+
+#[test]
 fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     let script = fs::read_to_string(repo_root().join("scripts/check-gate2-public-handoff.py"))
         .unwrap_or_else(|err| panic!("read Gate 2 public handoff verifier: {err}"));
 
     assert!(script.contains("preflight_full_run_runtime"));
+    assert!(script.contains("RAW_PUBLIC_PREFLIGHT_COMMAND"));
+    assert!(script.contains("run_raw_public_preflight(args)"));
+    assert!(script.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
+    assert!(script.contains("curl -fsSL"));
+    assert!(script.contains("gate2-outside-local-preflight.sh"));
     assert!(script.contains("require_full_run_source(args)"));
     assert!(script.contains("shutil.which"));
+    assert!(script.contains("\"bash\""));
     assert!(script.contains("\"ffprobe\""));
+    assert!(script.contains("\"git\""));
+    assert!(script.contains("\"python3\""));
     assert!(script.contains("socket.create_connection"));
     assert!(script.contains("def port_owner_hint"));
     assert!(script.contains("def process_owner_details"));
@@ -1224,6 +1304,16 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("\"beater-checks\" if args.full_run else \"beater\""));
     assert!(script.contains("full_clone_dir, full_temp_owner, full_clone_started_epoch"));
     assert!(script.contains("expected_commit, \"beater\""));
+    let raw_preflight_idx = script
+        .find("run_raw_public_preflight(args)")
+        .expect("raw public preflight call in verifier");
+    let clone_idx = script
+        .find("clone_dir, temp_owner, clone_started_epoch = clone_repo")
+        .expect("first clone call in verifier");
+    assert!(
+        raw_preflight_idx < clone_idx,
+        "raw public preflight must run before any public handoff clone"
+    );
 }
 
 #[test]
@@ -4033,6 +4123,7 @@ struct FakePublicHandoffRuntime {
     _dir: TempDir,
     path_env: String,
     docker_log: PathBuf,
+    curl_log: PathBuf,
 }
 
 fn fake_public_handoff_runtime(
@@ -4048,8 +4139,19 @@ fn fake_public_handoff_runtime(
             python.display()
         )
     });
+    for name in ["bash", "git"] {
+        let executable = command_executable(name);
+        symlink(&executable, dir.path().join(name)).unwrap_or_else(|err| {
+            panic!(
+                "symlink fake {name} {} -> {}: {err}",
+                dir.path().join(name).display(),
+                executable.display()
+            )
+        });
+    }
 
     let docker_log = dir.path().join("docker.log");
+    let curl_log = dir.path().join("curl.log");
     write_executable(
         &dir.path().join("docker"),
         &format!(
@@ -4079,7 +4181,29 @@ esac
             docker_context_host = shell_single_quote(docker_context_host)
         ),
     );
-    write_executable(&dir.path().join("curl"), "#!/bin/sh\nexit 0\n");
+    write_executable(
+        &dir.path().join("curl"),
+        &format!(
+            r#"#!/bin/sh
+printf '%s\n' "$*" >> {curl_log}
+case "$*" in
+  "-fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh")
+    cat <<'EOF_PREFLIGHT'
+#!/usr/bin/env bash
+set -euo pipefail
+echo "fixture raw public preflight passed"
+EOF_PREFLIGHT
+    exit 0
+    ;;
+  *)
+    printf 'unexpected curl invocation: %s\n' "$*" >&2
+    exit 2
+    ;;
+esac
+"#,
+            curl_log = shell_single_quote(&curl_log.to_string_lossy())
+        ),
+    );
     write_executable(
         &dir.path().join("ffprobe"),
         "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n",
@@ -4094,6 +4218,7 @@ esac
     FakePublicHandoffRuntime {
         path_env: dir.path().to_string_lossy().into_owned(),
         docker_log,
+        curl_log,
         _dir: dir,
     }
 }

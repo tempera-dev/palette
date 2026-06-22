@@ -14,6 +14,11 @@ from pathlib import Path
 
 
 REMOTE_URL = "https://github.com/jadenfix/beater.git"
+RAW_PREFLIGHT_URL = (
+    "https://raw.githubusercontent.com/jadenfix/beater/main/"
+    "scripts/gate2-outside-local-preflight.sh"
+)
+RAW_PUBLIC_PREFLIGHT_COMMAND = f"curl -fsSL {RAW_PREFLIGHT_URL} | bash"
 FULL_RUN_PORTS = [
     (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
     (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
@@ -389,7 +394,8 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
 
     require_full_run_source(args)
 
-    missing = [name for name in ["docker", "curl", "ffprobe"] if shutil.which(name) is None]
+    required_commands = ["bash", "curl", "docker", "ffprobe", "git", "python3"]
+    missing = [name for name in required_commands if shutil.which(name) is None]
     if shutil.which("shasum") is None and shutil.which("sha256sum") is None:
         missing.append("shasum or sha256sum")
     if missing:
@@ -421,6 +427,25 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
             "cleaning the beater-stopwatch Compose project:\n  "
             + "\n  ".join(occupied)
         )
+
+
+def run_raw_public_preflight(args: argparse.Namespace) -> None:
+    if not args.full_run:
+        return
+    require_full_run_source(args)
+    env = dict(os.environ)
+    env["BEATER_GATE2_RAW_PREFLIGHT_PATH"] = env.get("PATH", "")
+    shell_command = f'PATH="$BEATER_GATE2_RAW_PREFLIGHT_PATH"; {RAW_PUBLIC_PREFLIGHT_COMMAND}'
+    try:
+        run(
+            ["bash", "-o", "pipefail", "-lc", shell_command],
+            cwd=repo_root(),
+            env=env,
+        )
+    except SystemExit as err:
+        raise SystemExit(
+            "Gate 2 raw public local preflight failed before clone:\n" f"{err}"
+        ) from None
 
 
 OUTSIDE_ENV_NAMES = [
@@ -743,6 +768,7 @@ def main() -> None:
     expected_commit = args.expected_commit or current_commit()
     temp_owners: list[tempfile.TemporaryDirectory | None] = []
     preflight_full_run_runtime(args)
+    run_raw_public_preflight(args)
     run_local_readiness(args)
     checks_clone_name = "beater-checks" if args.full_run else "beater"
     clone_dir, temp_owner, clone_started_epoch = clone_repo(

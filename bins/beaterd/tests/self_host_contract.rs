@@ -636,6 +636,14 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let public_handoff = read(root.join("scripts/check-gate2-public-handoff.py"));
     assert!(public_handoff.contains("https://github.com/jadenfix/beater.git"));
+    assert!(public_handoff.contains("RAW_PUBLIC_PREFLIGHT_COMMAND"));
+    assert!(public_handoff.contains("RAW_PREFLIGHT_URL"));
+    assert!(public_handoff.contains(
+        "https://raw.githubusercontent.com/jadenfix/beater/main/"
+    ));
+    assert!(public_handoff.contains("scripts/gate2-outside-local-preflight.sh"));
+    assert!(public_handoff.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
+    assert!(public_handoff.contains("run_raw_public_preflight(args)"));
     assert!(public_handoff.contains("git"));
     assert!(public_handoff.contains("clone"));
     assert!(public_handoff.contains("clone_command = [\"git\", \"clone\""));
@@ -673,6 +681,16 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("BEATER_GATE2_RUN_ID"));
     assert!(public_handoff.contains("BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS"));
     assert!(public_handoff.contains("KEEP_BEATER_COMPOSE"));
+    let raw_preflight_idx = public_handoff
+        .find("run_raw_public_preflight(args)")
+        .expect("raw public preflight call in public handoff verifier");
+    let clone_idx = public_handoff
+        .find("clone_dir, temp_owner, clone_started_epoch = clone_repo")
+        .expect("first clone call in public handoff verifier");
+    assert!(
+        raw_preflight_idx < clone_idx,
+        "public handoff verifier must run the raw public preflight before cloning"
+    );
     assert!(public_handoff.contains("COMPOSE_PROJECT_NAME"));
     assert!(public_handoff.contains("BEATER_GATE2_EXPECTED_ORIGIN"));
     assert!(public_handoff.contains("--registry-fixture"));
