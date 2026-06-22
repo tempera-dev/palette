@@ -38,6 +38,7 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /Agent span waterfall/);
   assert.match(page, /lucide-react/);
   assert.match(page, /kindIcon/);
+  assert.match(page, /orderSpansForWaterfall/);
   assert.match(page, /data-depth/);
   assert.match(page, /data-kind/);
   assert.match(page, /data-status/);
@@ -62,6 +63,12 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /SpanDetail/);
   assert.match(page, /IoBlock/);
   assert.match(page, /spanIoLabels/);
+  assert.match(page, /isRedactedIoValue/);
+  assert.match(page, /ioVisibilityLabel/);
+  assert.match(page, /Still redacted/);
+  assert.match(page, /Unmask requested/);
+  assert.match(page, /redacted by policy/);
+  assert.doesNotMatch(page, />Unmasked</);
   assert.match(page, /kind === "llm\.call"/);
   assert.match(page, /input: "Prompt", output: "Completion"/);
   assert.match(page, /label=\{ioLabels\.input\}/);
@@ -264,6 +271,19 @@ test("dashboard token helpers include cached reads in UI totals", () => {
   assert.equal(spanTokenSummary({ kind: "llm.call", tokens: null }), "none");
 });
 
+test("dashboard redaction helpers treat inline sentinels as redacted", () => {
+  const { ioVisibilityLabel, isRedactedIoValue } = loadDashboardApiModule();
+
+  assert.equal(isRedactedIoValue({ kind: "inline", value: "[redacted]" }), true);
+  assert.equal(isRedactedIoValue({ kind: "redacted", reason: "pii" }), true);
+  assert.equal(isRedactedIoValue({ kind: "inline", value: "hello" }), false);
+  assert.equal(isRedactedIoValue({ kind: "missing" }), false);
+  assert.equal(ioVisibilityLabel(true, false), "redacted");
+  assert.equal(ioVisibilityLabel(true, true), "still redacted");
+  assert.equal(ioVisibilityLabel(false, true), "unmask requested");
+  assert.equal(ioVisibilityLabel(false, false), "captured");
+});
+
 test("dashboard span depth stops on malformed parent cycles", () => {
   const { spanDepth } = loadDashboardApiModule();
   const a = {
@@ -277,6 +297,37 @@ test("dashboard span depth stops on malformed parent cycles", () => {
 
   assert.equal(spanDepth(a, [a, b]), 1);
   assert.equal(spanDepth(b, [a, b]), 1);
+});
+
+test("dashboard waterfall ordering keeps parents before backend-unsorted children", () => {
+  const { orderSpansForWaterfall } = loadDashboardApiModule();
+  const spans = [
+    spanFixture("llm", "step", "2026-01-01T00:00:00.004Z", 4),
+    spanFixture("run", null, "2026-01-01T00:00:00.001Z", 1),
+    spanFixture("mcp", "tool", "2026-01-01T00:00:00.003500Z", 5),
+    spanFixture("turn", "run", "2026-01-01T00:00:00.002Z", 2),
+    spanFixture("tool", "step", "2026-01-01T00:00:00.003Z", 3),
+    spanFixture("step", "turn", "2026-01-01T00:00:00.002500Z", 6)
+  ];
+
+  const orderedIds = Array.from(orderSpansForWaterfall(spans), (span) => span.span_id);
+
+  assert.deepEqual(orderedIds, ["run", "turn", "step", "tool", "mcp", "llm"]);
+});
+
+test("dashboard waterfall ordering does not drop malformed cycles or missing parents", () => {
+  const { orderSpansForWaterfall } = loadDashboardApiModule();
+  const spans = [
+    spanFixture("cycle-a", "cycle-b", "2026-01-01T00:00:00.002Z", 2),
+    spanFixture("orphan", "missing-parent", "2026-01-01T00:00:00.001Z", 1),
+    spanFixture("cycle-b", "cycle-a", "2026-01-01T00:00:00.003Z", 3)
+  ];
+
+  const orderedIds = orderSpansForWaterfall(spans).map((span) => span.span_id);
+
+  assert.deepEqual([...orderedIds].sort(), ["cycle-a", "cycle-b", "orphan"]);
+  assert.equal(new Set(orderedIds).size, spans.length);
+  assert.equal(orderedIds[0], "orphan");
 });
 
 test("dashboard read URLs send unmask reason only with unmask=true", () => {
@@ -348,6 +399,45 @@ test("dashboard loader preserves trace context when span I/O fails", async () =>
   assert.match(data.error, /span I\/O unavailable/);
 });
 
+test("dashboard loader selects the ordered root span when trace spans arrive unsorted", async () => {
+  const runs = {
+    items: [{ trace_id: "trace-1", root_name: "run", span_count: 2 }],
+    next_cursor: null
+  };
+  const child = {
+    ...spanFixture("child", "root", "2026-01-01T00:00:00.002Z", 2),
+    trace_id: "trace-1",
+    name: "child-llm",
+    kind: "llm.call"
+  };
+  const root = {
+    ...spanFixture("root", null, "2026-01-01T00:00:00.001Z", 1),
+    trace_id: "trace-1",
+    name: "agent-run",
+    kind: "agent.run"
+  };
+  const trace = { trace_id: "trace-1", spans: [child, root] };
+  const requests = [];
+  const { loadDashboardData } = loadDashboardApiModule({
+    fetch: async (url) => {
+      const href = String(url);
+      requests.push(href);
+      if (href.includes("/v1/traces/demo?")) return okJson(runs);
+      if (href.includes("/v1/traces/demo/trace-1")) return okJson(trace);
+      if (href.includes("/v1/spans/demo/trace-1/root/io")) {
+        return okJson({ input: { kind: "missing" }, output: { kind: "missing" } });
+      }
+      if (href.includes("/v1/spans/demo/trace-1/root")) return okJson(root);
+      throw new Error(`unexpected fetch ${href}`);
+    }
+  });
+
+  const data = await loadDashboardData({ tenantId: "demo" });
+
+  assert.equal(data.selectedSpan?.span_id, "root");
+  assert.equal(requests.some((href) => href.includes("/v1/spans/demo/trace-1/child")), false);
+});
+
 test("dashboard loader does not select a fallback span for stale span URLs", async () => {
   const runs = {
     items: [{ trace_id: "trace-1", root_name: "run", span_count: 1 }],
@@ -408,6 +498,34 @@ function errorJson(status, statusText, value) {
     status,
     statusText,
     text: async () => JSON.stringify(value)
+  };
+}
+
+function spanFixture(spanId, parentSpanId, startTime, seq) {
+  return {
+    trace_id: "trace-1",
+    span_id: spanId,
+    parent_span_id: parentSpanId,
+    name: spanId,
+    kind: "agent.step",
+    status: "ok",
+    start_time: startTime,
+    end_time: "2026-01-01T00:00:00.010Z",
+    seq,
+    attributes: {},
+    unmapped_attrs: {},
+    events: [],
+    links: [],
+    tokens: null,
+    cost: null,
+    model: null,
+    raw_ref: {
+      artifact_id: `${spanId}-raw`,
+      uri: `artifact://${spanId}`,
+      mime_type: "application/json",
+      size_bytes: 2,
+      sha256: "0".repeat(64)
+    }
   };
 }
 

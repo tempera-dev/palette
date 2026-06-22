@@ -21,6 +21,7 @@ export type Money = components["schemas"]["MoneyDoc"];
 export type CanonicalSpan = components["schemas"]["CanonicalSpanDoc"];
 export type TraceView = components["schemas"]["TraceViewDoc"];
 export type SpanIoResponse = components["schemas"]["SpanIoResponseDoc"];
+export type SpanIoValue = SpanIoResponse["input"];
 
 export type DashboardQuery = {
   tenantId: string;
@@ -177,13 +178,14 @@ export async function loadDashboardData(query: DashboardQuery): Promise<Dashboar
     }
   }
 
+  const waterfallSpans = trace ? orderSpansForWaterfall(trace.spans) : [];
   const requestedSpanFromTrace =
     trace && query.selectedSpanId
-      ? trace.spans.find((span) => span.span_id === query.selectedSpanId) ?? null
+      ? waterfallSpans.find((span) => span.span_id === query.selectedSpanId) ?? null
       : null;
   const selectedSpanFromTrace = query.selectedSpanId
     ? requestedSpanFromTrace
-    : trace?.spans[0] ?? null;
+    : waterfallSpans[0] ?? null;
   if (trace && query.selectedSpanId && !requestedSpanFromTrace) {
     error = `Span ${query.selectedSpanId} was not found in trace ${trace.trace_id}.`;
   }
@@ -341,6 +343,69 @@ export function spanTokenSummary(span: Pick<CanonicalSpan, "kind" | "tokens">): 
     parts.push(`${span.tokens.cache_read.toLocaleString("en-US")} cached`);
   }
   return parts.join(", ");
+}
+
+export function isRedactedIoValue(value: SpanIoValue | undefined): boolean {
+  if (!value) return false;
+  if (value.kind === "redacted") return true;
+  return value.kind === "inline" && value.value === "[redacted]";
+}
+
+export function ioVisibilityLabel(hasRedactedIo: boolean, unmask: boolean | undefined): string {
+  if (hasRedactedIo) return unmask ? "still redacted" : "redacted";
+  return unmask ? "unmask requested" : "captured";
+}
+
+type WaterfallSpan = Pick<
+  CanonicalSpan,
+  "span_id" | "parent_span_id" | "start_time" | "seq"
+>;
+
+export function orderSpansForWaterfall<T extends WaterfallSpan>(spans: T[]): T[] {
+  const ids = new Set(spans.map((span) => span.span_id));
+  const children = new Map<string | null, T[]>();
+  for (const span of spans) {
+    const parentId =
+      span.parent_span_id && span.parent_span_id !== span.span_id && ids.has(span.parent_span_id)
+        ? span.parent_span_id
+        : null;
+    const bucket = children.get(parentId) ?? [];
+    bucket.push(span);
+    children.set(parentId, bucket);
+  }
+
+  for (const bucket of children.values()) {
+    bucket.sort(compareWaterfallSiblings);
+  }
+
+  const ordered: T[] = [];
+  const seen = new Set<string>();
+  const visit = (span: T) => {
+    if (seen.has(span.span_id)) return;
+    seen.add(span.span_id);
+    ordered.push(span);
+    for (const child of children.get(span.span_id) ?? []) {
+      visit(child);
+    }
+  };
+
+  for (const root of children.get(null) ?? []) {
+    visit(root);
+  }
+  for (const span of [...spans].sort(compareWaterfallSiblings)) {
+    visit(span);
+  }
+  return ordered;
+}
+
+function compareWaterfallSiblings(left: WaterfallSpan, right: WaterfallSpan): number {
+  const leftStart = timestampMicros(left.start_time) ?? Number.MAX_SAFE_INTEGER;
+  const rightStart = timestampMicros(right.start_time) ?? Number.MAX_SAFE_INTEGER;
+  if (leftStart !== rightStart) return leftStart - rightStart;
+  if (left.seq !== right.seq) return left.seq - right.seq;
+  if (left.span_id < right.span_id) return -1;
+  if (left.span_id > right.span_id) return 1;
+  return 0;
 }
 
 function formatMilliseconds(ms: number): string {

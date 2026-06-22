@@ -32,7 +32,10 @@ import {
   formatLatency,
   formatModels,
   formatReleases,
+  ioVisibilityLabel,
+  isRedactedIoValue,
   loadDashboardData,
+  orderSpansForWaterfall,
   spanDepth,
   spanTokenSummary,
   spanTokenTotal,
@@ -68,7 +71,7 @@ export default async function DashboardPage({
     unmaskReason: value(params.reason)
   };
   const data = await loadDashboardData(query);
-  const spans = data.trace?.spans ?? [];
+  const spans = data.trace ? orderSpansForWaterfall(data.trace.spans) : [];
   const listedSelectedRun = data.trace
     ? data.runs.items.find((run) => run.trace_id === data.trace?.trace_id)
     : undefined;
@@ -532,7 +535,7 @@ function SpanDetail({
   query: DashboardQuery;
   spans: CanonicalSpan[];
 }) {
-  const hasRedactedIo = io ? isRedactedIo(io.input) || isRedactedIo(io.output) : false;
+  const hasRedactedIo = io ? isRedactedIoValue(io.input) || isRedactedIoValue(io.output) : false;
   const icon = kindIcon(span.kind);
   const KindGlyph = icon.Icon;
   const artifacts = spanArtifactRefs(span);
@@ -613,7 +616,7 @@ function SpanDetail({
       <section className="detail-section" aria-label="Span I/O">
         <div className="detail-section-head">
           <h3>I/O</h3>
-          <span>{hasRedactedIo && !query.unmask ? "redacted" : "captured"}</span>
+          <span>{ioVisibilityLabel(hasRedactedIo, query.unmask)}</span>
         </div>
         <div className="io-grid">
           <IoBlock label={ioLabels.input} value={io?.input} />
@@ -660,9 +663,10 @@ function RedactionControls({
   hasRedactedIo: boolean;
 }) {
   if (query.unmask) {
+    const state = hasRedactedIo ? "Still redacted" : "Unmask requested";
     return (
       <div className="redaction-controls active">
-        <span>Unmasked</span>
+        <span>{state}</span>
         <small>{query.unmaskReason || "no reason"}</small>
         <Link href={hrefFor(query, { trace: span.trace_id, span: span.span_id, unmask: false })}>
           Redacted view
@@ -730,6 +734,7 @@ function IoBlock({ label, value }: { label: string; value: SpanIoResponse["input
     )}`;
   }
   if (value?.kind === "redacted") body = value.reason;
+  if (isRedactedIoValue(value) && value?.kind !== "redacted") body = "redacted by policy";
   return (
     <div className={ioClassName(value)} aria-label={`${label} I/O`}>
       <div className="io-head">
@@ -776,14 +781,14 @@ function prettyJson(value: unknown): string {
 
 function ioStatus(value: SpanIoResponse["input"] | undefined): string {
   if (!value || value.kind === "missing") return "missing";
+  if (isRedactedIoValue(value)) return "redacted";
   if (value.kind === "artifact") return "artifact";
-  if (value.kind === "redacted") return "redacted";
   return "inline";
 }
 
 function ioClassName(value: SpanIoResponse["input"] | undefined): string {
   if (!value || value.kind === "missing") return "io missing";
-  return value.kind === "redacted" ? "io redacted" : "io";
+  return isRedactedIoValue(value) ? "io redacted" : "io";
 }
 
 function value(input: string | string[] | undefined): string | undefined {
@@ -1161,8 +1166,4 @@ function kindIcon(kind: string): KindIcon {
   }
   if (kind === "replay.run") return { key: "replay", Icon: RotateCcw, title: "Replay run" };
   return { key: "other", Icon: CircleDot, title: kind };
-}
-
-function isRedactedIo(value: SpanIoResponse["input"] | undefined): boolean {
-  return value?.kind === "redacted";
 }
