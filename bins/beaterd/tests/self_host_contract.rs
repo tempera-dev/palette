@@ -428,6 +428,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_run.contains("outside-person evidence must run from the main branch"));
     assert!(outside_run.contains("outside-person evidence must run from origin"));
     assert!(outside_run.contains("outside-person evidence must run from a clean worktree"));
+    assert!(outside_run.contains("first_git_reflog_epoch"));
+    assert!(outside_run.contains("git -C \"$repo_root\" reflog --date=unix --format='%gD'"));
+    assert!(outside_run.contains("BASH_REMATCH"));
+    assert!(outside_run.contains("must be captured before git clone"));
+    assert!(outside_run.contains("first local Git reflog timestamp"));
     assert!(outside_run.contains("BEATER_GATE2_EXPECTED_ORIGIN"));
     assert!(outside_run.contains("BEATER_GATE2_WRITE_PROOF=1"));
     assert!(outside_run.contains("BEATER_GATE2_BROWSER_PROOF=1"));

@@ -1602,8 +1602,9 @@ fn gate2_outside_wrapper_real_run_executes_stopwatch_with_clone_timer() {
     write_stopwatch_env_stub(fixture.path());
     git_success(fixture.path(), &["add", "."]);
     git_success(fixture.path(), &["commit", "-m", "add stopwatch stub"]);
+    let clone_started = valid_clone_started_epoch(fixture.path()).to_string();
 
-    let output = run_outside_wrapper_real_with_clone_timer_in_repo(fixture.path(), "1800000000");
+    let output = run_outside_wrapper_real_with_clone_timer_in_repo(fixture.path(), &clone_started);
 
     assert_success(output, "fixture outside wrapper runtime executed");
     let env_marker = fs::read_to_string(fixture.path().join("docs/demos/wrapper-real-env.txt"))
@@ -1619,7 +1620,7 @@ fn gate2_outside_wrapper_real_run_executes_stopwatch_with_clone_timer() {
     assert!(env_marker.contains("outside_wrapper=1"));
     assert!(env_marker.contains("dry=unset"));
     assert!(env_marker.contains("expected_origin=unset"));
-    assert!(env_marker.contains("clone_started=1800000000"));
+    assert!(env_marker.contains(&format!("clone_started={clone_started}")));
     assert!(env_marker.contains("dashboard_port=unset"));
 }
 
@@ -1849,11 +1850,38 @@ fn gate2_outside_wrapper_rejects_missing_clone_timer_for_real_run() {
 }
 
 #[test]
+fn gate2_outside_wrapper_rejects_clone_timer_after_first_local_reflog() {
+    let fixture = write_outside_wrapper_fixture_repo("main");
+    write_stopwatch_env_stub(fixture.path());
+    git_success(fixture.path(), &["add", "."]);
+    git_success(fixture.path(), &["commit", "-m", "add stopwatch stub"]);
+    let clone_started = first_reflog_epoch(fixture.path()) + 1;
+
+    let output = run_outside_wrapper_real_with_clone_timer_in_repo(
+        fixture.path(),
+        &clone_started.to_string(),
+    );
+
+    assert_failure(
+        output,
+        "BEATER_GATE2_CLONE_STARTED_EPOCH must be captured before git clone",
+    );
+    assert!(
+        !fixture
+            .path()
+            .join("docs/demos/wrapper-real-env.txt")
+            .exists(),
+        "outside wrapper must fail before executing the stopwatch script"
+    );
+}
+
+#[test]
 fn gate2_outside_wrapper_rejects_missing_ffprobe_before_stopwatch() {
     let fixture = write_outside_wrapper_fixture_repo("main");
     write_stopwatch_env_stub(fixture.path());
     git_success(fixture.path(), &["add", "."]);
     git_success(fixture.path(), &["commit", "-m", "add stopwatch stub"]);
+    let clone_started = valid_clone_started_epoch(fixture.path()).to_string();
     let path_dir = tempdir("create outside wrapper PATH without ffprobe");
     for name in ["git", "dirname", "python3"] {
         symlink(&command_executable(name), path_dir.path().join(name))
@@ -1867,7 +1895,7 @@ fn gate2_outside_wrapper_rejects_missing_ffprobe_before_stopwatch() {
     clear_outside_env(&mut command);
     command
         .env("PATH", path_dir.path())
-        .env("BEATER_GATE2_CLONE_STARTED_EPOCH", "1800000000");
+        .env("BEATER_GATE2_CLONE_STARTED_EPOCH", clone_started);
     let output = command
         .output()
         .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper without ffprobe: {err}"));
@@ -1885,6 +1913,7 @@ fn gate2_outside_wrapper_rejects_missing_python3_before_stopwatch() {
     write_stopwatch_env_stub(fixture.path());
     git_success(fixture.path(), &["add", "."]);
     git_success(fixture.path(), &["commit", "-m", "add stopwatch stub"]);
+    let clone_started = valid_clone_started_epoch(fixture.path()).to_string();
     let path_dir = tempdir("create outside wrapper PATH without python3");
     symlink(&command_executable("git"), path_dir.path().join("git"))
         .unwrap_or_else(|err| panic!("symlink git fixture: {err}"));
@@ -1901,7 +1930,7 @@ fn gate2_outside_wrapper_rejects_missing_python3_before_stopwatch() {
     clear_outside_env(&mut command);
     command
         .env("PATH", path_dir.path())
-        .env("BEATER_GATE2_CLONE_STARTED_EPOCH", "1800000000");
+        .env("BEATER_GATE2_CLONE_STARTED_EPOCH", clone_started);
     let output = command
         .output()
         .unwrap_or_else(|err| panic!("run Gate 2 outside wrapper without python3: {err}"));
@@ -5099,6 +5128,26 @@ fn git_output(cwd: &Path, args: &[&str]) -> String {
         );
     }
     String::from_utf8_lossy(&output.stdout).trim().to_owned()
+}
+
+fn first_reflog_epoch(repo: &Path) -> u64 {
+    let output = git_output(repo, &["reflog", "--date=unix", "--format=%gD"]);
+    let selector = output
+        .lines()
+        .last()
+        .unwrap_or_else(|| panic!("missing reflog timestamp for {}", repo.display()))
+        .trim();
+    let epoch = selector
+        .strip_prefix("HEAD@{")
+        .and_then(|value| value.strip_suffix('}'))
+        .unwrap_or_else(|| panic!("invalid reflog selector for {}: {selector}", repo.display()));
+    epoch
+        .parse()
+        .unwrap_or_else(|err| panic!("parse first reflog epoch for {}: {err}", repo.display()))
+}
+
+fn valid_clone_started_epoch(repo: &Path) -> u64 {
+    first_reflog_epoch(repo).saturating_sub(1)
 }
 
 fn current_head() -> String {

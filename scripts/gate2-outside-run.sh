@@ -33,6 +33,19 @@ require_unset() {
   fi
 }
 
+first_git_reflog_epoch() {
+  local line=""
+  local value=""
+  while IFS= read -r value; do
+    if [[ "$value" =~ \{([0-9]+)\} ]]; then
+      line="${BASH_REMATCH[1]}"
+    fi
+  done < <(git -C "$repo_root" reflog --date=unix --format='%gD' 2>/dev/null || true)
+  if [[ "$line" =~ ^[0-9]+$ ]]; then
+    printf '%s\n' "$line"
+  fi
+}
+
 require_clone_timer() {
   local value="${BEATER_GATE2_CLONE_STARTED_EPOCH:-}"
   if [[ "$dry_run" == "1" ]]; then
@@ -43,6 +56,14 @@ require_clone_timer() {
   fi
   if [[ ! "$value" =~ ^[0-9]+$ ]]; then
     fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value"
+  fi
+  local first_reflog_epoch
+  first_reflog_epoch="$(first_git_reflog_epoch)"
+  if [[ -z "$first_reflog_epoch" ]]; then
+    fail "could not determine the first local Git reflog timestamp; use a fresh clone from the documented command"
+  fi
+  if (( 10#$value > 10#$first_reflog_epoch )); then
+    fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be captured before git clone; got $value later than first local Git reflog timestamp $first_reflog_epoch"
   fi
 }
 
