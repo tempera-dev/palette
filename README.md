@@ -361,7 +361,8 @@ terminal transcript or compose logs as a repo-relative, committed/clean,
 non-symlink file under `docs/demos/` (for example
 `docs/demos/gate2-outside-compose.log`), or use an immutable GitHub Actions
 run/job URL such as `https://github.com/jadenfix/beater/actions/runs/<run_id>`.
-Pass that value with `--compose-logs-saved`.
+The outside-run wrapper writes `docs/demos/gate2-outside-compose.log`
+automatically; pass that path with `--compose-logs-saved`.
 
 ```bash
 quickstart_dashboard="$(sed -n 's/^- Quickstart dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"

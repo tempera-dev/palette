@@ -11,6 +11,7 @@ browser_proof="${BEATER_GATE2_BROWSER_PROOF:-0}"
 record_demo="${BEATER_GATE2_RECORD_DEMO:-0}"
 record_demo_video="${BEATER_GATE2_RECORD_VIDEO:-docs/demos/gate2-compose-browser-demo.webm}"
 record_demo_notes="${BEATER_GATE2_RECORD_NOTES:-docs/demos/gate2-compose-browser-demo.md}"
+compose_logs_path="${BEATER_GATE2_COMPOSE_LOGS:-}"
 outside_wrapper="${BEATER_GATE2_OUTSIDE_WRAPPER:-0}"
 prebuilt_pull_policy="${BEATER_GATE2_PULL_POLICY:-always}"
 post_slo_timeout_seconds="${BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS:-300}"
@@ -44,6 +45,7 @@ quickstart_browser_proof_status="not requested"
 waterfall_browser_proof_status="not requested"
 record_demo_status="not requested"
 record_demo_sha256="not requested"
+compose_logs_artifact="not requested"
 time_to_quickstart_click_seconds=""
 script_to_quickstart_click_seconds=""
 quickstart_click_source="not requested"
@@ -138,6 +140,20 @@ compose_run_tool() {
     run_args+=(--pull "$prebuilt_pull_policy")
   fi
   compose "${run_args[@]}" "$@"
+}
+
+save_compose_logs() {
+  local path="$1"
+  mkdir -p "$(dirname "$path")"
+  {
+    echo "# Gate 2 Compose Logs"
+    echo "Saved at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+    echo "Compose project: $project"
+    echo "Startup mode: $startup_mode"
+    echo "Command: docker compose ${compose_files[*]} -p $project logs --no-color --timestamps"
+    echo
+    compose logs --no-color --timestamps
+  } >"$path"
 }
 
 cleanup() {
@@ -656,6 +672,10 @@ proof-image dashboard-e2e $dashboard_e2e_image_ref $dashboard_e2e_image_digest
 proof-image otel-python $otel_python_image_ref $otel_python_image_digest
 EOF
 )"
+if [[ -n "$compose_logs_path" ]]; then
+  save_compose_logs "$compose_logs_path"
+  compose_logs_artifact="$compose_logs_path"
+fi
 if [[ "$outside_wrapper" == "1" ]]; then
   proof_followup_block="$(cat <<'EOF'
 This is an outside-run stopwatch source artifact generated through
@@ -714,6 +734,7 @@ if [[ "$write_proof" == "1" ]]; then
 - Outside-run wrapper: $([[ "$outside_wrapper" == "1" ]] && echo "yes" || echo "no")
 - Prebuilt pull policy: \`$prebuilt_pull_policy\`
 - Compose project: $project
+- Compose logs artifact: \`$compose_logs_artifact\`
 - Beater image reference: \`$beater_image_ref\`
 - Dashboard image reference: \`$dashboard_image_ref\`
 - Dashboard e2e image reference: \`$dashboard_e2e_image_ref\`
@@ -757,7 +778,7 @@ Outside-run next steps:
   3. Confirm prompt, completion, model, token breakdown, cost, and latency are visible.
   4. Open ${all_kind_dashboard_url:-not requested} in a normal browser for the all-kind waterfall.
   5. Confirm run -> turn -> step -> tool -> MCP nesting is visible.
-  6. Save the terminal transcript or docker compose logs as evidence.
+  6. Use the saved docker compose logs artifact as evidence: $compose_logs_artifact
   7. Generate the completed proof with scripts/generate-gate2-outside-proof.py.
   8. Validate it with scripts/validate-gate2-outside-proof.sh.
   9. After evidence is captured, clean up with:
@@ -812,6 +833,9 @@ Browser recording:
 
 Browser recording artifact:
   $([[ "$record_demo" == "1" ]] && echo "$record_demo_video" || echo "not requested")
+
+Compose logs artifact:
+  $compose_logs_artifact
 
 Five-line snippet:
   examples/python/five_line_otel.py

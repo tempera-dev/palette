@@ -104,6 +104,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(readme.contains("non-symlink file under `docs/demos/`"));
     assert!(readme.contains("immutable GitHub Actions"));
     assert!(readme.contains("actions/runs/<run_id>"));
+    assert!(readme.contains("writes `docs/demos/gate2-outside-compose.log`\nautomatically"));
     assert!(readme.contains("Do not leave placeholder values such as `...`"));
     assert!(readme.contains("uncommitted non-evidence worktree changes"));
     assert!(readme.contains(r#"--runner-name "Jane Outside Runner""#));
@@ -142,6 +143,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("non-symlink file\nunder `docs/demos/`"));
     assert!(proof_template.contains("immutable GitHub Actions run/job URL"));
     assert!(proof_template.contains("actions/runs/<run_id>"));
+    assert!(proof_template.contains("writes `docs/demos/gate2-outside-compose.log` automatically"));
     assert!(proof_template.contains("saved compose-log paths"));
     assert!(proof_template.contains("compose-log evidence must be a committed/clean file"));
     assert!(proof_template.contains("repo-relative committed/clean non-symlink `docs/demos/`"));
@@ -1748,6 +1750,11 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
         "Open ${all_kind_dashboard_url:-not requested} in a normal browser for the all-kind waterfall."
     ));
     assert!(script.contains("Confirm run -> turn -> step -> tool -> MCP nesting is visible."));
+    assert!(script.contains("BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(script.contains("save_compose_logs()"));
+    assert!(script.contains("logs --no-color --timestamps"));
+    assert!(script.contains("Compose logs artifact"));
+    assert!(script.contains("Use the saved docker compose logs artifact as evidence"));
     assert!(script.contains(
         "Maintainer diagnostic overrides are intentionally suppressed for outside-person evidence."
     ));
@@ -1776,6 +1783,7 @@ fn gate2_outside_wrapper_real_run_executes_stopwatch_with_clone_timer() {
     assert!(env_marker.contains("pull_policy=always"));
     assert!(env_marker.contains("keep=1"));
     assert!(env_marker.contains("outside_wrapper=1"));
+    assert!(env_marker.contains("compose_logs=docs/demos/gate2-outside-compose.log"));
     assert!(env_marker.contains("dry=unset"));
     assert!(env_marker.contains("expected_origin=unset"));
     assert!(env_marker.contains(&format!("clone_started={clone_started}")));
@@ -1928,6 +1936,19 @@ fn gate2_outside_wrapper_rejects_artifact_path_override() {
     assert_failure(
         output,
         "BEATER_GATE2_RECORD_VIDEO must be unset for outside-person evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_compose_logs_override() {
+    let output = run_outside_wrapper_dry_run(Some((
+        "BEATER_GATE2_COMPOSE_LOGS",
+        "docs/demos/custom-compose.log",
+    )));
+
+    assert_failure(
+        output,
+        "BEATER_GATE2_COMPOSE_LOGS must be unset for outside-person evidence",
     );
 }
 
@@ -5011,6 +5032,7 @@ fn clear_outside_env(command: &mut Command) {
         "BEATER_GATE2_STOPWATCH_PROOF",
         "BEATER_GATE2_RECORD_VIDEO",
         "BEATER_GATE2_RECORD_NOTES",
+        "BEATER_GATE2_COMPOSE_LOGS",
         "KEEP_BEATER_COMPOSE",
         "COMPOSE_FILE",
         "COMPOSE_PROJECT_NAME",
@@ -5344,6 +5366,7 @@ fi
   echo "pull_policy=${BEATER_GATE2_PULL_POLICY:-unset}"
   echo "keep=${KEEP_BEATER_COMPOSE:-unset}"
   echo "outside_wrapper=${BEATER_GATE2_OUTSIDE_WRAPPER:-unset}"
+  echo "compose_logs=${BEATER_GATE2_COMPOSE_LOGS:-unset}"
   echo "dry=${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-unset}"
   echo "expected_origin=${BEATER_GATE2_EXPECTED_ORIGIN:-unset}"
   echo "clone_started=${BEATER_GATE2_CLONE_STARTED_EPOCH:-unset}"

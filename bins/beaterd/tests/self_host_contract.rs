@@ -353,6 +353,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_DEMO"));
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_MODE=compose"));
     assert!(stopwatch_script.contains("BEATER_GATE2_OUTSIDE_WRAPPER=\"$outside_wrapper\""));
+    assert!(stopwatch_script.contains("BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(stopwatch_script.contains("save_compose_logs()"));
+    assert!(stopwatch_script.contains("logs --no-color --timestamps"));
+    assert!(stopwatch_script.contains("Compose logs artifact"));
     assert!(stopwatch_script.contains("BEATER_E2E_QUICKSTART_TRACE_ID"));
     assert!(stopwatch_script.contains("BEATER_E2E_QUICKSTART_RELEASE"));
     assert!(stopwatch_script.contains("compose_run_e2e"));
@@ -453,15 +457,19 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_run.contains("require_unset BEATER_GATE2_STOPWATCH_PROOF"));
     assert!(outside_run.contains("require_unset BEATER_GATE2_RECORD_VIDEO"));
     assert!(outside_run.contains("require_unset BEATER_GATE2_RECORD_NOTES"));
+    assert!(outside_run.contains("require_unset BEATER_GATE2_COMPOSE_LOGS"));
     assert!(outside_run.contains("docs/demos/gate2-compose-stopwatch.md"));
     assert!(outside_run.contains("docs/demos/gate2-compose-browser-demo.webm"));
     assert!(outside_run.contains("docs/demos/gate2-compose-browser-demo.md"));
+    assert!(outside_run.contains("docs/demos/gate2-outside-compose.log"));
     assert!(outside_run.contains("require_unset_or_value KEEP_BEATER_COMPOSE 1"));
     assert!(outside_run.contains("require_unset COMPOSE_FILE"));
     assert!(outside_run.contains("require_unset COMPOSE_PROJECT_NAME"));
     assert!(outside_run.contains("require_unset COMPOSE_PROFILES"));
     assert!(outside_run.contains("default beater-stopwatch Compose project"));
     assert!(outside_run.contains("export KEEP_BEATER_COMPOSE=1"));
+    assert!(outside_run
+        .contains("export BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log"));
     assert!(outside_run.contains("scripts/gate2-compose-stopwatch.sh"));
     assert!(outside_run.contains("Gate 2 outside-run wrapper preflight passed"));
 
@@ -712,6 +720,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("BEATER_GATE2_STOPWATCH_PROOF"));
     assert!(public_handoff.contains("BEATER_GATE2_RECORD_VIDEO"));
     assert!(public_handoff.contains("BEATER_GATE2_RECORD_NOTES"));
+    assert!(public_handoff.contains("BEATER_GATE2_COMPOSE_LOGS"));
     assert!(public_handoff.contains("BEATER_GATE2_RUN_ID"));
     assert!(public_handoff.contains("BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS"));
     assert!(public_handoff.contains("KEEP_BEATER_COMPOSE"));
@@ -869,6 +878,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("repo-relative, committed/clean, non-symlink file"));
     assert!(outside_proof.contains("immutable GitHub Actions run/job URL"));
     assert!(outside_proof.contains("actions/runs/<run_id>"));
+    assert!(outside_proof.contains("writes `docs/demos/gate2-outside-compose.log` automatically"));
     assert!(outside_proof.contains("saved compose-log paths"));
     assert!(outside_proof.contains("compose-log evidence must be a committed/clean file"));
     assert!(outside_proof.contains("repo-relative committed/clean non-symlink `docs/demos/`"));
@@ -977,6 +987,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("non-symlink file under `docs/demos/`"));
     assert!(readme.contains("immutable GitHub Actions"));
     assert!(readme.contains("actions/runs/<run_id>"));
+    assert!(readme.contains("writes `docs/demos/gate2-outside-compose.log`\nautomatically"));
     assert!(readme.contains("ambiguous compose-log notes"));
     assert!(readme.contains("dirty or uncommitted saved log\nartifacts at closure"));
     assert!(readme.contains("BEATER_GATE2_RUN_ID"));
