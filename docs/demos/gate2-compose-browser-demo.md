@@ -7,6 +7,7 @@ stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 - SHA256: `d4b3864cd3a5a1b2c2c70b329a949c1215b8a07e85203650841a07be95177248`
 - Recording mode: compose
 - Dashboard base: `http://127.0.0.1:3001`
+- Quickstart release ID: `gate2-3d9c7bc5ad38-1782145474-83545`
 - Quickstart trace: `3725033cbe940f1674a9d19ab72d3904`
 - All-kind trace: `4849bef9a116057c6f481016b3d604f7`
 - Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.

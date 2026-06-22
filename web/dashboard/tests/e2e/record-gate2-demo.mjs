@@ -16,6 +16,7 @@ const allKindTraceId =
 const quickstartTraceId =
   process.env.BEATER_E2E_QUICKSTART_TRACE_ID ??
   (mode === "quickstart" ? process.env.BEATER_E2E_TRACE_ID : undefined);
+const quickstartRelease = process.env.BEATER_E2E_QUICKSTART_RELEASE;
 const demoDir = resolve(repoRoot, "docs/demos");
 const scratchDir = resolve(dashboardRoot, "test-results/gate2-demo-video");
 const minimumRecordingMs = 9000;
@@ -104,9 +105,13 @@ async function selectedSpanId(locator) {
   return spanId;
 }
 
+function quickstartReleaseQueryParam() {
+  return quickstartRelease ? `&release=${encodeURIComponent(quickstartRelease)}` : "";
+}
+
 async function recordQuickstartFlow(page) {
   await page.goto(
-    `${baseUrl}/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart`
+    `${baseUrl}/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart${quickstartReleaseQueryParam()}`
   );
   await page.getByRole("heading", { name: "Agent Trace Debugger" }).waitFor();
   const traceList = page.getByLabel("Traces");
@@ -244,7 +249,7 @@ For a local source build measurement, add \`BEATER_GATE2_LOCAL_BUILD=1\`.
 function quickstartNotes(videoSha256) {
   const traceParam = quickstartTraceId
     ? `&trace=${encodeURIComponent(quickstartTraceId)}`
-    : "&kind=llm.call&model=gpt-quickstart";
+    : `&kind=llm.call&model=gpt-quickstart${quickstartReleaseQueryParam()}`;
   return `# Gate 2 Browser Demo
 
 Recorded from the literal five-line stock OpenTelemetry quickstart trace.
@@ -253,6 +258,7 @@ Recorded from the literal five-line stock OpenTelemetry quickstart trace.
 - SHA256: \`${videoSha256}\`
 - Recording mode: quickstart
 - Dashboard: \`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}\`
+- Quickstart release ID: \`${quickstartRelease ?? "not provided"}\`
 - Shows: trace table, click five-line trace, click \`llm.call\` span, read prompt, completion, model, token breakdown, cost, latency, and confirmation code.
 
 Regenerate with:
@@ -272,6 +278,7 @@ BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO
 
 function composeNotes(videoSha256) {
   const quickstartTrace = quickstartTraceId ?? "latest matching quickstart trace";
+  const quickstartReleaseLabel = quickstartRelease ?? "not provided";
   const allKindTrace = allKindTraceId ?? "latest matching all-kind trace";
   const defaultDashboardBase = "http://127.0.0.1:3000";
   const portNote =
@@ -292,6 +299,7 @@ stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 - SHA256: \`${videoSha256}\`
 - Recording mode: compose
 - Dashboard base: \`${publicDashboardBase}\`
+- Quickstart release ID: \`${quickstartReleaseLabel}\`
 - Quickstart trace: \`${quickstartTrace}\`
 - All-kind trace: \`${allKindTrace}\`
 - Shows: open dashboard -> click five-line trace -> click \`llm.call\` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.

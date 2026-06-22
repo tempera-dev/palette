@@ -689,6 +689,7 @@ if [[ "$browser_proof" == "1" ]]; then
       -e BEATER_GATE2_RECORD_MODE=compose \
       -e BEATER_GATE2_OUTSIDE_WRAPPER="$outside_wrapper" \
       -e BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
+      -e BEATER_E2E_QUICKSTART_RELEASE="$gate2_run_id" \
       -e BEATER_E2E_ALL_KIND_TRACE_ID="$all_kind_trace_id" \
       -e BEATER_GATE2_RECORD_VIDEO="$record_demo_video" \
       -e BEATER_GATE2_RECORD_NOTES="$record_demo_notes" \

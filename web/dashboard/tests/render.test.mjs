@@ -690,9 +690,11 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(recorder, /recordVideo/);
   assert.match(recorder, /requireAttribute/);
   assert.match(recorder, /BEATER_GATE2_RECORD_MODE/);
+  assert.match(recorder, /BEATER_E2E_QUICKSTART_RELEASE/);
   assert.match(recorder, /recordQuickstartFlow/);
   assert.match(recorder, /recordAllKindFlow/);
   assert.match(recorder, /quickstartNotes/);
+  assert.match(recorder, /Quickstart release ID/);
   assert.match(recorder, /literal five-line stock OpenTelemetry quickstart trace/);
   assert.match(recorder, /gate2-compose-browser-demo\.webm/);
   assert.match(recorder, /createHash\("sha256"\)/);

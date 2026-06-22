@@ -210,6 +210,7 @@ The validator reads the listed stopwatch proof file, screen-recording notes, and
 `ffprobe` playable-video metadata,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, per-run quickstart release ID,
+the same quickstart release ID in the screen-recording notes,
 SHA-pinned prebuilt GHCR image references, structured compose service and
 `proof-image` digest rows, prebuilt GHCR image digests bound to the public GHCR
 manifest digest set for the exact SHA tag, stock quickstart snippet markers, and
@@ -223,7 +224,8 @@ the 5-minute SLO, verifies
 screen-recording SHA256 against the committed artifact, requires the artifact to
 be a playable WebM capture of at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, and Cluster structure plus a video track, and
-requires the recording notes to declare `Recording mode: compose` and describe
+requires the recording notes to declare `Recording mode: compose`, the matching
+quickstart release ID, and describe
 the full click-through: quickstart trace, `llm.call`, prompt, completion, model,
 token breakdown, cost, latency, confirmation code, and run -> turn -> step ->
 tool -> MCP waterfall.

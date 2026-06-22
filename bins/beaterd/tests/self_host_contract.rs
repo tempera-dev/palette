@@ -1062,6 +1062,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("default API/OTLP/dashboard endpoints"));
     assert!(outside_proof.contains("tested public GitHub origin"));
     assert!(outside_proof.contains("cross-checks default"));
+    assert!(outside_proof.contains("same quickstart release ID in the screen-recording notes"));
     assert!(outside_proof.contains("image digests"));
     assert!(outside_proof.contains("screen-recording notes"));
     assert!(outside_proof.contains("`ffprobe` playable-video metadata"));
@@ -1154,6 +1155,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("Manual confirmation code"));
     assert!(readme.contains("checks local Docker, Docker Compose, curl, `ffprobe`,"));
     assert!(readme.contains("mismatched trace IDs"));
+    assert!(readme.contains("mismatched recording-note quickstart release IDs"));
     assert!(readme.contains("mismatched API/dashboard endpoints"));
     assert!(readme.contains("repo-relative `docs/demos/` artifacts"));
     assert!(readme.contains("prebuilt GHCR image digests"));
@@ -1180,6 +1182,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("artifact paths must not traverse symlinks"));
     assert!(readme.contains("The notes"));
     assert!(readme.contains("must declare\n`Recording mode: compose`"));
+    assert!(readme.contains("matching quickstart release ID"));
     assert!(readme.contains("describe the full recorded flow"));
     assert!(readme.contains("hash that does not match the committed file"));
     assert!(readme.contains("`https://github.com/jadenfix/beater.git` for exact-commit"));
@@ -1284,6 +1287,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(record_script.contains("BEATER_GATE2_RECORD_MODE"));
     assert!(record_script.contains("BEATER_GATE2_OUTSIDE_WRAPPER"));
     assert!(record_script.contains("BEATER_GATE2_PUBLIC_DASHBOARD_BASE"));
+    assert!(record_script.contains("BEATER_E2E_QUICKSTART_RELEASE"));
     assert!(record_script.contains("recordQuickstartFlow"));
     assert!(record_script.contains("recordAllKindFlow"));
     assert!(record_script.contains("gate2-compose-browser-demo.webm"));
@@ -1311,6 +1315,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(compose_recording_notes.contains("gate2-compose-browser-demo.webm"));
     assert!(compose_recording_notes.contains("SHA256"));
     assert!(compose_recording_notes.contains("Recording mode: compose"));
+    assert!(compose_recording_notes.contains("Quickstart release ID"));
     assert!(compose_recording_notes.contains("Quickstart trace"));
     assert!(compose_recording_notes.contains("All-kind trace"));
     assert!(compose_recording_notes.contains("click five-line trace"));

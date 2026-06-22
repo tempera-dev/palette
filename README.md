@@ -430,6 +430,7 @@ scripts/validate-gate2-outside-proof.sh
 The validator checks the outside-person template, stopwatch proof file,
 screen-recording notes, and playable WebM metadata from the same run. It rejects
 alternate ports, warm-loop reuse, placeholder dashboard URLs, mismatched trace IDs,
+mismatched recording-note quickstart release IDs,
 mismatched commit SHA,
 mismatched API/dashboard endpoints, non-main or stale commit evidence,
 mismatched SHA-pinned image references, mismatched image digests,
@@ -453,9 +454,9 @@ recording artifact must be a playable WebM capture of
 at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, Cluster, and video-track structure, and
 artifact paths must not traverse symlinks. The notes must declare
-`Recording mode: compose` and describe the full recorded flow: quickstart trace,
-`llm.call`, prompt, completion, model, token breakdown, cost, latency,
-confirmation code, and run -> turn -> step -> tool -> MCP waterfall. The
+`Recording mode: compose`, the matching quickstart release ID, and describe the full recorded flow:
+quickstart trace, `llm.call`, prompt, completion, model, token breakdown, cost,
+latency, confirmation code, and run -> turn -> step -> tool -> MCP waterfall. The
 completed proof must additionally include
 the runner's own `llm.call` detail and waterfall observations, not only the
 automated browser recording notes.

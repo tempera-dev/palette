@@ -1506,6 +1506,9 @@ if notes_text:
     notes_recording_mode = field_value_from(
         notes_text, "Recording mode", "screen recording notes"
     )
+    notes_quickstart_release_id = field_value_from(
+        notes_text, "Quickstart release ID", "screen recording notes"
+    )
     notes_quickstart_trace = field_value_from(
         notes_text, "Quickstart trace", "screen recording notes"
     )
@@ -1522,6 +1525,14 @@ if notes_text:
         )
     if notes_recording_mode != "compose":
         fail("screen recording notes Recording mode must be compose for outside-person proof")
+    require_quickstart_release_id(
+        notes_quickstart_release_id, commit_sha, "screen recording notes"
+    )
+    require_equal(
+        "screen recording notes quickstart release ID",
+        quickstart_release_id,
+        notes_quickstart_release_id,
+    )
     require_trace_id(
         "Quickstart trace", notes_quickstart_trace, "screen recording notes"
     )

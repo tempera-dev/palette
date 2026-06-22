@@ -3767,6 +3767,27 @@ fn gate2_outside_validator_rejects_non_compose_recording_notes() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_recording_notes_release_mismatch() {
+    let fixture = ValidatorFixture::new();
+    let head = current_head();
+    replace(
+        &fixture.notes_path,
+        &format!("- Quickstart release ID: `{}`", quickstart_release_id()),
+        &format!(
+            "- Quickstart release ID: `gate2-{}-1780000000-99999`",
+            &head[..12]
+        ),
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording notes quickstart release ID mismatch",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_recording_notes_without_outside_wrapper_source() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -4373,6 +4394,12 @@ notes are committed and `scripts/validate-gate2-outside-proof.sh` passes.
 }
 
 fn recording_notes(recording_name: &str) -> String {
+    let head = current_head();
+    recording_notes_for_commit(recording_name, &head)
+}
+
+fn recording_notes_for_commit(recording_name: &str, commit_sha: &str) -> String {
+    let quickstart_release_id = quickstart_release_id_for(commit_sha);
     format!(
         r#"# Gate 2 Compose Browser Demo
 
@@ -4380,6 +4407,7 @@ fn recording_notes(recording_name: &str) -> String {
 - SHA256: `{RECORDING_SHA}`
 - Recording mode: compose
 - Dashboard base: `http://127.0.0.1:3000`
+- Quickstart release ID: `{quickstart_release_id}`
 - Quickstart trace: `{QUICKSTART_TRACE}`
 - All-kind trace: `{ALL_KIND_TRACE}`
 - Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.
@@ -5567,13 +5595,17 @@ fn write_validator_closure_fixture_repo_with_options(
     let current_release_id = quickstart_release_id_for(&current_repo_sha);
     fs::create_dir_all(&artifact_dir)
         .unwrap_or_else(|err| panic!("create validator closure artifact dir: {err}"));
-    fs::write(artifact_dir.join("recording.webm"), recording_bytes())
-        .unwrap_or_else(|err| panic!("write validator closure recording: {err}"));
-    fs::write(
-        artifact_dir.join("recording-notes.md"),
-        recording_notes("recording.webm"),
-    )
-    .unwrap_or_else(|err| panic!("write validator closure recording notes: {err}"));
+    if !preseed_recording {
+        fs::write(artifact_dir.join("recording.webm"), recording_bytes())
+            .unwrap_or_else(|err| panic!("write validator closure recording: {err}"));
+    }
+    if !preseed_notes {
+        fs::write(
+            artifact_dir.join("recording-notes.md"),
+            recording_notes_for_commit("recording.webm", &tested_sha),
+        )
+        .unwrap_or_else(|err| panic!("write validator closure recording notes: {err}"));
+    }
     fs::write(
         artifact_dir.join("gate2-outside-compose.log"),
         "Gate 2 compose stopwatch passed\nBrowser recording: passed\n",
@@ -5686,6 +5718,7 @@ cat > docs/demos/gate2-compose-browser-demo.md <<'EOF_NOTES'
 - SHA256: `3dac802bc8f2db03406d0d76e4e1618ed5b516a2cf3d286589e1a588cf6e6534`
 - Recording mode: compose
 - Dashboard base: `http://127.0.0.1:3000`
+- Quickstart release ID: `gate2-__COMMIT_SHORT__-1780000000-12345`
 - Quickstart trace: `11111111111111111111111111111111`
 - All-kind trace: `22222222222222222222222222222222`
 - Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, latency, and confirmation code -> inspect run -> turn -> step -> tool -> MCP waterfall.
@@ -5774,6 +5807,8 @@ from pathlib import Path
 import sys
 path = Path("docs/demos/gate2-compose-stopwatch.md")
 path.write_text(path.read_text().replace("__COMMIT_SHA__", sys.argv[1]).replace("__COMMIT_SHORT__", sys.argv[1][:12]))
+path = Path("docs/demos/gate2-compose-browser-demo.md")
+path.write_text(path.read_text().replace("__COMMIT_SHORT__", sys.argv[1][:12]))
 PY
 echo "fixture outside wrapper runtime executed"
 "#,
