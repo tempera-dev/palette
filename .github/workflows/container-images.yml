@@ -147,6 +147,11 @@ jobs:
             ghcr.io/${{ github.repository }}/otel-python:${{ github.sha }}-amd64 \
             ghcr.io/${{ github.repository }}/otel-python:${{ github.sha }}-arm64
 
+      - name: Install public handoff prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+
       - name: Checkout public handoff verifier
         uses: actions/checkout@v7
 

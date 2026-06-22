@@ -169,6 +169,8 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(image_workflow.contains("context: ./examples/python"));
     assert!(image_workflow.contains("ghcr.io/${{ github.repository }}/otel-python:main"));
     assert!(image_workflow.contains("Publish OTEL Python runner manifest"));
+    assert!(image_workflow.contains("Install public handoff prerequisites"));
+    assert!(image_workflow.contains("sudo apt-get install -y --no-install-recommends ffmpeg"));
     assert!(image_workflow.contains("Checkout public handoff verifier"));
     assert!(image_workflow.contains("Verify Gate 2 public handoff readiness"));
     assert!(image_workflow
