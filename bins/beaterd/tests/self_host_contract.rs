@@ -300,6 +300,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("gate2-compose-browser-demo.webm"));
     assert!(stopwatch_script.contains("Browser recording SHA256"));
     assert!(stopwatch_script.contains("sha256_file"));
+    assert!(stopwatch_script.contains("proof_followup_block"));
+    assert!(stopwatch_script.contains("outside-run stopwatch source artifact"));
+    assert!(stopwatch_script.contains("This is an automated local stopwatch proof"));
     assert!(stopwatch_script.contains("npx playwright test tests/e2e/quickstart.spec.ts"));
     assert!(stopwatch_script.contains("npx playwright test tests/e2e/dashboard.spec.ts"));
     assert!(stopwatch_script.contains("all_kind_trace_id"));
@@ -403,6 +406,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("must be a repo-relative path under docs/demos"));
     assert!(outside_validator.contains("must live under docs/demos"));
     assert!(outside_validator.contains("stopwatch proof file does not exist"));
+    assert!(outside_validator.contains("outside-run source evidence"));
+    assert!(outside_validator.contains("not automated local proof"));
+    assert!(outside_validator.contains("outside-run stopwatch source artifact"));
     assert!(outside_validator.contains("DEFAULT_OTLP_ENDPOINT = \"http://127.0.0.1:4317\""));
     assert!(outside_validator.contains("API endpoint must be"));
     assert!(outside_validator.contains("(\"Startup mode\", \"prebuilt-image\")"));
@@ -578,6 +584,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("sets the required proof/browser/recording flags"));
     assert!(outside_proof.contains("Outside-run wrapper:"));
     assert!(outside_proof.contains("Outside-run wrapper: yes"));
+    assert!(outside_proof.contains("outside-run stopwatch source artifact"));
     assert!(outside_proof.contains("Git branch: main"));
     assert!(outside_proof.contains("Git worktree clean: yes"));
     assert!(outside_proof.contains("Worktree clean"));
@@ -684,6 +691,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("fixture or fork URLs"));
     assert!(readme.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(readme.contains("Outside-run wrapper: yes"));
+    assert!(readme.contains("outside-run stopwatch source artifact"));
     assert!(readme.contains("prebuilt image overrides"));
     assert!(readme.contains("evidence"));
     assert!(readme.contains("artifact path overrides"));
@@ -748,6 +756,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("otel-python"));
     assert!(requirements.contains("recording-notes"));
     assert!(requirements.contains("outside-run attestation"));
+    assert!(requirements.contains("outside-run stopwatch source artifact marker"));
     assert!(requirements.contains("repo-relative non-symlink `docs/demos/` artifacts"));
     assert!(requirements.contains("prebuilt GHCR image digests"));
     assert!(requirements.contains("default API/OTLP/dashboard endpoints"));

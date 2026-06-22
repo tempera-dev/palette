@@ -542,6 +542,32 @@ proof-image dashboard-e2e $dashboard_e2e_image_ref $dashboard_e2e_image_digest
 proof-image otel-python $otel_python_image_ref $otel_python_image_digest
 EOF
 )"
+if [[ "$outside_wrapper" == "1" ]]; then
+  proof_followup_block="$(cat <<'EOF'
+This is an outside-run stopwatch source artifact generated through
+`scripts/gate2-outside-run.sh`. Gate 2 closes only after the completed
+outside-person proof, this stopwatch proof, the recording, and the recording
+notes are committed and `scripts/validate-gate2-outside-proof.sh` passes.
+
+Regenerate:
+
+Use the documented clone-to-browser command in
+`docs/demos/gate2-outside-person-proof.md` from a fresh parent directory.
+EOF
+)"
+else
+  proof_followup_block="$(cat <<'EOF'
+This is an automated local stopwatch proof. The mandate still requires an
+outside-person run to fully close Gate 2.
+
+Regenerate:
+
+```bash
+BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+```
+EOF
+)"
+fi
 if [[ "$write_proof" == "1" ]]; then
   mkdir -p "$(dirname "$proof_path")"
   cat >"$proof_path" <<EOF
@@ -603,14 +629,7 @@ if [[ "$write_proof" == "1" ]]; then
 $proof_image_summary
 \`\`\`
 
-This is an automated local stopwatch proof. The mandate still requires an
-outside-person run to fully close Gate 2.
-
-Regenerate:
-
-\`\`\`bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
-\`\`\`
+$proof_followup_block
 EOF
 fi
 

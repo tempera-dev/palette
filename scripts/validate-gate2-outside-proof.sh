@@ -1173,6 +1173,13 @@ if stopwatch_path:
 
 if stopwatch_text:
     forbid_alternate_evidence(stopwatch_text, "stopwatch proof")
+    if "This is an automated local stopwatch proof" in stopwatch_text:
+        fail(
+            "stopwatch proof for outside-person evidence must identify itself "
+            "as outside-run source evidence, not automated local proof"
+        )
+    if "outside-run stopwatch source artifact" not in stopwatch_text:
+        fail("stopwatch proof must identify itself as outside-run source evidence")
     for field, expected in [
         ("Clean start", "yes"),
         ("Startup mode", "prebuilt-image"),

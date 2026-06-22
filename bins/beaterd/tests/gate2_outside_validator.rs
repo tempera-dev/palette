@@ -1431,6 +1431,40 @@ fn gate2_outside_validator_rejects_stopwatch_without_wrapper_marker() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_local_stopwatch_footer_for_outside_evidence() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.stopwatch_path,
+        "outside-run stopwatch source artifact",
+        "automated local stopwatch proof",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "stopwatch proof for outside-person evidence must identify itself as outside-run source evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_stopwatch_missing_source_artifact_marker() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.stopwatch_path,
+        "outside-run stopwatch source artifact",
+        "outside-run stopwatch evidence artifact",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "stopwatch proof must identify itself as outside-run source evidence",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_missing_stopwatch_proof() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -2957,6 +2991,11 @@ proof-image dashboard ghcr.io/jadenfix/beater/dashboard:{commit_sha} {DASHBOARD_
 proof-image dashboard-e2e ghcr.io/jadenfix/beater/dashboard-e2e:{commit_sha} {DASHBOARD_E2E_IMAGE_DIGEST}
 proof-image otel-python ghcr.io/jadenfix/beater/otel-python:{commit_sha} {OTEL_PYTHON_IMAGE_DIGEST}
 ```
+
+This is an outside-run stopwatch source artifact generated through
+`scripts/gate2-outside-run.sh`. Gate 2 closes only after the completed
+outside-person proof, this stopwatch proof, the recording, and the recording
+notes are committed and `scripts/validate-gate2-outside-proof.sh` passes.
 "#,
     )
 }
@@ -3927,6 +3966,11 @@ proof-image dashboard ghcr.io/jadenfix/beater/dashboard:__COMMIT_SHA__ ghcr.io/j
 proof-image dashboard-e2e ghcr.io/jadenfix/beater/dashboard-e2e:__COMMIT_SHA__ ghcr.io/jadenfix/beater/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 proof-image otel-python ghcr.io/jadenfix/beater/otel-python:__COMMIT_SHA__ ghcr.io/jadenfix/beater/otel-python@sha256:abababababababababababababababababababababababababababababababab
 ```
+
+This is an outside-run stopwatch source artifact generated through
+`scripts/gate2-outside-run.sh`. Gate 2 closes only after the completed
+outside-person proof, this stopwatch proof, the recording, and the recording
+notes are committed and `scripts/validate-gate2-outside-proof.sh` passes.
 EOF_PROOF
 python3 - "$commit_sha" <<'PY'
 from pathlib import Path

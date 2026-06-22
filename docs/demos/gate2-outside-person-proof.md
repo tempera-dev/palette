@@ -72,7 +72,8 @@ and teardown overrides before the stopwatch starts. It also requires
 stopwatch proof records
 `Outside-run wrapper: yes`, `Git branch: main`, the Git origin, and
 `Git worktree clean: yes`; completed outside-person evidence is invalid without
-those markers.
+those markers. The stopwatch proof must also identify itself as an
+outside-run stopwatch source artifact, not an automated local stopwatch proof.
 
 The script fails before Compose startup if local Docker is unavailable, if curl
 or `ffprobe` is missing, if recording SHA tooling is missing, or if API `8080`,
@@ -166,8 +167,9 @@ the tested public GitHub origin, Date-to-clone-start consistency,
 `main` branch, clean-worktree state, and commit SHA. If the proof commit is newer
 than the tested SHA, every later committed change must be under `docs/demos/`;
 uncommitted non-evidence worktree changes are rejected at closure. It verifies
-the stopwatch proof recorded a manual outside-runner quickstart click
-confirmation before the 5-minute SLO, verifies
+the stopwatch proof identifies itself as an outside-run stopwatch source
+artifact, recorded a manual outside-runner quickstart click confirmation before
+the 5-minute SLO, verifies
 screen-recording SHA256 against the committed artifact, requires the artifact to
 be a playable WebM capture of at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, and Cluster structure plus a video track, and

@@ -197,8 +197,10 @@ clone time. For outside-person evidence, `Time-to-quickstart-click` is captured
 from the runner's Enter confirmation after manually clicking the trace and
 `llm.call` span, not from the automated Playwright proof. It also sets an
 `Outside-run wrapper: yes` marker in the stopwatch proof; completed
-outside-person proof validation rejects evidence without that marker and
-cross-checks the stopwatch branch, origin, and worktree-clean status. The script
+outside-person proof validation rejects evidence without that marker, rejects
+local automated stopwatch footers, requires an outside-run stopwatch source
+artifact marker, and cross-checks the stopwatch branch, origin, and
+worktree-clean status. The script
 first removes any previous Compose project/volumes, then runs
 `docker compose up`, sends `examples/python/five_line_otel.py` from the
 prebuilt stock OpenTelemetry Python runner container, waits until the trace is
@@ -358,7 +360,9 @@ uncommitted non-evidence worktree changes at closure. It rejects any screen
 recording hash that does not match the committed file. It requires
 `Quickstart click source: manual-outside-runner` and
 `Manual quickstart confirmation: yes` in both the completed proof and the
-stopwatch artifact. The recording artifact must be a playable WebM capture of
+stopwatch artifact, and the stopwatch artifact must identify itself as an
+outside-run stopwatch source artifact rather than an automated local proof. The
+recording artifact must be a playable WebM capture of
 at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, Cluster, and video-track structure, and
 artifact paths must not traverse symlinks. The notes must declare
