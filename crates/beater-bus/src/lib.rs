@@ -314,7 +314,7 @@ impl DurableBus for InMemoryBus {
 
     async fn depth(&self) -> Result<usize, BusError> {
         let state = self.lock()?;
-        Ok(state.queue.len())
+        Ok(Self::active_depth(&state))
     }
 
     async fn depth_for_kind(&self, kind: &str) -> Result<usize, BusError> {
@@ -322,6 +322,7 @@ impl DurableBus for InMemoryBus {
         Ok(state
             .queue
             .iter()
+            .chain(state.inflight.iter())
             .filter(|message| message.kind == kind)
             .count())
     }
@@ -450,8 +451,24 @@ impl SqliteDurableBus {
             .map_err(|err| BusError::Storage(err.to_string()))
     }
 
+    fn inflight_depth_for_kind(connection: &Connection, kind: &str) -> Result<usize, BusError> {
+        connection
+            .query_row(
+                "SELECT COUNT(*) FROM inflight_messages WHERE kind = ?1",
+                params![kind],
+                |row| row.get::<_, i64>(0),
+            )
+            .map(|count| count as usize)
+            .map_err(|err| BusError::Storage(err.to_string()))
+    }
+
     fn active_depth(connection: &Connection) -> Result<usize, BusError> {
         Ok(Self::queue_depth(connection)?.saturating_add(Self::inflight_depth(connection)?))
+    }
+
+    fn active_depth_for_kind(connection: &Connection, kind: &str) -> Result<usize, BusError> {
+        Ok(Self::queue_depth_for_kind(connection, kind)?
+            .saturating_add(Self::inflight_depth_for_kind(connection, kind)?))
     }
 
     fn inflight_exists(connection: &Connection, message_id: &str) -> Result<bool, BusError> {
@@ -794,12 +811,12 @@ impl DurableBus for SqliteDurableBus {
 
     async fn depth(&self) -> Result<usize, BusError> {
         let connection = self.lock()?;
-        Self::queue_depth(&connection)
+        Self::active_depth(&connection)
     }
 
     async fn depth_for_kind(&self, kind: &str) -> Result<usize, BusError> {
         let connection = self.lock()?;
-        Self::queue_depth_for_kind(&connection, kind)
+        Self::active_depth_for_kind(&connection, kind)
     }
 }
 
@@ -954,6 +971,8 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(consumed, vec![trace_write]);
+        assert_eq!(bus.depth().await, Ok(2));
+        assert_eq!(bus.depth_for_kind("trace.write_batch").await, Ok(1));
         bus.ack(consumed[0].clone())
             .await
             .unwrap_or_else(|err| panic!("{err}"));
@@ -1113,7 +1132,8 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(consumed, vec![message.clone()]);
-        assert_eq!(bus.depth().await, Ok(0));
+        assert_eq!(bus.depth().await, Ok(1));
+        assert_eq!(bus.depth_for_kind("crash-safe").await, Ok(1));
         drop(bus);
 
         let reopened = SqliteDurableBus::open(&path, 8).unwrap_or_else(|err| panic!("{err}"));

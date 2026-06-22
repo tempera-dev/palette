@@ -2059,7 +2059,15 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(leased.len(), 1);
-        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
+        let status = service
+            .queue_status(
+                request.scope.tenant_id.clone(),
+                request.scope.project_id.clone(),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(status.trace_ingested_depth, 1);
         drop(service);
         drop(bus);
         drop(traces);
@@ -2146,7 +2154,7 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(leased.len(), 1);
-        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(0));
+        assert_eq!(bus.depth_for_kind(TRACE_INGESTED_KIND).await, Ok(1));
         drop(service);
         drop(bus);
         drop(traces);

@@ -183,6 +183,7 @@ async fn beaterd_consumer_kill_restart_dlq_replay_recovers_trace_ingested_work(
     wait_for_health(&first_url).await?;
     let trace_id = post_buffered_otlp_http(&first_url, "consumer kill restart replay").await?;
     wait_for_file(&marker_path, Duration::from_secs(5)).await?;
+    assert_queue_depths(&first_url, 0, 1).await?;
     first.kill_and_wait();
     let _ = std::fs::remove_file(&hold_path);
 
@@ -247,6 +248,7 @@ async fn beaterd_trace_write_kill_replay_preserves_buffered_trace() -> anyhow::R
     wait_for_health(&first_url).await?;
     let trace_id = post_buffered_otlp_http(&first_url, "trace write kill restart replay").await?;
     wait_for_file(&marker_path, Duration::from_secs(5)).await?;
+    assert_queue_depths(&first_url, 1, 0).await?;
     assert_trace_span_count(&first_url, &trace_id, 0).await?;
     first.kill_and_wait();
     let _ = std::fs::remove_file(&hold_path);
@@ -827,6 +829,29 @@ async fn queue_status(http_url: &str) -> anyhow::Result<serde_json::Value> {
         .error_for_status()?
         .json::<serde_json::Value>()
         .await?)
+}
+
+async fn assert_queue_depths(
+    http_url: &str,
+    expected_trace_write: u64,
+    expected_trace_ingested: u64,
+) -> anyhow::Result<()> {
+    let status = queue_status(http_url).await?;
+    let trace_write_depth = status
+        .get("trace_write_depth")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
+    let trace_ingested_depth = status
+        .get("trace_ingested_depth")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
+    if trace_write_depth != expected_trace_write || trace_ingested_depth != expected_trace_ingested
+    {
+        anyhow::bail!(
+            "expected queue depths trace.write={expected_trace_write} trace.ingested={expected_trace_ingested}, got {status}"
+        );
+    }
+    Ok(())
 }
 
 async fn assert_only_dead_letter(http_url: &str, message_id: &str) -> anyhow::Result<()> {
