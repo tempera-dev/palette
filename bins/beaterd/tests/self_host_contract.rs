@@ -1270,10 +1270,6 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let compose_recording_notes = read(root.join("docs/demos/gate2-compose-browser-demo.md"));
     assert!(compose_recording_notes.contains("# Gate 2 Compose Browser Demo"));
-    assert!(compose_recording_notes.contains("Status: pending regeneration"));
-    assert!(compose_recording_notes.contains("8-second reviewability floor"));
-    assert!(compose_recording_notes.contains("default dashboard URL"));
-    assert!(compose_recording_notes.contains("http://127.0.0.1:3000"));
     assert!(compose_recording_notes.contains("gate2-compose-browser-demo.webm"));
     assert!(compose_recording_notes.contains("SHA256"));
     assert!(compose_recording_notes.contains("Recording mode: compose"));
@@ -1282,12 +1278,16 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(compose_recording_notes.contains("click five-line trace"));
     assert!(compose_recording_notes.contains("token breakdown"));
     assert!(!compose_recording_notes.contains("model, tokens, cost"));
+    assert!(compose_recording_notes.contains("outside-person proof must still use the default"));
+    assert!(compose_recording_notes.contains("http://127.0.0.1:3000"));
     assert!(compose_recording_notes.contains("docs/demos/gate2-outside-person-proof.md"));
 
     let compose_recording = root.join("docs/demos/gate2-compose-browser-demo.webm");
+    let compose_metadata = fs::metadata(&compose_recording)
+        .unwrap_or_else(|err| panic!("stat {}: {err}", compose_recording.display()));
     assert!(
-        !compose_recording.exists(),
-        "stale Gate 2 compose recordings must not occupy the canonical evidence path"
+        compose_metadata.len() > 64 * 1024,
+        "Gate 2 compose recording must be a committed non-empty browser video"
     );
     let compose_recording_fixture =
         root.join("bins/beaterd/tests/fixtures/gate2-compose-browser-demo.webm");

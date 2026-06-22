@@ -596,18 +596,17 @@ fn gate2_outside_generator_rejects_duplicate_source_field_without_writing() {
 
 #[test]
 fn gate2_outside_generator_rejects_pending_regeneration_stopwatch() {
-    let generated_dir = tempdir("create pending-regeneration generator output dir");
-    let generated = generated_dir.path().join("pending-regeneration-proof.md");
-
-    let output = run_generator(
-        &repo_root().join("docs/demos/gate2-compose-stopwatch.md"),
-        &generated,
+    let fixture = ValidatorFixture::new();
+    let generated = fixture.dir.path().join("pending-regeneration-proof.md");
+    replace(
+        &fixture.stopwatch_path,
+        "- Browser recording: passed",
+        "- Browser recording: stale, removed from canonical evidence path",
     );
 
-    assert_failure(
-        output,
-        "Browser recording in docs/demos/gate2-compose-stopwatch.md must be 'passed'",
-    );
+    let output = run_generator(&fixture.stopwatch_path, &generated);
+
+    assert_failure(output, "Browser recording in");
     assert!(
         !generated.exists(),
         "generator must not write completed proof from stale stopwatch evidence"

@@ -1,32 +1,23 @@
 # Gate 2 Compose Browser Demo
 
-Status: pending regeneration. The previous checked-in recording was a
-pre-hardening 3.68s capture and has been removed from the canonical
-`docs/demos/gate2-compose-browser-demo.webm` evidence path because it does not
-satisfy the current 8-second reviewability floor enforced by
-`scripts/gate2-compose-stopwatch.sh` and
-`scripts/validate-gate2-outside-proof.sh`. Regenerate the recording from the
-default `http://127.0.0.1:3000` compose stopwatch path before using this file as
-Gate 2 evidence.
-
 Recorded from the Docker Compose stopwatch path using the literal five-line
 stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 
-- Artifact: `gate2-compose-browser-demo.webm` (not currently committed)
-- SHA256: pending regenerated recording
+- Artifact: `gate2-compose-browser-demo.webm`
+- SHA256: `d4b3864cd3a5a1b2c2c70b329a949c1215b8a07e85203650841a07be95177248`
 - Recording mode: compose
-- Dashboard base: `http://127.0.0.1:3000`
-- Quickstart trace: `c8fd1651c8ea514803dc1b86bd6c5411`
-- All-kind trace: `42bfb21a2a4dc58046869a20f079b9ec`
+- Dashboard base: `http://127.0.0.1:3001`
+- Quickstart trace: `3725033cbe940f1674a9d19ab72d3904`
+- All-kind trace: `4849bef9a116057c6f481016b3d604f7`
 - Shows: open dashboard -> click five-line trace -> click `llm.call` span -> read prompt, completion, model, token breakdown, cost, and latency -> inspect run -> turn -> step -> tool -> MCP waterfall.
 
-This run used the default dashboard URL `http://127.0.0.1:3000`; no alternate host ports were needed.
+This run used alternate host ports; the outside-person proof must still use the default dashboard URL `http://127.0.0.1:3000`.
+
+The mandate still requires the outside-person run recorded in
+`docs/demos/gate2-outside-person-proof.md` before Gate 2 can close.
 
 Regenerate with:
 
 ```bash
 BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```
-
-The mandate still requires the outside-person run recorded in
-`docs/demos/gate2-outside-person-proof.md` before Gate 2 can close.
