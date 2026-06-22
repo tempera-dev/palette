@@ -204,6 +204,33 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(gate2_workflow.contains("cargo test -p beaterd --test self_host_contract"));
     assert!(gate2_workflow.contains("cargo test -p beaterd --test gate2_outside_validator"));
 
+    let dashboard_workflow = read(root.join(".github/workflows/dashboard-ui.yml"));
+    assert!(dashboard_workflow.contains("pull_request:"));
+    assert!(dashboard_workflow.contains("push:"));
+    assert!(dashboard_workflow.contains("branches: [main]"));
+    assert!(dashboard_workflow.contains("workflow_dispatch:"));
+    assert!(dashboard_workflow.contains("contents: read"));
+    assert!(dashboard_workflow.contains("timeout-minutes: 20"));
+    assert!(dashboard_workflow.contains("live-browser-proof:"));
+    assert!(dashboard_workflow.contains("timeout-minutes: 25"));
+    assert!(dashboard_workflow.contains("needs: verify"));
+    assert!(dashboard_workflow.contains("actions/setup-node@v7"));
+    assert!(dashboard_workflow.contains("actions/setup-python@v7"));
+    assert!(dashboard_workflow.contains("node-version: 24"));
+    assert!(dashboard_workflow.contains("python-version: \"3.12\""));
+    assert!(dashboard_workflow.contains("cache: npm"));
+    assert!(
+        dashboard_workflow.contains("cache-dependency-path: web/dashboard/package-lock.json")
+    );
+    assert!(dashboard_workflow.contains("working-directory: web/dashboard"));
+    assert!(dashboard_workflow.contains("npm ci"));
+    assert!(dashboard_workflow.contains("scripts/check-openapi-drift.sh"));
+    assert!(dashboard_workflow.contains("npm test"));
+    assert!(dashboard_workflow.contains("npm run build"));
+    assert!(dashboard_workflow.contains("npx playwright install --with-deps chromium"));
+    assert!(dashboard_workflow.contains("scripts/gate2-proof.sh"));
+    assert!(!dashboard_workflow.contains("BEATER_GATE2_SKIP_BROWSER"));
+
     let gate1_live_workflow = read(root.join(".github/workflows/gate1-live-smoke.yml"));
     assert!(gate1_live_workflow.contains("pull_request:"));
     assert!(gate1_live_workflow.contains("push:"));

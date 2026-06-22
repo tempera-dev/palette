@@ -1,0 +1,83 @@
+name: dashboard-ui
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/dashboard/package-lock.json
+
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal
+
+      - name: Use stable Rust
+        run: rustup default stable
+
+      - name: Install dashboard dependencies
+        working-directory: web/dashboard
+        run: npm ci
+
+      - name: Check generated dashboard API client
+        run: scripts/check-openapi-drift.sh
+
+      - name: Test dashboard render and read client
+        working-directory: web/dashboard
+        run: npm test
+
+      - name: Build dashboard
+        working-directory: web/dashboard
+        run: npm run build
+
+  live-browser-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: verify
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/dashboard/package-lock.json
+
+      - name: Install Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal
+
+      - name: Use stable Rust
+        run: rustup default stable
+
+      - name: Install dashboard dependencies
+        working-directory: web/dashboard
+        run: npm ci
+
+      - name: Install Playwright browser dependencies
+        working-directory: web/dashboard
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Gate 2 live browser proof
+        run: scripts/gate2-proof.sh
