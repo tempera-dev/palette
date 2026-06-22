@@ -210,10 +210,60 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(gate0_contract.contains("beater-store-conformance"));
     assert!(gate0_contract.contains("beater-store-memory"));
     assert!(gate0_contract.contains("beater-store-sql"));
+    assert!(gate0_contract.contains("beater-store-obj"));
+    assert!(gate0_contract.contains("fs_artifact_store_round_trips_and_checks_hash"));
+    assert!(gate0_contract.contains("fs_artifact_store_rejects_corrupt_bytes"));
+    assert!(gate0_contract.contains("StoreError::Integrity"));
+    assert!(gate0_contract.contains("cargo_package_names"));
+    assert!(gate0_contract.contains("direct_dependencies"));
+    assert!(gate0_contract.contains("libsqlite3-sys"));
+    assert!(gate0_contract.contains("sqlx"));
+    for crate_name in [
+        "beater-alerts",
+        "beater-auth",
+        "beater-audit",
+        "beater-bus",
+        "beater-calibration",
+        "beater-datasets",
+        "beater-eval",
+        "beater-experiments",
+        "beater-gates",
+        "beater-human",
+        "beater-judge",
+        "beater-replay",
+        "beater-search",
+        "beater-secrets",
+        "beater-store",
+        "beater-usage",
+    ] {
+        assert!(
+            gate0_contract.contains(crate_name),
+            "Gate 0 trait scan must cover {crate_name}"
+        );
+    }
     assert!(gate0_contract.contains("metadata: Arc<dyn MetadataStore>"));
     assert!(gate0_contract.contains("public storage/eval trait methods must use typed errors"));
+    assert!(gate0_contract.contains("anyhow_result_aliases"));
+    assert!(gate0_contract.contains("anyhow_error_aliases"));
+    assert!(gate0_contract.contains("anyhow_type_aliases"));
+    assert!(gate0_contract.contains("anyhow::Error"));
     assert!(gate0_contract.contains("Utc::now()"));
+    assert!(gate0_contract.contains("SystemTime::now()"));
+    assert!(gate0_contract
+        .contains("cargo\", \"test\", \"-p\", \"beater-core\", \"-p\", \"beater-schema"));
+    assert!(gate0_contract.contains("pub trait Clock"));
+    assert!(gate0_contract.contains("pub struct SystemClock"));
+    assert!(gate0_contract.contains("pub struct FixedClock"));
+    assert!(gate0_contract.contains("pub enum Currency"));
+    assert!(gate0_contract.contains("pub fn try_add"));
+    assert!(gate0_contract.contains("pub fn try_sub"));
+    assert!(gate0_contract.contains("CurrencyMismatch"));
     assert!(gate0_contract.contains("beater-schema must own"));
+    assert!(gate0_contract.contains("rust_block(schema"));
+    assert!(gate0_contract.contains("AgentSpanKind::parse(&value)"));
+    assert!(gate0_contract.contains("SpanStatus::parse(&value)"));
+    assert!(gate0_contract.contains("span.kind.as_str()"));
+    assert!(gate0_contract.contains("span.status.as_str()"));
     assert!(gate0_contract.contains("Gate 0 foundation contract passed."));
 }
 

@@ -115,4 +115,34 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(bytes, br#"{"ok":true}"#);
     }
+
+    #[tokio::test]
+    async fn fs_artifact_store_rejects_corrupt_bytes() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let store = FsArtifactStore::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+
+        let artifact = store
+            .put_bytes(
+                &tenant,
+                &project,
+                "application/json",
+                RedactionClass::Sensitive,
+                br#"{"ok":true}"#,
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let path = store
+            .path_for_uri(&artifact.uri)
+            .unwrap_or_else(|err| panic!("{err}"));
+        std::fs::write(path, br#"{"ok":false}"#).unwrap_or_else(|err| panic!("{err}"));
+
+        match store.get_bytes(&artifact).await {
+            Err(StoreError::Integrity(message)) => {
+                assert!(message.contains("artifact hash mismatch"));
+            }
+            other => panic!("expected StoreError::Integrity for corrupt artifact, got {other:?}"),
+        }
+    }
 }
