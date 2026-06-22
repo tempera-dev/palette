@@ -1331,6 +1331,61 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
 }
 
 #[test]
+fn gate2_outside_local_preflight_rejects_missing_sha_before_docker() {
+    let runtime = fake_public_handoff_runtime(false, "unix:///var/run/docker.sock");
+
+    let output = run_outside_local_preflight_with_runtime(&runtime, None);
+
+    assert_failure(output, "missing required command 'shasum' or 'sha256sum'");
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "missing SHA tooling must fail before Docker probes\n{docker_log}"
+    );
+}
+
+#[test]
+fn gate2_outside_local_preflight_rejects_remote_docker_host_before_docker() {
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+
+    let output = run_outside_local_preflight_with_runtime(
+        &runtime,
+        Some(("DOCKER_HOST", "ssh://builder.example.invalid")),
+    );
+
+    assert_failure(
+        output,
+        "DOCKER_HOST must point at a local Docker daemon because browser proof uses 127.0.0.1",
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "remote DOCKER_HOST must fail before Docker probes\n{docker_log}"
+    );
+}
+
+#[test]
+fn gate2_outside_local_preflight_rejects_remote_docker_context_before_ports() {
+    let runtime = fake_public_handoff_runtime(true, "ssh://builder.example.invalid");
+
+    let output = run_outside_local_preflight_with_runtime(&runtime, None);
+
+    assert_failure(
+        output,
+        "Docker context must be local because browser proof uses 127.0.0.1",
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log)
+        .unwrap_or_else(|err| panic!("read fake Docker log: {err}"));
+    assert!(docker_log.contains("info"));
+    assert!(docker_log.contains("compose version"));
+    assert!(docker_log.contains("context inspect"));
+    assert!(
+        !docker_log.contains("down -v --remove-orphans"),
+        "raw local preflight must not run Compose cleanup\n{docker_log}"
+    );
+}
+
+#[test]
 fn gate2_public_handoff_port_owner_hint_reports_command_and_cwd() {
     let root = repo_root();
     let tools = tempdir("create fake port owner tools");
@@ -4154,14 +4209,16 @@ fn fake_public_handoff_runtime(
             python.display()
         )
     });
-    let git = command_executable("git");
-    symlink(&git, dir.path().join("git")).unwrap_or_else(|err| {
-        panic!(
-            "symlink fake git {} -> {}: {err}",
-            dir.path().join("git").display(),
-            git.display()
-        )
-    });
+    for name in ["git", "head"] {
+        let executable = command_executable(name);
+        symlink(&executable, dir.path().join(name)).unwrap_or_else(|err| {
+            panic!(
+                "symlink fake {name} {} -> {}: {err}",
+                dir.path().join(name).display(),
+                executable.display()
+            )
+        });
+    }
 
     let bash = command_executable("bash");
     let bash_log = dir.path().join("bash.log");
@@ -4252,6 +4309,23 @@ esac
 
 fn path_with_public_handoff_runtime(runtime: &FakePublicHandoffRuntime) -> String {
     path_with_dir(Path::new(&runtime.path_env))
+}
+
+fn run_outside_local_preflight_with_runtime(
+    runtime: &FakePublicHandoffRuntime,
+    docker_host: Option<(&str, &str)>,
+) -> Output {
+    let mut command = Command::new(command_executable("bash"));
+    command
+        .arg(repo_root().join("scripts/gate2-outside-local-preflight.sh"))
+        .env("PATH", &runtime.path_env)
+        .env_remove("DOCKER_HOST");
+    if let Some((name, value)) = docker_host {
+        command.env(name, value);
+    }
+    command
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside local preflight fixture: {err}"))
 }
 
 fn path_with_ffprobe_fixture(parent: &Path) -> String {
