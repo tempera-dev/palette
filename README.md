@@ -27,8 +27,9 @@ Docker Desktop or another local Docker daemon, Docker Compose v2, `git`, `curl`,
 `4317`, and `3000` free. Remote `DOCKER_HOST` values and
 remote Docker contexts are rejected because the browser proof connects to
 `127.0.0.1`.
-The public Compose path uses prebuilt Beater images and digest-pinned
-third-party service images for deterministic pulls.
+The public Compose path uses prebuilt Beater images. Optional third-party
+topology services remain digest-pinned for deterministic diagnostics, but they
+are not started in the timed default path until the Rust runtime uses them.
 
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
@@ -232,8 +233,8 @@ outside-person evidence.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`. The stopwatch script
 pins `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` to the checked-out commit SHA
-tags by default, then records the image references, service rows, and structured
-`proof-image` rows with resolved GHCR digests in the proof. Closure validation
+tags by default, then records the image references, Beater image service rows,
+and structured `proof-image` rows with resolved GHCR digests in the proof. Closure validation
 requires those digests to match the public GHCR manifest digest set for the
 exact checked-out SHA tag. Set
 `BEATER_GATE2_LOCAL_BUILD=1` when you intentionally want to build the server and
@@ -271,11 +272,13 @@ Containerized self-host proof:
 scripts/smoke-compose.sh
 ```
 
-The compose topology starts `beaterd`, the dashboard, Postgres, NATS JetStream,
-and MinIO; ClickHouse is available with the `clickhouse` profile. The current
-`beaterd` runtime still stores local OSS state in SQLite under `--data-dir`.
-Postgres, NATS, MinIO, and ClickHouse are present as self-host topology and
-schema-contract services, not yet as fully wired Rust runtime backends.
+The default compose proof starts `beaterd` and the dashboard, then uses one-shot
+`otel-python` and `dashboard-e2e` containers for trace generation and browser
+proof. Postgres, NATS JetStream, and MinIO are available with the `deps` profile;
+ClickHouse is available with the `clickhouse` profile. The current `beaterd`
+runtime still stores local OSS state in SQLite under `--data-dir`, so those
+external services are kept as self-host topology and schema-contract services,
+not started in the timed default path.
 
 The browser proof should finish by opening:
 

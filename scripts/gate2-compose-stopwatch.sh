@@ -108,11 +108,11 @@ all_kinds=(
 if [[ "$local_build" == "1" ]]; then
   compose_files=(-f docker-compose.yml)
   startup_mode="local-build"
-  startup_args=(up -d --build postgres nats minio beaterd dashboard)
+  startup_args=(up -d --build beaterd dashboard)
 else
   compose_files=(-f docker-compose.prebuilt.yml)
   startup_mode="prebuilt-image"
-  startup_args=(up -d --pull "$prebuilt_pull_policy" postgres nats minio beaterd dashboard)
+  startup_args=(up -d --pull "$prebuilt_pull_policy" beaterd dashboard)
 fi
 
 compose() {

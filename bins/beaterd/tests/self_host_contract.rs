@@ -11,6 +11,16 @@ fn self_host_files_define_gate_two_compose_surface() {
             "docker-compose.yml must define {service}"
         );
     }
+    for service in ["postgres", "nats", "minio"] {
+        assert!(
+            compose_service_block(&compose, service).contains("profiles: [\"deps\"]"),
+            "docker-compose.yml {service} must be opt-in until beaterd uses it at runtime"
+        );
+    }
+    assert!(
+        !compose_service_block(&compose, "beaterd").contains("depends_on:"),
+        "beaterd must not depend on unused external services in the default local compose path"
+    );
     assert!(compose.contains("dashboard-e2e:"));
     assert!(compose.contains("target: e2e"));
     assert!(compose.contains("profiles: [\"clickhouse\"]"));
@@ -98,6 +108,16 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(prebuilt_compose.contains("otel-python-quickstart:"));
     assert!(prebuilt_compose.contains("otel-python-smoke:"));
     assert!(prebuilt_compose.contains("profiles: [\"proof\"]"));
+    for service in ["postgres", "nats", "minio"] {
+        assert!(
+            compose_service_block(&prebuilt_compose, service).contains("profiles: [\"deps\"]"),
+            "docker-compose.prebuilt.yml {service} must be opt-in until beaterd uses it at runtime"
+        );
+    }
+    assert!(
+        !compose_service_block(&prebuilt_compose, "beaterd").contains("depends_on:"),
+        "beaterd must not depend on unused external services in the default prebuilt compose path"
+    );
     assert!(prebuilt_compose.contains("PLAYWRIGHT_BASE_URL: http://dashboard:3000"));
     assert!(prebuilt_compose.contains("./docs/demos:/workspace/docs/demos"));
     assert!(!prebuilt_compose.contains("build:"));
@@ -227,6 +247,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     let root = repo_root();
     let compose_script = read(root.join("scripts/smoke-compose.sh"));
     assert!(compose_script.contains("docker compose"));
+    assert!(compose_script.contains("compose up -d --build beaterd dashboard"));
+    assert!(!compose_script.contains("compose up -d --build postgres nats minio"));
     assert!(compose_script.contains("compose run --rm beaterctl"));
     assert!(compose_script.contains("compose run --rm otel-python-smoke"));
     assert!(compose_script.contains("call-policy-model"));
@@ -269,6 +291,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("compose images"));
     assert!(stopwatch_script.contains("proof-image beaterd"));
     assert!(stopwatch_script.contains("proof-image dashboard-e2e"));
+    assert!(stopwatch_script.contains("startup_args=(up -d --build beaterd dashboard)"));
+    assert!(stopwatch_script
+        .contains("startup_args=(up -d --pull \"$prebuilt_pull_policy\" beaterd dashboard)"));
+    assert!(!stopwatch_script.contains("startup_args=(up -d --build postgres nats minio"));
+    assert!(!stopwatch_script
+        .contains("startup_args=(up -d --pull \"$prebuilt_pull_policy\" postgres nats minio"));
     assert!(stopwatch_script
         .contains("run_before_deadline \"Gate 2 prerequisite preflight\" preflight_prerequisites"));
     assert!(
@@ -784,6 +812,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("gate2-outside-local-preflight.sh"));
     assert!(readme.contains("before `t=\"$(date +%s)\"`"));
+    assert!(readme.contains("not started in the timed default path"));
+    assert!(readme.contains("available with the `deps` profile"));
+    assert!(readme.contains("default compose proof starts `beaterd` and the dashboard"));
     assert!(readme.contains("scripts/gate2-outside-run.sh"));
     assert!(readme.contains("scripts/check-gate2-public-handoff.py"));
     assert!(readme.contains("uses one\nfresh clone"));
@@ -834,7 +865,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("mismatched image digests"));
     assert!(readme.contains("BEATER_GATE2_RUN_ID"));
     assert!(readme.contains("fresh per-run quickstart release ID"));
-    assert!(readme.contains("structured\n`proof-image` rows"));
+    assert!(readme.contains("Beater image service rows"));
+    assert!(readme.contains("structured `proof-image` rows"));
     assert!(readme.contains("recording notes from a different dashboard session"));
     assert!(readme.contains("playable WebM metadata"));
     assert!(readme.contains("playable WebM capture of\nat least 64 KiB and at least 8 seconds"));
@@ -866,7 +898,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(requirements.contains("image-digest"));
     assert!(requirements.contains("quickstart release-ID"));
-    assert!(requirements.contains("structured compose service rows plus `proof-image` digest rows"));
+    assert!(requirements
+        .contains("structured Beater image service rows plus `proof-image` digest rows"));
     assert!(requirements.contains("SHA-pinned prebuilt GHCR image references"));
     assert!(requirements.contains("dashboard-e2e"));
     assert!(requirements.contains("otel-python"));
@@ -1025,6 +1058,31 @@ fn assert_pinned_image(compose: &str, label: &str, image: &str, digest: &str) {
         !compose.lines().any(|line| line.trim() == floating),
         "{label} must not use floating image tag {image}"
     );
+}
+
+fn compose_service_block(compose: &str, service: &str) -> String {
+    let marker = format!("  {service}:");
+    let mut block = String::new();
+    let mut in_block = false;
+    for line in compose.lines() {
+        if line == marker {
+            in_block = true;
+        } else if in_block
+            && line.starts_with("  ")
+            && !line.starts_with("    ")
+            && line.ends_with(':')
+        {
+            break;
+        }
+        if in_block {
+            block.push_str(line);
+            block.push('\n');
+        }
+    }
+    if block.is_empty() {
+        panic!("compose service not found: {service}");
+    }
+    block
 }
 
 fn dockerignore_ignores(dockerignore: &str, pattern: &str) -> bool {

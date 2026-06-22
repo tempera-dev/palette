@@ -80,7 +80,7 @@ first_trace_id() {
 
 trap cleanup EXIT
 
-compose up -d --build postgres nats minio beaterd dashboard
+compose up -d --build beaterd dashboard
 wait_url "$api_url/health" "beaterd"
 
 compose run --rm beaterctl
