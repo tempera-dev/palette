@@ -472,6 +472,9 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(recorder, /llmReviewDwellMs = 4500/);
   assert.match(recorder, /toolReviewDwellMs = 2500/);
   assert.match(recorder, /waitForReviewableRecording/);
+  assert.match(recorder, /waitForMetric\(detail, "Model", "openai\/gpt-quickstart"\)/);
+  assert.match(recorder, /waitForMetric\(detail, "Model", "openai\/gpt-demo"\)/);
+  assert.doesNotMatch(recorder, /detail\.getByText\("openai\/gpt/);
   assert.match(recorder, /Recording mode: compose/);
   assert.match(recorder, /data-depth/);
   assert.match(recorder, /data-icon/);

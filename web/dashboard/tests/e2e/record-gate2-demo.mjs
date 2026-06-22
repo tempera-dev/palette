@@ -104,15 +104,10 @@ async function recordQuickstartFlow(page) {
   await requireAttribute(llm.locator(".kind-icon"), "data-icon", "llm");
   await llm.click();
   const detail = page.getByLabel("Span detail");
-  await detail.getByText("openai/gpt-quickstart").waitFor();
-  await detail.getByText("12 total, 5 prompt, 7 completion").waitFor();
-  await detail.getByText("USD 0.001200").waitFor();
-  await detail
-    .getByLabel("Span metrics")
-    .locator("div")
-    .filter({ hasText: "Latency" })
-    .getByText(/(?:\d+ ms|\d+\.\d+ s)/)
-    .waitFor();
+  await waitForMetric(detail, "Model", "openai/gpt-quickstart");
+  await waitForMetric(detail, "Tokens", "12 total, 5 prompt, 7 completion");
+  await waitForMetric(detail, "Cost", "USD 0.001200");
+  await waitForMetric(detail, "Latency", /(?:\d+ ms|\d+\.\d+ s)/);
   await detail
     .locator(".io")
     .filter({ hasText: "Prompt" })
@@ -154,15 +149,10 @@ async function recordAllKindFlow(page) {
   await requireAttribute(mcp.locator(".kind-icon"), "data-icon", "mcp");
   await llm.click();
   const detail = page.getByLabel("Span detail");
-  await detail.getByText("openai/gpt-demo").waitFor();
-  await detail.getByText("33 total, 18 prompt, 11 completion, 4 reasoning").waitFor();
-  await detail.getByText("USD 0.002500").waitFor();
-  await detail
-    .getByLabel("Span metrics")
-    .locator("div")
-    .filter({ hasText: "Latency" })
-    .getByText(/(?:\d+ ms|\d+\.\d+ s)/)
-    .waitFor();
+  await waitForMetric(detail, "Model", "openai/gpt-demo");
+  await waitForMetric(detail, "Tokens", "33 total, 18 prompt, 11 completion, 4 reasoning");
+  await waitForMetric(detail, "Cost", "USD 0.002500");
+  await waitForMetric(detail, "Latency", /(?:\d+ ms|\d+\.\d+ s)/);
   await detail
     .locator(".io")
     .filter({ hasText: "Prompt" })
@@ -181,6 +171,11 @@ async function recordAllKindFlow(page) {
 
 function spanRow(waterfall, kind, name) {
   return waterfall.locator(`[data-kind="${kind}"]`).filter({ hasText: name }).first();
+}
+
+async function waitForMetric(detail, label, value) {
+  const row = detail.getByLabel("Span metrics").locator("div").filter({ hasText: label }).first();
+  await row.getByText(value).waitFor();
 }
 
 function allKindNotes(videoSha256) {
