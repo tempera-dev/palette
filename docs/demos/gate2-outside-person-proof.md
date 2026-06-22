@@ -66,8 +66,8 @@ must start from a new or empty parent directory.
 The wrapper sets the required proof/browser/recording flags and rejects
 non-`main` checkouts, non-canonical GitHub origins, dirty worktrees, warm-loop reuse,
 local source builds, alternate ports, mutable pull-policy overrides,
-prebuilt image overrides, evidence artifact path overrides, Compose project overrides,
-and teardown overrides before the stopwatch starts. It also requires
+prebuilt image overrides, evidence artifact path overrides, Compose file/profile/project
+overrides, and teardown overrides before the stopwatch starts. It also requires
 `BEATER_GATE2_CLONE_STARTED_EPOCH` from before `git clone`, so
 `Time-to-first-trace` and `Time-to-quickstart-click` include clone time. The
 stopwatch proof records
@@ -91,7 +91,8 @@ browser proof runs in the prebuilt `dashboard-e2e` container. Remote
 proof connects to `127.0.0.1`. For
 this outside-person proof, free those default ports instead of using alternate
 port environment variables. If preflight reports another process on a default
-port, stop that app and rerun.
+port, stop that app and rerun. Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`,
+or `COMPOSE_PROFILES`; the public command controls the Compose topology.
 
 As soon as the first `Open the dashboard:` quickstart URL appears, the runner
 must open that filtered trace-list URL in a normal browser; do not wait for the script to finish.
@@ -225,6 +226,7 @@ under `docs/demos/` and must not resolve through symlinks.
 - [ ] Default ports were used: API `127.0.0.1:8080`, OTLP `127.0.0.1:4317`,
       dashboard `127.0.0.1:3000`.
 - [ ] `BEATER_GATE2_REUSE` was not set.
+- [ ] `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES` were not set.
 - [ ] The script reported `Clean start: yes`.
 - [ ] Time-to-first-trace was 300 seconds or less.
 - [ ] Time-to-first-trace includes clone time.

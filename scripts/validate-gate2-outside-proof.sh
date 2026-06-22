@@ -87,6 +87,9 @@ FORBIDDEN_EVIDENCE = [
     "BEATER_HTTP_PORT=",
     "BEATER_OTLP_GRPC_PORT=",
     "BEATER_GATE2_REUSE=1",
+    "COMPOSE_FILE=",
+    "COMPOSE_PROJECT_NAME=",
+    "COMPOSE_PROFILES=",
 ]
 proof_abs = proof_path
 default_proof_abs = repo / "docs/demos/gate2-outside-person-proof.md"

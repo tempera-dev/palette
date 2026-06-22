@@ -91,6 +91,9 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(readme.contains("curl, `ffprobe`,\nand SHA tooling"));
     assert!(readme.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
     assert!(readme.contains("requires `python3` 3.9+ before the timed run"));
+    assert!(readme.contains("alternate Compose file/profile/project settings"));
+    assert!(readme
+        .contains("Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, or\n`COMPOSE_PROFILES`"));
     assert!(!readme.contains("`python3` for post-run proof generation"));
     assert!(!readme.contains("`python3` is required afterward"));
     assert!(readme.contains("--llm-observation"));
@@ -117,6 +120,11 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("curl\nor `ffprobe` is missing"));
     assert!(proof_template.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
     assert!(proof_template.contains("`ffprobe` playable-video metadata"));
+    assert!(proof_template.contains("Compose file/profile/project\noverrides"));
+    assert!(proof_template
+        .contains("Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`,\nor `COMPOSE_PROFILES`"));
+    assert!(proof_template
+        .contains("`COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES` were not set"));
     assert!(proof_template.contains("uncommitted non-evidence worktree changes"));
     assert!(proof_template.contains("playable WebM"));
     assert!(!proof_template.contains("none / describe"));
@@ -307,6 +315,9 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains("ghcr.io/jadenfix/beater/dashboard"));
     assert!(generated_text.contains("beater-stopwatch-dashboard-e2e-run-1"));
     assert!(generated_text.contains("beater-stopwatch-otel-python-quickstart-run-1"));
+    assert!(generated_text.contains(
+        "- [x] `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES` were not set."
+    ));
     assert!(generated_text.contains(
         "- [x] The runner completed the flow using only public repository instructions."
     ));
@@ -3076,6 +3087,54 @@ fn gate2_outside_validator_rejects_alternate_port_stopwatch_artifact() {
     assert_failure(
         output,
         "stopwatch proof must not use alternate/warm-loop evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_compose_env_in_outside_proof() {
+    let fixture = ValidatorFixture::new();
+    append(
+        &fixture.proof_path,
+        "\nRunner note: I reran with COMPOSE_PROFILES=deps.\n",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "outside-person proof must not use alternate/warm-loop evidence: COMPOSE_PROFILES=",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_compose_env_in_stopwatch_proof() {
+    let fixture = ValidatorFixture::new();
+    append(
+        &fixture.stopwatch_path,
+        "\nMaintainer note: COMPOSE_FILE=docker-compose.yml\n",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "stopwatch proof must not use alternate/warm-loop evidence: COMPOSE_FILE=",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_compose_env_in_recording_notes() {
+    let fixture = ValidatorFixture::new();
+    append(
+        &fixture.notes_path,
+        "\nRecording note: COMPOSE_PROJECT_NAME=beater-alt\n",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording notes must not use alternate/warm-loop evidence: COMPOSE_PROJECT_NAME=",
     );
 }
 

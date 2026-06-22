@@ -512,6 +512,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains(":[ \\t]*(.*)$"));
     assert!(outside_validator.contains("BEATER_GATE2_REUSE=1"));
     assert!(outside_validator.contains("BEATER_DASHBOARD_PORT="));
+    assert!(outside_validator.contains("COMPOSE_FILE="));
+    assert!(outside_validator.contains("COMPOSE_PROJECT_NAME="));
+    assert!(outside_validator.contains("COMPOSE_PROFILES="));
     assert!(outside_validator.contains("DEFAULT_API_ENDPOINT = \"http://127.0.0.1:8080\""));
     assert!(outside_validator.contains("DEFAULT_DASHBOARD_BASE = \"http://127.0.0.1:3000\""));
     assert!(outside_validator.contains("all pass-checklist boxes must be checked"));
@@ -631,6 +634,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_generator.contains("Dashboard image digest"));
     assert!(outside_generator.contains("Dashboard e2e image digest"));
     assert!(outside_generator.contains("OTEL Python image digest"));
+    assert!(
+        outside_generator.contains("COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES")
+    );
 
     let outside_readiness = read(root.join("scripts/check-gate2-outside-readiness.py"));
     assert!(outside_readiness.contains("IMAGE_NAMES"));
@@ -784,7 +790,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("Worktree clean"));
     assert!(outside_proof.contains("prebuilt image"));
     assert!(outside_proof.contains("evidence artifact path"));
-    assert!(outside_proof.contains("Compose project"));
+    assert!(outside_proof.contains("Compose file/profile/project"));
+    assert!(outside_proof.contains("COMPOSE_FILE"));
+    assert!(outside_proof.contains("COMPOSE_PROJECT_NAME"));
+    assert!(outside_proof.contains("COMPOSE_PROFILES"));
     assert!(outside_proof.contains("teardown overrides"));
     assert!(outside_proof.contains("rejects"));
     assert!(outside_proof.contains("warm-loop reuse"));
@@ -915,7 +924,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("prebuilt image overrides"));
     assert!(readme.contains("evidence"));
     assert!(readme.contains("artifact path overrides"));
-    assert!(readme.contains("alternate Compose project names"));
+    assert!(readme.contains("alternate Compose file/profile/project settings"));
+    assert!(readme.contains("COMPOSE_FILE"));
+    assert!(readme.contains("COMPOSE_PROJECT_NAME"));
+    assert!(readme.contains("COMPOSE_PROFILES"));
     assert!(readme.contains("teardown"));
     assert!(readme.contains("scripts/generate-gate2-outside-proof.py"));
     assert!(readme.contains("--attest-outside-run"));
@@ -976,7 +988,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     ));
     assert!(requirements.contains("requires the clone to match the current commit"));
     assert!(requirements.contains(
-        "alternate-port/image-override/artifact-path/compose-project/teardown/run-id/registry-fixture evidence"
+        "alternate-port/image-override/artifact-path/compose-file/compose-profile/compose-project/teardown/run-id/registry-fixture evidence"
     ));
     assert!(requirements.contains("wrapper marker"));
     assert!(requirements.contains("scripts/generate-gate2-outside-proof.py"));

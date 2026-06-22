@@ -197,7 +197,7 @@ click. Keep the command running until those post-SLO evidence steps finish.
 The outside-run wrapper rejects non-`main` checkouts, non-canonical GitHub
 origins, dirty worktrees, warm-loop reuse, local source builds, alternate ports,
 mutable pull-policy overrides, prebuilt image overrides, evidence
-artifact path overrides, alternate Compose project names, and teardown overrides,
+artifact path overrides, alternate Compose file/profile/project settings, and teardown overrides,
 then runs the stopwatch script with proof writing, browser proof, and browser recording
 enabled. It rejects a pre-set `BEATER_GATE2_RUN_ID`; the stopwatch creates a
 fresh per-run quickstart release ID and filters the five-line trace on that ID
@@ -229,7 +229,8 @@ ports. For outside-person evidence, free the default
 `8080`/`4317`/`3000` ports rather than using alternate ports. If preflight
 reports another process on one of those ports, stop that app and rerun; do not
 set `BEATER_HTTP_PORT`, `BEATER_OTLP_GRPC_PORT`, or `BEATER_DASHBOARD_PORT` for
-outside-person evidence.
+outside-person evidence. Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, or
+`COMPOSE_PROFILES`; the public command controls the Compose topology.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`. The stopwatch script
 pins `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` to the checked-out commit SHA

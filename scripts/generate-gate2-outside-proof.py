@@ -323,6 +323,7 @@ bash -o pipefail -lc 'curl -fsSL https://raw.githubusercontent.com/jadenfix/beat
 - [x] curl was available before the stopwatch started.
 - [x] Default ports were used: API `127.0.0.1:8080`, OTLP `127.0.0.1:4317`, dashboard `127.0.0.1:3000`.
 - [x] `BEATER_GATE2_REUSE` was not set.
+- [x] `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES` were not set.
 - [x] The script reported `Clean start: yes`.
 - [x] Time-to-first-trace was 300 seconds or less.
 - [x] Time-to-first-trace includes clone time.
