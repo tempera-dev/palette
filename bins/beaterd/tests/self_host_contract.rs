@@ -219,9 +219,7 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(dashboard_workflow.contains("node-version: 24"));
     assert!(dashboard_workflow.contains("python-version: \"3.12\""));
     assert!(dashboard_workflow.contains("cache: npm"));
-    assert!(
-        dashboard_workflow.contains("cache-dependency-path: web/dashboard/package-lock.json")
-    );
+    assert!(dashboard_workflow.contains("cache-dependency-path: web/dashboard/package-lock.json"));
     assert!(dashboard_workflow.contains("working-directory: web/dashboard"));
     assert!(dashboard_workflow.contains("npm ci"));
     assert!(dashboard_workflow.contains("scripts/check-openapi-drift.sh"));
