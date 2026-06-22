@@ -657,6 +657,12 @@ test("generated api client is produced from the checked-in openapi snapshot", ()
 
 test("browser proof covers all canonical span kinds and can record a demo", () => {
   const e2e = readFileSync(join(root, "tests/e2e/dashboard.spec.ts"), "utf8");
+  const tokenBreakdown = readFileSync(join(root, "tests/e2e/token-breakdown.ts"), "utf8");
+  assert.match(tokenBreakdown, /export async function expectTokenBreakdown/);
+  assert.match(tokenBreakdown, /toHaveCount\(expected\.length\)/);
+  assert.match(tokenBreakdown, /expect\(actual\)\.toEqual\(expected\)/);
+  assert.match(e2e, /import \{ expectTokenBreakdown \} from "\.\/token-breakdown"/);
+  assert.doesNotMatch(e2e, /async function expectTokenBreakdown/);
   for (const kind of [
     "agent.run",
     "agent.turn",
@@ -726,6 +732,8 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(recorder, /gate2-browser-demo\.webm/);
   const quickstart = readFileSync(join(root, "tests/e2e/quickstart.spec.ts"), "utf8");
   assert.match(quickstart, /BEATER_E2E_QUICKSTART_TRACE_ID/);
+  assert.match(quickstart, /import \{ expectTokenBreakdown \} from "\.\/token-breakdown"/);
+  assert.doesNotMatch(quickstart, /async function expectTokenBreakdown/);
   assert.match(quickstart, /BEATER_E2E_QUICKSTART_RELEASE/);
   assert.doesNotMatch(quickstart, /BEATER_E2E_TRACE_ID/);
   assert.match(quickstart, /five-line-llm-call/);

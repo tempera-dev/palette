@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import type { Locator } from "@playwright/test";
+import { expectTokenBreakdown } from "./token-breakdown";
 
 test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", async ({
   page
@@ -322,20 +322,6 @@ test("keeps the trace console inside the viewport on desktop and mobile", async 
     }
   }
 });
-
-async function expectTokenBreakdown(
-  breakdown: Locator,
-  expected: { label: string; value: string }[]
-) {
-  await expect(breakdown.locator(".token-chip")).toHaveCount(expected.length);
-  const actual = await breakdown.locator(".token-chip").evaluateAll((chips) =>
-    chips.map((chip) => ({
-      label: chip.querySelector("b")?.textContent?.trim() ?? "",
-      value: chip.querySelector("span")?.textContent?.trim() ?? ""
-    }))
-  );
-  expect(actual).toEqual(expected);
-}
 
 test("keeps odd metric grids visually closed", async ({ page }) => {
   const traceParam = process.env.BEATER_E2E_TRACE_ID
