@@ -68,6 +68,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     let root = repo_root();
     for rel in [
         "README.md",
+        "docs/demos/gate2-outside-runner-card.md",
         "docs/demos/gate2-outside-person-proof.md",
         "scripts/generate-gate2-outside-proof.py",
     ] {
@@ -88,6 +89,12 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(readme.contains("and `python3` 3.9+; local ports"));
     assert!(readme.contains("`ffprobe`, `shasum` or `sha256sum`"));
+    assert!(
+        readme.contains("[Gate 2 Outside Runner Card](docs/demos/gate2-outside-runner-card.md)")
+    );
+    assert!(readme.contains(
+        "[docs/demos/gate2-outside-runner-card.md](docs/demos/gate2-outside-runner-card.md)"
+    ));
     assert!(readme.contains("curl, `ffprobe`,\nand SHA tooling"));
     assert!(readme.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
     assert!(readme.contains("requires `python3` 3.9+ before the timed run"));
@@ -124,6 +131,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(!readme.contains(r#"--network-notes "...""#));
     let proof_template = fs::read_to_string(root.join("docs/demos/gate2-outside-person-proof.md"))
         .unwrap_or_else(|err| panic!("read outside proof template: {err}"));
+    assert!(proof_template.contains("[gate2-outside-runner-card.md](gate2-outside-runner-card.md)"));
     assert!(proof_template.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(proof_template.contains("Python 3.9 or newer is required"));
     assert!(proof_template.contains("before the stopwatch starts"));
@@ -172,6 +180,27 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(!proof_template.contains(r#"--machine-os "...""#));
     assert!(!proof_template.contains(r#"--browser "...""#));
     assert!(!proof_template.contains(r#"--network-notes "...""#));
+
+    let runner_card = fs::read_to_string(root.join("docs/demos/gate2-outside-runner-card.md"))
+        .unwrap_or_else(|err| panic!("read outside runner card: {err}"));
+    assert!(runner_card.contains("# Gate 2 Outside Runner Card"));
+    assert!(runner_card.contains("Use this card for the unaided Gate 2 run"));
+    assert!(runner_card.contains(CANONICAL_OUTSIDE_COMMAND));
+    assert!(runner_card.contains("The timer includes clone and image-pull time"));
+    assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
+    assert!(runner_card.contains("Do not wait for the script to finish"));
+    assert!(runner_card.contains("click the `llm.call` span"));
+    assert!(runner_card.contains("prompt, completion, model, token breakdown, cost, and latency"));
+    assert!(runner_card.contains("5-minute clone-to-click SLO"));
+    assert!(runner_card.contains("leave the command running"));
+    assert!(runner_card.contains("docs/demos/gate2-outside-compose.log"));
+    assert!(runner_card.contains("run -> turn -> step -> tool -> MCP"));
+    assert!(runner_card.contains("scripts/generate-gate2-outside-proof.py --print-command"));
+    assert!(runner_card.contains("Replace every `...` field"));
+    assert!(runner_card.contains("git add docs/demos/gate2-outside-person-proof.md"));
+    assert!(runner_card.contains("git commit -m \"add gate2 outside proof\""));
+    assert!(runner_card.contains("scripts/validate-gate2-outside-proof.sh"));
+    assert!(runner_card.contains("completed the run unaided using public repository instructions"));
 }
 
 #[test]
@@ -5387,6 +5416,7 @@ fn write_public_handoff_fixture_repo() -> TempDir {
         "README.md",
         "docker-compose.yml",
         "docker-compose.prebuilt.yml",
+        "docs/demos/gate2-outside-runner-card.md",
         "docs/demos/gate2-outside-person-proof.md",
         "docs/demos/gate2-compose-browser-demo.md",
         "docs/demos/gate2-compose-stopwatch.md",

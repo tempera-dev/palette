@@ -4,6 +4,8 @@ Status: not yet completed.
 
 Gate 2 is not passed until this file is replaced with evidence from a person
 outside the project who runs the flow unaided from a fresh clone.
+For the short unaided runner instructions, use
+[gate2-outside-runner-card.md](gate2-outside-runner-card.md).
 
 ## Runner
 

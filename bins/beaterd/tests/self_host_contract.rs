@@ -1331,11 +1331,23 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(quickstart_e2e.contains("Latency"));
 
     let readme = read(root.join("README.md"));
+    assert!(readme.contains("docs/demos/gate2-outside-runner-card.md"));
     assert!(readme
         .contains("As soon as the first `Open this quickstart trace-list URL first:` URL appears"));
     assert!(readme.contains("cleanup hint printed by"));
     assert!(readme.contains("seconds remaining in the 5-minute clone-to-click"));
     assert!(readme.contains("not wait for the script to finish"));
+
+    let runner_card = read(root.join("docs/demos/gate2-outside-runner-card.md"));
+    assert!(runner_card.contains("# Gate 2 Outside Runner Card"));
+    assert!(runner_card.contains("bash -o pipefail -lc"));
+    assert!(runner_card.contains("gate2-outside-local-preflight.sh | bash"));
+    assert!(runner_card.contains("BEATER_GATE2_CLONE_STARTED_EPOCH"));
+    assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
+    assert!(runner_card.contains("Do not wait for the script to finish"));
+    assert!(runner_card.contains("prompt, completion, model, token breakdown, cost, and latency"));
+    assert!(runner_card.contains("run -> turn -> step -> tool -> MCP"));
+    assert!(runner_card.contains("scripts/validate-gate2-outside-proof.sh"));
 }
 
 fn repo_root() -> PathBuf {

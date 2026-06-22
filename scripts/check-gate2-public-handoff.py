@@ -596,6 +596,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         clone_dir,
         "docs/demos/gate2-outside-person-proof.md",
         [
+            "[gate2-outside-runner-card.md](gate2-outside-runner-card.md)",
             "As soon as the first `Open this quickstart trace-list URL first:` URL appears",
             "filtered trace-list URL",
             "do not wait for the script to finish",
@@ -607,6 +608,35 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             'git commit -m "add gate2 outside proof"',
         ],
         contract="quickstart handoff guidance",
+        normalize_whitespace=True,
+    )
+    require_file_contains(
+        clone_dir,
+        "docs/demos/gate2-outside-runner-card.md",
+        [
+            "Gate 2 Outside Runner Card",
+            "Use this card for the unaided Gate 2 run",
+            "local ports `8080`, `4317`, and `3000` free",
+            "Run from an empty parent directory that does not already contain `beater/`",
+            RAW_PUBLIC_PREFLIGHT_COMMAND,
+            "git clone https://github.com/jadenfix/beater.git && cd beater && BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" scripts/gate2-outside-run.sh",
+            "The timer includes clone and image-pull time",
+            "Open this quickstart trace-list URL first:",
+            "Do not wait for the script to finish",
+            "click the `llm.call` span",
+            "prompt, completion, model, token breakdown, cost, and latency",
+            "before the 5-minute clone-to-click SLO expires",
+            "leave the command running",
+            "docs/demos/gate2-outside-compose.log",
+            "run -> turn -> step -> tool -> MCP",
+            "scripts/generate-gate2-outside-proof.py --print-command",
+            "Replace every `...` field",
+            "git add docs/demos/gate2-outside-person-proof.md",
+            'git commit -m "add gate2 outside proof"',
+            "scripts/validate-gate2-outside-proof.sh",
+            "completed the run unaided using public repository instructions",
+        ],
+        contract="one-screen outside-runner card",
         normalize_whitespace=True,
     )
     require_file_contains(

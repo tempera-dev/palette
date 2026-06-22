@@ -18,10 +18,15 @@ instrument agent -> inspect trace -> promote failure to dataset -> run evals
   Vercel split, evaluator lanes, replay, compliance, and milestones.
 - [Ship Requirements](REQUIREMENTS.md): requirement-by-requirement checklist for
   what must be true before the platform can be called shipped.
+- [Gate 2 Outside Runner Card](docs/demos/gate2-outside-runner-card.md): the
+  one-screen unaided runner instructions for the current hard-stop proof.
 
 ## Outside Runner Quickstart
 
-This is the public clean-clone path Gate 2 is measured on. Prerequisites:
+This is the public clean-clone path Gate 2 is measured on. The one-screen
+handoff is
+[docs/demos/gate2-outside-runner-card.md](docs/demos/gate2-outside-runner-card.md).
+Prerequisites:
 Docker Desktop or another local Docker daemon, Docker Compose v2, `git`, `curl`,
 `ffmpeg`/`ffprobe`, `shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`,
 `4317`, and `3000` free. Remote `DOCKER_HOST` values and
