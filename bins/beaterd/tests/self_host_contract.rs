@@ -472,6 +472,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_local_preflight.contains("docker context inspect"));
     assert!(outside_local_preflight.contains("Docker Compose v2"));
     assert!(outside_local_preflight.contains("browser proof uses 127.0.0.1"));
+    assert!(outside_local_preflight.contains("current directory already contains ./beater"));
     assert!(outside_local_preflight.contains("free TCP $port before starting the stopwatch"));
     assert!(outside_local_preflight.contains("print_port_owner_details"));
     assert!(outside_local_preflight.contains("process $pid command:"));

@@ -1334,7 +1334,7 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
 fn gate2_outside_local_preflight_rejects_missing_sha_before_docker() {
     let runtime = fake_public_handoff_runtime(false, "unix:///var/run/docker.sock");
 
-    let output = run_outside_local_preflight_with_runtime(&runtime, None);
+    let output = run_outside_local_preflight_with_runtime(&runtime, None, None);
 
     assert_failure(output, "missing required command 'shasum' or 'sha256sum'");
     let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
@@ -1351,6 +1351,7 @@ fn gate2_outside_local_preflight_rejects_remote_docker_host_before_docker() {
     let output = run_outside_local_preflight_with_runtime(
         &runtime,
         Some(("DOCKER_HOST", "ssh://builder.example.invalid")),
+        None,
     );
 
     assert_failure(
@@ -1368,7 +1369,7 @@ fn gate2_outside_local_preflight_rejects_remote_docker_host_before_docker() {
 fn gate2_outside_local_preflight_rejects_remote_docker_context_before_ports() {
     let runtime = fake_public_handoff_runtime(true, "ssh://builder.example.invalid");
 
-    let output = run_outside_local_preflight_with_runtime(&runtime, None);
+    let output = run_outside_local_preflight_with_runtime(&runtime, None, None);
 
     assert_failure(
         output,
@@ -1382,6 +1383,23 @@ fn gate2_outside_local_preflight_rejects_remote_docker_context_before_ports() {
     assert!(
         !docker_log.contains("down -v --remove-orphans"),
         "raw local preflight must not run Compose cleanup\n{docker_log}"
+    );
+}
+
+#[test]
+fn gate2_outside_local_preflight_rejects_existing_clone_destination_before_docker() {
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+    let parent = tempdir("create outside local preflight parent");
+    fs::create_dir(parent.path().join("beater"))
+        .unwrap_or_else(|err| panic!("create existing beater clone dir: {err}"));
+
+    let output = run_outside_local_preflight_with_runtime(&runtime, None, Some(parent.path()));
+
+    assert_failure(output, "current directory already contains ./beater");
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "existing clone destination must fail before Docker probes\n{docker_log}"
     );
 }
 
@@ -4314,10 +4332,14 @@ fn path_with_public_handoff_runtime(runtime: &FakePublicHandoffRuntime) -> Strin
 fn run_outside_local_preflight_with_runtime(
     runtime: &FakePublicHandoffRuntime,
     docker_host: Option<(&str, &str)>,
+    cwd: Option<&Path>,
 ) -> Output {
+    let default_cwd = repo_root();
+    let cwd = cwd.unwrap_or(default_cwd.as_path());
     let mut command = Command::new(command_executable("bash"));
     command
         .arg(repo_root().join("scripts/gate2-outside-local-preflight.sh"))
+        .current_dir(cwd)
         .env("PATH", &runtime.path_env)
         .env_remove("DOCKER_HOST");
     if let Some((name, value)) = docker_host {

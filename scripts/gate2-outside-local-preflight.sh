@@ -89,6 +89,10 @@ require_command curl "the timed run checks the local Beater API"
 require_command ffprobe "completed proof validation verifies the WebM recording"
 require_python3
 
+if [[ -e beater ]]; then
+  fail "current directory already contains ./beater; run from a new or empty parent directory before cloning"
+fi
+
 if ! command -v shasum >/dev/null 2>&1 && ! command -v sha256sum >/dev/null 2>&1; then
   fail "missing required command 'shasum' or 'sha256sum' (recording hash proof)"
 fi
