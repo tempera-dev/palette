@@ -322,12 +322,15 @@ scripts/check-gate2-public-handoff.py --full-run
 That mode first preflights the local runtime: canonical public source URL only,
 `docker`, Docker Compose v2, `curl`, `ffprobe`, local Docker daemon, SHA tooling,
 and free default ports after removing any previous `beater-stopwatch` Compose project.
-Remote `DOCKER_HOST` values and remote Docker contexts fail before clone or
-Compose cleanup. It runs `scripts/check-gate2-outside-readiness.py`, uses one
-fresh clone from `https://github.com/jadenfix/beater.git` for exact-commit,
-cloned readiness, and wrapper dry-run checks, then uses a second fresh clone for
-the timed runtime path. The readiness check verifies clean `main`, the expected
-GitHub remote, this proof file's structure, and public current-SHA multi-arch
+It then runs the same raw public preflight pipe the outside runner uses,
+`curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash`,
+under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
+remote Docker contexts fail before clone or Compose cleanup. It runs
+`scripts/check-gate2-outside-readiness.py`, uses one fresh clone from
+`https://github.com/jadenfix/beater.git` for exact-commit, cloned readiness, and
+wrapper dry-run checks, then uses a second fresh clone for the timed runtime
+path. The readiness check verifies clean `main`, the expected GitHub remote,
+this proof file's structure, and public current-SHA multi-arch
 `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR images for the
 exact commit. The verifier executes the second clone's
 `scripts/gate2-outside-run.sh` wrapper with the clone-start timestamp captured

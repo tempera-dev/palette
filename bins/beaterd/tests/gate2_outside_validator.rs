@@ -1111,6 +1111,18 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         2,
         "full-run fixture should clean Compose before and after the wrapper\n{docker_log}"
     );
+    let bash_log = fs::read_to_string(&runtime.bash_log)
+        .unwrap_or_else(|err| panic!("read fake bash log: {err}"));
+    assert!(
+        bash_log.contains("-o pipefail -lc"),
+        "full-run fixture should invoke raw preflight through bash -o pipefail -lc\n{bash_log}"
+    );
+    assert!(
+        bash_log.contains(
+            "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
+        ),
+        "full-run fixture should pass the raw public preflight pipe to bash -lc\n{bash_log}"
+    );
     let curl_log = fs::read_to_string(&runtime.curl_log)
         .unwrap_or_else(|err| panic!("read fake curl log: {err}"));
     assert!(
@@ -1261,6 +1273,8 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("RAW_PUBLIC_PREFLIGHT_COMMAND"));
     assert!(script.contains("run_raw_public_preflight(args)"));
     assert!(script.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
+    assert!(script.contains("raw public preflight pipe before"));
+    assert!(script.contains("before any clone"));
     assert!(script.contains("curl -fsSL"));
     assert!(script.contains("gate2-outside-local-preflight.sh"));
     assert!(script.contains("require_full_run_source(args)"));
@@ -4122,6 +4136,7 @@ fn public_handoff_full_run_preflight_command(clone_parent: &Path) -> Command {
 struct FakePublicHandoffRuntime {
     _dir: TempDir,
     path_env: String,
+    bash_log: PathBuf,
     docker_log: PathBuf,
     curl_log: PathBuf,
 }
@@ -4139,19 +4154,30 @@ fn fake_public_handoff_runtime(
             python.display()
         )
     });
-    for name in ["bash", "git"] {
-        let executable = command_executable(name);
-        symlink(&executable, dir.path().join(name)).unwrap_or_else(|err| {
-            panic!(
-                "symlink fake {name} {} -> {}: {err}",
-                dir.path().join(name).display(),
-                executable.display()
-            )
-        });
-    }
+    let git = command_executable("git");
+    symlink(&git, dir.path().join("git")).unwrap_or_else(|err| {
+        panic!(
+            "symlink fake git {} -> {}: {err}",
+            dir.path().join("git").display(),
+            git.display()
+        )
+    });
 
+    let bash = command_executable("bash");
+    let bash_log = dir.path().join("bash.log");
     let docker_log = dir.path().join("docker.log");
     let curl_log = dir.path().join("curl.log");
+    write_executable(
+        &dir.path().join("bash"),
+        &format!(
+            r#"#!/bin/sh
+printf '%s\n' "$*" >> {bash_log}
+exec {bash} "$@"
+"#,
+            bash_log = shell_single_quote(&bash_log.to_string_lossy()),
+            bash = shell_single_quote(&bash.to_string_lossy())
+        ),
+    );
     write_executable(
         &dir.path().join("docker"),
         &format!(
@@ -4217,6 +4243,7 @@ esac
 
     FakePublicHandoffRuntime {
         path_env: dir.path().to_string_lossy().into_owned(),
+        bash_log,
         docker_log,
         curl_log,
         _dir: dir,

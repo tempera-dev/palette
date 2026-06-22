@@ -755,9 +755,11 @@ def parse_args() -> argparse.Namespace:
         "--full-run",
         action="store_true",
         help=(
-            "After the clean-clone dry-run checks, run the exact outside-run "
-            "wrapper in the clone with clone-start timing, then clean up "
-            "Compose. This is a maintainer runtime verifier, not outside-person evidence."
+            "Preflight the local runtime and raw public preflight pipe before any clone; "
+            "after the clean-clone dry-run checks, run the exact "
+            "outside-run wrapper in the clone with clone-start timing, then "
+            "clean up Compose. This is a maintainer runtime verifier, not "
+            "outside-person evidence."
         ),
     )
     return parser.parse_args()

@@ -779,7 +779,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("--attest-outside-run"));
     assert!(outside_proof.contains("Docker Compose version"));
     assert!(outside_proof.contains("scripts/check-gate2-public-handoff.py"));
-    assert!(outside_proof.contains("uses one\nfresh clone"));
+    assert!(outside_proof.contains("uses one fresh clone from"));
     assert!(outside_proof.contains("uses a second fresh clone"));
     assert!(outside_proof
         .contains("executes the second clone's\n`scripts/gate2-outside-run.sh` wrapper"));
@@ -788,6 +788,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     );
     assert!(outside_proof.contains("auto-confirms that checkpoint for diagnostic\nautomation only"));
     assert!(outside_proof.contains("preflights the local runtime"));
+    assert!(outside_proof.contains("runs the same raw public preflight pipe"));
+    assert!(outside_proof.contains(
+        "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
+    ));
+    assert!(outside_proof.contains("under `bash -o pipefail -lc` before any clone"));
     assert!(outside_proof.contains("local Docker daemon"));
     assert!(outside_proof.contains("SHA tooling"));
     assert!(outside_proof.contains("free those default ports"));
@@ -867,12 +872,17 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("default compose proof starts `beaterd` and the dashboard"));
     assert!(readme.contains("scripts/gate2-outside-run.sh"));
     assert!(readme.contains("scripts/check-gate2-public-handoff.py"));
-    assert!(readme.contains("uses one\nfresh clone"));
+    assert!(readme.contains("uses one fresh clone from"));
     assert!(readme.contains("uses a second fresh clone"));
     assert!(readme.contains("executes the second clone's\n`scripts/gate2-outside-run.sh` wrapper"));
     assert!(readme.contains("waits until the wrapper prints the\nmanual quickstart checkpoint"));
     assert!(readme.contains("auto-confirms that checkpoint for diagnostic\nautomation only"));
     assert!(readme.contains("preflights the local runtime"));
+    assert!(readme.contains("runs the same raw public preflight pipe"));
+    assert!(readme.contains(
+        "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
+    ));
+    assert!(readme.contains("under `bash -o pipefail -lc` before any clone"));
     assert!(readme.contains("local Docker daemon"));
     assert!(readme.contains("`ffprobe`"));
     assert!(readme.contains("SHA tooling"));
@@ -927,7 +937,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("must declare\n`Recording mode: compose`"));
     assert!(readme.contains("describe the full recorded flow"));
     assert!(readme.contains("hash that does not match the committed file"));
-    assert!(readme.contains("fresh clone from `https://github.com/jadenfix/beater.git`"));
+    assert!(readme.contains("`https://github.com/jadenfix/beater.git` for exact-commit"));
     assert!(readme.contains("cloned readiness"));
     assert!(readme.contains("wrapper dry-run checks"));
     assert!(readme.contains("immediately before that second `git clone`"));
@@ -939,6 +949,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("scripts/check-gate2-public-handoff.py"));
     assert!(requirements.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(requirements.contains("public-clone handoff verifier"));
+    assert!(requirements
+        .contains("raw public local preflight pipe under `bash -o pipefail -lc` before any clone"));
+    assert!(requirements.contains(
+        "curl -fsSL https://raw.githubusercontent.com/jadenfix/beater/main/scripts/gate2-outside-local-preflight.sh | bash"
+    ));
     assert!(requirements.contains("requires the clone to match the current commit"));
     assert!(requirements.contains(
         "alternate-port/image-override/artifact-path/compose-project/teardown/run-id/registry-fixture evidence"
@@ -965,7 +980,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(requirements.contains("recording-hash cross-checks"));
     assert!(requirements.contains("public multi-arch GHCR images"));
     assert!(requirements.contains("Gate 2 `--full-run` public handoff verification"));
-    assert!(requirements.contains("canonical public source, Docker, Docker Compose v2"));
+    assert!(requirements.contains("raw canonical public preflight pipe"));
     assert!(requirements.contains("free default `8080`/`4317`/`3000` ports"));
     assert!(requirements.contains("maintainer-only runtime evidence"));
     assert!(requirements.contains("CI-enforced"));
