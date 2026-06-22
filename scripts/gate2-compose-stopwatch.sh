@@ -369,6 +369,8 @@ For outside-person Gate 2 evidence, free the default port and rerun. For
 maintainer diagnostics only, set $env_name to an unused alternate port.
 If this is a stale Beater run, clean it up with:
   docker compose -f docker-compose.prebuilt.yml -p $project down -v --remove-orphans
+If another app is listed below, stop that app before rerunning; do not set
+$env_name for outside-person evidence.
 EOF
     print_port_owner "$port"
     return 1

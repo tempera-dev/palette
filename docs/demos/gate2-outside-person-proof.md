@@ -86,7 +86,8 @@ browser proof runs in the prebuilt `dashboard-e2e` container. Remote
 `DOCKER_HOST` values and remote Docker contexts are rejected because the browser
 proof connects to `127.0.0.1`. For
 this outside-person proof, free those default ports instead of using alternate
-port environment variables.
+port environment variables. If preflight reports another process on a default
+port, stop that app and rerun.
 
 As soon as the first `Open the dashboard:` quickstart URL appears, the runner
 must open it in a normal browser; do not wait for the script to finish. Click

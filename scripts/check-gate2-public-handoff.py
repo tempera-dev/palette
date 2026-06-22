@@ -117,6 +117,14 @@ def port_owner_hint(port: int) -> str:
     return "\n".join(lines)
 
 
+def port_resolution_hint(port: int, label: str, env_name: str) -> str:
+    return (
+        f"    Stop the process or app listening on TCP {port} before rerunning "
+        f"the full handoff. For Gate 2 outside-person evidence, do not set "
+        f"{env_name}; the {label} must use the default port."
+    )
+
+
 def process_owner_details(port: int) -> list[str]:
     if not shutil.which("lsof"):
         return []
@@ -180,7 +188,8 @@ def process_cwd(pid: str) -> str | None:
 def occupied_port_message(port: int, label: str, env_name: str) -> str:
     return (
         f"{port} ({label}; free it rather than setting {env_name})\n"
-        f"{port_owner_hint(port)}"
+        f"{port_owner_hint(port)}\n"
+        f"{port_resolution_hint(port, label, env_name)}"
     )
 
 

@@ -266,6 +266,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("require_free_port \"$host_http_port\""));
     assert!(stopwatch_script.contains("require_free_port \"$host_otlp_grpc_port\""));
     assert!(stopwatch_script.contains("require_free_port \"$host_dashboard_port\""));
+    assert!(stopwatch_script.contains("If another app is listed below, stop that app"));
     let prerequisite_preflight = find_required(
         &stopwatch_script,
         "run_before_deadline \"Gate 2 prerequisite preflight\" preflight_prerequisites",
@@ -549,6 +550,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("require_full_run_source(args)"));
     assert!(public_handoff.contains("shutil.which"));
     assert!(public_handoff.contains("socket.create_connection"));
+    assert!(public_handoff.contains("def port_resolution_hint"));
+    assert!(public_handoff.contains("Stop the process or app listening on TCP"));
+    assert!(public_handoff.contains("do not set"));
     assert!(public_handoff.contains("--registry-fixture"));
     assert!(public_handoff.contains("does not support"));
     assert!(public_handoff.contains("run([\"docker\", \"info\"]"));
@@ -613,6 +617,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("local Docker daemon"));
     assert!(outside_proof.contains("SHA tooling"));
     assert!(outside_proof.contains("free those default ports"));
+    assert!(outside_proof.contains("stop that app and rerun"));
     assert!(outside_proof.contains("fixture or fork URLs"));
     assert!(outside_proof.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(outside_proof.contains("fresh clone from"));
@@ -688,6 +693,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("`ffprobe`"));
     assert!(readme.contains("SHA tooling"));
     assert!(readme.contains("free the default"));
+    assert!(readme.contains("stop that app and rerun"));
     assert!(readme.contains("fixture or fork URLs"));
     assert!(readme.contains("scripts/check-gate2-outside-readiness.py"));
     assert!(readme.contains("Outside-run wrapper: yes"));

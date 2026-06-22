@@ -1047,7 +1047,7 @@ path = pathlib.Path(sys.argv[1])
 spec = importlib.util.spec_from_file_location("handoff", path)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
-print(module.port_owner_hint(3000))
+print(module.occupied_port_message(3000, "dashboard", "BEATER_DASHBOARD_PORT"))
 "#,
         )
         .arg(root.join("scripts/check-gate2-public-handoff.py"))
@@ -1076,6 +1076,14 @@ print(module.port_owner_hint(3000))
         stdout.contains("process 43210 cwd: /tmp/outside-dashboard"),
         "port owner hint must include process cwd\n{stdout}"
     );
+    assert!(
+        stdout.contains("Stop the process or app listening on TCP 3000"),
+        "port owner hint must include a non-destructive remediation hint\n{stdout}"
+    );
+    assert!(
+        stdout.contains("do not set BEATER_DASHBOARD_PORT"),
+        "port owner hint must preserve default-port evidence semantics\n{stdout}"
+    );
     assert_eq!(
         stdout.matches("process 43210 command").count(),
         1,
@@ -1091,6 +1099,8 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     assert!(script.contains("Open the quickstart URL above in a normal browser now"));
     assert!(script.contains("do not wait for the script to finish"));
     assert!(script.contains("Gate 2 recording proof requires ffprobe before the stopwatch starts."));
+    assert!(script.contains("If another app is listed below, stop that app before rerunning"));
+    assert!(script.contains("do not set\n$env_name for outside-person evidence"));
     assert!(script.contains(
         "Confirm prompt, completion, model, token breakdown, cost, and latency are visible."
     ));

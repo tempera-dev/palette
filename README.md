@@ -214,7 +214,10 @@ and SHA tooling, and it requires `python3` 3.9+ before the timed run so proof
 generation and validation cannot fail late on missing local tooling.
 It removes any previous Beater stopwatch project, then checks the required host
 ports. For outside-person evidence, free the default
-`8080`/`4317`/`3000` ports rather than using alternate ports.
+`8080`/`4317`/`3000` ports rather than using alternate ports. If preflight
+reports another process on one of those ports, stop that app and rerun; do not
+set `BEATER_HTTP_PORT`, `BEATER_OTLP_GRPC_PORT`, or `BEATER_DASHBOARD_PORT` for
+outside-person evidence.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`. The stopwatch script
 pins `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` to the checked-out commit SHA
