@@ -347,9 +347,10 @@ non-repo-relative `docs/demos/` artifacts, and non-prebuilt GHCR image digests.
 It rejects recording notes from a different dashboard session. It rejects
 uncommitted non-evidence worktree changes at closure. It rejects any screen
 recording hash that does not match the committed file. The recording artifact
-must be a playable WebM capture of at least 64 KiB with EBML/WebM, Segment,
-Info, Tracks, Cluster, and video-track structure, and artifact paths must not
-traverse symlinks. The notes must also describe the full recorded flow: quickstart trace,
+must be a playable WebM capture of at least 64 KiB and at least 8 seconds with
+EBML/WebM, Segment, Info, Tracks, Cluster, and video-track structure, and
+artifact paths must not traverse symlinks. The notes must declare
+`Recording mode: compose` and describe the full recorded flow: quickstart trace,
 `llm.call`, prompt, completion, model, token breakdown, cost, latency, and run
 -> turn -> step -> tool -> MCP waterfall. The completed proof must additionally include
 the runner's own `llm.call` detail and waterfall observations, not only the

@@ -161,11 +161,12 @@ the tested public GitHub origin, Date-to-clone-start consistency,
 than the tested SHA, every later committed change must be under `docs/demos/`;
 uncommitted non-evidence worktree changes are rejected at closure. It verifies
 screen-recording SHA256 against the committed artifact, requires the artifact to
-be a playable WebM capture of at least 64 KiB with EBML/WebM, Segment, Info,
-Tracks, and Cluster structure plus a video track, and requires the recording
-notes to describe the full click-through: quickstart trace, `llm.call`, prompt,
-completion, model, token breakdown, cost, latency, and run -> turn -> step ->
-tool -> MCP waterfall. Stopwatch, recording, and notes paths must be repo-relative paths
+be a playable WebM capture of at least 64 KiB and at least 8 seconds with
+EBML/WebM, Segment, Info, Tracks, and Cluster structure plus a video track, and
+requires the recording notes to declare `Recording mode: compose` and describe
+the full click-through: quickstart trace, `llm.call`, prompt, completion, model,
+token breakdown, cost, latency, and run -> turn -> step -> tool -> MCP waterfall.
+Stopwatch, recording, and notes paths must be repo-relative paths
 under `docs/demos/` and must not resolve through symlinks.
 
 ## Required Evidence

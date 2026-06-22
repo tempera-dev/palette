@@ -374,6 +374,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("all pass-checklist boxes must be checked"));
     assert!(outside_validator.contains("hashlib.sha256"));
     assert!(outside_validator.contains("MIN_RECORDING_BYTES"));
+    assert!(outside_validator.contains("MIN_RECORDING_SECONDS = 8.0"));
     assert!(outside_validator.contains("require_webm_recording"));
     assert!(outside_validator.contains("require_tracked_artifact"));
     assert!(outside_validator.contains("must be tracked by git before Gate 2 closure"));
@@ -382,6 +383,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("screen recording WebM must contain a Segment element"));
     assert!(outside_validator.contains("screen recording WebM must contain an Info element"));
     assert!(outside_validator.contains("screen recording WebM must contain a video track"));
+    assert!(outside_validator.contains("reviewable full-flow capture of at least"));
     assert!(outside_validator.contains("must not be a symlink"));
     assert!(outside_validator.contains("subprocess.check_output"));
     assert!(outside_validator.contains("parse_qs"));
@@ -427,6 +429,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("require_equal(\"commit SHA\""));
     assert!(outside_validator.contains("tenant"));
     assert!(outside_validator.contains("screen recording notes dashboard base"));
+    assert!(outside_validator.contains("Recording mode must be compose"));
     assert!(outside_validator.contains("require_recording_shows_full_flow"));
     assert!(outside_validator.contains("screen recording notes Shows must describe"));
     assert!(outside_validator.contains("must be the concrete dashboard URL"));
@@ -633,7 +636,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("image digests"));
     assert!(outside_proof.contains("screen-recording notes"));
     assert!(outside_proof.contains("`ffprobe` playable-video metadata"));
-    assert!(outside_proof.contains("playable WebM capture of at least 64 KiB"));
+    assert!(
+        outside_proof.contains("playable WebM capture of at least 64 KiB and at least 8 seconds")
+    );
+    assert!(outside_proof.contains("Recording mode: compose"));
     assert!(outside_proof.contains("EBML/WebM, Segment, Info,"));
     assert!(outside_proof.contains("must not resolve through symlinks"));
     for fragment in [
@@ -694,11 +700,13 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("mismatched image digests"));
     assert!(readme.contains("recording notes from a different dashboard session"));
     assert!(readme.contains("playable WebM metadata"));
-    assert!(readme.contains("playable WebM capture of at least 64 KiB"));
+    assert!(readme.contains("playable WebM capture of at least 64 KiB and at least 8 seconds"));
+    assert!(readme.contains("Recording mode: compose"));
     assert!(readme.contains("EBML/WebM, Segment,"));
-    assert!(readme.contains("artifact paths must not\ntraverse symlinks"));
+    assert!(readme.contains("artifact paths must not traverse symlinks"));
     assert!(readme.contains("The notes"));
-    assert!(readme.contains("must also describe the full recorded flow"));
+    assert!(readme.contains("must declare\n`Recording mode: compose`"));
+    assert!(readme.contains("describe the full recorded flow"));
     assert!(readme.contains("hash that does not match the committed file"));
     assert!(readme.contains("fresh clone from `https://github.com/jadenfix/beater.git`"));
     assert!(readme.contains("cloned readiness"));
@@ -794,11 +802,14 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(record_script.contains("docs/demos"));
     assert!(record_script.contains("gate2-browser-demo.webm"));
     assert!(record_script.contains("token breakdown"));
+    assert!(record_script.contains("reviewDwellMs"));
+    assert!(record_script.contains("Recording mode: compose"));
     assert!(record_script.contains("12 total, 5 prompt, 7 completion"));
     assert!(record_script.contains("33 total, 18 prompt, 11 completion, 4 reasoning"));
 
     let local_recording_notes = read(root.join("docs/demos/gate2-browser-demo.md"));
     assert!(local_recording_notes.contains("gate2-browser-demo.webm"));
+    assert!(local_recording_notes.contains("Recording mode: all-kind"));
     assert!(local_recording_notes.contains("token breakdown"));
     assert!(!local_recording_notes.contains("model/tokens/cost"));
 
@@ -808,6 +819,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(compose_recording_notes.contains("http://127.0.0.1:3000"));
     assert!(compose_recording_notes.contains("gate2-compose-browser-demo.webm"));
     assert!(compose_recording_notes.contains("SHA256"));
+    assert!(compose_recording_notes.contains("Recording mode: compose"));
     assert!(compose_recording_notes.contains("Quickstart trace"));
     assert!(compose_recording_notes.contains("All-kind trace"));
     assert!(compose_recording_notes.contains("click five-line trace"));

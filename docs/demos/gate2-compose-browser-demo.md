@@ -5,6 +5,7 @@ stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 
 - Artifact: `gate2-compose-browser-demo.webm`
 - SHA256: `3dac802bc8f2db03406d0d76e4e1618ed5b516a2cf3d286589e1a588cf6e6534`
+- Recording mode: compose
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart trace: `c8fd1651c8ea514803dc1b86bd6c5411`
 - All-kind trace: `42bfb21a2a4dc58046869a20f079b9ec`

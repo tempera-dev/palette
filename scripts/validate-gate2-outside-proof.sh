@@ -49,6 +49,7 @@ EXPECTED_OUTSIDE_COMMAND = (
     "BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" scripts/gate2-outside-run.sh'"
 )
 MIN_RECORDING_BYTES = 64 * 1024
+MIN_RECORDING_SECONDS = 8.0
 OUTSIDE_RUN_ATTESTATION = (
     "I attest that I am not a Beater project maintainer, I received no "
     "step-by-step help beyond public repository instructions, I used a fresh "
@@ -562,6 +563,13 @@ def require_webm_recording(recording_path: Path) -> None:
     duration_match = re.search(r"^duration=([0-9]+(?:\.[0-9]+)?)$", probe.stdout, re.MULTILINE)
     if not duration_match or float(duration_match.group(1)) <= 0:
         fail("screen recording must have a positive video duration")
+        return
+    duration = float(duration_match.group(1))
+    if duration < MIN_RECORDING_SECONDS:
+        fail(
+            "screen recording must be a reviewable full-flow capture of at least "
+            f"{MIN_RECORDING_SECONDS:g} seconds, got {duration:g}"
+        )
 
 
 def repo_artifact_path(value: str, name: str) -> Optional[Path]:
@@ -1094,6 +1102,9 @@ if notes_text:
     notes_dashboard_base = field_value_from(
         notes_text, "Dashboard base", "screen recording notes"
     )
+    notes_recording_mode = field_value_from(
+        notes_text, "Recording mode", "screen recording notes"
+    )
     notes_quickstart_trace = field_value_from(
         notes_text, "Quickstart trace", "screen recording notes"
     )
@@ -1108,6 +1119,8 @@ if notes_text:
             "screen recording notes dashboard base must be "
             f"{DEFAULT_DASHBOARD_BASE}, got {notes_dashboard_base!r}"
         )
+    if notes_recording_mode != "compose":
+        fail("screen recording notes Recording mode must be compose for outside-person proof")
     require_trace_id(
         "Quickstart trace", notes_quickstart_trace, "screen recording notes"
     )

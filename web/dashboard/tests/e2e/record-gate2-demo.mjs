@@ -17,6 +17,7 @@ const quickstartTraceId =
   (mode === "quickstart" ? process.env.BEATER_E2E_TRACE_ID : undefined);
 const demoDir = resolve(repoRoot, "docs/demos");
 const scratchDir = resolve(dashboardRoot, "test-results/gate2-demo-video");
+const reviewDwellMs = 2500;
 const videoPath = outputPath(
   process.env.BEATER_GATE2_RECORD_VIDEO,
   mode === "compose" ? "gate2-compose-browser-demo.webm" : "gate2-browser-demo.webm"
@@ -117,7 +118,7 @@ async function recordQuickstartFlow(page) {
     .filter({ hasText: "Output" })
     .getByText("hello from Beater")
     .waitFor();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(reviewDwellMs);
 }
 
 async function recordAllKindFlow(page) {
@@ -162,10 +163,10 @@ async function recordAllKindFlow(page) {
     .filter({ hasText: "Input" })
     .getByText("Can this order be refunded after 31 days?")
     .waitFor();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(reviewDwellMs);
   await tool.click();
   await detail.locator(".io").filter({ hasText: "Input" }).getByText("ord_123").waitFor();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(reviewDwellMs);
 }
 
 function spanRow(waterfall, kind, name) {
@@ -182,6 +183,7 @@ Recorded from the stock OpenTelemetry Python trace produced by \`examples/python
 
 - Artifact: \`gate2-browser-demo.webm\`
 - SHA256: \`${videoSha256}\`
+- Recording mode: all-kind
 - Dashboard: \`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}\`
 - Shows: trace table, color/icon-coded all-kind agent waterfall, run -> turn -> step -> tool -> MCP nesting, \`llm.call\` prompt/completion/model/token breakdown/cost/latency, and tool-call I/O.
 
@@ -212,6 +214,7 @@ Recorded from the literal five-line stock OpenTelemetry quickstart trace.
 
 - Artifact: \`gate2-browser-demo.webm\`
 - SHA256: \`${videoSha256}\`
+- Recording mode: quickstart
 - Dashboard: \`${baseUrl}/?tenant=demo&project=demo&environment=local${traceParam}\`
 - Shows: trace table, click five-line trace, click \`llm.call\` span, read prompt, completion, model, token breakdown, cost, and latency.
 
@@ -246,6 +249,7 @@ stock OpenTelemetry quickstart and the all-kind stock OpenTelemetry agent trace.
 
 - Artifact: \`gate2-compose-browser-demo.webm\`
 - SHA256: \`${videoSha256}\`
+- Recording mode: compose
 - Dashboard base: \`${publicDashboardBase}\`
 - Quickstart trace: \`${quickstartTrace}\`
 - All-kind trace: \`${allKindTrace}\`

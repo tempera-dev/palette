@@ -2384,6 +2384,23 @@ fn gate2_outside_validator_rejects_stale_recording_notes() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_non_compose_recording_notes() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.notes_path,
+        "- Recording mode: compose",
+        "- Recording mode: quickstart",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "screen recording notes Recording mode must be compose for outside-person proof",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_recording_notes_without_full_gate2_flow() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -2506,6 +2523,21 @@ fn gate2_outside_validator_rejects_unplayable_webm_recording() {
     assert_failure(
         output,
         "screen recording must be a playable WebM video: ffprobe failed",
+    );
+}
+
+#[test]
+fn gate2_outside_validator_rejects_short_review_recording() {
+    let fixture = ValidatorFixture::new();
+
+    let output = run_validator_with_ffprobe_script(
+        &fixture.proof_path,
+        "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=3.68\\n'\n",
+    );
+
+    assert_failure(
+        output,
+        "screen recording must be a reviewable full-flow capture of at least 8 seconds",
     );
 }
 
@@ -2890,6 +2922,7 @@ fn recording_notes(recording_name: &str) -> String {
 
 - Artifact: `{recording_name}`
 - SHA256: `{RECORDING_SHA}`
+- Recording mode: compose
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart trace: `{QUICKSTART_TRACE}`
 - All-kind trace: `{ALL_KIND_TRACE}`
@@ -2904,7 +2937,7 @@ fn run_validator(proof_path: &Path) -> Output {
 
 fn run_validator_with_args(proof_path: &Path, args: &[&str]) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     run_validator_with_path(proof_path, args, Some(&ffprobe))
 }
 
@@ -2970,7 +3003,7 @@ fn run_default_validator(args: &[&str]) -> Output {
 
 fn run_default_validator_in_repo(repo: &Path) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     Command::new("bash")
         .arg(repo.join("scripts/validate-gate2-outside-proof.sh"))
         .current_dir(repo)
@@ -3048,7 +3081,7 @@ fn run_generator_with_prior_exposure(
     prior_exposure: &str,
 ) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     let mut command = generator_command_with_prior_exposure(
         stopwatch_path,
         output_path,
@@ -3072,7 +3105,7 @@ fn run_generator_with_prior_exposure(
 
 fn run_generator_with_date(stopwatch_path: &Path, output_path: &Path, date: &str) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     let mut command = generator_command(
         stopwatch_path,
         output_path,
@@ -3123,7 +3156,7 @@ fn run_generator_with_options_and_runner(
     browser: &str,
 ) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     let mut command = generator_command(stopwatch_path, output_path, runner_name, browser);
     command.env("PATH", path_with_tempdir(&ffprobe));
     if attest {
@@ -3349,7 +3382,7 @@ esac
     write_executable(&dir.path().join("curl"), "#!/bin/sh\nexit 0\n");
     write_executable(
         &dir.path().join("ffprobe"),
-        "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n",
+        "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n",
     );
     if include_sha_tool {
         write_executable(
@@ -3375,7 +3408,7 @@ fn path_with_ffprobe_fixture(parent: &Path) -> String {
         .unwrap_or_else(|err| panic!("create ffprobe fixture dir {}: {err}", bin.display()));
     write_executable(
         &bin.join("ffprobe"),
-        "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n",
+        "#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n",
     );
     path_with_dir(&bin)
 }
@@ -3462,7 +3495,7 @@ fn run_outside_wrapper_dry_run(extra_env: Option<(&str, &str)>) -> Output {
 
 fn run_outside_wrapper_dry_run_in_repo(repo: &Path, extra_env: Option<(&str, &str)>) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     let mut command = Command::new("bash");
     command
         .arg(repo.join("scripts/gate2-outside-run.sh"))
@@ -3492,7 +3525,7 @@ fn run_outside_wrapper_real_preflight_in_repo(repo: &Path) -> Output {
 
 fn run_outside_wrapper_real_with_clone_timer_in_repo(repo: &Path, clone_started: &str) -> Output {
     let ffprobe =
-        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=1.25\\n'\n");
+        fake_ffprobe_dir("#!/bin/sh\nprintf 'codec_type=video\\n'\nprintf 'duration=12.50\\n'\n");
     let mut command = Command::new("bash");
     command
         .arg(repo.join("scripts/gate2-outside-run.sh"))
@@ -3776,6 +3809,7 @@ cat > docs/demos/gate2-compose-browser-demo.md <<'EOF_NOTES'
 
 - Artifact: `gate2-compose-browser-demo.webm`
 - SHA256: `3dac802bc8f2db03406d0d76e4e1618ed5b516a2cf3d286589e1a588cf6e6534`
+- Recording mode: compose
 - Dashboard base: `http://127.0.0.1:3000`
 - Quickstart trace: `11111111111111111111111111111111`
 - All-kind trace: `22222222222222222222222222222222`
