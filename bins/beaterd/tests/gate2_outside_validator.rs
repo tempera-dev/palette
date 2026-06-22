@@ -185,6 +185,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
         .unwrap_or_else(|err| panic!("read outside runner card: {err}"));
     assert!(runner_card.contains("# Gate 2 Outside Runner Card"));
     assert!(runner_card.contains("Use this card for the unaided Gate 2 run"));
+    assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
     assert!(runner_card.contains(CANONICAL_OUTSIDE_COMMAND));
     assert!(runner_card.contains("The timer includes clone and image-pull time"));
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));

@@ -1087,7 +1087,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     ));
     assert!(readme.contains("under `bash -o pipefail -lc` before any clone"));
     assert!(readme.contains("local Docker daemon"));
-    assert!(readme.contains("`ffmpeg`/`ffprobe`"));
+    assert!(readme.contains("`ffprobe`, `shasum` or `sha256sum`"));
     assert!(readme.contains("brew install ffmpeg"));
     assert!(readme.contains("sudo apt-get install ffmpeg"));
     assert!(readme.contains("`ffprobe`"));
@@ -1343,6 +1343,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(runner_card.contains("bash -o pipefail -lc"));
     assert!(runner_card.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(runner_card.contains("BEATER_GATE2_CLONE_STARTED_EPOCH"));
+    assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
     assert!(runner_card.contains("Do not wait for the script to finish"));
     assert!(runner_card.contains("prompt, completion, model, token breakdown, cost, and latency"));

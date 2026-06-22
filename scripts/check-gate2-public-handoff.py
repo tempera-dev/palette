@@ -616,6 +616,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         [
             "Gate 2 Outside Runner Card",
             "Use this card for the unaided Gate 2 run",
+            "`ffprobe` (installed by common `ffmpeg` packages)",
             "local ports `8080`, `4317`, and `3000` free",
             "Run from an empty parent directory that does not already contain `beater/`",
             RAW_PUBLIC_PREFLIGHT_COMMAND,

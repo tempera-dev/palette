@@ -28,7 +28,7 @@ handoff is
 [docs/demos/gate2-outside-runner-card.md](docs/demos/gate2-outside-runner-card.md).
 Prerequisites:
 Docker Desktop or another local Docker daemon, Docker Compose v2, `git`, `curl`,
-`ffmpeg`/`ffprobe`, `shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`,
+`ffprobe`, `shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`,
 `4317`, and `3000` free. Remote `DOCKER_HOST` values and
 remote Docker contexts are rejected because the browser proof connects to
 `127.0.0.1`.

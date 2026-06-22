@@ -10,7 +10,7 @@ Use a machine with:
 - Docker Desktop or another local Docker daemon
 - Docker Compose v2
 - `git`, `curl`, `python3` 3.9 or newer
-- `ffmpeg` or `ffprobe`
+- `ffprobe` (installed by common `ffmpeg` packages)
 - `shasum` or `sha256sum`
 - local ports `8080`, `4317`, and `3000` free
 
