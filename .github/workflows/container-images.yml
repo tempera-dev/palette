@@ -146,3 +146,9 @@ jobs:
             -t ghcr.io/${{ github.repository }}/otel-python:${{ github.sha }} \
             ghcr.io/${{ github.repository }}/otel-python:${{ github.sha }}-amd64 \
             ghcr.io/${{ github.repository }}/otel-python:${{ github.sha }}-arm64
+
+      - name: Checkout public handoff verifier
+        uses: actions/checkout@v7
+
+      - name: Verify Gate 2 public handoff readiness
+        run: scripts/check-gate2-public-handoff.py --expected-commit "${{ github.sha }}"
