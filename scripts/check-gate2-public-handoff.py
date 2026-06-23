@@ -168,10 +168,12 @@ def diagnostic_terminal_excerpt(clone_dir: Path) -> str:
     stopwatch_path = clone_dir / "docs/demos/gate2-compose-stopwatch.md"
     quickstart_dashboard = field_value_from(stopwatch_path, "Quickstart dashboard")
     all_kind_dashboard = field_value_from(stopwatch_path, "All-kind dashboard")
+    redaction_dashboard = field_value_from(stopwatch_path, "Redaction dashboard")
     return (
         "Gate 2 compose stopwatch passed; Browser recording: passed; "
         f"Quickstart dashboard: {quickstart_dashboard}; "
-        f"All-kind dashboard: {all_kind_dashboard}"
+        f"All-kind dashboard: {all_kind_dashboard}; "
+        f"Redaction dashboard: {redaction_dashboard}"
     )
 
 

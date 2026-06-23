@@ -147,6 +147,7 @@ The fully expanded form looks like this:
 ```bash
 quickstart_dashboard="$(sed -n 's/^- Quickstart dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"
 all_kind_dashboard="$(sed -n 's/^- All-kind dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"
+redaction_dashboard="$(sed -n 's/^- Redaction dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"
 
 scripts/generate-gate2-outside-proof.py \
   --runner-name "Jane Outside Runner" \
@@ -157,7 +158,7 @@ scripts/generate-gate2-outside-proof.py \
   --network-notes "home Wi-Fi; no VPN" \
   --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code" \
   --waterfall-observation "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting" \
-  --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard" \
+  --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard; Redaction dashboard: $redaction_dashboard" \
   --compose-logs-saved "docs/demos/gate2-outside-compose.log" \
   --preflight-status "passed" \
   --attest-outside-run

@@ -404,6 +404,7 @@ The fully expanded form looks like this:
 ```bash
 quickstart_dashboard="$(sed -n 's/^- Quickstart dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"
 all_kind_dashboard="$(sed -n 's/^- All-kind dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"
+redaction_dashboard="$(sed -n 's/^- Redaction dashboard: //p' docs/demos/gate2-compose-stopwatch.md)"
 
 scripts/generate-gate2-outside-proof.py \
   --runner-name "Jane Outside Runner" \
@@ -414,7 +415,7 @@ scripts/generate-gate2-outside-proof.py \
   --network-notes "home Wi-Fi; no VPN" \
   --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code" \
   --waterfall-observation "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting" \
-  --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard" \
+  --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard; Redaction dashboard: $redaction_dashboard" \
   --compose-logs-saved "docs/demos/gate2-outside-compose.log" \
   --preflight-status "passed" \
   --attest-outside-run
@@ -463,7 +464,8 @@ EBML/WebM, Segment, Info, Tracks, Cluster, and video-track structure, and
 artifact paths must not traverse symlinks. The notes must declare
 `Recording mode: compose`, the matching quickstart release ID, and describe the full recorded flow:
 quickstart trace, `llm.call`, prompt, completion, model, token breakdown, cost,
-latency, confirmation code, and run -> turn -> step -> tool -> MCP waterfall. The
+latency, confirmation code, run -> turn -> step -> tool -> MCP waterfall,
+redacted prompt/completion, reasoned unmask, unmasked I/O, and Redacted view. The
 completed proof must additionally include
 the runner's own `llm.call` detail and waterfall observations, not only the
 automated browser recording notes.

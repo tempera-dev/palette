@@ -64,7 +64,8 @@ fn terminal_output_excerpt() -> String {
     format!(
         "Gate 2 compose stopwatch passed; Browser recording: passed; \
          Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}; \
-         All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}"
+         All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}; \
+         Redaction dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={REDACTION_TRACE}&span={REDACTION_SPAN}"
     )
 }
 
@@ -138,6 +139,8 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(readme.contains("--llm-observation"));
     assert!(readme.contains("--waterfall-observation"));
     assert!(readme.contains("--terminal-output-excerpt"));
+    assert!(readme.contains("redaction_dashboard=\"$(sed -n 's/^- Redaction dashboard: //p'"));
+    assert!(readme.contains("Redaction dashboard: $redaction_dashboard"));
     assert!(readme.contains("--compose-logs-saved"));
     assert!(readme.contains("--print-command"));
     assert!(readme.contains("prefilled"));
@@ -185,6 +188,10 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("--llm-observation"));
     assert!(proof_template.contains("--waterfall-observation"));
     assert!(proof_template.contains("--terminal-output-excerpt"));
+    assert!(
+        proof_template.contains("redaction_dashboard=\"$(sed -n 's/^- Redaction dashboard: //p'")
+    );
+    assert!(proof_template.contains("Redaction dashboard: $redaction_dashboard"));
     assert!(proof_template.contains("--compose-logs-saved"));
     assert!(proof_template.contains("--print-command"));
     assert!(proof_template.contains("ready-to-edit command"));
@@ -451,6 +458,9 @@ fn gate2_outside_generator_prints_prefilled_command_from_stopwatch() {
     )));
     assert!(stdout.contains(&format!(
         "All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}"
+    )));
+    assert!(stdout.contains(&format!(
+        "Redaction dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={REDACTION_TRACE}&span={REDACTION_SPAN}"
     )));
     assert!(stdout.contains("--compose-logs-saved"));
     assert!(stdout.contains(&fixture.compose_log_field));
@@ -782,6 +792,37 @@ fn gate2_outside_generator_rejects_pending_regeneration_stopwatch() {
     assert!(
         !generated.exists(),
         "generator must not write completed proof from stale stopwatch evidence"
+    );
+}
+
+#[test]
+fn gate2_outside_generator_print_command_rejects_pre_redaction_stopwatch() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture.dir.path().join("pre-redaction-generated-proof.md");
+    replace(
+        &fixture.stopwatch_path,
+        "- Redaction browser proof: passed\n",
+        "",
+    );
+
+    let output = Command::new("python3")
+        .arg(repo_root().join("scripts/generate-gate2-outside-proof.py"))
+        .arg("--stopwatch-proof")
+        .arg(&fixture.stopwatch_path)
+        .arg("--output")
+        .arg(&generated)
+        .arg("--print-command")
+        .current_dir(repo_root())
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside proof print-command: {err}"));
+
+    assert_failure(
+        output,
+        "Regenerate the stopwatch proof with the current outside-run path",
+    );
+    assert!(
+        !generated.exists(),
+        "--print-command must not write a proof from stale stopwatch evidence"
     );
 }
 
@@ -3612,7 +3653,7 @@ fn gate2_outside_validator_rejects_weak_terminal_excerpt() {
     replace(
         &fixture.proof_path,
         &format!(
-            "- Terminal output excerpt: Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}; All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}"
+            "- Terminal output excerpt: Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}; All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}; Redaction dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={REDACTION_TRACE}&span={REDACTION_SPAN}"
         ),
         "- Terminal output excerpt: generated proof says browser recording passed",
     );
@@ -4371,7 +4412,7 @@ The runner completed the flow using only public repository instructions.
 - Screen recording: `{recording}`
 - Screen recording notes: `{notes}`
 - Screen recording SHA256: {RECORDING_SHA}
-- Terminal output excerpt: Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}; All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}
+- Terminal output excerpt: Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}; All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}; Redaction dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={REDACTION_TRACE}&span={REDACTION_SPAN}
 - Runner llm.call observation: {LLM_OBSERVATION}
 - Runner waterfall observation: {WATERFALL_OBSERVATION}
 {compose_images_excerpt}

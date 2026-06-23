@@ -78,6 +78,26 @@ def require_source_field_equal(source_text, source_name, name, expected):
     return value
 
 
+def require_redaction_proof_source(source_text, source_name):
+    try:
+        require_source_field_equal(
+            source_text, source_name, "Redaction browser proof", "passed"
+        )
+        for name in [
+            "Redaction trace",
+            "Redaction span",
+            "Redaction dashboard",
+            "Redaction unmask reason",
+        ]:
+            field_value(source_text, name, source_name)
+    except SystemExit as err:
+        raise SystemExit(
+            f"{err}\n"
+            "Regenerate the stopwatch proof with the current outside-run path so it "
+            "includes the Gate 2 redacted-I/O browser proof."
+        ) from None
+
+
 def require_source_sha256(source_text, source_name, name):
     value = field_value(source_text, name, source_name)
     if not re.fullmatch(r"[0-9a-f]{64}", value):
@@ -162,11 +182,13 @@ def compose_images_excerpt(stopwatch_text, stopwatch_path):
 def terminal_output_excerpt_from_stopwatch(stopwatch_text, stopwatch_rel):
     quickstart_dashboard = field_value(stopwatch_text, "Quickstart dashboard", stopwatch_rel)
     all_kind_dashboard = field_value(stopwatch_text, "All-kind dashboard", stopwatch_rel)
+    redaction_dashboard = field_value(stopwatch_text, "Redaction dashboard", stopwatch_rel)
     recording_status = field_value(stopwatch_text, "Browser recording", stopwatch_rel)
     return (
         f"Gate 2 compose stopwatch passed; Browser recording: {recording_status}; "
         f"Quickstart dashboard: {quickstart_dashboard}; "
-        f"All-kind dashboard: {all_kind_dashboard}"
+        f"All-kind dashboard: {all_kind_dashboard}; "
+        f"Redaction dashboard: {redaction_dashboard}"
     )
 
 
@@ -179,9 +201,7 @@ def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
     require_source_field_equal(
         stopwatch_text, stopwatch_rel, "Browser recording", "passed"
     )
-    require_source_field_equal(
-        stopwatch_text, stopwatch_rel, "Redaction browser proof", "passed"
-    )
+    require_redaction_proof_source(stopwatch_text, stopwatch_rel)
     compose_logs_saved = compose_logs_from_stopwatch(stopwatch_text, stopwatch_rel)
     terminal_excerpt = terminal_output_excerpt_from_stopwatch(stopwatch_text, stopwatch_rel)
     command = [
@@ -259,9 +279,7 @@ def build_proof(args, stopwatch_path, stopwatch_text):
     recording_sha = require_source_sha256(
         stopwatch_text, stopwatch_rel, "Browser recording SHA256"
     )
-    require_source_field_equal(
-        stopwatch_text, stopwatch_rel, "Redaction browser proof", "passed"
-    )
+    require_redaction_proof_source(stopwatch_text, stopwatch_rel)
     redaction_trace_id = field_value(stopwatch_text, "Redaction trace", stopwatch_rel)
     redaction_span_id = field_value(stopwatch_text, "Redaction span", stopwatch_rel)
     redaction_dashboard_url = field_value(
