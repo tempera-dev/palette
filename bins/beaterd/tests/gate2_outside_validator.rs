@@ -156,12 +156,13 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(!readme.contains("cd ./beater\ngit add docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("git commit -m \"add gate2 outside proof\""));
     assert!(readme.contains("repo-relative, committed/clean"));
-    assert!(readme.contains("non-symlink file under"));
+    assert!(readme.contains("non-symlink files under"));
     assert!(readme.contains("`docs/demos/`"));
     assert!(readme.contains("immutable GitHub Actions"));
     assert!(readme.contains("actions/runs/<run_id>"));
     assert!(readme.contains("writes `docs/demos/gate2-outside-compose.log`"));
-    assert!(readme.contains("automatically and\npre-fills that path"));
+    assert!(readme.contains("writes\n`docs/demos/gate2-outside-terminal.log`"));
+    assert!(readme.contains("--terminal-transcript-saved"));
     assert!(readme.contains("replace every `...` field"));
     assert!(readme.contains("uncommitted non-evidence worktree changes"));
     assert!(readme.contains(r#"--runner-name "Jane Outside Runner""#));
@@ -218,9 +219,11 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("immutable GitHub Actions run/job URL"));
     assert!(proof_template.contains("actions/runs/<run_id>"));
     assert!(proof_template.contains("writes `docs/demos/gate2-outside-compose.log`"));
-    assert!(proof_template.contains("automatically and pre-fills that path"));
-    assert!(proof_template.contains("saved compose-log paths"));
-    assert!(proof_template.contains("compose-log evidence must be a committed/clean file"));
+    assert!(proof_template.contains("Outside-run terminal transcript"));
+    assert!(proof_template.contains("outside-run terminal transcript"));
+    assert!(proof_template.contains("saved outside-run terminal transcript"));
+    assert!(proof_template.contains("compose-log paths"));
+    assert!(proof_template.contains("Saved compose-log evidence must be a committed/clean"));
     assert!(proof_template.contains("repo-relative committed/clean non-symlink `docs/demos/`"));
     assert!(proof_template.contains("every `...` field"));
     assert!(proof_template.contains(r#"--runner-name "Jane Outside Runner""#));
@@ -262,6 +265,8 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("do not\ncopy the code from terminal logs"));
     assert!(runner_card.contains("leave the command running"));
     assert!(runner_card.contains("docs/demos/gate2-outside-compose.log"));
+    assert!(runner_card.contains("docs/demos/gate2-outside-terminal.log"));
+    assert!(runner_card.contains("manual checkpoint prompt"));
     assert!(runner_card.contains("run -> turn -> step -> tool -> MCP"));
     assert!(runner_card.contains("scripts/generate-gate2-outside-proof.py --print-command"));
     assert!(runner_card.contains("Run `cd ./beater`"));
@@ -486,6 +491,8 @@ fn gate2_outside_generator_prints_prefilled_command_from_stopwatch() {
     assert!(stdout.contains(&format!(
         "Redaction dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={REDACTION_TRACE}&span={REDACTION_SPAN}"
     )));
+    assert!(stdout.contains("--terminal-transcript-saved"));
+    assert!(stdout.contains(&fixture.terminal_log_field));
     assert!(stdout.contains("--compose-logs-saved"));
     assert!(stdout.contains(&fixture.compose_log_field));
     assert!(stdout.contains("... runner full name ..."));
@@ -2239,9 +2246,12 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     assert!(script.contains("Redaction browser proof: $redaction_browser_proof_status"));
     assert!(script.contains("Review ${redaction_dashboard_url:-not requested} for redacted I/O"));
     assert!(script.contains("BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(script.contains("BEATER_GATE2_TERMINAL_LOG"));
     assert!(script.contains("save_compose_logs()"));
     assert!(script.contains("logs --no-color --timestamps"));
     assert!(script.contains("Compose logs artifact"));
+    assert!(script.contains("Terminal transcript artifact"));
+    assert!(script.contains("Use the saved outside-run terminal transcript as evidence"));
     assert!(script.contains("Use the saved docker compose logs artifact as evidence"));
     assert!(script.contains("python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof"));
     assert!(script.contains("--print-command"));
@@ -2249,6 +2259,7 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     assert!(script.contains("Generate the completed proof from this prefilled command"));
     assert!(script.contains("Commit the evidence before closure validation"));
     assert!(script.contains("git add docs/demos/gate2-outside-person-proof.md"));
+    assert!(script.contains("docs/demos/gate2-outside-terminal.log"));
     assert!(script.contains("git commit -m \"add gate2 outside proof\""));
     assert!(script.contains(
         "Maintainer diagnostic overrides are intentionally suppressed for outside-person evidence."
@@ -2460,6 +2471,19 @@ fn gate2_outside_wrapper_rejects_compose_project_override() {
     assert_failure(
         output,
         "COMPOSE_PROJECT_NAME must be unset for outside-person evidence",
+    );
+}
+
+#[test]
+fn gate2_outside_wrapper_rejects_terminal_log_override() {
+    let output = run_outside_wrapper_dry_run(Some((
+        "BEATER_GATE2_TERMINAL_LOG",
+        "docs/demos/custom-terminal.log",
+    )));
+
+    assert_failure(
+        output,
+        "BEATER_GATE2_TERMINAL_LOG must be unset for outside-person evidence",
     );
 }
 
@@ -3877,6 +3901,26 @@ fn gate2_outside_validator_rejects_missing_compose_log_artifact() {
 }
 
 #[test]
+fn gate2_outside_validator_rejects_missing_terminal_transcript_artifact() {
+    let fixture = ValidatorFixture::new();
+    replace(
+        &fixture.proof_path,
+        &format!(
+            "- Outside-run terminal transcript: {}",
+            fixture.terminal_log_field
+        ),
+        "- Outside-run terminal transcript: docs/demos/missing-terminal.log",
+    );
+
+    let output = run_validator(&fixture.proof_path);
+
+    assert_failure(
+        output,
+        "outside-run terminal transcript does not exist: docs/demos/missing-terminal.log",
+    );
+}
+
+#[test]
 fn gate2_outside_validator_rejects_absolute_compose_log_artifact() {
     let fixture = ValidatorFixture::new();
     replace(
@@ -4420,6 +4464,7 @@ struct ValidatorFixture {
     stopwatch_field: String,
     recording_field: String,
     compose_log_field: String,
+    terminal_log_field: String,
 }
 
 impl ValidatorFixture {
@@ -4434,11 +4479,13 @@ impl ValidatorFixture {
         let notes_path = artifact_dir.path().join("recording-notes.md");
         let recording_path = artifact_dir.path().join("recording.webm");
         let compose_log_path = artifact_dir.path().join("gate2-outside-compose.log");
+        let terminal_log_path = artifact_dir.path().join("gate2-outside-terminal.log");
         let artifact_rel = repo_relative_path(artifact_dir.path());
         let stopwatch_field = format!("{artifact_rel}/stopwatch-proof.md");
         let recording_field = format!("{artifact_rel}/recording.webm");
         let notes_field = format!("{artifact_rel}/recording-notes.md");
         let compose_log_field = format!("{artifact_rel}/gate2-outside-compose.log");
+        let terminal_log_field = format!("{artifact_rel}/gate2-outside-terminal.log");
 
         fs::write(&recording_path, recording_bytes())
             .unwrap_or_else(|err| panic!("write {}: {err}", recording_path.display()));
@@ -4447,6 +4494,8 @@ impl ValidatorFixture {
             "Gate 2 compose stopwatch passed\nBrowser recording: passed\n",
         )
         .unwrap_or_else(|err| panic!("write {}: {err}", compose_log_path.display()));
+        fs::write(&terminal_log_path, terminal_transcript())
+            .unwrap_or_else(|err| panic!("write {}: {err}", terminal_log_path.display()));
         let recording_name = recording_path
             .file_name()
             .unwrap_or_else(|| {
@@ -4460,7 +4509,12 @@ impl ValidatorFixture {
             .unwrap_or_else(|err| panic!("write {}: {err}", notes_path.display()));
         fs::write(
             &stopwatch_path,
-            stopwatch_proof(&recording_field, &notes_field, &compose_log_field),
+            stopwatch_proof(
+                &recording_field,
+                &notes_field,
+                &compose_log_field,
+                &terminal_log_field,
+            ),
         )
         .unwrap_or_else(|err| panic!("write {}: {err}", stopwatch_path.display()));
         fs::write(
@@ -4470,6 +4524,7 @@ impl ValidatorFixture {
                 &recording_field,
                 &notes_field,
                 &compose_log_field,
+                &terminal_log_field,
             ),
         )
         .unwrap_or_else(|err| panic!("write {}: {err}", proof_path.display()));
@@ -4485,11 +4540,18 @@ impl ValidatorFixture {
             stopwatch_field,
             recording_field,
             compose_log_field,
+            terminal_log_field,
         }
     }
 }
 
-fn outside_proof(stopwatch: &str, recording: &str, notes: &str, compose_log: &str) -> String {
+fn outside_proof(
+    stopwatch: &str,
+    recording: &str,
+    notes: &str,
+    compose_log: &str,
+    terminal_log: &str,
+) -> String {
     let commit_sha = current_head();
     let quickstart_release_id = quickstart_release_id();
     let outside_runner_command = canonical_outside_command();
@@ -4563,6 +4625,7 @@ The runner completed the flow using only public repository instructions.
 - Screen recording notes: `{notes}`
 - Screen recording SHA256: {RECORDING_SHA}
 - Terminal output excerpt: Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={QUICKSTART_TRACE}; All-kind dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={ALL_KIND_TRACE}; Redaction dashboard: http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={REDACTION_TRACE}&span={REDACTION_SPAN}
+- Outside-run terminal transcript: {terminal_log}
 - Runner llm.call observation: {LLM_OBSERVATION}
 - Runner waterfall observation: {WATERFALL_OBSERVATION}
 {compose_images_excerpt}
@@ -4610,7 +4673,50 @@ fn compose_images_excerpt_line() -> String {
     )
 }
 
-fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str) -> String {
+fn terminal_transcript() -> String {
+    format!(
+        r#"Gate 2 first trace visible in 12s.
+
+Open this quickstart trace-list URL first:
+  http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart&release={release}
+
+Direct quickstart trace URL:
+  http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={quickstart}
+
+Manual outside-run checkpoint:
+  280s remain in the 5-minute clone-to-click SLO.
+  In a normal browser, open the quickstart trace-list URL above first, click the
+  quickstart trace, click the llm.call span, and confirm prompt, completion,
+  model, token breakdown, cost, latency, and the confirmation code are visible.
+  Type the confirmation code shown in the selected llm.call detail, then press Enter.
+
+Gate 2 compose stopwatch passed in 12s to first trace (40s total).
+
+All-kind waterfall dashboard:
+  http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={all_kind}
+
+Redacted I/O dashboard:
+  http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace={redaction}&span={redaction_span}
+
+Browser recording:
+  passed
+
+Outside-run terminal transcript:
+  docs/demos/gate2-outside-terminal.log
+
+Outside-run next steps:
+  Generate the completed proof from this prefilled command:
+python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof docs/demos/gate2-compose-stopwatch.md --print-command
+"#,
+        release = quickstart_release_id(),
+        quickstart = QUICKSTART_TRACE,
+        all_kind = ALL_KIND_TRACE,
+        redaction = REDACTION_TRACE,
+        redaction_span = REDACTION_SPAN,
+    )
+}
+
+fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str, terminal_log: &str) -> String {
     let commit_sha = current_head();
     let quickstart_release_id = quickstart_release_id();
     format!(
@@ -4647,6 +4753,7 @@ fn stopwatch_proof(recording: &str, notes: &str, compose_logs: &str) -> String {
 - Prebuilt pull policy: `always`
 - Compose project: beater-stopwatch
 - Compose logs artifact: `{compose_logs}`
+- Terminal transcript artifact: `{terminal_log}`
 - Beater image reference: `ghcr.io/jadenfix/beater/beaterd:{commit_sha}`
 - Dashboard image reference: `ghcr.io/jadenfix/beater/dashboard:{commit_sha}`
 - Dashboard e2e image reference: `ghcr.io/jadenfix/beater/dashboard-e2e:{commit_sha}`
@@ -4858,6 +4965,8 @@ fn run_generator_with_observations(
         .arg(waterfall_observation)
         .arg("--terminal-output-excerpt")
         .arg(terminal_output_excerpt())
+        .arg("--terminal-transcript-saved")
+        .arg(terminal_log_field_for_stopwatch(stopwatch_path))
         .arg("--compose-logs-saved")
         .arg(compose_log_field_for_stopwatch(stopwatch_path))
         .env("PATH", path_with_tempdir(&ffprobe));
@@ -4887,6 +4996,8 @@ fn run_generator_without_fake_ffprobe(stopwatch_path: &Path, output_path: &Path)
         .arg(WATERFALL_OBSERVATION)
         .arg("--terminal-output-excerpt")
         .arg(terminal_output_excerpt())
+        .arg("--terminal-transcript-saved")
+        .arg(terminal_log_field_for_stopwatch(stopwatch_path))
         .arg("--compose-logs-saved")
         .arg(compose_log_field_for_stopwatch(stopwatch_path))
         .env("PATH", path_with_isolated_tempdir(&path_dir));
@@ -4903,6 +5014,7 @@ fn run_generator_with_runner_name(
     run_generator_with_options_and_runner(
         stopwatch_path,
         output_path,
+        true,
         true,
         true,
         true,
@@ -4937,6 +5049,8 @@ fn run_generator_with_prior_exposure(
         .arg(WATERFALL_OBSERVATION)
         .arg("--terminal-output-excerpt")
         .arg(terminal_output_excerpt())
+        .arg("--terminal-transcript-saved")
+        .arg(terminal_log_field_for_stopwatch(stopwatch_path))
         .arg("--compose-logs-saved")
         .arg(compose_log_field_for_stopwatch(stopwatch_path))
         .env("PATH", path_with_tempdir(&ffprobe));
@@ -4964,6 +5078,8 @@ fn run_generator_with_date(stopwatch_path: &Path, output_path: &Path, date: &str
         .arg(WATERFALL_OBSERVATION)
         .arg("--terminal-output-excerpt")
         .arg(terminal_output_excerpt())
+        .arg("--terminal-transcript-saved")
+        .arg(terminal_log_field_for_stopwatch(stopwatch_path))
         .arg("--compose-logs-saved")
         .arg(compose_log_field_for_stopwatch(stopwatch_path))
         .arg("--date")
@@ -4989,15 +5105,34 @@ fn run_generator_with_options(
         include_observations,
         true,
         true,
+        true,
     )
 }
 
 fn run_generator_without_terminal_excerpt(stopwatch_path: &Path, output_path: &Path) -> Output {
-    run_generator_with_evidence_options(stopwatch_path, output_path, true, true, true, false, true)
+    run_generator_with_evidence_options(
+        stopwatch_path,
+        output_path,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+    )
 }
 
 fn run_generator_without_compose_logs_saved(stopwatch_path: &Path, output_path: &Path) -> Output {
-    run_generator_with_evidence_options(stopwatch_path, output_path, true, true, true, true, false)
+    run_generator_with_evidence_options(
+        stopwatch_path,
+        output_path,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+    )
 }
 
 fn run_generator_with_compose_logs_saved(
@@ -5023,6 +5158,8 @@ fn run_generator_with_compose_logs_saved(
         .arg(WATERFALL_OBSERVATION)
         .arg("--terminal-output-excerpt")
         .arg(terminal_output_excerpt())
+        .arg("--terminal-transcript-saved")
+        .arg(terminal_log_field_for_stopwatch(stopwatch_path))
         .arg("--compose-logs-saved")
         .arg(compose_logs_saved)
         .env("PATH", path_with_tempdir(&ffprobe));
@@ -5038,6 +5175,7 @@ fn run_generator_with_evidence_options(
     include_network_notes: bool,
     include_observations: bool,
     include_terminal_excerpt: bool,
+    include_terminal_transcript_saved: bool,
     include_compose_logs_saved: bool,
 ) -> Output {
     run_generator_with_options_and_runner(
@@ -5047,6 +5185,7 @@ fn run_generator_with_evidence_options(
         include_network_notes,
         include_observations,
         include_terminal_excerpt,
+        include_terminal_transcript_saved,
         include_compose_logs_saved,
         "Validator Fixture Runner",
         "Chromium",
@@ -5060,6 +5199,7 @@ fn run_generator_with_options_and_runner(
     include_network_notes: bool,
     include_observations: bool,
     include_terminal_excerpt: bool,
+    include_terminal_transcript_saved: bool,
     include_compose_logs_saved: bool,
     runner_name: &str,
     browser: &str,
@@ -5085,6 +5225,11 @@ fn run_generator_with_options_and_runner(
         command
             .arg("--terminal-output-excerpt")
             .arg(terminal_output_excerpt());
+    }
+    if include_terminal_transcript_saved {
+        command
+            .arg("--terminal-transcript-saved")
+            .arg(terminal_log_field_for_stopwatch(stopwatch_path));
     }
     if include_compose_logs_saved {
         command
@@ -5112,6 +5257,24 @@ fn compose_log_field_for_stopwatch(stopwatch_path: &Path) -> String {
     assert!(
         log_path.is_file(),
         "compose log fixture must exist next to stopwatch proof: {}",
+        log_path.display()
+    );
+    repo_relative_path(&log_path)
+}
+
+fn terminal_log_field_for_stopwatch(stopwatch_path: &Path) -> String {
+    let log_path = stopwatch_path
+        .parent()
+        .unwrap_or_else(|| {
+            panic!(
+                "stopwatch path should have parent: {}",
+                stopwatch_path.display()
+            )
+        })
+        .join("gate2-outside-terminal.log");
+    assert!(
+        log_path.is_file(),
+        "terminal transcript fixture must exist next to stopwatch proof: {}",
         log_path.display()
     );
     repo_relative_path(&log_path)
@@ -5690,6 +5853,7 @@ fn clear_outside_env(command: &mut Command) {
         "BEATER_GATE2_RECORD_VIDEO",
         "BEATER_GATE2_RECORD_NOTES",
         "BEATER_GATE2_COMPOSE_LOGS",
+        "BEATER_GATE2_TERMINAL_LOG",
         "KEEP_BEATER_COMPOSE",
         "COMPOSE_FILE",
         "COMPOSE_PROJECT_NAME",
@@ -5968,14 +6132,25 @@ fn write_validator_closure_fixture_repo_with_options(
         "Gate 2 compose stopwatch passed\nBrowser recording: passed\n",
     )
     .unwrap_or_else(|err| panic!("write validator closure compose log: {err}"));
+    fs::write(
+        artifact_dir.join("gate2-outside-terminal.log"),
+        terminal_transcript(),
+    )
+    .unwrap_or_else(|err| panic!("write validator closure terminal transcript: {err}"));
 
     let recording_field = format!("{artifact_rel}/recording.webm");
     let notes_field = format!("{artifact_rel}/recording-notes.md");
     let stopwatch_field = format!("{artifact_rel}/stopwatch-proof.md");
     let compose_log_field = format!("{artifact_rel}/gate2-outside-compose.log");
-    let stopwatch = stopwatch_proof(&recording_field, &notes_field, &compose_log_field)
-        .replace(&current_repo_sha, &tested_sha)
-        .replace(&current_release_id, &tested_release_id);
+    let terminal_log_field = format!("{artifact_rel}/gate2-outside-terminal.log");
+    let stopwatch = stopwatch_proof(
+        &recording_field,
+        &notes_field,
+        &compose_log_field,
+        &terminal_log_field,
+    )
+    .replace(&current_repo_sha, &tested_sha)
+    .replace(&current_release_id, &tested_release_id);
     fs::write(artifact_dir.join("stopwatch-proof.md"), stopwatch)
         .unwrap_or_else(|err| panic!("write validator closure stopwatch proof: {err}"));
     let outside = outside_proof(
@@ -5983,6 +6158,7 @@ fn write_validator_closure_fixture_repo_with_options(
         &recording_field,
         &notes_field,
         &compose_log_field,
+        &terminal_log_field,
     )
     .replace(&current_repo_sha, &tested_sha)
     .replace(&current_release_id, &tested_release_id);
@@ -6049,7 +6225,7 @@ After the one-liner exits, run 'cd ./beater' from the parent shell if your promp
 Generate the completed proof from this prefilled command:
 python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof docs/demos/gate2-compose-stopwatch.md --print-command
 Commit the evidence before closure validation:
-git add docs/demos/gate2-outside-person-proof.md docs/demos/gate2-compose-stopwatch.md docs/demos/gate2-compose-browser-demo.webm docs/demos/gate2-compose-browser-demo.md docs/demos/gate2-outside-compose.log
+git add docs/demos/gate2-outside-person-proof.md docs/demos/gate2-compose-stopwatch.md docs/demos/gate2-compose-browser-demo.webm docs/demos/gate2-compose-browser-demo.md docs/demos/gate2-outside-compose.log docs/demos/gate2-outside-terminal.log
 git commit -m "add gate2 outside proof"
 EOF_PROOF_COMMAND
 if ! IFS= read -r _manual_checkpoint_confirmation; then
@@ -6067,9 +6243,10 @@ fi
   echo "local_build=${BEATER_GATE2_LOCAL_BUILD:-unset}"
   echo "pull_policy=${BEATER_GATE2_PULL_POLICY:-unset}"
   echo "keep=${KEEP_BEATER_COMPOSE:-unset}"
-  echo "outside_wrapper=${BEATER_GATE2_OUTSIDE_WRAPPER:-unset}"
-  echo "compose_logs=${BEATER_GATE2_COMPOSE_LOGS:-unset}"
-  echo "dry=${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-unset}"
+	  echo "outside_wrapper=${BEATER_GATE2_OUTSIDE_WRAPPER:-unset}"
+	  echo "compose_logs=${BEATER_GATE2_COMPOSE_LOGS:-unset}"
+	  echo "terminal_log=${BEATER_GATE2_TERMINAL_LOG:-unset}"
+	  echo "dry=${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-unset}"
   echo "expected_origin=${BEATER_GATE2_EXPECTED_ORIGIN:-unset}"
   echo "clone_started=${BEATER_GATE2_CLONE_STARTED_EPOCH:-unset}"
   echo "dashboard_port=${BEATER_DASHBOARD_PORT:-unset}"
@@ -6126,6 +6303,8 @@ cat > docs/demos/gate2-compose-stopwatch.md <<'EOF_PROOF'
 - Outside-run wrapper: yes
 - Prebuilt pull policy: always
 - Compose project: beater-stopwatch
+- Compose logs artifact: docs/demos/gate2-outside-compose.log
+- Terminal transcript artifact: docs/demos/gate2-outside-terminal.log
 - Beater image reference: ghcr.io/jadenfix/beater/beaterd:__COMMIT_SHA__
 - Dashboard image reference: ghcr.io/jadenfix/beater/dashboard:__COMMIT_SHA__
 - Dashboard e2e image reference: ghcr.io/jadenfix/beater/dashboard-e2e:__COMMIT_SHA__
@@ -6175,6 +6354,25 @@ This is an outside-run stopwatch source artifact generated through
 outside-person proof, this stopwatch proof, the recording, and the recording
 notes are committed and `scripts/validate-gate2-outside-proof.sh` passes.
 EOF_PROOF
+cat <<'EOF_SUMMARY'
+Gate 2 compose stopwatch passed in 12s to first trace (40s total).
+
+All-kind waterfall dashboard:
+  http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace=22222222222222222222222222222222
+
+Redacted I/O dashboard:
+  http://127.0.0.1:3000/?tenant=demo&project=demo&environment=local&trace=33333333333333333333333333333333&span=bbbbbbbbbbbbbbbb
+
+Browser recording:
+  passed
+
+Outside-run terminal transcript:
+  docs/demos/gate2-outside-terminal.log
+
+Outside-run next steps:
+  Generate the completed proof from this prefilled command:
+python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof docs/demos/gate2-compose-stopwatch.md --print-command
+EOF_SUMMARY
 python3 - "$commit_sha" <<'PY'
 from pathlib import Path
 import sys

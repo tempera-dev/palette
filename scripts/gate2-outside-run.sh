@@ -126,6 +126,7 @@ require_git_provenance
 require_clone_timer
 require_python3
 require_recording_probe
+require_command tee "outside-run terminal transcript must be saved under docs/demos"
 require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
 require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
 require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"
@@ -148,6 +149,7 @@ require_unset BEATER_GATE2_STOPWATCH_PROOF "the outside run must write docs/demo
 require_unset BEATER_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
 require_unset BEATER_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
 require_unset BEATER_GATE2_COMPOSE_LOGS "the outside run must write docs/demos/gate2-outside-compose.log"
+require_unset BEATER_GATE2_TERMINAL_LOG "the outside run must write docs/demos/gate2-outside-terminal.log"
 require_unset COMPOSE_FILE "the outside run must use the wrapper's prebuilt compose file"
 require_unset COMPOSE_PROJECT_NAME "the outside run must use the default beater-stopwatch Compose project"
 require_unset COMPOSE_PROFILES "the outside run must not activate optional Compose profiles"
@@ -160,6 +162,7 @@ export BEATER_GATE2_LOCAL_BUILD="${BEATER_GATE2_LOCAL_BUILD:-0}"
 export BEATER_GATE2_PULL_POLICY="${BEATER_GATE2_PULL_POLICY:-always}"
 export BEATER_GATE2_OUTSIDE_WRAPPER=1
 export BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log
+export BEATER_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log
 export KEEP_BEATER_COMPOSE=1
 
 cd "$repo_root"
@@ -168,9 +171,19 @@ if [[ "$dry_run" == "1" ]]; then
   cat <<EOF
 Gate 2 outside-run wrapper preflight passed.
 Would execute:
-  BEATER_GATE2_CLONE_STARTED_EPOCH="\$BEATER_GATE2_CLONE_STARTED_EPOCH" BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log scripts/gate2-compose-stopwatch.sh
+  BEATER_GATE2_CLONE_STARTED_EPOCH="\$BEATER_GATE2_CLONE_STARTED_EPOCH" BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log BEATER_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log scripts/gate2-compose-stopwatch.sh 2>&1 | tee docs/demos/gate2-outside-terminal.log
 EOF
   exit 0
 fi
 
-exec scripts/gate2-compose-stopwatch.sh
+mkdir -p "$(dirname "$BEATER_GATE2_TERMINAL_LOG")"
+set +e
+scripts/gate2-compose-stopwatch.sh 2>&1 | tee "$BEATER_GATE2_TERMINAL_LOG"
+pipeline_status=("${PIPESTATUS[@]}")
+stopwatch_status=${pipeline_status[0]:-1}
+tee_status=${pipeline_status[1]:-1}
+set -e
+if [[ "$stopwatch_status" -ne 0 ]]; then
+  exit "$stopwatch_status"
+fi
+exit "$tee_status"

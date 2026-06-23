@@ -12,6 +12,7 @@ record_demo="${BEATER_GATE2_RECORD_DEMO:-0}"
 record_demo_video="${BEATER_GATE2_RECORD_VIDEO:-docs/demos/gate2-compose-browser-demo.webm}"
 record_demo_notes="${BEATER_GATE2_RECORD_NOTES:-docs/demos/gate2-compose-browser-demo.md}"
 compose_logs_path="${BEATER_GATE2_COMPOSE_LOGS:-}"
+terminal_log_path="${BEATER_GATE2_TERMINAL_LOG:-}"
 outside_wrapper="${BEATER_GATE2_OUTSIDE_WRAPPER:-0}"
 prebuilt_pull_policy="${BEATER_GATE2_PULL_POLICY:-always}"
 post_slo_timeout_seconds="${BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS:-300}"
@@ -47,6 +48,7 @@ redaction_browser_proof_status="not requested"
 record_demo_status="not requested"
 record_demo_sha256="not requested"
 compose_logs_artifact="not requested"
+terminal_transcript_artifact="not requested"
 time_to_quickstart_click_seconds=""
 script_to_quickstart_click_seconds=""
 quickstart_click_source="not requested"
@@ -772,6 +774,9 @@ if [[ -n "$compose_logs_path" ]]; then
   save_compose_logs "$compose_logs_path"
   compose_logs_artifact="$compose_logs_path"
 fi
+if [[ -n "$terminal_log_path" ]]; then
+  terminal_transcript_artifact="$terminal_log_path"
+fi
 if [[ "$outside_wrapper" == "1" ]]; then
   proof_followup_block="$(cat <<'EOF'
 This is an outside-run stopwatch source artifact generated through
@@ -834,6 +839,7 @@ if [[ "$write_proof" == "1" ]]; then
 - Prebuilt pull policy: \`$prebuilt_pull_policy\`
 - Compose project: $project
 - Compose logs artifact: \`$compose_logs_artifact\`
+- Terminal transcript artifact: \`$terminal_transcript_artifact\`
 - Beater image reference: \`$beater_image_ref\`
 - Dashboard image reference: \`$dashboard_image_ref\`
 - Dashboard e2e image reference: \`$dashboard_e2e_image_ref\`
@@ -885,15 +891,16 @@ Outside-run next steps:
   4. Open ${all_kind_dashboard_url:-not requested} in a normal browser for the all-kind waterfall.
   5. Confirm run -> turn -> step -> tool -> MCP nesting is visible.
   6. Review ${redaction_dashboard_url:-not requested} for redacted I/O and the reasoned unmask browser proof.
-  7. Use the saved docker compose logs artifact as evidence: $compose_logs_artifact
-  8. After the one-liner exits, run 'cd ./beater' from the parent shell if your prompt is not already inside the clone.
-  9. Generate the completed proof from this prefilled command:
+  7. Use the saved outside-run terminal transcript as evidence: $terminal_transcript_artifact
+  8. Use the saved docker compose logs artifact as evidence: $compose_logs_artifact
+  9. After the one-liner exits, run 'cd ./beater' from the parent shell if your prompt is not already inside the clone.
+  10. Generate the completed proof from this prefilled command:
 $outside_proof_command
-  10. Commit the evidence before closure validation:
-       git add docs/demos/gate2-outside-person-proof.md docs/demos/gate2-compose-stopwatch.md docs/demos/gate2-compose-browser-demo.webm docs/demos/gate2-compose-browser-demo.md docs/demos/gate2-outside-compose.log
+  11. Commit the evidence before closure validation:
+       git add docs/demos/gate2-outside-person-proof.md docs/demos/gate2-compose-stopwatch.md docs/demos/gate2-compose-browser-demo.webm docs/demos/gate2-compose-browser-demo.md docs/demos/gate2-outside-compose.log docs/demos/gate2-outside-terminal.log
        git commit -m "add gate2 outside proof"
-  11. Validate it with scripts/validate-gate2-outside-proof.sh.
-  12. After evidence is captured, clean up with:
+  12. Validate it with scripts/validate-gate2-outside-proof.sh.
+  13. After evidence is captured, clean up with:
        docker compose -f docker-compose.prebuilt.yml -p $project down -v --remove-orphans
 EOF
 )"
@@ -951,6 +958,9 @@ Browser recording artifact:
 
 Compose logs artifact:
   $compose_logs_artifact
+
+Outside-run terminal transcript:
+  $terminal_transcript_artifact
 
 Five-line snippet:
   examples/python/five_line_otel.py

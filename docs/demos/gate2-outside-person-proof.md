@@ -127,18 +127,21 @@ After the stopwatch command finishes, the one-liner returns the runner's parent
 shell to the directory that contains `beater/`. Run `cd ./beater`, then use the
 prefilled `scripts/generate-gate2-outside-proof.py --print-command` output
 printed in the terminal. It copies the stopwatch-derived dashboard URLs,
-terminal excerpt, and compose-log artifact into a ready-to-edit command. Replace
-every `...` field with the runner's actual values before running it; the
-generator and validator reject unresolved evidence. `--prior-exposure "none"` is
-valid when the runner has never seen the repository before, and the proof date
-defaults to the UTC date captured in the stopwatch proof's `Clone started at`
-field. Save the
-outside-run terminal transcript or compose logs as a repo-relative,
-committed/clean, non-symlink file under `docs/demos/` (for example
+terminal excerpt, outside-run terminal transcript, and compose-log artifact into
+a ready-to-edit command. Replace every `...` field with the runner's actual
+values before running it; the generator and validator reject unresolved
+evidence. `--prior-exposure "none"` is valid when the runner has never seen the
+repository before, and the proof date defaults to the UTC date captured in the
+stopwatch proof's `Clone started at` field. Save the outside-run terminal
+transcript and compose logs as repo-relative, committed/clean, non-symlink files
+under `docs/demos/` (for example `docs/demos/gate2-outside-terminal.log` and
 `docs/demos/gate2-outside-compose.log`), or use an immutable GitHub Actions
-run/job URL such as `https://github.com/jadenfix/beater/actions/runs/<run_id>`.
-The outside-run wrapper writes `docs/demos/gate2-outside-compose.log`
-automatically and pre-fills that path with `--compose-logs-saved`.
+run/job URL for compose logs such as
+`https://github.com/jadenfix/beater/actions/runs/<run_id>`. The outside-run
+wrapper writes `docs/demos/gate2-outside-compose.log` automatically and
+pre-fills that path with `--compose-logs-saved`; it also writes
+`docs/demos/gate2-outside-terminal.log` and pre-fills
+`--terminal-transcript-saved`.
 
 If you need to reprint the command, run:
 
@@ -164,6 +167,7 @@ scripts/generate-gate2-outside-proof.py \
   --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code" \
   --waterfall-observation "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting" \
   --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard; Redaction dashboard: $redaction_dashboard" \
+  --terminal-transcript-saved "docs/demos/gate2-outside-terminal.log" \
   --compose-logs-saved "docs/demos/gate2-outside-compose.log" \
   --preflight-status "passed" \
   --attest-outside-run
@@ -177,6 +181,7 @@ git add docs/demos/gate2-outside-person-proof.md \
   docs/demos/gate2-compose-stopwatch.md \
   docs/demos/gate2-compose-browser-demo.webm \
   docs/demos/gate2-compose-browser-demo.md \
+  docs/demos/gate2-outside-terminal.log \
   docs/demos/gate2-outside-compose.log
 git commit -m "add gate2 outside proof"
 scripts/validate-gate2-outside-proof.sh
@@ -218,8 +223,8 @@ If Docker is unavailable on the maintainer machine, run
 performs the public clone, exact-commit, wrapper dry-run, proof-structure, and
 multi-arch GHCR-image checks, but it is not a runtime handoff proof.
 
-The validator reads the listed stopwatch proof file, screen-recording notes, and
-`ffprobe` playable-video metadata,
+The validator reads the listed stopwatch proof file, screen-recording notes,
+outside-run terminal transcript, and `ffprobe` playable-video metadata,
 then cross-checks default API/OTLP/dashboard endpoints, clean-start status,
 browser-proof status, trace IDs, dashboard URLs, per-run quickstart release ID,
 the same quickstart release ID in the screen-recording notes,
@@ -238,16 +243,18 @@ the 5-minute SLO, verifies
 screen-recording SHA256 against the committed artifact, requires the artifact to
 be a playable WebM capture of at least 64 KiB and at least 8 seconds with
 EBML/WebM, Segment, Info, Tracks, and Cluster structure plus a video track, and
+requires the outside-run terminal transcript to contain the manual checkpoint
+prompt, dashboard URLs, final pass line, and prefilled proof command. It also
 requires the recording notes to declare `Recording mode: compose`, the matching
 quickstart release ID, and describe
 the full click-through: quickstart trace, `llm.call`, prompt, completion, model,
 token breakdown, cost, latency, confirmation code, and run -> turn -> step ->
 tool -> MCP waterfall, plus the sensitive `llm.call` redacted prompt/completion,
 unmask reason, unmasked I/O, and Redacted view.
-Stopwatch, recording, notes, and saved compose-log paths must be repo-relative
-paths under `docs/demos/` and must not resolve through symlinks. Saved
-compose-log evidence must be a committed/clean file at closure, or an immutable
-GitHub Actions run/job URL under
+Stopwatch, recording, notes, saved outside-run terminal transcript, and saved
+compose-log paths must be repo-relative paths under `docs/demos/` and must not
+resolve through symlinks. Saved compose-log evidence must be a committed/clean
+file at closure, or an immutable GitHub Actions run/job URL under
 `https://github.com/jadenfix/beater/actions/runs/`.
 
 ## Required Evidence
@@ -257,6 +264,7 @@ GitHub Actions run/job URL under
 - Screen recording notes: `docs/demos/gate2-compose-browser-demo.md`
 - Screen recording SHA256:
 - Terminal output excerpt:
+- Outside-run terminal transcript:
 - Runner llm.call observation:
 - Runner waterfall observation:
 - `docker compose images` excerpt:

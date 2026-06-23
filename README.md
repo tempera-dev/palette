@@ -263,6 +263,10 @@ reports another process on one of those ports, stop that app and rerun; do not
 set `BEATER_HTTP_PORT`, `BEATER_OTLP_GRPC_PORT`, or `BEATER_DASHBOARD_PORT` for
 outside-person evidence. Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, or
 `COMPOSE_PROFILES`; the public command controls the Compose topology.
+The outside wrapper also tees its terminal output to
+`docs/demos/gate2-outside-terminal.log`, so the manual checkpoint prompt,
+dashboard URLs, final pass line, and generated proof command are committed as
+evidence alongside the Compose service logs.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`. The stopwatch script
 pins `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` to the checked-out commit SHA
@@ -395,12 +399,15 @@ terminal. It copies the stopwatch-derived dashboard URLs, terminal excerpt, and
 compose-log artifact into a ready-to-edit command. Before running the command,
 replace every `...` field with the runner's actual values; the generator and
 validator reject unresolved evidence. Save the outside-run terminal transcript
-or compose logs as a repo-relative, committed/clean, non-symlink file under
-`docs/demos/` (for example `docs/demos/gate2-outside-compose.log`), or use an
-immutable GitHub Actions run/job URL such as
+and compose logs as repo-relative, committed/clean, non-symlink files under
+`docs/demos/` (for example `docs/demos/gate2-outside-terminal.log` and
+`docs/demos/gate2-outside-compose.log`), or use an immutable GitHub Actions
+run/job URL for compose logs such as
 `https://github.com/jadenfix/beater/actions/runs/<run_id>`. The outside-run
 wrapper writes `docs/demos/gate2-outside-compose.log` automatically and
-pre-fills that path with `--compose-logs-saved`.
+pre-fills that path with `--compose-logs-saved`; it also writes
+`docs/demos/gate2-outside-terminal.log` and pre-fills
+`--terminal-transcript-saved`.
 
 To reprint the ready-to-edit command:
 
@@ -426,6 +433,7 @@ scripts/generate-gate2-outside-proof.py \
   --llm-observation "clicked llm.call and saw prompt, completion, model, token breakdown, cost, latency, and confirmation code" \
   --waterfall-observation "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting" \
   --terminal-output-excerpt "Gate 2 compose stopwatch passed; Browser recording: passed; Quickstart dashboard: $quickstart_dashboard; All-kind dashboard: $all_kind_dashboard; Redaction dashboard: $redaction_dashboard" \
+  --terminal-transcript-saved "docs/demos/gate2-outside-terminal.log" \
   --compose-logs-saved "docs/demos/gate2-outside-compose.log" \
   --preflight-status "passed" \
   --attest-outside-run
@@ -438,13 +446,15 @@ git add docs/demos/gate2-outside-person-proof.md \
   docs/demos/gate2-compose-stopwatch.md \
   docs/demos/gate2-compose-browser-demo.webm \
   docs/demos/gate2-compose-browser-demo.md \
+  docs/demos/gate2-outside-terminal.log \
   docs/demos/gate2-outside-compose.log
 git commit -m "add gate2 outside proof"
 scripts/validate-gate2-outside-proof.sh
 ```
 
 The validator checks the outside-person template, stopwatch proof file,
-screen-recording notes, and playable WebM metadata from the same run. It rejects
+screen-recording notes, outside-run terminal transcript, and playable WebM
+metadata from the same run. It rejects
 alternate ports, warm-loop reuse, placeholder dashboard URLs, mismatched trace IDs,
 mismatched recording-note quickstart release IDs,
 mismatched commit SHA,
@@ -457,8 +467,10 @@ compose image excerpts missing runner images or structured `proof-image` rows,
 non-repo-relative `docs/demos/` artifacts, and non-prebuilt GHCR image digests.
 It rejects ambiguous compose-log notes, missing saved log files, non-GitHub
 Actions log URLs, symlinked log artifacts, and dirty or uncommitted saved log
-artifacts at closure. It rejects recording notes from a different dashboard
-session. It rejects
+artifacts at closure. It requires the outside-run terminal transcript to be a
+committed `docs/demos/` file containing the manual checkpoint prompt, dashboard
+URLs, final pass line, and prefilled proof command. It rejects recording notes
+from a different dashboard session. It rejects
 uncommitted non-evidence worktree changes at closure. It rejects any screen
 recording hash that does not match the committed file. It requires
 `Quickstart click source: manual-outside-runner` and

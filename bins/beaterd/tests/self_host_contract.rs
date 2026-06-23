@@ -568,9 +568,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("BEATER_GATE2_RECORD_MODE=compose"));
     assert!(stopwatch_script.contains("BEATER_GATE2_OUTSIDE_WRAPPER=\"$outside_wrapper\""));
     assert!(stopwatch_script.contains("BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(stopwatch_script.contains("BEATER_GATE2_TERMINAL_LOG"));
     assert!(stopwatch_script.contains("save_compose_logs()"));
     assert!(stopwatch_script.contains("logs --no-color --timestamps"));
     assert!(stopwatch_script.contains("Compose logs artifact"));
+    assert!(stopwatch_script.contains("Terminal transcript artifact"));
     assert!(stopwatch_script.contains("BEATER_E2E_QUICKSTART_TRACE_ID"));
     assert!(stopwatch_script.contains("BEATER_E2E_QUICKSTART_RELEASE"));
     assert!(stopwatch_script.contains("compose_run_e2e"));
@@ -676,10 +678,12 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_run.contains("require_unset BEATER_GATE2_RECORD_VIDEO"));
     assert!(outside_run.contains("require_unset BEATER_GATE2_RECORD_NOTES"));
     assert!(outside_run.contains("require_unset BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(outside_run.contains("require_unset BEATER_GATE2_TERMINAL_LOG"));
     assert!(outside_run.contains("docs/demos/gate2-compose-stopwatch.md"));
     assert!(outside_run.contains("docs/demos/gate2-compose-browser-demo.webm"));
     assert!(outside_run.contains("docs/demos/gate2-compose-browser-demo.md"));
     assert!(outside_run.contains("docs/demos/gate2-outside-compose.log"));
+    assert!(outside_run.contains("docs/demos/gate2-outside-terminal.log"));
     assert!(outside_run.contains("require_unset_or_value KEEP_BEATER_COMPOSE 1"));
     assert!(outside_run.contains("require_unset COMPOSE_FILE"));
     assert!(outside_run.contains("require_unset COMPOSE_PROJECT_NAME"));
@@ -688,6 +692,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_run.contains("export KEEP_BEATER_COMPOSE=1"));
     assert!(outside_run
         .contains("export BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log"));
+    assert!(outside_run
+        .contains("export BEATER_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log"));
+    assert!(outside_run.contains("tee \"$BEATER_GATE2_TERMINAL_LOG\""));
     assert!(outside_run.contains("scripts/gate2-compose-stopwatch.sh"));
     assert!(outside_run.contains("Gate 2 outside-run wrapper preflight passed"));
 
@@ -696,6 +703,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_local_preflight.contains("require_command docker"));
     assert!(outside_local_preflight.contains("require_command curl"));
     assert!(outside_local_preflight.contains("require_command ffprobe"));
+    assert!(outside_local_preflight.contains("require_command tee"));
     assert!(outside_local_preflight.contains("require_python3"));
     assert!(outside_local_preflight.contains("version 3.9 or newer"));
     assert!(outside_local_preflight.contains("shasum"));
@@ -713,6 +721,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_local_preflight.contains("require_unset_or_value BEATER_DASHBOARD_PORT 3000"));
     assert!(outside_local_preflight.contains("require_unset BEATERD_IMAGE"));
     assert!(outside_local_preflight.contains("require_unset BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(outside_local_preflight.contains("require_unset BEATER_GATE2_TERMINAL_LOG"));
     assert!(outside_local_preflight.contains("BEATER_GATE2_EXPECTED_COMMIT"));
     assert!(outside_local_preflight.contains("require_public_images_for_expected_commit"));
     assert!(outside_local_preflight.contains("ghcr.io/{repository}:{expected_commit}"));
@@ -993,6 +1002,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("BEATER_GATE2_RECORD_VIDEO"));
     assert!(public_handoff.contains("BEATER_GATE2_RECORD_NOTES"));
     assert!(public_handoff.contains("BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(public_handoff.contains("BEATER_GATE2_TERMINAL_LOG"));
     assert!(public_handoff.contains("BEATER_GATE2_RUN_ID"));
     assert!(public_handoff.contains("BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS"));
     assert!(public_handoff.contains("KEEP_BEATER_COMPOSE"));
@@ -1162,14 +1172,18 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("gate2-compose-browser-demo.webm"));
     assert!(outside_proof.contains("gate2-compose-browser-demo.md"));
     assert!(outside_proof.contains("Terminal output excerpt"));
+    assert!(outside_proof.contains("Outside-run terminal transcript"));
     assert!(outside_proof.contains("repo-relative"));
     assert!(outside_proof.contains("committed/clean, non-symlink file"));
     assert!(outside_proof.contains("immutable GitHub Actions run/job URL"));
     assert!(outside_proof.contains("actions/runs/<run_id>"));
     assert!(outside_proof.contains("writes `docs/demos/gate2-outside-compose.log`"));
-    assert!(outside_proof.contains("automatically and pre-fills that path"));
-    assert!(outside_proof.contains("saved compose-log paths"));
-    assert!(outside_proof.contains("compose-log evidence must be a committed/clean file"));
+    assert!(outside_proof.contains("writes\n`docs/demos/gate2-outside-terminal.log`"));
+    assert!(outside_proof.contains("`--terminal-transcript-saved`"));
+    assert!(outside_proof.contains("saved outside-run terminal transcript"));
+    assert!(outside_proof.contains("compose-log paths"));
+    assert!(outside_proof.contains("outside-run terminal transcript"));
+    assert!(outside_proof.contains("Saved compose-log evidence must be a committed/clean"));
     assert!(outside_proof.contains("repo-relative committed/clean non-symlink `docs/demos/`"));
     assert!(outside_proof.contains("Dashboard base: `http://127.0.0.1:3000`"));
     assert!(!outside_proof.contains("http://127.0.0.1:3000/..."));
@@ -1200,7 +1214,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     );
     assert!(outside_proof.contains("Recording mode: compose"));
     assert!(outside_proof.contains("EBML/WebM, Segment, Info,"));
-    assert!(outside_proof.contains("must not resolve through symlinks"));
+    assert!(outside_proof.contains("must not"));
+    assert!(outside_proof.contains("resolve through symlinks"));
     for fragment in [
         "prompt",
         "completion",
@@ -1300,20 +1315,24 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("public GHCR manifest digest"));
     assert!(readme.contains("mismatched image digests"));
     assert!(readme.contains("repo-relative, committed/clean"));
-    assert!(readme.contains("non-symlink file under"));
+    assert!(readme.contains("non-symlink files under"));
     assert!(readme.contains("`docs/demos/`"));
     assert!(readme.contains("immutable GitHub Actions"));
     assert!(readme.contains("actions/runs/<run_id>"));
     assert!(readme.contains("writes `docs/demos/gate2-outside-compose.log`"));
-    assert!(readme.contains("automatically and\npre-fills that path"));
+    assert!(readme.contains("writes\n`docs/demos/gate2-outside-terminal.log`"));
+    assert!(readme.contains("`--terminal-transcript-saved`"));
     assert!(readme.contains("ambiguous compose-log notes"));
+    assert!(readme.contains("outside-run terminal transcript"));
     assert!(readme.contains("dirty or uncommitted saved log\nartifacts at closure"));
     assert!(readme.contains("BEATER_GATE2_RUN_ID"));
     assert!(readme.contains("fresh per-run quickstart release ID"));
     assert!(readme.contains("Beater image service rows"));
     assert!(readme.contains("structured `proof-image` rows"));
-    assert!(readme.contains("recording notes from a different dashboard"));
-    assert!(readme.contains("playable WebM metadata"));
+    assert!(readme.contains("recording notes"));
+    assert!(readme.contains("from a different dashboard session"));
+    assert!(readme.contains("playable WebM"));
+    assert!(readme.contains("metadata from the same run"));
     assert!(readme.contains("playable WebM capture of\nat least 64 KiB and at least 8 seconds"));
     assert!(readme.contains("Recording mode: compose"));
     assert!(readme.contains("EBML/WebM, Segment,"));

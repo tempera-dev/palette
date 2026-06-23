@@ -218,6 +218,7 @@ require_unset BEATER_GATE2_STOPWATCH_PROOF "the outside run must write docs/demo
 require_unset BEATER_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
 require_unset BEATER_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
 require_unset BEATER_GATE2_COMPOSE_LOGS "the outside run must write docs/demos/gate2-outside-compose.log"
+require_unset BEATER_GATE2_TERMINAL_LOG "the outside run must write docs/demos/gate2-outside-terminal.log"
 require_unset COMPOSE_FILE "the public command controls the Compose topology"
 require_unset COMPOSE_PROJECT_NAME "the public command controls the Compose topology"
 require_unset COMPOSE_PROFILES "the public command controls the Compose topology"
@@ -242,6 +243,7 @@ if ! docker_endpoint_is_local "$docker_context_host"; then
   fail "Docker context must be local because browser proof uses 127.0.0.1; current endpoint is $docker_context_host"
 fi
 
+require_command tee "the outside-run terminal transcript is saved under docs/demos"
 require_public_images_for_expected_commit
 
 for port in 8080 4317 3000; do

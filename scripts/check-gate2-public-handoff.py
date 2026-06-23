@@ -624,6 +624,7 @@ OUTSIDE_ENV_NAMES = [
     "BEATER_GATE2_RECORD_VIDEO",
     "BEATER_GATE2_RECORD_NOTES",
     "BEATER_GATE2_COMPOSE_LOGS",
+    "BEATER_GATE2_TERMINAL_LOG",
     "KEEP_BEATER_COMPOSE",
     "COMPOSE_FILE",
     "COMPOSE_PROJECT_NAME",
@@ -762,6 +763,8 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "run `cd ./beater`",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
+            "--terminal-transcript-saved",
+            "docs/demos/gate2-outside-terminal.log",
             "cd ./beater",
             "from the same `beater/` clone",
             "git add docs/demos/gate2-outside-person-proof.md",
@@ -788,6 +791,8 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "Run `cd ./beater`",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
+            "--terminal-transcript-saved",
+            "docs/demos/gate2-outside-terminal.log",
             "cd ./beater",
             "stay in the `beater/` clone",
             "git add docs/demos/gate2-outside-person-proof.md",
@@ -829,6 +834,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "unmask reason",
             "Redacted view",
             "docs/demos/gate2-outside-compose.log",
+            "docs/demos/gate2-outside-terminal.log",
             "run -> turn -> step -> tool -> MCP",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "Run `cd ./beater`",
@@ -885,12 +891,15 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             r"Redaction span: \`${redaction_span_id:-not requested}\`",
             "Redaction unmask reason: $redaction_unmask_reason",
             "redacted I/O browser proof",
+            "Terminal transcript artifact",
+            "Outside-run terminal transcript:",
             "python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof",
             "--print-command",
             "After the one-liner exits, run 'cd ./beater'",
             "Generate the completed proof from this prefilled command",
             "Commit the evidence before closure validation",
             "git add docs/demos/gate2-outside-person-proof.md",
+            "docs/demos/gate2-outside-terminal.log",
             'git commit -m "add gate2 outside proof"',
         ],
         contract="quickstart handoff script",
@@ -953,6 +962,7 @@ def cleanup_cloned_compose(clone_dir: Path) -> None:
 def run_generated_proof_check(clone_dir: Path, compose_logs_path: Path) -> None:
     proof_path = "docs/demos/gate2-public-handoff-diagnostic-proof.md"
     compose_logs_rel = compose_logs_path.relative_to(clone_dir).as_posix()
+    terminal_transcript_rel = "docs/demos/gate2-outside-terminal.log"
     print(
         "Validating generated Gate 2 proof from full-run artifacts "
         "(diagnostic only; not outside-person evidence)."
@@ -988,6 +998,8 @@ def run_generated_proof_check(clone_dir: Path, compose_logs_path: Path) -> None:
             diagnostic_terminal_excerpt(clone_dir),
             "--compose-logs-saved",
             compose_logs_rel,
+            "--terminal-transcript-saved",
+            terminal_transcript_rel,
             "--preflight-status",
             "passed",
             "--diagnostic-report",

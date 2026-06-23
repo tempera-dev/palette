@@ -444,6 +444,40 @@ def require_terminal_excerpt(value: str, quickstart_url: str, all_kind_url: str)
             fail(f"Terminal output excerpt must include {description}: {snippet}")
 
 
+def require_terminal_transcript_saved(
+    value: str, quickstart_url: str, all_kind_url: str, redaction_url: str
+) -> None:
+    transcript_path = validated_artifact_path(
+        value,
+        "Outside-run terminal transcript",
+        f"outside-run terminal transcript does not exist: {value}",
+    )
+    if not transcript_path:
+        return
+    require_committed_clean_path(transcript_path, "Outside-run terminal transcript")
+    transcript_text = read_validated_text(
+        transcript_path, "Outside-run terminal transcript"
+    )
+    forbid_alternate_evidence(transcript_text, "outside-run terminal transcript")
+    for snippet, description in [
+        ("Manual outside-run checkpoint:", "manual checkpoint prompt"),
+        ("Open this quickstart trace-list URL first:", "quickstart list prompt"),
+        ("Direct quickstart trace URL:", "direct quickstart trace prompt"),
+        ("Gate 2 compose stopwatch passed", "compose stopwatch pass line"),
+        ("Browser recording:", "browser recording status"),
+        ("Outside-run next steps:", "outside-run next steps"),
+        (
+            "Generate the completed proof from this prefilled command",
+            "proof generation command",
+        ),
+        (quickstart_url, "quickstart dashboard URL"),
+        (all_kind_url, "all-kind dashboard URL"),
+        (redaction_url, "redaction dashboard URL"),
+    ]:
+        if snippet not in transcript_text:
+            fail(f"Outside-run terminal transcript must include {description}: {snippet}")
+
+
 def require_compose_logs_saved(value: str) -> None:
     normalized = value.lower()
     if (
@@ -1069,6 +1103,7 @@ REQUIRED_PROOF_FIELDS = [
     "Screen recording notes",
     "Screen recording SHA256",
     "Terminal output excerpt",
+    "Outside-run terminal transcript",
     "Runner llm.call observation",
     "Runner waterfall observation",
     "`docker compose images` excerpt",
@@ -1369,6 +1404,10 @@ require_default_dashboard_url("Quickstart dashboard URL", quickstart_url, quicks
 require_default_dashboard_url("All-kind dashboard URL", all_kind_url, all_kind_trace_id)
 require_default_dashboard_url("Redaction dashboard URL", redaction_url, redaction_trace_id)
 require_terminal_excerpt(field_value("Terminal output excerpt"), quickstart_url, all_kind_url)
+terminal_transcript = field_value("Outside-run terminal transcript")
+require_terminal_transcript_saved(
+    terminal_transcript, quickstart_url, all_kind_url, redaction_url
+)
 require_compose_logs_saved(field_value("`docker compose` logs saved"))
 require_runner_observation(
     "Runner llm.call observation",
@@ -1805,6 +1844,11 @@ if stopwatch_text:
     require_equal("screen recording path", recording, stopwatch_recording)
     require_equal("screen recording notes path", notes, stopwatch_notes)
     require_equal("screen recording sha256", sha, stopwatch_sha)
+    require_equal(
+        "outside-run terminal transcript",
+        terminal_transcript,
+        field_value_from(stopwatch_text, "Terminal transcript artifact", "stopwatch proof"),
+    )
 
     stopwatch_image_digests = {
         image.image_name: field_value_from(

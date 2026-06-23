@@ -187,6 +187,32 @@ def require_compose_logs_saved_arg(value):
     return cleaned
 
 
+def require_terminal_transcript_saved_arg(value):
+    cleaned = require_meaningful_arg("--terminal-transcript-saved", value)
+    path = Path(cleaned)
+    if path.is_absolute() or ".." in path.parts:
+        raise SystemExit(
+            "--terminal-transcript-saved must be a repo-relative path under docs/demos"
+        )
+    if len(path.parts) < 2 or path.parts[0] != "docs" or path.parts[1] != "demos":
+        raise SystemExit("--terminal-transcript-saved must live under docs/demos")
+    transcript_path = repo_root() / path
+    if not transcript_path.is_file():
+        raise SystemExit(f"--terminal-transcript-saved file does not exist: {cleaned}")
+    try:
+        transcript_path.resolve().relative_to(repo_root().resolve())
+    except ValueError:
+        raise SystemExit(
+            "--terminal-transcript-saved must resolve inside the repository"
+        ) from None
+    probe = repo_root()
+    for part in path.parts:
+        probe = probe / part
+        if probe.is_symlink():
+            raise SystemExit(f"--terminal-transcript-saved must not be a symlink: {cleaned}")
+    return cleaned
+
+
 def timestamp_date(source_text, name, source_name):
     value = field_value(source_text, name, source_name)
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value):
@@ -239,6 +265,10 @@ def compose_logs_from_stopwatch(stopwatch_text, stopwatch_rel):
     return field_value(stopwatch_text, "Compose logs artifact", stopwatch_rel)
 
 
+def terminal_transcript_from_stopwatch(stopwatch_text, stopwatch_rel):
+    return field_value(stopwatch_text, "Terminal transcript artifact", stopwatch_rel)
+
+
 def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
     stopwatch_rel = relative_or_absolute(stopwatch_path)
     require_outside_run_stopwatch_source(stopwatch_text, stopwatch_rel)
@@ -247,6 +277,9 @@ def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
     )
     require_redaction_proof_source(stopwatch_text, stopwatch_rel)
     compose_logs_saved = compose_logs_from_stopwatch(stopwatch_text, stopwatch_rel)
+    terminal_transcript_saved = terminal_transcript_from_stopwatch(
+        stopwatch_text, stopwatch_rel
+    )
     terminal_excerpt = terminal_output_excerpt_from_stopwatch(stopwatch_text, stopwatch_rel)
     command = [
         "python3",
@@ -273,6 +306,8 @@ def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
         "... opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting ...",
         "--terminal-output-excerpt",
         terminal_excerpt,
+        "--terminal-transcript-saved",
+        terminal_transcript_saved,
         "--compose-logs-saved",
         compose_logs_saved,
         "--preflight-status",
@@ -338,6 +373,9 @@ def build_proof(args, stopwatch_path, stopwatch_text):
 
     terminal_excerpt = require_meaningful_arg(
         "--terminal-output-excerpt", args.terminal_output_excerpt
+    )
+    terminal_transcript = require_terminal_transcript_saved_arg(
+        args.terminal_transcript_saved
     )
     logs_saved = require_compose_logs_saved_arg(args.compose_logs_saved)
     failure_notes = args.failure_notes or "none"
@@ -477,6 +515,7 @@ Status: {status}
 - Screen recording notes: `{notes}`
 - Screen recording SHA256: {recording_sha}
 - Terminal output excerpt: {terminal_excerpt}
+- Outside-run terminal transcript: {terminal_transcript}
 - Runner llm.call observation: {llm_observation}
 - Runner waterfall observation: {waterfall_observation}
 - `docker compose images` excerpt: {compose_images_excerpt(stopwatch_text, stopwatch_path)}
@@ -565,6 +604,7 @@ def parse_args():
     parser.add_argument("--llm-observation", default="")
     parser.add_argument("--waterfall-observation", default="")
     parser.add_argument("--terminal-output-excerpt", default="")
+    parser.add_argument("--terminal-transcript-saved", default="")
     parser.add_argument("--compose-logs-saved", default="")
     parser.add_argument("--failure-notes", default="")
     parser.add_argument("--runner-notes", default="")

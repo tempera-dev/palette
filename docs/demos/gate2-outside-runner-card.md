@@ -52,6 +52,7 @@ copy the code from terminal logs or generated files.
 After the timed click is recorded, leave the command running. It will run the
 browser proof, generate the all-kind waterfall trace, seed a sensitive redacted
 I/O trace, record the browser video, and save
+`docs/demos/gate2-outside-terminal.log` plus
 `docs/demos/gate2-outside-compose.log`.
 
 Open the printed all-kind dashboard URL and confirm the waterfall shows:
@@ -73,6 +74,8 @@ you launched the one-liner. Run `cd ./beater`, then use the printed
 The generated proof must keep the stopwatch's fresh quickstart release ID,
 trace IDs, span IDs, redaction unmask reason, and manual confirmation source;
 validation rejects stale or mismatched values.
+The wrapper-saved terminal transcript must also be committed; it captures the
+manual checkpoint prompt, printed dashboard URLs, and final proof command.
 
 From the same `beater/` clone, commit the evidence before validation:
 
@@ -81,6 +84,7 @@ git add docs/demos/gate2-outside-person-proof.md \
   docs/demos/gate2-compose-stopwatch.md \
   docs/demos/gate2-compose-browser-demo.webm \
   docs/demos/gate2-compose-browser-demo.md \
+  docs/demos/gate2-outside-terminal.log \
   docs/demos/gate2-outside-compose.log
 git commit -m "add gate2 outside proof"
 scripts/validate-gate2-outside-proof.sh
