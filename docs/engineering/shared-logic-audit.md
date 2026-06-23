@@ -28,6 +28,9 @@ contracts narrow, shared, and testable.
   OTLP id normalization, CLI smoke fixtures, and live-smoke tests.
 - Gate 2 self-host contract tests now assert the shared dashboard confirmation
   helper directly, rather than the removed quickstart-local wrapper.
+- `beater-search::index_project_trace` owns trace-ingested readback plus search
+  indexing, so API drain and `beaterd` background workers share the same
+  downstream processing path.
 
 ## Keep Independent
 
@@ -55,10 +58,9 @@ contracts narrow, shared, and testable.
 - Ingest preparation still has parallel native/raw/OTLP paths. The right shared
   contract is one internal canonical span input plus shared artifact hashing,
   idempotency, redaction, and span assembly.
-- Trace-ingested search processing is duplicated between API drain paths and the
-  `beaterd` background worker. A small trace-ingested processor should take the
-  queue work, trace store, and search index so both boundaries execute the same
-  post-ingest behavior.
+- Trace-ingested search processing now shares the readback/index helper, but
+  higher-level queue draining, retry reporting, and worker hooks still live at
+  their API/runtime boundaries.
 - OpenAPI doc schemas mirror real API and schema DTOs. Prefer deriving or
   sharing public response DTOs rather than maintaining doc-only copies for
   canonical spans, run summaries, money, artifact refs, and query params.

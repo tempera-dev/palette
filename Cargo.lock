@@ -923,6 +923,7 @@ dependencies = [
  "beater-core",
  "beater-schema",
  "beater-store",
+ "beater-store-memory",
  "chrono",
  "serde",
  "serde_json",

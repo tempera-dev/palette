@@ -48,7 +48,9 @@ use beater_schema::{
     AgentSpanKind, ArtifactRef, AuthContext, CanonicalSpan, RedactionClass, RunFilter, RunSummary,
     SpanStatus, TraceView,
 };
-use beater_search::{NoopSearchIndex, SearchIndex, SearchRequest, SearchResponse};
+use beater_search::{
+    index_project_trace, NoopSearchIndex, SearchIndex, SearchRequest, SearchResponse,
+};
 use beater_secrets::{
     ProviderSecretMetadata, ProviderSecretStore, PutProviderSecretRequest, RevokedProviderSecret,
 };
@@ -707,18 +709,15 @@ async fn drain_trace_ingested_route(
             let traces = traces.clone();
             let search = search.clone();
             async move {
-                let trace = traces
-                    .get_project_trace(
-                        trace_ref.tenant_id.clone(),
-                        trace_ref.project_id.clone(),
-                        trace_ref.trace_id.clone(),
-                    )
-                    .await
-                    .map_err(|err| err.to_string())?;
-                search
-                    .index_spans(&trace.spans)
-                    .await
-                    .map_err(|err| err.to_string())
+                index_project_trace(
+                    traces.as_ref(),
+                    search.as_ref(),
+                    trace_ref.tenant_id,
+                    trace_ref.project_id,
+                    trace_ref.trace_id,
+                )
+                .await
+                .map_err(|err| err.to_string())
             }
         })
         .await?;

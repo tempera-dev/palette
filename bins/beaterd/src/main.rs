@@ -10,7 +10,7 @@ use beater_datasets::SqliteDatasetStore;
 use beater_experiments::SqliteExperimentStore;
 use beater_gates::SqliteGateStore;
 use beater_human::SqliteHumanReviewStore;
-use beater_ingest::{IngestPolicy, IngestService, QueuedTraceWork};
+use beater_ingest::{IngestPolicy, IngestService};
 use beater_judge::{
     HttpRoutingJudgeProvider, JudgeBrokerService, JudgeProvider, KeywordJudgeProvider,
     SqliteJudgeLedger,
@@ -20,7 +20,7 @@ use beater_schema::{
     CanonicalTraceBatch, RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanSummary, TraceView,
     WriteAck,
 };
-use beater_search::{SearchIndex, TantivySearchIndex};
+use beater_search::{index_project_trace, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
@@ -391,7 +391,15 @@ fn spawn_trace_ingested_worker(
                     let hooks = hooks.clone();
                     async move {
                         apply_trace_ingested_test_hooks(&hooks).await?;
-                        index_trace_ref(traces, search, trace_ref).await
+                        index_project_trace(
+                            traces.as_ref(),
+                            search.as_ref(),
+                            trace_ref.tenant_id,
+                            trace_ref.project_id,
+                            trace_ref.trace_id,
+                        )
+                        .await
+                        .map_err(|err| err.to_string())
                     }
                 })
                 .await
@@ -438,32 +446,6 @@ fn write_hook_marker(path: &Path, lane: &str) -> Result<(), String> {
             .map_err(|err| format!("create {lane} marker dir failed: {err}"))?;
     }
     fs::write(path, b"leased").map_err(|err| format!("write {lane} marker failed: {err}"))
-}
-
-async fn index_trace_ref(
-    traces: Arc<dyn TraceStore>,
-    search: Arc<TantivySearchIndex>,
-    trace_ref: QueuedTraceWork,
-) -> Result<(), String> {
-    let trace = traces
-        .get_project_trace(
-            trace_ref.tenant_id.clone(),
-            trace_ref.project_id.clone(),
-            trace_ref.trace_id.clone(),
-        )
-        .await
-        .map_err(|err| {
-            format!(
-                "trace.ingested readback failed for tenant={} trace={}: {err}",
-                trace_ref.tenant_id, trace_ref.trace_id
-            )
-        })?;
-    search.index_spans(&trace.spans).await.map_err(|err| {
-        format!(
-            "trace.ingested indexing failed for tenant={} trace={}: {err}",
-            trace_ref.tenant_id, trace_ref.trace_id
-        )
-    })
 }
 
 // Hidden live-test adapter for proving external TraceStore outages over TCP.

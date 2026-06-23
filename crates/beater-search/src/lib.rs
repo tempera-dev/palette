@@ -2,7 +2,7 @@ use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{ProjectId, SpanId, TenantId, TraceId};
 use beater_schema::CanonicalSpan;
-use beater_store::{StoreError, StoreResult};
+use beater_store::{StoreError, StoreResult, TraceStore};
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
 use std::path::Path;
@@ -16,6 +16,48 @@ use tantivy::{doc, Index, IndexWriter, Term};
 pub trait SearchIndex: Send + Sync {
     async fn index_spans(&self, spans: &[CanonicalSpan]) -> StoreResult<()>;
     async fn search(&self, query: SearchRequest) -> StoreResult<SearchResponse>;
+}
+
+pub async fn index_project_trace(
+    traces: &dyn TraceStore,
+    search: &dyn SearchIndex,
+    tenant_id: TenantId,
+    project_id: ProjectId,
+    trace_id: TraceId,
+) -> StoreResult<()> {
+    let trace = traces
+        .get_project_trace(tenant_id.clone(), project_id.clone(), trace_id.clone())
+        .await
+        .map_err(|err| {
+            context_store_error(
+                err,
+                format!(
+                    "trace.ingested readback failed for tenant={} project={} trace={}",
+                    tenant_id, project_id, trace_id
+                ),
+            )
+        })?;
+    search.index_spans(&trace.spans).await.map_err(|err| {
+        context_store_error(
+            err,
+            format!(
+                "trace.ingested indexing failed for tenant={} project={} trace={}",
+                tenant_id, project_id, trace_id
+            ),
+        )
+    })
+}
+
+fn context_store_error(error: StoreError, context: String) -> StoreError {
+    match error {
+        StoreError::NotFound(message) => StoreError::NotFound(format!("{context}: {message}")),
+        StoreError::Conflict(message) => StoreError::Conflict(format!("{context}: {message}")),
+        StoreError::Backpressure(message) => {
+            StoreError::Backpressure(format!("{context}: {message}"))
+        }
+        StoreError::Integrity(message) => StoreError::Integrity(format!("{context}: {message}")),
+        StoreError::Backend(message) => StoreError::Backend(format!("{context}: {message}")),
+    }
 }
 
 trait IntoStoreResult<T> {
@@ -408,7 +450,9 @@ fn value_to_text(value: &JsonValue) -> String {
 mod tests {
     use super::*;
     use beater_core::{EnvironmentId, ProjectId, TenantId};
+    use beater_schema::CanonicalTraceBatch;
     use beater_schema::{AgentSpanKind, ModelRef, SpanStatus, CANONICAL_SCHEMA_VERSION};
+    use beater_store_memory::InMemoryTraceStore;
     use chrono::Utc;
     use serde_json::json;
     use std::collections::BTreeMap;
@@ -745,6 +789,53 @@ mod tests {
 
         assert!(old.hits.is_empty());
         assert_eq!(new.hits.len(), 1);
+    }
+
+    #[tokio::test]
+    async fn trace_ingested_helper_reads_project_trace_and_indexes_spans() {
+        let traces = InMemoryTraceStore::new();
+        let search = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let span = fixture_span_with_project(
+            &tenant,
+            &project,
+            "helper-trace",
+            "helper-span",
+            "shared downstream indexing",
+            SpanStatus::Ok,
+        );
+        traces
+            .write_batch(CanonicalTraceBatch {
+                raw_envelopes: Vec::new(),
+                spans: vec![span],
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        index_project_trace(
+            &traces,
+            &search,
+            tenant.clone(),
+            project,
+            TraceId::new("helper-trace").unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = search
+            .search(SearchRequest {
+                tenant_id: tenant.clone(),
+                text: "downstream".to_string(),
+                limit: Some(10),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "helper-trace");
+        assert_eq!(response.hits[0].span_id, "helper-span");
     }
 
     impl SearchRequest {
