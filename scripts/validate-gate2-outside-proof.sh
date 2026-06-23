@@ -51,9 +51,11 @@ errors: list[str] = []
 
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(repo / "scripts"))
-from gate2_proof_observations import (
+from gate2_proof_contract import (
     LLM_OBSERVATION_FRAGMENTS,
     WATERFALL_OBSERVATION_FRAGMENTS,
+    contains_placeholder_fragment,
+    is_unresolved_marker,
     observation_errors,
 )
 
@@ -1153,15 +1155,6 @@ if allow_pending and status == "not yet completed.":
 if proof_abs.resolve() == default_proof_abs.resolve():
     require_committed_clean_path(proof_abs, "Outside-person proof")
 
-UNRESOLVED_REQUIRED_VALUES = {
-    "...",
-    "…",
-    "unknown",
-    "not requested",
-    "not reported",
-    "tbd",
-    "todo",
-}
 CONCRETE_REQUIRED_FIELDS = {
     "Name",
     "Organization or relationship to project",
@@ -1170,11 +1163,6 @@ CONCRETE_REQUIRED_FIELDS = {
     "Browser",
     "Network notes",
 }
-EMBEDDED_PLACEHOLDER = re.compile(r"(^|[\s:;,/()_-])(\.\.\.|…|tbd|todo)($|[\s:;,/()_-])", re.I)
-
-
-def contains_placeholder_fragment(value: str) -> bool:
-    return bool(EMBEDDED_PLACEHOLDER.search(value))
 
 
 def require_date_field(name: str, value: str, source_name: str) -> Optional[dt.date]:
@@ -1211,7 +1199,7 @@ for field in REQUIRED_PROOF_FIELDS:
         not value
         or value.endswith(":")
         or "none / describe" in value
-        or normalized_value in UNRESOLVED_REQUIRED_VALUES
+        or is_unresolved_marker(value)
         or contains_placeholder_fragment(value)
     ):
         unresolved_fields.append(field)

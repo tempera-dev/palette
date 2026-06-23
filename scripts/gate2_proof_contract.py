@@ -1,6 +1,19 @@
 import re
 
 
+UNRESOLVED_REQUIRED_VALUES = {
+    "...",
+    "\u2026",
+    "unknown",
+    "not requested",
+    "not reported",
+    "tbd",
+    "todo",
+}
+EMBEDDED_PLACEHOLDER = re.compile(
+    "(^|[\\s:;,/()_-])(\\.\\.\\.|\\u2026|tbd|todo)($|[\\s:;,/()_-])", re.I
+)
+
 LLM_OBSERVATION_FRAGMENTS = [
     "llm.call",
     "prompt",
@@ -20,6 +33,28 @@ NEGATED_OBSERVATION = re.compile(
 VISIBLE_OBSERVATION = re.compile(
     r"\b(?:saw|seen|visible|read|confirmed|verified|opened|clicked|showed|displayed|inspected)\b"
 )
+
+
+def clean_value(value):
+    return value.strip().strip("`").strip()
+
+
+def contains_placeholder_fragment(value):
+    return bool(EMBEDDED_PLACEHOLDER.search(value))
+
+
+def is_unresolved_marker(value):
+    cleaned = clean_value(value)
+    return not cleaned or cleaned.lower() in UNRESOLVED_REQUIRED_VALUES
+
+
+def is_unresolved_argument(value, *, allow_none=False):
+    cleaned = clean_value(value)
+    return (
+        is_unresolved_marker(cleaned)
+        or (cleaned.lower() == "none" and not allow_none)
+        or contains_placeholder_fragment(cleaned)
+    )
 
 
 def observation_errors(field_name, value, required_fragments):

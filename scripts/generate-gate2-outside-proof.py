@@ -11,9 +11,13 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 
-from gate2_proof_observations import (
+from gate2_proof_contract import (
     LLM_OBSERVATION_FRAGMENTS,
     WATERFALL_OBSERVATION_FRAGMENTS,
+    clean_value,
+    contains_placeholder_fragment,
+    is_unresolved_argument,
+    is_unresolved_marker,
     observation_errors,
 )
 
@@ -28,33 +32,14 @@ DIAGNOSTIC_ATTESTATION = (
     "Diagnostic maintainer full-run used a browser click to read the manual confirmation code; "
     "this is not outside-person evidence and cannot close Gate 2."
 )
-UNRESOLVED_REQUIRED_VALUES = {
-    "...",
-    "…",
-    "unknown",
-    "not requested",
-    "not reported",
-    "tbd",
-    "todo",
-}
-EMBEDDED_PLACEHOLDER = re.compile(r"(^|[\s:;,/()_-])(\.\.\.|…|tbd|todo)($|[\s:;,/()_-])", re.I)
 IMMUTABLE_LOG_URL = re.compile(
     r"https://github\.com/jadenfix/beater/actions/runs/[0-9]+(?:/job/[0-9]+)?"
 )
 
 
-def clean_value(value):
-    return value.strip().strip("`").strip()
-
-
 def require_meaningful_arg(name, value, *, allow_none=False):
     cleaned = clean_value(value)
-    if (
-        not cleaned
-        or cleaned.lower() in UNRESOLVED_REQUIRED_VALUES
-        or (cleaned.lower() == "none" and not allow_none)
-        or EMBEDDED_PLACEHOLDER.search(cleaned)
-    ):
+    if is_unresolved_argument(cleaned, allow_none=allow_none):
         raise SystemExit(f"{name} must be provided with a concrete value")
     return cleaned
 
@@ -87,9 +72,9 @@ def field_value(source_text, name, source_name):
     if len(matches) > 1:
         raise SystemExit(f"duplicate field in {source_name}: {name}")
     value = clean_value(matches[0])
-    if not value or value.lower() in UNRESOLVED_REQUIRED_VALUES:
+    if is_unresolved_marker(value):
         raise SystemExit(f"unusable field in {source_name}: {name}={value!r}")
-    if EMBEDDED_PLACEHOLDER.search(value):
+    if contains_placeholder_fragment(value):
         raise SystemExit(f"unusable field in {source_name}: {name} contains placeholder text")
     return value
 
