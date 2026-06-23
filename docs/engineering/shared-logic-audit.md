@@ -31,6 +31,9 @@ contracts narrow, shared, and testable.
 - `beater-search::index_project_trace` owns trace-ingested readback plus search
   indexing, so API drain and `beaterd` background workers share the same
   downstream processing path.
+- `beater-search::TraceIngestedSearchProcessor` now wraps that readback/index
+  helper for trace-ingested queue callbacks, so API manual drains and `beaterd`
+  workers share the same downstream callback and retry/DLQ reason conversion.
 - `ApiState` now has one private base constructor plus explicit opt-in setters
   for search, archive, dataset, and experiment integrations. The public
   constructors delegate through that path, and a regression test pins default
@@ -62,10 +65,9 @@ contracts narrow, shared, and testable.
 - Ingest preparation still has parallel native/raw/OTLP paths. The right shared
   contract is one internal canonical span input plus shared artifact hashing,
   idempotency, redaction, and span assembly.
-- Trace-ingested search processing now shares the readback/index helper, but
-  higher-level queue draining, retry reporting, and worker hooks still live at
-  their API/runtime boundaries. The API drain route and `beaterd` worker still
-  each build the async search-indexing closure.
+- Trace-ingested search processing now shares both the readback/index helper and
+  queue-callback processor, but higher-level queue draining, retry reporting,
+  and worker hooks still live at their API/runtime boundaries.
 - JSON value hashing still repeats `serde_json::to_vec` plus SHA-256 wrapping in
   dataset, judge, and replay code. `beater_core` owns byte hashing now; a small
   JSON-hash helper can remove the last drift-prone copies without pulling
@@ -109,9 +111,6 @@ contracts narrow, shared, and testable.
   `test_support`; extract shared canonical span assembly and retry accounting.
 - Store helpers: add small shared helpers for span storage identity and trace
   span ordering while leaving SQLite and memory persistence mechanics separate.
-- Trace-ingested search processor: wrap `index_project_trace` in one closure
-  factory or processor type consumed by API drain and `beaterd` workers, while
-  leaving route status-code selection and worker lifecycle local.
 - JSON hash helper: add `beater_core::sha256_json_hash<T: Serialize>()` or an
   equivalent fallible helper returning `Sha256Hash`, then migrate dataset,
   judge, and replay hashes with golden parity tests.

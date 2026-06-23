@@ -49,7 +49,7 @@ use beater_schema::{
     SpanStatus, TraceView,
 };
 use beater_search::{
-    index_project_trace, NoopSearchIndex, SearchIndex, SearchRequest, SearchResponse,
+    NoopSearchIndex, SearchIndex, SearchRequest, SearchResponse, TraceIngestedSearchProcessor,
 };
 use beater_secrets::{
     ProviderSecretMetadata, ProviderSecretStore, PutProviderSecretRequest, RevokedProviderSecret,
@@ -674,23 +674,20 @@ async fn drain_trace_ingested_route(
         ProjectId::new(project_id).map_err(|err| ApiError::bad_request(err.to_string()))?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
     let limit = params.limit.unwrap_or(100).min(1000);
-    let traces = state.traces.clone();
-    let search = state.search.clone();
+    let search_processor =
+        TraceIngestedSearchProcessor::new(state.traces.clone(), state.search.clone());
     let report = state
         .ingest
         .drain_trace_ingested_for(&tenant_id, &project_id, limit, move |trace_ref| {
-            let traces = traces.clone();
-            let search = search.clone();
+            let search_processor = search_processor.clone();
             async move {
-                index_project_trace(
-                    traces.as_ref(),
-                    search.as_ref(),
-                    trace_ref.tenant_id,
-                    trace_ref.project_id,
-                    trace_ref.trace_id,
-                )
-                .await
-                .map_err(|err| err.to_string())
+                search_processor
+                    .process_trace(
+                        trace_ref.tenant_id,
+                        trace_ref.project_id,
+                        trace_ref.trace_id,
+                    )
+                    .await
             }
         })
         .await?;

@@ -20,7 +20,7 @@ use beater_schema::{
     CanonicalTraceBatch, RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanSummary, TraceView,
     WriteAck,
 };
-use beater_search::{index_project_trace, TantivySearchIndex};
+use beater_search::{SearchIndex, TantivySearchIndex, TraceIngestedSearchProcessor};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
@@ -373,33 +373,30 @@ struct TraceIngestedWorkerHooks {
 fn spawn_trace_ingested_worker(
     ingest: IngestService,
     traces: Arc<dyn TraceStore>,
-    search: Arc<TantivySearchIndex>,
+    search: Arc<dyn SearchIndex>,
     interval: Duration,
     hooks: TraceIngestedWorkerHooks,
 ) {
     tokio::spawn(async move {
+        let search_processor = TraceIngestedSearchProcessor::new(traces, search);
         let mut ticker = tokio::time::interval(interval);
         loop {
             ticker.tick().await;
-            let traces = traces.clone();
-            let search = search.clone();
+            let search_processor = search_processor.clone();
             let hooks = hooks.clone();
             let report = match ingest
                 .drain_trace_ingested(100, move |trace_ref| {
-                    let traces = traces.clone();
-                    let search = search.clone();
+                    let search_processor = search_processor.clone();
                     let hooks = hooks.clone();
                     async move {
                         apply_trace_ingested_test_hooks(&hooks).await?;
-                        index_project_trace(
-                            traces.as_ref(),
-                            search.as_ref(),
-                            trace_ref.tenant_id,
-                            trace_ref.project_id,
-                            trace_ref.trace_id,
-                        )
-                        .await
-                        .map_err(|err| err.to_string())
+                        search_processor
+                            .process_trace(
+                                trace_ref.tenant_id,
+                                trace_ref.project_id,
+                                trace_ref.trace_id,
+                            )
+                            .await
                     }
                 })
                 .await

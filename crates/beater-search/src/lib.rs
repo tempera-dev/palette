@@ -18,6 +18,35 @@ pub trait SearchIndex: Send + Sync {
     async fn search(&self, query: SearchRequest) -> StoreResult<SearchResponse>;
 }
 
+#[derive(Clone)]
+pub struct TraceIngestedSearchProcessor {
+    traces: Arc<dyn TraceStore>,
+    search: Arc<dyn SearchIndex>,
+}
+
+impl TraceIngestedSearchProcessor {
+    pub fn new(traces: Arc<dyn TraceStore>, search: Arc<dyn SearchIndex>) -> Self {
+        Self { traces, search }
+    }
+
+    pub async fn process_trace(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        trace_id: TraceId,
+    ) -> Result<(), String> {
+        index_project_trace(
+            self.traces.as_ref(),
+            self.search.as_ref(),
+            tenant_id,
+            project_id,
+            trace_id,
+        )
+        .await
+        .map_err(|err| err.to_string())
+    }
+}
+
 pub async fn index_project_trace(
     traces: &dyn TraceStore,
     search: &dyn SearchIndex,
@@ -792,9 +821,10 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn trace_ingested_helper_reads_project_trace_and_indexes_spans() {
-        let traces = InMemoryTraceStore::new();
-        let search = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+    async fn trace_ingested_processor_reads_project_trace_and_indexes_spans() {
+        let traces = Arc::new(InMemoryTraceStore::new());
+        let search =
+            Arc::new(TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}")));
         let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
         let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
         let span = fixture_span_with_project(
@@ -813,15 +843,15 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
 
-        index_project_trace(
-            &traces,
-            &search,
-            tenant.clone(),
-            project,
-            TraceId::new("helper-trace").unwrap_or_else(|err| panic!("{err}")),
-        )
-        .await
-        .unwrap_or_else(|err| panic!("{err}"));
+        let processor = TraceIngestedSearchProcessor::new(traces, search.clone());
+        processor
+            .process_trace(
+                tenant.clone(),
+                project,
+                TraceId::new("helper-trace").unwrap_or_else(|err| panic!("{err}")),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
 
         let response = search
             .search(SearchRequest {
