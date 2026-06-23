@@ -29,7 +29,8 @@ handoff is
 Prerequisites:
 Docker Desktop or another local Docker daemon, Docker Compose v2, `git`, `curl`,
 `ffprobe`, `shasum` or `sha256sum`, and `python3` 3.9+; local ports `8080`,
-`4317`, and `3000` free. Remote `DOCKER_HOST` values and
+`4317`, and `3000` free; and a local graphical browser that can reach
+`http://127.0.0.1:3000`. Remote `DOCKER_HOST` values and
 remote Docker contexts are rejected because the browser proof connects to
 `127.0.0.1`.
 On macOS, `brew install ffmpeg` provides `ffprobe`; on Ubuntu/Debian, use
@@ -41,7 +42,7 @@ are not started in the timed default path until the Rust runtime uses them.
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 Run it from a directory that does not already contain `beater/`; reruns should
@@ -52,8 +53,10 @@ port, stop or move that app instead of setting alternate Beater ports. The
 command resolves the public `main` commit,
 downloads `scripts/gate2-outside-local-preflight.sh` from that immutable SHA
 into a temp file, and runs it before the stopwatch starts, so missing local
-tooling, remote Docker contexts, and occupied default ports fail before the
-timed attempt. After cloning, it verifies the clone HEAD still matches the
+tooling, unpublished SHA-tagged GHCR images, remote Docker contexts, and
+occupied default ports fail before the timed attempt. Public Git operations run
+with global/system config disabled so local URL rewrites cannot change the
+clone target. After cloning, it verifies the clone HEAD still matches the
 resolved SHA before running the outside wrapper. The cloned wrapper repeats
 those checks before Compose startup. As soon as the first
 `Open this quickstart trace-list URL first:` URL appears, open that filtered
@@ -196,18 +199,21 @@ Exact Docker Compose stopwatch proof for the mandate's clean-machine path:
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 Run it from a directory that does not already contain `beater/`; reruns should
 start from a new or empty parent directory. If an aborted previous attempt left
 default ports occupied by `beater-stopwatch`, use the cleanup hint printed by
-the preflight before rerunning. The one-liner resolves `refs/heads/main`,
+the preflight before rerunning. If preflight reports another app on a default
+port, stop or move that app instead of setting alternate Beater ports. The
+one-liner resolves `refs/heads/main`,
 downloads the public `scripts/gate2-outside-local-preflight.sh` from that
 immutable SHA before `t="$(date +%s)"`, and verifies the cloned checkout still
 matches that SHA before running the wrapper. Missing tools, remote Docker
-contexts, and occupied default ports fail before the timed attempt starts;
-moving-target clone races fail before the wrapper starts.
+contexts, unpublished SHA-tagged GHCR images, and occupied default ports fail
+before the timed attempt starts; moving-target clone races and local Git URL
+rewrites fail before the wrapper starts.
 As soon as the first `Open this quickstart trace-list URL first:` URL appears,
 open that filtered trace-list URL in a normal browser and click the quickstart
 trace, then click the `llm.call` span. The manual checkpoint prints the

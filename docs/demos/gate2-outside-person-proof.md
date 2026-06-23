@@ -60,7 +60,7 @@ For the short unaided runner instructions, use
 ## Commands
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
@@ -68,7 +68,8 @@ during the timed run.
 Run the command from a directory that does not already contain `beater/`; reruns
 must start from a new or empty parent directory. If an aborted previous attempt
 left default ports occupied by `beater-stopwatch`, use the cleanup hint printed
-by the preflight before rerunning.
+by the preflight before rerunning. If preflight reports another app on a default
+port, stop that app and rerun; do not set alternate Beater ports.
 
 The wrapper sets the required proof/browser/recording flags and rejects
 non-`main` checkouts, non-canonical GitHub origins, dirty worktrees, warm-loop reuse,
@@ -83,10 +84,11 @@ stopwatch proof records
 those markers. The stopwatch proof must also identify itself as an
 outside-run stopwatch source artifact, not an automated local stopwatch proof.
 
-The command runs `scripts/gate2-outside-local-preflight.sh` from the public repo
-before the stopwatch starts, so missing local tooling, remote Docker contexts,
-and occupied default ports fail before the timed attempt. The cloned wrapper
-then repeats the same checks. The script fails before Compose startup if local Docker is unavailable, if curl
+The command runs public Git operations with global/system config disabled, then
+runs `scripts/gate2-outside-local-preflight.sh` from the public repo before the
+stopwatch starts, so missing local tooling, unpublished SHA-tagged GHCR images,
+remote Docker contexts, and occupied default ports fail before the timed attempt.
+The cloned wrapper then repeats the same checks. The script fails before Compose startup if local Docker is unavailable, if curl
 or `ffprobe` is missing, if recording SHA tooling is missing, or if API `8080`,
 OTLP `4317`, or dashboard `3000` are still in use after it removes any previous
 Beater stopwatch project. It also requires `python3` before the timed run so

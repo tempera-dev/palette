@@ -230,7 +230,10 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("Do not set alternate Beater\nports"));
     assert!(runner_card.contains(canonical_outside_command()));
     assert!(runner_card.contains("downloads preflight from the resolved public commit SHA"));
-    assert!(runner_card.contains("verifies\nthe clone still matches that SHA"));
+    assert!(
+        runner_card.contains("verifies the SHA-tagged\nGHCR images exist before the timer starts")
+    );
+    assert!(runner_card.contains("verifies the clone still matches that\nSHA"));
     assert!(runner_card.contains("includes clone and image-pull time"));
     assert!(runner_card.contains("Open this quickstart trace-list URL first:"));
     assert!(runner_card.contains("Do not wait for the script to finish"));
@@ -1555,7 +1558,7 @@ fn gate2_public_handoff_verifier_full_run_accepts_rewritten_canonical_fixture() 
         bash_log.contains("mktemp \"${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX\""),
         "full-run fixture should create a temp preflight script through bash -lc\n{bash_log}"
     );
-    assert!(bash_log.contains("-o \"$preflight\" && bash \"$preflight\""));
+    assert!(bash_log.contains("-o \"$preflight\" && BEATER_GATE2_EXPECTED_COMMIT=\""));
     assert!(!bash_log.contains("gate2-outside-local-preflight.sh | bash"));
     let curl_log = fs::read_to_string(&runtime.curl_log)
         .unwrap_or_else(|err| panic!("read fake curl log: {err}"));
@@ -1757,7 +1760,10 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(proof_contract.contains("mktemp"));
     assert!(proof_contract.contains("refs/heads/main"));
     assert!(proof_contract.contains("git ls-remote --exit-code"));
-    assert!(proof_contract.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(proof_contract.contains("GIT_CONFIG_GLOBAL=/dev/null"));
+    assert!(proof_contract.contains("GIT_CONFIG_COUNT=0"));
+    assert!(proof_contract.contains("BEATER_GATE2_EXPECTED_COMMIT=\"$sha\""));
+    assert!(proof_contract.contains("PUBLIC_GIT_ENV} git rev-parse HEAD"));
     assert!(script.contains("gate2-outside-local-preflight.sh"));
     assert!(script.contains("require_full_run_source(args)"));
     assert!(script.contains("shutil.which"));
@@ -1933,6 +1939,45 @@ fn gate2_outside_local_preflight_rejects_compose_profiles_before_docker() {
 }
 
 #[test]
+fn gate2_outside_local_preflight_rejects_alternate_port_before_docker() {
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+
+    let output = run_outside_local_preflight_with_runtime(
+        &runtime,
+        Some(("BEATER_DASHBOARD_PORT", "13000")),
+        None,
+    );
+
+    assert_failure(output, "BEATER_DASHBOARD_PORT must be unset or '3000'");
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "alternate dashboard port must fail before Docker probes\n{docker_log}"
+    );
+}
+
+#[test]
+fn gate2_outside_local_preflight_rejects_image_override_before_docker() {
+    let runtime = fake_public_handoff_runtime(true, "unix:///var/run/docker.sock");
+
+    let output = run_outside_local_preflight_with_runtime(
+        &runtime,
+        Some(("BEATERD_IMAGE", "ghcr.io/example/beaterd:test")),
+        None,
+    );
+
+    assert_failure(
+        output,
+        "BEATERD_IMAGE must be unset for outside-person evidence",
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log).unwrap_or_default();
+    assert!(
+        docker_log.is_empty(),
+        "image override must fail before Docker probes\n{docker_log}"
+    );
+}
+
+#[test]
 fn gate2_public_handoff_port_owner_hint_reports_command_and_cwd() {
     let root = repo_root();
     let tools = tempdir("create fake port owner tools");
@@ -2065,7 +2110,7 @@ print("fixture_GIT_CONFIG_COUNT=" + fixture_env.get("GIT_CONFIG_COUNT", "unset")
         );
     }
     let stdout = String::from_utf8_lossy(&output.stdout);
-    assert!(stdout.contains("GIT_CONFIG_COUNT=unset"));
+    assert!(stdout.contains("GIT_CONFIG_COUNT=0"));
     assert!(stdout.contains("GIT_CONFIG_GLOBAL=/dev/null"));
     assert!(stdout.contains("GIT_CONFIG_NOSYSTEM=1"));
     assert!(stdout.contains("fixture_GIT_CONFIG_COUNT=1"));

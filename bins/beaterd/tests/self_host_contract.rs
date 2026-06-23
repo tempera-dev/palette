@@ -709,6 +709,15 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_local_preflight.contains("COMPOSE_PROJECT_NAME"));
     assert!(outside_local_preflight.contains("COMPOSE_PROFILES"));
     assert!(outside_local_preflight.contains("public command controls the Compose topology"));
+    assert!(outside_local_preflight.contains("require_unset_or_value BEATER_GATE2_REUSE 0"));
+    assert!(outside_local_preflight.contains("require_unset_or_value BEATER_DASHBOARD_PORT 3000"));
+    assert!(outside_local_preflight.contains("require_unset BEATERD_IMAGE"));
+    assert!(outside_local_preflight.contains("require_unset BEATER_GATE2_COMPOSE_LOGS"));
+    assert!(outside_local_preflight.contains("BEATER_GATE2_EXPECTED_COMMIT"));
+    assert!(outside_local_preflight.contains("require_public_images_for_expected_commit"));
+    assert!(outside_local_preflight.contains("ghcr.io/{repository}:{expected_commit}"));
+    assert!(outside_local_preflight.contains("(\"linux\", \"amd64\")"));
+    assert!(outside_local_preflight.contains("(\"linux\", \"arm64\")"));
     assert!(outside_local_preflight.contains("current directory already contains ./beater"));
     assert!(outside_local_preflight.contains("If this is a stale Beater Gate 2 run"));
     assert!(outside_local_preflight.contains("docker-compose.prebuilt.yml -p beater-stopwatch"));
@@ -937,7 +946,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(gate2_proof_contract.contains("refs/heads/main"));
     assert!(gate2_proof_contract.contains("git ls-remote --exit-code"));
     assert!(gate2_proof_contract.contains("-o \"$preflight\""));
-    assert!(gate2_proof_contract.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(gate2_proof_contract.contains("GIT_CONFIG_GLOBAL=/dev/null"));
+    assert!(gate2_proof_contract.contains("GIT_CONFIG_COUNT=0"));
+    assert!(gate2_proof_contract.contains("BEATER_GATE2_EXPECTED_COMMIT=\"$sha\""));
+    assert!(gate2_proof_contract.contains("PUBLIC_GIT_ENV} git rev-parse HEAD"));
     assert!(public_handoff.contains("scripts/gate2-outside-local-preflight.sh"));
     assert!(public_handoff.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
     assert!(public_handoff.contains("run_raw_public_preflight(args, expected_commit)"));
@@ -1050,6 +1062,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
         .contains("diagnostic used a browser click to read the manual confirmation code"));
     assert!(public_handoff.contains("def public_clone_env"));
     assert!(public_handoff.contains("GIT_CONFIG_GLOBAL"));
+    assert!(public_handoff.contains("GIT_CONFIG_COUNT"));
     assert!(public_handoff.contains("--diagnostic-report"));
     assert!(
         public_handoff.contains("[\"scripts/validate-gate2-outside-proof.sh\", \"--diagnostic\"]")
@@ -1209,7 +1222,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
         readme.contains("downloads the raw public preflight from the expected immutable commit")
     );
     assert!(readme.contains("git ls-remote --exit-code"));
-    assert!(readme.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(readme.contains("GIT_CONFIG_GLOBAL=/dev/null"));
+    assert!(readme.contains("BEATER_GATE2_EXPECTED_COMMIT=\"$sha\""));
+    assert!(readme.contains("GIT_CONFIG_COUNT=0 git rev-parse HEAD"));
+    assert!(readme.contains("unpublished SHA-tagged GHCR images"));
     assert!(!readme.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(readme.contains("under `bash -o pipefail -lc` before any clone"));
     assert!(readme.contains("local Docker daemon"));
@@ -1472,6 +1488,13 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
         .contains("As soon as the first `Open this quickstart trace-list URL first:` URL appears"));
     assert!(readme.contains("cleanup hint printed by"));
     assert!(readme.contains("stop or move that app instead of setting alternate Beater ports"));
+    assert_eq!(
+        readme
+            .matches("stop or move that app instead of setting alternate Beater ports")
+            .count(),
+        2,
+        "both README clean-clone paths must tell outside runners to free non-Beater default-port owners"
+    );
     assert!(readme.contains("seconds remaining in the 5-minute clone-to-click"));
     assert!(readme.contains("not wait for the script to finish"));
 

@@ -25,6 +25,10 @@ GATE2_CONFIRMATION_TEST_VECTOR = {
     "span_id": "0123456789abcdef",
     "code": "AB743641",
 }
+PUBLIC_GIT_ENV = (
+    "GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null "
+    "GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0"
+)
 
 
 @dataclass(frozen=True)
@@ -115,17 +119,17 @@ assert (
     == GATE2_CONFIRMATION_TEST_VECTOR["code"]
 )
 PUBLIC_SHA_RESOLUTION_COMMAND = (
-    f'sha_line="$(git ls-remote --exit-code {REMOTE_URL} {REMOTE_MAIN_REF})" && '
+    f'sha_line="$({PUBLIC_GIT_ENV} git ls-remote --exit-code {REMOTE_URL} {REMOTE_MAIN_REF})" && '
     'sha="${sha_line%%[[:space:]]*}" && test -n "$sha"'
 )
 RAW_PUBLIC_PREFLIGHT_COMMAND = (
     'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
     f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/$sha/{RAW_PREFLIGHT_PATH}" '
-    '-o "$preflight" && bash "$preflight"'
+    '-o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight"'
 )
 CLONE_VERIFICATION_COMMAND = (
-    f"git clone {REMOTE_URL} && cd beater && "
-    'test "$(git rev-parse HEAD)" = "$sha" && '
+    f"{PUBLIC_GIT_ENV} git clone {REMOTE_URL} && cd beater && "
+    f'test "$({PUBLIC_GIT_ENV} git rev-parse HEAD)" = "$sha" && '
     'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 )
 OUTSIDE_RUNNER_COMMAND = (
@@ -151,7 +155,7 @@ def raw_public_preflight_command_for_sha(expected_commit):
     return (
         'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
         f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/{expected_commit}/{RAW_PREFLIGHT_PATH}" '
-        '-o "$preflight" && bash "$preflight"'
+        f'-o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="{expected_commit}" bash "$preflight"'
     )
 
 

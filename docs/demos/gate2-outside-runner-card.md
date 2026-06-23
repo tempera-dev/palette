@@ -12,6 +12,7 @@ Use a machine with:
 - `git`, `curl`, `python3` 3.9 or newer
 - `ffprobe` (installed by common `ffmpeg` packages)
 - `shasum` or `sha256sum`
+- a local graphical browser that can reach `http://127.0.0.1:3000`
 - local ports `8080`, `4317`, and `3000` free
 
 Run from an empty parent directory that does not already contain `beater/`.
@@ -26,12 +27,13 @@ ports. Then rerun this card from a new or empty parent directory.
 Run this exact command from Bash, zsh, Git Bash, or WSL2:
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
 ```
 
-The command downloads preflight from the resolved public commit SHA, verifies
-the clone still matches that SHA, and includes clone and image-pull time in the
-timer.
+The command runs public Git operations with global/system config disabled,
+downloads preflight from the resolved public commit SHA, verifies the SHA-tagged
+GHCR images exist before the timer starts, verifies the clone still matches that
+SHA, and includes clone and image-pull time in the timer.
 
 ## Timed Browser Step
 

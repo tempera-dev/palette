@@ -652,6 +652,7 @@ def public_clone_env(args: argparse.Namespace) -> dict[str, str]:
     env["GIT_CONFIG_GLOBAL"] = os.devnull
     env["GIT_CONFIG_SYSTEM"] = os.devnull
     env["GIT_CONFIG_NOSYSTEM"] = "1"
+    env["GIT_CONFIG_COUNT"] = "0"
     return env
 
 
@@ -736,6 +737,8 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "5-minute clone-to-click SLO",
             "`Confirm` code",
             "cleanup hint printed by",
+            "GIT_CONFIG_GLOBAL=/dev/null",
+            "BEATER_GATE2_EXPECTED_COMMIT",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
             "git add docs/demos/gate2-outside-person-proof.md",
@@ -755,6 +758,10 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "seconds remaining in the 5-minute clone-to-click SLO",
             "`Confirm` code shown in the selected detail",
             "cleanup hint printed",
+            "stop that app and rerun",
+            "do not set alternate Beater ports",
+            "GIT_CONFIG_GLOBAL=/dev/null",
+            "BEATER_GATE2_EXPECTED_COMMIT",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
             "git add docs/demos/gate2-outside-person-proof.md",
@@ -770,6 +777,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "Gate 2 Outside Runner Card",
             "Use this card for the unaided Gate 2 run",
             "`ffprobe` (installed by common `ffmpeg` packages)",
+            "a local graphical browser that can reach `http://127.0.0.1:3000`",
             "local ports `8080`, `4317`, and `3000` free",
             "Run from an empty parent directory that does not already contain `beater/`",
             "clean stale Beater containers",
@@ -779,7 +787,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             PUBLIC_SHA_RESOLUTION_COMMAND,
             RAW_PUBLIC_PREFLIGHT_COMMAND,
             CLONE_VERIFICATION_COMMAND,
-            'test "$(git rev-parse HEAD)" = "$sha"',
+            'GIT_CONFIG_COUNT=0 git rev-parse HEAD',
             "includes clone and image-pull time",
             "Open this quickstart trace-list URL first:",
             "Do not wait for the script to finish",
