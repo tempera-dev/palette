@@ -740,13 +740,31 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("markdown_field_values"));
     let gate2_proof_contract = read(root.join("scripts/gate2_proof_contract.py"));
     assert!(gate2_proof_contract.contains(":[ \\t]*(.*)$"));
+    assert!(gate2_proof_contract.contains("GATE2_IMAGES = ["));
+    assert!(gate2_proof_contract.contains("Gate2Image("));
+    assert!(gate2_proof_contract.contains("GATE2_IMAGE_NAMES"));
+    assert!(gate2_proof_contract
+        .contains("GATE2_EXPECTED_PLATFORMS = [\"linux/amd64\", \"linux/arm64\"]"));
+    assert!(gate2_proof_contract.contains("GATE2_FULL_RUN_PORTS"));
+    assert!(gate2_proof_contract.contains("GATE2_CONFIRMATION_HASH_PREFIX = \"gate2\""));
+    assert!(gate2_proof_contract.contains("GATE2_CONFIRMATION_TEST_VECTOR"));
+    assert!(gate2_proof_contract.contains("\"code\": \"AB743641\""));
+    assert!(gate2_proof_contract.contains("def gate2_confirmation_code"));
+    for image in ["beaterd", "dashboard", "dashboard-e2e", "otel-python"] {
+        assert!(
+            gate2_proof_contract.contains(&format!("image_name=\"{image}\"")),
+            "Gate 2 proof contract must define image {image}"
+        );
+    }
     assert!(outside_validator.contains("BEATER_GATE2_REUSE=1"));
     assert!(outside_validator.contains("BEATER_DASHBOARD_PORT="));
     assert!(outside_validator.contains("COMPOSE_FILE="));
     assert!(outside_validator.contains("COMPOSE_PROJECT_NAME="));
     assert!(outside_validator.contains("COMPOSE_PROFILES="));
-    assert!(outside_validator.contains("DEFAULT_API_ENDPOINT = \"http://127.0.0.1:8080\""));
-    assert!(outside_validator.contains("DEFAULT_DASHBOARD_BASE = \"http://127.0.0.1:3000\""));
+    assert!(gate2_proof_contract.contains("DEFAULT_API_ENDPOINT = \"http://127.0.0.1:8080\""));
+    assert!(gate2_proof_contract.contains("DEFAULT_DASHBOARD_BASE = \"http://127.0.0.1:3000\""));
+    assert!(outside_validator.contains("DEFAULT_API_ENDPOINT"));
+    assert!(outside_validator.contains("DEFAULT_DASHBOARD_BASE"));
     assert!(outside_validator.contains("all pass-checklist boxes must be checked"));
     assert!(outside_validator.contains("hashlib.sha256"));
     assert!(outside_validator.contains("MIN_RECORDING_BYTES"));
@@ -783,7 +801,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("outside-run source evidence"));
     assert!(outside_validator.contains("not automated local proof"));
     assert!(outside_validator.contains("outside-run stopwatch source artifact"));
-    assert!(outside_validator.contains("DEFAULT_OTLP_ENDPOINT = \"http://127.0.0.1:4317\""));
+    assert!(gate2_proof_contract.contains("DEFAULT_OTLP_ENDPOINT = \"http://127.0.0.1:4317\""));
+    assert!(outside_validator.contains("DEFAULT_OTLP_ENDPOINT"));
     assert!(outside_validator.contains("API endpoint must be"));
     assert!(outside_validator.contains("(\"Startup mode\", \"prebuilt-image\")"));
     assert!(outside_validator.contains("(\"Prebuilt pull policy\", \"always\")"));
@@ -815,18 +834,13 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("require_equal(\"quickstart dashboard URL\""));
     assert!(outside_validator.contains("require_equal(\"screen recording sha256\""));
     assert!(outside_validator.contains("require_equal(\"screen recording notes sha256\""));
-    assert!(outside_validator.contains("\"beater image digest\""));
-    assert!(outside_validator.contains("\"dashboard image digest\""));
-    assert!(outside_validator.contains("\"dashboard e2e image digest\""));
-    assert!(outside_validator.contains("\"otel python image digest\""));
+    assert!(outside_validator.contains("image.proof_digest_field.lower()"));
+    assert!(outside_validator.contains("GATE2_IMAGES"));
     assert!(outside_validator.contains("registry_manifest_from_ghcr"));
     assert!(outside_validator.contains("Docker-Content-Digest"));
     assert!(outside_validator.contains("must match public GHCR manifest digest"));
     assert!(outside_validator.contains("require_ghcr_sha_image_ref"));
-    assert!(outside_validator.contains("\"Beater image reference\""));
-    assert!(outside_validator.contains("\"Dashboard image reference\""));
-    assert!(outside_validator.contains("\"Dashboard e2e image reference\""));
-    assert!(outside_validator.contains("\"OTEL Python image reference\""));
+    assert!(outside_validator.contains("image.proof_ref_field"));
     assert!(outside_validator.contains("require_equal(\"commit SHA\""));
     assert!(outside_validator.contains("tenant"));
     assert!(outside_validator.contains("screen recording notes dashboard base"));
@@ -869,22 +883,18 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_generator.contains("require_pending_or_force"));
     assert!(outside_generator.contains("API endpoint"));
     assert!(outside_generator.contains("Dashboard base"));
-    assert!(outside_generator.contains("Beater image reference"));
-    assert!(outside_generator.contains("Dashboard image reference"));
-    assert!(outside_generator.contains("Dashboard e2e image reference"));
-    assert!(outside_generator.contains("OTEL Python image reference"));
+    assert!(outside_generator.contains("image_reference_fields"));
+    assert!(outside_generator.contains("image.proof_ref_field"));
     assert!(outside_generator.contains("Browser recording SHA256"));
-    assert!(outside_generator.contains("Beater image digest"));
-    assert!(outside_generator.contains("Dashboard image digest"));
-    assert!(outside_generator.contains("Dashboard e2e image digest"));
-    assert!(outside_generator.contains("OTEL Python image digest"));
+    assert!(outside_generator.contains("image_digest_fields"));
+    assert!(outside_generator.contains("image.proof_digest_field"));
     assert!(
         outside_generator.contains("COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES")
     );
 
     let outside_readiness = read(root.join("scripts/check-gate2-outside-readiness.py"));
-    assert!(outside_readiness.contains("IMAGE_NAMES"));
-    assert!(outside_readiness.contains("EXPECTED_PLATFORMS"));
+    assert!(outside_readiness.contains("IMAGE_NAMES = GATE2_IMAGE_NAMES"));
+    assert!(outside_readiness.contains("EXPECTED_PLATFORMS = GATE2_EXPECTED_PLATFORMS"));
     assert!(outside_readiness.contains("DEFAULT_COMPOSE_SERVICES"));
     assert!(outside_readiness.contains("PROFILED_THIRD_PARTY_SERVICES"));
     assert!(outside_readiness.contains("TIMED_COMPOSE_SERVICES"));
@@ -893,10 +903,13 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_readiness.contains("@sha256:"));
     assert!(outside_readiness.contains("require_compose_default_path_contract"));
     assert!(outside_readiness.contains("default/timed service"));
-    assert!(outside_readiness.contains("linux/amd64"));
-    assert!(outside_readiness.contains("linux/arm64"));
+    assert!(gate2_proof_contract.contains("linux/amd64"));
+    assert!(gate2_proof_contract.contains("linux/arm64"));
     assert!(outside_readiness.contains("scripts/validate-gate2-outside-proof.sh"));
-    assert!(outside_readiness.contains("from gate2_proof_contract import REMOTE_URL"));
+    assert!(outside_readiness.contains("GATE2_IMAGE_NAMES"));
+    assert!(outside_readiness.contains("GATE2_EXPECTED_PLATFORMS"));
+    assert!(outside_readiness.contains("gate2_registry_repository"));
+    assert!(outside_readiness.contains("gate2_image_ref"));
     assert!(outside_readiness.contains("REMOTE_URL_NO_SUFFIX"));
     assert!(outside_readiness.contains("REMOTE_URL.removesuffix(\".git\")"));
     assert!(outside_readiness.contains("normalized_github_remote"));
@@ -986,10 +999,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("\"Manual outside-run checkpoint:\""));
     assert!(public_handoff.contains("run_with_manual_checkpoint_confirmation"));
     assert!(public_handoff.contains("diagnostic full-run did not observe"));
-    assert!(public_handoff.contains("FULL_RUN_PORTS"));
-    assert!(public_handoff.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
-    assert!(public_handoff.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
-    assert!(public_handoff.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
+    assert!(public_handoff.contains("FULL_RUN_PORTS = GATE2_FULL_RUN_PORTS"));
+    assert!(gate2_proof_contract.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
+    assert!(gate2_proof_contract.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
+    assert!(gate2_proof_contract.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
     assert!(public_handoff.contains("preflight_full_run_runtime"));
     assert!(public_handoff.contains("require_full_run_source(args)"));
     assert!(public_handoff.contains("shutil.which"));

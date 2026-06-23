@@ -52,13 +52,22 @@ errors: list[str] = []
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(repo / "scripts"))
 from gate2_proof_contract import (
+    DEFAULT_API_ENDPOINT,
+    DEFAULT_DASHBOARD_BASE,
+    DEFAULT_OTLP_ENDPOINT,
     DIAGNOSTIC_ATTESTATION,
+    GATE2_IMAGES,
     LLM_OBSERVATION_FRAGMENTS,
     OUTSIDE_RUNNER_COMMAND,
     OUTSIDE_RUN_ATTESTATION,
     REMOTE_URL,
     WATERFALL_OBSERVATION_FRAGMENTS,
     contains_placeholder_fragment,
+    gate2_confirmation_code,
+    gate2_image_digest_prefix,
+    gate2_image_ref,
+    gate2_image_repo,
+    gate2_registry_repository,
     is_immutable_log_url,
     is_unresolved_marker,
     markdown_field_values,
@@ -69,9 +78,6 @@ if not proof_path.exists():
     raise SystemExit(f"missing outside-person proof file: {proof_path}")
 
 text = proof_path.read_text()
-DEFAULT_API_ENDPOINT = "http://127.0.0.1:8080"
-DEFAULT_DASHBOARD_BASE = "http://127.0.0.1:3000"
-DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
 EXPECTED_CLONE_URL = REMOTE_URL
 EXPECTED_QUICKSTART_SNIPPET = "examples/python/five_line_otel.py"
 EXPECTED_OUTSIDE_COMMAND = OUTSIDE_RUNNER_COMMAND
@@ -295,14 +301,10 @@ def require_confirmation_salt(name: str, value: str, source_name: str) -> None:
         fail(f"{name} in {source_name} must be a concrete per-run salt")
 
 
-def quickstart_confirmation_code(salt: str, trace_id: str, span_id: str) -> str:
-    return hashlib.sha256(f"gate2:{salt}:{trace_id}:{span_id}".encode()).hexdigest()[:8].upper()
-
-
 def require_confirmation_code(
     name: str, value: str, salt: str, trace_id: str, span_id: str, source_name: str
 ) -> None:
-    expected = quickstart_confirmation_code(salt, trace_id, span_id)
+    expected = gate2_confirmation_code(salt, trace_id, span_id)
     if value != expected:
         fail(
             f"{name} in {source_name} must be {expected} for quickstart span "
@@ -324,7 +326,7 @@ def require_quickstart_release_id(value: str, commit_sha: str, source_name: str)
 def require_ghcr_image_digest(
     name: str, value: str, source_name: str, expected_image: str
 ) -> None:
-    expected_prefix = f"ghcr.io/jadenfix/beater/{expected_image}@sha256:"
+    expected_prefix = gate2_image_digest_prefix(expected_image)
     if not re.fullmatch(re.escape(expected_prefix) + r"[0-9a-f]{64}", value):
         fail(f"{name} in {source_name} must be a GHCR repo digest for {expected_image}")
 
@@ -344,7 +346,7 @@ def registry_manifest_from_fixture(image_name: str, fixture_dir: Path) -> tuple[
 
 
 def registry_manifest_from_ghcr(image_name: str, commit_sha: str) -> tuple[dict, str]:
-    image = f"jadenfix/beater/{image_name}"
+    image = gate2_registry_repository(image_name)
     token_url = f"https://ghcr.io/token?service=ghcr.io&scope=repository:{image}:pull"
     try:
         with urllib.request.urlopen(token_url, timeout=20) as response:
@@ -367,7 +369,7 @@ def registry_manifest_from_ghcr(image_name: str, commit_sha: str) -> tuple[dict,
     except Exception as err:
         fail(
             f"could not fetch public GHCR manifest for "
-            f"ghcr.io/jadenfix/beater/{image_name}:{commit_sha}: {err}"
+            f"{gate2_image_ref(image_name, commit_sha)}: {err}"
         )
         return {}, ""
 
@@ -392,7 +394,7 @@ def registry_digest_refs(image_name: str, commit_sha: str) -> set[str]:
         return registry_digest_cache[key]
 
     manifest, index_digest = registry_manifest_for(image_name, commit_sha)
-    repo_ref = f"ghcr.io/jadenfix/beater/{image_name}@"
+    repo_ref = f"{gate2_image_repo(image_name)}@"
     digests: set[str] = set()
     for digest in [index_digest, str(manifest.get("digest") or "")]:
         if re.fullmatch(r"sha256:[0-9a-f]{64}", digest):
@@ -403,7 +405,7 @@ def registry_digest_refs(image_name: str, commit_sha: str) -> set[str]:
             digests.add(f"{repo_ref}{digest}")
     if not digests:
         fail(
-            f"public GHCR manifest for ghcr.io/jadenfix/beater/{image_name}:{commit_sha} "
+            f"public GHCR manifest for {gate2_image_ref(image_name, commit_sha)} "
             "did not expose any sha256 manifest digests"
         )
     registry_digest_cache[key] = digests
@@ -419,14 +421,14 @@ def require_digest_bound_to_registry(
     if value not in allowed:
         fail(
             f"{name} in outside-person proof must match public GHCR manifest digest "
-            f"for ghcr.io/jadenfix/beater/{expected_image}:{commit_sha}"
+            f"for {gate2_image_ref(expected_image, commit_sha)}"
         )
 
 
 def require_ghcr_sha_image_ref(
     name: str, value: str, source_name: str, expected_image: str, commit_sha: str
 ) -> None:
-    expected = f"ghcr.io/jadenfix/beater/{expected_image}:{commit_sha}"
+    expected = gate2_image_ref(expected_image, commit_sha)
     if value != expected:
         fail(f"{name} in {source_name} must be {expected!r}, got {value!r}")
 
@@ -496,15 +498,11 @@ def require_compose_images_excerpt(
     service_segments = [
         segment for segment in segments if not segment.startswith("proof-image ")
     ]
-    for image, service in [
-        ("beaterd", "beaterd"),
-        ("dashboard", "dashboard"),
-        ("dashboard-e2e", "dashboard-e2e"),
-        ("otel-python", "otel-python"),
-    ]:
-        repo = f"ghcr.io/jadenfix/beater/{image}"
-        expected_ref = f"{repo}:{commit_sha}"
-        expected_digest = expected_digests[image]
+    for image in GATE2_IMAGES:
+        repo = image.repo
+        service = image.service
+        expected_ref = gate2_image_ref(image.image_name, commit_sha)
+        expected_digest = expected_digests[image.image_name]
         if service in {"beaterd", "dashboard"} and not any(
             repo in segment and commit_sha in segment for segment in service_segments
         ):
@@ -1312,87 +1310,37 @@ require_quickstart_release_id(
 )
 if quickstart_trace_id == all_kind_trace_id:
     fail("Quickstart trace ID and All-kind nested trace ID must be distinct")
-beater_image_ref = field_value("Beater image reference")
-dashboard_image_ref = field_value("Dashboard image reference")
-dashboard_e2e_image_ref = field_value("Dashboard e2e image reference")
-otel_python_image_ref = field_value("OTEL Python image reference")
-beater_image_digest = field_value("Beater image digest")
-dashboard_image_digest = field_value("Dashboard image digest")
-dashboard_e2e_image_digest = field_value("Dashboard e2e image digest")
-otel_python_image_digest = field_value("OTEL Python image digest")
-require_ghcr_sha_image_ref(
-    "Beater image reference",
-    beater_image_ref,
-    "outside-person proof",
-    "beaterd",
-    commit_sha,
-)
-require_ghcr_sha_image_ref(
-    "Dashboard image reference",
-    dashboard_image_ref,
-    "outside-person proof",
-    "dashboard",
-    commit_sha,
-)
-require_ghcr_sha_image_ref(
-    "Dashboard e2e image reference",
-    dashboard_e2e_image_ref,
-    "outside-person proof",
-    "dashboard-e2e",
-    commit_sha,
-)
-require_ghcr_sha_image_ref(
-    "OTEL Python image reference",
-    otel_python_image_ref,
-    "outside-person proof",
-    "otel-python",
-    commit_sha,
-)
-require_ghcr_image_digest(
-    "Beater image digest", beater_image_digest, "outside-person proof", "beaterd"
-)
-require_ghcr_image_digest(
-    "Dashboard image digest",
-    dashboard_image_digest,
-    "outside-person proof",
-    "dashboard",
-)
-require_ghcr_image_digest(
-    "Dashboard e2e image digest",
-    dashboard_e2e_image_digest,
-    "outside-person proof",
-    "dashboard-e2e",
-)
-require_ghcr_image_digest(
-    "OTEL Python image digest",
-    otel_python_image_digest,
-    "outside-person proof",
-    "otel-python",
-)
-require_digest_bound_to_registry(
-    "Beater image digest", beater_image_digest, "beaterd", commit_sha
-)
-require_digest_bound_to_registry(
-    "Dashboard image digest", dashboard_image_digest, "dashboard", commit_sha
-)
-require_digest_bound_to_registry(
-    "Dashboard e2e image digest",
-    dashboard_e2e_image_digest,
-    "dashboard-e2e",
-    commit_sha,
-)
-require_digest_bound_to_registry(
-    "OTEL Python image digest", otel_python_image_digest, "otel-python", commit_sha
-)
+image_refs = {
+    image.image_name: field_value(image.proof_ref_field) for image in GATE2_IMAGES
+}
+image_digests = {
+    image.image_name: field_value(image.proof_digest_field) for image in GATE2_IMAGES
+}
+for image in GATE2_IMAGES:
+    image_name = image.image_name
+    require_ghcr_sha_image_ref(
+        image.proof_ref_field,
+        image_refs[image_name],
+        "outside-person proof",
+        image_name,
+        commit_sha,
+    )
+    require_ghcr_image_digest(
+        image.proof_digest_field,
+        image_digests[image_name],
+        "outside-person proof",
+        image_name,
+    )
+    require_digest_bound_to_registry(
+        image.proof_digest_field,
+        image_digests[image_name],
+        image_name,
+        commit_sha,
+    )
 require_compose_images_excerpt(
     compose_images_excerpt,
     commit_sha,
-    {
-        "beaterd": beater_image_digest,
-        "dashboard": dashboard_image_digest,
-        "dashboard-e2e": dashboard_e2e_image_digest,
-        "otel-python": otel_python_image_digest,
-    },
+    image_digests,
 )
 quickstart_url = field_value("Quickstart dashboard URL")
 all_kind_url = field_value("All-kind dashboard URL")
@@ -1759,60 +1707,26 @@ if stopwatch_text:
     )
     require_equal("outside-run wrapper", outside_wrapper, stopwatch_outside_wrapper)
 
-    stopwatch_beater_image_ref = field_value_from(
-        stopwatch_text, "Beater image reference", "stopwatch proof"
-    )
-    stopwatch_dashboard_image_ref = field_value_from(
-        stopwatch_text, "Dashboard image reference", "stopwatch proof"
-    )
-    stopwatch_dashboard_e2e_image_ref = field_value_from(
-        stopwatch_text, "Dashboard e2e image reference", "stopwatch proof"
-    )
-    stopwatch_otel_python_image_ref = field_value_from(
-        stopwatch_text, "OTEL Python image reference", "stopwatch proof"
-    )
-    require_ghcr_sha_image_ref(
-        "Beater image reference",
-        stopwatch_beater_image_ref,
-        "stopwatch proof",
-        "beaterd",
-        commit_sha,
-    )
-    require_ghcr_sha_image_ref(
-        "Dashboard image reference",
-        stopwatch_dashboard_image_ref,
-        "stopwatch proof",
-        "dashboard",
-        commit_sha,
-    )
-    require_ghcr_sha_image_ref(
-        "Dashboard e2e image reference",
-        stopwatch_dashboard_e2e_image_ref,
-        "stopwatch proof",
-        "dashboard-e2e",
-        commit_sha,
-    )
-    require_ghcr_sha_image_ref(
-        "OTEL Python image reference",
-        stopwatch_otel_python_image_ref,
-        "stopwatch proof",
-        "otel-python",
-        commit_sha,
-    )
-    require_equal("beater image reference", beater_image_ref, stopwatch_beater_image_ref)
-    require_equal(
-        "dashboard image reference", dashboard_image_ref, stopwatch_dashboard_image_ref
-    )
-    require_equal(
-        "dashboard e2e image reference",
-        dashboard_e2e_image_ref,
-        stopwatch_dashboard_e2e_image_ref,
-    )
-    require_equal(
-        "otel python image reference",
-        otel_python_image_ref,
-        stopwatch_otel_python_image_ref,
-    )
+    stopwatch_image_refs = {
+        image.image_name: field_value_from(
+            stopwatch_text, image.proof_ref_field, "stopwatch proof"
+        )
+        for image in GATE2_IMAGES
+    }
+    for image in GATE2_IMAGES:
+        image_name = image.image_name
+        require_ghcr_sha_image_ref(
+            image.proof_ref_field,
+            stopwatch_image_refs[image_name],
+            "stopwatch proof",
+            image_name,
+            commit_sha,
+        )
+        require_equal(
+            image.proof_ref_field.lower(),
+            image_refs[image_name],
+            stopwatch_image_refs[image_name],
+        )
 
     stopwatch_recording = field_value_from(
         stopwatch_text, "Browser recording artifact", "stopwatch proof"
@@ -1827,60 +1741,25 @@ if stopwatch_text:
     require_equal("screen recording notes path", notes, stopwatch_notes)
     require_equal("screen recording sha256", sha, stopwatch_sha)
 
-    stopwatch_beater_image_digest = field_value_from(
-        stopwatch_text, "Beater image digest", "stopwatch proof"
-    )
-    stopwatch_dashboard_image_digest = field_value_from(
-        stopwatch_text, "Dashboard image digest", "stopwatch proof"
-    )
-    stopwatch_dashboard_e2e_image_digest = field_value_from(
-        stopwatch_text, "Dashboard e2e image digest", "stopwatch proof"
-    )
-    stopwatch_otel_python_image_digest = field_value_from(
-        stopwatch_text, "OTEL Python image digest", "stopwatch proof"
-    )
-    require_ghcr_image_digest(
-        "Beater image digest",
-        stopwatch_beater_image_digest,
-        "stopwatch proof",
-        "beaterd",
-    )
-    require_ghcr_image_digest(
-        "Dashboard image digest",
-        stopwatch_dashboard_image_digest,
-        "stopwatch proof",
-        "dashboard",
-    )
-    require_ghcr_image_digest(
-        "Dashboard e2e image digest",
-        stopwatch_dashboard_e2e_image_digest,
-        "stopwatch proof",
-        "dashboard-e2e",
-    )
-    require_ghcr_image_digest(
-        "OTEL Python image digest",
-        stopwatch_otel_python_image_digest,
-        "stopwatch proof",
-        "otel-python",
-    )
-    require_equal(
-        "beater image digest", beater_image_digest, stopwatch_beater_image_digest
-    )
-    require_equal(
-        "dashboard image digest",
-        dashboard_image_digest,
-        stopwatch_dashboard_image_digest,
-    )
-    require_equal(
-        "dashboard e2e image digest",
-        dashboard_e2e_image_digest,
-        stopwatch_dashboard_e2e_image_digest,
-    )
-    require_equal(
-        "otel python image digest",
-        otel_python_image_digest,
-        stopwatch_otel_python_image_digest,
-    )
+    stopwatch_image_digests = {
+        image.image_name: field_value_from(
+            stopwatch_text, image.proof_digest_field, "stopwatch proof"
+        )
+        for image in GATE2_IMAGES
+    }
+    for image in GATE2_IMAGES:
+        image_name = image.image_name
+        require_ghcr_image_digest(
+            image.proof_digest_field,
+            stopwatch_image_digests[image_name],
+            "stopwatch proof",
+            image_name,
+        )
+        require_equal(
+            image.proof_digest_field.lower(),
+            image_digests[image_name],
+            stopwatch_image_digests[image_name],
+        )
 
     outside_commit_sha = field_value("Commit SHA")
     stopwatch_commit_sha = field_value_from(stopwatch_text, "Git SHA", "stopwatch proof")

@@ -1,10 +1,119 @@
+import hashlib
 import re
+from dataclasses import dataclass
 
 
 REMOTE_URL = "https://github.com/jadenfix/beater.git"
 REMOTE_MAIN_REF = "refs/heads/main"
 RAW_PREFLIGHT_PATH = "scripts/gate2-outside-local-preflight.sh"
 RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/beater"
+GATE2_GHCR_OWNER_REPO = "jadenfix/beater"
+GATE2_GHCR_PREFIX = f"ghcr.io/{GATE2_GHCR_OWNER_REPO}"
+GATE2_EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
+DEFAULT_API_ENDPOINT = "http://127.0.0.1:8080"
+DEFAULT_DASHBOARD_BASE = "http://127.0.0.1:3000"
+DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
+GATE2_FULL_RUN_PORTS = [
+    (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
+    (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
+    (3000, "dashboard", "BEATER_DASHBOARD_PORT"),
+]
+GATE2_CONFIRMATION_HASH_PREFIX = "gate2"
+GATE2_CONFIRMATION_TEST_VECTOR = {
+    "salt": "gate2-contract-test-salt",
+    "trace_id": "0123456789abcdef0123456789abcdef",
+    "span_id": "0123456789abcdef",
+    "code": "AB743641",
+}
+
+
+@dataclass(frozen=True)
+class Gate2Image:
+    image_name: str
+    service: str
+    env_var: str
+    proof_ref_field: str
+    proof_digest_field: str
+
+    @property
+    def repo(self):
+        return f"{GATE2_GHCR_PREFIX}/{self.image_name}"
+
+    @property
+    def registry_repository(self):
+        return f"{GATE2_GHCR_OWNER_REPO}/{self.image_name}"
+
+
+GATE2_IMAGES = [
+    Gate2Image(
+        image_name="beaterd",
+        service="beaterd",
+        env_var="BEATERD_IMAGE",
+        proof_ref_field="Beater image reference",
+        proof_digest_field="Beater image digest",
+    ),
+    Gate2Image(
+        image_name="dashboard",
+        service="dashboard",
+        env_var="BEATER_DASHBOARD_IMAGE",
+        proof_ref_field="Dashboard image reference",
+        proof_digest_field="Dashboard image digest",
+    ),
+    Gate2Image(
+        image_name="dashboard-e2e",
+        service="dashboard-e2e",
+        env_var="BEATER_DASHBOARD_E2E_IMAGE",
+        proof_ref_field="Dashboard e2e image reference",
+        proof_digest_field="Dashboard e2e image digest",
+    ),
+    Gate2Image(
+        image_name="otel-python",
+        service="otel-python",
+        env_var="BEATER_OTEL_PYTHON_IMAGE",
+        proof_ref_field="OTEL Python image reference",
+        proof_digest_field="OTEL Python image digest",
+    ),
+]
+GATE2_IMAGE_NAMES = [image.image_name for image in GATE2_IMAGES]
+GATE2_IMAGE_BY_NAME = {image.image_name: image for image in GATE2_IMAGES}
+
+
+def gate2_image(image_name):
+    try:
+        return GATE2_IMAGE_BY_NAME[image_name]
+    except KeyError as err:
+        raise KeyError(f"unknown Gate 2 image: {image_name}") from err
+
+
+def gate2_image_repo(image_name):
+    return gate2_image(image_name).repo
+
+
+def gate2_registry_repository(image_name):
+    return gate2_image(image_name).registry_repository
+
+
+def gate2_image_ref(image_name, tag):
+    return f"{gate2_image_repo(image_name)}:{tag}"
+
+
+def gate2_image_digest_prefix(image_name):
+    return f"{gate2_image_repo(image_name)}@sha256:"
+
+
+def gate2_confirmation_code(salt, trace_id, span_id):
+    payload = f"{GATE2_CONFIRMATION_HASH_PREFIX}:{salt}:{trace_id}:{span_id}"
+    return hashlib.sha256(payload.encode()).hexdigest()[:8].upper()
+
+
+assert (
+    gate2_confirmation_code(
+        GATE2_CONFIRMATION_TEST_VECTOR["salt"],
+        GATE2_CONFIRMATION_TEST_VECTOR["trace_id"],
+        GATE2_CONFIRMATION_TEST_VECTOR["span_id"],
+    )
+    == GATE2_CONFIRMATION_TEST_VECTOR["code"]
+)
 PUBLIC_SHA_RESOLUTION_COMMAND = (
     f'sha_line="$(git ls-remote --exit-code {REMOTE_URL} {REMOTE_MAIN_REF})" && '
     'sha="${sha_line%%[[:space:]]*}" && test -n "$sha"'

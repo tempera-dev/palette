@@ -13,6 +13,7 @@ sys.dont_write_bytecode = True
 
 from gate2_proof_contract import (
     DIAGNOSTIC_ATTESTATION,
+    GATE2_IMAGES,
     LLM_OBSERVATION_FRAGMENTS,
     OUTSIDE_RUNNER_COMMAND,
     OUTSIDE_RUN_ATTESTATION,
@@ -151,12 +152,7 @@ def compose_images_excerpt(stopwatch_text, stopwatch_path):
     lines = [line.strip() for line in match.group(1).splitlines() if line.strip()]
     if not lines:
         return f"see {relative_or_absolute(stopwatch_path)}"
-    gate2_repos = {
-        "ghcr.io/jadenfix/beater/beaterd",
-        "ghcr.io/jadenfix/beater/dashboard",
-        "ghcr.io/jadenfix/beater/dashboard-e2e",
-        "ghcr.io/jadenfix/beater/otel-python",
-    }
+    gate2_repos = {image.repo for image in GATE2_IMAGES}
     services = [line for line in lines if any(repo in line for repo in gate2_repos)]
     if services:
         return " | ".join(services)
@@ -329,6 +325,15 @@ def build_proof(args, stopwatch_path, stopwatch_text):
             "- [x] The runner completed the flow using only public repository instructions."
         )
 
+    image_reference_fields = "\n".join(
+        f"- {image.proof_ref_field}: {field_value(stopwatch_text, image.proof_ref_field, stopwatch_rel)}"
+        for image in GATE2_IMAGES
+    )
+    image_digest_fields = "\n".join(
+        f"- {image.proof_digest_field}: {field_value(stopwatch_text, image.proof_digest_field, stopwatch_rel)}"
+        for image in GATE2_IMAGES
+    )
+
     return f"""# Gate 2 Outside-Person Proof
 
 Status: {status}
@@ -356,14 +361,8 @@ Status: {status}
 - Branch: {field_value(stopwatch_text, "Git branch", stopwatch_rel)}
 - Worktree clean: {field_value(stopwatch_text, "Git worktree clean", stopwatch_rel)}
 - OS/arch: {field_value(stopwatch_text, "OS/arch", stopwatch_rel)}
-- Beater image reference: {field_value(stopwatch_text, "Beater image reference", stopwatch_rel)}
-- Dashboard image reference: {field_value(stopwatch_text, "Dashboard image reference", stopwatch_rel)}
-- Dashboard e2e image reference: {field_value(stopwatch_text, "Dashboard e2e image reference", stopwatch_rel)}
-- OTEL Python image reference: {field_value(stopwatch_text, "OTEL Python image reference", stopwatch_rel)}
-- Beater image digest: {field_value(stopwatch_text, "Beater image digest", stopwatch_rel)}
-- Dashboard image digest: {field_value(stopwatch_text, "Dashboard image digest", stopwatch_rel)}
-- Dashboard e2e image digest: {field_value(stopwatch_text, "Dashboard e2e image digest", stopwatch_rel)}
-- OTEL Python image digest: {field_value(stopwatch_text, "OTEL Python image digest", stopwatch_rel)}
+{image_reference_fields}
+{image_digest_fields}
 - API endpoint: {field_value(stopwatch_text, "API endpoint", stopwatch_rel)}
 - Dashboard base: {field_value(stopwatch_text, "Dashboard base", stopwatch_rel)}
 - Quickstart snippet: {field_value(stopwatch_text, "Quickstart snippet", stopwatch_rel)}

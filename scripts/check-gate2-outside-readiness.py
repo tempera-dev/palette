@@ -12,11 +12,17 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 
-from gate2_proof_contract import REMOTE_URL
+from gate2_proof_contract import (
+    GATE2_EXPECTED_PLATFORMS,
+    GATE2_IMAGE_NAMES,
+    REMOTE_URL,
+    gate2_image_ref,
+    gate2_registry_repository,
+)
 
 
-IMAGE_NAMES = ["beaterd", "dashboard", "dashboard-e2e", "otel-python"]
-EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
+IMAGE_NAMES = GATE2_IMAGE_NAMES
+EXPECTED_PLATFORMS = GATE2_EXPECTED_PLATFORMS
 REMOTE_URL_NO_SUFFIX = REMOTE_URL.removesuffix(".git")
 DEFAULT_COMPOSE_SERVICES = {"beaterd", "dashboard"}
 PROFILED_THIRD_PARTY_SERVICES = {
@@ -127,7 +133,7 @@ def registry_manifest_from_fixture(image_name: str, fixture_dir: Path) -> dict:
 
 
 def registry_manifest_from_ghcr(image_name: str, commit: str) -> dict:
-    image = f"jadenfix/beater/{image_name}"
+    image = gate2_registry_repository(image_name)
     token_url = f"https://ghcr.io/token?service=ghcr.io&scope=repository:{image}:pull"
     try:
         with urllib.request.urlopen(token_url, timeout=20) as response:
@@ -146,7 +152,7 @@ def registry_manifest_from_ghcr(image_name: str, commit: str) -> dict:
             return json.load(response)
     except Exception as err:
         raise SystemExit(
-            f"missing public GHCR manifest for ghcr.io/jadenfix/beater/{image_name}:{commit}: {err}"
+            f"missing public GHCR manifest for {gate2_image_ref(image_name, commit)}: {err}"
         ) from err
 
 
@@ -175,7 +181,7 @@ def require_registry_images(args: argparse.Namespace, commit: str) -> None:
                 f"platforms mismatch for {image_name}:{commit}: "
                 f"expected {EXPECTED_PLATFORMS}, got {platforms}"
         )
-        print(f"ok image ghcr.io/jadenfix/beater/{image_name}:{commit} {platforms}")
+        print(f"ok image {gate2_image_ref(image_name, commit)} {platforms}")
 
 
 def require_pinned_third_party_images() -> None:

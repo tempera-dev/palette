@@ -1692,9 +1692,11 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("process {pid} command"));
     assert!(script.contains("process {pid} cwd"));
     assert!(script.contains("install lsof or ss to identify the process holding TCP"));
-    assert!(script.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
-    assert!(script.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
-    assert!(script.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
+    assert!(script.contains("GATE2_FULL_RUN_PORTS"));
+    assert!(script.contains("FULL_RUN_PORTS = GATE2_FULL_RUN_PORTS"));
+    assert!(proof_contract.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
+    assert!(proof_contract.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
+    assert!(proof_contract.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
     assert!(script.contains("run([\"docker\", \"info\"]"));
     assert!(script.contains("run([\"docker\", \"compose\", \"version\"]"));
     assert!(script.contains("shasum or sha256sum"));

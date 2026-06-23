@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from gate2_proof_contract import (
     CLONE_VERIFICATION_COMMAND,
+    GATE2_FULL_RUN_PORTS,
     OUTSIDE_RUNNER_COMMAND,
     PUBLIC_SHA_RESOLUTION_COMMAND,
     RAW_PREFLIGHT_PATH,
@@ -25,14 +26,11 @@ from gate2_proof_contract import (
     RAW_PUBLIC_PREFLIGHT_COMMAND,
     REMOTE_MAIN_REF,
     REMOTE_URL,
+    gate2_image_ref,
     markdown_field_values,
     raw_public_preflight_command_for_sha,
 )
-FULL_RUN_PORTS = [
-    (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
-    (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
-    (3000, "dashboard", "BEATER_DASHBOARD_PORT"),
-]
+FULL_RUN_PORTS = GATE2_FULL_RUN_PORTS
 STOPWATCH_COMPOSE_DOWN = [
     "docker",
     "compose",
@@ -80,9 +78,7 @@ def quickstart_confirmation_code_from_browser(
 ) -> str:
     internal_url = re.sub(r"^http://127\.0\.0\.1:3000", "http://dashboard:3000", url)
     env = clean_outside_env()
-    env["BEATER_DASHBOARD_E2E_IMAGE"] = (
-        f"ghcr.io/jadenfix/beater/dashboard-e2e:{expected_commit}"
-    )
+    env["BEATER_DASHBOARD_E2E_IMAGE"] = gate2_image_ref("dashboard-e2e", expected_commit)
     env["BEATER_GATE2_DIAGNOSTIC_QUICKSTART_URL"] = internal_url
     script = r"""
 const { chromium } = require("playwright");
@@ -572,7 +568,7 @@ def prepull_full_run_browser_image(args: argparse.Namespace, expected_commit: st
     if not args.full_run or fixture_full_run_enabled(args):
         return
     run(
-        ["docker", "pull", f"ghcr.io/jadenfix/beater/dashboard-e2e:{expected_commit}"],
+        ["docker", "pull", gate2_image_ref("dashboard-e2e", expected_commit)],
         cwd=repo_root(),
     )
 
