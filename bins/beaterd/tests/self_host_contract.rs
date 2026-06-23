@@ -566,7 +566,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let outside_run = read(root.join("scripts/gate2-outside-run.sh"));
     assert!(outside_run.contains("require_git_provenance"));
-    assert!(outside_run.contains("https://github.com/jadenfix/beater.git"));
+    let gate2_proof_contract = read(root.join("scripts/gate2_proof_contract.py"));
+    let remote_url = python_string_constant(&gate2_proof_contract, "REMOTE_URL");
+    assert!(outside_run.contains(&format!("expected_origin=\"{remote_url}\"")));
     assert!(outside_run.contains("outside-person evidence must run from the main branch"));
     assert!(outside_run.contains("outside-person evidence must run from origin"));
     assert!(outside_run.contains("outside-person evidence must run from a clean worktree"));
@@ -679,7 +681,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_validator.contains("require_tracked_artifact"));
     assert!(outside_validator.contains("require_committed_clean_path"));
     assert!(outside_validator.contains("def require_compose_logs_saved"));
-    assert!(outside_validator.contains("actions/runs/[0-9]+"));
+    assert!(gate2_proof_contract.contains("actions/runs/[0-9]+"));
+    assert!(outside_validator.contains("is_immutable_log_url"));
     assert!(outside_validator.contains("immutable GitHub Actions run/job URL"));
     assert!(outside_validator.contains("`docker compose` logs file does not exist"));
     assert!(outside_validator
@@ -764,8 +767,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
         .contains("Outside-run attestation must match the required unaided outside-run statement"));
 
     let outside_generator = read(root.join("scripts/generate-gate2-outside-proof.py"));
-    assert!(outside_generator.contains("CANONICAL_COMMAND"));
-    assert!(outside_generator.contains("scripts/gate2-outside-run.sh"));
+    assert!(outside_generator.contains("OUTSIDE_RUNNER_COMMAND"));
+    assert!(gate2_proof_contract.contains("scripts/gate2-outside-run.sh"));
     assert!(outside_generator.contains("Outside-run wrapper"));
     assert!(outside_generator.contains("Quickstart click source"));
     assert!(outside_generator.contains("Manual quickstart confirmation"));
@@ -776,8 +779,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_generator.contains("Git worktree clean"));
     assert!(outside_generator.contains("OUTSIDE_RUN_ATTESTATION"));
     assert!(outside_generator.contains("DIAGNOSTIC_ATTESTATION"));
-    assert!(outside_generator.contains("IMMUTABLE_LOG_URL"));
-    assert!(outside_generator.contains("actions/runs/[0-9]+"));
+    assert!(outside_generator.contains("is_immutable_log_url"));
+    assert!(gate2_proof_contract.contains("actions/runs/[0-9]+"));
     assert!(outside_generator.contains("--compose-logs-saved must live under docs/demos"));
     assert!(outside_generator.contains("--compose-logs-saved file does not exist"));
     assert!(outside_generator.contains("--runner-name"));
@@ -820,8 +823,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_readiness.contains("linux/amd64"));
     assert!(outside_readiness.contains("linux/arm64"));
     assert!(outside_readiness.contains("scripts/validate-gate2-outside-proof.sh"));
-    assert!(outside_readiness.contains("https://github.com/jadenfix/beater.git"));
+    assert!(outside_readiness.contains("from gate2_proof_contract import REMOTE_URL"));
     assert!(outside_readiness.contains("REMOTE_URL_NO_SUFFIX"));
+    assert!(outside_readiness.contains("REMOTE_URL.removesuffix(\".git\")"));
     assert!(outside_readiness.contains("normalized_github_remote"));
     assert!(outside_readiness.contains("origin must be {REMOTE_URL} or {REMOTE_URL_NO_SUFFIX}"));
     assert!(outside_readiness.contains("worktree must be clean"));
@@ -829,7 +833,6 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_readiness.contains("--registry-fixture"));
 
     let public_handoff = read(root.join("scripts/check-gate2-public-handoff.py"));
-    assert!(public_handoff.contains("https://github.com/jadenfix/beater.git"));
     assert!(public_handoff.contains("RAW_PUBLIC_PREFLIGHT_COMMAND"));
     assert!(public_handoff.contains("RAW_PREFLIGHT_URL_PREFIX"));
     assert!(public_handoff.contains("REMOTE_MAIN_REF"));
@@ -837,12 +840,14 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("CLONE_VERIFICATION_COMMAND"));
     assert!(public_handoff.contains("OUTSIDE_RUNNER_COMMAND"));
     assert!(public_handoff.contains("raw_public_preflight_command_for_sha"));
-    assert!(public_handoff.contains("https://raw.githubusercontent.com/jadenfix/beater"));
-    assert!(public_handoff.contains("refs/heads/main"));
-    assert!(public_handoff.contains("git ls-remote --exit-code"));
-    assert!(public_handoff.contains("-o \"$preflight\""));
-    assert!(public_handoff.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
     assert!(!public_handoff.contains("gate2-outside-local-preflight.sh | bash"));
+    let gate2_proof_contract = read(root.join("scripts/gate2_proof_contract.py"));
+    assert!(gate2_proof_contract.contains("https://github.com/jadenfix/beater.git"));
+    assert!(gate2_proof_contract.contains("https://raw.githubusercontent.com/jadenfix/beater"));
+    assert!(gate2_proof_contract.contains("refs/heads/main"));
+    assert!(gate2_proof_contract.contains("git ls-remote --exit-code"));
+    assert!(gate2_proof_contract.contains("-o \"$preflight\""));
+    assert!(gate2_proof_contract.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
     assert!(public_handoff.contains("scripts/gate2-outside-local-preflight.sh"));
     assert!(public_handoff.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
     assert!(public_handoff.contains("run_raw_public_preflight(args, expected_commit)"));
@@ -1377,10 +1382,6 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
 
     let runner_card = read(root.join("docs/demos/gate2-outside-runner-card.md"));
     assert!(runner_card.contains("# Gate 2 Outside Runner Card"));
-    assert!(runner_card.contains("bash -o pipefail -lc"));
-    assert!(runner_card.contains("git ls-remote --exit-code"));
-    assert!(runner_card.contains("gate2-outside-local-preflight.sh\" -o \"$preflight\""));
-    assert!(runner_card.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
     assert!(!runner_card.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(runner_card.contains("BEATER_GATE2_CLONE_STARTED_EPOCH"));
     assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
@@ -1459,4 +1460,17 @@ fn dockerignore_ignores(dockerignore: &str, pattern: &str) -> bool {
 
 fn read(path: PathBuf) -> String {
     fs::read_to_string(&path).unwrap_or_else(|err| panic!("read {}: {err}", path.display()))
+}
+
+fn python_string_constant(source: &str, name: &str) -> String {
+    let prefix = format!("{name} = \"");
+    let line = source
+        .lines()
+        .find(|line| line.starts_with(&prefix))
+        .unwrap_or_else(|| panic!("missing Python string constant {name}"));
+    let value = &line[prefix.len()..];
+    value
+        .strip_suffix('"')
+        .unwrap_or_else(|| panic!("Python string constant {name} must end with a quote"))
+        .to_string()
 }

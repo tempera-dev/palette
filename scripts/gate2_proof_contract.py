@@ -1,6 +1,55 @@
 import re
 
 
+REMOTE_URL = "https://github.com/jadenfix/beater.git"
+REMOTE_MAIN_REF = "refs/heads/main"
+RAW_PREFLIGHT_PATH = "scripts/gate2-outside-local-preflight.sh"
+RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/beater"
+PUBLIC_SHA_RESOLUTION_COMMAND = (
+    f'sha_line="$(git ls-remote --exit-code {REMOTE_URL} {REMOTE_MAIN_REF})" && '
+    'sha="${sha_line%%[[:space:]]*}" && test -n "$sha"'
+)
+RAW_PUBLIC_PREFLIGHT_COMMAND = (
+    'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
+    f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/$sha/{RAW_PREFLIGHT_PATH}" '
+    '-o "$preflight" && bash "$preflight"'
+)
+CLONE_VERIFICATION_COMMAND = (
+    f"git clone {REMOTE_URL} && cd beater && "
+    'test "$(git rev-parse HEAD)" = "$sha" && '
+    'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+)
+OUTSIDE_RUNNER_COMMAND = (
+    f"bash -o pipefail -lc '{PUBLIC_SHA_RESOLUTION_COMMAND} && "
+    f'{RAW_PUBLIC_PREFLIGHT_COMMAND} && t="$(date +%s)" && '
+    f"{CLONE_VERIFICATION_COMMAND}'"
+)
+OUTSIDE_RUN_ATTESTATION = (
+    "I attest that I am not a Beater project maintainer, I received no "
+    "step-by-step help beyond public repository instructions, I used a fresh "
+    "clone, and I completed the Gate 2 flow unaided."
+)
+DIAGNOSTIC_ATTESTATION = (
+    "Diagnostic maintainer full-run used a browser click to read the manual confirmation code; "
+    "this is not outside-person evidence and cannot close Gate 2."
+)
+IMMUTABLE_LOG_URL = re.compile(
+    r"https://github\.com/jadenfix/beater/actions/runs/[0-9]+(?:/job/[0-9]+)?"
+)
+
+
+def raw_public_preflight_command_for_sha(expected_commit):
+    return (
+        'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
+        f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/{expected_commit}/{RAW_PREFLIGHT_PATH}" '
+        '-o "$preflight" && bash "$preflight"'
+    )
+
+
+def is_immutable_log_url(value):
+    return bool(IMMUTABLE_LOG_URL.fullmatch(value))
+
+
 UNRESOLVED_REQUIRED_VALUES = {
     "...",
     "\u2026",

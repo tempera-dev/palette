@@ -52,9 +52,14 @@ errors: list[str] = []
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(repo / "scripts"))
 from gate2_proof_contract import (
+    DIAGNOSTIC_ATTESTATION,
     LLM_OBSERVATION_FRAGMENTS,
+    OUTSIDE_RUNNER_COMMAND,
+    OUTSIDE_RUN_ATTESTATION,
+    REMOTE_URL,
     WATERFALL_OBSERVATION_FRAGMENTS,
     contains_placeholder_fragment,
+    is_immutable_log_url,
     is_unresolved_marker,
     markdown_field_values,
     observation_errors,
@@ -67,32 +72,13 @@ text = proof_path.read_text()
 DEFAULT_API_ENDPOINT = "http://127.0.0.1:8080"
 DEFAULT_DASHBOARD_BASE = "http://127.0.0.1:3000"
 DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
-EXPECTED_CLONE_URL = "https://github.com/jadenfix/beater.git"
+EXPECTED_CLONE_URL = REMOTE_URL
 EXPECTED_QUICKSTART_SNIPPET = "examples/python/five_line_otel.py"
-EXPECTED_OUTSIDE_COMMAND = (
-    "bash -o pipefail -lc 'sha_line=\"$(git ls-remote --exit-code "
-    "https://github.com/jadenfix/beater.git refs/heads/main)\" && "
-    "sha=\"${sha_line%%[[:space:]]*}\" && test -n \"$sha\" && "
-    "preflight=\"$(mktemp \"${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX\")\" && "
-    "curl -fsSL \"https://raw.githubusercontent.com/jadenfix/beater/$sha/"
-    "scripts/gate2-outside-local-preflight.sh\" -o \"$preflight\" && bash \"$preflight\" && "
-    "t=\"$(date +%s)\" && git clone https://github.com/jadenfix/beater.git && cd beater && "
-    "test \"$(git rev-parse HEAD)\" = \"$sha\" && "
-    "BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" scripts/gate2-outside-run.sh'"
-)
+EXPECTED_OUTSIDE_COMMAND = OUTSIDE_RUNNER_COMMAND
 MIN_RECORDING_BYTES = 64 * 1024
 MIN_RECORDING_SECONDS = 8.0
-OUTSIDE_RUN_ATTESTATION = (
-    "I attest that I am not a Beater project maintainer, I received no "
-    "step-by-step help beyond public repository instructions, I used a fresh "
-    "clone, and I completed the Gate 2 flow unaided."
-)
 OUTSIDE_RECORDING_NOTE = (
     "This recording was generated during the outside-person stopwatch path."
-)
-DIAGNOSTIC_ATTESTATION = (
-    "Diagnostic maintainer full-run used a browser click to read the manual confirmation code; "
-    "this is not outside-person evidence and cannot close Gate 2."
 )
 FORBIDDEN_EVIDENCE = [
     "http://127.0.0.1:13003",
@@ -467,10 +453,7 @@ def require_compose_logs_saved(value: str) -> None:
         fail("`docker compose` logs saved must identify saved logs for Gate 2 evidence")
         return
     if value.startswith("https://"):
-        if not re.fullmatch(
-            r"https://github\.com/jadenfix/beater/actions/runs/[0-9]+(?:/job/[0-9]+)?",
-            value,
-        ):
+        if not is_immutable_log_url(value):
             fail(
                 "`docker compose` logs saved must be a repo-relative docs/demos log "
                 "file or immutable GitHub Actions run/job URL"
@@ -492,7 +475,7 @@ def require_default_dashboard_url(name: str, value: str, trace_id: str) -> None:
         fail(f"{name} must use {DEFAULT_DASHBOARD_BASE}")
     if parsed.path not in ("", "/"):
         fail(f"{name} must use the dashboard root path")
-    if "..." in value:
+    if contains_placeholder_fragment(value):
         fail(f"{name} must be the concrete dashboard URL, not a placeholder")
     params = parse_qs(parsed.query)
     for key, expected in [

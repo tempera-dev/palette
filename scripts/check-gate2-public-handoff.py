@@ -16,31 +16,17 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from gate2_proof_contract import markdown_field_values
-
-
-REMOTE_URL = "https://github.com/jadenfix/beater.git"
-REMOTE_MAIN_REF = "refs/heads/main"
-RAW_PREFLIGHT_PATH = "scripts/gate2-outside-local-preflight.sh"
-RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/beater"
-PUBLIC_SHA_RESOLUTION_COMMAND = (
-    f'sha_line="$(git ls-remote --exit-code {REMOTE_URL} {REMOTE_MAIN_REF})" && '
-    'sha="${sha_line%%[[:space:]]*}" && test -n "$sha"'
-)
-RAW_PUBLIC_PREFLIGHT_COMMAND = (
-    'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
-    f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/$sha/{RAW_PREFLIGHT_PATH}" '
-    '-o "$preflight" && bash "$preflight"'
-)
-CLONE_VERIFICATION_COMMAND = (
-    f"git clone {REMOTE_URL} && cd beater && "
-    'test "$(git rev-parse HEAD)" = "$sha" && '
-    'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
-)
-OUTSIDE_RUNNER_COMMAND = (
-    f"bash -o pipefail -lc '{PUBLIC_SHA_RESOLUTION_COMMAND} && "
-    f'{RAW_PUBLIC_PREFLIGHT_COMMAND} && t="$(date +%s)" && '
-    f"{CLONE_VERIFICATION_COMMAND}'"
+from gate2_proof_contract import (
+    CLONE_VERIFICATION_COMMAND,
+    OUTSIDE_RUNNER_COMMAND,
+    PUBLIC_SHA_RESOLUTION_COMMAND,
+    RAW_PREFLIGHT_PATH,
+    RAW_PREFLIGHT_URL_PREFIX,
+    RAW_PUBLIC_PREFLIGHT_COMMAND,
+    REMOTE_MAIN_REF,
+    REMOTE_URL,
+    markdown_field_values,
+    raw_public_preflight_command_for_sha,
 )
 FULL_RUN_PORTS = [
     (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
@@ -558,14 +544,6 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
             "cleaning the beater-stopwatch Compose project:\n  "
             + "\n  ".join(occupied)
         )
-
-
-def raw_public_preflight_command_for_sha(expected_commit: str) -> str:
-    return (
-        'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
-        f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/{expected_commit}/{RAW_PREFLIGHT_PATH}" '
-        '-o "$preflight" && bash "$preflight"'
-    )
 
 
 def run_raw_public_preflight(args: argparse.Namespace, expected_commit: str) -> None:

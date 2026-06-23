@@ -3,6 +3,7 @@ use std::io::Write;
 use std::os::unix::fs::{symlink, PermissionsExt};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
+use std::sync::OnceLock;
 
 use tempfile::TempDir;
 
@@ -27,9 +28,34 @@ const WATERFALL_OBSERVATION: &str =
     "opened all-kind trace and saw run -> turn -> step -> tool -> MCP nesting";
 const OUTSIDE_RUN_ATTESTATION: &str = "I attest that I am not a Beater project maintainer, I received no step-by-step help beyond public repository instructions, I used a fresh clone, and I completed the Gate 2 flow unaided.";
 const DIAGNOSTIC_ATTESTATION: &str = "Diagnostic maintainer full-run used a browser click to read the manual confirmation code; this is not outside-person evidence and cannot close Gate 2.";
-const CANONICAL_OUTSIDE_COMMAND: &str = r#"bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'"#;
 const DRAFT_VALID: &str = "Gate 2 outside-person proof draft is internally consistent";
 const CLOSURE_VALID: &str = "Gate 2 outside-person proof is complete and valid";
+
+fn canonical_outside_command() -> &'static str {
+    static COMMAND: OnceLock<String> = OnceLock::new();
+    COMMAND.get_or_init(|| {
+        let output = Command::new("python3")
+            .arg("-c")
+            .arg(
+                "import sys; sys.dont_write_bytecode = True; \
+                 sys.path.insert(0, 'scripts'); \
+                 from gate2_proof_contract import OUTSIDE_RUNNER_COMMAND; \
+                 print(OUTSIDE_RUNNER_COMMAND, end='')",
+            )
+            .current_dir(repo_root())
+            .output()
+            .unwrap_or_else(|err| panic!("read canonical Gate 2 outside command: {err}"));
+        if !output.status.success() {
+            panic!(
+                "read canonical Gate 2 outside command failed\nstdout:\n{}\nstderr:\n{}",
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
+        String::from_utf8(output.stdout)
+            .unwrap_or_else(|err| panic!("canonical Gate 2 outside command is not UTF-8: {err}"))
+    })
+}
 
 fn terminal_output_excerpt() -> String {
     format!(
@@ -86,16 +112,8 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
 
     let readme = fs::read_to_string(root.join("README.md"))
         .unwrap_or_else(|err| panic!("read README.md: {err}"));
-    assert!(readme.contains(r#"git clone https://github.com/jadenfix/beater.git && cd beater &&"#));
-    assert!(readme.contains(
-        "git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main"
-    ));
-    assert!(readme.contains("sha=\"${sha_line%%[[:space:]]*}\""));
-    assert!(readme.contains("mktemp \"${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX\""));
-    assert!(readme.contains("gate2-outside-local-preflight.sh\" -o \"$preflight\" && bash \"$preflight\" && t=\"$(date +%s)\""));
-    assert!(readme.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
+    assert!(readme.contains(canonical_outside_command()));
     assert!(!readme.contains("gate2-outside-local-preflight.sh | bash"));
-    assert!(readme.contains("bash -o pipefail -lc"));
     assert!(readme.contains("confirms the\nquickstart browser click unaided in 5"));
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(readme.contains("and `python3` 3.9+; local ports"));
@@ -142,17 +160,12 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(!readme.contains(r#"--network-notes "...""#));
     let proof_template = fs::read_to_string(root.join("docs/demos/gate2-outside-person-proof.md"))
         .unwrap_or_else(|err| panic!("read outside proof template: {err}"));
+    assert!(proof_template.contains(canonical_outside_command()));
     assert!(proof_template.contains("[gate2-outside-runner-card.md](gate2-outside-runner-card.md)"));
     assert!(proof_template.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
     assert!(proof_template.contains("Python 3.9 or newer is required"));
     assert!(proof_template.contains("before the stopwatch starts"));
-    assert!(proof_template.contains(
-        "git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main"
-    ));
-    assert!(proof_template.contains("gate2-outside-local-preflight.sh\" -o \"$preflight\" && bash \"$preflight\" && t=\"$(date +%s)\""));
-    assert!(proof_template.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
     assert!(!proof_template.contains("gate2-outside-local-preflight.sh | bash"));
-    assert!(proof_template.contains("bash -o pipefail -lc"));
     assert!(proof_template.contains("curl\nor `ffprobe` is missing"));
     assert!(proof_template.contains("Docker Compose v2, `curl`, `ffprobe`, local Docker daemon"));
     assert!(proof_template.contains("`ffprobe` playable-video metadata"));
@@ -203,7 +216,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("Use this card for the unaided Gate 2 run"));
     assert!(runner_card.contains("`ffprobe` (installed by common `ffmpeg` packages)"));
     assert!(runner_card.contains("cleanup hint it prints"));
-    assert!(runner_card.contains(CANONICAL_OUTSIDE_COMMAND));
+    assert!(runner_card.contains(canonical_outside_command()));
     assert!(runner_card.contains("downloads preflight from the resolved public commit SHA"));
     assert!(runner_card.contains("verifies\nthe clone still matches that SHA"));
     assert!(runner_card.contains("includes clone and image-pull time"));
@@ -378,7 +391,7 @@ fn gate2_outside_generator_builds_valid_completed_proof() {
     assert!(generated_text.contains("- Beater image digest: ghcr.io/jadenfix/beater/beaterd@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
     assert!(generated_text.contains("- Dashboard e2e image digest: ghcr.io/jadenfix/beater/dashboard-e2e@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"));
     assert!(generated_text.contains("- OTEL Python image digest: ghcr.io/jadenfix/beater/otel-python@sha256:abababababababababababababababababababababababababababababababab"));
-    assert!(generated_text.contains(CANONICAL_OUTSIDE_COMMAND));
+    assert!(generated_text.contains(canonical_outside_command()));
     assert!(!generated_text.contains(r#"BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)""#));
     assert!(generated_text.contains("- Outside-run wrapper: yes"));
     assert!(generated_text.contains("Gate 2 compose stopwatch passed; Browser recording: passed"));
@@ -996,6 +1009,7 @@ fn gate2_outside_readiness_reports_missing_origin_without_traceback() {
         fixture.path(),
         "scripts/check-gate2-outside-readiness.py",
     );
+    copy_fixture_file(&root, fixture.path(), "scripts/gate2_proof_contract.py");
     git_success(fixture.path(), &["init"]);
     git_success(
         fixture.path(),
@@ -1650,13 +1664,15 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(script.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
     assert!(script.contains("immutable raw public preflight before"));
     assert!(script.contains("before any clone"));
-    assert!(script.contains("curl -fsSL"));
-    assert!(script.contains("-o \"$preflight\""));
-    assert!(script.contains("mktemp"));
-    assert!(script.contains("refs/heads/main"));
-    assert!(script.contains("git ls-remote --exit-code"));
-    assert!(script.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
     assert!(!script.contains("gate2-outside-local-preflight.sh | bash"));
+    let proof_contract = fs::read_to_string(repo_root().join("scripts/gate2_proof_contract.py"))
+        .unwrap_or_else(|err| panic!("read Gate 2 proof contract helper: {err}"));
+    assert!(proof_contract.contains("curl -fsSL"));
+    assert!(proof_contract.contains("-o \"$preflight\""));
+    assert!(proof_contract.contains("mktemp"));
+    assert!(proof_contract.contains("refs/heads/main"));
+    assert!(proof_contract.contains("git ls-remote --exit-code"));
+    assert!(proof_contract.contains("test \"$(git rev-parse HEAD)\" = \"$sha\""));
     assert!(script.contains("gate2-outside-local-preflight.sh"));
     assert!(script.contains("require_full_run_source(args)"));
     assert!(script.contains("shutil.which"));
@@ -2570,7 +2586,7 @@ fn gate2_outside_validator_rejects_split_clone_command() {
     let fixture = ValidatorFixture::new();
     replace(
         &fixture.proof_path,
-        CANONICAL_OUTSIDE_COMMAND,
+        canonical_outside_command(),
         r#"BEATER_GATE2_CLONE_STARTED_EPOCH="$(date +%s)"
 git clone https://github.com/jadenfix/beater.git && cd beater
 BEATER_GATE2_CLONE_STARTED_EPOCH="$BEATER_GATE2_CLONE_STARTED_EPOCH" scripts/gate2-outside-run.sh"#,
@@ -4276,6 +4292,7 @@ impl ValidatorFixture {
 fn outside_proof(stopwatch: &str, recording: &str, notes: &str, compose_log: &str) -> String {
     let commit_sha = current_head();
     let quickstart_release_id = quickstart_release_id();
+    let outside_runner_command = canonical_outside_command();
     format!(
         r#"# Gate 2 Outside-Person Proof
 
@@ -4334,7 +4351,7 @@ Status: completed.
 ## Commands
 
 ```bash
-{CANONICAL_OUTSIDE_COMMAND}
+{outside_runner_command}
 ```
 
 The runner completed the flow using only public repository instructions.

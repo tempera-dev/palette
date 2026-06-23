@@ -6,14 +6,18 @@ import json
 import os
 import re
 import subprocess
+import sys
 import urllib.request
 from pathlib import Path
+
+sys.dont_write_bytecode = True
+
+from gate2_proof_contract import REMOTE_URL
 
 
 IMAGE_NAMES = ["beaterd", "dashboard", "dashboard-e2e", "otel-python"]
 EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
-REMOTE_URL = "https://github.com/jadenfix/beater.git"
-REMOTE_URL_NO_SUFFIX = "https://github.com/jadenfix/beater"
+REMOTE_URL_NO_SUFFIX = REMOTE_URL.removesuffix(".git")
 COMMON_PINNED_THIRD_PARTY_IMAGES = [
     (
         "postgres:17-alpine",

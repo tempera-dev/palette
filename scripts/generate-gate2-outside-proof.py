@@ -12,29 +12,18 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 
 from gate2_proof_contract import (
+    DIAGNOSTIC_ATTESTATION,
     LLM_OBSERVATION_FRAGMENTS,
+    OUTSIDE_RUNNER_COMMAND,
+    OUTSIDE_RUN_ATTESTATION,
     WATERFALL_OBSERVATION_FRAGMENTS,
     clean_value,
     contains_placeholder_fragment,
+    is_immutable_log_url,
     is_unresolved_argument,
     is_unresolved_marker,
     markdown_field_values,
     observation_errors,
-)
-
-
-CANONICAL_COMMAND = "scripts/gate2-outside-run.sh"
-OUTSIDE_RUN_ATTESTATION = (
-    "I attest that I am not a Beater project maintainer, I received no "
-    "step-by-step help beyond public repository instructions, I used a fresh "
-    "clone, and I completed the Gate 2 flow unaided."
-)
-DIAGNOSTIC_ATTESTATION = (
-    "Diagnostic maintainer full-run used a browser click to read the manual confirmation code; "
-    "this is not outside-person evidence and cannot close Gate 2."
-)
-IMMUTABLE_LOG_URL = re.compile(
-    r"https://github\.com/jadenfix/beater/actions/runs/[0-9]+(?:/job/[0-9]+)?"
 )
 
 
@@ -108,7 +97,7 @@ def require_compose_logs_saved_arg(value):
     ):
         raise SystemExit("--compose-logs-saved must identify saved logs")
     if cleaned.startswith("https://"):
-        if not IMMUTABLE_LOG_URL.fullmatch(cleaned):
+        if not is_immutable_log_url(cleaned):
             raise SystemExit(
                 "--compose-logs-saved must be a repo-relative docs/demos log file "
                 "or immutable GitHub Actions run/job URL"
@@ -400,7 +389,7 @@ Status: {status}
 ## Commands
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${{sha_line%%[[:space:]]*}}" && test -n "$sha" && preflight="$(mktemp "${{TMPDIR:-/tmp}}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && bash "$preflight" && t="$(date +%s)" && git clone https://github.com/jadenfix/beater.git && cd beater && test "$(git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" {CANONICAL_COMMAND}'
+{OUTSIDE_RUNNER_COMMAND}
 ```
 
 {command_note}
