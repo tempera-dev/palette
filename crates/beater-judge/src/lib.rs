@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{
-    JudgeCallId, Money, ProjectId, ProviderSecretId, Sha256Hash, TenantId, Timestamp,
+    sha256_hex, JudgeCallId, Money, ProjectId, ProviderSecretId, Sha256Hash, TenantId, Timestamp,
 };
 use beater_eval::{
     EvaluationCase, EvaluatorKind, EvaluatorSpec, JudgeRequest, JudgeResponse, ScoreResult,
@@ -13,7 +13,6 @@ use chrono::{DateTime, Utc};
 use reqwest::StatusCode as ReqwestStatusCode;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha256};
 use std::fmt::{Debug, Formatter};
 use std::fs;
 use std::path::Path;
@@ -1156,17 +1155,6 @@ fn sha256_json_hash<T: Serialize>(value: &T) -> Result<Sha256Hash, JudgeBrokerEr
     let bytes =
         serde_json::to_vec(value).map_err(|err| JudgeBrokerError::Store(err.to_string()))?;
     Sha256Hash::new(sha256_hex(&bytes)).map_err(|err| JudgeBrokerError::Store(err.to_string()))
-}
-
-fn sha256_hex(bytes: &[u8]) -> String {
-    const HEX: &[u8; 16] = b"0123456789abcdef";
-    let digest = Sha256::digest(bytes);
-    let mut output = String::with_capacity(digest.len() * 2);
-    for byte in digest {
-        output.push(HEX[(byte >> 4) as usize] as char);
-        output.push(HEX[(byte & 0x0f) as usize] as char);
-    }
-    output
 }
 
 fn score_from_response(response: &JudgeResponse, audit: &JudgeAuditRecord) -> ScoreResult {

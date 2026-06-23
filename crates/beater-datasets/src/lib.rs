@@ -1,9 +1,9 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{
-    AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId, EnvironmentId, EvalResultId,
-    EvaluatorVersionId, ProjectId, PromptVersionId, ProviderSecretId, Sha256Hash, SpanId, TenantId,
-    Timestamp, TraceId,
+    sha256_hex, AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId, EnvironmentId,
+    EvalResultId, EvaluatorVersionId, ProjectId, PromptVersionId, ProviderSecretId, Sha256Hash,
+    SpanId, TenantId, Timestamp, TraceId,
 };
 use beater_eval::{evaluate_deterministic, EvaluationCase, EvaluatorSpec, ScoreResult};
 use beater_judge::{JudgeBroker, JudgeBrokerOutcome, JudgeBrokerRequest};
@@ -13,7 +13,6 @@ use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use sha2::{Digest, Sha256};
 use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
@@ -864,11 +863,6 @@ fn artifact_hashes(span: &CanonicalSpan) -> Vec<Sha256Hash> {
 fn evaluator_spec_hash(spec: &EvaluatorSpec) -> anyhow::Result<Sha256Hash> {
     let bytes = serde_json::to_vec(spec).context("serialize evaluator spec for hash")?;
     Sha256Hash::new(sha256_hex(&bytes)).map_err(anyhow::Error::from)
-}
-
-fn sha256_hex(bytes: &[u8]) -> String {
-    let digest = Sha256::digest(bytes);
-    digest.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
 fn select_cases(

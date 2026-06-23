@@ -1,5 +1,5 @@
 use axum::{extract::State, http::StatusCode, routing::post, Json, Router};
-use beater_core::{ProjectId, TenantId, TraceId};
+use beater_core::{lower_hex, ProjectId, TenantId, TraceId};
 use beater_otlp::encode_export_trace_request;
 use beater_schema::{CanonicalTraceBatch, TraceView, WriteAck};
 use beater_store::{StoreError, TraceStore};
@@ -49,7 +49,7 @@ async fn beaterd_accepts_otlp_http_and_grpc_and_makes_traces_queryable() -> anyh
         .send()
         .await?
         .error_for_status()?;
-    let http_trace_id = hex(&http_trace);
+    let http_trace_id = lower_hex(&http_trace);
     let http_trace = wait_for_trace(&http_url, &http_trace_id).await?;
     assert_eq!(span_count(&http_trace), 1);
     let http_search = wait_for_search_hit(&http_url, &http_trace_id).await?;
@@ -69,7 +69,7 @@ async fn beaterd_accepts_otlp_http_and_grpc_and_makes_traces_queryable() -> anyh
         .metadata_mut()
         .insert("x-beater-environment-id", metadata_value("local")?);
     client.export(request).await?;
-    let grpc_trace_id = hex(&grpc_trace);
+    let grpc_trace_id = lower_hex(&grpc_trace);
     let grpc_trace = wait_for_trace(&http_url, &grpc_trace_id).await?;
     assert_eq!(span_count(&grpc_trace), 1);
     let grpc_search = wait_for_search_hit(&http_url, &grpc_trace_id).await?;
@@ -790,7 +790,7 @@ async fn post_otlp_http_with_durability(
         .body(encode_export_trace_request(&export))
         .send()
         .await?;
-    Ok((hex(&trace), response))
+    Ok((lower_hex(&trace), response))
 }
 
 async fn post_buffered_otlp_http(http_url: &str, name: &str) -> anyhow::Result<String> {
@@ -805,7 +805,7 @@ async fn post_buffered_otlp_http(http_url: &str, name: &str) -> anyhow::Result<S
         .send()
         .await?
         .error_for_status()?;
-    Ok(hex(&trace))
+    Ok(lower_hex(&trace))
 }
 
 async fn wait_for_file(path: &Path, timeout: Duration) -> anyhow::Result<()> {
@@ -1136,8 +1136,4 @@ fn otel_string(value: &str) -> AnyValue {
     AnyValue {
         value: Some(any_value::Value::StringValue(value.to_string())),
     }
-}
-
-fn hex(bytes: &[u8]) -> String {
-    bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }

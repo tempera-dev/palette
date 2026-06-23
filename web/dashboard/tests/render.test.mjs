@@ -352,7 +352,7 @@ test("dashboard client uses public beater read endpoints", () => {
   assert.match(api, /x-beater-project-id/);
   assert.match(api, /x-beater-environment-id/);
   assert.match(api, /formatApiError\(response\.status, response\.statusText/);
-  assert.match(api, /let runs: Page<RunSummary>;/);
+  assert.match(api, /let runs: RunSummaryPage;/);
   assert.match(api, /selectedSpan = selectedSpanFromTrace;/);
   assert.match(api, /selectedIo = await fetchJson<SpanIoResponse>/);
   assert.match(api, /if \(!query\.unmask\) return params;/);

@@ -1,6 +1,6 @@
 use beater_core::{
-    Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId, TenantScope,
-    Timestamp, TokenCounts, TraceId,
+    lower_hex, Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId,
+    TenantScope, Timestamp, TokenCounts, TraceId,
 };
 use beater_ingest::{
     anonymous_auth_context, CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest,
@@ -248,12 +248,12 @@ fn convert_span(
     span: Span,
     fallback_seq: u64,
 ) -> anyhow::Result<NativeIngestRequest> {
-    let trace_id = TraceId::new(hex(&span.trace_id))?;
-    let span_id = SpanId::new(hex(&span.span_id))?;
+    let trace_id = TraceId::new(lower_hex(&span.trace_id))?;
+    let span_id = SpanId::new(lower_hex(&span.span_id))?;
     let parent_span_id = if span.parent_span_id.is_empty() {
         None
     } else {
-        Some(SpanId::new(hex(&span.parent_span_id))?)
+        Some(SpanId::new(lower_hex(&span.parent_span_id))?)
     };
     let mut attributes = BTreeMap::new();
     for (key, value) in resource_attrs {
@@ -341,8 +341,8 @@ fn convert_span(
             "otlp:{}:{}:{}:{}",
             scope.tenant_id.as_str(),
             scope.project_id.as_str(),
-            hex(&span.trace_id),
-            hex(&span.span_id)
+            lower_hex(&span.trace_id),
+            lower_hex(&span.span_id)
         ))?),
         auth_context: None,
     })
@@ -566,7 +566,7 @@ fn any_value_to_json(value: Option<&AnyValue>) -> Value {
         any_value::Value::BoolValue(value) => Value::Bool(*value),
         any_value::Value::IntValue(value) => json!(value),
         any_value::Value::DoubleValue(value) => json!(value),
-        any_value::Value::BytesValue(value) => Value::String(hex(value)),
+        any_value::Value::BytesValue(value) => Value::String(lower_hex(value)),
         any_value::Value::StringValueStrindex(value) => {
             Value::String(format!("string-table-index:{value}"))
         }
@@ -604,10 +604,6 @@ fn span_kind_name(value: i32) -> &'static str {
     span::SpanKind::try_from(value)
         .unwrap_or(span::SpanKind::Unspecified)
         .as_str_name()
-}
-
-fn hex(bytes: &[u8]) -> String {
-    bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
 #[cfg(test)]

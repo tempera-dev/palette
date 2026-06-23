@@ -1,13 +1,12 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
-use beater_core::{ProjectId, Sha256Hash, SpanId, TenantId, Timestamp, TraceId};
+use beater_core::{sha256_hex, ProjectId, Sha256Hash, SpanId, TenantId, Timestamp, TraceId};
 use beater_schema::{CanonicalSpan, ReplayCassette, SpanStatus};
 use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::Path;
@@ -429,14 +428,7 @@ fn event_key(seq: u64, kind: &ReplayEventKind, request_hash: &Sha256Hash) -> Str
 
 fn json_hash(value: &Value) -> anyhow::Result<Sha256Hash> {
     let bytes = serde_json::to_vec(value).context("serialize replay json for hash")?;
-    let digest = Sha256::digest(&bytes);
-    Sha256Hash::new(
-        digest
-            .iter()
-            .map(|byte| format!("{byte:02x}"))
-            .collect::<String>(),
-    )
-    .map_err(anyhow::Error::from)
+    Sha256Hash::new(sha256_hex(&bytes)).map_err(anyhow::Error::from)
 }
 
 pub fn plan_replay(cassette: &ReplayCassette, fork_after: Option<SpanId>) -> ReplayPlan {

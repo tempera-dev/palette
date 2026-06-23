@@ -235,7 +235,11 @@ impl TokenCounts {
 
 pub fn sha256_hex(bytes: &[u8]) -> String {
     let digest = Sha256::digest(bytes);
-    digest.iter().map(|byte| format!("{byte:02x}")).collect()
+    lower_hex(digest.as_ref())
+}
+
+pub fn lower_hex(bytes: &[u8]) -> String {
+    bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

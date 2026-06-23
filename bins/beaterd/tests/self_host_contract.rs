@@ -1453,7 +1453,9 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(quickstart_e2e.contains("hello from Beater"));
     assert!(quickstart_e2e.contains("data-icon"));
     assert!(quickstart_e2e.contains("selectedSpanId"));
-    assert!(quickstart_e2e.contains("confirmationCode(selectedTraceId, selectedSpanId)"));
+    assert!(quickstart_e2e
+        .contains("import { gate2ConfirmationCode } from \"../../lib/gate2-confirmation\""));
+    assert!(quickstart_e2e.contains("gate2ConfirmationCode({"));
     assert!(quickstart_e2e.contains("12 total, 5 prompt, 7 completion"));
     assert!(quickstart_e2e.contains("Span metrics"));
     assert!(quickstart_e2e.contains("Latency"));

@@ -12,7 +12,7 @@ use beater_calibration::{
     calibrate_eval_report, CalibrationPolicy, CalibrationStore, SqliteCalibrationStore,
 };
 use beater_core::{
-    AgentReleaseId, AnnotationId, ApiKeyId, DatasetId, DatasetVersionId, EnvironmentId,
+    lower_hex, AgentReleaseId, AnnotationId, ApiKeyId, DatasetId, DatasetVersionId, EnvironmentId,
     EvaluatorVersionId, ExperimentRunId, GateId, IdempotencyKey, Money, Page, PageRequest,
     ProjectId, ProviderSecretId, ReviewQueueId, ReviewTaskId, SpanId, TenantId, TenantScope,
     TraceId,
@@ -1841,7 +1841,7 @@ async fn run_remote_smoke(
     timeout_ms: u64,
 ) -> anyhow::Result<serde_json::Value> {
     let (trace_bytes, span_bytes) = smoke_ids();
-    let trace_id = hex(&trace_bytes);
+    let trace_id = lower_hex(&trace_bytes);
     let export = otlp_smoke_export(trace_bytes, span_bytes);
     let started = std::time::Instant::now();
     let protocol = if let Some(otlp_grpc_url) = otlp_grpc_url {
@@ -2050,10 +2050,6 @@ fn otlp_smoke_export(trace_id: [u8; 16], span_id: [u8; 8]) -> ExportTraceService
             schema_url: "https://opentelemetry.io/schemas/1.37.0".to_string(),
         }],
     }
-}
-
-fn hex(bytes: &[u8]) -> String {
-    bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
 fn otel_kv(key: &str, value: AnyValue) -> KeyValue {

@@ -1,11 +1,6 @@
 import type { components, operations } from "./generated/api-types";
 import { apiSpanIoLabels } from "./span-kinds";
 
-export type Page<T> = {
-  items: T[];
-  next_cursor: string | null;
-};
-
 type TraceListOperation = operations["openapi_list_traces"];
 type TraceOperation = operations["openapi_get_trace"];
 type SpanOperation = operations["openapi_get_span"];
@@ -18,6 +13,7 @@ type SpanPathParams = SpanOperation["parameters"]["path"];
 type SpanIoPathParams = SpanIoOperation["parameters"]["path"];
 
 export type RunSummary = components["schemas"]["RunSummaryDoc"];
+export type RunSummaryPage = components["schemas"]["PageRunSummaryDoc"];
 export type Money = components["schemas"]["MoneyDoc"];
 export type CanonicalSpan = components["schemas"]["CanonicalSpanDoc"];
 export type TraceView = components["schemas"]["TraceViewDoc"];
@@ -47,7 +43,7 @@ export type DashboardQuery = {
 export type DashboardData = {
   apiBaseUrl: string;
   query: DashboardQuery;
-  runs: Page<RunSummary>;
+  runs: RunSummaryPage;
   trace: TraceView | null;
   selectedSpan: CanonicalSpan | null;
   selectedIo: SpanIoResponse | null;
@@ -150,9 +146,9 @@ function traceReadParams(query: DashboardQuery): URLSearchParams {
 export async function loadDashboardData(query: DashboardQuery): Promise<DashboardData> {
   const apiBaseUrl = dashboardApiBaseUrl();
   const headers = dashboardApiHeaders(query);
-  let runs: Page<RunSummary>;
+  let runs: RunSummaryPage;
   try {
-    runs = await fetchJson<Page<RunSummary>>(`${apiBaseUrl}${traceListPath(query)}`, headers);
+    runs = await fetchJson<RunSummaryPage>(`${apiBaseUrl}${traceListPath(query)}`, headers);
   } catch (error) {
     return {
       apiBaseUrl,
