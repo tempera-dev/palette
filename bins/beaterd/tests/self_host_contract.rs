@@ -1,6 +1,23 @@
 use std::fs;
 use std::path::PathBuf;
 
+const CANONICAL_AGENT_SPAN_KINDS: &[&str] = &[
+    "agent.run",
+    "agent.turn",
+    "agent.plan",
+    "agent.step",
+    "llm.call",
+    "tool.call",
+    "mcp.request",
+    "retrieval.query",
+    "memory.read",
+    "memory.write",
+    "guardrail.check",
+    "human.review",
+    "evaluator.run",
+    "replay.run",
+];
+
 #[test]
 fn self_host_files_define_gate_two_compose_surface() {
     let root = repo_root();
@@ -337,6 +354,83 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(gate0_contract.contains("span.kind.as_str()"));
     assert!(gate0_contract.contains("span.status.as_str()"));
     assert!(gate0_contract.contains("Gate 0 foundation contract passed."));
+}
+
+#[test]
+fn agent_span_kind_taxonomy_contracts_stay_in_sync() {
+    let root = repo_root();
+    let schema = read(root.join("crates/beater-schema/src/lib.rs"));
+    let dashboard_kinds = read(root.join("web/dashboard/lib/span-kinds.ts"));
+    let postgres = read(root.join("migrations/postgres/0001_initial.sql"));
+
+    assert_contains_in_order(
+        &schema,
+        "beater-schema AgentSpanKind::as_str",
+        CANONICAL_AGENT_SPAN_KINDS,
+    );
+    for kind in CANONICAL_AGENT_SPAN_KINDS {
+        let snake_case = kind.replace('.', "_");
+        assert!(
+            schema.contains(&format!("\"{kind}\" | \"{snake_case}\"")),
+            "beater-schema AgentSpanKind::parse must accept {kind} and {snake_case}"
+        );
+    }
+
+    assert!(dashboard_kinds.contains("LLM_CALL_SPAN_KIND = \"llm.call\""));
+    assert_contains_all(
+        &dashboard_kinds,
+        "dashboard span-kind helper",
+        CANONICAL_AGENT_SPAN_KINDS,
+    );
+    assert_contains_in_order(
+        &dashboard_kinds,
+        "dashboard AGENT_SPAN_KINDS",
+        &[
+            "agent.run",
+            "agent.turn",
+            "agent.plan",
+            "agent.step",
+            "LLM_CALL_SPAN_KIND",
+            "tool.call",
+            "mcp.request",
+            "retrieval.query",
+            "memory.read",
+            "memory.write",
+            "guardrail.check",
+            "human.review",
+            "evaluator.run",
+            "replay.run",
+        ],
+    );
+    for expected in [
+        "apiSpanIoLabels",
+        "displaySpanIoLabels",
+        "spanKindClass",
+        "spanKindMeta",
+    ] {
+        assert!(
+            dashboard_kinds.contains(expected),
+            "dashboard span-kind helper must own {expected}"
+        );
+    }
+
+    assert_contains_in_order(
+        &postgres,
+        "Postgres spans_kind_known constraint",
+        CANONICAL_AGENT_SPAN_KINDS,
+    );
+
+    for path in [
+        "scripts/gate2-compose-stopwatch.sh",
+        "scripts/gate2-proof.sh",
+        "scripts/smoke-compose.sh",
+        "examples/python/otel_smoke.py",
+        "web/dashboard/tests/e2e/dashboard.spec.ts",
+        "web/dashboard/tests/e2e/record-gate2-demo.mjs",
+    ] {
+        let source = read(root.join(path));
+        assert_contains_all(&source, path, CANONICAL_AGENT_SPAN_KINDS);
+    }
 }
 
 #[test]
@@ -1411,6 +1505,25 @@ fn find_required(haystack: &str, needle: &str) -> usize {
     haystack
         .find(needle)
         .unwrap_or_else(|| panic!("expected text not found: {needle:?}"))
+}
+
+fn assert_contains_all(source: &str, label: &str, values: &[&str]) {
+    for value in values {
+        assert!(
+            source.contains(value),
+            "{label} must contain canonical agent span kind {value}"
+        );
+    }
+}
+
+fn assert_contains_in_order(source: &str, label: &str, values: &[&str]) {
+    let mut cursor = 0;
+    for value in values {
+        let Some(relative_index) = source[cursor..].find(value) else {
+            panic!("{label} must contain canonical agent span kind {value} in order");
+        };
+        cursor += relative_index + value.len();
+    }
 }
 
 fn assert_pinned_image(compose: &str, label: &str, image: &str, digest: &str) {

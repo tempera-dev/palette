@@ -30,6 +30,22 @@ const notesPath = outputPath(
   process.env.BEATER_GATE2_RECORD_NOTES,
   mode === "compose" ? "gate2-compose-browser-demo.md" : "gate2-browser-demo.md"
 );
+const allAgentKinds = [
+  "agent.run",
+  "agent.turn",
+  "agent.plan",
+  "agent.step",
+  "llm.call",
+  "tool.call",
+  "mcp.request",
+  "retrieval.query",
+  "memory.read",
+  "memory.write",
+  "guardrail.check",
+  "human.review",
+  "evaluator.run",
+  "replay.run"
+];
 
 await rm(scratchDir, { force: true, recursive: true });
 await mkdir(scratchDir, { recursive: true });
@@ -177,6 +193,9 @@ async function recordAllKindFlow(page) {
   await llm.getByText("call-policy-model").waitFor();
   await tool.getByText("lookup-order-tool").waitFor();
   await mcp.getByText("mcp-order-service").waitFor();
+  for (const kind of allAgentKinds) {
+    await waterfall.locator(`[data-kind="${kind}"]`).first().waitFor();
+  }
   await requireAttribute(run, "data-depth", "0");
   await requireAttribute(turn, "data-depth", "1");
   await requireAttribute(step, "data-depth", "2");
