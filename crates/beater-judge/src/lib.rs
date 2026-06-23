@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{
-    sha256_hex, JudgeCallId, Money, ProjectId, ProviderSecretId, Sha256Hash, TenantId, Timestamp,
+    JudgeCallId, Money, ProjectId, ProviderSecretId, Sha256Hash, TenantId, Timestamp,
 };
 use beater_eval::{
     EvaluationCase, EvaluatorKind, EvaluatorSpec, JudgeRequest, JudgeResponse, ScoreResult,
@@ -1137,7 +1137,7 @@ pub fn judge_request_hash(
         request: &'a JudgeRequest,
     }
 
-    sha256_json_hash(&HashableJudgeRequest {
+    judge_json_hash(&HashableJudgeRequest {
         tenant_id,
         project_id,
         evaluator_id,
@@ -1148,13 +1148,11 @@ pub fn judge_request_hash(
 }
 
 pub fn judge_response_hash(response: &JudgeResponse) -> Result<Sha256Hash, JudgeBrokerError> {
-    sha256_json_hash(response)
+    judge_json_hash(response)
 }
 
-fn sha256_json_hash<T: Serialize>(value: &T) -> Result<Sha256Hash, JudgeBrokerError> {
-    let bytes =
-        serde_json::to_vec(value).map_err(|err| JudgeBrokerError::Store(err.to_string()))?;
-    Sha256Hash::new(sha256_hex(&bytes)).map_err(|err| JudgeBrokerError::Store(err.to_string()))
+fn judge_json_hash<T: Serialize>(value: &T) -> Result<Sha256Hash, JudgeBrokerError> {
+    beater_core::sha256_json_hash(value).map_err(|err| JudgeBrokerError::Store(err.to_string()))
 }
 
 fn score_from_response(response: &JudgeResponse, audit: &JudgeAuditRecord) -> ScoreResult {

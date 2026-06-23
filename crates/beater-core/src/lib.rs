@@ -238,6 +238,19 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
     lower_hex(digest.as_ref())
 }
 
+#[derive(Debug, thiserror::Error)]
+pub enum JsonHashError {
+    #[error("serialize json for hash: {0}")]
+    Serialize(#[from] serde_json::Error),
+    #[error("sha256 digest was not a valid hash identifier: {0}")]
+    HashId(#[from] IdError),
+}
+
+pub fn sha256_json_hash<T: Serialize>(value: &T) -> Result<Sha256Hash, JsonHashError> {
+    let bytes = serde_json::to_vec(value)?;
+    Sha256Hash::new(sha256_hex(&bytes)).map_err(JsonHashError::from)
+}
+
 pub fn lower_hex(bytes: &[u8]) -> String {
     bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }
@@ -295,6 +308,21 @@ mod tests {
             cache_read: 100,
         };
         assert_eq!(counts.total(), 35);
+    }
+
+    #[test]
+    fn json_hash_uses_stable_serde_json_bytes() {
+        let counts = TokenCounts {
+            input: 1,
+            output: 2,
+            reasoning: 3,
+            cache_read: 4,
+        };
+        let hash = sha256_json_hash(&counts).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            hash.as_str(),
+            "e078d77c009b2f97482cb3e09d6230236a802e5c28feebc7ad7ce6634434cf13"
+        );
     }
 
     #[test]

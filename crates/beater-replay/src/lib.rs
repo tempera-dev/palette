@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
-use beater_core::{sha256_hex, ProjectId, Sha256Hash, SpanId, TenantId, Timestamp, TraceId};
+use beater_core::{sha256_json_hash, ProjectId, Sha256Hash, SpanId, TenantId, Timestamp, TraceId};
 use beater_schema::{CanonicalSpan, ReplayCassette, SpanStatus};
 use beater_store::{StoreError, StoreResult};
 use chrono::Utc;
@@ -427,8 +427,7 @@ fn event_key(seq: u64, kind: &ReplayEventKind, request_hash: &Sha256Hash) -> Str
 }
 
 fn json_hash(value: &Value) -> anyhow::Result<Sha256Hash> {
-    let bytes = serde_json::to_vec(value).context("serialize replay json for hash")?;
-    Sha256Hash::new(sha256_hex(&bytes)).map_err(anyhow::Error::from)
+    sha256_json_hash(value).context("serialize replay json for hash")
 }
 
 pub fn plan_replay(cassette: &ReplayCassette, fork_after: Option<SpanId>) -> ReplayPlan {

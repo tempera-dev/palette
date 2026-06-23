@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{
-    sha256_hex, AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId, EnvironmentId,
+    sha256_json_hash, AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId, EnvironmentId,
     EvalResultId, EvaluatorVersionId, ProjectId, PromptVersionId, ProviderSecretId, Sha256Hash,
     SpanId, TenantId, Timestamp, TraceId,
 };
@@ -861,8 +861,7 @@ fn artifact_hashes(span: &CanonicalSpan) -> Vec<Sha256Hash> {
 }
 
 fn evaluator_spec_hash(spec: &EvaluatorSpec) -> anyhow::Result<Sha256Hash> {
-    let bytes = serde_json::to_vec(spec).context("serialize evaluator spec for hash")?;
-    Sha256Hash::new(sha256_hex(&bytes)).map_err(anyhow::Error::from)
+    sha256_json_hash(spec).context("serialize evaluator spec for hash")
 }
 
 fn select_cases(

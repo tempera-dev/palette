@@ -3,6 +3,19 @@
 Status: active audit for keeping Beater's Gate 2, dashboard, and Rust service
 contracts narrow, shared, and testable.
 
+## Audit Method
+
+- Scan first-party Rust, TypeScript, Python, Node ESM, and shell sources for
+  repeated hashing, typed-id parsing, SQLite DDL/store adapters, span-kind
+  literals, OTLP smoke fixture construction, runtime wiring, and large
+  main/test files. Exclude vendored dashboard dependencies from size analysis.
+- Prefer extracting policy-bearing production helpers first. Keep black-box
+  contract tests and independent failure-message assertions local unless they
+  are only restating a shared constant.
+- Treat large files as a direction signal, not an automatic refactor target:
+  split them only when a stable helper boundary exists and tests can pin the
+  behavior before/after the move.
+
 ## Shipped in this pass
 
 - `scripts/gate2_proof_contract.py` owns the Gate 2 image catalog, required
@@ -24,6 +37,10 @@ contracts narrow, shared, and testable.
   `PageRunSummaryDoc` shape instead of a hand-rolled generic page wrapper.
 - Rust JSON/content hashes now use `beater_core::sha256_hex` in judge,
   dataset, replay, store, and ingest code instead of local implementations.
+- `beater_core::sha256_json_hash` now owns the serde-json-bytes-to-SHA-256
+  policy for dataset evaluator specs, judge request/response cache keys, and
+  replay cassette request/response hashes, with a core golden test pinning the
+  byte serialization contract.
 - `beater_core::lower_hex` owns generic lowercase byte-to-hex formatting for
   OTLP id normalization, CLI smoke fixtures, and live-smoke tests.
 - Gate 2 self-host contract tests now assert the shared dashboard confirmation
@@ -59,36 +76,48 @@ contracts narrow, shared, and testable.
   either one local SQLite database with one migration manager, or per-store
   migrations exported by the owning crate and consumed by runtime wiring.
 - Store boilerplate is repeated across auth, audit, datasets, gates, human,
-  replay, search, secrets, usage, and experiments. A small SQLite support module
-  should own connection setup, `IntoStoreResult`, JSON column helpers, and
-  timestamp/id decoding without becoming an ORM.
+  replay, search, secrets, usage, experiments, and calibration. A small SQLite
+  support module should own connection setup, the repeated `IntoStoreResult`
+  adapter, JSON column helpers, and timestamp/id decoding without becoming an
+  ORM. Candidate owner: `beater-store-sql::support`; keep `beater-store`
+  trait-only so persistence mechanics do not leak into domain contracts.
 - Ingest preparation still has parallel native/raw/OTLP paths. The right shared
   contract is one internal canonical span input plus shared artifact hashing,
   idempotency, redaction, and span assembly.
 - Trace-ingested search processing now shares both the readback/index helper and
   queue-callback processor, but higher-level queue draining, retry reporting,
   and worker hooks still live at their API/runtime boundaries.
-- JSON value hashing still repeats `serde_json::to_vec` plus SHA-256 wrapping in
-  dataset, judge, and replay code. `beater_core` owns byte hashing now; a small
-  JSON-hash helper can remove the last drift-prone copies without pulling
-  serialization policy into higher-level crates.
+- JSON value hashing now shares the serialization and SHA-256 policy through
+  `beater_core::sha256_json_hash`. Dataset, judge, and replay keep only local
+  boundary wrappers for domain-specific error text and return types.
 - OpenAPI doc schemas mirror real API and schema DTOs. Prefer deriving or
   sharing public response DTOs rather than maintaining doc-only copies for
   canonical spans, run summaries, money, artifact refs, and query params.
 - API handlers repeat route id parsing for tenant, project, environment,
   dataset, version, trace, span, queue, task, annotation, gate, and experiment
-  ids. Introduce typed path structs or small `parse_*_id` helpers at the API
-  boundary before splitting handlers, so auth checks and domain calls receive
-  validated ids consistently.
+  ids. Introduce typed path structs in a new `crates/beater-api/src/path.rs` or
+  `routes/support.rs` module before splitting handlers, so auth checks and
+  domain calls receive validated ids consistently. Start with common shapes
+  such as `ProjectPath`, `EnvironmentPath`, `TracePath`, `TraceSpanPath`,
+  `DatasetVersionPath`, and human-review queue/task/annotation paths.
 - API handlers and CLI fixtures rebuild similar eval, dataset, and experiment
   specs. Keep HTTP request structs local, but centralize conversion into domain
   specs after route-id parsing is shared; otherwise the conversion helpers will
   still own too much HTTP-specific error mapping.
-- Local runtime wiring is concentrated in large bin files:
-  `bins/beaterd/src/main.rs`, `bins/beaterctl/src/main.rs`, and the full-stack
-  API/Gate 2 fixtures. `LocalStorePaths`, `LocalStackBuilder`, `demo_scope()`,
-  and fixture setup helpers would reduce main-file size while preserving
-  all-in-one operational simplicity.
+- `bins/beaterctl/src/main.rs` repeats the smoke-to-dataset-to-experiment flow
+  across deterministic, judge, and agent experiment commands. A
+  `bins/beaterctl/src/fixtures.rs` module or narrow domain test-support helpers
+  should own "smoke dataset version" construction without hiding command I/O.
+- Dashboard query state is mapped across `web/dashboard/lib/api.ts`,
+  `web/dashboard/app/page.tsx`, hidden form controls, filter chips, links, and
+  E2E tests. A table-driven `web/dashboard/lib/dashboard-query.ts` helper should
+  own field names, defaults, URL serialization, and link preservation.
+- Local runtime wiring is concentrated in large first-party files:
+  `bins/beaterctl/src/main.rs`, `bins/beaterd/src/main.rs`,
+  `crates/beater-api/tests/full_stack.rs`, and the Gate 2 validator/proof
+  scripts. `LocalStorePaths`, `LocalStackBuilder`, `demo_scope()`, smoke trace
+  builders, and fixture setup helpers would reduce main/test file size while
+  preserving all-in-one operational simplicity.
 - OTLP smoke export fixture assembly is repeated in `beaterctl`, `beaterd`
   live-smoke tests, and API tests. Move only the stable test-support pieces
   (`smoke_ids`, metadata values, smoke export construction) into `beater-otlp`;
@@ -111,9 +140,6 @@ contracts narrow, shared, and testable.
   `test_support`; extract shared canonical span assembly and retry accounting.
 - Store helpers: add small shared helpers for span storage identity and trace
   span ordering while leaving SQLite and memory persistence mechanics separate.
-- JSON hash helper: add `beater_core::sha256_json_hash<T: Serialize>()` or an
-  equivalent fallible helper returning `Sha256Hash`, then migrate dataset,
-  judge, and replay hashes with golden parity tests.
 - Eval context: introduce a typed `TraceEvalContext` builder so latency/cost
   evaluators, alerts, datasets, and experiments depend on one trace metric shape.
 - API route parsing: add typed path/query helpers for `TenantId`, `ProjectId`,
