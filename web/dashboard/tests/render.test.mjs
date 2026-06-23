@@ -779,7 +779,8 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(quickstart, /Selected span path/);
   assert.match(quickstart, /12 total, 5 prompt, 7 completion/);
   assert.match(quickstart, /Selected span essentials/);
-  assert.match(quickstart, /confirmationCode\(selectedTraceId, selectedSpanId\)/);
+  assert.match(quickstart, /gate2ConfirmationCode\(\{/);
+  assert.doesNotMatch(quickstart, /function confirmationCode/);
   assert.match(quickstart, /rawDetailResponse/);
   assert.match(quickstart, /not\.toContain\(expectedConfirmationCode\)/);
   assert.match(quickstart, /Span metrics/);
@@ -911,4 +912,21 @@ test("gate2 confirmation route rejects non-browser requests and nonce replay", a
       process.env.BEATER_GATE2_CONFIRMATION_SALT = previousSalt;
     }
   }
+});
+
+test("gate2 recorder confirmation helper matches the app helper", async () => {
+  const recorder = await import("./e2e/gate2-confirmation-code.mjs");
+  const confirmation = loadGate2ConfirmationModule();
+  const vector = recorder.GATE2_CONFIRMATION_TEST_VECTOR;
+
+  assert.equal(recorder.GATE2_CONFIRMATION_HASH_PREFIX, confirmation.GATE2_CONFIRMATION_HASH_PREFIX);
+  assert.equal(recorder.gate2ConfirmationCode(vector), vector.code);
+  assert.equal(
+    confirmation.gate2ConfirmationCode({
+      salt: vector.salt,
+      traceId: vector.traceId,
+      spanId: vector.spanId
+    }),
+    vector.code
+  );
 });

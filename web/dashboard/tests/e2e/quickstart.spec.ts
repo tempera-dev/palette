@@ -3,10 +3,6 @@ import { expect, test } from "@playwright/test";
 import { gate2ConfirmationCode } from "../../lib/gate2-confirmation";
 import { expectTokenBreakdown } from "./token-breakdown";
 
-function confirmationCode(traceId: string, spanId: string): string {
-  return gate2ConfirmationCode({ traceId, spanId });
-}
-
 test("renders the five-line stock OTLP quickstart trace in a browser", async ({ page }) => {
   const traceId = process.env.BEATER_E2E_QUICKSTART_TRACE_ID;
   const release = process.env.BEATER_E2E_QUICKSTART_RELEASE;
@@ -82,7 +78,10 @@ test("renders the five-line stock OTLP quickstart trace in a browser", async ({ 
   await expect(essentials.locator("div").filter({ hasText: "Latency" })).toContainText(
     /(?:\d+ ms|\d+\.\d+ s)/
   );
-  const expectedConfirmationCode = confirmationCode(selectedTraceId, selectedSpanId);
+  const expectedConfirmationCode = gate2ConfirmationCode({
+    traceId: selectedTraceId,
+    spanId: selectedSpanId
+  });
   await expect(essentials.locator("div").filter({ hasText: "Confirm" })).toContainText(
     expectedConfirmationCode
   );

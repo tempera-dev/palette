@@ -4,6 +4,8 @@ import { copyFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { gate2ConfirmationCode } from "./gate2-confirmation-code.mjs";
+
 const dashboardRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const repoRoot = resolve(dashboardRoot, "../..");
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
@@ -17,6 +19,7 @@ const quickstartTraceId =
   process.env.BEATER_E2E_QUICKSTART_TRACE_ID ??
   (mode === "quickstart" ? process.env.BEATER_E2E_TRACE_ID : undefined);
 const quickstartRelease = process.env.BEATER_E2E_QUICKSTART_RELEASE;
+const gate2ConfirmationSalt = process.env.BEATER_GATE2_CONFIRMATION_SALT ?? "";
 const demoDir = resolve(repoRoot, "docs/demos");
 const scratchDir = resolve(dashboardRoot, "test-results/gate2-demo-video");
 const minimumRecordingMs = 9000;
@@ -100,15 +103,6 @@ function outputPath(value, fallbackName) {
   return resolve(repoRoot, value);
 }
 
-function confirmationCode(traceId, spanId) {
-  const salt = process.env.BEATER_GATE2_CONFIRMATION_SALT ?? "";
-  return createHash("sha256")
-    .update(`gate2:${salt}:${traceId}:${spanId}`)
-    .digest("hex")
-    .slice(0, 8)
-    .toUpperCase();
-}
-
 function selectedTraceId(page, fallback) {
   const traceId = fallback ?? new URL(page.url()).searchParams.get("trace");
   if (!traceId) throw new Error("recording flow did not select a trace id");
@@ -159,7 +153,11 @@ async function recordQuickstartFlow(page) {
   await waitForMetric(
     detail,
     "Confirm",
-    confirmationCode(selectedTraceId(page, quickstartTraceId), await selectedSpanId(llm))
+    gate2ConfirmationCode({
+      salt: gate2ConfirmationSalt,
+      traceId: selectedTraceId(page, quickstartTraceId),
+      spanId: await selectedSpanId(llm)
+    })
   );
   await detail
     .locator(".io")
@@ -218,7 +216,11 @@ async function recordAllKindFlow(page) {
   await waitForMetric(
     detail,
     "Confirm",
-    confirmationCode(selectedTraceId(page, allKindTraceId), await selectedSpanId(llm))
+    gate2ConfirmationCode({
+      salt: gate2ConfirmationSalt,
+      traceId: selectedTraceId(page, allKindTraceId),
+      spanId: await selectedSpanId(llm)
+    })
   );
   await detail
     .locator(".io")

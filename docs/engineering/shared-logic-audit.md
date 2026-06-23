@@ -17,6 +17,9 @@ contracts narrow, shared, and testable.
 - `web/dashboard/lib/gate2-confirmation-request.ts` owns the browser
   confirmation request shape plus trace/span id validation, and the route/client
   now consume that shared contract.
+- `web/dashboard/tests/e2e/gate2-confirmation-code.mjs` owns the recorder-side
+  confirmation helper and test vector; dashboard tests assert parity with the
+  TypeScript app helper.
 
 ## Keep Independent
 
@@ -52,9 +55,8 @@ contracts narrow, shared, and testable.
 - Dashboard query model: replace repeated query field mappings with a
   table-driven helper for search-param parsing, API params, hidden inputs,
   filter chips, and href construction.
-- Dashboard Gate 2 confirmation: keep the request/id contract shared; next reduce
-  the recorder's copied confirmation hash with a shared JS-compatible helper or
-  a contract-vector test.
+- Dashboard Gate 2 confirmation: keep the request/id contract shared and the
+  recorder helper pinned to the app helper with the shared vector.
 - Dashboard timeline/view helpers: extract pure timeline bounds, axis, run
   summary, artifact formatting, and query helpers before splitting components.
 - CLI/runtime main files: move `beaterctl` command handlers and repeated
