@@ -1611,6 +1611,45 @@ fn gate2_public_handoff_full_run_rejects_remote_docker_host_before_clone() {
 }
 
 #[test]
+fn gate2_public_handoff_full_run_rejects_unreachable_docker_daemon_before_clone() {
+    let clone_parent = tempdir("create public handoff clone parent");
+    let runtime =
+        fake_public_handoff_runtime_with_docker_info(true, "unix:///var/run/docker.sock", false);
+    let mut command = public_handoff_full_run_preflight_command(clone_parent.path());
+    command.env("PATH", &runtime.path_env);
+
+    let output = command
+        .output()
+        .unwrap_or_else(|err| panic!("run full-run unreachable Docker preflight: {err}"));
+
+    let stderr = String::from_utf8_lossy(&output.stderr).to_string();
+    assert_failure(output, "Docker daemon is not reachable");
+    assert!(
+        stderr.contains("start Docker Desktop or a local Docker daemon"),
+        "unreachable Docker diagnostic should tell the runner what to do\n{stderr}"
+    );
+    assert!(
+        !clone_parent.path().join("beater").exists(),
+        "unreachable Docker daemon must fail before creating a clone"
+    );
+    let docker_log = fs::read_to_string(&runtime.docker_log)
+        .unwrap_or_else(|err| panic!("read fake Docker log: {err}"));
+    assert!(docker_log.contains("info"));
+    assert!(
+        !docker_log.contains("compose version"),
+        "unreachable Docker daemon must fail before Docker Compose probes\n{docker_log}"
+    );
+    assert!(
+        !docker_log.contains("context inspect"),
+        "unreachable Docker daemon must fail before Docker context probes\n{docker_log}"
+    );
+    assert!(
+        !docker_log.contains("down -v --remove-orphans"),
+        "unreachable Docker daemon must fail before Compose cleanup\n{docker_log}"
+    );
+}
+
+#[test]
 fn gate2_public_handoff_full_run_rejects_remote_docker_context_before_cleanup() {
     let clone_parent = tempdir("create public handoff clone parent");
     let runtime = fake_public_handoff_runtime(true, "ssh://builder.example.invalid");
@@ -1741,7 +1780,9 @@ fn gate2_public_handoff_full_run_has_local_runtime_preflight_contract() {
     assert!(proof_contract.contains("(8080, \"beaterd HTTP\", \"BEATER_HTTP_PORT\")"));
     assert!(proof_contract.contains("(4317, \"OTLP gRPC\", \"BEATER_OTLP_GRPC_PORT\")"));
     assert!(proof_contract.contains("(3000, \"dashboard\", \"BEATER_DASHBOARD_PORT\")"));
-    assert!(script.contains("run([\"docker\", \"info\"]"));
+    assert!(script.contains("def require_docker_daemon"));
+    assert!(script.contains("require_docker_daemon()"));
+    assert!(script.contains("Docker daemon is not reachable"));
     assert!(script.contains("run([\"docker\", \"compose\", \"version\"]"));
     assert!(script.contains("shasum or sha256sum"));
     assert!(script.contains("DOCKER_HOST"));
@@ -5133,6 +5174,14 @@ fn fake_public_handoff_runtime(
     include_sha_tool: bool,
     docker_context_host: &str,
 ) -> FakePublicHandoffRuntime {
+    fake_public_handoff_runtime_with_docker_info(include_sha_tool, docker_context_host, true)
+}
+
+fn fake_public_handoff_runtime_with_docker_info(
+    include_sha_tool: bool,
+    docker_context_host: &str,
+    docker_info_ok: bool,
+) -> FakePublicHandoffRuntime {
     let dir = tempdir("create fake public handoff runtime PATH");
     let python = python3_executable();
     symlink(&python, dir.path().join("python3")).unwrap_or_else(|err| {
@@ -5168,6 +5217,11 @@ exec {bash} "$@"
             bash = shell_single_quote(&bash.to_string_lossy())
         ),
     );
+    let docker_info_case = if docker_info_ok {
+        "exit 0".to_owned()
+    } else {
+        "printf 'Cannot connect to the Docker daemon\\n' >&2\n    exit 1".to_owned()
+    };
     write_executable(
         &dir.path().join("docker"),
         &format!(
@@ -5175,7 +5229,7 @@ exec {bash} "$@"
 printf '%s\n' "$*" >> {docker_log}
 case "$*" in
   "info")
-    exit 0
+    {docker_info_case}
     ;;
   "compose version")
     exit 0
@@ -5194,6 +5248,7 @@ case "$*" in
 esac
 "#,
             docker_log = shell_single_quote(&docker_log.to_string_lossy()),
+            docker_info_case = docker_info_case,
             docker_context_host = shell_single_quote(docker_context_host)
         ),
     );

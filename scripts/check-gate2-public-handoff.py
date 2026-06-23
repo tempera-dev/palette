@@ -476,6 +476,29 @@ def require_local_docker_context() -> None:
         )
 
 
+def require_docker_daemon() -> None:
+    result = subprocess.run(
+        ["docker", "info"],
+        cwd=repo_root(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    if result.returncode == 0:
+        return
+    detail = ""
+    for line in reversed(result.stdout.splitlines()):
+        stripped = line.strip()
+        if stripped:
+            detail = stripped
+            break
+    suffix = f" ({detail})" if detail else ""
+    raise SystemExit(
+        "--full-run Docker daemon is not reachable; start Docker Desktop or "
+        f"a local Docker daemon and rerun{suffix}"
+    )
+
+
 def cleanup_stopwatch_compose(cwd: Path, *, fatal: bool) -> None:
     result = subprocess.run(
         STOPWATCH_COMPOSE_DOWN,
@@ -519,7 +542,7 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
         )
 
     require_local_docker_host_env()
-    run(["docker", "info"], cwd=repo_root(), quiet=True)
+    require_docker_daemon()
     run(["docker", "compose", "version"], cwd=repo_root(), quiet=True)
     require_local_docker_context()
     cleanup_local_stopwatch_compose()
