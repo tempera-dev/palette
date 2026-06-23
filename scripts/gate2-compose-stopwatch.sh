@@ -63,11 +63,20 @@ redaction_dashboard_url=""
 redaction_unmask_reason="not requested"
 outside_runner_next_steps=""
 e2e_base_url="http://dashboard:3000"
-git_sha="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
-git_branch="$(git branch --show-current 2>/dev/null || echo unknown)"
+
+public_git() {
+  GIT_CONFIG_GLOBAL=/dev/null \
+    GIT_CONFIG_SYSTEM=/dev/null \
+    GIT_CONFIG_NOSYSTEM=1 \
+    GIT_CONFIG_COUNT=0 \
+    git "$@"
+}
+
+git_sha="$(public_git rev-parse HEAD 2>/dev/null || echo unknown)"
+git_branch="$(public_git branch --show-current 2>/dev/null || echo unknown)"
 git_branch="${git_branch:-detached}"
-git_origin="$(git remote get-url origin 2>/dev/null || echo unknown)"
-git_worktree_status="$(git status --porcelain 2>/dev/null || true)"
+git_origin="$(public_git remote get-url origin 2>/dev/null || echo unknown)"
+git_worktree_status="$(public_git status --porcelain 2>/dev/null || true)"
 if [[ -n "$git_worktree_status" ]]; then
   git_worktree_clean="no"
 else
@@ -877,13 +886,14 @@ Outside-run next steps:
   5. Confirm run -> turn -> step -> tool -> MCP nesting is visible.
   6. Review ${redaction_dashboard_url:-not requested} for redacted I/O and the reasoned unmask browser proof.
   7. Use the saved docker compose logs artifact as evidence: $compose_logs_artifact
-  8. Generate the completed proof from this prefilled command:
+  8. After the one-liner exits, run 'cd ./beater' from the parent shell if your prompt is not already inside the clone.
+  9. Generate the completed proof from this prefilled command:
 $outside_proof_command
-  9. Commit the evidence before closure validation:
+  10. Commit the evidence before closure validation:
        git add docs/demos/gate2-outside-person-proof.md docs/demos/gate2-compose-stopwatch.md docs/demos/gate2-compose-browser-demo.webm docs/demos/gate2-compose-browser-demo.md docs/demos/gate2-outside-compose.log
        git commit -m "add gate2 outside proof"
-  10. Validate it with scripts/validate-gate2-outside-proof.sh.
-  11. After evidence is captured, clean up with:
+  11. Validate it with scripts/validate-gate2-outside-proof.sh.
+  12. After evidence is captured, clean up with:
        docker compose -f docker-compose.prebuilt.yml -p $project down -v --remove-orphans
 EOF
 )"

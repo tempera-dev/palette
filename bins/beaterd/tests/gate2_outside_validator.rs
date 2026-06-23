@@ -117,6 +117,10 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     let readme = fs::read_to_string(root.join("README.md"))
         .unwrap_or_else(|err| panic!("read README.md: {err}"));
     assert!(readme.contains(canonical_outside_command()));
+    assert!(canonical_outside_command().contains("cd ./beater"));
+    assert!(!canonical_outside_command().contains("cd beater"));
+    assert!(canonical_outside_command()
+        .contains("BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" GIT_CONFIG_GLOBAL=/dev/null"));
     assert!(!readme.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(readme.contains("confirms the\nquickstart browser click unaided in 5"));
     assert!(readme.contains("`scripts/check-gate2-public-handoff.py` without `--full-run`"));
@@ -146,6 +150,9 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(readme.contains("prefilled"));
     assert!(readme.contains("ready-to-edit command"));
     assert!(readme.contains("git add docs/demos/gate2-outside-person-proof.md"));
+    assert!(readme.contains("run `cd ./beater`"));
+    assert!(readme.contains("cd ./beater\nscripts/generate-gate2-outside-proof.py --print-command"));
+    assert!(readme.contains("cd ./beater\ngit add docs/demos/gate2-outside-person-proof.md"));
     assert!(readme.contains("git commit -m \"add gate2 outside proof\""));
     assert!(readme.contains("repo-relative, committed/clean"));
     assert!(readme.contains("non-symlink file under"));
@@ -196,6 +203,12 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("--print-command"));
     assert!(proof_template.contains("ready-to-edit command"));
     assert!(proof_template.contains("git add docs/demos/gate2-outside-person-proof.md"));
+    assert!(proof_template.contains("Run `cd ./beater`"));
+    assert!(proof_template
+        .contains("cd ./beater\nscripts/generate-gate2-outside-proof.py --print-command"));
+    assert!(
+        proof_template.contains("cd ./beater\ngit add docs/demos/gate2-outside-person-proof.md")
+    );
     assert!(proof_template.contains("git commit -m \"add gate2 outside proof\""));
     assert!(proof_template.contains("repo-relative"));
     assert!(proof_template.contains("committed/clean, non-symlink file"));
@@ -207,7 +220,7 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(proof_template.contains("saved compose-log paths"));
     assert!(proof_template.contains("compose-log evidence must be a committed/clean file"));
     assert!(proof_template.contains("repo-relative committed/clean non-symlink `docs/demos/`"));
-    assert!(proof_template.contains("Replace every `...` field"));
+    assert!(proof_template.contains("every `...` field"));
     assert!(proof_template.contains(r#"--runner-name "Jane Outside Runner""#));
     assert!(
         proof_template.contains(r#"--relationship "external evaluator; no Beater project role""#)
@@ -249,7 +262,10 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("docs/demos/gate2-outside-compose.log"));
     assert!(runner_card.contains("run -> turn -> step -> tool -> MCP"));
     assert!(runner_card.contains("scripts/generate-gate2-outside-proof.py --print-command"));
-    assert!(runner_card.contains("Replace every `...` field"));
+    assert!(runner_card.contains("Run `cd ./beater`"));
+    assert!(runner_card.contains("cd ./beater\ngit add docs/demos/gate2-outside-person-proof.md"));
+    assert!(runner_card.contains("Replace every"));
+    assert!(runner_card.contains("`...` field"));
     assert!(runner_card.contains("fresh quickstart release ID"));
     assert!(runner_card.contains("manual confirmation source"));
     assert!(runner_card.contains("git add docs/demos/gate2-outside-person-proof.md"));
@@ -828,6 +844,40 @@ fn gate2_outside_generator_print_command_rejects_pre_redaction_stopwatch() {
     assert!(
         !generated.exists(),
         "--print-command must not write a proof from stale stopwatch evidence"
+    );
+}
+
+#[test]
+fn gate2_outside_generator_print_command_rejects_non_outside_stopwatch() {
+    let fixture = ValidatorFixture::new();
+    let generated = fixture
+        .dir
+        .path()
+        .join("local-stopwatch-generated-proof.md");
+    replace(
+        &fixture.stopwatch_path,
+        "- Outside-run wrapper: yes",
+        "- Outside-run wrapper: no",
+    );
+
+    let output = Command::new("python3")
+        .arg(repo_root().join("scripts/generate-gate2-outside-proof.py"))
+        .arg("--stopwatch-proof")
+        .arg(&fixture.stopwatch_path)
+        .arg("--output")
+        .arg(&generated)
+        .arg("--print-command")
+        .current_dir(repo_root())
+        .output()
+        .unwrap_or_else(|err| panic!("run Gate 2 outside proof print-command: {err}"));
+
+    assert_failure(
+        output,
+        "Regenerate the stopwatch proof with scripts/gate2-outside-run.sh",
+    );
+    assert!(
+        !generated.exists(),
+        "--print-command must not write a proof from local stopwatch evidence"
     );
 }
 
@@ -2157,6 +2207,8 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     );
     assert!(outside_step.contains("do not wait for the script to finish"));
     assert!(script.contains("Open this quickstart trace-list URL first:"));
+    assert!(script.contains("public_git()"));
+    assert!(script.contains("GIT_CONFIG_GLOBAL=/dev/null"));
     assert!(script.contains("quickstart_list_url="));
     assert!(script.contains("kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"));
     assert!(script.contains("Direct quickstart trace URL:"));
@@ -2190,6 +2242,7 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
     assert!(script.contains("Use the saved docker compose logs artifact as evidence"));
     assert!(script.contains("python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof"));
     assert!(script.contains("--print-command"));
+    assert!(script.contains("After the one-liner exits, run 'cd ./beater'"));
     assert!(script.contains("Generate the completed proof from this prefilled command"));
     assert!(script.contains("Commit the evidence before closure validation"));
     assert!(script.contains("git add docs/demos/gate2-outside-person-proof.md"));
@@ -2198,6 +2251,12 @@ fn gate2_stopwatch_outside_next_steps_separate_dashboard_targets() {
         "Maintainer diagnostic overrides are intentionally suppressed for outside-person evidence."
     ));
     assert!(script.contains("if [[ \"$outside_wrapper\" == \"1\" ]]; then"));
+
+    let wrapper = fs::read_to_string(repo_root().join("scripts/gate2-outside-run.sh"))
+        .unwrap_or_else(|err| panic!("read Gate 2 outside wrapper script: {err}"));
+    assert!(wrapper.contains("public_git()"));
+    assert!(wrapper.contains("GIT_CONFIG_GLOBAL=/dev/null"));
+    assert!(wrapper.contains("public_git -C \"$repo_root\" remote get-url origin"));
 }
 
 #[test]
@@ -5983,6 +6042,7 @@ Outside-run timing-critical browser step:
   Open the quickstart trace-list URL above in a normal browser now; do not wait for the script to finish.
 EOF_STEP
 cat <<'EOF_PROOF_COMMAND'
+After the one-liner exits, run 'cd ./beater' from the parent shell if your prompt is not already inside the clone.
 Generate the completed proof from this prefilled command:
 python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof docs/demos/gate2-compose-stopwatch.md --print-command
 Commit the evidence before closure validation:

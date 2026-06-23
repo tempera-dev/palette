@@ -642,10 +642,7 @@ def clean_outside_env() -> dict[str, str]:
     return env
 
 
-def public_clone_env(args: argparse.Namespace) -> dict[str, str]:
-    env = os.environ.copy()
-    if fixture_full_run_enabled(args):
-        return env
+def apply_public_git_env(env: dict[str, str]) -> dict[str, str]:
     for name in list(env):
         if name.startswith("GIT_CONFIG_"):
             env.pop(name, None)
@@ -654,6 +651,13 @@ def public_clone_env(args: argparse.Namespace) -> dict[str, str]:
     env["GIT_CONFIG_NOSYSTEM"] = "1"
     env["GIT_CONFIG_COUNT"] = "0"
     return env
+
+
+def public_clone_env(args: argparse.Namespace) -> dict[str, str]:
+    env = os.environ.copy()
+    if fixture_full_run_enabled(args):
+        return env
+    return apply_public_git_env(env)
 
 
 def make_clone_parent(args: argparse.Namespace) -> tuple[Path, tempfile.TemporaryDirectory | None]:
@@ -739,8 +743,10 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "cleanup hint printed by",
             "GIT_CONFIG_GLOBAL=/dev/null",
             "BEATER_GATE2_EXPECTED_COMMIT",
+            "run `cd ./beater`",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
+            "cd ./beater",
             "git add docs/demos/gate2-outside-person-proof.md",
             'git commit -m "add gate2 outside proof"',
         ],
@@ -762,8 +768,10 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "do not set alternate Beater ports",
             "GIT_CONFIG_GLOBAL=/dev/null",
             "BEATER_GATE2_EXPECTED_COMMIT",
+            "Run `cd ./beater`",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
+            "cd ./beater",
             "git add docs/demos/gate2-outside-person-proof.md",
             'git commit -m "add gate2 outside proof"',
         ],
@@ -805,6 +813,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "docs/demos/gate2-outside-compose.log",
             "run -> turn -> step -> tool -> MCP",
             "scripts/generate-gate2-outside-proof.py --print-command",
+            "Run `cd ./beater`",
             "Replace every `...` field",
             "fresh quickstart release ID",
             "manual confirmation source",
@@ -848,6 +857,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "redacted I/O browser proof",
             "python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof",
             "--print-command",
+            "After the one-liner exits, run 'cd ./beater'",
             "Generate the completed proof from this prefilled command",
             "Commit the evidence before closure validation",
             "git add docs/demos/gate2-outside-person-proof.md",
@@ -860,6 +870,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         "scripts/gate2-outside-local-preflight.sh",
         [
             "If this is a stale Beater Gate 2 run",
+            "cd ./beater",
             "docker-compose.prebuilt.yml -p beater-stopwatch down -v --remove-orphans",
             "label=com.docker.compose.project=beater-stopwatch",
         ],
@@ -974,6 +985,8 @@ def run_cloned_full_run(
 
     env = clean_outside_env()
     env["BEATER_GATE2_CLONE_STARTED_EPOCH"] = str(clone_started_epoch)
+    if not fixture_full_run_enabled(args):
+        apply_public_git_env(env)
     try:
         print(
             "Entering the browser-read manual quickstart confirmation code for "

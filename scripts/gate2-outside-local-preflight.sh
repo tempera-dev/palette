@@ -106,7 +106,7 @@ print_stale_beater_cleanup_hint() {
   cat >&2 <<'EOF'
 If this is a stale Beater Gate 2 run, clean the old Compose project before
 rerunning the timed command:
-  if [ -d beater ]; then (cd beater && docker compose -f docker-compose.prebuilt.yml -p beater-stopwatch down -v --remove-orphans); fi
+  if [ -d beater ]; then (cd ./beater && docker compose -f docker-compose.prebuilt.yml -p beater-stopwatch down -v --remove-orphans); fi
   docker ps -aq --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker rm -f "$id"; done
   docker volume ls -q --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker volume rm "$id"; done
   docker network ls -q --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker network rm "$id"; done

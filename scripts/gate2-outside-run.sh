@@ -14,6 +14,14 @@ fail() {
   exit 1
 }
 
+public_git() {
+  GIT_CONFIG_GLOBAL=/dev/null \
+    GIT_CONFIG_SYSTEM=/dev/null \
+    GIT_CONFIG_NOSYSTEM=1 \
+    GIT_CONFIG_COUNT=0 \
+    git "$@"
+}
+
 require_unset_or_value() {
   local name="$1"
   local expected="$2"
@@ -40,7 +48,7 @@ first_git_reflog_epoch() {
     if [[ "$value" =~ \{([0-9]+)\} ]]; then
       line="${BASH_REMATCH[1]}"
     fi
-  done < <(git -C "$repo_root" reflog --date=unix --format='%gD' 2>/dev/null || true)
+  done < <(public_git -C "$repo_root" reflog --date=unix --format='%gD' 2>/dev/null || true)
   if [[ "$line" =~ ^[0-9]+$ ]]; then
     printf '%s\n' "$line"
   fi
@@ -96,15 +104,15 @@ require_git_provenance() {
   local branch
   local origin
   local dirty
-  branch="$(git -C "$repo_root" branch --show-current 2>/dev/null || true)"
+  branch="$(public_git -C "$repo_root" branch --show-current 2>/dev/null || true)"
   if [[ "$branch" != "main" ]]; then
     fail "outside-person evidence must run from the main branch; got '${branch:-detached}'"
   fi
-  origin="$(git -C "$repo_root" remote get-url origin 2>/dev/null || true)"
+  origin="$(public_git -C "$repo_root" remote get-url origin 2>/dev/null || true)"
   if [[ "$origin" != "$expected_origin" ]]; then
     fail "outside-person evidence must run from origin '$expected_origin'; got '${origin:-missing}'"
   fi
-  dirty="$(git -C "$repo_root" status --porcelain 2>/dev/null || true)"
+  dirty="$(public_git -C "$repo_root" status --porcelain 2>/dev/null || true)"
   if [[ -n "$dirty" ]]; then
     fail "outside-person evidence must run from a clean worktree"
   fi

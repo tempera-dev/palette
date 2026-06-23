@@ -949,6 +949,11 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(gate2_proof_contract.contains("GIT_CONFIG_GLOBAL=/dev/null"));
     assert!(gate2_proof_contract.contains("GIT_CONFIG_COUNT=0"));
     assert!(gate2_proof_contract.contains("BEATER_GATE2_EXPECTED_COMMIT=\"$sha\""));
+    assert!(gate2_proof_contract.contains("cd ./beater"));
+    assert!(!gate2_proof_contract.contains("cd beater"));
+    assert!(
+        gate2_proof_contract.contains("BEATER_GATE2_CLONE_STARTED_EPOCH=\"$t\" {PUBLIC_GIT_ENV}")
+    );
     assert!(gate2_proof_contract.contains("PUBLIC_GIT_ENV} git rev-parse HEAD"));
     assert!(public_handoff.contains("scripts/gate2-outside-local-preflight.sh"));
     assert!(public_handoff.contains("\"bash\", \"-o\", \"pipefail\", \"-lc\""));
@@ -1061,6 +1066,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff
         .contains("diagnostic used a browser click to read the manual confirmation code"));
     assert!(public_handoff.contains("def public_clone_env"));
+    assert!(public_handoff.contains("def apply_public_git_env"));
+    assert!(public_handoff.contains("apply_public_git_env(env)"));
     assert!(public_handoff.contains("GIT_CONFIG_GLOBAL"));
     assert!(public_handoff.contains("GIT_CONFIG_COUNT"));
     assert!(public_handoff.contains("--diagnostic-report"));
@@ -1100,6 +1107,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(outside_proof.contains("`dashboard-e2e`"));
     assert!(outside_proof.contains("scripts/validate-gate2-outside-proof.sh"));
     assert!(outside_proof.contains("scripts/generate-gate2-outside-proof.py"));
+    assert!(outside_proof.contains("Run `cd ./beater`"));
     assert!(outside_proof.contains("--attest-outside-run"));
     assert!(outside_proof.contains("Docker Compose version"));
     assert!(outside_proof.contains("scripts/check-gate2-public-handoff.py"));
@@ -1225,6 +1233,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("GIT_CONFIG_GLOBAL=/dev/null"));
     assert!(readme.contains("BEATER_GATE2_EXPECTED_COMMIT=\"$sha\""));
     assert!(readme.contains("GIT_CONFIG_COUNT=0 git rev-parse HEAD"));
+    assert!(readme.contains("cd ./beater"));
+    assert!(readme.contains("run `cd ./beater`"));
     assert!(readme.contains("unpublished SHA-tagged GHCR images"));
     assert!(!readme.contains("gate2-outside-local-preflight.sh | bash"));
     assert!(readme.contains("under `bash -o pipefail -lc` before any clone"));
@@ -1249,6 +1259,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("COMPOSE_PROFILES"));
     assert!(readme.contains("teardown"));
     assert!(readme.contains("scripts/generate-gate2-outside-proof.py"));
+    assert!(readme.contains("cd ./beater\nscripts/generate-gate2-outside-proof.py --print-command"));
     assert!(readme.contains("--attest-outside-run"));
     assert!(readme.contains("proof writing"));
     assert!(readme.contains("browser proof"));

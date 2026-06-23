@@ -60,7 +60,7 @@ For the short unaided runner instructions, use
 ## Commands
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd ./beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
@@ -123,14 +123,16 @@ sensitive native `llm.call` trace, verifies prompt/completion are redacted by
 default, submits the required unmask reason, verifies unmasked I/O, and returns
 to Redacted view. Cleanup can happen after the recording.
 
-After the stopwatch command finishes, use the prefilled
-`scripts/generate-gate2-outside-proof.py --print-command` output printed in the
-terminal. It copies the stopwatch-derived dashboard URLs, terminal excerpt, and
-compose-log artifact into a ready-to-edit command. Replace every `...` field
-with the runner's actual values before running it; the generator and validator
-reject unresolved evidence. `--prior-exposure "none"` is valid when the runner
-has never seen the repository before, and the proof date defaults to the UTC
-date captured in the stopwatch proof's `Clone started at` field. Save the
+After the stopwatch command finishes, the one-liner returns the runner's parent
+shell to the directory that contains `beater/`. Run `cd ./beater`, then use the
+prefilled `scripts/generate-gate2-outside-proof.py --print-command` output
+printed in the terminal. It copies the stopwatch-derived dashboard URLs,
+terminal excerpt, and compose-log artifact into a ready-to-edit command. Replace
+every `...` field with the runner's actual values before running it; the
+generator and validator reject unresolved evidence. `--prior-exposure "none"` is
+valid when the runner has never seen the repository before, and the proof date
+defaults to the UTC date captured in the stopwatch proof's `Clone started at`
+field. Save the
 outside-run terminal transcript or compose logs as a repo-relative,
 committed/clean, non-symlink file under `docs/demos/` (for example
 `docs/demos/gate2-outside-compose.log`), or use an immutable GitHub Actions
@@ -141,6 +143,7 @@ automatically and pre-fills that path with `--compose-logs-saved`.
 If you need to reprint the command, run:
 
 ```bash
+cd ./beater
 scripts/generate-gate2-outside-proof.py --print-command
 ```
 
@@ -169,6 +172,7 @@ scripts/generate-gate2-outside-proof.py \
 After replacing this template with completed evidence, run:
 
 ```bash
+cd ./beater
 git add docs/demos/gate2-outside-person-proof.md \
   docs/demos/gate2-compose-stopwatch.md \
   docs/demos/gate2-compose-browser-demo.webm \

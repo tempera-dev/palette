@@ -98,6 +98,49 @@ def require_redaction_proof_source(source_text, source_name):
         ) from None
 
 
+def require_outside_run_stopwatch_source(source_text, source_name):
+    try:
+        require_source_field_equal(source_text, source_name, "Outside-run wrapper", "yes")
+        require_source_field_equal(
+            source_text, source_name, "Timing start source", "external-clone"
+        )
+        require_source_field_equal(
+            source_text,
+            source_name,
+            "Quickstart click source",
+            "manual-outside-runner",
+        )
+        require_source_field_equal(
+            source_text, source_name, "Manual quickstart confirmation", "yes"
+        )
+        require_source_field_equal(
+            source_text,
+            source_name,
+            "Manual confirmation source",
+            "browser-selected-llm-detail",
+        )
+        confirmation_code = field_value(
+            source_text, "Manual confirmation code", source_name
+        )
+        if not re.fullmatch(r"[0-9A-F]{8}", confirmation_code):
+            raise SystemExit(
+                "Manual confirmation code in "
+                f"{source_name} must be an 8-character uppercase hex code"
+            )
+        field_value(source_text, "Manual confirmation salt", source_name)
+        if "outside-run stopwatch source artifact" not in source_text:
+            raise SystemExit(
+                f"{source_name} must identify itself as an outside-run stopwatch source artifact"
+            )
+    except SystemExit as err:
+        raise SystemExit(
+            f"{err}\n"
+            "Regenerate the stopwatch proof with scripts/gate2-outside-run.sh so "
+            "the manual outside-runner browser confirmation is captured before "
+            "generating outside-person proof."
+        ) from None
+
+
 def require_source_sha256(source_text, source_name, name):
     value = field_value(source_text, name, source_name)
     if not re.fullmatch(r"[0-9a-f]{64}", value):
@@ -198,6 +241,7 @@ def compose_logs_from_stopwatch(stopwatch_text, stopwatch_rel):
 
 def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
     stopwatch_rel = relative_or_absolute(stopwatch_path)
+    require_outside_run_stopwatch_source(stopwatch_text, stopwatch_rel)
     require_source_field_equal(
         stopwatch_text, stopwatch_rel, "Browser recording", "passed"
     )
@@ -271,6 +315,7 @@ def require_pending_or_force(output_path, force):
 
 def build_proof(args, stopwatch_path, stopwatch_text):
     stopwatch_rel = relative_or_absolute(stopwatch_path)
+    require_outside_run_stopwatch_source(stopwatch_text, stopwatch_rel)
     require_source_field_equal(
         stopwatch_text, stopwatch_rel, "Browser recording", "passed"
     )

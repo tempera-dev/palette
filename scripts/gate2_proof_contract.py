@@ -128,9 +128,10 @@ RAW_PUBLIC_PREFLIGHT_COMMAND = (
     '-o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight"'
 )
 CLONE_VERIFICATION_COMMAND = (
-    f"{PUBLIC_GIT_ENV} git clone {REMOTE_URL} && cd beater && "
+    f"{PUBLIC_GIT_ENV} git clone {REMOTE_URL} && cd ./beater && "
     f'test "$({PUBLIC_GIT_ENV} git rev-parse HEAD)" = "$sha" && '
-    'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" scripts/gate2-outside-run.sh'
+    f'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" {PUBLIC_GIT_ENV} '
+    "scripts/gate2-outside-run.sh"
 )
 OUTSIDE_RUNNER_COMMAND = (
     f"bash -o pipefail -lc '{PUBLIC_SHA_RESOLUTION_COMMAND} && "
