@@ -1,3 +1,25 @@
+//! OTLP ingest normalizer and standards projection.
+//!
+//! # Standards projections are NOT lossless (R2.5)
+//!
+//! Beater ingests OTLP/native payloads into a richer canonical model
+//! ([`beater_schema::CanonicalSpan`]) that records provenance the open standards
+//! have no slot for: `unmapped_attrs` (attributes that failed canonical mapping),
+//! `raw_ref` (a content-addressed pointer to the preserved raw payload),
+//! `schema_version`/`normalizer_version` lineage, and out-of-line input/output
+//! artifacts.
+//!
+//! [`canonical_span_to_otlp`] projects a canonical span back to a portable OTLP
+//! span for export. That projection is deliberately **one-way and lossy**: it is
+//! a *view* for downstream OTLP consumers, never a record from which the
+//! canonical span can be faithfully rebuilt. Re-importing an exported span yields
+//! a strictly smaller span (provenance dropped, nested attribute values
+//! string-flattened). The only lossless record is the preserved raw artifact
+//! referenced by [`beater_schema::CanonicalSpan::raw_ref`]; reproducibility and
+//! re-normalization (`beater-replay::reproject`) must read *that*, not an export.
+//! The `standards_projection_is_lossy_and_requires_raw_artifact` test pins this
+//! invariant.
+
 use beater_core::{
     lower_hex, Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId,
     TenantScope, Timestamp, TokenCounts, TraceId,
@@ -750,6 +772,104 @@ fn span_kind_name(value: i32) -> &'static str {
         .as_str_name()
 }
 
+/// Project a stored [`CanonicalSpan`] into a standards-shaped OTLP [`Span`].
+///
+/// This is a *standards projection*: the output is a wire-portable OpenTelemetry
+/// span that any OTLP consumer can read. It carries the canonical attribute bag
+/// (`span.attributes`) but, by construction, CANNOT carry Beater-internal
+/// provenance that has no OTLP representation: `unmapped_attrs` (attributes that
+/// failed canonical mapping), `raw_ref` (the pointer to the preserved raw
+/// artifact), the `schema_version`/`normalizer_version` lineage, or out-of-line
+/// `input_ref`/`output_ref` artifacts.
+///
+/// Consequently the projection is intentionally **lossy and one-way**: it is a
+/// view, not a record of truth. Reconstructing the full canonical span requires
+/// the preserved raw artifact (`CanonicalSpan.raw_ref`), never the export alone.
+/// See [`crate`] docs and the `standards_projection_is_lossy_*` round-trip tests.
+pub fn canonical_span_to_otlp(span: &beater_schema::CanonicalSpan) -> Span {
+    use opentelemetry_proto::tonic::common::v1::KeyValue;
+
+    let attributes = span
+        .attributes
+        .iter()
+        .map(|(key, value)| KeyValue {
+            key: key.clone(),
+            key_strindex: 0,
+            value: Some(json_to_any_value(value)),
+        })
+        .collect();
+
+    Span {
+        trace_id: hex_to_bytes(span.trace_id.as_str()),
+        span_id: hex_to_bytes(span.span_id.as_str()),
+        trace_state: String::new(),
+        parent_span_id: span
+            .parent_span_id
+            .as_ref()
+            .map(|id| hex_to_bytes(id.as_str()))
+            .unwrap_or_default(),
+        flags: 0,
+        name: span.name.clone(),
+        kind: span::SpanKind::Unspecified as i32,
+        start_time_unix_nano: timestamp_to_unix_nano(&span.start_time),
+        end_time_unix_nano: span
+            .end_time
+            .as_ref()
+            .map(timestamp_to_unix_nano)
+            .unwrap_or(0),
+        attributes,
+        dropped_attributes_count: 0,
+        events: Vec::new(),
+        dropped_events_count: 0,
+        links: Vec::new(),
+        dropped_links_count: 0,
+        status: None,
+    }
+}
+
+fn json_to_any_value(value: &Value) -> AnyValue {
+    let inner = match value {
+        Value::Null => None,
+        Value::Bool(value) => Some(any_value::Value::BoolValue(*value)),
+        Value::Number(number) => {
+            if let Some(int) = number.as_i64() {
+                Some(any_value::Value::IntValue(int))
+            } else {
+                Some(any_value::Value::DoubleValue(number.as_f64().unwrap_or(0.0)))
+            }
+        }
+        Value::String(text) => Some(any_value::Value::StringValue(text.clone())),
+        // Arrays/objects are serialized to a JSON string for the standards view;
+        // this is itself a lossy flattening, reinforcing why the raw artifact is
+        // the source of truth.
+        other => Some(any_value::Value::StringValue(other.to_string())),
+    };
+    AnyValue { value: inner }
+}
+
+fn hex_to_bytes(hex: &str) -> Vec<u8> {
+    let mut bytes = Vec::with_capacity(hex.len() / 2);
+    let chars: Vec<char> = hex.chars().collect();
+    let mut index = 0;
+    while index + 1 < chars.len() {
+        let hi = chars[index].to_digit(16);
+        let lo = chars[index + 1].to_digit(16);
+        match (hi, lo) {
+            (Some(hi), Some(lo)) => bytes.push((hi * 16 + lo) as u8),
+            _ => return Vec::new(),
+        }
+        index += 2;
+    }
+    bytes
+}
+
+fn timestamp_to_unix_nano(timestamp: &Timestamp) -> u64 {
+    timestamp
+        .timestamp_nanos_opt()
+        .and_then(|nanos| u64::try_from(nanos).ok())
+        .unwrap_or(0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -761,8 +881,134 @@ mod tests {
     use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, KeyValue};
     use opentelemetry_proto::tonic::resource::v1::Resource;
     use opentelemetry_proto::tonic::trace::v1::{status, ResourceSpans, ScopeSpans, Span, Status};
-    use std::collections::BTreeSet;
+    use std::collections::{BTreeMap, BTreeSet};
     use std::sync::Arc;
+
+    fn lossy_canonical_span() -> beater_schema::CanonicalSpan {
+        use beater_schema::{ArtifactRef, CanonicalSpan, CANONICAL_SCHEMA_VERSION};
+        CanonicalSpan {
+            schema_version: CANONICAL_SCHEMA_VERSION,
+            normalizer_version: "beater-otlp-v1".to_string(),
+            tenant_id: TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+            project_id: ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            environment_id: EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}")),
+            trace_id: TraceId::new("0123456789abcdef0123456789abcdef")
+                .unwrap_or_else(|err| panic!("{err}")),
+            span_id: SpanId::new("0123456789abcdef").unwrap_or_else(|err| panic!("{err}")),
+            parent_span_id: None,
+            seq: 1,
+            kind: AgentSpanKind::LlmCall,
+            name: "chat completion".to_string(),
+            status: SpanStatus::Ok,
+            start_time: Utc
+                .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
+                .single()
+                .unwrap_or_else(|| panic!("valid timestamp")),
+            end_time: None,
+            model: Some(ModelRef {
+                provider: "openai".to_string(),
+                name: "gpt-test".to_string(),
+            }),
+            cost: None,
+            tokens: None,
+            input_ref: None,
+            output_ref: None,
+            attributes: BTreeMap::from([
+                ("llm.model_name".to_string(), json!("gpt-test")),
+                // A nested attribute value the standards view cannot carry
+                // structurally — it gets string-flattened on export.
+                (
+                    "llm.invocation_parameters".to_string(),
+                    json!({ "temperature": 0.7 }),
+                ),
+            ]),
+            // Provenance with no OTLP slot — this is what must be lost on export.
+            unmapped_attrs: json!({
+                "dropped_attributes": {},
+                "unmapped": { "vendor.custom_signal": "keep-me" },
+            }),
+            raw_ref: ArtifactRef {
+                artifact_id: beater_core::ArtifactId::new("raw-artifact")
+                    .unwrap_or_else(|err| panic!("{err}")),
+                uri: "artifact://tenant/project/raw-artifact".to_string(),
+                sha256: beater_core::Sha256Hash::new("rawhash")
+                    .unwrap_or_else(|err| panic!("{err}")),
+                size_bytes: 128,
+                mime_type: "application/x-protobuf".to_string(),
+                redaction_class: RedactionClass::Internal,
+            },
+        }
+    }
+
+    #[test]
+    fn standards_projection_is_lossy_and_requires_raw_artifact() {
+        // R2.5: a canonical span carries provenance (unmapped_attrs, raw_ref,
+        // schema/normalizer lineage, nested attribute values) that the OTLP
+        // standards projection has no slot for. Projecting to OTLP and importing
+        // the result back must yield a STRICTLY SMALLER span — proving the export
+        // is a lossy view and that faithful reconstruction needs the raw artifact.
+        let original = lossy_canonical_span();
+
+        // Project to a standards OTLP span and round-trip it back through the
+        // normal import path.
+        let otlp_span = canonical_span_to_otlp(&original);
+        let export = ExportTraceServiceRequest {
+            resource_spans: vec![ResourceSpans {
+                resource: None,
+                scope_spans: vec![ScopeSpans {
+                    scope: None,
+                    spans: vec![otlp_span],
+                    schema_url: String::new(),
+                }],
+                schema_url: String::new(),
+            }],
+        };
+        let scope = TenantScope::new(
+            original.tenant_id.clone(),
+            original.project_id.clone(),
+            original.environment_id.clone(),
+        );
+        let reimported = export_to_native_requests(scope, export)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(reimported.len(), 1);
+        let reimported = &reimported[0];
+
+        // The export carries NO representation of the raw artifact: there is no
+        // way to recover `raw_ref` from the OTLP span. The canonical span's
+        // `raw_ref` is therefore the only path back to the lossless payload.
+        assert!(
+            !reimported
+                .attributes
+                .keys()
+                .any(|key| key.contains("raw_ref") || key.contains("raw_artifact")),
+            "OTLP export must not smuggle the raw artifact pointer"
+        );
+
+        // `unmapped_attrs` provenance is gone: the non-canonical signal that the
+        // canonical model preserved out-of-band was never on the OTLP attributes.
+        assert!(
+            !reimported.attributes.contains_key("vendor.custom_signal"),
+            "unmapped provenance must not survive the standards projection"
+        );
+
+        // The nested attribute value was structurally flattened to a string on
+        // export, so the re-imported value is NOT equal to the original object.
+        let reimported_params = reimported.attributes.get("llm.invocation_parameters");
+        assert_eq!(
+            reimported_params,
+            Some(&json!("{\"temperature\":0.7}")),
+            "nested values are string-flattened by the standards projection"
+        );
+        assert_ne!(
+            reimported_params,
+            original.attributes.get("llm.invocation_parameters"),
+            "structured attribute value is not preserved losslessly"
+        );
+
+        // The only faithful record remains the preserved raw artifact.
+        assert_eq!(original.raw_ref.mime_type, "application/x-protobuf");
+        assert_eq!(original.raw_ref.sha256.as_str(), "rawhash");
+    }
 
     #[tokio::test]
     async fn grpc_trace_service_buffers_otlp_export_from_metadata_scope() {

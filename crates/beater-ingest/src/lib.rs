@@ -1022,6 +1022,12 @@ impl IngestService {
         }
         let mut kept = BTreeMap::new();
         let mut dropped = BTreeMap::new();
+        // Attributes the normalizer carried through but that do NOT correspond to
+        // any canonical mapping (a recognized `llm.*`/`gen_ai.*`/`browser.*`/
+        // structural key, or a top-level field like model/cost/tokens). These are
+        // preserved verbatim under `unmapped_attrs.unmapped` so the canonical
+        // projection is honest about *what* it could not interpret. See R2.3.
+        let mut unmapped = BTreeMap::new();
         for (key, value) in attributes {
             if self.policy.denied_attributes.contains(&key) {
                 dropped.insert(key, value);
@@ -1033,9 +1039,15 @@ impl IngestService {
                     continue;
                 }
             }
+            if !canonical_mapping::maps_to_canonical(&key) {
+                unmapped.insert(key.clone(), value.clone());
+            }
             kept.insert(key, value);
         }
-        Ok((kept, json!({ "dropped_attributes": dropped })))
+        Ok((
+            kept,
+            json!({ "dropped_attributes": dropped, "unmapped": unmapped }),
+        ))
     }
 
     async fn maybe_payload_artifact(
@@ -1277,6 +1289,62 @@ struct TraceIngestedPublishReport {
 impl TraceIngestedPublishReport {
     fn queued(&self) -> bool {
         self.accepted.saturating_add(self.duplicate) >= self.requested && self.requested > 0
+    }
+}
+
+/// Canonical-attribute classification used to populate `unmapped_attrs`.
+///
+/// The normalizer keeps the full attribute bag on the canonical span, but a
+/// projection consumer (dashboard, evaluator, export) needs to know which of
+/// those attributes the canonical model actually *understands* versus which were
+/// merely passed through. An attribute "maps to canonical" when its key is one of
+/// the recognized semantic-convention keys (the same keys the OTLP normalizer
+/// reads to populate model/cost/tokens/kind/seq/input/output) or belongs to a
+/// recognized namespace prefix (`llm.`, `gen_ai.`, `browser.`, `resource.`,
+/// `otel.`, `beater.`, `agent.`, `openinference.`, `w3c.`). Everything else
+/// "fails canonical mapping" and is recorded under `unmapped_attrs.unmapped`.
+pub mod canonical_mapping {
+    /// Recognized namespace prefixes whose attributes the canonical model
+    /// understands (either projected to a typed field or carried as a known
+    /// semantic-convention attribute).
+    pub const CANONICAL_PREFIXES: &[&str] = &[
+        "llm.",
+        "gen_ai.",
+        "browser.",
+        "resource.",
+        "otel.",
+        "beater.",
+        "agent.",
+        "openinference.",
+        "w3c.",
+        "temporal.",
+    ];
+
+    /// Exact keys without a recognized prefix that are still canonical because the
+    /// normalizer reads them to populate typed span fields (model/cost/tokens).
+    pub const CANONICAL_EXACT_KEYS: &[&str] = &[
+        "input.value",
+        "output.value",
+        "model",
+        "model_name",
+        "provider",
+        "cost_micros",
+        "currency",
+        "input_tokens",
+        "output_tokens",
+        "reasoning_tokens",
+        "cache_read_tokens",
+    ];
+
+    /// True when `key` corresponds to a canonical mapping; false when the
+    /// attribute fails canonical mapping and must be preserved in `unmapped_attrs`.
+    pub fn maps_to_canonical(key: &str) -> bool {
+        if CANONICAL_EXACT_KEYS.contains(&key) {
+            return true;
+        }
+        CANONICAL_PREFIXES
+            .iter()
+            .any(|prefix| key.starts_with(prefix))
     }
 }
 
@@ -2012,6 +2080,89 @@ mod tests {
             span.unmapped_attrs["dropped_attributes"]["secret"],
             json!("drop")
         );
+    }
+
+    #[test]
+    fn canonical_mapping_classifies_known_namespaces_and_drops_unknown() {
+        // Recognized semantic-convention namespaces and typed-field keys map.
+        for canonical in [
+            "llm.model_name",
+            "gen_ai.usage.input_tokens",
+            "browser.action",
+            "resource.service.name",
+            "otel.span.kind",
+            "beater.seq",
+            "agent.release_id",
+            "openinference.span.kind",
+            "input.value",
+            "output.value",
+            "cost_micros",
+        ] {
+            assert!(
+                canonical_mapping::maps_to_canonical(canonical),
+                "{canonical} should map to canonical"
+            );
+        }
+        // Vendor / app-specific attributes fail canonical mapping.
+        for unmapped in [
+            "safe",
+            "user.feature_flag",
+            "langchain.chain_type",
+            "my_app.custom_field",
+        ] {
+            assert!(
+                !canonical_mapping::maps_to_canonical(unmapped),
+                "{unmapped} should NOT map to canonical"
+            );
+        }
+    }
+
+    #[tokio::test]
+    async fn ingest_records_unmapped_attrs_for_attributes_that_fail_canonical_mapping() {
+        // R2.3 golden test: an attribute key that does not correspond to any
+        // canonical mapping is preserved verbatim under `unmapped_attrs.unmapped`,
+        // while recognized semantic-convention keys are NOT duplicated there.
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let artifacts = Arc::new(
+            FsArtifactStore::new(tempdir.path().join("artifacts"))
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+        let bus = Arc::new(InMemoryBus::new(16));
+        let service =
+            IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
+        let mut request = fixture_request();
+        request.attributes = BTreeMap::from([
+            ("llm.model_name".to_string(), json!("gpt-test")),
+            ("openinference.span.kind".to_string(), json!("LLM")),
+            ("vendor.custom_signal".to_string(), json!("keep-me")),
+            ("user.session".to_string(), json!(42)),
+        ]);
+
+        service
+            .ingest_native(request.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let trace = traces
+            .get_trace(request.scope.tenant_id, request.trace_id)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let span = &trace.spans[0];
+
+        // Golden: exactly the two non-canonical keys land in `unmapped`, with
+        // their values byte-for-byte preserved; canonical keys do not appear.
+        assert_eq!(
+            span.unmapped_attrs["unmapped"],
+            json!({
+                "vendor.custom_signal": "keep-me",
+                "user.session": 42,
+            })
+        );
+        // The full attribute bag is still carried on the span (nothing lost).
+        assert!(span.attributes.contains_key("llm.model_name"));
+        assert!(span.attributes.contains_key("vendor.custom_signal"));
+        // Nothing was denied/dropped here.
+        assert_eq!(span.unmapped_attrs["dropped_attributes"], json!({}));
     }
 
     #[tokio::test]
