@@ -889,6 +889,12 @@ impl<S: ArtifactStore> ArtifactStore for MeteredArtifactStore<S> {
         self.record(metrics::ObjectStoreOp::Read, &result);
         result
     }
+
+    async fn delete_bytes(&self, artifact_ref: &ArtifactRef) -> StoreResult<()> {
+        let result = self.inner.delete_bytes(artifact_ref).await;
+        self.record(metrics::ObjectStoreOp::Delete, &result);
+        result
+    }
 }
 
 /// R13.7 — a [`SourceImporter`] decorator that counts normalization failures by

@@ -456,6 +456,7 @@ impl OpResult {
 pub enum ObjectStoreOp {
     Read,
     Write,
+    Delete,
 }
 
 impl ObjectStoreOp {
@@ -463,6 +464,7 @@ impl ObjectStoreOp {
         match self {
             ObjectStoreOp::Read => "read",
             ObjectStoreOp::Write => "write",
+            ObjectStoreOp::Delete => "delete",
         }
     }
 }
