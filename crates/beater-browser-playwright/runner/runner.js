@@ -53,6 +53,57 @@ let browser = null;
 let context = null;
 let page = null;
 
+// Console + network events observed since the last observation, drained on each
+// snapshot. Soft-capped so a chatty page cannot grow them without bound.
+let consoleBuffer = [];
+let networkBuffer = [];
+const EVENT_CAP = 500;
+
+function pushCapped(buffer, item) {
+  buffer.push(item);
+  if (buffer.length > EVENT_CAP) {
+    buffer.shift();
+  }
+}
+
+// Attach console + network observers to a freshly created page.
+function attachObservers(p) {
+  p.on('console', (msg) => {
+    try {
+      pushCapped(consoleBuffer, { level: msg.type(), text: msg.text() });
+    } catch (_err) {
+      /* never let observation break the run */
+    }
+  });
+  p.on('response', (resp) => {
+    try {
+      const req = resp.request();
+      pushCapped(networkBuffer, {
+        method: req.method(),
+        url: resp.url(),
+        status: resp.status(),
+        resource_type: req.resourceType(),
+        failed: false,
+      });
+    } catch (_err) {
+      /* ignore */
+    }
+  });
+  p.on('requestfailed', (req) => {
+    try {
+      pushCapped(networkBuffer, {
+        method: req.method(),
+        url: req.url(),
+        status: null,
+        resource_type: req.resourceType(),
+        failed: true,
+      });
+    } catch (_err) {
+      /* ignore */
+    }
+  });
+}
+
 function write(obj) {
   process.stdout.write(`${JSON.stringify(obj)}\n`);
 }
@@ -70,9 +121,18 @@ function browserType(engine) {
   }
 }
 
+function drainEvents() {
+  const console = consoleBuffer;
+  consoleBuffer = [];
+  const network = networkBuffer;
+  networkBuffer = [];
+  return { console, network };
+}
+
 async function snapshotObservation() {
   if (!page) {
-    return { url: '', console: [] };
+    const drained = drainEvents();
+    return { url: '', console: drained.console, network: drained.network };
   }
   const url = page.url();
   let title = null;
@@ -87,7 +147,9 @@ async function snapshotObservation() {
   } catch (_err) {
     domHtml = null;
   }
-  const observation = { url, console: [] };
+  // Drain console + network observed since the previous observation.
+  const drained = drainEvents();
+  const observation = { url, console: drained.console, network: drained.network };
   if (title !== null && title !== undefined) {
     observation.title = title;
   }
@@ -132,6 +194,9 @@ async function handleLaunch(cmd) {
   browser = await type.launch(launchOptions);
   context = await browser.newContext();
   page = await context.newPage();
+  consoleBuffer = [];
+  networkBuffer = [];
+  attachObservers(page);
   return { kind: 'ack' };
 }
 

@@ -159,6 +159,7 @@ impl CdpDriver {
             dom_html: Some(dom_html),
             accessibility_tree: None,
             console: Vec::new(),
+            network: Vec::new(),
         })
     }
 

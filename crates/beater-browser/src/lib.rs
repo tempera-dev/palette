@@ -33,8 +33,14 @@ pub const FIXTURE_MISSING_SELECTOR: &str = "#beater-missing";
 /// and omits [`FIXTURE_MISSING_SELECTOR`].
 pub const CONFORMANCE_FIXTURE_HTML: &str = concat!(
     "<!doctype html><html><head><title>Beater Conformance Fixture</title></head>",
-    "<body><button id=\"beater-known\">ok</button></body></html>",
+    "<body><button id=\"beater-known\">ok</button>",
+    "<script>console.log(\"beater-fixture-ready\");</script>",
+    "</body></html>",
 );
+
+/// Console text the bundled fixture logs on load — backends that capture console
+/// output should surface this in the observation after navigating to the fixture.
+pub const FIXTURE_CONSOLE_MESSAGE: &str = "beater-fixture-ready";
 
 /// Errors a [`BrowserDriver`] can raise. Note: a failed-to-ground action is NOT
 /// an error — it is a successful call returning a [`StepOutcome`] with
@@ -117,10 +123,37 @@ impl BrowserAction {
     }
 }
 
+/// A console message observed on the page during a step (level + text), so
+/// silent JS errors the agent triggered are visible to evals/review.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ConsoleMessage {
+    /// `log` | `info` | `warn` | `error` | `debug` (browser-reported).
+    pub level: String,
+    pub text: String,
+}
+
+/// A network request observed during a step — agents often fail on a silent
+/// non-2xx or a failed request the DOM doesn't reflect.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct NetworkRequest {
+    pub method: String,
+    pub url: String,
+    /// HTTP status, when a response was received.
+    #[serde(default)]
+    pub status: Option<u16>,
+    /// Resource type (`document`, `xhr`, `fetch`, `script`, …) when known.
+    #[serde(default)]
+    pub resource_type: Option<String>,
+    /// Whether the request failed at the transport level (no response).
+    #[serde(default)]
+    pub failed: bool,
+}
+
 /// A snapshot of page state. Bytes (DOM/screenshot) are intentionally kept out
 /// of line: backends expose raw DOM via [`BrowserDriver::dom`] and screenshots
 /// via [`BrowserDriver::screenshot`]; the capture layer stores them as
 /// artifacts. `dom_html` here is a convenience copy for grounding/evaluation.
+/// `console`/`network` are events observed since the previous observation.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Observation {
     pub url: String,
@@ -128,7 +161,9 @@ pub struct Observation {
     pub dom_html: Option<String>,
     pub accessibility_tree: Option<Value>,
     #[serde(default)]
-    pub console: Vec<String>,
+    pub console: Vec<ConsoleMessage>,
+    #[serde(default)]
+    pub network: Vec<NetworkRequest>,
 }
 
 /// Whether an action resolved to its intended element — the core "grounding"
@@ -263,6 +298,7 @@ impl MockDriver {
             dom_html: Some(CONFORMANCE_FIXTURE_HTML.to_string()),
             accessibility_tree: None,
             console: Vec::new(),
+            network: Vec::new(),
         }
     }
 }
@@ -445,6 +481,7 @@ mod tests {
                 dom_html: None,
                 accessibility_tree: None,
                 console: Vec::new(),
+                network: Vec::new(),
             },
             decision: Some(LlmDecision {
                 model: Some("claude".to_string()),
@@ -473,6 +510,7 @@ mod tests {
                     dom_html: None,
                     accessibility_tree: None,
                     console: Vec::new(),
+                    network: Vec::new(),
                 },
             },
         };

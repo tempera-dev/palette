@@ -11,7 +11,9 @@
 //!
 //! [`PlaywrightDriver`]: crate::PlaywrightDriver
 
-use beater_browser::{Grounding, Observation, StepOutcome, StepStatus};
+use beater_browser::{
+    ConsoleMessage, Grounding, NetworkRequest, Observation, StepOutcome, StepStatus,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -189,9 +191,12 @@ pub struct ObservationWire {
     /// Accessibility tree snapshot, if captured.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub accessibility_tree: Option<Value>,
-    /// Console messages observed on the page.
+    /// Console messages observed on the page since the previous observation.
     #[serde(default)]
-    pub console: Vec<String>,
+    pub console: Vec<ConsoleMessage>,
+    /// Network requests observed since the previous observation.
+    #[serde(default)]
+    pub network: Vec<NetworkRequest>,
 }
 
 impl From<ObservationWire> for Observation {
@@ -202,6 +207,7 @@ impl From<ObservationWire> for Observation {
             dom_html: wire.dom_html,
             accessibility_tree: wire.accessibility_tree,
             console: wire.console,
+            network: wire.network,
         }
     }
 }
@@ -214,6 +220,7 @@ impl From<Observation> for ObservationWire {
             dom_html: obs.dom_html,
             accessibility_tree: obs.accessibility_tree,
             console: obs.console,
+            network: obs.network,
         }
     }
 }
@@ -380,6 +387,7 @@ mod tests {
             dom_html: None,
             accessibility_tree: None,
             console: Vec::new(),
+            network: Vec::new(),
         };
         let outcome = outcome_from_response(
             true,
@@ -417,7 +425,17 @@ mod tests {
             title: Some("hi".to_string()),
             dom_html: Some("<html></html>".to_string()),
             accessibility_tree: Some(serde_json::json!({"role": "button"})),
-            console: vec!["warn".to_string()],
+            console: vec![ConsoleMessage {
+                level: "warning".to_string(),
+                text: "deprecated".to_string(),
+            }],
+            network: vec![NetworkRequest {
+                method: "GET".to_string(),
+                url: "http://x/".to_string(),
+                status: Some(200),
+                resource_type: Some("document".to_string()),
+                failed: false,
+            }],
         };
         let wire: ObservationWire = obs.clone().into();
         let back: Observation = wire.into();
