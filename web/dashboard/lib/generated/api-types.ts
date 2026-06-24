@@ -1097,6 +1097,24 @@ export interface components {
             rubric: string;
             /** @enum {string} */
             type: "llm_judge";
+        } | {
+            dom_contains?: string | null;
+            /** @enum {string} */
+            type: "browser_task_success";
+            url_contains?: string | null;
+        } | {
+            /** Format: int64 */
+            max_steps: number;
+            /** @enum {string} */
+            type: "browser_step_efficiency";
+        } | {
+            /** Format: double */
+            min_ratio: number;
+            /** @enum {string} */
+            type: "browser_grounding";
+        } | {
+            /** @enum {string} */
+            type: "browser_recovery";
         };
         /** @enum {string} */
         EvaluatorLane: "deterministic_wasi" | "judge_broker" | "human" | "hybrid";
