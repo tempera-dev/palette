@@ -3,8 +3,11 @@
 //! The project standard is `cargo xtask` over ad-hoc shell scripts. This crate
 //! owns the OpenAPI spec / SDK regeneration pipeline:
 //!
-//! * `regen-spec`: regenerate `sdks/openapi/beater-api.json` (and the dashboard
-//!   snapshot) directly from the `beater-api` handlers. No Docker required.
+//! * `regen-spec`: regenerate `sdks/openapi/beater-api.json`, the dashboard
+//!   snapshot, AND the dashboard's typed client
+//!   (`web/dashboard/lib/generated/api-types.ts`) directly from the `beater-api`
+//!   handlers — every spec-derived artifact in one step, so nothing the CI drift
+//!   checks enforce is left stale. The dashboard client step needs Node/npx.
 //! * `regen-sdks`: regenerate the spec *and* every language client by shelling
 //!   out to `scripts/regen-sdks.sh` (needs Docker).
 //! * `check-drift`: regenerate the spec into a temp file and `git diff` the
@@ -115,7 +118,63 @@ fn regen_spec() -> anyhow::Result<()> {
 
     println!("wrote {}", spec_path.display());
     println!("wrote {}", dashboard_path.display());
+
+    // The dashboard's typed client is a THIRD spec-derived artifact. Regenerate
+    // it here so `regen-spec` leaves nothing stale — otherwise CI's
+    // `check-openapi-drift.sh` (the `verify` job) flags drift even after the
+    // documented regen steps were run.
+    regen_dashboard_client(&root)?;
     Ok(())
+}
+
+/// Regenerate `web/dashboard/lib/generated/api-types.ts` from the dashboard spec
+/// snapshot using the exact `openapi-typescript` version pinned in the
+/// dashboard's `package.json` (so the output matches CI byte-for-byte). `npx
+/// --yes` fetches that version on demand, so a prior `npm ci` is not required.
+fn regen_dashboard_client(root: &Path) -> anyhow::Result<()> {
+    let dashboard = root.join("web/dashboard");
+    let version = openapi_typescript_version(&dashboard)?;
+    let out_rel = "lib/generated/api-types.ts";
+    let status = Command::new("npx")
+        .args([
+            "--yes",
+            &format!("openapi-typescript@{version}"),
+            "openapi/beater-read-api.json",
+            "-o",
+            out_rel,
+        ])
+        .current_dir(&dashboard)
+        .status()
+        .with_context(|| {
+            "run `npx openapi-typescript` in web/dashboard (is Node/npm installed?)"
+        })?;
+    if !status.success() {
+        bail!("dashboard api-types.ts generation failed (openapi-typescript@{version})");
+    }
+    println!("wrote {}", dashboard.join(out_rel).display());
+    Ok(())
+}
+
+/// Read the pinned `openapi-typescript` version from the dashboard's
+/// `package.json` devDependencies without taking a JSON parser dependency.
+fn openapi_typescript_version(dashboard: &Path) -> anyhow::Result<String> {
+    let pkg = std::fs::read_to_string(dashboard.join("package.json"))
+        .with_context(|| "read web/dashboard/package.json")?;
+    for line in pkg.lines() {
+        if let Some(rest) = line.trim().strip_prefix("\"openapi-typescript\":") {
+            let version: String = rest
+                .trim()
+                .trim_start_matches('"')
+                .chars()
+                .take_while(|ch| *ch != '"')
+                .collect();
+            let version = version.trim_start_matches(['^', '~']).to_string();
+            if !version.is_empty() {
+                return Ok(version);
+            }
+        }
+    }
+    bail!("openapi-typescript is not pinned in web/dashboard/package.json devDependencies")
 }
 
 fn regen_sdks() -> anyhow::Result<()> {

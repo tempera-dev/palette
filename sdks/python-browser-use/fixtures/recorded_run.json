@@ -1,0 +1,82 @@
+{
+  "schema": "beater.browser_steps.v1",
+  "engine": "chromium",
+  "task": "Subscribe to the newsletter on example.com",
+  "browser_steps": [
+    {
+      "seq": 0,
+      "action": "goto",
+      "decision": {
+        "model": "gpt-4o",
+        "reasoning": "I need to open the newsletter signup page before I can fill it in."
+      },
+      "outcome": {
+        "status": "ok",
+        "error": null,
+        "grounding": {
+          "selector": null,
+          "selector_existed": true,
+          "matched_element": true
+        },
+        "observation": {
+          "url": "https://example.com/newsletter",
+          "title": "Newsletter Signup",
+          "dom_html": "<!doctype html><html><head><title>Newsletter Signup</title></head><body><form id=\"signup\"><input id=\"email\" type=\"email\"/><button id=\"submit\">Subscribe</button></form></body></html>"
+        }
+      }
+    },
+    {
+      "seq": 1,
+      "action": {
+        "type": {
+          "selector": "#promo-code",
+          "text": "WELCOME10"
+        }
+      },
+      "decision": {
+        "model": "gpt-4o",
+        "reasoning": "Try to apply a promo code in the field I expect to exist before subscribing."
+      },
+      "outcome": {
+        "status": "error",
+        "error": "selector #promo-code did not resolve to an element",
+        "grounding": {
+          "selector": "#promo-code",
+          "selector_existed": false,
+          "matched_element": false
+        },
+        "observation": {
+          "url": "https://example.com/newsletter",
+          "title": "Newsletter Signup",
+          "dom_html": "<!doctype html><html><head><title>Newsletter Signup</title></head><body><form id=\"signup\"><input id=\"email\" type=\"email\"/><button id=\"submit\">Subscribe</button></form></body></html>"
+        }
+      }
+    },
+    {
+      "seq": 2,
+      "action": {
+        "click": {
+          "selector": "#submit"
+        }
+      },
+      "decision": {
+        "model": "gpt-4o",
+        "reasoning": "The promo field does not exist; subscribe directly by clicking the Subscribe button."
+      },
+      "outcome": {
+        "status": "ok",
+        "error": null,
+        "grounding": {
+          "selector": "#submit",
+          "selector_existed": true,
+          "matched_element": true
+        },
+        "observation": {
+          "url": "https://example.com/newsletter/confirmed",
+          "title": "Subscription Confirmed",
+          "dom_html": "<!doctype html><html><head><title>Subscription Confirmed</title></head><body><h1 id=\"confirmation\">You're subscribed!</h1></body></html>"
+        }
+      }
+    }
+  ]
+}
