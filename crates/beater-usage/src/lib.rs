@@ -75,13 +75,13 @@ pub struct UsageRecord {
     pub created_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct UsageTotal {
     pub quantity: i64,
     pub unit: String,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct UsageSummary {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,

@@ -1,6 +1,6 @@
 [package]
 name = "beaterctl"
-version = "0.1.0"
+version.workspace = true
 edition.workspace = true
 license.workspace = true
 
@@ -8,6 +8,7 @@ license.workspace = true
 anyhow.workspace = true
 async-trait.workspace = true
 beater-alerts = { path = "../../crates/beater-alerts" }
+beater-api = { path = "../../crates/beater-api" }
 beater-audit = { path = "../../crates/beater-audit" }
 beater-auth = { path = "../../crates/beater-auth" }
 beater-bus = { path = "../../crates/beater-bus" }

@@ -103,14 +103,14 @@ pub struct JudgeBrokerRequest {
     pub provider_secret_id: ProviderSecretId,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct JudgeBrokerOutcome {
     pub result: ScoreResult,
     pub audit: JudgeAuditRecord,
     pub remaining_budget: Money,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct JudgeAuditRecord {
     pub judge_call_id: JudgeCallId,
     pub tenant_id: TenantId,
@@ -125,6 +125,7 @@ pub struct JudgeAuditRecord {
     pub provider_cost: Money,
     pub charged_cost: Money,
     pub cached: bool,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

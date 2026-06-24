@@ -71,6 +71,7 @@ use http::{HeaderMap, StatusCode};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 use std::sync::Arc;
+use utoipa::{IntoParams, ToSchema};
 
 pub mod openapi;
 
@@ -241,6 +242,19 @@ impl ApiState {
     }
 }
 
+/// Number of distinct `/v1/...` HTTP operations (method + path pairs) registered
+/// in [`router`]. This excludes the non-versioned `/health` and `/openapi.json`
+/// routes. It MUST equal the count of documented `/v1` operations in the OpenAPI
+/// spec; the `openapi_coverage` integration test enforces this both ways.
+///
+/// Update this when adding or removing a `/v1` route in [`router`].
+pub const V1_ROUTE_COUNT: usize = 40;
+
+/// See [`V1_ROUTE_COUNT`].
+pub fn v1_route_count() -> usize {
+    V1_ROUTE_COUNT
+}
+
 pub fn router(state: ApiState) -> Router {
     Router::new()
         .route("/health", get(health))
@@ -380,6 +394,15 @@ pub fn router(state: ApiState) -> Router {
         .with_state(state)
 }
 
+#[utoipa::path(
+    get,
+    path = "/health",
+    tag = "health",
+    operation_id = "health",
+    responses(
+        (status = 200, description = "Runtime is accepting requests", body = HealthResponse),
+    )
+)]
 async fn health() -> Json<HealthResponse> {
     Json(HealthResponse { ok: true })
 }
@@ -388,6 +411,28 @@ async fn openapi_json() -> Json<utoipa::openapi::OpenApi> {
     Json(openapi::openapi())
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/traces/native",
+    tag = "ingest",
+    operation_id = "ingestNative",
+    params(
+        IngestDurabilityQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = NativeIngestRequest,
+    responses(
+        (status = 200, description = "Ingest native canonical spans", body = IngestOutcome),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 413, description = "Payload or attribute cardinality too large", body = ErrorResponse),
+        (status = 429, description = "Per-project quota exceeded or backpressure", body = ErrorResponse),
+    )
+)]
 async fn ingest_native(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -412,6 +457,28 @@ async fn ingest_native(
     Ok(Json(outcome))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}",
+    tag = "apiKeys",
+    operation_id = "createApiKey",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("environment_id" = String, Path, description = "environment_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = CreateApiKeyHttpRequest,
+    responses(
+        (status = 200, description = "Create a scoped API key", body = ApiKeyCreatedResponse),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn create_api_key_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -446,6 +513,29 @@ async fn create_api_key_route(
     Ok(Json(ApiKeyCreatedResponse::from_created(created)))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke",
+    tag = "apiKeys",
+    operation_id = "revokeApiKey",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("environment_id" = String, Path, description = "environment_id"),
+        ("api_key_id" = String, Path, description = "api_key_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Revoke an API key", body = RevokedApiKey),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn revoke_api_key_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -480,6 +570,27 @@ async fn revoke_api_key_route(
     Ok(Json(revoked))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/provider-secrets/{tenant_id}/{project_id}",
+    tag = "providerSecrets",
+    operation_id = "createProviderSecret",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = CreateProviderSecretHttpRequest,
+    responses(
+        (status = 200, description = "Store an encrypted provider secret", body = ProviderSecretMetadata),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn create_provider_secret_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -502,6 +613,26 @@ async fn create_provider_secret_route(
     Ok(Json(metadata))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/provider-secrets/{tenant_id}/{project_id}",
+    tag = "providerSecrets",
+    operation_id = "listProviderSecrets",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List provider secret metadata", body = Vec < ProviderSecretMetadata >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn list_provider_secrets_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -517,6 +648,28 @@ async fn list_provider_secrets_route(
     Ok(Json(secrets))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke",
+    tag = "providerSecrets",
+    operation_id = "revokeProviderSecret",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("provider_secret_id" = String, Path, description = "provider_secret_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Revoke a provider secret", body = RevokedProviderSecret),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn revoke_provider_secret_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -544,6 +697,27 @@ async fn revoke_provider_secret_route(
     Ok(Json(revoked))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/judge/{tenant_id}/{project_id}/evaluate",
+    tag = "judge",
+    operation_id = "evaluateJudge",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunJudgeEvalHttpRequest,
+    responses(
+        (status = 200, description = "Run an ad-hoc judge evaluation", body = JudgeBrokerOutcome),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn run_judge_eval_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -568,6 +742,26 @@ async fn run_judge_eval_route(
     Ok(Json(outcome))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/usage/{tenant_id}/{project_id}",
+    tag = "usage",
+    operation_id = "getUsageSummary",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Get usage summary", body = UsageSummary),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn get_usage_summary_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -581,6 +775,26 @@ async fn get_usage_summary_route(
     Ok(Json(summary))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/judge/{tenant_id}/{project_id}/ledger",
+    tag = "judge",
+    operation_id = "listJudgeLedger",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List judge ledger audit records", body = Vec < beater_judge :: JudgeAuditRecord >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn list_judge_ledger_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -594,6 +808,26 @@ async fn list_judge_ledger_route(
     Ok(Json(records))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/ingest/{tenant_id}/{project_id}/queue",
+    tag = "ingest",
+    operation_id = "getIngestQueueStatus",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Get ingest queue status", body = IngestQueueStatus),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn get_ingest_queue_status_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -607,6 +841,29 @@ async fn get_ingest_queue_status_route(
     ))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay",
+    tag = "ingest",
+    operation_id = "replayDeadLetter",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("message_id" = String, Path, description = "message_id"),
+        ReplayDeadLetterQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Replay a dead-letter message", body = DeadLetterReplayReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn replay_dead_letter_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -624,6 +881,28 @@ async fn replay_dead_letter_route(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile",
+    tag = "ingest",
+    operation_id = "reconcileTrace",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Reconcile a trace-ingested record", body = TraceIngestedReconcileReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn reconcile_trace_ingested_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -641,6 +920,28 @@ async fn reconcile_trace_ingested_route(
     ))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain",
+    tag = "ingest",
+    operation_id = "drainTraceWrites",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        DrainTraceWritesQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Drain pending trace writes", body = TraceWriteDrainReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 422, description = "Drained with dead-letters", body = TraceWriteDrainReport),
+    )
+)]
 async fn drain_trace_writes_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -658,6 +959,28 @@ async fn drain_trace_writes_route(
     Ok((drain_status(report.dead_lettered), Json(report)))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain",
+    tag = "ingest",
+    operation_id = "drainTraceIngested",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        DrainTraceWritesQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Drain pending trace-ingested events", body = TraceIngestedDrainReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 422, description = "Drained with dead-letters", body = TraceIngestedDrainReport),
+    )
+)]
 async fn drain_trace_ingested_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -696,6 +1019,30 @@ fn drain_status(dead_lettered: usize) -> StatusCode {
     }
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces",
+    tag = "ingest",
+    operation_id = "ingestOtlp",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("environment_id" = String, Path, description = "environment_id"),
+        IngestDurabilityQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Ingest OTLP/HTTP protobuf traces", body = OtlpIngestOutcome),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 413, description = "Payload or attribute cardinality too large", body = ErrorResponse),
+        (status = 429, description = "Per-project quota exceeded or backpressure", body = ErrorResponse),
+    )
+)]
 async fn ingest_otlp_http(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -736,6 +1083,26 @@ async fn ingest_otlp_http(
     }))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/search/{tenant_id}/spans",
+    tag = "search",
+    operation_id = "searchSpans",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        SearchQueryParams,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Search spans", body = SearchResponse),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn search_spans(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -774,6 +1141,26 @@ async fn search_spans(
     Ok(Json(state.search.search(request).await?))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/traces/{tenant_id}",
+    tag = "traces",
+    operation_id = "listTraces",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ListTracesQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List trace run summaries", body = Page < RunSummary >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn list_traces(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -816,6 +1203,28 @@ async fn list_traces(
     ))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/traces/{tenant_id}/{trace_id}",
+    tag = "traces",
+    operation_id = "getTrace",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        TraceReadQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Get a canonical trace", body = TraceView),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn get_trace(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -835,6 +1244,29 @@ async fn get_trace(
     Ok(Json(redact_trace_view(trace)))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}",
+    tag = "spans",
+    operation_id = "getSpan",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        ("span_id" = String, Path, description = "span_id"),
+        TraceReadQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Get a canonical span", body = CanonicalSpan),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn get_span_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -845,6 +1277,29 @@ async fn get_span_route(
     Ok(Json(span))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io",
+    tag = "spans",
+    operation_id = "getSpanIo",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        ("span_id" = String, Path, description = "span_id"),
+        TraceReadQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Get span input/output metadata", body = SpanIoResponse),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn get_span_io_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -861,6 +1316,26 @@ async fn get_span_io_route(
     }))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/audit/{tenant_id}/{project_id}",
+    tag = "audit",
+    operation_id = "listAuditEvents",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List audit events", body = Vec < AuditEvent >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn list_audit_events_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -874,6 +1349,28 @@ async fn list_audit_events_route(
     Ok(Json(events))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/archive/{tenant_id}/{project_id}/{trace_id}",
+    tag = "archive",
+    operation_id = "archiveTrace",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Archive a trace to object storage", body = ArchiveManifest),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn archive_trace(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -913,6 +1410,27 @@ async fn archive_trace(
     Ok(Json(manifest))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/archive/{tenant_id}/{project_id}/spans",
+    tag = "archive",
+    operation_id = "queryArchiveSpans",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ArchiveQueryParams,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Query archived spans", body = ArchiveQueryResponse),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn query_archive_spans(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -963,6 +1481,27 @@ async fn query_archive_spans(
     Ok(Json(ArchiveQueryResponse { rows }))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/datasets/{tenant_id}/{project_id}",
+    tag = "datasets",
+    operation_id = "createDataset",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = CreateDatasetRequest,
+    responses(
+        (status = 200, description = "Create a dataset", body = Dataset),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn create_dataset(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -986,6 +1525,29 @@ async fn create_dataset(
     Ok(Json(dataset))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace",
+    tag = "datasets",
+    operation_id = "promoteDatasetCaseFromTrace",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = PromoteTraceCaseRequest,
+    responses(
+        (status = 200, description = "Promote a trace span to a dataset case", body = beater_datasets :: DatasetCase),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn promote_dataset_case(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1024,6 +1586,29 @@ async fn promote_dataset_case(
     Ok(Json(case))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions",
+    tag = "datasets",
+    operation_id = "createDatasetVersion",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = CreateDatasetVersionRequest,
+    responses(
+        (status = 200, description = "Create a dataset version snapshot", body = DatasetVersionSnapshot),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn create_dataset_version(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1056,6 +1641,30 @@ async fn create_dataset_version(
     Ok(Json(version))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic",
+    tag = "evals",
+    operation_id = "runDeterministicEval",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("version_id" = String, Path, description = "version_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunDeterministicEvalRequest,
+    responses(
+        (status = 200, description = "Run a deterministic dataset evaluation", body = DatasetEvalReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn run_deterministic_dataset_eval(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1098,6 +1707,30 @@ async fn run_deterministic_dataset_eval(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge",
+    tag = "evals",
+    operation_id = "runJudgeEval",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("version_id" = String, Path, description = "version_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunJudgeDatasetEvalRequest,
+    responses(
+        (status = 200, description = "Run a judge dataset evaluation", body = DatasetEvalReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn run_judge_dataset_eval(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1148,6 +1781,30 @@ async fn run_judge_dataset_eval(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}",
+    tag = "calibrations",
+    operation_id = "runCalibration",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("version_id" = String, Path, description = "version_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunCalibrationHttpRequest,
+    responses(
+        (status = 200, description = "Run a calibration over an eval report", body = CalibrationReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn run_calibration_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1209,6 +1866,30 @@ async fn run_calibration_route(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic",
+    tag = "experiments",
+    operation_id = "runDeterministicExperiment",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("version_id" = String, Path, description = "version_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunExperimentRequest,
+    responses(
+        (status = 200, description = "Run a deterministic experiment", body = ExperimentRunReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn run_deterministic_experiment_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1250,6 +1931,30 @@ async fn run_deterministic_experiment_route(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge",
+    tag = "experiments",
+    operation_id = "runJudgeExperiment",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("dataset_id" = String, Path, description = "dataset_id"),
+        ("version_id" = String, Path, description = "version_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunJudgeExperimentRequest,
+    responses(
+        (status = 200, description = "Run a judge experiment", body = ExperimentRunReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn run_judge_experiment_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1299,6 +2004,27 @@ async fn run_judge_experiment_route(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/gates/{tenant_id}/{project_id}",
+    tag = "gates",
+    operation_id = "createGate",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = CreateGateRequest,
+    responses(
+        (status = 200, description = "Create a release gate", body = GateDefinition),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn create_gate_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1327,6 +2053,29 @@ async fn create_gate_route(
     Ok(Json(gate))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/gates/{tenant_id}/{project_id}/{gate_id}/run",
+    tag = "gates",
+    operation_id = "runGate",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("gate_id" = String, Path, description = "gate_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = RunGateRequest,
+    responses(
+        (status = 200, description = "Run a gate against an experiment", body = GateRunReport),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn run_gate_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1353,6 +2102,27 @@ async fn run_gate_route(
     Ok(Json(report))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/review-queues/{tenant_id}/{project_id}",
+    tag = "reviews",
+    operation_id = "createReviewQueue",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = CreateReviewQueueHttpRequest,
+    responses(
+        (status = 200, description = "Create a human review queue", body = ReviewQueue),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn create_review_queue_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1382,6 +2152,29 @@ async fn create_review_queue_route(
     Ok(Json(queue))
 }
 
+#[utoipa::path(
+    get,
+    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks",
+    tag = "reviews",
+    operation_id = "listReviewTasks",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("queue_id" = String, Path, description = "queue_id"),
+        ListReviewTasksQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List review tasks", body = Vec < ReviewTask >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn list_review_tasks_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1410,6 +2203,29 @@ async fn list_review_tasks_route(
     Ok(Json(tasks))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace",
+    tag = "reviews",
+    operation_id = "enqueueReviewTaskFromTrace",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("queue_id" = String, Path, description = "queue_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = EnqueueReviewTaskFromTraceHttpRequest,
+    responses(
+        (status = 200, description = "Enqueue a review task from a trace", body = ReviewTask),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn enqueue_review_task_from_trace_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1457,6 +2273,30 @@ async fn enqueue_review_task_from_trace_route(
     Ok(Json(task))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations",
+    tag = "reviews",
+    operation_id = "submitReviewAnnotation",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("queue_id" = String, Path, description = "queue_id"),
+        ("task_id" = String, Path, description = "task_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = SubmitReviewAnnotationHttpRequest,
+    responses(
+        (status = 200, description = "Submit a review annotation", body = ReviewAnnotation),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn submit_review_annotation_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1489,6 +2329,31 @@ async fn submit_review_annotation_route(
     Ok(Json(annotation))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote",
+    tag = "reviews",
+    operation_id = "promoteReviewAnnotation",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("queue_id" = String, Path, description = "queue_id"),
+        ("task_id" = String, Path, description = "task_id"),
+        ("annotation_id" = String, Path, description = "annotation_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = PromoteReviewAnnotationHttpRequest,
+    responses(
+        (status = 200, description = "Promote a review annotation to a dataset case", body = beater_datasets :: DatasetCase),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+    )
+)]
 async fn promote_review_annotation_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1553,6 +2418,28 @@ async fn promote_review_annotation_route(
     Ok(Json(case))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling",
+    tag = "online",
+    operation_id = "decideOnlineSampling",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = OnlineSamplingPolicy,
+    responses(
+        (status = 200, description = "Decide online sampling for a trace", body = SamplingDecision),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn decide_online_sampling(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1579,6 +2466,28 @@ async fn decide_online_sampling(
     Ok(Json(decide_trace_sampling(&trace, &policy)))
 }
 
+#[utoipa::path(
+    post,
+    path = "/v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook",
+    tag = "alerts",
+    operation_id = "evaluateAlert",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("trace_id" = String, Path, description = "trace_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = EvaluateAlertRequest,
+    responses(
+        (status = 200, description = "Evaluate an alert policy for a trace", body = AlertDecision),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+    )
+)]
 async fn evaluate_alert(
     State(state): State<ApiState>,
     headers: HeaderMap,
@@ -1689,12 +2598,21 @@ fn parse_case_outputs(
         .collect()
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, ToSchema)]
 struct HealthResponse {
     ok: bool,
 }
 
-#[derive(Clone, Debug, Serialize)]
+/// Error envelope returned by every fallible endpoint.
+#[derive(Clone, Debug, Serialize, ToSchema)]
+struct ErrorResponse {
+    /// Human-readable error message.
+    error: String,
+    /// HTTP status code, duplicated in the body for convenience.
+    status: u16,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
 struct OtlpIngestOutcome {
     accepted_raw: usize,
     accepted_spans: usize,
@@ -1703,29 +2621,30 @@ struct OtlpIngestOutcome {
     downstream_queued: bool,
 }
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Serialize, ToSchema)]
 struct ArchiveQueryResponse {
     rows: Vec<ArchivedSpanRow>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CreateDatasetRequest {
     name: String,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct PromoteTraceCaseRequest {
     trace_id: String,
     span_id: Option<String>,
+    #[schema(value_type = Option<serde_json::Value>)]
     reference: Option<serde_json::Value>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CreateDatasetVersionRequest {
     case_ids: Option<Vec<String>>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunDeterministicEvalRequest {
     evaluator_id: String,
     evaluator_version_id: String,
@@ -1736,7 +2655,7 @@ struct RunDeterministicEvalRequest {
     kind: EvaluatorKind,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunJudgeDatasetEvalRequest {
     evaluator_id: String,
     evaluator_version_id: String,
@@ -1747,21 +2666,23 @@ struct RunJudgeDatasetEvalRequest {
     provider_secret_id: ProviderSecretId,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunCalibrationHttpRequest {
     eval_report_id: Option<String>,
     evaluator_version_id: Option<String>,
     pass_threshold: Option<f64>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CaseOutputOverrideRequest {
     case_id: String,
+    #[schema(value_type = serde_json::Value)]
     output: serde_json::Value,
+    #[schema(value_type = Option<serde_json::Value>)]
     trace: Option<serde_json::Value>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunExperimentRequest {
     baseline_release_id: String,
     candidate_release_id: String,
@@ -1773,7 +2694,7 @@ struct RunExperimentRequest {
     candidate_outputs: Vec<CaseOutputOverrideRequest>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunJudgeExperimentRequest {
     baseline_release_id: String,
     candidate_release_id: String,
@@ -1786,7 +2707,7 @@ struct RunJudgeExperimentRequest {
     provider_secret_id: ProviderSecretId,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CreateGateRequest {
     gate_id: String,
     name: String,
@@ -1795,24 +2716,26 @@ struct CreateGateRequest {
     inconclusive_policy: Option<InconclusivePolicy>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunGateRequest {
     experiment_run_id: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CreateReviewQueueHttpRequest {
     queue_id: Option<String>,
     name: String,
+    #[schema(value_type = serde_json::Value)]
     annotation_schema: serde_json::Value,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct ListReviewTasksQuery {
     state: Option<ReviewTaskState>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct EnqueueReviewTaskFromTraceHttpRequest {
     task_id: Option<String>,
     trace_id: String,
@@ -1822,46 +2745,48 @@ struct EnqueueReviewTaskFromTraceHttpRequest {
     priority: Option<i64>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct SubmitReviewAnnotationHttpRequest {
     annotation_id: Option<String>,
     reviewer_id: String,
     verdict: ReviewVerdict,
+    #[schema(value_type = serde_json::Value)]
     payload: serde_json::Value,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct PromoteReviewAnnotationHttpRequest {
     dataset_id: String,
+    #[schema(value_type = Option<serde_json::Value>)]
     reference: Option<serde_json::Value>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct EvaluateAlertRequest {
     policy: AlertPolicy,
     input: AlertInput,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CreateApiKeyHttpRequest {
     scopes: BTreeSet<ApiScope>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct CreateProviderSecretHttpRequest {
     provider: String,
     display_name: String,
     secret_value: String,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, ToSchema)]
 struct RunJudgeEvalHttpRequest {
     evaluator: EvaluatorSpec,
     case: EvaluationCase,
     provider_secret_id: ProviderSecretId,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
 struct ApiKeyCreatedResponse {
     api_key_id: ApiKeyId,
     tenant_id: TenantId,
@@ -1869,6 +2794,7 @@ struct ApiKeyCreatedResponse {
     environment_id: EnvironmentId,
     scopes: BTreeSet<ApiScope>,
     active: bool,
+    #[schema(value_type = String, format = DateTime)]
     created_at: beater_core::Timestamp,
     secret: String,
 }
@@ -1888,7 +2814,8 @@ impl ApiKeyCreatedResponse {
     }
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct SearchQueryParams {
     q: Option<String>,
     project_id: Option<String>,
@@ -1902,7 +2829,8 @@ struct SearchQueryParams {
     limit: Option<u32>,
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct ListTracesQuery {
     project_id: Option<String>,
     environment_id: Option<String>,
@@ -1921,28 +2849,32 @@ struct ListTracesQuery {
     cursor: Option<String>,
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct TraceReadQuery {
     unmask: Option<bool>,
     reason: Option<String>,
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct IngestDurabilityQuery {
     durability: Option<String>,
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct DrainTraceWritesQuery {
     limit: Option<usize>,
 }
 
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct ReplayDeadLetterQuery {
     reset_attempts: Option<bool>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
 struct SpanIoResponse {
     tenant_id: TenantId,
     trace_id: TraceId,
@@ -1951,16 +2883,20 @@ struct SpanIoResponse {
     output: SpanIoValue,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
 #[serde(tag = "kind", rename_all = "snake_case")]
 enum SpanIoValue {
-    Inline { value: serde_json::Value },
+    Inline {
+        #[schema(value_type = serde_json::Value)]
+        value: serde_json::Value,
+    },
     Artifact { artifact_ref: ArtifactRef },
     Redacted { reason: String },
     Missing,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, IntoParams)]
+#[into_params(parameter_in = Query)]
 struct ArchiveQueryParams {
     environment_id: Option<String>,
     trace_id: Option<String>,

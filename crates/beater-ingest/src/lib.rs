@@ -970,7 +970,7 @@ impl Default for IngestPolicy {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct NativeIngestRequest {
     pub scope: TenantScope,
     pub trace_id: TraceId,
@@ -980,13 +980,18 @@ pub struct NativeIngestRequest {
     pub kind: AgentSpanKind,
     pub name: String,
     pub status: SpanStatus,
+    #[schema(value_type = Option<String>, format = DateTime)]
     pub start_time: Option<Timestamp>,
+    #[schema(value_type = Option<String>, format = DateTime)]
     pub end_time: Option<Timestamp>,
     pub model: Option<ModelRef>,
     pub cost: Option<beater_core::Money>,
     pub tokens: Option<TokenCounts>,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub input: Option<Value>,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub output: Option<Value>,
+    #[schema(value_type = std::collections::BTreeMap<String, serde_json::Value>)]
     pub attributes: CanonicalAttrs,
     pub redaction_class: RedactionClass,
     pub idempotency_key: Option<IdempotencyKey>,
@@ -1027,7 +1032,7 @@ pub struct CanonicalSpanDraft {
     pub attributes: CanonicalAttrs,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct QueuedTraceWork {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -1039,7 +1044,7 @@ pub struct QueuedTraceWrite {
     pub batch: CanonicalTraceBatch,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct IngestOutcome {
     pub ack: WriteAck,
     pub downstream_queued: bool,
@@ -1070,7 +1075,7 @@ impl DrainReport for TraceIngestedDrainReport {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct TraceWriteDrainReport {
     pub consumed: usize,
     pub written_raw: usize,
@@ -1087,7 +1092,7 @@ pub struct TraceWriteDrainReport {
     pub trace_ids: Vec<TraceId>,
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct TraceIngestedDrainReport {
     pub consumed: usize,
     pub completed: usize,
@@ -1098,7 +1103,7 @@ pub struct TraceIngestedDrainReport {
     pub trace_refs: Vec<QueuedTraceWork>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct IngestQueueStatus {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -1108,7 +1113,7 @@ pub struct IngestQueueStatus {
     pub dead_letters: Vec<DeadLetter>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct DeadLetterReplayReport {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -1117,7 +1122,7 @@ pub struct DeadLetterReplayReport {
     pub ack: PublishAck,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct TraceIngestedReconcileReport {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,

@@ -1,313 +1,96 @@
-#![allow(dead_code)]
+//! OpenAPI 3.1 contract for the Beater API.
+//!
+//! This is the single source of truth for the multi-language SDK pipeline. Every
+//! route registered in [`crate::router`] is documented here via `#[utoipa::path]`
+//! annotations placed on the real handler functions in `lib.rs`, and every schema
+//! is derived from the real request/response types (no hand-maintained mirrors).
 
-use serde::Serialize;
-use utoipa::{IntoParams, OpenApi, ToSchema};
+use utoipa::OpenApi;
 
 #[derive(OpenApi)]
 #[openapi(
     info(
-        title = "Beater Read API",
+        title = "Beater API",
         version = "0.1.0",
-        description = "Dashboard-facing trace read APIs for Beater agent observability"
+        description = "Agent observability, evaluation, gating, and human-review APIs for Beater"
     ),
     paths(
-        openapi_health,
-        openapi_list_traces,
-        openapi_get_trace,
-        openapi_get_span,
-        openapi_get_span_io
+        crate::health,
+        crate::ingest_native,
+        crate::ingest_otlp_http,
+        crate::create_api_key_route,
+        crate::revoke_api_key_route,
+        crate::list_provider_secrets_route,
+        crate::create_provider_secret_route,
+        crate::revoke_provider_secret_route,
+        crate::run_judge_eval_route,
+        crate::list_judge_ledger_route,
+        crate::get_usage_summary_route,
+        crate::list_audit_events_route,
+        crate::get_ingest_queue_status_route,
+        crate::reconcile_trace_ingested_route,
+        crate::replay_dead_letter_route,
+        crate::drain_trace_writes_route,
+        crate::drain_trace_ingested_route,
+        crate::search_spans,
+        crate::list_traces,
+        crate::get_trace,
+        crate::get_span_route,
+        crate::get_span_io_route,
+        crate::archive_trace,
+        crate::query_archive_spans,
+        crate::create_dataset,
+        crate::promote_dataset_case,
+        crate::create_dataset_version,
+        crate::run_deterministic_dataset_eval,
+        crate::run_judge_dataset_eval,
+        crate::run_calibration_route,
+        crate::run_deterministic_experiment_route,
+        crate::run_judge_experiment_route,
+        crate::create_gate_route,
+        crate::run_gate_route,
+        crate::create_review_queue_route,
+        crate::list_review_tasks_route,
+        crate::enqueue_review_task_from_trace_route,
+        crate::submit_review_annotation_route,
+        crate::promote_review_annotation_route,
+        crate::decide_online_sampling,
+        crate::evaluate_alert,
     ),
-    components(schemas(
-        ArtifactRefDoc,
-        CanonicalSpanDoc,
-        ErrorResponseDoc,
-        HealthResponseDoc,
-        MoneyDoc,
-        PageRunSummaryDoc,
-        RunSummaryDoc,
-        SpanIoResponseDoc,
-        SpanIoValueDoc,
-        TokenCountsDoc,
-        TraceViewDoc
-    )),
     tags(
         (name = "health", description = "Runtime health"),
-        (name = "traces", description = "Trace and span read APIs")
+        (name = "ingest", description = "Trace ingestion, queue, and durability"),
+        (name = "traces", description = "Trace read APIs"),
+        (name = "spans", description = "Span read APIs"),
+        (name = "search", description = "Span search"),
+        (name = "archive", description = "Trace archival and archived-span queries"),
+        (name = "datasets", description = "Datasets, cases, and versions"),
+        (name = "evals", description = "Dataset evaluations"),
+        (name = "experiments", description = "Baseline/candidate experiments"),
+        (name = "calibrations", description = "Evaluator calibration runs"),
+        (name = "gates", description = "Release gates"),
+        (name = "judge", description = "Ad-hoc judge evaluation and ledger"),
+        (name = "reviews", description = "Human review queues and annotations"),
+        (name = "online", description = "Online sampling decisions"),
+        (name = "alerts", description = "Alert policy evaluation"),
+        (name = "usage", description = "Usage summaries"),
+        (name = "audit", description = "Audit events"),
+        (name = "apiKeys", description = "API key management"),
+        (name = "providerSecrets", description = "Provider secret management")
     )
 )]
-pub struct BeaterReadApi;
+pub struct BeaterApi;
 
+/// Build the OpenAPI document, stamping the live crate version at runtime.
+///
+/// The utoipa derive requires a literal `version`, so we override it here with
+/// the actual `CARGO_PKG_VERSION` to keep the spec in lockstep with the crate.
 pub fn openapi() -> utoipa::openapi::OpenApi {
-    BeaterReadApi::openapi()
+    let mut doc = BeaterApi::openapi();
+    doc.info.version = env!("CARGO_PKG_VERSION").to_string();
+    doc
 }
 
 pub fn openapi_json_pretty() -> Result<String, serde_json::Error> {
     openapi().to_pretty_json()
 }
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct HealthResponseDoc {
-    pub ok: bool,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct ErrorResponseDoc {
-    pub error: String,
-    pub status: u16,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct PageRunSummaryDoc {
-    pub items: Vec<RunSummaryDoc>,
-    pub next_cursor: Option<String>,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct RunSummaryDoc {
-    pub tenant_id: String,
-    pub project_id: String,
-    pub trace_id: String,
-    pub first_span_name: String,
-    pub span_count: usize,
-    #[schema(example = "ok")]
-    pub status: String,
-    #[schema(value_type = String, format = DateTime)]
-    pub started_at: String,
-    #[schema(value_type = Option<String>, format = DateTime)]
-    pub ended_at: Option<String>,
-    pub duration_ms: Option<i64>,
-    pub total_cost: Option<MoneyDoc>,
-    pub models: Vec<ModelRefDoc>,
-    pub release_ids: Vec<String>,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct TraceViewDoc {
-    pub tenant_id: String,
-    pub trace_id: String,
-    pub spans: Vec<CanonicalSpanDoc>,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct CanonicalSpanDoc {
-    pub schema_version: u32,
-    pub normalizer_version: String,
-    pub tenant_id: String,
-    pub project_id: String,
-    pub environment_id: String,
-    pub trace_id: String,
-    pub span_id: String,
-    pub parent_span_id: Option<String>,
-    pub seq: u64,
-    #[schema(example = "llm.call")]
-    pub kind: String,
-    pub name: String,
-    #[schema(example = "ok")]
-    pub status: String,
-    #[schema(value_type = String, format = DateTime)]
-    pub start_time: String,
-    #[schema(value_type = Option<String>, format = DateTime)]
-    pub end_time: Option<String>,
-    pub model: Option<ModelRefDoc>,
-    pub cost: Option<MoneyDoc>,
-    pub tokens: Option<TokenCountsDoc>,
-    pub input_ref: Option<ArtifactRefDoc>,
-    pub output_ref: Option<ArtifactRefDoc>,
-    #[schema(value_type = serde_json::Value)]
-    pub attributes: serde_json::Value,
-    #[schema(value_type = serde_json::Value)]
-    pub unmapped_attrs: serde_json::Value,
-    pub raw_ref: ArtifactRefDoc,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct ModelRefDoc {
-    pub provider: String,
-    pub name: String,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct MoneyDoc {
-    pub amount_micros: i64,
-    #[schema(example = "USD")]
-    pub currency: String,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct TokenCountsDoc {
-    pub input: u64,
-    pub output: u64,
-    pub reasoning: u64,
-    pub cache_read: u64,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct ArtifactRefDoc {
-    pub artifact_id: String,
-    pub uri: String,
-    pub sha256: String,
-    pub size_bytes: u64,
-    pub mime_type: String,
-    #[schema(example = "internal")]
-    pub redaction_class: String,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-pub struct SpanIoResponseDoc {
-    pub tenant_id: String,
-    pub trace_id: String,
-    pub span_id: String,
-    pub input: SpanIoValueDoc,
-    pub output: SpanIoValueDoc,
-}
-
-#[derive(Clone, Debug, Serialize, ToSchema)]
-#[serde(tag = "kind", rename_all = "snake_case")]
-pub enum SpanIoValueDoc {
-    Inline {
-        #[schema(value_type = serde_json::Value)]
-        value: serde_json::Value,
-    },
-    Artifact {
-        artifact_ref: ArtifactRefDoc,
-    },
-    Redacted {
-        reason: String,
-    },
-    Missing,
-}
-
-#[derive(Clone, Debug, IntoParams)]
-#[into_params(parameter_in = Query)]
-pub struct ListTracesParams {
-    pub project_id: Option<String>,
-    pub environment_id: Option<String>,
-    pub trace_id: Option<String>,
-    #[param(example = "llm.call")]
-    pub kind: Option<String>,
-    #[param(example = "ok")]
-    pub status: Option<String>,
-    #[param(value_type = Option<String>, example = "2026-01-01T00:00:00Z")]
-    pub started_after: Option<String>,
-    #[param(value_type = Option<String>, example = "2026-01-01T01:00:00Z")]
-    pub started_before: Option<String>,
-    #[param(example = "gpt-4.1")]
-    pub model: Option<String>,
-    #[param(example = "release-a")]
-    pub release: Option<String>,
-    pub min_cost_micros: Option<i64>,
-    pub max_cost_micros: Option<i64>,
-    pub min_latency_ms: Option<i64>,
-    pub max_latency_ms: Option<i64>,
-    pub limit: Option<u32>,
-    pub cursor: Option<String>,
-}
-
-#[derive(Clone, Debug, IntoParams)]
-#[into_params(parameter_in = Query)]
-pub struct TraceReadParams {
-    pub unmask: Option<bool>,
-    pub reason: Option<String>,
-}
-
-#[utoipa::path(
-    get,
-    path = "/health",
-    tag = "health",
-    responses(
-        (status = 200, description = "Runtime is accepting requests", body = HealthResponseDoc)
-    )
-)]
-fn openapi_health() {}
-
-#[utoipa::path(
-    get,
-    path = "/v1/traces/{tenant_id}",
-    tag = "traces",
-    params(
-        ("tenant_id" = String, Path, description = "Tenant id"),
-        ListTracesParams,
-        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
-        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
-        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
-        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope")
-    ),
-    responses(
-        (status = 200, description = "Trace run summaries", body = PageRunSummaryDoc),
-        (status = 400, description = "Invalid scope or filter", body = ErrorResponseDoc),
-        (status = 401, description = "Missing or invalid API key", body = ErrorResponseDoc),
-        (status = 403, description = "API key lacks trace read scope", body = ErrorResponseDoc)
-    )
-)]
-fn openapi_list_traces() {}
-
-#[utoipa::path(
-    get,
-    path = "/v1/traces/{tenant_id}/{trace_id}",
-    tag = "traces",
-    params(
-        ("tenant_id" = String, Path, description = "Tenant id"),
-        ("trace_id" = String, Path, description = "Trace id"),
-        TraceReadParams,
-        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
-        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
-        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
-        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope")
-    ),
-    responses(
-        (status = 200, description = "Canonical trace with redaction applied unless unmasked", body = TraceViewDoc),
-        (status = 400, description = "Invalid scope or query", body = ErrorResponseDoc),
-        (status = 401, description = "Missing or invalid API key", body = ErrorResponseDoc),
-        (status = 403, description = "API key lacks trace read or unmask scope", body = ErrorResponseDoc),
-        (status = 404, description = "Trace not found", body = ErrorResponseDoc)
-    )
-)]
-fn openapi_get_trace() {}
-
-#[utoipa::path(
-    get,
-    path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}",
-    tag = "traces",
-    params(
-        ("tenant_id" = String, Path, description = "Tenant id"),
-        ("trace_id" = String, Path, description = "Trace id"),
-        ("span_id" = String, Path, description = "Span id"),
-        TraceReadParams,
-        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
-        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
-        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
-        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope")
-    ),
-    responses(
-        (status = 200, description = "Canonical span with redaction applied unless unmasked", body = CanonicalSpanDoc),
-        (status = 400, description = "Invalid scope or query", body = ErrorResponseDoc),
-        (status = 401, description = "Missing or invalid API key", body = ErrorResponseDoc),
-        (status = 403, description = "API key lacks trace read or unmask scope", body = ErrorResponseDoc),
-        (status = 404, description = "Span or trace not found", body = ErrorResponseDoc)
-    )
-)]
-fn openapi_get_span() {}
-
-#[utoipa::path(
-    get,
-    path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io",
-    tag = "traces",
-    params(
-        ("tenant_id" = String, Path, description = "Tenant id"),
-        ("trace_id" = String, Path, description = "Trace id"),
-        ("span_id" = String, Path, description = "Span id"),
-        TraceReadParams,
-        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
-        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
-        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
-        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope")
-    ),
-    responses(
-        (status = 200, description = "Redaction-aware span input and output metadata", body = SpanIoResponseDoc),
-        (status = 400, description = "Invalid scope or query", body = ErrorResponseDoc),
-        (status = 401, description = "Missing or invalid API key", body = ErrorResponseDoc),
-        (status = 403, description = "API key lacks trace read or unmask scope", body = ErrorResponseDoc),
-        (status = 404, description = "Span or trace not found", body = ErrorResponseDoc)
-    )
-)]
-fn openapi_get_span_io() {}

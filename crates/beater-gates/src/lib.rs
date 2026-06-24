@@ -15,7 +15,7 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum InconclusivePolicy {
     Pass,
@@ -23,7 +23,7 @@ pub enum InconclusivePolicy {
     Fail,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct GateDefinition {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -35,10 +35,11 @@ pub struct GateDefinition {
     pub evaluator_version_id: Option<EvaluatorVersionId>,
     #[serde(default)]
     pub inconclusive_policy: InconclusivePolicy,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct GateRunReport {
     pub gate_run_id: GateRunId,
     pub tenant_id: TenantId,
@@ -60,7 +61,9 @@ pub struct GateRunReport {
     pub passed: bool,
     pub reason: String,
     pub comparison: ExperimentComparison,
+    #[schema(value_type = String, format = DateTime)]
     pub experiment_created_at: Timestamp,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

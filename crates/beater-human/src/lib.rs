@@ -16,17 +16,19 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ReviewQueue {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
     pub queue_id: ReviewQueueId,
     pub name: String,
+    #[schema(value_type = serde_json::Value)]
     pub annotation_schema: Value,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ReviewTaskState {
     Open,
@@ -34,7 +36,7 @@ pub enum ReviewTaskState {
     Cancelled,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ReviewVerdict {
     Pass,
@@ -43,7 +45,7 @@ pub enum ReviewVerdict {
     Unsure,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ReviewTask {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -58,11 +60,13 @@ pub struct ReviewTask {
     pub dataset_case_id: Option<DatasetCaseId>,
     pub priority: i64,
     pub state: ReviewTaskState,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
+    #[schema(value_type = String, format = DateTime)]
     pub updated_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ReviewAnnotation {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -71,7 +75,9 @@ pub struct ReviewAnnotation {
     pub annotation_id: AnnotationId,
     pub reviewer_id: String,
     pub verdict: ReviewVerdict,
+    #[schema(value_type = serde_json::Value)]
     pub payload: Value,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

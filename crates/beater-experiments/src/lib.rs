@@ -66,18 +66,25 @@ pub struct JudgeExperimentRunSpec {
     pub provider_secret_id: ProviderSecretId,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct CaseExperimentScore {
     pub case_id: DatasetCaseId,
+    #[schema(value_type = serde_json::Value)]
     pub baseline_output: Value,
+    #[schema(value_type = serde_json::Value)]
     pub candidate_output: Value,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub baseline_trace: Option<Value>,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub candidate_trace: Option<Value>,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub reference: Option<Value>,
     pub baseline_score: f64,
     pub candidate_score: f64,
     pub delta: f64,
+    #[schema(value_type = serde_json::Value)]
     pub baseline_evidence: Value,
+    #[schema(value_type = serde_json::Value)]
     pub candidate_evidence: Value,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub baseline_cost: Option<Money>,
@@ -93,7 +100,7 @@ pub struct CaseExperimentScore {
     pub candidate_cached: Option<bool>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ExperimentRunReport {
     pub experiment_run_id: ExperimentRunId,
     pub tenant_id: TenantId,
@@ -108,6 +115,7 @@ pub struct ExperimentRunReport {
     pub decision: GateDecision,
     #[serde(default)]
     pub gate_policy: GatePolicy,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

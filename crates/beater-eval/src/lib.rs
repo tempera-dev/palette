@@ -30,30 +30,35 @@ pub enum EvalError {
     },
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct EvaluationCase {
+    #[schema(value_type = serde_json::Value)]
     pub input: Value,
+    #[schema(value_type = serde_json::Value)]
     pub output: Value,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub reference: Option<Value>,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub trace: Option<Value>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ScoreResult {
     pub score: f64,
     pub label: Option<String>,
+    #[schema(value_type = serde_json::Value)]
     pub evidence: Value,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct EvaluatorSpec {
     pub id: String,
     pub lane: EvaluatorLane,
     pub kind: EvaluatorKind,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(tag = "type", rename_all = "snake_case")]
 pub enum EvaluatorKind {
     ExactMatch,
     RegexMatch { pattern: String },
@@ -228,23 +233,26 @@ fn binary_score(pass: bool, metric: &str) -> ScoreResult {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct JudgeRequest {
     pub rubric: String,
     pub model: String,
+    #[schema(value_type = serde_json::Value)]
     pub input: Value,
+    #[schema(value_type = serde_json::Value)]
     pub output: Value,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub reference: Option<Value>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct JudgeResponse {
     pub score: f64,
     pub rationale: String,
     pub cost: Money,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ExperimentComparison {
     pub sample_size: usize,
     pub baseline_mean: f64,
@@ -257,7 +265,7 @@ pub struct ExperimentComparison {
     pub adjusted_alpha: f64,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum GateDecision {
     Pass,
@@ -276,13 +284,13 @@ impl GateDecision {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum StatisticalTest {
     PairedNormalApproximation,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct GatePolicy {
     pub min_sample_size: usize,
     pub max_regression: f64,

@@ -659,6 +659,29 @@ mod tests {
     }
 
     #[test]
+    fn normalizer_accepts_every_canonical_span_kind() {
+        // Guard tying beater-otlp <-> beater-schema: every span kind in the
+        // cross-language ingest contract must be understood by the normalizer's
+        // kind parser and round-trip to the same canonical kind. If someone adds
+        // a canonical kind to beater-schema without teaching the normalizer, this
+        // fails (it would silently fall through to AgentStep otherwise).
+        for wire in beater_schema::conventions::span_kinds() {
+            let mut attrs = CanonicalAttrs::new();
+            attrs.insert(
+                "openinference.span.kind".to_string(),
+                Value::String(wire.to_string()),
+            );
+            // otel_kind is irrelevant when the attribute is present.
+            let kind = infer_agent_span_kind(&attrs, span::SpanKind::Unspecified as i32);
+            assert_eq!(
+                kind.as_str(),
+                wire,
+                "normalizer did not round-trip canonical span kind {wire:?}"
+            );
+        }
+    }
+
+    #[test]
     fn decodes_real_otlp_export_request_and_maps_agent_kinds() {
         let scope = TenantScope::new(
             TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),

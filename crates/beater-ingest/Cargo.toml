@@ -1,10 +1,11 @@
 [package]
 name = "beater-ingest"
-version = "0.1.0"
+version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
+utoipa = { workspace = true }
 anyhow.workspace = true
 beater-bus = { path = "../beater-bus" }
 beater-core = { path = "../beater-core" }
