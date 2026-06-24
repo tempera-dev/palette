@@ -129,11 +129,6 @@ impl SecretKeyring {
         &self.active_key_id
     }
 
-    /// All key ids the keyring can decrypt under, in stable order.
-    pub fn key_ids(&self) -> Vec<String> {
-        self.keys.keys().cloned().collect()
-    }
-
     pub fn generated_for_tests() -> anyhow::Result<Self> {
         Ok(Self::single(SecretEncryptionKey::generate("test-v1")?))
     }
