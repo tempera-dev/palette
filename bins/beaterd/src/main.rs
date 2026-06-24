@@ -6,7 +6,7 @@ use beater_api::{router, ApiState};
 use beater_archive::ParquetTraceArchive;
 use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
-use beater_bus::{DurableBus, InMemoryBus, SqliteDurableBus};
+use beater_bus::{DeadLetter, DurableBus, InMemoryBus, SqliteDurableBus};
 use beater_calibration::SqliteCalibrationStore;
 use beater_core::{IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, TraceId};
 use beater_datasets::SqliteDatasetStore;
@@ -14,8 +14,8 @@ use beater_experiments::SqliteExperimentStore;
 use beater_gates::SqliteGateStore;
 use beater_human::SqliteHumanReviewStore;
 use beater_ingest::{
-    ImportError, IngestPolicy, IngestQueueStatus, IngestService, RawTraceIngestRequest,
-    SourceImporter,
+    ImportError, IngestPolicy, IngestService, RawTraceIngestRequest, SourceImporter,
+    TRACE_INGESTED_KIND, TRACE_WRITE_BATCH_KIND,
 };
 use beater_judge::{
     HttpRoutingJudgeProvider, JudgeBrokerService, JudgeProvider, KeywordJudgeProvider,
@@ -243,6 +243,10 @@ async fn main() -> anyhow::Result<()> {
         trace_write_max_attempts: args.trace_write_max_attempts,
         ..IngestPolicy::default()
     };
+    // Keep a handle to the global, unfiltered bus so the queue-stats sampler can
+    // observe DLQ depth/age across ALL tenants (R13.4/R13.6/R13.8), not just the
+    // default scope.
+    let queue_stats_bus = bus.clone();
     // R13.7 — wrap the source importer so normalization failures are counted by
     // source dialect (and the importer's normalizer version).
     let ingest = IngestService::new(artifacts, traces.clone(), bus, ingest_policy)
@@ -285,13 +289,15 @@ async fn main() -> anyhow::Result<()> {
         beater_core::EnvironmentId::new(args.default_environment_id.clone())?,
     );
     // R13.4 / R13.6 / R13.8 — periodically sample queue depths, dead-letter
-    // backlog, and per-lane/per-tenant lag for the default scope and publish them
-    // to the metrics registry. Cardinality is bounded by sampling a single scope
-    // and by the cardinality-safe label helpers.
+    // backlog, and per-lane lag from the GLOBAL (unfiltered) bus and publish them
+    // to the metrics registry. Depth/age therefore reflect the whole deployment
+    // across all tenants, not just the default scope. Per-lane DLQ age is
+    // attributed by message kind; the per-tenant lag label is the deployment's
+    // default tenant (a stable, bounded label) — cardinality stays bounded by the
+    // small lane set and the cardinality-safe label helpers.
     spawn_queue_stats_sampler(
-        ingest.clone(),
+        queue_stats_bus,
         beater_core::TenantId::new(args.default_tenant_id.clone())?,
-        beater_core::ProjectId::new(args.default_project_id.clone())?,
         Duration::from_secs(5),
         metrics.clone(),
     );
@@ -393,8 +399,11 @@ fn spawn_trace_write_worker(
                 metrics::OpResult::Failure,
                 report.failed_writes as u64,
             );
-            // R13.6 — dead-letter queue depth for the trace.write lane.
-            metrics.set_dlq("trace.write", report.dead_lettered, 0.0);
+            // R13.6 — dead-letter queue depth for the trace.write lane. Workers
+            // own DEPTH only; the *_oldest_age_seconds gauge is owned solely by
+            // the queue-stats sampler so the two writers never race (see
+            // `spawn_queue_stats_sampler`).
+            metrics.set_dlq_depth("trace.write", report.dead_lettered);
             if report.consumed > 0
                 && (report.failed_writes > 0 || report.failed_downstream_publishes > 0)
             {
@@ -478,7 +487,9 @@ fn spawn_trace_ingested_worker(
                 }
             };
             // R13.6 — dead-letter queue depth for the trace.ingested lane.
-            metrics.set_dlq("trace.ingested", report.dead_lettered, 0.0);
+            // Workers own DEPTH only; the *_oldest_age_seconds gauge is owned
+            // solely by the queue-stats sampler (see `spawn_queue_stats_sampler`).
+            metrics.set_dlq_depth("trace.ingested", report.dead_lettered);
             if report.consumed > 0 && report.failed_work > 0 {
                 eprintln!(
                     "trace.ingested drain completed with failed work: consumed={} failed={} retried={} dlq={}",
@@ -489,49 +500,78 @@ fn spawn_trace_ingested_worker(
     });
 }
 
-/// A computed snapshot of queue health derived from an [`IngestQueueStatus`],
-/// expressed in metric-ready terms. Kept pure so it is unit-testable without a
-/// live bus.
+/// A computed snapshot of queue health derived from the GLOBAL (unfiltered) bus
+/// dead-letter queue plus the live eval-lane depth, expressed in metric-ready
+/// terms. Kept pure so it is unit-testable without a live bus.
+///
+/// IMPORTANT: every `*_age`/`*_lag` field is DLQ-DERIVED (computed from the
+/// oldest dead-lettered message), NOT a live-backlog peek. The durable bus
+/// exposes only depths and the DLQ — there is no API to read the enqueue time of
+/// the oldest non-failed pending message — so a growing backlog of healthy
+/// (non-failed) messages reports age/lag = 0. The Prometheus HELP text for these
+/// gauges says so explicitly; see `metrics.rs`. Fixing this for real requires a
+/// `DurableBus::oldest_pending_age(kind)` peek, which lives outside this binary's
+/// owned crate.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 struct QueueStatsSample {
     /// R13.4 — eval pipeline queue depth (the `trace.ingested` lane feeds the
-    /// search/eval downstream processors).
+    /// search/eval downstream processors). This is the LIVE depth (count of
+    /// pending messages), independent of the DLQ.
     eval_queue_depth: usize,
-    /// R13.4 — age in seconds of the oldest pending eval item we can observe
-    /// (derived from the oldest dead-lettered message, the only timestamped
-    /// signal `queue_status` exposes).
+    /// R13.4 — DLQ-derived age in seconds of the oldest dead-lettered eval-lane
+    /// message (0 when the eval-lane DLQ is empty). Not a live-backlog age.
     eval_queue_oldest_age_seconds: f64,
-    /// R13.6 — dead-letter queue count.
+    /// R13.6 — dead-letter queue count across ALL tenants (whole deployment).
     dlq_count: usize,
-    /// R13.6 — age in seconds of the oldest dead-lettered message.
+    /// R13.6 — age in seconds of the oldest dead-lettered message across all
+    /// tenants (by `failed_at`).
     dlq_oldest_age_seconds: f64,
-    /// R13.8 — per-lane queue lag in seconds (oldest in-flight DLQ enqueue age),
-    /// a cardinality-safe proxy for end-to-end lag of the `trace.ingested` lane.
+    /// R13.8 — DLQ-derived per-lane (`trace.ingested`) queue lag in seconds
+    /// (oldest dead-lettered enqueue age for that lane). Not a live-backlog lag.
     queue_lag_seconds: f64,
 }
 
-/// Pure derivation of [`QueueStatsSample`] from a queue status snapshot at a
-/// reference time `now`. Separated from I/O so it can be tested deterministically.
-fn compute_queue_stats(status: &IngestQueueStatus, now: chrono::DateTime<chrono::Utc>) -> QueueStatsSample {
-    let dlq_count = status.dead_letters.len();
-    let oldest_failed = status
-        .dead_letters
-        .iter()
-        .map(|dl| dl.failed_at)
-        .min();
-    let dlq_oldest_age_seconds = oldest_failed
+/// Seconds between `now` and the minimum of `timestamps` (clamped at 0), or 0.0
+/// when the iterator is empty.
+fn oldest_age_seconds<I>(timestamps: I, now: chrono::DateTime<chrono::Utc>) -> f64
+where
+    I: IntoIterator<Item = chrono::DateTime<chrono::Utc>>,
+{
+    timestamps
+        .into_iter()
+        .min()
         .map(|ts| (now - ts).num_milliseconds().max(0) as f64 / 1000.0)
-        .unwrap_or(0.0);
-    let oldest_enqueued = status
-        .dead_letters
+        .unwrap_or(0.0)
+}
+
+/// Pure derivation of [`QueueStatsSample`] from the GLOBAL dead-letter queue and
+/// the live eval-lane depth at a reference time `now`. Separated from I/O so it
+/// can be tested deterministically.
+///
+/// `dead_letters` MUST be the unfiltered, deployment-wide DLQ (every tenant) so
+/// the depth/age gauges reflect the whole deployment (the bug this replaces only
+/// ever sampled the default tenant's subset). Per-lane figures filter by the
+/// dead-lettered message `kind`.
+fn compute_queue_stats(
+    dead_letters: &[DeadLetter],
+    eval_queue_depth: usize,
+    now: chrono::DateTime<chrono::Utc>,
+) -> QueueStatsSample {
+    // Whole-deployment DLQ count + oldest-failure age (all lanes, all tenants).
+    let dlq_count = dead_letters.len();
+    let dlq_oldest_age_seconds =
+        oldest_age_seconds(dead_letters.iter().map(|dl| dl.failed_at), now);
+
+    // Per-lane (`trace.ingested`) figures, attributed by message kind. The lane
+    // label `trace.ingested` corresponds to messages of kind TRACE_INGESTED_KIND.
+    let eval_lane_enqueued = dead_letters
         .iter()
-        .map(|dl| dl.message.enqueued_at)
-        .min();
-    let queue_lag_seconds = oldest_enqueued
-        .map(|ts| (now - ts).num_milliseconds().max(0) as f64 / 1000.0)
-        .unwrap_or(0.0);
+        .filter(|dl| dl.message.kind == TRACE_INGESTED_KIND)
+        .map(|dl| dl.message.enqueued_at);
+    let queue_lag_seconds = oldest_age_seconds(eval_lane_enqueued, now);
+
     QueueStatsSample {
-        eval_queue_depth: status.trace_ingested_depth,
+        eval_queue_depth,
         eval_queue_oldest_age_seconds: queue_lag_seconds,
         dlq_count,
         dlq_oldest_age_seconds,
@@ -539,33 +579,74 @@ fn compute_queue_stats(status: &IngestQueueStatus, now: chrono::DateTime<chrono:
     }
 }
 
-/// R13.4 / R13.6 / R13.8 — periodically sample queue health for one scope and
-/// publish it to the metrics registry.
+/// R13.4 / R13.6 / R13.8 — periodically sample GLOBAL queue health (across all
+/// tenants) and publish it to the metrics registry. The sampler is the SOLE
+/// writer of the `*_oldest_age_seconds` gauges (drain workers only set DLQ
+/// depth), so the two never race on the age series.
 fn spawn_queue_stats_sampler(
-    ingest: IngestService,
-    tenant_id: TenantId,
-    project_id: ProjectId,
+    bus: Arc<dyn DurableBus>,
+    default_tenant: TenantId,
     interval: Duration,
     metrics: metrics::Metrics,
 ) {
     tokio::spawn(async move {
         let mut ticker = tokio::time::interval(interval);
-        let tenant_label = tenant_id.as_str().to_string();
+        // The lag gauge is labelled by tenant; we attribute the deployment-wide
+        // DLQ-derived lag to the deployment's default tenant — a stable, bounded
+        // label that keeps cardinality flat.
+        let tenant_label = default_tenant.as_str().to_string();
         loop {
             ticker.tick().await;
-            let status = match ingest
-                .queue_status(tenant_id.clone(), project_id.clone())
-                .await
-            {
-                Ok(status) => status,
+            // Unfiltered, deployment-wide DLQ — every tenant, so `beater_dlq_depth`
+            // reflects the whole deployment rather than a single tenant subset.
+            let dead_letters = match bus.dlq().await {
+                Ok(dead_letters) => dead_letters,
                 Err(error) => {
-                    eprintln!("queue status sample failed: {error}");
+                    eprintln!("queue stats DLQ sample failed: {error}");
                     continue;
                 }
             };
-            let sample = compute_queue_stats(&status, chrono::Utc::now());
+            // Live eval-lane depth (count of pending, non-failed messages).
+            let eval_queue_depth = match bus.depth_for_kind(TRACE_INGESTED_KIND).await {
+                Ok(depth) => depth,
+                Err(error) => {
+                    eprintln!("queue stats eval-depth sample failed: {error}");
+                    continue;
+                }
+            };
+            // Per-lane DLQ depths across all tenants, attributed by message kind.
+            let trace_ingested_dlq = dead_letters
+                .iter()
+                .filter(|dl| dl.message.kind == TRACE_INGESTED_KIND)
+                .count();
+            let trace_write_dlq = dead_letters
+                .iter()
+                .filter(|dl| dl.message.kind == TRACE_WRITE_BATCH_KIND)
+                .count();
+            let now = chrono::Utc::now();
+            let trace_write_oldest_age = oldest_age_seconds(
+                dead_letters
+                    .iter()
+                    .filter(|dl| dl.message.kind == TRACE_WRITE_BATCH_KIND)
+                    .map(|dl| dl.failed_at),
+                now,
+            );
+            let trace_ingested_oldest_age = oldest_age_seconds(
+                dead_letters
+                    .iter()
+                    .filter(|dl| dl.message.kind == TRACE_INGESTED_KIND)
+                    .map(|dl| dl.failed_at),
+                now,
+            );
+
+            let sample = compute_queue_stats(&dead_letters, eval_queue_depth, now);
             metrics.set_eval_queue(sample.eval_queue_depth, sample.eval_queue_oldest_age_seconds);
-            metrics.set_dlq("trace.ingested", sample.dlq_count, sample.dlq_oldest_age_seconds);
+            // Sampler owns BOTH the per-lane DLQ depth (global) and the per-lane
+            // oldest-age gauge. Workers only ever set depth.
+            metrics.set_dlq_depth("trace.ingested", trace_ingested_dlq);
+            metrics.set_dlq_depth("trace.write", trace_write_dlq);
+            metrics.set_dlq_oldest_age("trace.ingested", trace_ingested_oldest_age);
+            metrics.set_dlq_oldest_age("trace.write", trace_write_oldest_age);
             metrics.set_queue_lag("trace.ingested", &tenant_label, sample.queue_lag_seconds);
         }
     });
@@ -882,20 +963,22 @@ impl<I: SourceImporter> SourceImporter for MeteredImporter<I> {
 #[cfg(test)]
 mod queue_stats_tests {
     use super::*;
-    use beater_bus::{BusMessage, DeadLetter};
+    use beater_bus::BusMessage;
     use beater_core::{IdempotencyKey, ProjectId, TenantId};
     use chrono::{Duration as ChronoDuration, Utc};
 
-    fn dead_letter(
+    fn dead_letter_for(
+        tenant: &str,
+        kind: &str,
         enqueued_offset_s: i64,
         failed_offset_s: i64,
         now: chrono::DateTime<Utc>,
     ) -> DeadLetter {
         let mut message = BusMessage::new(
-            TenantId::new("demo").expect("tenant"),
+            TenantId::new(tenant).expect("tenant"),
             ProjectId::new("demo").expect("project"),
             IdempotencyKey::new("k").expect("key"),
-            "trace.ingested",
+            kind,
             vec![],
         );
         message.enqueued_at = now - ChronoDuration::seconds(enqueued_offset_s);
@@ -906,18 +989,25 @@ mod queue_stats_tests {
         }
     }
 
+    fn dead_letter(
+        enqueued_offset_s: i64,
+        failed_offset_s: i64,
+        now: chrono::DateTime<Utc>,
+    ) -> DeadLetter {
+        dead_letter_for(
+            "demo",
+            TRACE_INGESTED_KIND,
+            enqueued_offset_s,
+            failed_offset_s,
+            now,
+        )
+    }
+
     #[test]
     fn compute_queue_stats_uses_oldest_timestamps() {
         let now = Utc::now();
-        let status = IngestQueueStatus {
-            tenant_id: TenantId::new("demo").expect("tenant"),
-            project_id: ProjectId::new("demo").expect("project"),
-            total_depth: 9,
-            trace_write_depth: 4,
-            trace_ingested_depth: 5,
-            dead_letters: vec![dead_letter(30, 20, now), dead_letter(90, 60, now)],
-        };
-        let sample = compute_queue_stats(&status, now);
+        let dead_letters = vec![dead_letter(30, 20, now), dead_letter(90, 60, now)];
+        let sample = compute_queue_stats(&dead_letters, 5, now);
         assert_eq!(sample.eval_queue_depth, 5);
         assert_eq!(sample.dlq_count, 2);
         // Oldest failed_at is 60s ago; oldest enqueued is 90s ago.
@@ -928,18 +1018,49 @@ mod queue_stats_tests {
     #[test]
     fn compute_queue_stats_empty_dlq_is_zero_age() {
         let now = Utc::now();
-        let status = IngestQueueStatus {
-            tenant_id: TenantId::new("demo").expect("tenant"),
-            project_id: ProjectId::new("demo").expect("project"),
-            total_depth: 0,
-            trace_write_depth: 0,
-            trace_ingested_depth: 3,
-            dead_letters: vec![],
-        };
-        let sample = compute_queue_stats(&status, now);
+        let sample = compute_queue_stats(&[], 3, now);
         assert_eq!(sample.eval_queue_depth, 3);
         assert_eq!(sample.dlq_count, 0);
         assert_eq!(sample.dlq_oldest_age_seconds, 0.0);
         assert_eq!(sample.queue_lag_seconds, 0.0);
+    }
+
+    /// R13.6 regression for the must-fix: the DLQ count/age must reflect the
+    /// WHOLE deployment (every tenant), not just the default tenant's subset.
+    #[test]
+    fn compute_queue_stats_counts_all_tenants_globally() {
+        let now = Utc::now();
+        // Dead letters from three different tenants. The old code sampled only
+        // one tenant via queue_status's tenant filter and would have counted 1.
+        let dead_letters = vec![
+            dead_letter_for("tenant-a", TRACE_INGESTED_KIND, 10, 5, now),
+            dead_letter_for("tenant-b", TRACE_INGESTED_KIND, 40, 30, now),
+            dead_letter_for("tenant-c", TRACE_INGESTED_KIND, 70, 50, now),
+        ];
+        let sample = compute_queue_stats(&dead_letters, 0, now);
+        assert_eq!(sample.dlq_count, 3, "all tenants must be visible globally");
+        // Oldest failure across tenants is 50s ago; oldest enqueue is 70s ago.
+        assert!((sample.dlq_oldest_age_seconds - 50.0).abs() < 1.5);
+        assert!((sample.queue_lag_seconds - 70.0).abs() < 1.5);
+    }
+
+    /// R13.8: per-lane queue lag is attributed by message kind — write-batch
+    /// dead letters must not bleed into the trace.ingested lane lag.
+    #[test]
+    fn compute_queue_stats_lag_is_per_lane_by_kind() {
+        let now = Utc::now();
+        let dead_letters = vec![
+            // An old write-batch failure that should NOT affect ingested lag.
+            dead_letter_for("demo", TRACE_WRITE_BATCH_KIND, 300, 290, now),
+            // A newer ingested failure that DOES define the ingested lane lag.
+            dead_letter_for("demo", TRACE_INGESTED_KIND, 40, 30, now),
+        ];
+        let sample = compute_queue_stats(&dead_letters, 0, now);
+        // Global DLQ count spans both lanes.
+        assert_eq!(sample.dlq_count, 2);
+        // Lane lag is from the ingested message (40s), not the write-batch (300s).
+        assert!((sample.queue_lag_seconds - 40.0).abs() < 1.5);
+        // Global oldest failure age still spans all lanes (290s).
+        assert!((sample.dlq_oldest_age_seconds - 290.0).abs() < 1.5);
     }
 }

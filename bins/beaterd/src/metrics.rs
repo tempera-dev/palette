@@ -20,7 +20,7 @@
 //!   ([`Metrics::record_normalizer_failure`]).
 //! * R13.8 — per-lane / per-tenant queue lag with cardinality-safe labels
 //!   ([`Metrics::set_queue_lag`]).
-//! * R13.9 — object-store read/write/delete failures
+//! * R13.9 — object-store read/write failures
 //!   ([`Metrics::record_object_store_op`]).
 //!
 //! All label values are passed through [`safe_label`], which clamps cardinality by
@@ -240,11 +240,11 @@ impl MetricsRegistry {
                 kind: FamilyKind::Counter(CounterFamily::default()),
             },
         );
-        // R13.9 — object-store read/write/delete failures.
+        // R13.9 — object-store read/write failures.
         families.insert(
             "beater_object_store_ops_total",
             Family {
-                help: "Object-store operations by op (read|write|delete) and result.",
+                help: "Object-store operations by op (read|write) and result.",
                 kind: FamilyKind::Counter(CounterFamily::default()),
             },
         );
@@ -259,22 +259,26 @@ impl MetricsRegistry {
         families.insert(
             "beater_eval_queue_oldest_age_seconds",
             Family {
-                help: "Age in seconds of the oldest pending eval queue item.",
+                help: "DLQ-DERIVED: age in seconds of the oldest dead-lettered eval-lane \
+                       message. This is NOT live-backlog age of non-failed pending items \
+                       (the bus exposes no live peek), so a growing healthy backlog reads 0.",
                 kind: FamilyKind::Gauge(GaugeFamily::default()),
             },
         );
-        // R13.6 — DLQ age/count.
+        // R13.6 — DLQ age/count. The depth gauge reflects the WHOLE deployment
+        // (unfiltered global DLQ), not a single tenant; see the sampler.
         families.insert(
             "beater_dlq_depth",
             Family {
-                help: "Dead-letter queue depth by lane.",
+                help: "Dead-letter queue depth by lane, across all tenants (global DLQ).",
                 kind: FamilyKind::Gauge(GaugeFamily::default()),
             },
         );
         families.insert(
             "beater_dlq_oldest_age_seconds",
             Family {
-                help: "Age in seconds of the oldest dead-lettered message by lane.",
+                help: "Age in seconds of the oldest dead-lettered message by lane, across all \
+                       tenants (global DLQ).",
                 kind: FamilyKind::Gauge(GaugeFamily::default()),
             },
         );
@@ -282,7 +286,9 @@ impl MetricsRegistry {
         families.insert(
             "beater_queue_lag_seconds",
             Family {
-                help: "Queue lag in seconds by lane and tenant (cardinality-safe).",
+                help: "DLQ-DERIVED queue lag in seconds by lane and tenant (cardinality-safe). \
+                       Measured from the oldest dead-lettered message's enqueue time, NOT from \
+                       a live backlog peek, so a growing non-failed backlog reads 0.",
                 kind: FamilyKind::Gauge(GaugeFamily::default()),
             },
         );
@@ -440,11 +446,16 @@ impl OpResult {
 }
 
 /// Object-store operation kind (R13.9).
+///
+/// Only the operations `ArtifactStore` actually performs are represented. There
+/// is intentionally no `Delete` variant: `ArtifactStore` has no delete operation,
+/// so a `delete` label would be a documented-but-never-produced series. If a
+/// delete operation is added to `ArtifactStore`, add the variant here (and its
+/// label) at the same time so the label domain stays truthful.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ObjectStoreOp {
     Read,
     Write,
-    Delete,
 }
 
 impl ObjectStoreOp {
@@ -452,7 +463,6 @@ impl ObjectStoreOp {
         match self {
             ObjectStoreOp::Read => "read",
             ObjectStoreOp::Write => "write",
-            ObjectStoreOp::Delete => "delete",
         }
     }
 }
@@ -524,11 +534,24 @@ impl Metrics {
 
     // ---- R13.6: DLQ age/count -------------------------------------------
 
-    /// Set dead-letter queue depth and oldest-message age (seconds) per lane.
-    pub fn set_dlq(&self, lane: &str, depth: usize, oldest_age_seconds: f64) {
+    /// Set dead-letter queue depth (count) for a lane.
+    ///
+    /// Depth is owned by whoever observes a fresh count: drain workers report the
+    /// per-drain DLQ delta for their lane, while the queue-stats sampler reports
+    /// the unfiltered global DLQ count. The companion `*_oldest_age_seconds`
+    /// gauge is owned EXCLUSIVELY by the sampler (see [`Metrics::set_dlq_oldest_age`])
+    /// so the two writers never race on the age series.
+    pub fn set_dlq_depth(&self, lane: &str, depth: usize) {
         if let Some(g) = self.registry.gauge("beater_dlq_depth") {
             g.set(labels(&[("lane", lane)]), depth as f64);
         }
+    }
+
+    /// Set the oldest dead-lettered message age (seconds) for a lane.
+    ///
+    /// Owned EXCLUSIVELY by the queue-stats sampler so it is the single writer of
+    /// the age series; drain workers only set depth via [`Metrics::set_dlq_depth`].
+    pub fn set_dlq_oldest_age(&self, lane: &str, oldest_age_seconds: f64) {
         if let Some(g) = self.registry.gauge("beater_dlq_oldest_age_seconds") {
             g.set(labels(&[("lane", lane)]), oldest_age_seconds.max(0.0));
         }
@@ -693,7 +716,8 @@ mod tests {
     fn eval_queue_and_dlq_gauges() {
         let m = Metrics::new();
         m.set_eval_queue(7, 42.5);
-        m.set_dlq("trace.write", 2, 90.0);
+        m.set_dlq_depth("trace.write", 2);
+        m.set_dlq_oldest_age("trace.write", 90.0);
         let out = m.render();
         assert!(out.contains("beater_eval_queue_depth 7"));
         assert!(out.contains("beater_eval_queue_oldest_age_seconds 42.5"));
@@ -728,11 +752,9 @@ mod tests {
         let m = Metrics::new();
         m.record_object_store_op(ObjectStoreOp::Read, OpResult::Failure);
         m.record_object_store_op(ObjectStoreOp::Write, OpResult::Success);
-        m.record_object_store_op(ObjectStoreOp::Delete, OpResult::Failure);
         let out = m.render();
         assert!(out.contains("beater_object_store_ops_total{op=\"read\",result=\"failure\"} 1"));
         assert!(out.contains("beater_object_store_ops_total{op=\"write\",result=\"success\"} 1"));
-        assert!(out.contains("beater_object_store_ops_total{op=\"delete\",result=\"failure\"} 1"));
     }
 
     #[test]
