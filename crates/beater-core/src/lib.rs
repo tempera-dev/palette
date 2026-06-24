@@ -46,7 +46,18 @@ pub enum IdError {
 
 macro_rules! id_type {
     ($name:ident) => {
-        #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+        #[derive(
+            Clone,
+            Debug,
+            PartialEq,
+            Eq,
+            PartialOrd,
+            Ord,
+            Hash,
+            Serialize,
+            Deserialize,
+            utoipa::ToSchema,
+        )]
         #[serde(transparent)]
         pub struct $name(String);
 
@@ -126,7 +137,7 @@ id_type!(WebhookEndpointId);
 id_type!(IdempotencyKey);
 id_type!(Sha256Hash);
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct TenantScope {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -143,7 +154,7 @@ impl TenantScope {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub enum Currency {
     #[serde(rename = "USD")]
     Usd,
@@ -171,7 +182,7 @@ pub enum MoneyError {
     Overflow,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct Money {
     pub amount_micros: i64,
     pub currency: Currency,
@@ -219,7 +230,7 @@ impl Money {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct TokenCounts {
     pub input: u64,
     pub output: u64,
@@ -255,7 +266,7 @@ pub fn lower_hex(bytes: &[u8]) -> String {
     bytes.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct PageRequest {
     pub limit: u32,
     pub cursor: Option<String>,
@@ -270,7 +281,7 @@ impl Default for PageRequest {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct Page<T> {
     pub items: Vec<T>,
     pub next_cursor: Option<String>,

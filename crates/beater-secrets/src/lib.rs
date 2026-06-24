@@ -36,7 +36,7 @@ impl Debug for PutProviderSecretRequest {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ProviderSecretMetadata {
     pub provider_secret_id: ProviderSecretId,
     pub tenant_id: TenantId,
@@ -44,7 +44,9 @@ pub struct ProviderSecretMetadata {
     pub provider: String,
     pub display_name: String,
     pub active: bool,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
+    #[schema(value_type = Option<String>, format = DateTime)]
     pub rotated_at: Option<Timestamp>,
 }
 
@@ -79,10 +81,11 @@ impl Debug for ProviderSecret {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct RevokedProviderSecret {
     pub provider_secret_id: ProviderSecretId,
     pub active: bool,
+    #[schema(value_type = String, format = DateTime)]
     pub rotated_at: Timestamp,
 }
 

@@ -83,6 +83,17 @@ use tonic::Request as TonicRequest;
 #[derive(Debug, Parser)]
 #[command(name = "beaterctl", about = "Beater local development and CI helper")]
 struct Args {
+    /// Base URL of the Beater API for remote commands.
+    #[arg(
+        long,
+        global = true,
+        env = "BEATER_BASE_URL",
+        default_value = "http://127.0.0.1:8080"
+    )]
+    base_url: String,
+    /// API key sent as `Authorization: Bearer <key>` on remote requests.
+    #[arg(long, global = true, env = "BEATER_API_KEY")]
+    api_key: Option<String>,
     #[command(subcommand)]
     command: Command,
 }
@@ -104,6 +115,23 @@ enum Command {
         environment_id: String,
         #[arg(long, default_value_t = 5000)]
         timeout_ms: u64,
+    },
+    /// Call any Beater API endpoint by its OpenAPI operationId.
+    ///
+    /// The operation's HTTP method and path template are resolved from the
+    /// in-process OpenAPI spec (the same contract the SDKs are generated from),
+    /// so the CLI never drifts from the server surface.
+    Api {
+        /// OpenAPI operationId, e.g. `listTraces`.
+        operation_id: String,
+        /// Path/query parameters as `key=value`. Path params (matching
+        /// `{name}` in the template) are substituted; the rest become query
+        /// string parameters.
+        #[arg(long = "param", value_name = "KEY=VALUE")]
+        params: Vec<String>,
+        /// Request body for non-GET operations: literal JSON or `@path/to/file`.
+        #[arg(long)]
+        body: Option<String>,
     },
     Gate {
         #[arg(long, value_delimiter = ',')]
@@ -275,6 +303,8 @@ impl From<InconclusivePolicyArg> for InconclusivePolicy {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
+    let base_url = args.base_url;
+    let api_key = args.api_key;
     match args.command {
         Command::Smoke {
             data_dir,
@@ -293,12 +323,20 @@ async fn main() -> anyhow::Result<()> {
                     project_id,
                     environment_id,
                     timeout_ms,
+                    api_key.as_deref(),
                 )
                 .await?
             } else {
                 run_local_smoke(data_dir).await?
             };
             println!("{}", serde_json::to_string_pretty(&output)?);
+        }
+        Command::Api {
+            operation_id,
+            params,
+            body,
+        } => {
+            run_api_call(&base_url, api_key.as_deref(), &operation_id, &params, body).await?;
         }
         Command::Gate {
             baseline,
@@ -1838,6 +1876,7 @@ async fn run_remote_smoke(
     project_id: String,
     environment_id: String,
     timeout_ms: u64,
+    api_key: Option<&str>,
 ) -> anyhow::Result<serde_json::Value> {
     let (trace_bytes, span_bytes) = smoke_ids();
     let trace_id = lower_hex(&trace_bytes);
@@ -1850,6 +1889,7 @@ async fn run_remote_smoke(
             &tenant_id,
             &project_id,
             &environment_id,
+            api_key,
         )
         .await?;
         "grpc"
@@ -1860,6 +1900,7 @@ async fn run_remote_smoke(
             &project_id,
             &environment_id,
             &encode_export_trace_request(&export),
+            api_key,
         )
         .await?;
         "http"
@@ -1869,6 +1910,7 @@ async fn run_remote_smoke(
         &tenant_id,
         &trace_id,
         StdDuration::from_millis(timeout_ms),
+        api_key,
     )
     .await?;
     let trace_query_lag_ms = started.elapsed().as_millis() as u64;
@@ -1889,12 +1931,23 @@ async fn run_remote_smoke(
     }))
 }
 
+/// Attach `Authorization: Bearer <key>` when an API key is configured.
+///
+/// Backward compatible: when `api_key` is `None` the request is unchanged.
+fn with_bearer(builder: reqwest::RequestBuilder, api_key: Option<&str>) -> reqwest::RequestBuilder {
+    match api_key {
+        Some(key) => builder.bearer_auth(key),
+        None => builder,
+    }
+}
+
 async fn emit_remote_http(
     http_url: &str,
     tenant_id: &str,
     project_id: &str,
     environment_id: &str,
     body: &[u8],
+    api_key: Option<&str>,
 ) -> anyhow::Result<()> {
     let url = format!(
         "{}/v1/otlp/{}/{}/{}/v1/traces?durability=buffered",
@@ -1903,10 +1956,11 @@ async fn emit_remote_http(
         project_id,
         environment_id
     );
-    reqwest::Client::new()
+    let request = reqwest::Client::new()
         .post(url)
         .header("content-type", "application/x-protobuf")
-        .body(body.to_vec())
+        .body(body.to_vec());
+    with_bearer(request, api_key)
         .send()
         .await
         .context("send OTLP HTTP smoke trace")?
@@ -1921,6 +1975,7 @@ async fn emit_remote_grpc(
     tenant_id: &str,
     project_id: &str,
     environment_id: &str,
+    api_key: Option<&str>,
 ) -> anyhow::Result<()> {
     let mut client = TraceServiceClient::connect(otlp_grpc_url)
         .await
@@ -1935,6 +1990,11 @@ async fn emit_remote_grpc(
     request
         .metadata_mut()
         .insert("x-beater-environment-id", metadata_value(environment_id)?);
+    if let Some(key) = api_key {
+        request
+            .metadata_mut()
+            .insert("authorization", metadata_value(&format!("Bearer {key}"))?);
+    }
     client
         .export(request)
         .await
@@ -1947,6 +2007,7 @@ async fn wait_for_remote_trace(
     tenant_id: &str,
     trace_id: &str,
     timeout: StdDuration,
+    api_key: Option<&str>,
 ) -> anyhow::Result<serde_json::Value> {
     let url = format!(
         "{}/v1/traces/{}/{}",
@@ -1957,8 +2018,7 @@ async fn wait_for_remote_trace(
     let client = reqwest::Client::new();
     let deadline = tokio::time::Instant::now() + timeout;
     loop {
-        let trace = client
-            .get(&url)
+        let trace = with_bearer(client.get(&url), api_key)
             .send()
             .await
             .context("read smoke trace")?
@@ -1995,6 +2055,189 @@ fn metadata_value(value: &str) -> anyhow::Result<MetadataValue<tonic::metadata::
     value
         .parse()
         .map_err(|err| anyhow::anyhow!("invalid gRPC metadata value {value:?}: {err}"))
+}
+
+/// A resolved OpenAPI operation: its HTTP method and path template.
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct ResolvedOperation {
+    method: String,
+    path_template: String,
+}
+
+/// The HTTP methods utoipa/OpenAPI can attach to a path item.
+const HTTP_METHODS: [&str; 7] = [
+    "get", "put", "post", "delete", "options", "head", "patch",
+];
+
+/// Find the operation with the given `operationId` in the OpenAPI document.
+///
+/// `spec` is the OpenAPI document serialized to JSON (e.g. from
+/// `beater_api::openapi::openapi()`). Returns the HTTP method (uppercased) and
+/// the path template (e.g. `/v1/traces/{tenant_id}`).
+fn resolve_operation(
+    spec: &serde_json::Value,
+    operation_id: &str,
+) -> anyhow::Result<ResolvedOperation> {
+    let paths = spec
+        .get("paths")
+        .and_then(serde_json::Value::as_object)
+        .context("OpenAPI document has no `paths` object")?;
+    for (path_template, item) in paths {
+        let Some(item) = item.as_object() else {
+            continue;
+        };
+        for method in HTTP_METHODS {
+            let Some(op) = item.get(method) else {
+                continue;
+            };
+            if op.get("operationId").and_then(serde_json::Value::as_str) == Some(operation_id) {
+                return Ok(ResolvedOperation {
+                    method: method.to_ascii_uppercase(),
+                    path_template: path_template.clone(),
+                });
+            }
+        }
+    }
+    anyhow::bail!("no operation with operationId `{operation_id}` found in the OpenAPI spec")
+}
+
+/// Parse `key=value` params into an ordered list of pairs.
+fn parse_params(params: &[String]) -> anyhow::Result<Vec<(String, String)>> {
+    params
+        .iter()
+        .map(|raw| {
+            raw.split_once('=')
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .with_context(|| format!("invalid --param `{raw}`; expected key=value"))
+        })
+        .collect()
+}
+
+/// Substitute `{name}` placeholders in the template with matching params.
+///
+/// Returns the filled path and the params that were NOT consumed as path
+/// segments (those become query-string parameters). Errors if a template
+/// placeholder has no matching param.
+fn fill_path_template(
+    path_template: &str,
+    params: &[(String, String)],
+) -> anyhow::Result<(String, Vec<(String, String)>)> {
+    let mut path = path_template.to_string();
+    let mut leftover = Vec::new();
+    let mut used = std::collections::BTreeSet::new();
+
+    // Determine which param keys correspond to placeholders.
+    for (key, value) in params {
+        let placeholder = format!("{{{key}}}");
+        if path.contains(&placeholder) {
+            path = path.replace(&placeholder, &urlencode(value));
+            used.insert(key.clone());
+        }
+    }
+    for (key, value) in params {
+        if !used.contains(key) {
+            leftover.push((key.clone(), value.clone()));
+        }
+    }
+
+    // Any remaining `{...}` placeholder means a required path param was missing.
+    if let Some(start) = path.find('{') {
+        if let Some(end) = path[start..].find('}') {
+            let missing = &path[start + 1..start + end];
+            anyhow::bail!(
+                "missing --param `{missing}` for path parameter in `{path_template}`"
+            );
+        }
+    }
+
+    Ok((path, leftover))
+}
+
+/// Percent-encode a value for safe inclusion in a URL path or query.
+fn urlencode(value: &str) -> String {
+    let mut out = String::with_capacity(value.len());
+    for byte in value.bytes() {
+        match byte {
+            b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'-' | b'_' | b'.' | b'~' => {
+                out.push(byte as char);
+            }
+            _ => out.push_str(&format!("%{byte:02X}")),
+        }
+    }
+    out
+}
+
+/// Build the full request URL from base, filled path, and query params.
+fn build_request_url(base_url: &str, path: &str, query: &[(String, String)]) -> String {
+    let mut url = format!("{}{path}", trim_url(base_url));
+    if !query.is_empty() {
+        let qs = query
+            .iter()
+            .map(|(k, v)| format!("{}={}", urlencode(k), urlencode(v)))
+            .collect::<Vec<_>>()
+            .join("&");
+        url.push('?');
+        url.push_str(&qs);
+    }
+    url
+}
+
+/// Resolve `--body` (literal JSON or `@file`) into a JSON value.
+fn load_body(body: &str) -> anyhow::Result<serde_json::Value> {
+    let raw = if let Some(path) = body.strip_prefix('@') {
+        std::fs::read_to_string(path).with_context(|| format!("read --body file `{path}`"))?
+    } else {
+        body.to_string()
+    };
+    serde_json::from_str(&raw).context("parse --body as JSON")
+}
+
+async fn run_api_call(
+    base_url: &str,
+    api_key: Option<&str>,
+    operation_id: &str,
+    params: &[String],
+    body: Option<String>,
+) -> anyhow::Result<()> {
+    let spec = serde_json::to_value(beater_api::openapi::openapi())
+        .context("serialize OpenAPI spec")?;
+    let op = resolve_operation(&spec, operation_id)?;
+    let parsed = parse_params(params)?;
+    let (path, query) = fill_path_template(&op.path_template, &parsed)?;
+    let url = build_request_url(base_url, &path, &query);
+
+    let method = reqwest::Method::from_bytes(op.method.as_bytes())
+        .with_context(|| format!("invalid HTTP method `{}`", op.method))?;
+    let is_get = method == reqwest::Method::GET;
+
+    let mut request = reqwest::Client::new().request(method, &url);
+    if let Some(body) = body {
+        if is_get {
+            anyhow::bail!("operation `{operation_id}` is GET; --body is not allowed");
+        }
+        request = request.json(&load_body(&body)?);
+    }
+    request = with_bearer(request, api_key);
+
+    let response = request
+        .send()
+        .await
+        .with_context(|| format!("send {} {url}", op.method))?;
+    let status = response.status();
+    let text = response.text().await.context("read response body")?;
+
+    println!(
+        "{} {}",
+        status.as_u16(),
+        status.canonical_reason().unwrap_or("")
+    );
+    if !text.is_empty() {
+        println!("{text}");
+    }
+    if !status.is_success() {
+        anyhow::bail!("request failed with status {}", status.as_u16());
+    }
+    Ok(())
 }
 
 fn smoke_ids() -> ([u8; 16], [u8; 8]) {
@@ -2333,5 +2576,62 @@ impl TraceStore for UnavailableTraceStore {
         _page: PageRequest,
     ) -> beater_store::StoreResult<Page<SpanSummary>> {
         Err(StoreError::Backend("trace store unavailable".to_string()))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn spec() -> anyhow::Result<serde_json::Value> {
+        serde_json::to_value(beater_api::openapi::openapi()).context("serialize spec")
+    }
+
+    #[test]
+    fn resolves_list_traces_operation() -> anyhow::Result<()> {
+        let op = resolve_operation(&spec()?, "listTraces")?;
+        assert_eq!(op.method, "GET");
+        assert_eq!(op.path_template, "/v1/traces/{tenant_id}");
+        Ok(())
+    }
+
+    #[test]
+    fn substitutes_path_param_and_keeps_query() -> anyhow::Result<()> {
+        let params = parse_params(&["tenant_id=acme".to_string(), "limit=50".to_string()])?;
+        let (path, query) = fill_path_template("/v1/traces/{tenant_id}", &params)?;
+        assert_eq!(path, "/v1/traces/acme");
+        assert_eq!(query, vec![("limit".to_string(), "50".to_string())]);
+        Ok(())
+    }
+
+    #[test]
+    fn end_to_end_url_for_list_traces() -> anyhow::Result<()> {
+        let op = resolve_operation(&spec()?, "listTraces")?;
+        let params = parse_params(&["tenant_id=acme".to_string()])?;
+        let (path, query) = fill_path_template(&op.path_template, &params)?;
+        let url = build_request_url("http://127.0.0.1:8080/", &path, &query);
+        assert_eq!(url, "http://127.0.0.1:8080/v1/traces/acme");
+        Ok(())
+    }
+
+    #[test]
+    fn missing_path_param_errors() -> anyhow::Result<()> {
+        let params = parse_params(&[])?;
+        let err = match fill_path_template("/v1/traces/{tenant_id}", &params) {
+            Ok(filled) => anyhow::bail!("expected missing-param error, got {filled:?}"),
+            Err(err) => err,
+        };
+        assert!(err.to_string().contains("tenant_id"), "got: {err}");
+        Ok(())
+    }
+
+    #[test]
+    fn unknown_operation_id_errors() -> anyhow::Result<()> {
+        let err = match resolve_operation(&spec()?, "doesNotExist") {
+            Ok(op) => anyhow::bail!("expected resolution failure, got {op:?}"),
+            Err(err) => err,
+        };
+        assert!(err.to_string().contains("doesNotExist"), "got: {err}");
+        Ok(())
     }
 }

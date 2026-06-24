@@ -372,12 +372,12 @@ pub struct SearchRequest {
     pub limit: Option<u32>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct SearchResponse {
     pub hits: Vec<SearchHit>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct SearchHit {
     pub score: f32,
     pub tenant_id: String,

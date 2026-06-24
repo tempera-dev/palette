@@ -101,6 +101,197 @@ impl AgentSpanKind {
     }
 }
 
+/// The span kinds that SDK clients are allowed to emit -- the cross-language
+/// ingest contract. This deliberately excludes server-internal kinds
+/// (`human.review`, `evaluator.run`, `replay.run`) that are produced by the
+/// platform, not by instrumented agents.
+///
+/// Listing the variants here (rather than iterating every enum variant) means
+/// adding a *client* kind requires adding it to this slice, which automatically
+/// flows into `conventions::span_kinds()` and the regenerated SDK contract.
+pub const CLIENT_SPAN_KINDS: &[AgentSpanKind] = &[
+    AgentSpanKind::AgentRun,
+    AgentSpanKind::AgentTurn,
+    AgentSpanKind::AgentPlan,
+    AgentSpanKind::AgentStep,
+    AgentSpanKind::LlmCall,
+    AgentSpanKind::ToolCall,
+    AgentSpanKind::McpRequest,
+    AgentSpanKind::RetrievalQuery,
+    AgentSpanKind::MemoryRead,
+    AgentSpanKind::MemoryWrite,
+    AgentSpanKind::GuardrailCheck,
+];
+
+/// The cross-language ingest contract: the single source of truth for the span
+/// kinds and attribute keys that every SDK must mirror.
+///
+/// `crates/xtask regen-semconv` serializes [`conventions_json`] to
+/// `sdks/semconv/conventions.json`, and `scripts/check-semconv-drift.py` asserts
+/// each language SDK's `semconv` file matches it. Nothing here may drift from the
+/// server without failing CI.
+pub mod conventions {
+    use super::CLIENT_SPAN_KINDS;
+
+    /// Canonical span attribute keys carried on every ingested span.
+    pub mod attr {
+        pub const SPAN_KIND: &str = "openinference.span.kind";
+        pub const SEQ: &str = "beater.seq";
+        pub const RELEASE_ID: &str = "agent.release_id";
+        pub const INPUT_VALUE: &str = "input.value";
+        pub const OUTPUT_VALUE: &str = "output.value";
+        pub const LLM_PROVIDER: &str = "llm.provider";
+        pub const LLM_MODEL_NAME: &str = "llm.model_name";
+        pub const LLM_TOKEN_PROMPT: &str = "llm.token_count.prompt";
+        pub const LLM_TOKEN_COMPLETION: &str = "llm.token_count.completion";
+        pub const LLM_TOKEN_REASONING: &str = "llm.token_count.reasoning";
+        pub const LLM_TOKEN_CACHE_READ: &str = "llm.token_count.cache_read";
+        pub const LLM_COST_MICROS: &str = "llm.cost.amount_micros";
+        pub const LLM_COST_CURRENCY: &str = "llm.cost.currency";
+
+        /// OTLP scope headers used to scope traces on ingest.
+        pub const HEADER_TENANT: &str = "x-beater-tenant-id";
+        pub const HEADER_PROJECT: &str = "x-beater-project-id";
+        pub const HEADER_ENVIRONMENT: &str = "x-beater-environment-id";
+
+        /// Every attribute key as `(name, value)`, in stable order. The `name`
+        /// is the symbolic constant SDKs expose; the `value` is the wire key.
+        pub const ALL: &[(&str, &str)] = &[
+            ("SPAN_KIND", SPAN_KIND),
+            ("SEQ", SEQ),
+            ("RELEASE_ID", RELEASE_ID),
+            ("INPUT_VALUE", INPUT_VALUE),
+            ("OUTPUT_VALUE", OUTPUT_VALUE),
+            ("LLM_PROVIDER", LLM_PROVIDER),
+            ("LLM_MODEL_NAME", LLM_MODEL_NAME),
+            ("LLM_TOKEN_PROMPT", LLM_TOKEN_PROMPT),
+            ("LLM_TOKEN_COMPLETION", LLM_TOKEN_COMPLETION),
+            ("LLM_TOKEN_REASONING", LLM_TOKEN_REASONING),
+            ("LLM_TOKEN_CACHE_READ", LLM_TOKEN_CACHE_READ),
+            ("LLM_COST_MICROS", LLM_COST_MICROS),
+            ("LLM_COST_CURRENCY", LLM_COST_CURRENCY),
+            ("HEADER_TENANT", HEADER_TENANT),
+            ("HEADER_PROJECT", HEADER_PROJECT),
+            ("HEADER_ENVIRONMENT", HEADER_ENVIRONMENT),
+        ];
+    }
+
+    /// Default SDK config values, single-sourced so SDK defaults can't drift.
+    pub mod defaults {
+        pub const BASE_URL: &str = "http://127.0.0.1:8080";
+        pub const TENANT: &str = "demo";
+        pub const PROJECT: &str = "demo";
+        pub const ENVIRONMENT: &str = "local";
+
+        /// Every default as `(name, value)`, in stable order.
+        pub const ALL: &[(&str, &str)] = &[
+            ("BASE_URL", BASE_URL),
+            ("TENANT", TENANT),
+            ("PROJECT", PROJECT),
+            ("ENVIRONMENT", ENVIRONMENT),
+        ];
+    }
+
+    /// `BEATER_*` environment variable names the SDKs read config from.
+    pub mod env {
+        pub const BASE_URL: &str = "BEATER_BASE_URL";
+        pub const TENANT_ID: &str = "BEATER_TENANT_ID";
+        pub const PROJECT_ID: &str = "BEATER_PROJECT_ID";
+        pub const ENVIRONMENT_ID: &str = "BEATER_ENVIRONMENT_ID";
+
+        /// Every env var as `(name, value)`, in stable order.
+        pub const ALL: &[(&str, &str)] = &[
+            ("BASE_URL", BASE_URL),
+            ("TENANT_ID", TENANT_ID),
+            ("PROJECT_ID", PROJECT_ID),
+            ("ENVIRONMENT_ID", ENVIRONMENT_ID),
+        ];
+    }
+
+    /// All client-emittable span kinds, as wire strings.
+    ///
+    /// Derived from [`CLIENT_SPAN_KINDS`] via `as_str()`, so adding a client
+    /// variant there automatically updates this (and the regenerated contract).
+    pub fn span_kinds() -> Vec<&'static str> {
+        CLIENT_SPAN_KINDS.iter().map(|kind| kind.as_str()).collect()
+    }
+
+    /// Render the full conventions contract as pretty JSON.
+    ///
+    /// Shape: `{"span_kinds":[...],"attributes":{NAME:value,...},
+    /// "defaults":{NAME:value,...},"env":{NAME:value,...}}`.
+    pub fn conventions_json() -> String {
+        use serde_json::{Map, Value};
+
+        let to_object = |pairs: &[(&str, &str)]| -> Value {
+            let mut map = Map::new();
+            for (name, value) in pairs {
+                map.insert((*name).to_string(), Value::String((*value).to_string()));
+            }
+            Value::Object(map)
+        };
+
+        let mut root = Map::new();
+        root.insert(
+            "span_kinds".to_string(),
+            Value::Array(
+                span_kinds()
+                    .into_iter()
+                    .map(|k| Value::String(k.to_string()))
+                    .collect(),
+            ),
+        );
+        root.insert("attributes".to_string(), to_object(attr::ALL));
+        root.insert("defaults".to_string(), to_object(defaults::ALL));
+        root.insert("env".to_string(), to_object(env::ALL));
+
+        match serde_json::to_string_pretty(&Value::Object(root)) {
+            Ok(mut json) => {
+                json.push('\n');
+                json
+            }
+            // Serializing a map of owned strings is infallible; fall back to a
+            // valid empty document rather than panicking to satisfy the
+            // workspace's no-unwrap/expect lint.
+            Err(_) => "{}\n".to_string(),
+        }
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+
+        #[test]
+        fn span_kinds_are_the_eleven_client_kinds() {
+            let kinds = span_kinds();
+            assert_eq!(kinds.len(), 11, "client span-kind count changed: {kinds:?}");
+            assert!(kinds.contains(&"agent.run"));
+            assert!(kinds.contains(&"guardrail.check"));
+            // Server-internal kinds must never leak into the SDK contract.
+            assert!(!kinds.contains(&"replay.run"));
+            assert!(!kinds.contains(&"evaluator.run"));
+            assert!(!kinds.contains(&"human.review"));
+        }
+
+        #[test]
+        fn conventions_json_is_well_formed() {
+            let json = conventions_json();
+            let parsed: serde_json::Value = serde_json::from_str(&json)
+                .unwrap_or_else(|err| panic!("conventions_json must be valid JSON: {err}"));
+            assert_eq!(
+                parsed["span_kinds"].as_array().map(Vec::len),
+                Some(11)
+            );
+            assert_eq!(
+                parsed["attributes"]["SPAN_KIND"].as_str(),
+                Some("openinference.span.kind")
+            );
+            assert_eq!(parsed["defaults"]["BASE_URL"].as_str(), Some("http://127.0.0.1:8080"));
+            assert_eq!(parsed["env"]["TENANT_ID"].as_str(), Some("BEATER_TENANT_ID"));
+        }
+    }
+}
+
 impl Serialize for AgentSpanKind {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -122,7 +313,21 @@ impl<'de> Deserialize<'de> for AgentSpanKind {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+impl utoipa::ToSchema for AgentSpanKind {}
+
+impl utoipa::PartialSchema for AgentSpanKind {
+    fn schema() -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema> {
+        utoipa::openapi::ObjectBuilder::new()
+            .schema_type(utoipa::openapi::schema::SchemaType::new(
+                utoipa::openapi::schema::Type::String,
+            ))
+            .description(Some("Canonical agent span kind such as agent.run or llm.call"))
+            .examples([serde_json::json!("llm.call")])
+            .into()
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum SpanStatus {
     Ok,
@@ -149,7 +354,7 @@ impl SpanStatus {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ArtifactRef {
     pub artifact_id: ArtifactId,
     pub uri: String,
@@ -159,7 +364,7 @@ pub struct ArtifactRef {
     pub redaction_class: RedactionClass,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RedactionClass {
     Public,
@@ -168,7 +373,7 @@ pub enum RedactionClass {
     Secret,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct AuthContext {
     pub api_key_id: Option<ApiKeyId>,
     pub scopes: BTreeSet<String>,
@@ -190,13 +395,13 @@ pub struct RawEnvelope {
     pub auth_context: AuthContext,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ModelRef {
     pub provider: String,
     pub name: String,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct CanonicalSpan {
     pub schema_version: u32,
     pub normalizer_version: String,
@@ -210,14 +415,18 @@ pub struct CanonicalSpan {
     pub kind: AgentSpanKind,
     pub name: String,
     pub status: SpanStatus,
+    #[schema(value_type = String, format = DateTime)]
     pub start_time: Timestamp,
+    #[schema(value_type = Option<String>, format = DateTime)]
     pub end_time: Option<Timestamp>,
     pub model: Option<ModelRef>,
     pub cost: Option<Money>,
     pub tokens: Option<TokenCounts>,
     pub input_ref: Option<ArtifactRef>,
     pub output_ref: Option<ArtifactRef>,
+    #[schema(value_type = std::collections::BTreeMap<String, serde_json::Value>)]
     pub attributes: CanonicalAttrs,
+    #[schema(value_type = serde_json::Value)]
     pub unmapped_attrs: Value,
     pub raw_ref: ArtifactRef,
 }
@@ -237,7 +446,7 @@ impl CanonicalTraceBatch {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct WriteAck {
     pub accepted_raw: usize,
     pub accepted_spans: usize,
@@ -245,14 +454,14 @@ pub struct WriteAck {
     pub duplicate_spans: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct TraceView {
     pub tenant_id: TenantId,
     pub trace_id: TraceId,
     pub spans: Vec<CanonicalSpan>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct RunSummary {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -260,7 +469,9 @@ pub struct RunSummary {
     pub first_span_name: String,
     pub span_count: usize,
     pub status: SpanStatus,
+    #[schema(value_type = String, format = DateTime)]
     pub started_at: Timestamp,
+    #[schema(value_type = Option<String>, format = DateTime)]
     pub ended_at: Option<Timestamp>,
     pub duration_ms: Option<i64>,
     pub total_cost: Option<Money>,
@@ -311,7 +522,7 @@ pub struct SpanFilter {
     pub status: Option<SpanStatus>,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum EvaluatorLane {
     DeterministicWasi,
@@ -320,7 +531,7 @@ pub enum EvaluatorLane {
     Hybrid,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct EvalReproducibility {
     pub dataset_version_id: DatasetVersionId,
     pub dataset_case_id: DatasetCaseId,
@@ -332,6 +543,7 @@ pub struct EvalReproducibility {
     pub wasi_abi_version: Option<String>,
     pub judge_model_id: Option<String>,
     pub judge_provider: Option<String>,
+    #[schema(value_type = serde_json::Value)]
     pub judge_parameters: Value,
     pub judge_seed: Option<u64>,
     pub judge_rubric_version: Option<String>,
@@ -340,7 +552,7 @@ pub struct EvalReproducibility {
     pub input_artifact_hashes: Vec<Sha256Hash>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct EvalResult {
     pub eval_result_id: EvalResultId,
     pub tenant_id: TenantId,
@@ -349,10 +561,12 @@ pub struct EvalResult {
     pub span_id: Option<SpanId>,
     pub score: f64,
     pub label: Option<String>,
+    #[schema(value_type = serde_json::Value)]
     pub evidence: Value,
     pub reproducibility: EvalReproducibility,
     pub cost: Option<Money>,
     pub tokens: Option<TokenCounts>,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
     pub non_reproducible_reason: Option<String>,
 }

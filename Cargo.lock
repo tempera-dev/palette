@@ -575,6 +575,7 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "tempfile",
+ "utoipa",
 ]
 
 [[package]]
@@ -640,6 +641,7 @@ dependencies = [
  "serde_json",
  "tempfile",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -656,6 +658,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -673,6 +676,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "utoipa",
 ]
 
 [[package]]
@@ -689,6 +693,7 @@ dependencies = [
  "tempfile",
  "thiserror 1.0.69",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -707,6 +712,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -719,6 +725,7 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "thiserror 1.0.69",
+ "utoipa",
 ]
 
 [[package]]
@@ -738,6 +745,7 @@ dependencies = [
  "serde_json",
  "tempfile",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -751,6 +759,7 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 1.0.69",
+ "utoipa",
 ]
 
 [[package]]
@@ -772,6 +781,7 @@ dependencies = [
  "tempfile",
  "thiserror 1.0.69",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -790,6 +800,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -808,6 +819,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -830,6 +842,7 @@ dependencies = [
  "tempfile",
  "thiserror 1.0.69",
  "tokio",
+ "utoipa",
 ]
 
 [[package]]
@@ -851,7 +864,40 @@ dependencies = [
  "serde_json",
  "thiserror 1.0.69",
  "tokio",
+ "utoipa",
  "uuid",
+]
+
+[[package]]
+name = "beater-mcp"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "axum 0.7.9",
+ "beater-alerts",
+ "beater-api",
+ "beater-archive",
+ "beater-audit",
+ "beater-bus",
+ "beater-calibration",
+ "beater-core",
+ "beater-datasets",
+ "beater-experiments",
+ "beater-gates",
+ "beater-human",
+ "beater-ingest",
+ "beater-judge",
+ "beater-search",
+ "beater-secrets",
+ "beater-store-obj",
+ "beater-store-sql",
+ "beater-usage",
+ "http",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tower",
 ]
 
 [[package]]
@@ -912,6 +958,7 @@ dependencies = [
  "chrono",
  "serde",
  "serde_json",
+ "utoipa",
 ]
 
 [[package]]
@@ -930,6 +977,7 @@ dependencies = [
  "tantivy",
  "tempfile",
  "tokio",
+ "utoipa",
 ]
 
 [[package]]
@@ -949,6 +997,7 @@ dependencies = [
  "serde_json",
  "tempfile",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -967,6 +1016,7 @@ dependencies = [
  "sha2 0.10.9",
  "subtle",
  "thiserror 1.0.69",
+ "utoipa",
  "uuid",
 ]
 
@@ -1053,6 +1103,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "utoipa",
  "uuid",
 ]
 
@@ -1063,6 +1114,7 @@ dependencies = [
  "anyhow",
  "async-trait",
  "beater-alerts",
+ "beater-api",
  "beater-audit",
  "beater-auth",
  "beater-bus",
@@ -1114,6 +1166,7 @@ dependencies = [
  "beater-human",
  "beater-ingest",
  "beater-judge",
+ "beater-mcp",
  "beater-otlp",
  "beater-replay",
  "beater-schema",
@@ -5821,6 +5874,16 @@ name = "writeable"
 version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ffae5123b2d3fc086436f8834ae3ab053a283cfac8fe0a0b8eaae044768a4c4"
+
+[[package]]
+name = "xtask"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "beater-api",
+ "beater-schema",
+ "clap",
+]
 
 [[package]]
 name = "yoke"

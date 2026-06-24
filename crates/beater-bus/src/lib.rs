@@ -21,7 +21,7 @@ pub enum BusError {
     Storage(String),
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct BusMessage {
     pub message_id: String,
     pub tenant_id: TenantId,
@@ -31,6 +31,7 @@ pub struct BusMessage {
     pub payload: Vec<u8>,
     pub attempts: u32,
     pub max_attempts: u32,
+    #[schema(value_type = String, format = DateTime)]
     pub enqueued_at: Timestamp,
 }
 
@@ -56,14 +57,15 @@ impl BusMessage {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct DeadLetter {
     pub message: BusMessage,
     pub reason: String,
+    #[schema(value_type = String, format = DateTime)]
     pub failed_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct PublishAck {
     pub accepted: bool,
     pub duplicate: bool,

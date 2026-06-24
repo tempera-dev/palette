@@ -71,16 +71,17 @@ pub trait DatasetStore: Send + Sync {
     ) -> StoreResult<Option<DatasetEvalReport>>;
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct Dataset {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
     pub dataset_id: DatasetId,
     pub name: String,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct DatasetCase {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -89,23 +90,29 @@ pub struct DatasetCase {
     pub source_trace_id: TraceId,
     pub source_span_id: SpanId,
     pub source_environment_id: EnvironmentId,
+    #[schema(value_type = serde_json::Value)]
     pub input: Value,
+    #[schema(value_type = serde_json::Value)]
     pub output: Value,
+    #[schema(value_type = Option<serde_json::Value>)]
     pub reference: Option<Value>,
+    #[schema(value_type = serde_json::Value)]
     pub trace: Value,
     pub normalizer_version: String,
     pub trace_schema_version: u32,
     pub input_artifact_hashes: Vec<Sha256Hash>,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct DatasetVersionSnapshot {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
     pub dataset_id: DatasetId,
     pub version_id: DatasetVersionId,
     pub cases: Vec<DatasetCase>,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 
@@ -125,7 +132,7 @@ pub struct DatasetJudgeEvalSpec {
     pub provider_secret_id: ProviderSecretId,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct DatasetEvalReport {
     pub report_id: String,
     pub tenant_id: TenantId,
@@ -136,6 +143,7 @@ pub struct DatasetEvalReport {
     pub result_count: usize,
     pub aggregate_score: f64,
     pub results: Vec<EvalResult>,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

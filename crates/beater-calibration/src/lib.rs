@@ -17,14 +17,14 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
 
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum CalibrationLabel {
     Pass,
     Fail,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct CalibrationPolicy {
     pub pass_threshold: f64,
 }
@@ -37,7 +37,7 @@ impl Default for CalibrationPolicy {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct CalibrationConfusion {
     pub human_pass_judge_pass: usize,
     pub human_pass_judge_fail: usize,
@@ -45,7 +45,7 @@ pub struct CalibrationConfusion {
     pub human_fail_judge_fail: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct CalibrationItem {
     pub dataset_case_id: DatasetCaseId,
     pub human_label: CalibrationLabel,
@@ -54,10 +54,11 @@ pub struct CalibrationItem {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub judge_result_label: Option<String>,
     pub agreed: bool,
+    #[schema(value_type = serde_json::Value)]
     pub evidence: Value,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct CalibrationReport {
     pub calibration_report_id: CalibrationReportId,
     pub tenant_id: TenantId,
@@ -73,6 +74,7 @@ pub struct CalibrationReport {
     pub cohen_kappa: f64,
     pub confusion: CalibrationConfusion,
     pub items: Vec<CalibrationItem>,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

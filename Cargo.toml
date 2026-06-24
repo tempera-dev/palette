@@ -28,12 +28,20 @@ members = [
   "crates/beater-usage",
   "crates/beater-audit",
   "crates/beater-api",
+  "crates/beater-mcp",
   "bins/beaterd",
   "bins/beaterctl",
+  "crates/xtask",
+]
+# Generated SDK clients and hand-written SDKs are standalone packages, not
+# workspace members; keep them out of the main cargo build/test graph.
+exclude = [
+  "sdks",
 ]
 resolver = "2"
 
 [workspace.package]
+version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
 repository = "https://github.com/beater/beater"

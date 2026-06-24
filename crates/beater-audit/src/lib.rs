@@ -11,7 +11,7 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use uuid::Uuid;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AuditAction {
     PiiUnmask,
@@ -25,7 +25,7 @@ impl AuditAction {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AuditOutcome {
     Allowed,
@@ -55,7 +55,7 @@ pub struct AuditEventInsert {
     pub attributes: Value,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct AuditEvent {
     pub audit_event_id: AuditEventId,
     pub tenant_id: TenantId,
@@ -67,7 +67,9 @@ pub struct AuditEvent {
     pub resource_id: String,
     pub outcome: AuditOutcome,
     pub reason: Option<String>,
+    #[schema(value_type = serde_json::Value)]
     pub attributes: Value,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 

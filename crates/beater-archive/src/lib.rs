@@ -145,12 +145,14 @@ impl ParquetTraceArchive {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ArchiveManifest {
+    #[schema(value_type = String)]
     pub path: PathBuf,
     pub span_count: usize,
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
+    #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
 }
 
@@ -181,7 +183,7 @@ impl ArchiveQuery {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct ArchivedSpanRow {
     pub tenant_id: String,
     pub project_id: String,

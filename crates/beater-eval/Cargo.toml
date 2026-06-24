@@ -1,10 +1,11 @@
 [package]
 name = "beater-eval"
-version = "0.1.0"
+version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [dependencies]
+utoipa = { workspace = true }
 beater-core = { path = "../beater-core" }
 beater-schema = { path = "../beater-schema" }
 regex.workspace = true

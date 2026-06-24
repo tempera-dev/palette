@@ -1,6 +1,6 @@
 [package]
 name = "beaterd"
-version = "0.1.0"
+version.workspace = true
 edition.workspace = true
 license.workspace = true
 
@@ -20,6 +20,7 @@ beater-gates = { path = "../../crates/beater-gates" }
 beater-human = { path = "../../crates/beater-human" }
 beater-ingest = { path = "../../crates/beater-ingest" }
 beater-judge = { path = "../../crates/beater-judge" }
+beater-mcp = { path = "../../crates/beater-mcp" }
 beater-otlp = { path = "../../crates/beater-otlp" }
 beater-search = { path = "../../crates/beater-search" }
 beater-secrets = { path = "../../crates/beater-secrets" }

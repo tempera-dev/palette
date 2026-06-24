@@ -19,10 +19,11 @@ pub struct CreateApiKeyRequest {
     pub scopes: BTreeSet<ApiScope>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct RevokedApiKey {
     pub api_key_id: ApiKeyId,
     pub active: bool,
+    #[schema(value_type = String, format = DateTime)]
     pub rotated_at: Timestamp,
 }
 

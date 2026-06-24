@@ -275,7 +275,10 @@ async fn main() -> anyhow::Result<()> {
         let api_keys = Arc::new(SqliteApiKeyStore::open(security_db_path)?);
         state = state.require_auth(api_keys);
     }
-    let app = router(state);
+    // Serve the MCP endpoint (`/mcp`) alongside the HTTP API, sharing the same
+    // `ApiState` and auth. The MCP tool catalog is derived from the OpenAPI spec
+    // and dispatches through the real router, so it cannot drift from the API.
+    let app = router(state.clone()).merge(beater_mcp::router(state));
     let listener = tokio::net::TcpListener::bind(args.addr)
         .await
         .with_context(|| format!("bind {}", args.addr))?;

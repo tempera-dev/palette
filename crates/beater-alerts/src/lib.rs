@@ -8,7 +8,7 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct OnlineSamplingPolicy {
     pub sample_rate_per_mille: u16,
     pub keep_errors: bool,
@@ -27,7 +27,7 @@ impl Default for OnlineSamplingPolicy {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum SamplingReason {
     ErrorTrace,
@@ -37,7 +37,7 @@ pub enum SamplingReason {
     RoutineDropped,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct SamplingDecision {
     pub selected: bool,
     pub reason: SamplingReason,
@@ -89,7 +89,7 @@ pub fn decide_trace_sampling(trace: &TraceView, policy: &OnlineSamplingPolicy) -
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AlertSeverity {
     Info,
@@ -97,7 +97,7 @@ pub enum AlertSeverity {
     Critical,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct AlertPolicy {
     pub policy_id: String,
     pub endpoint_url: String,
@@ -108,13 +108,15 @@ pub struct AlertPolicy {
     pub maintenance_windows: Vec<MaintenanceWindow>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct MaintenanceWindow {
+    #[schema(value_type = String, format = DateTime)]
     pub starts_at: Timestamp,
+    #[schema(value_type = String, format = DateTime)]
     pub ends_at: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct AlertLinks {
     pub trace_url: String,
     pub cluster_url: Option<String>,
@@ -122,7 +124,7 @@ pub struct AlertLinks {
     pub gate_url: Option<String>,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct AlertInput {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -132,20 +134,22 @@ pub struct AlertInput {
     pub score: f64,
     pub baseline_score: Option<f64>,
     pub links: AlertLinks,
+    #[schema(value_type = String, format = DateTime)]
     pub now: Timestamp,
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct AlertDecision {
     pub emitted: bool,
     pub suppressed_reason: Option<String>,
     pub delivery: Option<WebhookDelivery>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
 pub struct WebhookDelivery {
     pub endpoint_url: String,
     pub headers: BTreeMap<String, String>,
+    #[schema(value_type = serde_json::Value)]
     pub body: serde_json::Value,
 }
 

@@ -377,7 +377,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 ))
                 .header("content-type", "application/json")
                 .body(Body::from(
-                    r#"{"evaluator_id":"exact","evaluator_version_id":"exact-v1","agent_release_id":"release-a","kind":"exact_match"}"#,
+                    r#"{"evaluator_id":"exact","evaluator_version_id":"exact-v1","agent_release_id":"release-a","kind":{"type":"exact_match"}}"#,
                 ))
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -447,10 +447,9 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                         "evaluator_version_id": "judge-v1",
                         "agent_release_id": "release-a",
                         "kind": {
-                            "llm_judge": {
-                                "rubric": "correctness",
-                                "model": "judge-model"
-                            }
+                            "type": "llm_judge",
+                            "rubric": "correctness",
+                            "model": "judge-model"
                         },
                         "provider_secret_id": provider_secret["provider_secret_id"]
                     }))
@@ -532,7 +531,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         "candidate_release_id": "release-candidate",
         "evaluator_id": "exact",
         "evaluator_version_id": "exact-v1",
-        "kind": "exact_match",
+        "kind": {"type": "exact_match"},
         "gate_policy": {
             "min_sample_size": 1,
             "max_regression": 0.05,
@@ -587,10 +586,9 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         "evaluator_id": "judge-correctness",
         "evaluator_version_id": "judge-v1",
         "kind": {
-            "llm_judge": {
-                "rubric": "correctness",
-                "model": "judge-model"
-            }
+            "type": "llm_judge",
+            "rubric": "correctness",
+            "model": "judge-model"
         },
         "gate_policy": {
             "min_sample_size": 1,
@@ -2437,10 +2435,9 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
             "id": "judge-correctness",
             "lane": "judge_broker",
             "kind": {
-                "llm_judge": {
-                    "rubric": "correctness",
-                    "model": "judge-model"
-                }
+                "type": "llm_judge",
+                "rubric": "correctness",
+                "model": "judge-model"
             }
         },
         "case": {
