@@ -297,15 +297,10 @@ impl<T> Page<T> {
 ///
 /// Beater is opt-out: a self-hosted `beaterd` reports **no** anonymous usage
 /// telemetry to Beater Cloud unless the operator explicitly opts in. This type
-/// is the single source of truth for that default so the binary and the docs
-/// cannot drift. The control variable is `BEATER_SELF_HOST_TELEMETRY`:
-///
-/// - unset / empty / `0` / `false` / `off` / `no` / `disabled` -> disabled
-/// - `1` / `true` / `on` / `yes` / `enabled` -> enabled
-/// - any other value -> disabled (fail safe / closed)
-///
-/// The endpoint telemetry would report to (only when enabled) is fixed and
-/// inspectable so an offline self-host can firewall it.
+/// is the single source of truth for the disabled-by-default posture and the
+/// fixed endpoint. Operators opt in via the `--self-host-telemetry` flag (env
+/// `BEATER_SELF_HOST_TELEMETRY`); until then no outbound endpoint is exposed, so
+/// an offline self-host can firewall it.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct SelfHostTelemetryConfig {
     enabled: bool,
@@ -319,27 +314,11 @@ impl SelfHostTelemetryConfig {
     /// it is explicitly enabled. Kept here so offline deployments can block it.
     pub const ENDPOINT: &'static str = "https://telemetry.beater.dev/v1/usage";
 
-    /// Construct an explicit posture (mainly for tests and callers that resolve
-    /// configuration themselves).
+    /// Construct an explicit posture. The binary resolves `enabled` from the
+    /// `--self-host-telemetry` flag (which reads `ENV_VAR` via clap), so opt-in
+    /// parsing lives in one place rather than being duplicated here.
     pub fn new(enabled: bool) -> Self {
         Self { enabled }
-    }
-
-    /// Resolve the posture from a raw env value (e.g. the result of
-    /// `std::env::var`). `None` means the variable is unset and yields the
-    /// opt-out default (disabled).
-    pub fn from_env_value(raw: Option<&str>) -> Self {
-        let enabled = match raw.map(|v| v.trim().to_ascii_lowercase()) {
-            Some(value) => matches!(value.as_str(), "1" | "true" | "on" | "yes" | "enabled"),
-            None => false,
-        };
-        Self { enabled }
-    }
-
-    /// Resolve the posture from the process environment (`BEATER_SELF_HOST_TELEMETRY`).
-    /// Defaults to disabled when the variable is unset, empty, or unrecognized.
-    pub fn from_env() -> Self {
-        Self::from_env_value(std::env::var(Self::ENV_VAR).ok().as_deref())
     }
 
     /// Whether anonymous self-host telemetry reporting is enabled.
@@ -424,30 +403,15 @@ mod tests {
 
     #[test]
     fn self_host_telemetry_defaults_to_opt_out() {
-        // The whole point of R12.5: self-host telemetry is OFF unless opted in.
+        // The whole point of R12.5: self-host telemetry is OFF unless opted in,
+        // so an un-configured self-host has no outbound telemetry target.
         let default = SelfHostTelemetryConfig::default();
         assert!(!default.is_enabled());
         assert_eq!(default.endpoint(), None);
 
-        // Unset env resolves to the same opt-out default with no outbound target.
-        let unset = SelfHostTelemetryConfig::from_env_value(None);
-        assert_eq!(unset, SelfHostTelemetryConfig::default());
-        assert!(!unset.is_enabled());
-        assert_eq!(unset.endpoint(), None);
-    }
-
-    #[test]
-    fn self_host_telemetry_only_enabled_on_explicit_opt_in() {
-        for raw in ["1", "true", "TRUE", "on", "Yes", "enabled", "  on  "] {
-            let cfg = SelfHostTelemetryConfig::from_env_value(Some(raw));
-            assert!(cfg.is_enabled(), "{raw} should opt in");
-            assert_eq!(cfg.endpoint(), Some(SelfHostTelemetryConfig::ENDPOINT));
-        }
-        // Anything else (including empty and garbage) stays opt-out / closed.
-        for raw in ["", "0", "false", "off", "no", "disabled", "maybe", "2"] {
-            let cfg = SelfHostTelemetryConfig::from_env_value(Some(raw));
-            assert!(!cfg.is_enabled(), "{raw} must remain opt-out");
-            assert_eq!(cfg.endpoint(), None);
-        }
+        // Opting in is the only thing that exposes the endpoint.
+        let opted_in = SelfHostTelemetryConfig::new(true);
+        assert!(opted_in.is_enabled());
+        assert_eq!(opted_in.endpoint(), Some(SelfHostTelemetryConfig::ENDPOINT));
     }
 }
