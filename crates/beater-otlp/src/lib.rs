@@ -26,6 +26,12 @@ use tonic::{Request, Response, Status};
 
 pub use opentelemetry_proto::tonic::collector::trace::v1::trace_service_server::TraceServiceServer;
 
+pub mod propagation;
+pub use propagation::{
+    carrier_from, spawn_with_context, Baggage, Carrier, CarrierMut, TraceContext, BAGGAGE_HEADER,
+    REDACTED_BAGGAGE_VALUE, TRACEPARENT_HEADER, TRACESTATE_HEADER,
+};
+
 const TENANT_METADATA_KEY: &str = "x-beater-tenant-id";
 const PROJECT_METADATA_KEY: &str = "x-beater-project-id";
 const ENVIRONMENT_METADATA_KEY: &str = "x-beater-environment-id";
