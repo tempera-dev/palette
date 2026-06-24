@@ -38,20 +38,11 @@ pub enum SandboxError {
 /// zero-capability marker.
 struct ScorerState;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct WasmEvaluatorRuntime {
     engine: Engine,
     max_input_bytes: usize,
     fuel: u64,
-}
-
-impl std::fmt::Debug for WasmEvaluatorRuntime {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("WasmEvaluatorRuntime")
-            .field("max_input_bytes", &self.max_input_bytes)
-            .field("fuel", &self.fuel)
-            .finish()
-    }
 }
 
 impl WasmEvaluatorRuntime {
