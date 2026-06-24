@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS beater.raw_envelopes
 ENGINE = MergeTree
 PARTITION BY toYYYYMM(received_at)
 ORDER BY (tenant_id, project_id, received_at, idempotency_key)
-TTL received_at + INTERVAL 180 DAY
+TTL toDateTime(received_at) + INTERVAL 180 DAY
 SETTINGS index_granularity = 8192;
 
 CREATE TABLE IF NOT EXISTS beater.spans
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS beater.spans
   duration_ms Nullable(Int64),
   model_provider Nullable(String),
   model_name Nullable(String),
-  cost_currency Nullable(LowCardinality(String)),
+  cost_currency LowCardinality(Nullable(String)),
   cost_micros Nullable(Int64),
   release_id Nullable(String),
   span_json String
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS beater.spans
 ENGINE = MergeTree
 PARTITION BY toYYYYMM(start_time)
 ORDER BY (tenant_id, project_id, environment_id, trace_id, start_time, span_id, seq)
-TTL start_time + INTERVAL 90 DAY
+TTL toDateTime(start_time) + INTERVAL 90 DAY
 SETTINGS index_granularity = 8192;
 
 CREATE TABLE IF NOT EXISTS beater.trace_runs
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS beater.trace_runs
   started_at DateTime64(6, 'UTC'),
   ended_at Nullable(DateTime64(6, 'UTC')),
   duration_ms Nullable(Int64),
-  total_cost_currency Nullable(LowCardinality(String)),
+  total_cost_currency LowCardinality(Nullable(String)),
   total_cost_micros Nullable(Int64),
   models Array(Tuple(provider String, name String)),
   release_ids Array(String)
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS beater.trace_runs
 ENGINE = ReplacingMergeTree
 PARTITION BY toYYYYMM(started_at)
 ORDER BY (tenant_id, project_id, environment_id, started_at, trace_id)
-TTL started_at + INTERVAL 90 DAY
+TTL toDateTime(started_at) + INTERVAL 90 DAY
 SETTINGS index_granularity = 8192;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS beater.trace_runs_mv

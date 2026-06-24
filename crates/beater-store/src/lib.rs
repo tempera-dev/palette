@@ -71,6 +71,14 @@ pub trait ArtifactStore: Send + Sync {
     ) -> StoreResult<ArtifactRef>;
 
     async fn get_bytes(&self, artifact_ref: &ArtifactRef) -> StoreResult<Vec<u8>>;
+
+    /// Deletes the bytes backing an artifact reference.
+    ///
+    /// Deleting an artifact that does not exist is a no-op and succeeds, so the
+    /// orphaned-artifact sweeper can be safely re-run (it may race a previous
+    /// sweep or a concurrent delete). Implementors should treat a missing object
+    /// as already-deleted rather than an error.
+    async fn delete_bytes(&self, artifact_ref: &ArtifactRef) -> StoreResult<()>;
 }
 
 #[async_trait]

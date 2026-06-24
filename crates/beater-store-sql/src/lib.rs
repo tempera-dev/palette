@@ -20,6 +20,16 @@ use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::time::Duration as StdDuration;
 
+#[cfg(feature = "postgres")]
+mod postgres;
+#[cfg(feature = "postgres")]
+pub use postgres::{PgTraceStore, POSTGRES_TRACE_STORE_MIGRATION};
+
+#[cfg(feature = "clickhouse")]
+mod clickhouse;
+#[cfg(feature = "clickhouse")]
+pub use clickhouse::{ClickHouseTraceStore, CLICKHOUSE_TRACE_STORE_MIGRATION};
+
 const LOCAL_BEATERD_SQLITE_0001: &str =
     include_str!("../../../migrations/sqlite/0001_local_beaterd.sql");
 
