@@ -24,9 +24,21 @@ pub const MATCHED_ELEMENT: &str = "browser.matched_element";
 pub const STEP_SEQ: &str = "browser.step_seq";
 /// Step status string (`ok` or `error`).
 pub const STEP_STATUS: &str = "browser.step_status";
-/// Artifact id of the stored DOM snapshot for the step.
+/// Artifact id of the stored DOM snapshot AFTER the action (the result state).
 pub const DOM_ARTIFACT: &str = "browser.dom_artifact_id";
-/// Artifact id of the stored screenshot for the step.
+/// Artifact id of the stored screenshot AFTER the action (the result state).
 pub const SCREENSHOT_ARTIFACT: &str = "browser.screenshot_artifact_id";
+/// Artifact id of the DOM snapshot the agent saw BEFORE acting (its perception).
+pub const DOM_BEFORE_ARTIFACT: &str = "browser.dom_before_artifact_id";
+/// Artifact id of the screenshot the agent saw BEFORE acting (its perception).
+pub const SCREENSHOT_BEFORE_ARTIFACT: &str = "browser.screenshot_before_artifact_id";
 /// The agent's reasoning text for the decision (from `model_thoughts`).
 pub const REASONING: &str = "browser.reasoning";
+/// Wall-clock latency of the action in milliseconds.
+pub const ACTION_LATENCY_MS: &str = "browser.action_latency_ms";
+/// LLM input token count for the decision.
+pub const INPUT_TOKENS: &str = "browser.input_tokens";
+/// LLM output token count for the decision.
+pub const OUTPUT_TOKENS: &str = "browser.output_tokens";
+/// LLM cost of the decision in micro-USD.
+pub const COST_MICROS: &str = "browser.cost_micros";

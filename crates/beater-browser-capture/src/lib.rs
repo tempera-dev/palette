@@ -17,13 +17,14 @@
 use beater_browser::{
     semconv, BrowserAction, BrowserDriver, LlmDecision, Observation, StepStatus, StepTriple,
 };
-use beater_core::{EnvironmentId, ProjectId, TenantId, TraceId};
+use beater_core::{EnvironmentId, Money, ProjectId, TenantId, Timestamp, TokenCounts, TraceId};
 use beater_replay::{ReplayEvent, ReplayEventKind, SqliteReplayStore};
 use beater_schema::{
-    AgentSpanKind, ArtifactRef, CanonicalSpan, RedactionClass, SpanStatus, CANONICAL_SCHEMA_VERSION,
+    AgentSpanKind, ArtifactRef, CanonicalSpan, ModelRef, RedactionClass, SpanStatus,
+    CANONICAL_SCHEMA_VERSION,
 };
 use beater_store::ArtifactStore;
-use chrono::Utc;
+use chrono::{Duration, Utc};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 
@@ -58,6 +59,23 @@ pub struct CaptureContext {
 pub struct RecordedStep {
     pub triple: StepTriple,
     pub spans: Vec<CanonicalSpan>,
+}
+
+/// Internal input for assembling one [`CanonicalSpan`].
+struct SpanParts {
+    span_id: String,
+    kind: AgentSpanKind,
+    name: String,
+    status: SpanStatus,
+    start_time: Timestamp,
+    end_time: Timestamp,
+    model: Option<ModelRef>,
+    cost: Option<Money>,
+    tokens: Option<TokenCounts>,
+    input_ref: Option<ArtifactRef>,
+    output_ref: Option<ArtifactRef>,
+    attributes: BTreeMap<String, Value>,
+    raw_ref: ArtifactRef,
 }
 
 /// Wraps a [`BrowserDriver`] and records each step as spans + cassettes +
@@ -118,10 +136,26 @@ where
     ) -> Result<RecordedStep, CaptureError> {
         let step_seq = self.step_index;
         self.step_index += 1;
+        let step_start = Utc::now();
         let observation_before = match self.last_observation.take() {
             Some(observation) => observation,
             None => self.driver.observe().await?,
         };
+
+        // Perception: capture what the agent SAW before acting (the screenshot +
+        // DOM it reasoned over), stored out of line. This is the input to the
+        // decision — without it observability is "half" (decision but no view).
+        let screenshot_before = self.driver.screenshot().await?;
+        let screenshot_before_ref = self
+            .put_bytes(&screenshot_before, "image/png", RedactionClass::Internal)
+            .await?;
+        let dom_before_bytes = match &observation_before.dom_html {
+            Some(html) => html.clone().into_bytes(),
+            None => self.driver.dom().await?.into_bytes(),
+        };
+        let dom_before_ref = self
+            .put_bytes(&dom_before_bytes, "text/html", RedactionClass::Internal)
+            .await?;
 
         let mut spans = Vec::new();
 
@@ -146,23 +180,52 @@ where
             if let Some(model) = &decision.model {
                 attributes.insert("llm.model".to_string(), json!(model));
             }
+            if let Some(tokens) = decision.input_tokens {
+                attributes.insert(semconv::INPUT_TOKENS.to_string(), json!(tokens));
+            }
+            if let Some(tokens) = decision.output_tokens {
+                attributes.insert(semconv::OUTPUT_TOKENS.to_string(), json!(tokens));
+            }
+            if let Some(cost) = decision.cost_micros {
+                attributes.insert(semconv::COST_MICROS.to_string(), json!(cost));
+            }
+            attributes.insert(
+                semconv::SCREENSHOT_BEFORE_ARTIFACT.to_string(),
+                json!(screenshot_before_ref.artifact_id.as_str()),
+            );
             attributes.insert(semconv::STEP_SEQ.to_string(), json!(step_seq));
-            let span = self.build_span(
-                format!("browser-decision-{step_seq}"),
-                AgentSpanKind::LlmCall,
-                "browser.decision".to_string(),
-                SpanStatus::Ok,
+            let decision_end = decision
+                .latency_ms
+                .map(|ms| step_start + Duration::milliseconds(ms as i64))
+                .unwrap_or(step_start);
+            let span = self.build_span(SpanParts {
+                span_id: format!("browser-decision-{step_seq}"),
+                kind: AgentSpanKind::LlmCall,
+                name: "browser.decision".to_string(),
+                status: SpanStatus::Ok,
+                start_time: step_start,
+                end_time: decision_end,
+                model: decision.model.clone().map(|name| ModelRef {
+                    provider: "browser-agent".to_string(),
+                    name,
+                }),
+                cost: decision.cost_micros.map(Money::usd_micros),
+                tokens: decision_tokens(decision),
+                // The model's input was the perception captured above.
+                input_ref: Some(screenshot_before_ref.clone()),
+                output_ref: None,
                 attributes,
-                None,
                 raw_ref,
-            )?;
+            })?;
             spans.push(span);
         }
 
-        // 2) Execute the action.
+        // 2) Execute the action, timing it.
+        let act_start = Utc::now();
         let outcome = self.driver.act(&action).await?;
+        let act_end = Utc::now();
 
-        // 3) Store DOM + screenshot out of line.
+        // 3) Store the result DOM + screenshot out of line.
         let dom_bytes = match &outcome.observation.dom_html {
             Some(html) => html.clone().into_bytes(),
             None => self.driver.dom().await?.into_bytes(),
@@ -219,6 +282,19 @@ where
             semconv::STEP_STATUS.to_string(),
             json!(status_str(outcome.status)),
         );
+        let action_latency_ms = (act_end - act_start).num_milliseconds().max(0);
+        attributes.insert(
+            semconv::ACTION_LATENCY_MS.to_string(),
+            json!(action_latency_ms),
+        );
+        attributes.insert(
+            semconv::DOM_BEFORE_ARTIFACT.to_string(),
+            json!(dom_before_ref.artifact_id.as_str()),
+        );
+        attributes.insert(
+            semconv::SCREENSHOT_BEFORE_ARTIFACT.to_string(),
+            json!(screenshot_before_ref.artifact_id.as_str()),
+        );
         attributes.insert(
             semconv::DOM_ARTIFACT.to_string(),
             json!(dom_ref.artifact_id.as_str()),
@@ -232,15 +308,22 @@ where
             StepStatus::Ok => SpanStatus::Ok,
             StepStatus::Error => SpanStatus::Error,
         };
-        let span = self.build_span(
-            format!("browser-step-{step_seq}"),
-            AgentSpanKind::ToolCall,
-            format!("browser.{}", action.verb()),
-            span_status,
+        let span = self.build_span(SpanParts {
+            span_id: format!("browser-step-{step_seq}"),
+            kind: AgentSpanKind::ToolCall,
+            name: format!("browser.{}", action.verb()),
+            status: span_status,
+            start_time: act_start,
+            end_time: act_end,
+            model: None,
+            cost: None,
+            tokens: None,
+            // before = what the agent saw; after = the result page.
+            input_ref: Some(screenshot_before_ref),
+            output_ref: Some(screenshot_ref),
             attributes,
-            Some(screenshot_ref),
             raw_ref,
-        )?;
+        })?;
         spans.push(span);
 
         self.last_observation = Some(outcome.observation);
@@ -298,21 +381,11 @@ where
         self.put_bytes(&bytes, "application/json", redaction).await
     }
 
-    #[allow(clippy::too_many_arguments)]
-    fn build_span(
-        &mut self,
-        span_id: String,
-        kind: AgentSpanKind,
-        name: String,
-        status: SpanStatus,
-        attributes: BTreeMap<String, Value>,
-        output_ref: Option<ArtifactRef>,
-        raw_ref: ArtifactRef,
-    ) -> Result<CanonicalSpan, CaptureError> {
+    fn build_span(&mut self, parts: SpanParts) -> Result<CanonicalSpan, CaptureError> {
         let seq = self.span_seq;
         self.span_seq += 1;
-        let span_id =
-            beater_core::SpanId::new(span_id).map_err(|err| CaptureError::Id(err.to_string()))?;
+        let span_id = beater_core::SpanId::new(parts.span_id)
+            .map_err(|err| CaptureError::Id(err.to_string()))?;
         Ok(CanonicalSpan {
             schema_version: CANONICAL_SCHEMA_VERSION,
             normalizer_version: self.ctx.normalizer_version.clone(),
@@ -323,19 +396,19 @@ where
             span_id,
             parent_span_id: None,
             seq,
-            kind,
-            name,
-            status,
-            start_time: Utc::now(),
-            end_time: Some(Utc::now()),
-            model: None,
-            cost: None,
-            tokens: None,
-            input_ref: None,
-            output_ref,
-            attributes,
+            kind: parts.kind,
+            name: parts.name,
+            status: parts.status,
+            start_time: parts.start_time,
+            end_time: Some(parts.end_time),
+            model: parts.model,
+            cost: parts.cost,
+            tokens: parts.tokens,
+            input_ref: parts.input_ref,
+            output_ref: parts.output_ref,
+            attributes: parts.attributes,
             unmapped_attrs: json!({}),
-            raw_ref,
+            raw_ref: parts.raw_ref,
         })
     }
 }
@@ -347,6 +420,19 @@ fn status_str(status: StepStatus) -> &'static str {
     }
 }
 
+/// Build `TokenCounts` from a decision's token fields, or `None` if neither is set.
+fn decision_tokens(decision: &LlmDecision) -> Option<TokenCounts> {
+    match (decision.input_tokens, decision.output_tokens) {
+        (None, None) => None,
+        (input, output) => Some(TokenCounts {
+            input: input.unwrap_or(0),
+            output: output.unwrap_or(0),
+            reasoning: 0,
+            cache_read: 0,
+        }),
+    }
+}
+
 /// Project a run's [`StepTriple`]s into the `{"browser_steps": [...]}` trace
 /// shape consumed by the browser evaluators in `beater-eval`.
 pub fn browser_trace(triples: &[StepTriple]) -> Result<Value, CaptureError> {
@@ -354,7 +440,22 @@ pub fn browser_trace(triples: &[StepTriple]) -> Result<Value, CaptureError> {
         .iter()
         .map(serde_json::to_value)
         .collect::<Result<Vec<_>, _>>()?;
-    Ok(json!({ "browser_steps": steps }))
+    // Aggregate decision economics to the top level so the existing CostBudget /
+    // LatencyBudgetMs evaluators (which read trace.cost_micros / trace.latency_ms)
+    // also work on browser runs.
+    let cost_micros: i64 = triples
+        .iter()
+        .filter_map(|triple| triple.decision.as_ref().and_then(|d| d.cost_micros))
+        .sum();
+    let latency_ms: u64 = triples
+        .iter()
+        .filter_map(|triple| triple.decision.as_ref().and_then(|d| d.latency_ms))
+        .sum();
+    Ok(json!({
+        "browser_steps": steps,
+        "cost_micros": cost_micros,
+        "latency_ms": latency_ms,
+    }))
 }
 
 /// Project canonical browser-step spans into the same `{"browser_steps": [...]}`
@@ -424,7 +525,30 @@ pub fn browser_trace_from_spans(spans: &[CanonicalSpan]) -> Value {
     }
     steps.sort_by_key(|(seq, _)| *seq);
     let ordered: Vec<Value> = steps.into_iter().map(|(_, step)| step).collect();
-    json!({ "browser_steps": ordered })
+    // Aggregate decision cost (llm.call spans) and action latency (tool.call
+    // spans) so cost/latency evals work on ingested runs too — symmetric with
+    // the native `browser_trace`.
+    let cost_micros: i64 = spans
+        .iter()
+        .filter_map(|span| {
+            span.attributes
+                .get(semconv::COST_MICROS)
+                .and_then(Value::as_i64)
+        })
+        .sum();
+    let latency_ms: i64 = spans
+        .iter()
+        .filter_map(|span| {
+            span.attributes
+                .get(semconv::ACTION_LATENCY_MS)
+                .and_then(Value::as_i64)
+        })
+        .sum();
+    json!({
+        "browser_steps": ordered,
+        "cost_micros": cost_micros,
+        "latency_ms": latency_ms,
+    })
 }
 
 #[cfg(test)]
@@ -452,6 +576,10 @@ mod tests {
             prompt: json!({"messages": [{"role": "user", "content": "click ok"}]}),
             output: json!({"action": action}),
             reasoning: Some("the ok button completes the task".to_string()),
+            input_tokens: Some(1200),
+            output_tokens: Some(48),
+            cost_micros: Some(3400),
+            latency_ms: Some(820),
         }
     }
 
@@ -523,6 +651,34 @@ mod tests {
         assert!(tool.output_ref.is_some(), "screenshot should be referenced");
         assert!(tool.attributes.contains_key(semconv::DOM_ARTIFACT));
 
+        // Full observability: the tool.call span records action latency and BOTH
+        // the before (perception) and after (result) DOM + screenshot artifacts.
+        assert!(tool.attributes.contains_key(semconv::ACTION_LATENCY_MS));
+        assert!(tool.attributes.contains_key(semconv::DOM_BEFORE_ARTIFACT));
+        assert!(tool
+            .attributes
+            .contains_key(semconv::SCREENSHOT_BEFORE_ARTIFACT));
+        assert!(
+            tool.input_ref.is_some(),
+            "the agent's pre-action perception should be referenced as the span input"
+        );
+
+        // The llm.call span carries the decision's model, cost, tokens, and uses
+        // the perception (pre-action screenshot) as its input — so what the agent
+        // saw and what the decision cost are both observable.
+        let llm = &ok.spans[0];
+        assert!(llm.model.is_some(), "decision model should be recorded");
+        assert!(llm.cost.is_some(), "decision cost should be recorded");
+        assert!(llm.tokens.is_some(), "decision tokens should be recorded");
+        assert!(
+            llm.input_ref.is_some(),
+            "the perception should be the llm.call input"
+        );
+        assert!(llm.attributes.contains_key(semconv::INPUT_TOKENS));
+        assert!(llm.attributes.contains_key(semconv::COST_MICROS));
+        // A non-instantaneous decision latency yields end > start.
+        assert!(llm.end_time.unwrap_or(llm.start_time) >= llm.start_time);
+
         // Cassettes: one Provider + one Tool event per step = 4 total.
         let events = replay_events(&proxy).await;
         let providers = events
@@ -551,6 +707,10 @@ mod tests {
             .and_then(Value::as_array)
             .unwrap_or_else(|| panic!("browser_steps array"));
         assert_eq!(steps.len(), 2);
+        // Decision economics aggregate to the trace so cost/latency evals run on
+        // browser runs (2 decisions x 3400 micros / 820 ms each).
+        assert_eq!(trace.get("cost_micros"), Some(&json!(6800)));
+        assert_eq!(trace.get("latency_ms"), Some(&json!(1640)));
     }
 
     async fn replay_events<D, A>(proxy: &BrowserToolProxy<D, A>) -> Vec<ReplayEvent> {

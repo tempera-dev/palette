@@ -159,14 +159,25 @@ pub struct StepOutcome {
 }
 
 /// The LLM decision that produced an action — captured so prompts/code can be
-/// iterated and replayed. `prompt` is the raw model input; `output` is the raw
-/// model output (browser-use `model_outputs`); `reasoning` is `model_thoughts`.
+/// iterated and replayed. `prompt` is the raw model input (the perception the
+/// model reasoned over); `output` is the raw model output (browser-use
+/// `model_outputs`); `reasoning` is `model_thoughts`. The economics fields make
+/// the decision's cost/latency observable so cost/latency evals work on browser
+/// runs — all optional, defaulting to absent.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct LlmDecision {
     pub model: Option<String>,
     pub prompt: Value,
     pub output: Value,
     pub reasoning: Option<String>,
+    #[serde(default)]
+    pub input_tokens: Option<u64>,
+    #[serde(default)]
+    pub output_tokens: Option<u64>,
+    #[serde(default)]
+    pub cost_micros: Option<i64>,
+    #[serde(default)]
+    pub latency_ms: Option<u64>,
 }
 
 /// The atomic unit of browser-agent observability: observe → decide → act →
@@ -440,6 +451,10 @@ mod tests {
                 prompt: serde_json::json!({"messages": []}),
                 output: serde_json::json!({"action": "click"}),
                 reasoning: Some("click the button".to_string()),
+                input_tokens: None,
+                output_tokens: None,
+                cost_micros: None,
+                latency_ms: None,
             }),
             action: BrowserAction::Click {
                 selector: FIXTURE_KNOWN_SELECTOR.to_string(),

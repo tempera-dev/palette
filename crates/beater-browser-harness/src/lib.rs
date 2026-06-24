@@ -261,6 +261,10 @@ mod tests {
             prompt: json!({ "goal": goal }),
             output: json!({ "action": "click", "selector": selector }),
             reasoning: Some(format!("click {selector} to accomplish: {goal}")),
+            input_tokens: None,
+            output_tokens: None,
+            cost_micros: None,
+            latency_ms: None,
         }
     }
 
