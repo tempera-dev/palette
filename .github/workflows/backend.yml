@@ -1,0 +1,53 @@
+name: backend
+
+# The single home for the Rust workspace test suite — every crate's unit and
+# integration tests in one place, plus clippy (which enforces the workspace
+# deny-lints: no unwrap/expect, forbid unsafe).
+#
+# The `beaterd` package is excluded because its integration targets are the
+# gate1/gate2 hard-stop proofs (live_smoke, self_host_contract,
+# gate2_outside_validator), which the gate1-live-smoke and gate2-proof-contract
+# workflows run with their own setup — so they are NOT duplicated here. Its one
+# non-gate target (sqlite_migrations) is run explicitly.
+#
+# Formatting (`cargo fmt --check`) is owned by gate2-proof-contract; the browser
+# crates, beater-otlp, and the OpenAPI route-coverage test all run here as part
+# of `--workspace`, so the browser-e2e and sdk-contract workflows no longer
+# re-run them.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_NET_RETRY: "10"
+  CARGO_HTTP_MULTIPLEXING: "false"
+  RUST_BACKTRACE: "1"
+
+jobs:
+  backend:
+    name: rust workspace (clippy + test)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Rust (stable + clippy)
+        run: |
+          rustup toolchain install stable --profile minimal --component clippy
+          rustup default stable
+
+      - name: Clippy (enforces workspace deny-lints)
+        run: cargo clippy --workspace --all-targets --exclude beaterd
+
+      - name: Test the workspace (excluding the beaterd gate targets)
+        run: cargo test --workspace --exclude beaterd
+
+      - name: Test beaterd's non-gate target
+        run: cargo test -p beaterd --test sqlite_migrations

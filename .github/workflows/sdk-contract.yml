@@ -2,27 +2,28 @@ name: sdk-contract
 
 # Zero-drift gate: a handler change that isn't regenerated into the spec + every
 # SDK client cannot merge, and breaking contract changes are flagged.
+#
+# This workflow owns ONLY the drift/regeneration checks. The route-coverage test
+# (`beater-api --test openapi_coverage`) and the semconv normalizer guard
+# (`beater-otlp`) run under the `backend` workflow's `cargo test --workspace`,
+# so they are not re-run here.
+
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  contract-coverage:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: OpenAPI route-coverage test (spec == served routes)
-        run: cargo test -p beater-api --test openapi_coverage
-
   semconv-drift:
+    name: semantic conventions in sync across SDKs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
-      - name: Semantic conventions single-source guard (schema -> normalizer)
-        run: cargo test -p beater-otlp
       - name: Regenerate conventions.json and fail on drift
         run: |
           cargo xtask regen-semconv
@@ -31,9 +32,10 @@ jobs:
         run: python3 scripts/check-semconv-drift.py
 
   sdk-drift:
+    name: spec + 7 SDK clients in sync
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
@@ -41,9 +43,10 @@ jobs:
         run: scripts/regen-sdks.sh --check
 
   breaking-change:
+    name: additive-only contract policy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
