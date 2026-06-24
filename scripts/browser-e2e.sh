@@ -110,11 +110,13 @@ else
   skip "Stagehand SDK tests (no node/npm)"
 fi
 
-echo "== 4. Full-loop e2e (capture -> evaluate -> gate) =="
-# Runs a baseline vs a regressed prompt over a frozen page, scores grounding,
-# and asserts the regression is gated as FailRegression (the improve loop).
+echo "== 4. Full-loop e2e (both pillars -> evaluate -> gate) =="
+# Asserts a regressed run is gated as FailRegression for BOTH connection paths:
+#   - native capture (driver -> StepTriples -> browser_trace)
+#   - instrument/OTLP (ingested canonical spans -> browser_trace_from_spans)
+# proving an external browser-use/Stagehand run flows through the same loop.
 if cargo test -p beater-browser-harness >/tmp/bt-e2e-loop.log 2>&1; then
-  pass "harness full-loop: regressed prompt -> FailRegression (capture -> evaluate -> gate)"
+  pass "harness full-loop: regressed run -> FailRegression (native + ingested -> evaluate -> gate)"
 else
   fail "harness full-loop (see /tmp/bt-e2e-loop.log)"
 fi

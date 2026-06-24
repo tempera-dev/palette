@@ -17,6 +17,8 @@ serde_json.workspace = true
 thiserror.workspace = true
 
 [dev-dependencies]
+beater-core = { path = "../beater-core" }
+chrono.workspace = true
 tokio.workspace = true
 
 [lints]

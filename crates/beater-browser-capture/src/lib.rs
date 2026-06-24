@@ -357,6 +357,69 @@ pub fn browser_trace(triples: &[StepTriple]) -> Result<Value, CaptureError> {
     Ok(json!({ "browser_steps": steps }))
 }
 
+/// Project canonical browser-step spans into the same `{"browser_steps": [...]}`
+/// trace shape the browser evaluators read.
+///
+/// This is the bridge for the **instrument → OTLP → ingest** pillar: a browser
+/// agent run that arrives as OTLP from `browser-use`/Stagehand and is normalized
+/// into [`CanonicalSpan`]s (e.g. `TraceView.spans`) can be scored and promoted
+/// to a dataset case just like a natively captured run. Each `tool.call` span
+/// carrying `browser.action` becomes one step, ordered by `browser.step_seq`.
+///
+/// Note: DOM text is stored out of line (artifacts), so it is not inlined here;
+/// grounding, step-efficiency, recovery, and url-based task-success all work,
+/// while `BrowserTaskSuccess { dom_contains }` over this projection is limited to
+/// what is present (url). For full DOM matching, score the natively captured
+/// [`StepTriple`]s via [`browser_trace`].
+pub fn browser_trace_from_spans(spans: &[CanonicalSpan]) -> Value {
+    let mut steps: Vec<(u64, Value)> = Vec::new();
+    for span in spans {
+        if span.kind != AgentSpanKind::ToolCall {
+            continue;
+        }
+        let attrs = &span.attributes;
+        let action = match attrs.get(semconv::ACTION).and_then(Value::as_str) {
+            Some(action) => action.to_string(),
+            None => continue,
+        };
+        let seq = attrs
+            .get(semconv::STEP_SEQ)
+            .and_then(Value::as_u64)
+            .unwrap_or(span.seq);
+        let status = attrs
+            .get(semconv::STEP_STATUS)
+            .and_then(Value::as_str)
+            .map(str::to_string)
+            .unwrap_or_else(|| match span.status {
+                SpanStatus::Error => "error".to_string(),
+                _ => "ok".to_string(),
+            });
+        let step = json!({
+            "seq": seq,
+            "action": { "action": action },
+            "outcome": {
+                "status": status,
+                "grounding": {
+                    "selector": attrs.get(semconv::SELECTOR).cloned().unwrap_or(Value::Null),
+                    "selector_existed": attrs
+                        .get(semconv::SELECTOR_EXISTED)
+                        .and_then(Value::as_bool),
+                    "matched_element": attrs
+                        .get(semconv::MATCHED_ELEMENT)
+                        .and_then(Value::as_bool),
+                },
+                "observation": {
+                    "url": attrs.get(semconv::URL).cloned().unwrap_or(Value::Null),
+                },
+            },
+        });
+        steps.push((seq, step));
+    }
+    steps.sort_by_key(|(seq, _)| *seq);
+    let ordered: Vec<Value> = steps.into_iter().map(|(_, step)| step).collect();
+    json!({ "browser_steps": ordered })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -493,5 +556,97 @@ mod tests {
             )
             .await
             .unwrap_or_else(|err| panic!("{err}"))
+    }
+
+    fn dummy_artifact() -> ArtifactRef {
+        ArtifactRef {
+            artifact_id: beater_core::ArtifactId::new("a").unwrap_or_else(|err| panic!("{err}")),
+            uri: "artifact://t/p/a".to_string(),
+            sha256: beater_core::Sha256Hash::new("h").unwrap_or_else(|err| panic!("{err}")),
+            size_bytes: 0,
+            mime_type: "application/json".to_string(),
+            redaction_class: RedactionClass::Internal,
+        }
+    }
+
+    /// Build a `tool.call` `CanonicalSpan` carrying `browser.*` attributes,
+    /// mirroring what `beater-otlp` produces for an ingested external agent run.
+    fn ingested_tool_span(seq: u64, selector: &str, matched: bool, url: &str) -> CanonicalSpan {
+        let mut attributes = BTreeMap::new();
+        attributes.insert(semconv::ENGINE.to_string(), json!("chromium"));
+        attributes.insert(semconv::ACTION.to_string(), json!("click"));
+        attributes.insert(semconv::SELECTOR.to_string(), json!(selector));
+        attributes.insert(semconv::SELECTOR_EXISTED.to_string(), json!(matched));
+        attributes.insert(semconv::MATCHED_ELEMENT.to_string(), json!(matched));
+        attributes.insert(semconv::STEP_SEQ.to_string(), json!(seq));
+        attributes.insert(
+            semconv::STEP_STATUS.to_string(),
+            json!(if matched { "ok" } else { "error" }),
+        );
+        attributes.insert(semconv::URL.to_string(), json!(url));
+        CanonicalSpan {
+            schema_version: CANONICAL_SCHEMA_VERSION,
+            normalizer_version: "beater-otlp-v1".to_string(),
+            tenant_id: TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+            project_id: ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            environment_id: EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}")),
+            trace_id: TraceId::new("trace-x").unwrap_or_else(|err| panic!("{err}")),
+            span_id: beater_core::SpanId::new(format!("s{seq}"))
+                .unwrap_or_else(|err| panic!("{err}")),
+            parent_span_id: None,
+            seq,
+            kind: AgentSpanKind::ToolCall,
+            name: "browser.click".to_string(),
+            status: if matched {
+                SpanStatus::Ok
+            } else {
+                SpanStatus::Error
+            },
+            start_time: Utc::now(),
+            end_time: Some(Utc::now()),
+            model: None,
+            cost: None,
+            tokens: None,
+            input_ref: None,
+            output_ref: None,
+            attributes,
+            unmapped_attrs: json!({}),
+            raw_ref: dummy_artifact(),
+        }
+    }
+
+    #[test]
+    fn projects_ingested_spans_into_browser_steps() {
+        // Out-of-order seq + a non-browser span that must be ignored.
+        let spans = vec![
+            ingested_tool_span(1, "#pay", true, "https://shop/confirm"),
+            ingested_tool_span(0, "#cart", true, "https://shop/cart"),
+        ];
+        let trace = browser_trace_from_spans(&spans);
+        let steps = trace
+            .get("browser_steps")
+            .and_then(Value::as_array)
+            .unwrap_or_else(|| panic!("browser_steps"));
+        assert_eq!(steps.len(), 2);
+        // Steps are ordered by browser.step_seq.
+        assert_eq!(steps[0]["seq"], json!(0));
+        assert_eq!(steps[1]["seq"], json!(1));
+        assert_eq!(steps[0]["action"]["action"], json!("click"));
+        assert_eq!(
+            steps[1]["outcome"]["grounding"]["matched_element"],
+            json!(true)
+        );
+        assert_eq!(
+            steps[1]["outcome"]["observation"]["url"],
+            json!("https://shop/confirm")
+        );
+        // A miss projects status=error + matched_element=false.
+        let miss = browser_trace_from_spans(&[ingested_tool_span(0, "#gone", false, "https://x")]);
+        let miss_step = &miss["browser_steps"][0];
+        assert_eq!(miss_step["outcome"]["status"], json!("error"));
+        assert_eq!(
+            miss_step["outcome"]["grounding"]["matched_element"],
+            json!(false)
+        );
     }
 }

@@ -13,15 +13,15 @@
 //! `run_agent_experiment` / `evaluate_gate` like any other agent.
 
 use beater_browser::{BrowserAction, BrowserDriver, BrowserError, LlmDecision, StepTriple};
-use beater_browser_capture::browser_trace;
+use beater_browser_capture::{browser_trace, browser_trace_from_spans};
 use beater_datasets::DatasetCase;
 use beater_eval::{
     compare_paired_scores, evaluate_deterministic, EvalError, EvaluationCase, EvaluatorKind,
     EvaluatorSpec, GateDecision, GatePolicy,
 };
 use beater_experiments::{AgentAdapter, AgentAdapterError, AgentRunOutput, HarnessContext};
-use beater_schema::EvaluatorLane;
-use serde_json::json;
+use beater_schema::{CanonicalSpan, EvaluatorLane};
+use serde_json::{json, Value};
 use std::marker::PhantomData;
 
 /// Errors raised by the harness.
@@ -72,9 +72,10 @@ pub async fn run_scenario<D: BrowserDriver>(
     Ok(triples)
 }
 
-/// Score a run's step triples with a deterministic browser evaluator.
-pub fn score_run(triples: &[StepTriple], kind: EvaluatorKind) -> Result<f64, HarnessError> {
-    let trace = browser_trace(triples).map_err(|err| HarnessError::Capture(err.to_string()))?;
+/// Score a `{"browser_steps": [...]}` trace with a deterministic browser
+/// evaluator. Shared by the native-capture and ingested-span entry points so
+/// the evaluator-case contract lives in exactly one place.
+fn score_trace(trace: Value, kind: EvaluatorKind) -> Result<f64, HarnessError> {
     let spec = EvaluatorSpec {
         id: kind.catalog_id().to_string(),
         lane: EvaluatorLane::DeterministicWasi,
@@ -87,6 +88,23 @@ pub fn score_run(triples: &[StepTriple], kind: EvaluatorKind) -> Result<f64, Har
         trace: Some(trace),
     };
     Ok(evaluate_deterministic(&spec, &case)?.score)
+}
+
+/// Score a natively captured run (Pillar 1) from its step triples.
+pub fn score_run(triples: &[StepTriple], kind: EvaluatorKind) -> Result<f64, HarnessError> {
+    let trace = browser_trace(triples).map_err(|err| HarnessError::Capture(err.to_string()))?;
+    score_trace(trace, kind)
+}
+
+/// Score an ingested run (Pillar 2) from its canonical browser spans — e.g.
+/// `TraceView.spans` for a `browser-use`/Stagehand run that arrived over OTLP.
+/// This is the seam that lets an instrumented external agent flow into the same
+/// evaluate → compare → gate loop as a natively captured run.
+pub fn score_ingested_spans(
+    spans: &[CanonicalSpan],
+    kind: EvaluatorKind,
+) -> Result<f64, HarnessError> {
+    score_trace(browser_trace_from_spans(spans), kind)
 }
 
 /// Outcome of an A/B run: per-variant scores and the regression-gate decision.
@@ -310,5 +328,95 @@ mod tests {
             MockDriver::new(BrowserEngine::Webkit).engine().as_str(),
             "webkit"
         );
+    }
+
+    // ---- Pillar 2: ingested (OTLP) browser run -> score -> gate ---------- //
+
+    /// Build a `tool.call` `CanonicalSpan` exactly as `beater-otlp` produces it
+    /// for an ingested `browser-use`/Stagehand step (browser.* attributes).
+    fn ingested_span(seq: u64, matched: bool) -> CanonicalSpan {
+        use beater_browser::semconv;
+        use beater_schema::{ArtifactRef, RedactionClass, SpanStatus, CANONICAL_SCHEMA_VERSION};
+        let mut attributes = std::collections::BTreeMap::new();
+        attributes.insert(semconv::ACTION.to_string(), json!("click"));
+        attributes.insert(semconv::SELECTOR.to_string(), json!("#pay"));
+        attributes.insert(semconv::SELECTOR_EXISTED.to_string(), json!(matched));
+        attributes.insert(semconv::MATCHED_ELEMENT.to_string(), json!(matched));
+        attributes.insert(semconv::STEP_SEQ.to_string(), json!(seq));
+        attributes.insert(
+            semconv::STEP_STATUS.to_string(),
+            json!(if matched { "ok" } else { "error" }),
+        );
+        attributes.insert(semconv::URL.to_string(), json!("https://shop/confirm"));
+        let artifact = ArtifactRef {
+            artifact_id: beater_core::ArtifactId::new("a").unwrap_or_else(|err| panic!("{err}")),
+            uri: "artifact://t/p/a".to_string(),
+            sha256: beater_core::Sha256Hash::new("h").unwrap_or_else(|err| panic!("{err}")),
+            size_bytes: 0,
+            mime_type: "application/json".to_string(),
+            redaction_class: RedactionClass::Internal,
+        };
+        CanonicalSpan {
+            schema_version: CANONICAL_SCHEMA_VERSION,
+            normalizer_version: "beater-otlp-v1".to_string(),
+            tenant_id: beater_core::TenantId::new("t").unwrap_or_else(|err| panic!("{err}")),
+            project_id: beater_core::ProjectId::new("p").unwrap_or_else(|err| panic!("{err}")),
+            environment_id: beater_core::EnvironmentId::new("e")
+                .unwrap_or_else(|err| panic!("{err}")),
+            trace_id: beater_core::TraceId::new("tr").unwrap_or_else(|err| panic!("{err}")),
+            span_id: beater_core::SpanId::new(format!("s{seq}"))
+                .unwrap_or_else(|err| panic!("{err}")),
+            parent_span_id: None,
+            seq,
+            kind: beater_schema::AgentSpanKind::ToolCall,
+            name: "browser.click".to_string(),
+            status: if matched {
+                SpanStatus::Ok
+            } else {
+                SpanStatus::Error
+            },
+            start_time: chrono::Utc::now(),
+            end_time: Some(chrono::Utc::now()),
+            model: None,
+            cost: None,
+            tokens: None,
+            input_ref: None,
+            output_ref: None,
+            attributes,
+            unmapped_attrs: json!({}),
+            raw_ref: artifact,
+        }
+    }
+
+    #[test]
+    fn ingested_regressed_run_is_gated_as_regression() {
+        // The full Pillar-2 chain: an instrumented agent's OTLP spans (here in
+        // the canonical form beater-otlp emits) are projected to browser_steps,
+        // scored, and gated — proving an ingested run flows through the same
+        // evaluate -> compare -> gate loop as a natively captured one.
+        let mut baseline = Vec::new();
+        let mut candidate = Vec::new();
+        for _ in 0..12 {
+            // One step per task; baseline grounds, candidate misses.
+            baseline.push(
+                score_ingested_spans(
+                    &[ingested_span(0, true)],
+                    EvaluatorKind::BrowserGrounding { min_ratio: 1.0 },
+                )
+                .unwrap_or_else(|err| panic!("{err}")),
+            );
+            candidate.push(
+                score_ingested_spans(
+                    &[ingested_span(0, false)],
+                    EvaluatorKind::BrowserGrounding { min_ratio: 1.0 },
+                )
+                .unwrap_or_else(|err| panic!("{err}")),
+            );
+        }
+        assert!(baseline.iter().all(|s| *s == 1.0));
+        assert!(candidate.iter().all(|s| *s == 0.0));
+        let comparison = compare_paired_scores(&baseline, &candidate, &GatePolicy::default())
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(comparison.decision, GateDecision::FailRegression);
     }
 }
