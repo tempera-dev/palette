@@ -15,7 +15,7 @@ use std::sync::Arc;
 use uuid::Uuid;
 
 mod sweeper;
-pub use sweeper::{referenced_artifact_uris, OrphanedArtifactSweeper, SweepReport};
+pub use sweeper::{OrphanedArtifactSweeper, SweepReport};
 
 const TABLE_NAME: &str = "spans";
 

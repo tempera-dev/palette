@@ -63,18 +63,6 @@ impl OrphanedArtifactSweeper {
         self.delete_orphans(candidates, &live).await
     }
 
-    /// Reconciles `candidates` against an explicit set of live spans, deleting any
-    /// candidate not referenced by them. Use this when the caller already holds
-    /// the relevant spans (e.g. right after archiving a trace).
-    pub async fn sweep_against_spans(
-        &self,
-        spans: &[CanonicalSpan],
-        candidates: &[ArtifactRef],
-    ) -> StoreResult<SweepReport> {
-        let live = referenced_artifact_uris(spans);
-        self.delete_orphans(candidates, &live).await
-    }
-
     async fn live_referenced_uris(
         &self,
         trace_store: &dyn TraceStore,
@@ -142,7 +130,7 @@ impl OrphanedArtifactSweeper {
 
 /// Collects every artifact uri referenced by the given spans (raw payloads plus
 /// any span input/output artifacts).
-pub fn referenced_artifact_uris(spans: &[CanonicalSpan]) -> BTreeSet<String> {
+fn referenced_artifact_uris(spans: &[CanonicalSpan]) -> BTreeSet<String> {
     let mut uris = BTreeSet::new();
     for span in spans {
         uris.insert(span.raw_ref.uri.clone());
