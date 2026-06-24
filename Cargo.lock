@@ -747,7 +747,17 @@ dependencies = [
 name = "beater-browser-harness"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "beater-browser",
+ "beater-browser-capture",
+ "beater-datasets",
+ "beater-eval",
+ "beater-experiments",
+ "beater-schema",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
 ]
 
 [[package]]
@@ -1503,7 +1513,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8380ce7721cc895fe8a184c49d615fe755b0c9a3d7986355cee847439fff907f"
 dependencies = [
  "async-tungstenite",
- "base64",
+ "base64 0.22.1",
  "cfg-if",
  "chromiumoxide_cdp",
  "chromiumoxide_types",
@@ -5638,7 +5648,7 @@ dependencies = [
  "byteorder",
  "bytes",
  "data-encoding",
- "http",
+ "http 1.4.2",
  "httparse",
  "log",
  "rand 0.8.6",

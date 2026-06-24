@@ -6,6 +6,18 @@ license.workspace = true
 
 [dependencies]
 beater-browser = { path = "../beater-browser" }
+beater-browser-capture = { path = "../beater-browser-capture" }
+beater-eval = { path = "../beater-eval" }
+beater-schema = { path = "../beater-schema" }
+beater-experiments = { path = "../beater-experiments" }
+beater-datasets = { path = "../beater-datasets" }
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
 
 [lints]
 workspace = true
