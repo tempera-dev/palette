@@ -20,8 +20,51 @@ you exactly which tests and verification commands a given change needs.
    (unit/integration tests, a `beaterctl` fixture, a live smoke, a UI click-through).
    "It compiles" is not a test.
 
-PRs that do not answer all three are sent back. Keep PRs focused; a reviewer
-should be able to hold the whole change in their head.
+PRs that do not answer all three are sent back.
+
+### One change per PR
+
+**A PR does exactly one thing.** One feature, one fix, one refactor, one doc
+update — not a bundle. If you find yourself writing "and also" in the
+description, split it into separate PRs. Small, single-purpose PRs are the rule
+because they:
+
+- review fast (a reviewer can hold the whole change in their head),
+- merge fast (less to verify, fewer gates to chase),
+- revert cleanly (one concern = one revertable commit),
+- bisect cleanly when something breaks later.
+
+Mechanical churn that must ride along (e.g. regenerated SDK clients from a
+contract change, or a `cargo fmt`) is part of the *same one thing* and stays in
+the PR — that is not a second change. Unrelated cleanup you noticed along the
+way goes in its own PR.
+
+### Review & merge
+
+- **Open a PR; a maintainer/admin reviews and approves it.** No one merges their
+  own change to `main`, and there are no direct pushes to `main`.
+- Because PRs are small and single-purpose, the intent is to **review and merge
+  quickly** — a focused PR with green CI and the WHAT/WHY/HOW filled in should
+  land promptly.
+- Merge is **squash-merge** (one atomic commit on `main`), and **every required
+  CI gate must be green first** (see below). A maintainer will not override a red
+  gate to merge.
+
+### Keep rules and docs in sync
+
+**If a change is crucial, update the rules and docs in the *same* PR.** A crucial
+change is one that alters: the architecture or a component contract, a `/v1`
+endpoint or schema, span kinds/attributes, the security/tenancy model, public
+SDK/MCP/CLI behavior, or a development rule. When you change one of those, update
+the affected docs in the same PR — most often:
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) (the build-ready plan + §22 tests/verification),
+- [README.md](README.md) and this file (if a workflow or rule changes),
+- [SECURITY.md](SECURITY.md) (if the security surface changes),
+- the regenerated contract (spec → 7 SDKs → MCP → CLI → docs) for any `/v1` change.
+
+A crucial change that leaves the docs stale is **incomplete** and will be sent
+back. Docs are not a follow-up.
 
 ## CI/CD must be green before a PR is merged
 
