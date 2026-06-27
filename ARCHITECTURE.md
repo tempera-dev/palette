@@ -3397,9 +3397,12 @@ red required gate.
   evidence (§16, §20.2 #0.3). Advisory until the `[planned]` bench fixtures exist;
   a regression here is surfaced, not merge-blocking, because perf numbers are noisy
   on shared CI runners. Promote to required once a stable bench baseline lands.
-- **`apple-container-build` / `container-images`.** Image builds for distribution;
-  a build break is reported but does not block a source-only PR. On `main` these
-  feed CD (below).
+- **`container-images`.** Image build for distribution (Docker buildx,
+  multi-platform); a build break is reported but does not block a source-only PR.
+  On `main` this feeds CD (below). The Apple-`container` path is verified locally
+  only (`docs/apple-container.md`): hosted arm64 macOS runners can't nest Apple's
+  `Virtualization.framework`, so a CI job there is green-on-failure theater until a
+  self-hosted bare-metal Apple-silicon runner exists.
 
 #### Explicit DRIFT coverage (the anti-silent-drift guarantee)
 
