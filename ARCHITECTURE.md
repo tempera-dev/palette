@@ -324,7 +324,7 @@ component by its crate path; reason about it by its beat name. Format below:
   value/spend accrues) — (crate: `beater-usage`).
 - **Bandwidth** — plans/subscriptions/Stripe metered sync; how much throughput a plan
   buys — (crate: `beater-billing` [planned]).
-- **Tip Jar** — the autonomy-credits metering layer (deferred productization, §21.6);
+- **Tip Jar** — the autonomy-credits metering layer (deferred productization, §21.7);
   what you pay into for verified gains — (crate: `beater-credits` [deferred]).
 
 **Identity, secrets & trust**
@@ -380,10 +380,10 @@ component by its crate path; reason about it by its beat name. Format below:
 - **Tech Rider** — the criterion benches + load-test fixtures (the rider that pins the
   performance requirements) — (crate: `beater-bench` [planned]).
 - **Studio** — the deferred visual agent-design canvas (front-end ↔ back-end map,
-  live traces, drag-to-add); design-only, idea preserved (§21.5b) — (crate:
+  live traces, drag-to-add); design-only, idea preserved (§21.6b) — (crate:
   `beater-studio` [deferred]).
 - **Backline** — the deferred auto-provisioned tool-belt (managed vector memory, SQL,
-  web search, scrapers); the gear the venue provides on demand (§21.5c) — (crate:
+  web search, scrapers); the gear the venue provides on demand (§21.6c) — (crate:
   `beater-toolbelt` [deferred]).
 
 **Pipeline (not a crate):**
@@ -534,7 +534,7 @@ store; and a standalone Studio / toolbelt / credits productization as separate
 products (§21). An MVP foundation for the latter (`beater-credits`,
 `beater-mcp-improve`) already exists on the `feat/mcp-improve-foundation` branch,
 but the architecture now prefers folding improvement into `beater-mcp` and
-deferring credits productization (§21.6).
+deferring credits productization (§21.7).
 
 ### 4.1 Implementation Picks
 
@@ -852,7 +852,7 @@ proposed against. Two anti-Goodhart invariants make the optimization honest:
 **Convergence criteria** (the loop stops, rather than churning): no proposed
 change clears the §10.3 confidence-bound *and* power bar on holdout (the gain is
 indistinguishable from noise or underpowered); or a fixed episode budget
-(iterations / AI-credits, §21.6) is exhausted; or every remaining candidate
+(iterations / AI-credits, §21.7) is exhausted; or every remaining candidate
 touches a policy-constrained component. A change is **accepted only** when its
 holdout improvement is statistically significant under §10.3 *and* does not regress
 any guardrail/safety dimension below threshold.
@@ -912,6 +912,12 @@ chance. The discipline that prevents this is mandatory, not advisory:
   deterministic scorers, and split are pinned for the whole optimization episode,
   so the measured gain is attributable to `π`, not to a moved ruler.
 
+This schema-level discipline is the *floor*. The RSI loop additionally runs a
+separate, multi-signal **anti-overfitting & generalization guardrail** (§21.4) —
+held-out gap, auto-generated OOD probes, smoothness/sensitivity, proxy-vs-true
+over-optimization detection, and a complexity penalty — that gates every change on
+top of the frozen-Test gate.
+
 ### 6.5 Modeling assumptions (stated, checked, relaxed)
 
 The agent model rests on assumptions; naming them is what separates measurement
@@ -942,7 +948,7 @@ real interval and a stated assumption, and the RSI loop (§21) has a precise,
 overfit-resistant objective `J(π)` to optimize against rather than a single fragile
 score. These four assumptions, plus every other quantitative assumption in this
 document, are gathered with their checks and enforcing tests in the consolidated
-table at §21.9 (rows A1, A9, A10, A12).
+table at §21.10 (rows A1, A9, A10, A12).
 
 ## 7. Standards and Normalization
 
@@ -1580,7 +1586,7 @@ applies, an unweighted number is simply wrong.
 Every assumption named in this subsection (clustering, interval validity, test
 selection, nominal=actual alpha, multiplicity, power, no-peeking, weighting) is
 gathered with its check and the §22 test that enforces it in the consolidated
-assumptions table at §21.9 (rows A1–A8, A19).
+assumptions table at §21.10 (rows A1–A8, A19).
 
 ### 10.4 Grading Algorithms & Assumptions
 
@@ -2397,8 +2403,8 @@ server, sharing its auth, transport, and contract-sync discipline. An MVP
 foundation (`beater-credits`, `beater-mcp-improve`) already exists on the
 `feat/mcp-improve-foundation` branch, but the architecture now prefers folding
 improve into `beater-mcp` over shipping a separate improve server, and **defers**
-the standalone Studio / toolbelt / credits productization to a later phase (§21.6,
-§21.7). The thesis ("a tool belt that generates tool belts") is retained as a
+the standalone Studio / toolbelt / credits productization to a later phase (§21.7,
+§21.8). The thesis ("a tool belt that generates tool belts") is retained as a
 direction, not a near-term standalone product.
 
 **MCP deployability (required).** The MCP is reachable two ways, with the same tool
@@ -2418,7 +2424,7 @@ Design invariants (carried from §1):
   as plan → approve → execute: the MCP indexes the agent, reports what it found
   ("is this correct? which of the §6.1 levers are you OK changing?"), and only then
   iterates. Autonomy is opt-in and **bounded** — spend and confidence bounds, with
-  **repo writes OFF by default** (§21.5 bounded-autonomy policy).
+  **repo writes OFF by default** (§21.6 bounded-autonomy policy).
 - **Generalize, do not overfit — accept only on the frozen Test split.** A change
   is accepted only on the untouched **Test** split (§5.4, §6.4) clearing a real
   confidence interval *and* power bar (§10.3). The loop is policy-aware: load-
@@ -2434,7 +2440,7 @@ Design invariants (carried from §1):
 ### 21.1 The improvement tools (added to `beater-mcp`)
 
 The RSI tool-belt is a set of tools on the existing `beater-mcp` server (not a
-separate binary). Every tool call is a metered self-improvement action (see §21.6).
+separate binary). Every tool call is a metered self-improvement action (see §21.7).
 Core tools:
 
 - `index_agent` — discover the agent's code, config, system/UI/customer prompts,
@@ -2466,11 +2472,11 @@ Core tools:
 - `apply_change` — wire the approved change at a chosen integration depth
   (suggest-only → wire a node → edit repo code), collaborating with Claude Code for
   the actual code write. **Repo writes are OFF by default** and a write is
-  materialized to the repo **only after a held-out Test win** clears §10.3 (§21.5).
+  materialized to the repo **only after a held-out Test win** clears §10.3 (§21.6).
 - `track_evolution` — record the agent's version history (tools added/removed,
   prompts rewritten, labels challenged) so the loop can see its own trajectory.
 - `challenge_labels` — flag dataset labels the evidence contradicts; route to the
-  human grader (§21.5).
+  human grader (§21.6).
 - `suggest_scorers` — **advisory**: given the indexed agent + its traces, suggest
   an archetype ("RAG agent", "tool-using planner", "browser agent") and a starter
   set of §10.4 scorers/dimensions (§6.3) to measure it. Outcome-shaped advice, not
@@ -2527,10 +2533,10 @@ goal + params + few examples
   -> collect traces/evals (Beater) + classify failures
   -> propose_change (typed §6.1 lever, goal-targeted, generalizable)
   -> simulate on TRAIN/Dev (judge + deterministic) -> typed reward + CI (§21.2)
-  -> human approve (which changes; autonomy bounds, §21.5)
+  -> human approve (which changes; autonomy bounds, §21.6)
   -> evaluate on the untouched TEST split -> beater-stats CI + power check (§10.3)
   -> ACCEPT iff Test CI clears the bar AND no safety dimension regresses
-  -> only then apply_change (materialize to repo, §21.5) + record
+  -> only then apply_change (materialize to repo, §21.6) + record
   -> track_evolution -> repeat (stop on §6.2 convergence/budget)
 ```
 
@@ -2547,7 +2553,7 @@ gate**: simulate on Train/Dev for a typed-reward CI, then evaluate on the **unto
 Test split**, accepting iff the Test CI clears §10.3's significance *and* power bar
 with no safety regression (the §6.2 accept/reject rule). Rejected candidates inform
 the next reflection round; the loop is single-candidate-sequential, with full
-population/evolutionary search deferred (§21.5c).
+population/evolutionary search deferred (§21.6c).
 
 This is **sequential evaluation gated on a real confidence interval over the frozen
 Test split** — propose/simulate read Train (Dev for tuning), acceptance reads the
@@ -2557,9 +2563,221 @@ trusted where state is known-correct; the judge component is position-bias-cance
 and CI'd. Anti-overfit, the frozen evaluator (§6.2), and policy-awareness gate every
 accepted change.
 
-### 21.x Anti-Overfitting & Generalization Guardrail — [research-backed spec pending: smoothness/over-optimization detection + auto-generated OOD probes]
+### 21.4 Anti-Overfitting & Generalization Guardrail (the second loop)
 
-### 21.4 Integrations & Code-Awareness
+§21.3 is the *acceptance* loop: propose → simulate → gate on the frozen Test split.
+That gate is necessary but **not sufficient**. A searcher that emits enough
+candidates will eventually clear a fixed Test split *by chance* (multiple-comparison
+overfitting), and a candidate can clear the Test gate while having learned to game
+the *judge* rather than the *task* (reward over-optimization / Goodhart). So the
+guardrail here is a **separate, first-class loop** that runs **in parallel** to
+§21.3, on the same `beater-stats`/Backbeat statistics and `beater-eval` scorers,
+and **gates every RSI change before it is allowed to materialize** (§21.6). Where
+§21.3 asks "did this change win on Test?", the guardrail asks "is this win
+*real* and *general*, or is it overfit / over-optimized / brittle?" — and either
+answer can veto.
+
+The design is deliberately **multi-objective**: rather than collapse generalization
+into the single Test-pass number (the very collapse Goodhart exploits), the
+guardrail "prunes from another dimension." It computes **five independent signals**
+per candidate change, each with its own threshold-of-usefulness, and treats them as
+**separate Pareto axes** under a *constrained* optimization: maximize verified gain
+(§21.2) **subject to** each guardrail proxy staying below its bound. A candidate
+that buys Test points by blowing past a guardrail bound is dominated, not accepted.
+
+> **Honesty up front.** Several signals below rest on *recent single preprints*;
+> their headline numbers are marked **[directional]** and must be re-measured on
+> BEATER's own data before any threshold is trusted. The scaling-law coefficients
+> are **method- and config-specific and must be re-fit** (not copied from the
+> source paper). The verifier-rotation cadence and the auto-OOD generator's
+> OOD-*guarantee* are stated **open questions** (end of this subsection), and every
+> default threshold / window `k` must be **auto-calibrated to the measured eval
+> noise floor** (§10.3), not hardcoded.
+
+#### The five signals (computed per candidate RSI change)
+
+**Signal 1 — Held-out generalization gap.** The most basic overfitting tell:
+
+```text
+gap = score(change, Train-split) − score(change, frozen Test-split)      // both via §21.2 typed reward
+```
+
+Train/Dev/Test are the §5.4 seeded-hash splits; the Test split is the untouched
+holdout §21.3/§6.4 already accept on. A **large or growing** gap across the episode
+(the gap trending up over successive accepted changes) means the loop is fitting the
+proposal data, not the task. The gap is reported with its own §10.3 CI (paired Δ,
+clustered by case); **reject if the gap's CI-low exceeds the bound** (§10.3 #1
+clustered SE, so a gap that is just noise does not trip it).
+
+**Signal 2 — OOD-probe delta (auto-generated, rotated verifier).** A held-out
+*Test* split is still drawn from the *same distribution* the loop has been staring
+at; clearing it does not prove the change generalizes to *related-but-unseen* work.
+So the guardrail also scores each candidate on an **auto-generated OOD probe** — a
+task that is in-domain but provably outside the train/eval split — and **accepts
+only if the probe-delta's CI-low ≥ threshold**.
+
+Two non-obvious requirements make this signal trustworthy:
+
+- **The probe is scored by a ROTATED verifier, not a permanently frozen one.** A
+  fixed judge that is repeatedly optimized against gets *gamed*: the policy and the
+  evaluator co-adapt and the judge stops measuring the task (evaluator-policy
+  co-adaptation / reward-model hacking) [arXiv:2310.04373]. The OOD verifier is
+  therefore drawn from a small pool (different judge model and/or a re-sampled
+  rubric phrasing) on a **rotation schedule**, so no single judge is the standing
+  target. (Note: the *episode* evaluator stays frozen per A14/§6.2 — that freeze is
+  about not moving the ruler mid-measurement; rotation here is across the *OOD probe
+  family*, a deliberately separate, harder-to-game ruler, and is reconciled with A14
+  below.)
+- **Auto-OOD generation with a leakage firewall + a verified OOD-ness check.** The
+  probe is produced by a **generator that is NOT the verifier** (generator ≠
+  verifier prevents answer leakage), and the generator is given **only the goal +
+  schema, never the gold outputs**, so it cannot encode the answer into the probe.
+  Before a probe is used it must **pass an OOD-ness check** versus the train/eval
+  split — novelty by **embedding distance ≥ τ_emb** *and* **n-gram (e.g. 5-gram)
+  Jaccard overlap ≤ τ_ngram** against every split case. A probe that fails the
+  novelty check is discarded (it is not actually OOD); a probe whose gold cannot be
+  independently checked is discarded (it is not actually scorable).
+
+```text
+generate_ood_probe(goal, schema):           # generator G ≠ verifier V
+    cand = G(goal, schema)                   # no gold outputs given to G
+    if emb_dist(cand, split) < τ_emb:        return DISCARD   # too close ⇒ not OOD
+    if ngram_overlap(cand, split) > τ_ngram: return DISCARD   # leakage ⇒ not OOD
+    if not independently_checkable(cand):    return DISCARD   # not scorable
+    return cand                              # verified-OOD, scored later by rotated V
+```
+
+**Signal 3 — Smoothness / sensitivity (prompt flatness + metamorphic stability).**
+A change can win on Test yet sit on a **jagged** point in prompt-space — tiny,
+meaning-preserving perturbations swing its score. Semantics-preserving perturbation
+is a *first-order* robustness signal: in recent work it accounts for roughly **half
+of performance variance and flips model rankings ~63% of the time** [directional;
+arXiv:2603.13285]. Two complementary measures:
+
+- **Flatness** — perturb the changed prompt/config with small semantics-preserving
+  edits (whitespace, reordering of independent instructions, synonym swaps) and
+  measure score dispersion. The conceptual framing is "prefer flat minima in
+  prompt-space" (SAM-for-prompts); **NOTE the specific SAM-prompt source
+  (arXiv:2509.24130) was WITHDRAWN**, so it is used **only for conceptual framing**
+  and the numbers are **[directional]**.
+- **Metamorphic-relation stability** — define a metamorphic relation `MR`:
+  *paraphrase-in ⇒ equivalent-out*. For paraphrased inputs `x' ≈ x`, the change
+  must produce equivalent outputs (equal for deterministic scorers; within-CI for
+  judge scorers).
+
+```text
+sensitivity(change) = mean_over_perturbations |score(change, x) − score(change, perturb(x))|
+                      + (1 − metamorphic_pass_rate(MR: paraphrase-in ⇒ equivalent-out))
+```
+
+High `sensitivity` ⇒ the win is brittle ⇒ **reject**. Low `sensitivity` (flat,
+metamorphically stable) is evidence the change captured the task, not a fragile
+prompt artifact.
+
+**Signal 4 — Proxy-vs-true divergence (reward over-optimization detection).** The
+core Goodhart failure: the **proxy** (the judge / the simulate reward) keeps rising
+while the **true** objective (the frozen Test score) plateaus or *declines*. Three
+detectors, used together:
+
+- **EvalStop-style early stop.** Track the frozen-Test score across the episode;
+  **halt after `k` consecutive Test declines** while the proxy/judge keeps rising,
+  and **keep the best checkpoint** (not the last) [arXiv:2606.04145]. `k` is
+  auto-calibrated to the per-step Test-score noise (a single noisy dip is not a
+  decline).
+- **KL-distance scaling law (closed-form peak).** Over-optimization scales with the
+  policy's drift from its init. With `d = √(D_KL(π ‖ π_init))`, the gold (true)
+  reward follows
+  `R_bon(d) = d·(α − β·d)` for best-of-n sampling and
+  `R_RL(d) = d·(α − β·log d)` for RL-style updates [arXiv:2210.10760]. **Fit α, β
+  to BEATER's OWN proxy-vs-KL data** — Gao's published coefficients are **not
+  reusable** (they are method-, scale-, and reward-model-specific; re-fit per
+  config) — then **stop at the closed-form peak** (`d* = α/(2β)` for the BoN form),
+  i.e. the drift past which more optimization *reduces* true reward.
+- **Info-bottleneck latent-outlier detector (secondary).** A CSI-style
+  (Contrastive Shifted Instances) outlier score on a bottlenecked latent of the
+  candidate's behavior flags when a change has moved into a representation region
+  uncharacteristic of genuinely-improving changes — a secondary divergence alarm.
+
+State plainly: **KL-regularization ALONE is insufficient.** Under heavy-tailed
+reward misspecification, bounding KL does not bound true-reward loss
+("catastrophic Goodhart") [arXiv:2402.09345]. That is *why* this is a multi-signal
+design rather than a single KL penalty: the EvalStop decline counter and the CSI
+outlier catch divergence the KL bound provably can miss.
+
+**Signal 5 — Complexity penalty (Occam / MDL).** Between two changes with
+indistinguishable verified gain, **prefer the simpler / smaller agent** — fewer
+tools, shorter prompts, smaller models, fewer added nodes. This is the
+minimum-description-length / Occam prior, priced as its own **Pareto axis**
+(`complexity = description length of the change set`), so a bloated change that ties
+on every other signal is dominated by a lean one. A simpler agent is also cheaper
+(§23) and less brittle (Signal 3), so this axis correlates with — but is not
+redundant to — the others.
+
+#### Stop / reject rules (how the signals gate a change)
+
+The guardrail emits two kinds of veto — a **per-change reject** and a **whole-job
+halt** — layered on top of §21.3's Test gate (a change must clear *both*):
+
+```text
+ACCEPT a candidate change only if ALL hold (constrained optimization, per axis):
+    OOD-probe delta CI-low   ≥  ood_threshold          # Signal 2
+    held-out gap CI-low      ≤  gap_bound              # Signal 1
+    sensitivity              ≤  sensitivity_bound       # Signal 3
+  AND it clears the §21.3 / §10.3 Test significance+power gate with no safety regress.
+Ties broken by lower complexity (Signal 5) and higher verifier_gain over judge_gain (§21.2).
+
+HALT the whole RSI job (and ROLL BACK to the best checkpoint) when divergence is detected:
+    k consecutive frozen-Test declines while the proxy rises   (Signal 4 EvalStop), OR
+    drift d = √D_KL(π‖π_init) past the fitted scaling-law peak  (Signal 4 KL law),  OR
+    a CSI latent-outlier alarm                                  (Signal 4 secondary).
+```
+
+This is the multi-objective framing made operational: **generalization gap,
+sensitivity, OOD-delta, cost (§23), and simplicity are five separate Pareto axes**,
+each kept below its "threshold of usefulness," rather than one fused score. "Prune
+from another dimension" means a candidate that is Pareto-dominated on *any* axis is
+discarded even if its headline Test delta is the largest in the round.
+
+#### Where it plugs in
+
+- **§5.4 Test split** is the held-out judge for Signals 1, 2, and 4 (the frozen
+  Test score the EvalStop counter and the gap are computed against).
+- **§21.6 bounded-autonomy policy** is the enforcement point: **repo writes stay
+  OFF**, and a change is **materialized only after a held-out Test win AND an OOD
+  win** (this subsection *adds the OOD-and-smoothness conjunct* to the §21.6
+  materialization condition — a Test win alone no longer authorizes a repo write).
+- **Backbeat (`beater-stats`)** supplies every CI/p-value/power the signals gate on;
+  **`beater-eval`** supplies the scorers (deterministic + rotated judge) for the OOD
+  probe and the metamorphic checks.
+
+#### Open questions & caveats (stated, not hidden)
+
+- **Single-preprint evidence.** Signals 3 and 4's headline numbers
+  (arXiv:2603.13285; the withdrawn arXiv:2509.24130; arXiv:2606.04145) are recent
+  and largely **un-replicated**; all such numbers are **[directional]** and must be
+  re-measured on BEATER's data before a threshold ships.
+- **Scaling coefficients are not portable.** α, β in `R_bon`/`R_RL` are **re-fit
+  per config**; reusing Gao's coefficients would silently mis-place the stop point
+  (the KL metric is itself method-specific).
+- **Verifier-rotation cadence is open.** How often to rotate the OOD verifier, and
+  how large the verifier pool must be to stay un-gameable without adding variance,
+  is unresolved — too-frequent rotation adds noise, too-rare rotation lets
+  co-adaptation creep back in. Reconciled with A14: the *episode* ruler is frozen;
+  the *OOD-probe* ruler is the deliberately-rotated, separate check.
+- **The auto-OOD OOD-*guarantee* is open.** Embedding-distance + n-gram novelty is a
+  *heuristic* for "outside the split," not a proof; a generator can still produce a
+  semantically-near probe that passes both filters. Tightening this into a real
+  guarantee (and proving the generator cannot leak the answer) is open work.
+- **Thresholds/`k` must be auto-calibrated.** `ood_threshold`, `gap_bound`,
+  `sensitivity_bound`, and the EvalStop window `k` are **calibrated to the measured
+  eval noise floor** (§10.3), never hardcoded; an uncalibrated bound either rubber-
+  stamps overfit changes or rejects every real win.
+
+This guardrail is **[planned]**, like the rest of §21; its acceptance test is the
+§24 ledger row "the §21 guardrail REJECTS an overfit change on a held-out OOD probe"
+and the §22.3 RSI rows.
+
+### 21.5 Integrations & Code-Awareness
 
 - **Runtime introspection:** aware of where localhost runs; can open the browser,
   read API logs from the user's codebase, and locate the responsible stack layer.
@@ -2567,22 +2785,22 @@ accepted change.
   cleanly to canonical spans); LangChain / LangGraph. Auto-discover internal
   workflows and classify their traces into improvement candidates.
 - **Integration depths:** (1) suggest-only, (2) wire a node (Studio, deferred —
-  §21.5b), (3) change actual repo code — chosen per change. Depth (3) is gated by
-  the bounded-autonomy policy (§21.5) and a held-out Test win.
+  §21.6b), (3) change actual repo code — chosen per change. Depth (3) is gated by
+  the bounded-autonomy policy (§21.6) and a held-out Test win.
 
-### 21.5 Bounded-autonomy policy
+### 21.6 Bounded-autonomy policy
 
 Autonomy is opt-in and **bounded**; the loop never silently rewrites a repo. The
 policy is a hard guard around `apply_change`:
 
 - **Repo writes OFF by default.** The default integration depth is suggest-only
-  (§21.4). A repo write requires an explicit opt-in *and* satisfies the conditions
+  (§21.5). A repo write requires an explicit opt-in *and* satisfies the conditions
   below; until then the loop produces plans and simulated/Test results, not edits.
 - **Materialize only after a held-out win.** An accepted change is written to the
   repo **only after** its improvement on the untouched **Test** split clears the
   §10.3 confidence-bound *and* power bar with no safety-dimension regression (§6.2,
   §21.3). A simulate-only (Train/Dev) win is never sufficient to write code.
-- **Spend bound.** Each episode runs under a budget (AI-credits / model spend, §21.6)
+- **Spend bound.** Each episode runs under a budget (AI-credits / model spend, §21.7)
   enforced by `QuotaLimiter` (§8.4); exhausting it stops the loop (a §6.2
   convergence criterion), it does not silently overspend.
 - **Confidence bound.** A change below a configured confidence threshold on its
@@ -2595,11 +2813,11 @@ Together these make the autonomous mode *bounded* — it can spend up to a budge
 act only above a confidence bound, and touch the repo only after a real held-out
 win — rather than an open-ended self-rewriting agent.
 
-### 21.5b Deferred: Agent Studio (`beater-studio`)
+### 21.6b Deferred: Agent Studio (`beater-studio`)
 
 **Deferred — design-only, idea preserved, not a near-term product.** A visual
 surface that maps front-end ↔ back-end. Kept here as direction; it is *not* on the
-critical path and is part of the deferred standalone-Studio productization (§21.6):
+critical path and is part of the deferred standalone-Studio productization (§21.7):
 
 - **Canvas** (Excalidraw-style, mostly native): agent design auto-drawn as nodes,
   **topologically sorted left→right**, with explicit visualization of recursive
@@ -2612,7 +2830,7 @@ critical path and is part of the deferred standalone-Studio productization (§21
 - **Human grading:** an expert feedback area to grade right/wrong inline, feeding
   `challenge_labels` and calibration (§10.5).
 
-### 21.5c Deferred: auto-provisioned tool-belt (`beater-toolbelt`)
+### 21.6c Deferred: auto-provisioned tool-belt (`beater-toolbelt`)
 
 **Deferred — design-only, idea preserved.** OAuth in, and the platform
 auto-provisions agent capabilities on demand (the "pop-up" experience): one-click
@@ -2623,7 +2841,7 @@ agent configs** (the §21.3 loop ships as a single-candidate sequential search f
 population search is a later generalization). These are future generalizations of
 the loop, not MVP.
 
-### 21.6 Commercial Model & Metering (DRAFT — design-only, productization DEFERRED)
+### 21.7 Commercial Model & Metering (DRAFT — design-only, productization DEFERRED)
 
 **Status: the commercial model is kept as a design, but the standalone Studio +
 toolbelt + credits *productization* is DEFERRED to a later phase.** An MVP
@@ -2646,7 +2864,7 @@ abuse* signal, not the value meter.
 Two dimensions:
 
 - **Autonomy budget (AI credits)** — model spend (judge + code-writer) inside an
-  episode, bounded per the §21.5 spend bound; this is what the user is really
+  episode, bounded per the §21.6 spend bound; this is what the user is really
   buying (verified gains), with episodes that fail to clear the Test gate costing
   the platform's margin, not silently the user.
 - **Rate-limit requests** — MCP tool calls / endpoint calls, used to bound abuse
@@ -2668,10 +2886,10 @@ continuously (seek-based), not on calendar boundaries.
 Requires (when productized): a metering/credits service (`beater-credits`, MVP
 exists on branch) over the existing `beater-usage` ledger (§10 usage records) +
 `QuotaLimiter` (§8.4) with rolling 5h/weekly windows, plan tiers, and Stripe metered
-billing (ties into §20.7 5.8). Until productization, the §21.5 spend bound is
+billing (ties into §20.7 5.8). Until productization, the §21.6 spend bound is
 enforced directly through `QuotaLimiter` without the commercial layer.
 
-### 21.7 Crates & SDK
+### 21.8 Crates & SDK
 
 - **`beater-mcp` (CHANGED, primary)** — the improvement tools (§21.1) and composite
   recipes are added here; the loop is *not* a separate server. stdio + streamable-
@@ -2682,13 +2900,13 @@ enforced directly through `QuotaLimiter` without the commercial layer.
   `feat/mcp-improve-foundation` as the MVP; its logic folds into `beater-mcp` rather
   than shipping standalone.
 - **`beater-credits` (DEFERRED / branch foundation)** — metering exists on branch;
-  productization deferred (§21.6).
-- **`beater-toolbelt` (DEFERRED, §21.5c)**, **`beater-studio` (DEFERRED, §21.5b)** —
+  productization deferred (§21.7).
+- **`beater-toolbelt` (DEFERRED, §21.6c)**, **`beater-studio` (DEFERRED, §21.6b)** —
   design-only, ideas preserved.
 - Deterministic **improvement SDK** (py/ts) over the same endpoints for repeatable
   monitoring/improvement pipelines (later phase).
 
-### 21.8 Phasing & Acceptance
+### 21.9 Phasing & Acceptance
 
 - **MVP:** the improvement tools on `beater-mcp` — `index_agent`/`propose_change`/
   `simulate`/`apply_change` — wired to Beater evals/judge/harness/`beater-stats`,
@@ -2701,12 +2919,12 @@ enforced directly through `QuotaLimiter` without the commercial layer.
 - **+2 (deferred):** auto-provisioned tool-belt (vector/SQL/web); Studio canvas
   (topo-sorted nodes, JSON schema, live traces, drag-to-add) + human grading.
 - **+3 (deferred):** deterministic SDK, LangGraph integration, credits/billing tiers
-  GA; later still, population/evolutionary search and a skill library (§21.5c).
+  GA; later still, population/evolutionary search and a skill library (§21.6c).
 
 This loop depends on Phases 0–4 of §20 (scale, data model, read APIs, evals/stats,
 online evals) being far enough along that traces and evals are real inputs to it.
 
-### 21.9 Assumptions & how they are validated (consolidated)
+### 21.10 Assumptions & how they are validated (consolidated)
 
 Every quantitative claim in this document rests on assumptions. They are stated
 in context (§6.5, §10.3, §10.4, §10.5, §11), but a reader should be able to see
@@ -2902,7 +3120,7 @@ dimensions at once triggers FWER/FDR control (A5).
 Train/Dev and returns a typed reward + CI, never decides acceptance; **acceptance
 reads the untouched Test split and requires a real `beater-stats` p-value at
 power (A6/A13)**; mutating the evaluator mid-episode aborts the episode (A14);
-spend/confidence bounds enforced by `QuotaLimiter` (§21.5).
+spend/confidence bounds enforced by `QuotaLimiter` (§21.6).
 *Verify:* `[planned]` an MCP `gate_candidate` recipe over a small seeded agent
 returns `pass`/`inconclusive`/`fail` with the interval, and `apply_change`
 refuses to write the repo without a held-out Test win.
@@ -2977,7 +3195,7 @@ The CI gate is the workflow that blocks merge if the item regresses.
 | §20.8 #6.4 `beaterctl quickstart` | timed e2e shows a *scored failing case* under the §15 SLO | `beaterctl quickstart` `[planned]` | `gate1-live-smoke` |
 | §21 MCP stdio transport | `tools/list` over stdio returns the full tool set | `beaterd mcp --stdio` `[planned]`; streamable-HTTP `/mcp` `[built]` | `sdk-contract` |
 | §21.1 RSI tools | propose→simulate(Train)→accept(Test) only on a stat-sig held-out win (A13/A14) | `gate_candidate` MCP recipe `[planned]` | `backend` |
-| §21.8 RSI MVP acceptance | indexes a small agent, proposes a generalizable change, verifies a Test win, applies via Claude Code with approval | end-to-end MCP episode `[planned]` | `backend` |
+| §21.9 RSI MVP acceptance | indexes a small agent, proposes a generalizable change, verifies a Test win, applies via Claude Code with approval | end-to-end MCP episode `[planned]` | `backend` |
 
 ### 22.4 Acceptance-to-milestone traceability
 
@@ -3101,5 +3319,255 @@ through the required CI gates above, **CD inherits CI's guarantees**: nothing
 deploys that has not passed the full required gate set, including zero contract /
 semconv / migration drift. That closure — sources → generated artifacts → gates →
 `main` → deploy — is what "Metronome keeps every box on tempo" means concretely.
+
+## 23. Performance, Concurrency & Scalability
+
+The platform runs heavy **parallel** load — many evals, judge calls, simulations,
+and RSI episodes at once — behind a **low-latency** MCP (Beatbox) and SDK surface.
+The governing principle is **simple but robust and scalable**: prefer the boring,
+**bounded** mechanism over the clever unbounded one, keep the hot path off the
+critical path, and **split into more processes only under measured pressure** (§17,
+§20.1), never speculatively. Every mechanism below names the **beat-box / crate** it
+lives in and a **target / SLO** where one exists (the SLO table is §16). Items here
+are consistent with §8 (storage), §9 (ingest), §16 (SLOs), and §22.5 (Metronome);
+**status follows §20.1** — the primitives are largely **[built]**, the measured
+SLO evidence is **[planned]** (the §20.2 #0.3 bench gate).
+
+### 23.1 Concurrency model (Tokio, bounded everywhere)
+
+- **Tokio async runtime, BOUNDED parallelism.** Every fan-out (eval batch, judge
+  batch, N RSI sims) runs through a **semaphore / worker pool**, never an unbounded
+  `tokio::spawn` loop — unbounded spawn turns a load spike into an OOM. The pattern
+  is `Arc<Semaphore>` with a configured permit count per work class; the permit count
+  is the explicit concurrency cap. *Lives in:* Backbeat (`beater-eval`/`beater-judge`),
+  Beatboxing (`beater-experiments` + RSI tools), Upbeat (`beater-ingest`). *Target:*
+  no work class can exceed its configured permits regardless of input size.
+- **`spawn_blocking` for CPU-bound work.** WASI scorer execution (Soundproof,
+  `beater-sandbox`), hashing (request-hash, payload-hash), and any sync compute run
+  on the blocking pool so they never stall async reactors. *Anti-pattern explicitly
+  banned:* CPU-bound or blocking I/O directly inside an async task (§23.10).
+- **Backpressure via bounded channels.** In-process smoothing uses **bounded Tokio
+  channels** that **absorb short spikes and reject when full** (the §8.4 in-process
+  lane), so overload is shed deterministically at the edge instead of accumulating
+  unbounded memory. This is the same lane model §9 ingest uses. *Lives in:* Drumbeat
+  (`beater-bus`) + the ingest path (`beater-ingest`).
+
+### 23.2 Low-latency MCP (Beatbox, `beater-mcp`)
+
+- **Tool calls return fast; heavy ops are dispatched, never blocking.** `tools/list`
+  and metadata calls resolve from an in-memory **spec/op cache** (the spec is the
+  single source, §22.5) and return in low single-digit ms. Heavy operations —
+  `simulate`, an eval run, an RSI episode — are **dispatched to a worker pool** and
+  return a **job handle immediately**; the MCP call **never blocks** on the long job.
+- **Streamed results over streamable-HTTP / SSE.** Progress and partial results
+  stream back over the streamable-HTTP transport (§21 intro: `POST /mcp` behind OAuth
+  2.1) / SSE, so the client sees incremental output without a long synchronous hold.
+  This is the same job-handle pattern the read APIs use for long work (§20.4 #2.9
+  live-tail). *Target / SLO:* an explicit **p95 tool-latency budget** for the
+  fast-return surface (`tools/list` and dispatch-ack), separate from the long job's
+  own completion SLO; codified in §16 once the §20.2 #0.3 bench lands **[planned]**.
+
+### 23.3 Low-latency SDK (the 7 clients + native tracing SDKs, §3.3)
+
+- **Non-blocking, BATCHED async export.** The tracing SDKs use the **OTLP batch span
+  processor**: spans are enqueued to a **bounded in-memory buffer** and flushed on a
+  **background thread/task** on a size/time trigger — the user's agent hot path does
+  a cheap enqueue, never a network round-trip. *Target:* negligible hot-path overhead
+  (enqueue is O(1), no synchronous export on the caller's thread).
+- **Bounded buffer + explicit drop policy.** When the buffer is full the SDK **drops
+  with a counter** (and surfaces a dropped-spans metric) rather than blocking the
+  agent or growing memory unbounded — a tracer must never become the thing that takes
+  the agent down. *Sample at source:* head/tail sampling decisions are applied as
+  early as possible (Upbeat stamps `sampling_weight = 1/keep_probability`, A19, §9)
+  so the wire and the store carry only kept spans, with weighted aggregates restoring
+  the population estimate (§8, §10.3 #1).
+
+### 23.4 Parallel eval / judge / RSI (Backbeat + Beatboxing)
+
+- **Judge broker: pooled, cached, rate-capped, batched.** The judge broker
+  (`beater-judge`) holds **per-provider connection pools**, a **request-hash cache**
+  (identical judge prompt+model ⇒ cached result; this *is* determinism, A15), and
+  **per-provider concurrency caps** so it respects each provider's rate limits, with
+  request **batching** where the provider supports it. *Target:* judge spend
+  attributed per org/project/experiment/evaluator (§16) and provider 429s avoided by
+  the cap, not absorbed by retries.
+- **WASI instance pool with fuel/epoch limits.** Soundproof (`beater-sandbox`,
+  Wasmtime) runs deterministic scorers from a **pooled** set of instances under
+  **fuel** *and* **epoch** deadlines (`consume_fuel(true)` + epoch interruption) and
+  memory caps, so one runaway scorer cannot burn the box; instances are reused to
+  amortize compile cost. *Built:* the fuel/host-import-deny sandbox exists on `main`
+  (`beater-sandbox`); the pool + epoch deadline is the scale hardening.
+- **RSI runs N sims under bounded concurrency + a shared budget.** A `simulate`
+  call's N candidate iterations run through the §23.1 semaphore **and** under the
+  §21.6 **spend bound** enforced by `QuotaLimiter` (Tempo/Groove, §8.4) — bounded
+  concurrency caps *instantaneous* load, the shared budget caps *total* spend, and
+  exhausting the budget is a §6.2 convergence stop, not a silent overspend.
+
+### 23.5 Storage & query (Groove, `beater-store*`)
+
+- **Keyset pagination + predicate/time pushdown.** Reads push `LIMIT`, the time
+  window, and filter predicates **into SQL** and paginate with **keyset (seek)
+  cursors** on `(start_time, span_id)` — never an in-memory full scan (the §20.2 #0.2
+  fix; today's `query_spans`/`query_runs` full-scan is the named gap). **Weighted
+  aggregates** (Horvitz-Thompson, `sampling_weight`) are computed in the backend
+  `GROUP BY`, not in app memory (Phase 0, §20.2; §10.3 #1).
+- **Batch writes + hot-read cache.** Ingest writes go through batched
+  `trace.write_batch` messages (§8.4) rather than per-span round-trips; frequently
+  read hot rows are cached (§23.6). *Target / SLO (§16):* indexed 24h search p95
+  ≤ 1s, 30d filtered p95 ≤ 3s, and the §20.2 acceptance **10M-span filtered search
+  p95 < 1s** in CI **[planned]** (the §24 ledger row).
+
+### 23.6 Caching (LRU + TTL, with hit-rate metrics)
+
+A small set of explicit caches, each **LRU + TTL** bounded and each exporting a
+**hit-rate metric** (Heartbeat) so a cold/ineffective cache is visible, not silent:
+
+| Cache | Keyed on | Lives in | Why |
+| --- | --- | --- | --- |
+| judge result | hash(judge prompt + model + params) | Backbeat (`beater-judge`) | determinism (A15) + spend (§16) |
+| calibration map | (evaluator, dataset version) | Tuning (`beater-calibration`) | avoid re-fitting isotonic/Platt per call |
+| embedding | hash(text + embed model) | Backbeat (judge/OOD probe, §21.4) | OOD novelty + judge embeddings reused |
+| MCP spec/op | spec version | Beatbox (`beater-mcp`) | fast `tools/list`/dispatch (§23.2) |
+
+A cache is **never a source of durability** (§8.4 cache lane) — losing it degrades
+latency, never correctness.
+
+### 23.7 Resource governance (quotas, limits, memory bounds, fairness)
+
+- **Quotas + rolling-window limiter.** `QuotaLimiter` (Groove, §8.4) enforces
+  per-tenant quotas; on top, a **rolling-window limiter** (5h / weekly, §21.7) smooths
+  bursts from a multi-factor cost (calls, tokens, model tier, sim depth) so abuse is
+  bounded without a hard calendar cliff. *Target:* per-tenant fairness — one tenant's
+  burst cannot starve another (each lane drains without consuming other tenants' work,
+  §8.4).
+- **Memory bounds.** Hard caps on in-memory structures: the replay **TailBuffer**
+  cap, **artifact size caps** (with redaction class, §20.3 #1.3), bounded channel
+  depths (§23.1), and the SDK export buffer (§23.3). No structure grows with
+  unbounded input. *Lives in:* Rewind (`beater-replay`), Crate (`beater-store-obj`),
+  Drumbeat (`beater-bus`).
+
+### 23.8 Robustness (degrade, don't fall over)
+
+- **Timeouts + circuit breakers on providers.** Every external provider call (judge
+  LLMs, embedding) has a timeout and a **circuit breaker** that opens on sustained
+  failure, so a degraded provider sheds fast instead of piling up blocked tasks.
+- **Retry with backoff + jitter; DLQ + poison isolation; idempotency.** Transient
+  failures retry with exponential backoff **and jitter** (avoid thundering-herd
+  retries); deterministic-failure "poison" messages are isolated to the **DLQ** with
+  a reason/attempt-history/replay command and never block a partition (§8.4);
+  ingest and job processing are **idempotent** under at-least-once delivery
+  (idempotency keys, §8.4). *Lives in:* Drumbeat (`beater-bus`) + Upbeat
+  (`beater-ingest`).
+- **Graceful degradation.** Under overload the platform sheds optional work first
+  (advisory online scoring, non-critical caches) and protects the durability path
+  (raw append + queryability), consistent with §16's ingest-success SLO (≥ 99.9%).
+
+### 23.9 Scalability path (one binary first → split under measured pressure)
+
+The default is **one process** running every box (§1, §3.1). The scale-out story is
+**stateless-first** and is only taken **when load testing measures the need**:
+
+- **Stateless API + MCP horizontally behind a load balancer.** Mixing Board
+  (`beater-api`) and Beatbox (`beater-mcp`) hold no session state (auth is token-
+  based, §20.1 OAuth), so they scale by adding replicas behind an LB.
+- **Stateful workers in cells; Drumbeat distributes work.** Eval/judge/replay/RSI
+  workers run in **cells** and pull from the Drumbeat bus (`beater-bus` →
+  NATS/Kafka in hosted, §8.4), so work distributes across workers without a shared
+  mutable store.
+- **Per-tenant shared-nothing; ClickHouse shard-by-tenant.** Tenants are isolated
+  (A20, §14) and the columnar store (Vinyl/Groove) **shards by tenant**, so a hot
+  tenant scales independently. *Split only under MEASURED pressure* — the §20.2 #0.3
+  bench + load test is the evidence gate before any horizontal split is justified.
+
+### 23.10 Perf observability + SLO gates (Heartbeat + Tech Rider)
+
+- **Heartbeat metrics.** Heartbeat (`beaterd` `metrics.rs`/`metrics_http.rs`, §16)
+  exports **p50/p95/p99 per component**, **queue depth**, **worker utilization**, and
+  **cache hit-rate** (§23.6) — the signals needed to find the actual bottleneck
+  before splitting anything (§23.9).
+- **Bench + load-test SLO gates.** Tech Rider (`beater-bench` [planned], §22.5
+  advisory gate) runs criterion benches + `xtask loadgen` at sustained RPS and gates
+  on the §16 SLOs (§20.2 #0.3); it is **advisory until a stable baseline lands**,
+  then promoted to a required Metronome gate (§22.5).
+
+### 23.11 Anti-patterns explicitly banned
+
+Stated so a reviewer can reject them on sight (each maps to a positive mechanism
+above):
+
+- **Blocking in async** — sync I/O or CPU-bound compute inside an async task; use
+  `spawn_blocking` / the worker pool (§23.1).
+- **Hot-path lock contention** — a global `Mutex` on the request path; use **atomics
+  or sharded locks** and keep critical sections tiny (§23.1).
+- **N+1 queries** — per-row fetch loops; use predicate/time pushdown + a single
+  backend aggregate (§23.5).
+- **Unbounded memory / queues** — unbounded `spawn`, unbounded channels/buffers,
+  uncapped TailBuffer/artifacts; every queue and buffer is bounded with a drop/reject
+  policy (§23.1, §23.3, §23.7).
+
+## 24. Definition of Done — Completion Ledger
+
+This is the **binary, auditable** checklist that defines "complete." It exists
+because §16/R16 demands it: a passing test counts **only if it covers the full
+scope of the capability** — *"intent does not count; partial does not count;
+plausible-looking docs do not count."* Each row is **Done iff** its concrete
+binary criterion holds **and** is **Verified** by an exact §22 test / Metronome CI
+gate / named evidence artifact. The **status** column is the honest current state
+(**built / partial / planned**) — most rows are **partial or planned today** (§20.1
+audits overall readiness at ≈ 33%), and that is stated, not hidden. Rows cross-link
+to §18 milestones, §19 Bar-for-Done, §20/§21 phase items, and §22 tests.
+
+> **How to read a row.** A row flips to **Done+Verified** only when the
+> verified-by command/gate is green against the *full* criterion. A green test that
+> covers a *subset* leaves the row **partial** (§16/R16). The unchecked rows ARE
+> the remaining work.
+
+### 24.1 Group A — OSS core loop
+
+| Capability | Binary done-criterion | Verified-by | Status |
+| --- | --- | --- | --- |
+| Columnar store wired | `beaterd --trace-store clickhouse` boots and serves traces | §22.3 §20.2 #0.1 row; `storage-backends` gate (compose integration test) | planned |
+| Scale: filtered search p95 | 10M-span seeded filtered search **p95 < 1s** in CI | §22.3 §20.2 #0.3 row; `beater-bench` load report (`backend` bench gate, §23.10) | planned |
+| Zero-SDK OTLP queryable | a stock OTel exporter trace (no Beater SDK) becomes queryable under the §16 ingest→queryable SLO | §22.1 Ingest e2e + §22.3 §20.8 #6.2; `gate1-live-smoke` | partial (built: SDK round-trip; env-var distro planned) |
+| Datasets read-API + UI | browse datasets/versions/cases via `GET /v1/datasets…` and the dashboard | §22.3 §20.4 #2.x (Playwright); `sdk-contract` + `frontend` | planned (create-only POST today) |
+| Evals browseable (deterministic + calibrated judge) | deterministic WASI + judge eval results browseable with rationale + calibration | §22.1 Evals/Calibration rows; `judge-dataset-fixture` `[built]`; eval UI §20.4 `[planned]` | partial |
+| Real statistics | method-appropriate CI, real p-value, test-selection, Holm-BH/FDR, anytime-valid | §22.1 Statistics row (A2–A8); `cargo test -p beater-stats` | planned (hardcoded-z path deleted; `beater-stats` not yet built, §10.3) |
+| Candidate-vs-baseline gate blocks a regression | the gate **exits non-zero** on a real confidence-bound regression | §22.1 Experiments+gates; `! beaterctl gate-run …` (non-zero exit) `[built]` | partial (built on the deleted-stats path; trustworthy once `beater-stats` lands) |
+| Replay earliest-flip | forked replay finds the **earliest outcome-flipping span** on a seeded failure (A18) | §22.1 Replay row; `replay-fixture` `[built]` (cassette); real forked search §11 `[planned]` | partial |
+| MCP deployable < 5 min | stdio **and** hosted streamable-HTTP/OAuth, connecting from Claude Code/Cursor/ChatGPT/Codex with `tools/list`+`tools/call` | §22.1 MCP row + §22.3 §21 stdio row; `curl POST /mcp` `[built]`; `beaterd mcp --stdio` `[planned]` | partial (streamable-HTTP built; stdio is the named gap) |
+| RSI loop closes end-to-end | index→propose→simulate(Train)→accept(Test)→apply via Claude Code with approval | §22.1 RSI row + §22.3 §21.8 row; end-to-end MCP episode | planned |
+| §21 guardrail rejects an overfit change | the §21.4 guardrail **REJECTS** a deliberately-overfit change on a **held-out OOD probe** (demonstrated) | §22.1 RSI row + §22.3 §21.1 RSI row; OOD-reject acceptance test (§21.4) | planned |
+| SDK ↔ MCP ↔ API zero-drift | spec == served routes == all 7 clients == MCP tools == CLI == 5 semconv SDKs | §22.5 `sdk-contract` gate; `scripts/check-contract-sync.sh` `[built]` | built |
+| Docker compose offline | `scripts/smoke-compose.sh` runs the full loop with **no cloud calls** | §22.2 compose row; `gate2-proof-contract` | partial (compose path built; offline-guarantee assertion to harden) |
+| Heartbeat SLO dashboards live | `/metrics` exposes ingest success, ingest→queryable lag, DLQ age, query p95 (§16) | §22.1 Self-observability; `curl /metrics` `[built]`; load evidence §23.10 `[planned]` | partial |
+
+### 24.2 Group B — Hosted GA
+
+| Capability | Binary done-criterion | Verified-by | Status |
+| --- | --- | --- | --- |
+| Orgs / projects / envs | org/project/environment entities + scoping enforced | §22.1 Store row; `beater-store-conformance` boundaries `[built]` | built |
+| Enforced RBAC | a non-owner is **denied** a mutating route by `authorize()` (A20) | §22.3 §20.7 #5.2; `sdk-contract` (403 test) | planned (RBAC data model exists, never consulted by `authorize()`, §20.1) |
+| SSO / SAML / SCIM | enterprise login JIT-provisions a user (OIDC/SAML/SCIM) | §22.1 Hosted control plane (SSO JIT); Passport (`beater-identity` [planned]) | planned |
+| Storage-layer tenant isolation (RLS) + secure-default auth | cross-tenant read/write **fails at the DB** under Postgres RLS; auth required by default | §22.3 §20.7 #5.4 (A20); `storage-backends` (app-layer `[built]` → DB-layer `[planned]`) | partial (app-enforced today; DB RLS planned) |
+| Quotas / rate-limits / billing ledger | per-tenant quota + rolling-window limit + a usage/billing ledger | §22.1 + Tempo (`beater-usage`) `[built]` ledger; Bandwidth (`beater-billing` [planned]) | partial |
+| Crypto-shred deletion / GDPR + retention + residency | a shredded tenant is **unreadable across hot/cold/artifact**; retention sweeper runs; residency honored | §22.3 §20.7 #5.5 + §20.2 #0.4; `sdk-contract` / `backend` | planned (crypto primitives built; lifecycle planned) |
+| Backups + passing restore drill | a restore drill **meets documented RPO/RTO** | §22.3 §20.7 #5.9; CI restore-drill job | planned |
+| Alerts actually delivered | an alert is **delivered** (Slack Block Kit / HMAC webhook), with delivery history | §22.3 §20.6 #4.3/#4.4; `alert-fixture` signs a webhook `[built]`; delivery `[planned]` | partial |
+
+### 24.3 Group C — Cross-cutting
+
+| Capability | Binary done-criterion | Verified-by | Status |
+| --- | --- | --- | --- |
+| beater-bench SLO gates green | criterion + loadgen meet §16 SLOs and gate regressions | §22.5 advisory bench gate → required; Tech Rider (`beater-bench` [planned], §23.10) | planned |
+| Governance docs present | `LICENSE`, `GOVERNANCE.md`, `SECURITY.md`, `CONTRIBUTING.md` exist | §22.3 §20.7 #5.11 repo-presence check; `SECURITY.md` exists `[built]` | partial (LICENSE/CONTRIBUTING/SECURITY built; GOVERNANCE to confirm) |
+| §19 Bar-for-Done all "yes" with evidence | every §19 question answerable **yes** with a green §22 verification | §22.4 traceability (milestone ⇒ §22 rows); §19 | planned (several answers still "no", §20.1) |
+
+**The project is shipped iff every row above is Done+Verified.** The unchecked
+rows — every row marked *partial* or *planned* — **ARE the remaining work**; the
+ledger is the single audit surface that says, with a concrete criterion and a real
+verification each, exactly how much of Beater is actually finished. This ties
+directly to §18 (a milestone ships only when its rows are green), §19 (the
+Bar-for-Done questions), §20/§21 (the phase items each row maps to), and §22 (the
+test/gate that verifies each row).
 
 
