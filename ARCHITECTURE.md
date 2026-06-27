@@ -61,6 +61,39 @@ If that loop is not excellent end to end, the rest of the platform is premature.
    telemetry is opt-out, and all hosted-specific APIs degrade cleanly to local
    equivalents or are absent.
 
+9. Be honest about every number.
+   No aggregate is reported as if it were an unbiased population estimate when it
+   is not. Tail-sampled roll-ups are **inverse-probability weighted**
+   (`sampling_weight = 1/keep_probability`, §9) or explicitly **labeled biased** —
+   never silently averaged. Nominal alpha **must equal** actual alpha: the gate's
+   confidence/p-value is computed with a method whose stated error rate is its true
+   error rate (§10.3), not a hard-coded normal-approximation z. Determinism is the
+   **caching** story (request-hash judge caches, cassettes), *not* a claim that
+   `temperature=0` makes a model deterministic.
+
+10. Scoring quantifies its own uncertainty and cancels known bias.
+    A score is reported with an interval, and noisy/model-dependent scores quantify
+    run-to-run uncertainty via **N-trial self-consistency** (§6 dim #12, §10.3).
+    Pairwise judge bias is cancelled **structurally** by the A/B order swap
+    (§10.1.1), never assumed away.
+
+11. Statistical validity is a product invariant.
+    A deploy gate may return *pass* only on a real p-value with the correct test
+    for the metric type and **FWER/FDR multiplicity control** across metrics/slices
+    (§10.3). An underpowered comparison returns *inconclusive*, never *pass*.
+
+12. Held-out generalization is enforced.
+    Every dataset version carries a frozen **Train/Dev/Test** split (§5.3, §6.4); a
+    self-improvement change is accepted only on the untouched **Test** split, behind
+    a contamination guard. The ruler does not move while the agent is being
+    optimized.
+
+13. Zero-code OTLP bootstrap is the default onboarding.
+    The first-class adoption path is pointing a standards-based OTLP exporter at
+    Beater with **no Beater SDK and no code edits** (§15, §20.8). The native SDK is
+    an accelerator, not the gate. The DX SLO is **time to first *scored failure***,
+    not time to first trace.
+
 ## 2. Editions
 
 | Capability | OSS self-host | Hosted |
@@ -173,13 +206,19 @@ beater/
   Cargo.toml
   crates/
     beater-core/          # IDs, entity types, typed money, clocks, tenant scope
-    beater-schema/        # canonical event/run/span/eval schemas, mappings, rollups, conventions
+    beater-schema/        # [CHANGED] canonical event/run/span/eval schemas, mappings,
+                          #   rollups, conventions PLUS `sampling_weight` on the keep path
+                          #   and WEIGHTED roll-ups/aggregates (§9, §13); DatasetCase `split`
     beater-otlp/          # tonic/prost OTLP HTTP/gRPC receive/export AND the
                           #   OTLP/OpenInference/GenAI -> canonical normalizer
                           #   (there is no separate beater-normalize crate)
     beater-temporal/      # Temporal workflow-history -> canonical span normalization
-    beater-ingest/        # auth, quota, raw append, normalization, sampling
-    beater-store/         # TraceStore, MetadataStore, ArtifactStore, QuotaLimiter traits and StoreError
+    beater-ingest/        # [CHANGED] auth, quota, raw append, normalization, tail-sampling
+                          #   PLUS recording `sampling_weight = 1/keep_probability` on every
+                          #   kept span so downstream aggregates can be unbiased (§9)
+    beater-store/         # [CHANGED] TraceStore, MetadataStore, ArtifactStore, QuotaLimiter
+                          #   traits and StoreError; roll-up/aggregate queries become WEIGHTED
+                          #   by `sampling_weight` (§9, §13) so tail-sampled totals are unbiased
     beater-store-conformance/ # shared trait-conformance test suite run against every backend
     beater-store-memory/  # in-memory TraceStore/MetadataStore/QuotaLimiter for tests/dev
     beater-store-sql/     # SQLite stores (runtime default) PLUS PgTraceStore and
@@ -188,17 +227,29 @@ beater/
     beater-store-obj/     # FsArtifactStore (filesystem) for artifacts/raw envelopes
     beater-bus/           # SqliteDurableBus (the durable bus today); NATS/Kafka are [planned]
     beater-eval/          # evaluator catalog, scoring contracts, paired comparison, aggregation
-    beater-calibration/   # judge-vs-human agreement and Cohen's-kappa reports
+                          #   [CHANGED] hardcoded-z `compare_paired_scores` is DELETED;
+                          #   it now delegates to beater-stats (§10.3, §20.5)
+    beater-calibration/   # [CHANGED] judge-vs-human agreement + Cohen's-kappa reports
+                          #   PLUS agent/score proper-scoring calibration: Brier, ECE,
+                          #   reliability curve, persisted recalibration map (§10.5; kappa
+                          #   becomes a secondary signal). Distinct from the §10.1.1 judge
+                          #   Wasserstein calibration, which lives in the judge broker.
     beater-usage/         # usage ledger, billing meters, spend summaries
     beater-audit/         # privileged access audit events and readback
     beater-sandbox/       # Wasmtime/WASI Component Model evaluator runtime
     beater-secrets/       # opaque provider-secret refs, BYOK metadata, revocation
     beater-security/      # crypto primitives: Argon2 keys, ChaCha20 envelope, signed webhooks
     beater-judge/         # LLM/embedding judge broker, BYOK, calibration
-    beater-replay/        # cassettes, forked replay, deterministic replay
-    beater-datasets/      # datasets, versions, examples, trace promotion
+    beater-replay/        # [CHANGED] cassettes + deterministic replay PLUS real forked
+                          #   replay and earliest-failing-span attribution (§11); the
+                          #   current `attribute_failure` first-error heuristic is replaced
+    beater-datasets/      # [CHANGED] datasets, versions, examples, trace promotion PLUS a
+                          #   seeded-hash Train/Dev/Test `split` on DatasetCase + min-sample
+                          #   gate + contamination guard (§5.3, §6.4); bulk promote-from-query
     beater-experiments/   # candidate-vs-baseline comparisons and statistics
-    beater-gates/         # CI/CD gates and policy evaluation
+    beater-gates/         # [CHANGED] CI/CD gates and policy evaluation; the deploy-gate
+                          #   number now comes from beater-stats (real p-value + power +
+                          #   FWER/FDR) and a gate accepts only on the frozen Test split (§10.3)
     beater-human/         # review queues, annotations, human labels
     beater-search/        # Tantivy full-text index over spans
     beater-archive/       # Parquet cold-tier archive (Arrow/DataFusion read path)
@@ -207,16 +258,24 @@ beater/
     beater-accounts/      # users, password auth, browser sessions, org membership
     beater-oauth/         # OAuth 2.1 core: clients, PKCE codes, access/refresh tokens
     beater-oauth-server/  # OAuth 2.1 HTTP surface (wired into beaterd)
-    beater-mcp/           # MCP server exposing every /v1 operation as a tool
+    beater-mcp/           # [CHANGED] MCP server exposing every /v1 operation as a tool,
+                          #   PLUS composite "recipe" tools, "suggest scorers" advisory, and
+                          #   the FOLDED-IN self-improvement loop (§21). stdio transport for
+                          #   local + streamable-HTTP/OAuth 2.1 for hosted (§3.2, §20.7)
     beater-browser/       # browser-agent observability contract (shared foundation)
     beater-browser-cdp/         # Chrome DevTools Protocol backend
     beater-browser-playwright/  # Playwright driver backend
     beater-browser-webdriver/   # WebDriver/fantoccini backend
     beater-browser-capture/     # console + network + DOM capture per browser step
     beater-browser-harness/     # browser-agent run harness
-    beater-api/           # axum routers, OpenAPI, SSE/read APIs
+    beater-api/           # [CHANGED] axum routers, OpenAPI, SSE/read APIs PLUS the
+                          #   config-driven MAPPING importer boundary (§7) and the bulk
+                          #   "promote cases from query" endpoint (§20.4, §21)
     xtask/                # build/regen tasks (regen-spec, regen-semconv, loadgen)
-    beater-stats/         # [planned] CIs, test selection, p-values, power, FWER/FDR (see §6, §10.3, §20.5)
+    beater-stats/         # [planned, NEW] over `statrs`: real p-values, Wilson + bootstrap
+                          #   CIs, paired-t/McNemar/Wilcoxon test selection, Holm-Bonferroni +
+                          #   Benjamini-Hochberg, power/MDE gating; mSPRT/confidence-sequences
+                          #   are the required online follow-on (§6, §10.3, §20.5)
     beater-scorers/       # [planned] custom-scorer registry over the WASI sandbox (§20.5)
     beater-online/        # [planned] online-eval scoring worker (§20.6)
     beater-prompts/       # [planned] prompt registry/versioning/playground (§20.6)
@@ -261,6 +320,23 @@ The dashboard can use TypeScript/React for product velocity, but all platform
 logic, ingestion, storage, eval, replay, API contracts, and SDK primitives remain
 Rust-owned.
 
+**Crate deltas from the staff-SWE refactor (summary; details in the cited
+sections).** NEW: `beater-stats` (the statistics correctness layer, §10.3).
+CHANGED: `beater-calibration` (adds agent/score proper-scoring calibration, §10.5),
+`beater-eval` (deletes the hardcoded-z path, §10.3), `beater-datasets` +
+`beater-schema` + `beater-store` + `beater-ingest` (Train/Dev/Test split +
+`sampling_weight` + weighted aggregates, §5.3/§6.4/§9), `beater-replay` (real
+forked replay + earliest-failing-span attribution, §11), `beater-gates` (gate
+number sourced from `beater-stats`, §10.3), `beater-api` (mapping importer + bulk
+promote, §7/§20.4), `beater-mcp` (composite recipe tools + folded-in improvement
+loop, §21). DEFERRED (design-only, ideas preserved, not dropped): full
+evolutionary/population search over agent configs; a skill library on a vector
+store; and a standalone Studio / toolbelt / credits productization as separate
+products (§21). An MVP foundation for the latter (`beater-credits`,
+`beater-mcp-improve`) already exists on the `feat/mcp-improve-foundation` branch,
+but the architecture now prefers folding improvement into `beater-mcp` and
+deferring credits productization (§21.6).
+
 ### 4.1 Implementation Picks
 
 The default Rust stack should be boring and production-proven:
@@ -280,6 +356,7 @@ The default Rust stack should be boring and production-proven:
 | Vercel queue adapter | **[planned]** — Vercel Queues HTTP API |
 | WASI sandbox | `wasmtime` Component Model |
 | cold analytics | `arrow`, `parquet`, `datafusion` |
+| statistics | `statrs` (distributions/CDFs for p-values, Wilson, power) in the new `beater-stats`; bootstrap/permutation are hand-rolled over a seeded RNG |
 | full-text search | `tantivy` |
 | auth/secrets | `argon2`, `jsonwebtoken`, KMS/Vault-compatible traits |
 | CLI | `clap` |
@@ -407,6 +484,13 @@ pub struct CanonicalSpan {
     pub attributes: CanonicalAttrs,
     pub unmapped_attrs: serde_json::Value,
     pub raw_ref: ArtifactRef,
+    // Honesty-about-numbers invariant (§1 #9, §9). Inverse-probability weight set
+    // by tail-sampling on the keep path: `sampling_weight = 1/keep_probability`.
+    // 1.0 for an unsampled (kept-with-certainty) span; >1.0 for a span kept under
+    // probabilistic sampling. WEIGHTED roll-ups/aggregates (§13, beater-store)
+    // multiply by this so tail-sampled totals are unbiased; a `weighted=false`
+    // aggregate path exists only when explicitly labeled biased.
+    pub sampling_weight: f64,
 }
 
 /// A typed edge between two spans (within or across traces). `links` on
@@ -466,6 +550,44 @@ source is never destroyed. The single-source-of-truth contract regen
 (spec → 7 SDKs → MCP → CLI → docs, `CLAUDE.md`) still runs on every contract change;
 dropping wire compat does **not** drop the regen discipline.
 
+### 5.4 DatasetCase Train/Dev/Test split (held-out discipline)
+
+Every `DatasetCase` carries a `split` tag. This is the schema-level foundation of
+the held-out-generalization invariant (§1 #12) consumed by the agent model (§6.4)
+and the RSI loop (§21):
+
+```rust
+pub enum DatasetSplit { Train, Dev, Test }
+
+pub struct DatasetCase {
+    // ... existing fields (id, input/expected, artifact hashes, code/wasm hash) ...
+    /// Assigned by a SEEDED hash so the split is stable and reproducible across
+    /// re-versioning: split = bucket( hash(dataset_version_seed ++ case_id) ).
+    /// Default proportions ~Train 0.7 / Dev 0.15 / Test 0.15 are policy, not law.
+    pub split: DatasetSplit,
+}
+```
+
+Rules (pre-1.0, designed cleanly — `split` is a required field, no compat shim):
+
+- **Seeded, stable assignment.** The split is a deterministic function of a
+  per-dataset-version seed and the case id, so it does not churn when cases are
+  added and is reproducible from the version alone. New cases hash into a split
+  without re-shuffling existing ones.
+- **Min-sample gate.** A dataset version is usable for an accept/reject decision
+  only when each consumed split clears a minimum size (ties into the §10.3 #5 power
+  check — too few Test cases ⇒ *inconclusive*, never *pass*).
+- **Contamination guard.** Near-duplicate detection prevents a Test case (or a
+  near-dup) from leaking into Train, into few-shot exemplars, into memory, or into
+  tool fixtures. A suspected-compromised Test split is rotated/refreshed.
+- **Who reads what.** Propose/simulate (§21) read **Train** (and may tune on
+  **Dev**); acceptance gates (§6.4, §10.3, §12, §21) read the **untouched Test**
+  split only. This is the single mechanism that makes the RSI objective `J(π)`
+  (§6.2) overfit-resistant.
+
+`DatasetVersion` is the unit the split seed is pinned to, so an `ExperimentRun` or
+gate decision can name exactly which frozen split it scored against.
+
 ## 6. The Agent Model (the object under evaluation)
 
 Everything else in this document — ingest, storage, evals, replay, statistics,
@@ -513,7 +635,7 @@ agent itself.
 Recursive self-improvement (§21) is, formally, a constrained optimization:
 
 ```text
-maximize    J(π)        = E_{case ~ D_holdout, τ ~ π}[ objective(τ, case) ]
+maximize    J(π)        = E_{case ~ D_test, τ ~ π}[ objective(τ, case) ]  // frozen Test split (§5.4)
 over        the mutable components of π  (§6.1)
 subject to  policy constraints C  (load-bearing prompts/tools unchanged unless
                                     contradictory; safety/guardrail invariants)
@@ -551,7 +673,7 @@ canonical schema (§5). "Attaches" names the span/entity the evidence is read fr
 | 4 | **Planning / decomposition quality** | does the plan cover the sub-goals with no redundant/missing steps | rubric judge or structural check; bootstrap | a reference decomposition or rubric | `agent.plan` span |
 | 5 | **Reasoning faithfulness** | does the stated reasoning actually entail the action/answer | judge (faithfulness); calibrated → bootstrap | judge calibration valid (§10.1.1) | `llm.call` reasoning vs `output_ref` |
 | 6 | **Instruction / policy adherence** | fraction of explicit constraints obeyed | per-constraint binary → **Wilson** | constraints are enumerable & checkable | `guardrail.check`, system_prompt vs trajectory |
-| 7 | **Self-calibration** | agreement between stated confidence and actual correctness | **Brier score** + **ECE** (expected calibration error) — proper scoring rules; bootstrap CI | the agent emits a confidence/probability | confidence attr on `llm.call` vs outcome (#1) |
+| 7 | **Self-calibration** | agreement between stated confidence and actual correctness | **Brier score** + **ECE** + reliability curve — proper scoring rules (§10.5); bootstrap CI | the agent emits a confidence/probability | confidence attr on `llm.call` vs outcome (#1) |
 | 8 | **Robustness (distribution shift / adversarial)** | success on perturbed/adversarial inputs vs clean | paired delta clean→shifted; **paired test (§10.3 #3)** | a defined perturbation/adversarial set | run pairs over original vs perturbed case |
 | 9 | **Cost** | spend per successful task (and per run) | mean/quantiles; **bootstrap** (skewed) | cost field populated & trustworthy | `cost` on `llm.call`/`tool.call`, rolled to run |
 | 10 | **Latency** | wall-clock per run / per step | p50/p95/p99; **bootstrap** | clock-skew corrected (§9) | span `start/end_time` |
@@ -575,12 +697,14 @@ Because the RSI loop actively searches over `π`, it is a textbook overfitting
 risk: given enough proposals it *will* find a change that beats a fixed dataset by
 chance. The discipline that prevents this is mandatory, not advisory:
 
-- **Train/holdout split on `DatasetCase`.** Every dataset version carries a
-  stable, hashed split. Propose/simulate steps (§21.1 `propose_change`,
-  `simulate`) read **train only**.
-- **Acceptance gates run on the untouched holdout.** A change is accepted only on
-  holdout evidence that clears §10.3's significance *and* power bars. The holdout is
-  never shown to the proposal step in the same episode.
+- **Train/Dev/Test split on `DatasetCase`.** Every dataset version carries a
+  stable, seeded-hash split (the schema-level definition is §5.4). Propose/simulate
+  steps (§21.1 `propose_change`, `simulate`) read **Train** and may tune on **Dev**;
+  the **Test** split is the held-out judge. ("Holdout" throughout this document
+  means the frozen **Test** split.)
+- **Acceptance gates run on the untouched Test split.** A change is accepted only
+  on Test evidence that clears §10.3's significance *and* power bars. The Test split
+  is never shown to the proposal/Dev-tuning steps in the same episode.
 - **Contamination controls.** Prevent leakage of holdout cases (or near-duplicates)
   into prompts, few-shot exemplars, memory, or tool fixtures; detect near-dup
   overlap between train and holdout; rotate/refresh holdout if it is suspected
@@ -630,6 +754,19 @@ Input dialects:
 - OpenLLMetry/Traceloop-compatible attributes.
 - Native Beater `/v1` JSON ingest.
 - Future imports from Phoenix, LangSmith, Langfuse, and Braintrust exports.
+
+Config-driven mapping importer (`SourceImporter` boundary). The hand-written
+normalizers above (OTLP/OpenInference/GenAI/Vercel-AI) cover the standard dialects,
+but a long tail of custom and *older* framework shapes will never get a bespoke Rust
+normalizer. For those, Beater exposes a **declarative MAPPING importer** on the
+`SourceImporter` trait boundary: a user supplies a config (field-path mapping, span-
+kind mapping, attribute renames, timestamp/units coercion) — **no code** — that
+projects a foreign dialect into the canonical model (§5.2). The hard-coded
+normalizers remain the fast path; the mapping importer is the escape hatch that
+makes "bring your weird exporter" a config task, not a PR. It rides the
+single-source contract (the `/v1` import endpoint is **[contract]**, §20.4) and,
+like every other importer, preserves the immutable raw envelope (§1 #3) so a
+mis-configured mapping is always re-projectable.
 
 Output dialects:
 
@@ -777,6 +914,7 @@ receive OTLP/native request
   -> normalize with pinned normalizer version
   -> enforce cardinality/payload governance
   -> buffer for tail-sampling and trace completion
+  -> on keep, stamp sampling_weight = 1/keep_probability (§1 #9)
   -> direct mode: write canonical projection through TraceStore
   -> buffered mode: enqueue canonical trace.write_batch for the drain worker
   -> enqueue online eval/replay/alert jobs
@@ -797,6 +935,16 @@ Required survivability behavior:
 - Attribute allow/deny lists at project and environment scope.
 - Tail-based sampling that keeps all errors, slow traces, high-cost traces, and
   traces selected by policy while sampling routine traffic.
+- **Inverse-probability sampling weights on the keep path (honesty invariant §1
+  #9).** Every kept span records `sampling_weight = 1/keep_probability`: 1.0 for a
+  span kept with certainty (errors/slow/high-cost/policy keeps), and `1/p` for a
+  span kept under probabilistic routine-traffic sampling at rate `p`. Without this,
+  any roll-up over a tail-sampled population is *biased* — routine traffic is
+  systematically under-counted and error/cost rates are inflated. The keep
+  decision and `p` are known at sampling time, so the weight is recorded then;
+  downstream aggregates (§13, `beater-store`) are **weighted by default** and an
+  unweighted path must be explicitly labeled biased. This is a correctness fix, not
+  an analytics nicety.
 - Trace completion semantics based on root-span end, idle timeout, and late-span
   window.
 - Clock-skew correction and out-of-order handling across distributed agents.
@@ -979,20 +1127,45 @@ Every `EvalResult` pins:
 
 Every eval is an **experiment**, and the platform must report it like one:
 standard errors, not bare point estimates, and a decision rule that knows its own
-assumptions. Today the statistics are a single hand-rolled normal-approximation:
-`compare_paired_scores` in `beater-eval` computes a paired delta, a sample
-variance, a standard error, and a fixed-`z` (1.96 / 2.576) Wald confidence
-interval, with a Bonferroni-style alpha split and no real p-value. That is
-adequate for a first gate and wrong for the assumptions the platform actually
-faces (binary metrics, small N, clustered questions, many simultaneous metrics).
+assumptions.
 
-This subsection specifies the **target** statistics layer as a concrete,
+**This is a correctness fix, not an enhancement — today's deploy-gate number is
+wrong.** The current statistics are a single hand-rolled normal-approximation:
+`compare_paired_scores` in `beater-eval` computes a paired delta, a sample
+variance, a standard error, and then a **hard-coded** Wald interval with
+`z = if adjusted_alpha <= 0.01 { 2.576 } else { 1.96 }` and a crude
+`alpha / comparison_count` Bonferroni split, with **no real p-value**. The
+consequence is not "less precise" — it is **nominal alpha ≠ actual alpha**: for the
+binary, small-N, clustered, multi-metric situations the platform actually faces, a
+Wald interval's true coverage is *not* its stated coverage, so a gate set to
+"reject regressions at 5%" does not actually hold a 5% error rate. The number the
+CI gate blocks or ships on is therefore **wrong**, and silently so. **The
+hard-coded-`z` line and the `StatisticalTest::PairedNormalApproximation` path are
+DELETED**, not retained as a fallback; `compare_paired_scores` is replaced by a
+call into `beater-stats` that selects the correct test (below). This restores the
+§1 #9/#11 invariant that nominal alpha equals actual alpha.
+
+This subsection specifies the replacement statistics layer as a concrete,
 assumption-aware algorithm spec. It lives in a new **`beater-stats`** crate
 (built on `statrs`; §20.5 #3.4) that `beater-experiments`, the gate runner
 (§12), the online-eval worker (§20.6), and the RSI loop (§6, §21) all call. Each
 estimator below states **what it computes, the assumption it requires, and when
 it is invalid** — a gate that cannot satisfy an estimator's assumptions must
 refuse to decide, not silently use the wrong test.
+
+**Implementation phasing (so this section agrees with §16/§20/§21).** The
+*fixed-horizon* core of `beater-stats` — Wilson + bootstrap CIs, clustered SEs,
+paired-t/McNemar/Wilcoxon test selection with real p-values, Holm-Bonferroni +
+Benjamini-Hochberg, and power/MDE gating (items #1–#5 below) — **ships first** and
+is what the offline CI gate and §20.5 #3.4 deliver. Anytime-valid / sequential
+inference (item #6: mSPRT and confidence sequences) is **REQUIRED for the
+online/continuous path** and ships as the **required follow-on**, not an optional
+extra — peeking at a fixed-horizon test inflates false positives 5–10× (§10.3 #6),
+so the online-eval worker (§20.6) and live alerting (§13) must not declare a
+fixed-N result on a continuously-inspected stream. Phasing means "fixed-n first,
+sequential next," **not** "sequential is optional." Until mSPRT lands, the online
+path may *display* a running estimate but must not emit an accept/alert *decision*
+with fixed-horizon confidence on a peeked stream.
 
 **1. Report standard errors; cluster them when questions are not independent.**
 Point estimates are never reported without an error bar. When questions are
@@ -1053,8 +1226,9 @@ an explicit *inconclusive* (not *pass*), so a green CI never means "we ran too f
 cases to see a regression."
 
 **6. Online / continuous monitoring MUST use anytime-valid (sequential)
-inference.** Offline experiments have a fixed horizon; online evals (§13
-alerting, §20.5, §20.6) are *peeked at continuously*. Fixed-horizon tests under
+inference (REQUIRED for the online path; phased to ship after #1–#5).** Offline
+experiments have a fixed horizon; online evals (§13 alerting, §20.5, §20.6) are
+*peeked at continuously*. Fixed-horizon tests under
 peeking inflate false-positives by **5–10× even at n=10,000**
 [arXiv:1512.04922]. Therefore any continuously-monitored signal uses
 **always-valid p-values / confidence sequences** — mixture-SPRT (mSPRT) and
@@ -1082,6 +1256,15 @@ a fixed-N test.
 
 The CI gate must be able to fail on **confidence-bound** regressions (and refuse
 *inconclusive* underpowered ones), not only raw mean-score deltas.
+
+**Sampling weights flow into the estimators.** When an estimate is computed over
+production traffic rather than a balanced dataset, the per-span `sampling_weight`
+(§9, §1 #9) is carried through: proportions/means become Horvitz-Thompson weighted
+estimates and bootstrap resampling resamples in proportion to weight, so the
+reported interval is an honest estimate of the *population* rate, not the
+tail-sampled *kept* rate. Offline dataset evals run on balanced cases where every
+weight is 1.0, so this only changes production/online aggregates — but where it
+applies, an unweighted number is simply wrong.
 
 ### 10.4 Grading Algorithms & Assumptions
 
@@ -1124,6 +1307,56 @@ Aggregation always flows back through §10.3: per-case scores → metric-appropr
 CI → clustered when non-independent → significance test by type → multiplicity
 control across scorers → power check before any *pass*.
 
+### 10.5 Agent / Score Calibration (proper scoring rules)
+
+A score or a confidence is only useful if it *means* what it claims. There are two
+**distinct** calibration problems in this platform, and they coexist without
+conflict:
+
+- **Judge calibration (§10.1.1)** maps a noisy *judge model's* raw scores onto a
+  human-anchored distribution by Wasserstein quantile-matching. It lives in the
+  **judge broker** and answers "is the ruler reading right?"
+- **Agent / score calibration (this section)** asks whether a *probabilistic
+  signal* — the agent's own stated confidence, or a continuous judge/confidence
+  score used as a probability — is *well-calibrated against outcomes*: when the
+  signal says 0.8, is the event true ~80% of the time? It lives in
+  `beater-calibration` and ties directly to agent dimension #7 (self-calibration,
+  §6.3).
+
+These are orthogonal: §10.1.1 corrects the measuring instrument; §10.5 measures and
+corrects a probability's calibration. Both run; neither replaces the other.
+
+**Why this is near-free.** The continuous judge/confidence signal needed for proper
+scoring is **already produced and then discarded today** — the platform thresholds
+it to a label and throws away the probability. Persisting that probability and
+scoring it with proper rules is mostly plumbing, not new modeling.
+
+**Proper-scoring metrics (replacing kappa as the primary calibration signal):**
+
+- **Brier score** — mean squared error between the stated probability and the 0/1
+  outcome; a strictly proper scoring rule, so it is minimized only by honest
+  probabilities. Reported with a §10.3 bootstrap CI.
+- **Expected Calibration Error (ECE)** — binned gap between confidence and observed
+  accuracy; the headline "is it calibrated" number.
+- **Reliability curve** — the per-bin confidence-vs-accuracy plot the dashboard
+  renders, the visual form of ECE.
+- **Cohen's kappa becomes a secondary signal.** The existing `beater-calibration`
+  kappa/agreement report (the judge-vs-human agreement artifact, §10.1.1, §10.3) is
+  retained for backward continuity and inter-rater context, but the *primary*
+  calibration verdict is now Brier/ECE, because kappa neither rewards honest
+  probabilities nor yields a recalibration map.
+
+**Persisted recalibration map.** From the reliability data `beater-calibration`
+fits and **persists** a monotone recalibration map (isotonic regression / Platt
+scaling) `c(p) → p'` that corrects systematically over- or under-confident
+signals. The map is versioned and pinned into `EvalResult` reproducibility metadata
+(like the §10.1.1 judge calibration) so a corrected probability's provenance is
+auditable, and it is re-fit on the same recalibration triggers as §10.1.1 (model
+deprecation, provider/judge drift, rubric change, kappa/ECE degradation). The RSI
+loop's self-calibration dimension (§6.3 #7) reads ECE/Brier on the held-out Test
+split; a change that improves task success while *degrading* calibration is visible
+as a regression on this axis rather than hidden inside a single score.
+
 ## 11. Replay and Failure Attribution
 
 Replay substrate:
@@ -1153,10 +1386,44 @@ failed trace
   -> write root-cause annotation and regression candidate
 ```
 
+**Real forked replay + earliest-failing-span attribution (replaces the current
+first-error heuristic).** Today `attribute_failure` in `beater-replay` is a stub:
+it sorts spans by `seq` and returns the first span that is `Status::Error` or whose
+evidence score `< 0.5`. That is "the first thing that looked bad," which is *not*
+the same as "the earliest change that flips the outcome" — an early low-score span
+may be irrelevant while a later one is causal, and a trace can fail with no errored
+span at all. The replacement is a real **forked-replay search**:
+
+```text
+for candidate fork points, earliest-first along the causal span order:
+  fork the captured trace at that span (deterministic_replay of the prefix
+    from cassettes, §11 replay modes)
+  apply the candidate correction at the fork point (corrected tool result,
+    corrected llm.call output, alternate plan step)
+  resume forked_replay from the fork point (live or simulated, labeled honestly)
+  re-score the resumed trajectory with the SAME frozen evaluator (§6.2)
+  if the outcome FLIPS (fail -> pass):
+    record this fork point as a root-cause candidate
+return the EARLIEST fork point whose correction flips the outcome
+  (a counterfactual minimal cause), with the replay mode + guarantee level
+  that produced it
+```
+
+This is a counterfactual definition — the root cause is the *earliest* span whose
+correction is *sufficient* to flip the outcome — so it survives the cases the
+heuristic fails on (no errored span; misleading early low score). Attribution
+confidence is reported with its replay guarantee level: a flip found under
+`deterministic_replay` (all cassettes present, hashes match) is high-confidence; a
+flip found under `forked_replay`/`simulation` is labeled as such (§1 #6). The
+search is bounded by a fork budget; when no single-span correction flips the
+outcome it returns "no single-span root cause" rather than a false attribution. The
+flipped run is the natural seed for a regression dataset case (`split` assigned per
+§5.4).
+
 The product should surface:
 
-- root-cause span
-- confidence/evidence
+- root-cause span (the earliest outcome-flipping fork point)
+- confidence/evidence and the replay guarantee level behind the attribution
 - failed-vs-passed diff
 - replay mode and guarantee level
 - one-click "add to dataset"
@@ -1215,8 +1482,10 @@ Core UI requirements:
 - agent turn/plan/step view
 - MCP/tool-call visibility
 - prompt/input/output/artifact inspector with redaction controls
-- cost/token/latency analytics
-- dataset promotion from trace/span
+- cost/token/latency analytics (**weighted by `sampling_weight`** so tail-sampled
+  traffic produces unbiased population totals, §1 #9, §9; an unweighted view is
+  available only when explicitly labeled biased)
+- dataset promotion from trace/span (including **bulk promote-from-query**, §20.4)
 - experiment comparison
 - eval result drilldown
 - replay/cassette view
@@ -1234,7 +1503,11 @@ Search:
 Alerting:
 
 - online eval sampling policies
-- baselines by project/environment/release
+- baselines by project/environment/release, evaluated against an **anytime-valid
+  confidence sequence** on the live score stream, not a fixed-N test — a
+  continuously-peeked alert condition that used a fixed-horizon test would inflate
+  false alerts 5–10× (§10.3 #6); this is the required online follow-on of the
+  §10.3 phasing
 - dedupe and grouping
 - maintenance windows
 - Slack/webhook integrations
@@ -1279,11 +1552,28 @@ Security:
 DX SLO:
 
 ```text
-time to first trace <= 5 minutes
+time to first SCORED FAILURE <= 15 minutes
+  (subsumes the older "time to first trace <= 5 minutes" milestone)
 ```
 
-Required onboarding paths:
+The DX SLO is **time to first *scored failure***, not time to first trace. A trace
+on screen proves ingestion; it does not prove the product's value loop. The thing a
+user must reach fast is the moment Beater shows them a *failing* agent behavior with
+a *score* on it (the §0 core loop's "promote failure → run evals" inflection) —
+that is when the platform has demonstrably done something a log viewer cannot.
+"Time to first trace ≤ 5 min" remains a useful internal sub-milestone (and the §18
+v0 `beaterctl smoke` target) but is no longer the headline DX number.
 
+The **default** onboarding path is **zero-code OTLP bootstrap** (§1 #13, §20.8):
+point a standards-based OTLP exporter at Beater via environment variables, with no
+Beater SDK and no code edits. The native SDK is an accelerator offered second, not
+the adoption gate.
+
+Required onboarding paths (zero-code OTLP first):
+
+- **zero-code env-var OTLP bootstrap (DEFAULT)** — any OpenInference/OpenLLMetry/
+  OTel app exports to Beater by setting `BEATER_*`/OTLP env vars; no code, no SDK
+  (§20.8 #6.2)
 - zero-SDK OTLP endpoint for any OpenInference/OpenLLMetry/OTel app
 - native Rust SDK with `tracing`, `opentelemetry-rust`, `reqwest`, `axum`,
   `tonic`, MCP client/server, and tool-call helpers
@@ -1301,7 +1591,8 @@ Public API:
 - request IDs and idempotency keys
 - pagination and time-bounded queries
 - export endpoints for OTLP, Parquet, and JSONL
-- import paths from Phoenix/LangSmith/Langfuse where feasible
+- import paths from Phoenix/LangSmith/Langfuse where feasible, plus the
+  config-driven MAPPING importer (§7) for custom/older dialects with no code
 
 No lock-in:
 
@@ -1528,6 +1819,9 @@ Goal: close the table-stakes agent concepts the data model lacks.
 | 1.3 | Multimodal (image/audio/file) I/O | stringified scalars only | `MediaArtifact{mime_type,uri-or-inline,role}` on canonical messages; parse OpenInference content-part `image_url`/`audio`; store large media via `beater-store-obj` with size caps + redaction class **[contract]** | L | design |
 | 1.4 | Full-text over artifact-backed I/O | tantivy indexes only inline attrs, not artifact bodies | In `beater-search`, have the ingest processor resolve `input_ref`/`output_ref` via `ArtifactStore` and index their text into dedicated `input_body`/`output_body`/`error` fields; per-tenant shards | L | evidence |
 | 1.5 | OTLP/JSON + canonical `/v1/traces` alias | OTLP HTTP is protobuf-only on a tenant-scoped path | Content-type negotiation in `ingest_otlp_http` (deserialize `ExportTraceServiceRequest` from JSON); gRPC `partial_success` population; optionally `/v1/logs` for events **[contract]** | M | contract |
+| 1.6 | Sampling weights + weighted aggregates (**honesty fix**, §9, §1 #9) | tail-sampling keeps/drops but records no weight; roll-ups average kept spans (biased) | Add `sampling_weight: f64` to `CanonicalSpan` (`beater-schema`); stamp `1/keep_probability` on the keep path in `beater-ingest`; make `beater-store` roll-up/aggregate queries weighted (Horvitz-Thompson); label any unweighted view biased **[contract]** | M | contract |
+| 1.7 | DatasetCase Train/Dev/Test split + contamination guard (§5.4, §6.4) | `DatasetCase` has no split; no held-out discipline | Add `split: DatasetSplit` (seeded hash off `dataset_version_seed ++ case_id`) to `DatasetCase` (`beater-datasets`/`beater-schema`); min-sample gate; near-dup contamination detection train↔test; gates/RSI read Test-only **[contract]** | M | contract |
+| 1.8 | Config-driven MAPPING importer (§7) | hand-written normalizers only; custom/older dialects need a PR | `SourceImporter` config dialect (field-path/span-kind/attr/units mapping) projecting a foreign shape to canonical with no code; `/v1/import` mapping endpoint; raw envelope preserved for re-projection **[contract]** | L | contract |
 
 Acceptance: a multi-turn agent trace groups by session in the API; a vision LLM
 call renders its image; full-text search hits prompt/output bodies stored as
@@ -1541,6 +1835,7 @@ endpoints. The dashboard today is one server-rendered trace-waterfall page.
 | # | Requirement | Now | Target / concrete task | Effort | Blocker |
 | --- | --- | --- | --- | --- | --- |
 | 2.1 | Dataset CRUD + read APIs | create-only POST; no GET | `DatasetStore` `list_datasets/get_dataset/list_versions/update_case/delete_case/import_cases`; `GET /v1/datasets[...]`, versions, cases; CSV/JSONL import **[contract]** | M | contract |
+| 2.1b | Bulk promote cases from query (§21 MCP UX) | one-trace-at-a-time promotion only | `POST /v1/datasets/:id/promote-from-query` taking a span/run filter (§13 search) + target version, materializing matching failures as `DatasetCase`s with seeded `split` (§5.4); the outcome-shaped MCP "promote failures" recipe (§21) calls this **[contract]** | M | contract |
 | 2.2 | Eval-report read API | reports only readable inside POST handlers | `GET /v1/datasets/.../eval-reports/{id}`, `.../versions/{vid}/eval-reports` (list+latest), paged per-case results **[contract]** | M | contract |
 | 2.3 | Experiment comparison UI (with CIs) | rich backend, no UI | `web/dashboard/app/experiments/[id]` rendering `ExperimentRunReport`: per-case score table, baseline-vs-candidate deltas with `ci_low/ci_high`, gate badge, trace deep-links | L | contract |
 | 2.4 | Dataset / eval-result browse UI | none | `web/dashboard/app/datasets[...]` routes: versions, cases, eval drilldown with judge rationale | XL | contract |
@@ -1563,9 +1858,10 @@ Goal: scorer breadth and statistically defensible experiments.
 | 3.1 | Scorer catalog breadth | 10 scorers; `json_object` checks object-ness not schema | Add `FuzzyMatch{min_ratio}` (strsim), `JsonSchema{schema}`, `NumericTolerance{abs,rel}`, `EmbeddingSimilarity{model,min_cosine}` (judge lane), SQL-result match to `EvaluatorKind`/`EVALUATOR_CATALOG` **[contract]** | L | contract |
 | 3.2 | Structured-rubric LLM judge | `LlmJudge{rubric:String}` free-text | `JudgeRubric{criteria:[{name,weight,scale}],reference_mode,exemplars}`; `JudgeResponse.per_criterion`; reference-guided + CoT rationale **[contract]** | L | contract |
 | 3.3 | Custom scorer registry | WASI sandbox runs components, no upload/registry | `beater-scorers` (or extend `beater-eval`): `ScorerStore` (upload component bytes → `Sha256Hash`, version, list/get) on `beater-store-obj`+sqlite; `/v1/scorers` CRUD **[contract]**; resolve by `wasm_hash` into the sandbox; add memory/epoch limits to `SandboxConfig` | XL | contract |
-| 3.4 | Real statistics module | single paired normal-approx, hardcoded z, Bonferroni-only | New `beater-stats` on `statrs`: paired-t / bootstrap-percentile / Wilson CIs; test selection `{PairedT, McNemarExact, WilcoxonSignedRank, Bootstrap}` with real `p_value`; Holm-Bonferroni + Benjamini-Hochberg; `power.rs` (`required_sample_size`, `achieved_power`) | L | none |
+| 3.4 | Real statistics module (**correctness fix**, §10.3) | single paired normal-approx, **hardcoded z (1.96/2.576), Bonferroni-only, no p-value → nominal alpha ≠ actual alpha** | New `beater-stats` on `statrs`: paired-t / bootstrap-percentile / Wilson CIs; test selection `{PairedT, McNemarExact, WilcoxonSignedRank, Bootstrap}` with real `p_value`; Holm-Bonferroni + Benjamini-Hochberg; `power.rs` (`required_sample_size`, `achieved_power`); **DELETE `compare_paired_scores`'s hardcoded-z path + `StatisticalTest::PairedNormalApproximation`**, route `beater-eval`/`beater-experiments`/`beater-gates` through `beater-stats`. mSPRT/confidence-sequences are the REQUIRED online follow-on (Phase 4, §10.3 #6) | L | none |
 | 3.5 | Experiment depth | single metric, no segments | Multi-named-metric + segment tags on `ExperimentRunReport`; `ExperimentStore::list_runs` + `GET /v1/experiments/:tenant/:project` **[contract]**; per-slice comparison | M | contract |
 | 3.6 | CI integration | none | `sdks/python/beater/pytest_plugin.py` (`@beater.eval` marker running cases through the API, asserting via `GatePolicy`); TS vitest reporter; `beater eval` gating CLI subcommand | L | contract |
+| 3.7 | Agent/score calibration (proper scoring, §10.5) | `beater-calibration` reports kappa/agreement only; the continuous confidence signal is stored then discarded | Persist the probability signal; add Brier + ECE + reliability curve and a persisted, versioned isotonic/Platt recalibration map to `beater-calibration` (kappa demoted to secondary); pin the map into `EvalResult` repro metadata; reliability-curve UI; feeds agent dim #7 (§6.3) on the Test split **[contract]** | M | contract |
 
 Acceptance: an experiment reports a delta with a method-appropriate CI and real
 p-value, FWER-corrected across metrics, refusing underpowered comparisons; a
@@ -1578,11 +1874,11 @@ Goal: production scoring, real alert delivery, and the missing prompt pillar.
 
 | # | Requirement | Now | Target / concrete task | Effort | Blocker |
 | --- | --- | --- | --- | --- | --- |
-| 4.1 | Online evals that score | sampling decision only, never scored | `beater-online` worker (or `beater-temporal` workflow) consuming tail-sampled traces, running configured deterministic+judge evaluators, persisting online-tagged `EvalResult`s; `GET /v1/online/.../scores` timeseries **[contract]** | XL | design |
+| 4.1 | Online evals that score | sampling decision only, never scored | `beater-online` worker (or `beater-temporal` workflow) consuming tail-sampled traces, running configured deterministic+judge evaluators, persisting online-tagged `EvalResult`s (weighted by `sampling_weight`, §9); `GET /v1/online/.../scores` timeseries **[contract]** | XL | design |
 | 4.2 | Alert policy persistence + CRUD | policies passed inline; nothing stored | `AlertPolicyStore` (sqlite+sql) + `POST/GET/PATCH/DELETE /v1/alert-policies/...`; persist `OnlineSamplingPolicy` per project; load in `evaluate_alert`/ingest **[contract]** | L | contract |
 | 4.3 | Actual webhook delivery | `WebhookDelivery` computed, never sent | delivery worker POSTing with retry/backoff + `beater-security` HMAC signature; persist attempts/status; delivery-history endpoint | M | evidence |
 | 4.4 | Slack integration | zero references | `SlackChannel` formatting `AlertInput` into Block Kit (severity, score-vs-baseline, trace deep-link button); stored incoming-webhook config | M | evidence |
-| 4.5 | Baseline/anomaly/drift alerting | static threshold only | `AlertCondition{AbsoluteThreshold, BaselineDeviation, Drift}` with rolling EWMA/z-score/percentile baseline over recent project scores | L | design |
+| 4.5 | Baseline/anomaly/drift alerting (anytime-valid) | static threshold only | `AlertCondition{AbsoluteThreshold, BaselineDeviation, Drift}` with rolling EWMA/z-score/percentile baseline over recent project scores, decided against a **`beater-stats` confidence sequence (mSPRT)** not a fixed-N test — the REQUIRED online follow-on of §10.3 #6 (peeking a fixed-horizon test inflates false alerts 5–10×) | L | design |
 | 4.6 | Durable dedupe/grouping | in-memory `AlertState` | back `AlertState` with the store so dedupe survives restarts + is shared across workers; group rollups in payload | M | none |
 | 4.7 | Prompt management | `prompt_version_id` is a dangling pin, no producer | New `beater-prompts`: `PromptRegistry`, versioned `PromptTemplate`, variable schema, tags, diff; `/v1/prompts` CRUD + `runPrompt` (playground) **[contract]**; `web/dashboard/app/prompts` registry + playground + prompt-from-trace; resolve `prompt_version_id` at eval time | XL | contract |
 
@@ -1622,20 +1918,23 @@ Goal: lower adoption friction to match the incumbents' framework coverage.
 | # | Requirement | Now | Target / concrete task | Effort | Blocker |
 | --- | --- | --- | --- | --- | --- |
 | 6.1 | Auto-instrumentation (OpenAI/Anthropic) | one-line `wrap_*` wrappers only | `beater.auto.instrument(providers=[...])` monkeypatching `openai`/`anthropic` (incl streaming + tool calls) in py + ts | L | none |
-| 6.2 | Zero-code env-var bootstrap | all paths require code | `opentelemetry-distro`/configurator (py) + TS `--require` preload reading `BEATER_*` env, setting OTLP exporter+headers, enabling installed auto-instrumentors | M | none |
+| 6.2 | Zero-code env-var bootstrap (**DEFAULT onboarding**, §1 #13, §15) | all paths require code | `opentelemetry-distro`/configurator (py) + TS `--require` preload reading `BEATER_*` env, setting OTLP exporter+headers, enabling installed auto-instrumentors; promoted to the documented first path | M | none |
 | 6.3 | Modern framework coverage | LangChain (py+ts), LlamaIndex (py) only | examples + instrumentation for Vercel AI SDK (TS), OpenAI Agents SDK, CrewAI, DSPy, Pydantic AI, AutoGen, Haystack; TS LlamaIndex; token-usage extraction; 3-level span-tree integration tests | XL | evidence |
-| 6.4 | `beaterctl quickstart` (TTFT) | manual compose + snippet | one command boots compose, provisions tenant/key, prints exporter snippet + dashboard URL; timed e2e asserting trace visible < SLO | M | evidence |
+| 6.4 | `beaterctl quickstart` (time to first SCORED FAILURE) | manual compose + snippet | one command boots compose, provisions tenant/key, prints exporter snippet + dashboard URL; timed e2e asserting not just a trace but a *scored failing case* visible < the §15 SLO | M | evidence |
 
 Acceptance: an env-var-only Python app produces traces with zero code edits;
 each named framework has a working example emitting a correct agent span tree;
-`beaterctl quickstart` demonstrates time-to-first-trace under the §15 SLO.
+`beaterctl quickstart` demonstrates **time to first scored failure** under the §15
+SLO (a failing case shown with a score, not merely a trace rendered).
 
 ### 20.9 New Crates, Contracts & Sequencing
 
 New crates introduced by this plan (all under the §4 workspace conventions):
 
 - `beater-bench` — criterion benches + load-test fixtures (Phase 0).
-- `beater-stats` — CIs, test selection, p-values, power, FWER/FDR (Phase 3).
+- `beater-stats` — CIs, test selection, p-values, power, FWER/FDR (Phase 3); the
+  correctness layer that DELETES the hardcoded-z gate path (§10.3). mSPRT /
+  confidence sequences are its required online follow-on (Phase 4, §10.3 #6).
 - `beater-scorers` — custom-scorer registry over the WASI sandbox (Phase 3).
 - `beater-online` — online-eval scoring worker (Phase 4).
 - `beater-prompts` — prompt registry/versioning/playground (Phase 4).
@@ -1669,32 +1968,62 @@ Cross-cutting bar for every item (no exceptions):
 Done, per §19, is when a team can replace ad-hoc Phoenix/LangSmith/Braintrust
 workflows end to end. This plan is the path from 33% to that bar.
 
-## 21. Planned: Recursive Self-Improvement MCP & Agent Studio
+## 21. Planned: Recursive Self-Improvement (folded into `beater-mcp`)
 
-This is a second product surface layered on the Beater eval/judge/trace/dataset/
-replay primitives (§10–§13, §20): a single MCP server that gives an agent — driven
-by Claude Code or any MCP client — a recursive self-improvement loop, plus a
-visual Studio to design, watch, and edit agents. The thesis: **"a tool belt that
-generates tool belts."** The MCP reuses Beater for traces, evals, judges,
-datasets, and replay; it does not reinvent them.
+This is the recursive-self-improvement (RSI) loop layered on the Beater
+eval/judge/trace/dataset/replay/stats primitives (§5–§13, §20): an MCP-driven loop
+that lets an agent — driven by Claude Code, Cursor, a ChatGPT connector, Codex, or
+any MCP client — improve a *target* agent's policy `π` (§6.1) under statistical and
+autonomy guardrails. It reuses Beater for traces, evals, judges, datasets, replay,
+and statistics; it does not reinvent them.
+
+**Architecture decision: the improvement loop is FOLDED INTO `beater-mcp`, not a
+standalone server.** The §20 MCP already exposes every `/v1` operation as a tool;
+the RSI tools (`index_agent`, `propose_change`, `simulate`, `apply_change`,
+`track_evolution`, `challenge_labels`) are added as *additional* tools on that same
+server, sharing its auth, transport, and contract-sync discipline. An MVP
+foundation (`beater-credits`, `beater-mcp-improve`) already exists on the
+`feat/mcp-improve-foundation` branch, but the architecture now prefers folding
+improve into `beater-mcp` over shipping a separate improve server, and **defers**
+the standalone Studio / toolbelt / credits productization to a later phase (§21.6,
+§21.7). The thesis ("a tool belt that generates tool belts") is retained as a
+direction, not a near-term standalone product.
+
+**MCP deployability (required).** The MCP is reachable two ways, with the same tool
+set: **stdio** for local clients (Claude Code / Cursor / Codex running on the
+developer's machine), and **streamable-HTTP secured by OAuth 2.1** for the hosted
+tier so ChatGPT connectors and remote IDEs can connect via `/mcp`. The OAuth 2.1
+HTTP endpoints already exist on `main` (`beater-oauth`/`beater-oauth-server` wired
+into `beaterd`: `/.well-known/oauth-authorization-server`, `/oauth/authorize`,
+`/oauth/token`, dynamic client registration) and the MCP is already served at
+`POST /mcp` alongside them; the streamable-HTTP transport reuses exactly that
+surface. **stdio is the one transport not yet present and is the concrete MCP
+deployability gap to close.**
 
 Design invariants (carried from §1):
 
-- **Human-in-the-loop by default.** The loop runs as plan → approve → execute:
-  the MCP indexes the agent, reports what it found ("is this correct? which of
-  1–6 are you OK changing?"), and only then iterates. Full autonomy is opt-in.
-- **Generalize, do not overfit.** Improvements must target the stated goal and
-  generalize across inputs, not curve-fit the current trace/dataset. The loop is
-  policy-aware: load-bearing prompts/tools are not changed unless contradictory.
+- **Human-in-the-loop by default; bounded autonomy when opted in.** The loop runs
+  as plan → approve → execute: the MCP indexes the agent, reports what it found
+  ("is this correct? which of the §6.1 levers are you OK changing?"), and only then
+  iterates. Autonomy is opt-in and **bounded** — spend and confidence bounds, with
+  **repo writes OFF by default** (§21.5 bounded-autonomy policy).
+- **Generalize, do not overfit — accept only on the frozen Test split.** A change
+  is accepted only on the untouched **Test** split (§5.4, §6.4) clearing a real
+  confidence interval *and* power bar (§10.3). The loop is policy-aware: load-
+  bearing prompts/tools are not changed unless contradictory. There is **no
+  "gradient"**: the loop runs *sequential evaluation* gated on a real CI, not a
+  differentiable score signal.
 - **Standards + reuse at the edge.** Scoring is Beater's existing LLM-judge +
-  deterministic WASI evals; memory/tools are provisioned, not hand-rolled.
+  deterministic WASI evals; statistics are `beater-stats`; memory/tools are
+  provisioned, not hand-rolled.
 - **MCP-first, SDK-second.** Recommend the MCP to learn the workflow, then expose
   a deterministic SDK for repeatable monitoring/improvement pipelines.
 
-### 21.1 The MCP Server (`beater-mcp-improve`)
+### 21.1 The improvement tools (added to `beater-mcp`)
 
-A single MCP exposing a tool-belt for recursive self-improvement. Every tool call
-is a metered self-improvement action (see §21.6). Core tools:
+The RSI tool-belt is a set of tools on the existing `beater-mcp` server (not a
+separate binary). Every tool call is a metered self-improvement action (see §21.6).
+Core tools:
 
 - `index_agent` — discover the agent's code, config, system/UI/customer prompts,
   policy, tools, and runtime (localhost, API logs, browser) and build a map from
@@ -1716,46 +2045,90 @@ is a metered self-improvement action (see §21.6). Core tools:
 
   Each proposal carries a rationale and the exact file/symbol/span it targets.
   Returns a plan, never a silent edit.
-- `simulate` — run N candidate iterations through Beater's harness (§12) with
-  judge + simulation loops; report the score gradient (LLM-judge + deterministic)
-  and whether a change is promising before it touches the repo.
+- `simulate` — run N candidate iterations through Beater's harness (§12) on the
+  **Train** split (and Dev for tuning), scoring with the frozen evaluator
+  (LLM-judge + deterministic WASI), and return a **typed reward estimate** (§21.2:
+  verifier gain vs judge gain, position-bias-cancelled) **with a `beater-stats`
+  confidence interval** — *not* a "score gradient." `simulate` answers "is this
+  change worth proposing to the Test gate?", it never decides acceptance.
 - `apply_change` — wire the approved change at a chosen integration depth
-  (suggest-only → wire a Studio node → edit repo code), collaborating with Claude
-  Code for the actual code write.
+  (suggest-only → wire a node → edit repo code), collaborating with Claude Code for
+  the actual code write. **Repo writes are OFF by default** and a write is
+  materialized to the repo **only after a held-out Test win** clears §10.3 (§21.5).
 - `track_evolution` — record the agent's version history (tools added/removed,
   prompts rewritten, labels challenged) so the loop can see its own trajectory.
 - `challenge_labels` — flag dataset labels the evidence contradicts; route to the
   human grader (§21.5).
+- `suggest_scorers` — **advisory**: given the indexed agent + its traces, suggest
+  an archetype ("RAG agent", "tool-using planner", "browser agent") and a starter
+  set of §10.4 scorers/dimensions (§6.3) to measure it. Outcome-shaped advice, not
+  an API call the user must assemble.
 
-### 21.2 Auto-Provisioned Tool-Belt (`beater-toolbelt`)
+**Composite MCP tools (named recipes over operation-ids).** On top of the raw
+per-operation tools (§20), `beater-mcp` exposes a small set of **outcome-shaped
+composite tools** — named recipes that chain several `/v1` operations so the client
+asks for an *outcome*, not an API sequence. Examples: `promote_failures`
+(query failing traces → bulk `promote-from-query`, §20.4 #2.1b → assign Test
+split) and `gate_candidate` (run experiment → `beater-stats` CI on Test → return
+pass/inconclusive/fail with the interval). Recipes are versioned tools resolved
+from the spec like everything else, so they stay in contract-sync.
 
-OAuth in, and the platform auto-provisions agent capabilities on demand — the
-"pop-up" experience:
+### 21.2 The typed reward model (no gradient)
 
-- **Vector memory** — one-click managed vector DB; the loop can propose "this
-  agent would benefit from vector-search memory" and simulate a few iterations
-  before committing.
-- **SQL store**, **web search**, **scrapers**, and common agent tooling as
-  built-ins, auto-wired into the agent and addressable by the improvement loop.
-- Tools are discoverable, versioned, and applied/removed by `propose_change`/
-  `apply_change`; provisioning is metered.
+The loop needs a *reward* to optimize `J(π)` (§6.2). It is **not** a scalar
+"gradient" — that framing is deleted because there is nothing differentiable here
+and a single collapsed score is exactly what Goodhart exploits. The reward is a
+**typed decomposition** with a `beater-stats` interval on each component:
 
-### 21.3 The Self-Improvement Loop
+```text
+Reward(change) = {
+  verifier_gain : Δ on DETERMINISTIC scorers (WASI lane, §10.1/§10.4) — trusted
+                  where state is known-correct (exact/regex/schema/numeric/cost/
+                  tool-execution/SQL-result). High-trust, cheap, reproducible.
+  judge_gain    : Δ on JUDGE-lane scorers (§10.1.1) — needed for open-ended
+                  quality, but noisy/biased, so always position-bias-cancelled
+                  and reported with its CI.
+  per_dimension : the §6.3 dimension vector (success, cost, latency, safety,
+                  calibration, ...) — NOT collapsed; a safety/guardrail
+                  regression vetoes regardless of verifier/judge gain.
+}
+```
+
+Why typed: a change that lifts the *judge* score while the *verifier* score is flat
+or down is the classic "the model talked the judge into it" failure; separating
+verifier gain from judge gain makes that visible instead of hiding it in one number.
+The verifier component is weighted higher precisely because it is the
+harder-to-game, deterministic signal.
+
+**Position-bias cancellation via the A/B order swap.** Every pairwise judge
+comparison feeding `judge_gain` is run in **both** A/B orders and reconciled, so the
+known position bias of LLM judges (§10.1.1) is **cancelled structurally**, not
+assumed away (§1 #10). This is the same swap §10.1.1 mandates; here it doubles as
+the order-bias control on the reward signal. Each reward component carries a
+`beater-stats` CI, and acceptance (§21.3) reads these on the **Test** split only.
+
+### 21.3 The Self-Improvement Loop (sequential, CI-gated)
 
 ```text
 goal + params + few examples
   -> index_agent (code + prompts + policy + runtime)
   -> collect traces/evals (Beater) + classify failures
-  -> propose_change (typed, goal-targeted, generalizable)
-  -> simulate (judge loops + simulation loops -> score gradient)
-  -> human approve (which changes; depth)
-  -> apply_change (Claude Code / hosted writer) + re-eval
-  -> track_evolution -> repeat
+  -> propose_change (typed §6.1 lever, goal-targeted, generalizable)
+  -> simulate on TRAIN/Dev (judge + deterministic) -> typed reward + CI (§21.2)
+  -> human approve (which changes; autonomy bounds, §21.5)
+  -> evaluate on the untouched TEST split -> beater-stats CI + power check (§10.3)
+  -> ACCEPT iff Test CI clears the bar AND no safety dimension regresses
+  -> only then apply_change (materialize to repo, §21.5) + record
+  -> track_evolution -> repeat (stop on §6.2 convergence/budget)
 ```
 
-The gradient is "where is the best performance" by LLM-judge **and** deterministic
-eval (the latter trusted only where state is known-correct). Anti-overfit and
-policy-awareness gate every accepted change.
+This is **sequential evaluation gated on a real confidence interval over the frozen
+Test split** — propose/simulate read Train (Dev for tuning), acceptance reads the
+untouched Test split (§5.4, §6.4), and a *pass* requires a real `beater-stats`
+p-value at adequate power (§10.3), never a raw mean delta. Deterministic evals are
+trusted where state is known-correct; the judge component is position-bias-cancelled
+and CI'd. Anti-overfit, the frozen evaluator (§6.2), and policy-awareness gate every
+accepted change.
 
 ### 21.4 Integrations & Code-Awareness
 
@@ -1764,12 +2137,40 @@ policy-awareness gate every accepted change.
 - **Frameworks:** direct link to browser-use; Temporal (sub-agent trace steps map
   cleanly to canonical spans); LangChain / LangGraph. Auto-discover internal
   workflows and classify their traces into improvement candidates.
-- **Integration depths:** (1) suggest-only, (2) wire a Studio node, (3) change
-  actual repo code — chosen per change.
+- **Integration depths:** (1) suggest-only, (2) wire a node (Studio, deferred —
+  §21.5b), (3) change actual repo code — chosen per change. Depth (3) is gated by
+  the bounded-autonomy policy (§21.5) and a held-out Test win.
 
-### 21.5 Agent Studio (`beater-studio`)
+### 21.5 Bounded-autonomy policy
 
-A visual surface that maps front-end ↔ back-end:
+Autonomy is opt-in and **bounded**; the loop never silently rewrites a repo. The
+policy is a hard guard around `apply_change`:
+
+- **Repo writes OFF by default.** The default integration depth is suggest-only
+  (§21.4). A repo write requires an explicit opt-in *and* satisfies the conditions
+  below; until then the loop produces plans and simulated/Test results, not edits.
+- **Materialize only after a held-out win.** An accepted change is written to the
+  repo **only after** its improvement on the untouched **Test** split clears the
+  §10.3 confidence-bound *and* power bar with no safety-dimension regression (§6.2,
+  §21.3). A simulate-only (Train/Dev) win is never sufficient to write code.
+- **Spend bound.** Each episode runs under a budget (AI-credits / model spend, §21.6)
+  enforced by `QuotaLimiter` (§8.4); exhausting it stops the loop (a §6.2
+  convergence criterion), it does not silently overspend.
+- **Confidence bound.** A change below a configured confidence threshold on its
+  typed reward (§21.2) is not auto-applied even within budget; it is surfaced for
+  human approval. Full autonomy raises the bound, it does not remove it.
+- **Frozen evaluator + policy constraints.** The ruler does not move during an
+  episode (§6.2) and load-bearing prompts/tools are not changed unless contradictory.
+
+Together these make the autonomous mode *bounded* — it can spend up to a budget,
+act only above a confidence bound, and touch the repo only after a real held-out
+win — rather than an open-ended self-rewriting agent.
+
+### 21.5b Deferred: Agent Studio (`beater-studio`)
+
+**Deferred — design-only, idea preserved, not a near-term product.** A visual
+surface that maps front-end ↔ back-end. Kept here as direction; it is *not* on the
+critical path and is part of the deferred standalone-Studio productization (§21.6):
 
 - **Canvas** (Excalidraw-style, mostly native): agent design auto-drawn as nodes,
   **topologically sorted left→right**, with explicit visualization of recursive
@@ -1780,61 +2181,98 @@ A visual surface that maps front-end ↔ back-end:
 - **Studio mode:** watch the agent run, see traces live, drag tools in; Claude
   Code wires them (AI tier: a hosted agent wires them).
 - **Human grading:** an expert feedback area to grade right/wrong inline, feeding
-  `challenge_labels` and calibration (§10.3).
+  `challenge_labels` and calibration (§10.5).
 
-### 21.6 Commercial Model & Metering (DRAFT — not for public publish until confirmed)
+### 21.5c Deferred: auto-provisioned tool-belt (`beater-toolbelt`)
 
-Metering counts MCP tool calls / endpoint calls as "requests"; AI credits meter
-model spend (judge/code-writer). Margin target: large; the $20 plan is roughly
-break-even at full utilization.
+**Deferred — design-only, idea preserved.** OAuth in, and the platform
+auto-provisions agent capabilities on demand (the "pop-up" experience): one-click
+managed **vector memory**, **SQL store**, **web search**, **scrapers**, addressable
+by `propose_change`/`apply_change` and metered. Also deferred and *not deleted*: a
+**skill library on a vector store** and **full evolutionary/population search over
+agent configs** (the §21.3 loop ships as a single-candidate sequential search first;
+population search is a later generalization). These are future generalizations of
+the loop, not MVP.
 
-| Plan | Price | Requests/mo | Included AI credits | Overage |
+### 21.6 Commercial Model & Metering (DRAFT — design-only, productization DEFERRED)
+
+**Status: the commercial model is kept as a design, but the standalone Studio +
+toolbelt + credits *productization* is DEFERRED to a later phase.** An MVP
+foundation (`beater-credits`, `beater-mcp-improve`) already exists on the
+`feat/mcp-improve-foundation` branch; the architecture now prefers folding
+improvement into `beater-mcp` (§21) and treating credits as a later commercial
+layer rather than a launch dependency. The numbers below are illustrative, not a
+committed price sheet.
+
+**Bill on VERIFIED GAIN / an autonomy budget, not raw tool-call effort.** The key
+refinement over the original "count every MCP tool call" model: charging for effort
+rewards the platform for *churning* (more simulate calls = more revenue) and
+punishes the user for the loop's own inefficiency. Instead the primary commercial
+meter is an **autonomy budget** spent toward **verified improvement** — credits are
+consumed against AI/model spend within an episode, and the value narrative is
+"credits spent per accepted, held-out-verified gain" (§21.2 typed reward on the
+Test split), not per tool invocation. Raw tool-call counts remain a *rate-limit /
+abuse* signal, not the value meter.
+
+Two dimensions:
+
+- **Autonomy budget (AI credits)** — model spend (judge + code-writer) inside an
+  episode, bounded per the §21.5 spend bound; this is what the user is really
+  buying (verified gains), with episodes that fail to clear the Test gate costing
+  the platform's margin, not silently the user.
+- **Rate-limit requests** — MCP tool calls / endpoint calls, used to bound abuse
+  and smooth bursts, **not** as the primary value meter.
+
+| Plan (illustrative) | Price | Rate-limit requests/mo | Included AI credits | Overage |
 | --- | --- | --- | --- | --- |
 | Free | $0 | 5,000 | $5 | — |
 | Starter | $8/mo | 8,000 | — | — |
 | Pro / AI | $20/mo | 50,000 | $40 | pay-as-you-go credits |
 | Usage (AI) | metered | — | per plan above | pay-as-you-go |
 
-Two metered dimensions:
+**Rolling-window rate limiting (Claude-Code/Codex-style).** On top of monthly caps,
+both tiers enforce **rolling 5-hour and weekly windows** computed from a
+multi-factor cost (tool-call count, tokens, model tier, simulation depth), so bursty
+usage is smoothed and abuse is bounded without a hard monthly cliff. Windows reset
+continuously (seek-based), not on calendar boundaries.
 
-- **Requests** — MCP tool calls / endpoint calls, capped per plan per month.
-- **AI credits** — model spend (judge + code-writer); Free includes $5/mo, Pro
-  includes $40/mo, beyond which it is pay-as-you-go.
+Requires (when productized): a metering/credits service (`beater-credits`, MVP
+exists on branch) over the existing `beater-usage` ledger (§10 usage records) +
+`QuotaLimiter` (§8.4) with rolling 5h/weekly windows, plan tiers, and Stripe metered
+billing (ties into §20.7 5.8). Until productization, the §21.5 spend bound is
+enforced directly through `QuotaLimiter` without the commercial layer.
 
-**Rolling-window rate limiting (Claude-Code/Codex-style).** On top of the monthly
-caps, both tiers enforce **rolling 5-hour and weekly windows** computed from a
-multi-factor cost (tool-call count, tokens, model tier, simulation depth), so
-bursty usage is smoothed and abuse is bounded without a hard monthly cliff. The
-windows reset continuously (seek-based), not on calendar boundaries.
+### 21.7 Crates & SDK
 
-Margin target: large; the $20 Pro plan is roughly break-even at full utilization.
-
-Requires: a metering/credits service (`beater-credits`) over the existing
-`beater-usage` ledger (§10 usage records) + `QuotaLimiter` (§8.4) with rolling
-5h/weekly windows, plan tiers, and Stripe metered billing (ties into §20.7 5.8).
-
-### 21.7 New Crates & SDK
-
-- `beater-mcp-improve` — the self-improvement MCP server + tool-belt protocol.
-- `beater-toolbelt` — auto-provisioned vector/SQL/web/scraper tools.
-- `beater-studio` — Studio canvas UI (Next.js) + JSON-schema store.
-- `beater-credits` — request + AI-credit metering, plan tiers, Stripe sync.
+- **`beater-mcp` (CHANGED, primary)** — the improvement tools (§21.1) and composite
+  recipes are added here; the loop is *not* a separate server. stdio + streamable-
+  HTTP/OAuth 2.1 transports (§21 intro).
+- **`beater-stats` (NEW, §10.3)** — supplies the CI/p-value/power the loop gates on.
+- **`beater-replay` (CHANGED, §11)** — forked replay backs `simulate` and root-cause.
+- **`beater-mcp-improve` (DEFERRED / branch foundation)** — exists on
+  `feat/mcp-improve-foundation` as the MVP; its logic folds into `beater-mcp` rather
+  than shipping standalone.
+- **`beater-credits` (DEFERRED / branch foundation)** — metering exists on branch;
+  productization deferred (§21.6).
+- **`beater-toolbelt` (DEFERRED, §21.5c)**, **`beater-studio` (DEFERRED, §21.5b)** —
+  design-only, ideas preserved.
 - Deterministic **improvement SDK** (py/ts) over the same endpoints for repeatable
-  monitoring/improvement pipelines.
+  monitoring/improvement pipelines (later phase).
 
 ### 21.8 Phasing & Acceptance
 
-- **MVP:** `beater-mcp-improve` with `index_agent`/`propose_change`/`simulate`/
-  `apply_change`, wired to Beater evals/judge/harness, plan→approve→execute,
-  metering on tool calls. Acceptance: from a goal + a small agent (system prompt +
-  policy), the MCP indexes it, proposes a generalizable change, simulates a score
-  gain, and applies it via Claude Code with human approval.
-- **+1:** auto-provisioned tool-belt (vector/SQL/web) + browser-use/Temporal
-  integration.
-- **+2:** Studio canvas (topo-sorted nodes, JSON schema, live traces, drag-to-add)
-  + human grading.
-- **+3:** deterministic SDK, LangGraph integration, credits/billing tiers GA.
+- **MVP:** the improvement tools on `beater-mcp` — `index_agent`/`propose_change`/
+  `simulate`/`apply_change` — wired to Beater evals/judge/harness/`beater-stats`,
+  plan→approve→execute, **repo writes off by default**, accept only on a held-out
+  Test win. Acceptance: from a goal + a small agent (system prompt + policy), the
+  MCP indexes it, proposes a generalizable change, simulates a typed reward with a
+  CI on Train/Dev, **verifies a statistically significant win on the untouched Test
+  split**, and only then applies it via Claude Code with human approval.
+- **+1:** browser-use/Temporal integration; stdio transport for local clients.
+- **+2 (deferred):** auto-provisioned tool-belt (vector/SQL/web); Studio canvas
+  (topo-sorted nodes, JSON schema, live traces, drag-to-add) + human grading.
+- **+3 (deferred):** deterministic SDK, LangGraph integration, credits/billing tiers
+  GA; later still, population/evolutionary search and a skill library (§21.5c).
 
-This product depends on Phases 0–4 of §20 (scale, data model, read APIs, evals/
-stats, online evals) being far enough along that traces and evals are real inputs
-to the loop.
+This loop depends on Phases 0–4 of §20 (scale, data model, read APIs, evals/stats,
+online evals) being far enough along that traces and evals are real inputs to it.
