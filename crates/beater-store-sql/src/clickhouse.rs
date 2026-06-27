@@ -188,16 +188,11 @@ impl ClickHouseTraceStore {
         // single-tuple `IN` set whose redundant parentheses collapse, defeating
         // the composite-key match and the in-app duplicate detection.
         //
-        // Compare `seq` as a String on BOTH sides instead of as a UInt64. The
-        // raw-envelope dedup (an all-String tuple) matches correctly, but the
-        // 5-element span tuple mixing four Strings with a UInt64 `seq` does not:
-        // ClickHouse's element-wise tuple `IN` is sensitive to the numeric type
-        // of the literal `seq` vs the UInt64 column (a bare literal infers as a
-        // narrower type, and even `toUInt64(...)` left the just-inserted span
-        // keys unmatched, so `duplicate_spans` stayed 0). Casting the column
-        // with `toString(seq)` and quoting the literal makes the entire tuple
-        // all-String — identical in shape to the proven raw path — so the
-        // composite key matches reliably regardless of numeric type inference.
+        // Compare `seq` as a String on BOTH sides (column cast with
+        // `toString(seq)`, literal quoted) so all five tuple elements are
+        // String — identical in shape to the proven raw path — and the
+        // composite key match is independent of ClickHouse's numeric type
+        // inference for the literal vs the UInt64 column.
         let tuples = candidates
             .iter()
             .map(|key| {
@@ -216,19 +211,6 @@ impl ClickHouseTraceStore {
             "SELECT DISTINCT tenant_id, project_id, trace_id, span_id, seq FROM beater.spans WHERE (tenant_id, project_id, trace_id, span_id, toString(seq)) IN ({tuples}) FORMAT JSONEachRow"
         );
         let body = self.query_raw(&sql).await?;
-        // TEMP DIAGNOSTIC: surface what ClickHouse actually has vs what the IN
-        // matched, so the CI conformance log shows whether this is a
-        // persistence/visibility problem or an IN-comparison problem.
-        if body.lines().filter(|l| !l.trim().is_empty()).count() == 0 {
-            let all = self
-                .query_raw(
-                    "SELECT tenant_id, project_id, trace_id, span_id, seq, toTypeName(seq) AS seq_type FROM beater.spans FORMAT JSONEachRow",
-                )
-                .await?;
-            return Err(StoreError::Backend(format!(
-                "DIAG span IN returned 0. candidates={candidates:?} sql=[{sql}] all_spans=[{all}]"
-            )));
-        }
         let mut found = BTreeSet::new();
         for line in body.lines().filter(|line| !line.trim().is_empty()) {
             let row: serde_json::Value = serde_json::from_str(line).map_err(StoreError::backend)?;
