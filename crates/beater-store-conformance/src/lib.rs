@@ -10,9 +10,30 @@ use beater_store::{
     MetadataStore, OrganizationMetadata, ProjectMetadata, QuotaLimiter, QuotaReservationRequest,
     RoleBinding, TraceStore,
 };
-use chrono::{TimeZone, Utc};
+use chrono::{DateTime, Duration, TimeZone, Utc};
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
+
+/// Base timestamp for the trace-store fixtures, anchored to *today* (midnight
+/// UTC) rather than a hardcoded calendar date.
+///
+/// The ClickHouse trace-store tables carry a `TTL` on `start_time` /
+/// `received_at` (90 days for spans, 180 for raw envelopes). A fixed past date
+/// — e.g. 2026-01-01 — eventually ages past that TTL, at which point a
+/// background ClickHouse merge evicts the just-written rows between the two
+/// `write_batch` calls and the idempotency lookups see an empty table
+/// (`duplicate_spans == 0`). Anchoring the fixtures to the current day keeps the
+/// data inside every store's TTL window regardless of the calendar date. Other
+/// stores (SQLite/Pg/memory) have no TTL and are unaffected. Truncated to
+/// midnight so the per-span `seq`-second offsets remain deterministic and
+/// ordered.
+fn fixture_base_time() -> DateTime<Utc> {
+    let now = Utc::now();
+    now.date_naive()
+        .and_hms_opt(0, 0, 0)
+        .map(|naive| DateTime::<Utc>::from_naive_utc_and_offset(naive, Utc))
+        .unwrap_or(now)
+}
 
 pub async fn assert_trace_store_conformance<S>(store: S)
 where
@@ -366,10 +387,7 @@ fn fixture_batch() -> (
         source: SourceDialect::Native,
         source_schema_url: Some("beater://native/v1".to_string()),
         source_schema_version: Some("1".to_string()),
-        received_at: Utc
-            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
-            .single()
-            .unwrap_or_else(|| panic!("valid timestamp")),
+        received_at: fixture_base_time(),
         idempotency_key: idempotency_key.clone(),
         payload_hash: body_ref.sha256.clone(),
         body_ref: body_ref.clone(),
@@ -436,10 +454,7 @@ fn fixture_project_batch(
         source: SourceDialect::Native,
         source_schema_url: Some("beater://native/v1".to_string()),
         source_schema_version: Some("1".to_string()),
-        received_at: Utc
-            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
-            .single()
-            .unwrap_or_else(|| panic!("valid timestamp")),
+        received_at: fixture_base_time(),
         idempotency_key,
         payload_hash: body_ref.sha256.clone(),
         body_ref: body_ref.clone(),
@@ -491,10 +506,7 @@ fn canonical_span(fixture: CanonicalSpanFixture<'_>) -> CanonicalSpan {
         kind: fixture.kind,
         name: fixture.name.to_string(),
         status: SpanStatus::Ok,
-        start_time: Utc
-            .with_ymd_and_hms(2026, 1, 1, 0, 0, fixture.seq as u32)
-            .single()
-            .unwrap_or_else(|| panic!("valid timestamp")),
+        start_time: fixture_base_time() + Duration::seconds(fixture.seq as i64),
         end_time: None,
         model: None,
         cost: None,

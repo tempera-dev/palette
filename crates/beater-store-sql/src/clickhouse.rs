@@ -139,11 +139,19 @@ impl ClickHouseTraceStore {
         if candidates.is_empty() {
             return Ok(BTreeSet::new());
         }
+        // Each candidate is rendered with the explicit `tuple(...)` constructor.
+        // ClickHouse's `IN` has a historical-compatibility ambiguity: when the
+        // right side is a *single* parenthesised tuple — as it is whenever a
+        // batch carries one raw envelope — the redundant outer parentheses in
+        // `(('a','b','c'))` collapse and the set is parsed as three scalar
+        // values rather than one composite-key tuple, so the tuple-valued left
+        // side never matches and the duplicate goes undetected. `tuple(...)`
+        // forces the set element to stay a tuple regardless of cardinality.
         let tuples = candidates
             .iter()
             .map(|(tenant, project, key)| {
                 format!(
-                    "('{}','{}','{}')",
+                    "tuple('{}','{}','{}')",
                     escape(tenant),
                     escape(project),
                     escape(key)
@@ -175,11 +183,21 @@ impl ClickHouseTraceStore {
         if candidates.is_empty() {
             return Ok(BTreeSet::new());
         }
+        // Use the explicit `tuple(...)` constructor for the same reason as
+        // `existing_raw_keys`: a single-candidate batch otherwise produces a
+        // single-tuple `IN` set whose redundant parentheses collapse, defeating
+        // the composite-key match and the in-app duplicate detection.
+        //
+        // Compare `seq` as a String on BOTH sides (column cast with
+        // `toString(seq)`, literal quoted) so all five tuple elements are
+        // String — identical in shape to the proven raw path — and the
+        // composite key match is independent of ClickHouse's numeric type
+        // inference for the literal vs the UInt64 column.
         let tuples = candidates
             .iter()
             .map(|key| {
                 format!(
-                    "('{}','{}','{}','{}',{})",
+                    "tuple('{}','{}','{}','{}','{}')",
                     escape(&key.tenant),
                     escape(&key.project),
                     escape(&key.trace),
@@ -190,7 +208,7 @@ impl ClickHouseTraceStore {
             .collect::<Vec<_>>()
             .join(",");
         let sql = format!(
-            "SELECT DISTINCT tenant_id, project_id, trace_id, span_id, seq FROM beater.spans WHERE (tenant_id, project_id, trace_id, span_id, seq) IN ({tuples}) FORMAT JSONEachRow"
+            "SELECT DISTINCT tenant_id, project_id, trace_id, span_id, seq FROM beater.spans WHERE (tenant_id, project_id, trace_id, span_id, toString(seq)) IN ({tuples}) FORMAT JSONEachRow"
         );
         let body = self.query_raw(&sql).await?;
         let mut found = BTreeSet::new();
@@ -254,7 +272,7 @@ impl ClickHouseTraceStore {
     }
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 struct SpanKey {
     tenant: String,
     project: String,
