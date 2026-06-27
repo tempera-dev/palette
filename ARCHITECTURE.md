@@ -937,3 +937,370 @@ Braintrust, and spreadsheet workflows and answer:
 - Can I self-host without calling your cloud?
 
 If any answer is no, that area is not shipped.
+
+## 19. Planned: Execution to Parity-Grade GA
+
+This section is the concrete, technical execution plan to take Beater from its
+current state to feature parity with Arize Phoenix, Braintrust, LangSmith, and
+Langfuse for deep agent evaluation. It builds on — and does not replace — the
+milestones in §16–17. The milestones describe *what* must exist; this section
+describes the *current measured gap* and the *specific work* to close it, at the
+crate/type/endpoint level.
+
+Every contract-touching item (new or changed `/v1` route, request/response type,
+or span kind/attribute) MUST follow the §0/`CLAUDE.md` regen workflow
+(`cargo xtask regen-spec` → `scripts/regen-sdks.sh` → `cargo xtask regen-semconv`
+→ `scripts/check-contract-sync.sh`). Those items are tagged **[contract]** below.
+
+### 19.1 Readiness Baseline (audited 2026-06-27)
+
+A six-dimension audit of `main` against the parity bar. Overall readiness ≈ 33%:
+strong primitives, missing product/scale/control-plane pillars.
+
+| Dimension | Readiness | Headline gap |
+| --- | --: | --- |
+| Ingestion, SDKs & instrumentation | 58% | no session/thread grouping; flat scalar I/O (no message/tool-call/multimodal); no auto-instrumentation; no CrewAI/DSPy/Vercel-AI/OpenAI-Agents |
+| Evaluations, datasets & reproducibility | 38% | no read APIs; no eval/dataset UI; thin scorer catalog; no prompt registry; no CI plugins |
+| Security, multi-tenancy & hosted ops | 38% | no human identity/SSO; RBAC data model never enforced; audit covers one action; no deletion/retention/billing/backups |
+| Experiments, statistics, online evals & alerting | 34% | one hand-rolled normal-approx; online evals sampled but never scored; alerts computed but never delivered; no Slack |
+| Data model, storage, scale & query performance | 22% | SQLite-only runtime (ClickHouse/Pg unwired); full-scan queries, no LIMIT/keyset pushdown; zero benchmarks/SLOs; no runtime TTL |
+| Product surface (UI, replay, annotation, prompt) | 22% | one read-only trace-waterfall page is the entire product |
+
+Already genuinely strong (do not rebuild): OTLP HTTP+gRPC core; dual
+OpenInference + OTel `gen_ai` normalizer; 4 tracing SDKs with `@observe`;
+reproducibility/lineage pinning; WASI scorer sandbox; judge broker with
+cost/ledger/audit; tail-sampling; crypto primitives (Argon2 keys, ChaCha20
+envelope + online re-wrap, signed webhooks, BYOK); quota limiter; single-source
+OpenAPI → 7 SDKs + MCP + CLI with a CI drift gate; Apache-2.0 + governance.
+
+Biggest missing pillars: prompt management; hosted control plane
+(identity/SSO/enforced RBAC); load-tested scale; product UI beyond the waterfall;
+data lifecycle & compliance; online evaluation scoring; real statistics + alert
+delivery; auto-instrumentation & modern-framework coverage.
+
+### 19.2 Phase 0 — Scale & Data Plane
+
+Goal: make a scale claim defensible. Wire the columnar store into the running
+service, push filtering/pagination into the backend, prove latency, enforce TTL.
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 0.1 | Columnar store wired into `beaterd` | `ClickHouseTraceStore`/`PgTraceStore` implemented but dead code; runtime hardcodes `SqliteTraceStore` | Add `TraceStoreBackend` env/CLI arg (`sqlite\|postgres\|clickhouse`) + `build_trace_store(cfg) -> Arc<dyn TraceStore>` in `beater-store-sql`; thread through `ApiState` and the ingest/query bins; non-ignored compose integration test booting `beaterd` on ClickHouse | L | docker |
+| 0.2 | Server-side pagination + pushdown | `query_spans` appends no `LIMIT`, paginates in memory; `query_runs` materializes all spans (`limit u32::MAX`) | Push `PageRequest.limit` + time-window into SQL; keyset (seek) cursors on `(start_time, span_id)`; reimplement `query_runs` as backend `GROUP BY`; add `start_after/before` to `SpanFilter`/`RunFilter` | XL | none |
+| 0.3 | Measured query p95 SLOs | no `benches/`, no criterion, no load test, no SLO evidence | New `beater-bench` crate: criterion benches for `write_batch` throughput + `query_*` latency on seeded 1M/10M/100M-span fixtures; `xtask loadgen` emitting OTLP at sustained RPS → p50/p95/p99; codify §15 SLOs + CI regression gate | XL | evidence |
+| 0.4 | Runtime retention/TTL | TTL exists only as ClickHouse DDL that never runs | `RetentionPolicy{hot_days,archive_days}` in `beater-core`/`beater-schema`; retention sweeper (extend `beater-archive`) on an interval in `beaterd` demoting-then-deleting expired hot rows; `GET/PUT /v1/projects/:id/retention` **[contract]** | L | design |
+| 0.5 | Automated cold-tier archival | `ParquetTraceArchive` exists, local-fs only | Write partitioned append-only Parquet (`tenant/project/yyyymm/uuid`) to object store via `beater-store-obj`; scheduled demotion job; DataFusion read path over cold files | L | design |
+| 0.6 | Backend-agnostic migrations + re-normalization | versioned framework exists for SQLite only | Generalize the `SqliteMigration` version/checksum `Migrator` to ClickHouse + Postgres (`_beater_schema_migrations` on each); `xtask renormalize` reprojecting historical `RawEnvelope`s to a new canonical version | L | none |
+
+Acceptance: `beaterd --trace-store clickhouse` boots and serves traces; a 10M-span
+seeded search returns under the §15 p95 SLO in CI; expired rows are demoted then
+deleted by the sweeper; benches run in CI and gate regressions.
+
+### 19.3 Phase 1 — Agent-Native Trace Data Model
+
+Goal: close the table-stakes agent concepts the data model lacks.
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 1.1 | Session/thread/conversation grouping | absent from schema, normalizer, SDKs | Add `session_id/thread_id/user_id` to `CanonicalSpan`; map `session.id`/`thread.id`/`user.id` + OpenInference session attrs in `beater-otlp`; sessions index in `beater-store`; `/v1/sessions` list/get **[contract]**; `session_id` param on SDK `observe()/span()` (py/ts/go/java) | L | contract |
+| 1.2 | Structured message/role/tool-call I/O | only flat `input.value/output.value` scalars | Parse OpenInference `llm.input_messages/output_messages/tool_calls` + `gen_ai.*` message events into a `CanonicalMessages` structure on `CanonicalSpan`; golden fixture tests for both dialects **[contract]** | L | contract |
+| 1.3 | Multimodal (image/audio/file) I/O | stringified scalars only | `MediaArtifact{mime_type,uri-or-inline,role}` on canonical messages; parse OpenInference content-part `image_url`/`audio`; store large media via `beater-store-obj` with size caps + redaction class **[contract]** | L | design |
+| 1.4 | Full-text over artifact-backed I/O | tantivy indexes only inline attrs, not artifact bodies | In `beater-search`, have the ingest processor resolve `input_ref`/`output_ref` via `ArtifactStore` and index their text into dedicated `input_body`/`output_body`/`error` fields; per-tenant shards | L | evidence |
+| 1.5 | OTLP/JSON + canonical `/v1/traces` alias | OTLP HTTP is protobuf-only on a tenant-scoped path | Content-type negotiation in `ingest_otlp_http` (deserialize `ExportTraceServiceRequest` from JSON); gRPC `partial_success` population; optionally `/v1/logs` for events **[contract]** | M | contract |
+
+Acceptance: a multi-turn agent trace groups by session in the API; a vision LLM
+call renders its image; full-text search hits prompt/output bodies stored as
+artifacts; a stock OTel JSON exporter ingests with no Beater SDK.
+
+### 19.4 Phase 2 — Read APIs & Product UI
+
+Goal: make the eval/observability backend usable as a product, not just POST
+endpoints. The dashboard today is one server-rendered trace-waterfall page.
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 2.1 | Dataset CRUD + read APIs | create-only POST; no GET | `DatasetStore` `list_datasets/get_dataset/list_versions/update_case/delete_case/import_cases`; `GET /v1/datasets[...]`, versions, cases; CSV/JSONL import **[contract]** | M | contract |
+| 2.2 | Eval-report read API | reports only readable inside POST handlers | `GET /v1/datasets/.../eval-reports/{id}`, `.../versions/{vid}/eval-reports` (list+latest), paged per-case results **[contract]** | M | contract |
+| 2.3 | Experiment comparison UI (with CIs) | rich backend, no UI | `web/dashboard/app/experiments/[id]` rendering `ExperimentRunReport`: per-case score table, baseline-vs-candidate deltas with `ci_low/ci_high`, gate badge, trace deep-links | L | contract |
+| 2.4 | Dataset / eval-result browse UI | none | `web/dashboard/app/datasets[...]` routes: versions, cases, eval drilldown with judge rationale | XL | contract |
+| 2.5 | Human annotation queues + inline scoring UI | full `beater-human` backend, no UI | `web/dashboard/app/review` (queue + task inbox) + inline `AnnotationPanel` on span detail posting `submitReviewAnnotation`; keyboard labeling | L | none |
+| 2.6 | Failed-vs-passed trace diff | none | `GET /v1/traces/:tenant/:a/diff/:b` aligning spans by name/kind/seq emitting per-span deltas **[contract]**; `web/dashboard/app/diff` side-by-side view | L | contract |
+| 2.7 | Cost/latency analytics dashboard | single-run summary strip only | `GET /v1/metrics/:tenant` timeseries (p50/p95/p99, cost/token trends, model/release breakdown) **[contract]**; `web/dashboard/app/analytics` charts | L | contract |
+| 2.8 | Search UI + saved views | strong filter form, no full-text UI | `web/dashboard/app/search` + `searchSpansPath()` calling `/v1/search/:tenant/spans`; attribute-predicate query bar; saved views | M | none |
+| 2.9 | Client interactivity (live tail, virtualized) | fully server-rendered, GET-form nav | client components (SWR/react-query) over read APIs; SSE/websocket live-tail on `/v1/traces`; virtualized span lists | L | none |
+
+Acceptance: a user can browse datasets, open an experiment and see per-case
+deltas with CIs and a gate badge, annotate a trace in a review queue, diff a
+failed vs passing trace, and watch cost/latency trends — all in the UI.
+
+### 19.5 Phase 3 — Eval Depth & Statistics
+
+Goal: scorer breadth and statistically defensible experiments.
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 3.1 | Scorer catalog breadth | 10 scorers; `json_object` checks object-ness not schema | Add `FuzzyMatch{min_ratio}` (strsim), `JsonSchema{schema}`, `NumericTolerance{abs,rel}`, `EmbeddingSimilarity{model,min_cosine}` (judge lane), SQL-result match to `EvaluatorKind`/`EVALUATOR_CATALOG` **[contract]** | L | contract |
+| 3.2 | Structured-rubric LLM judge | `LlmJudge{rubric:String}` free-text | `JudgeRubric{criteria:[{name,weight,scale}],reference_mode,exemplars}`; `JudgeResponse.per_criterion`; reference-guided + CoT rationale **[contract]** | L | contract |
+| 3.3 | Custom scorer registry | WASI sandbox runs components, no upload/registry | `beater-scorers` (or extend `beater-eval`): `ScorerStore` (upload component bytes → `Sha256Hash`, version, list/get) on `beater-store-obj`+sqlite; `/v1/scorers` CRUD **[contract]**; resolve by `wasm_hash` into the sandbox; add memory/epoch limits to `SandboxConfig` | XL | contract |
+| 3.4 | Real statistics module | single paired normal-approx, hardcoded z, Bonferroni-only | New `beater-stats` on `statrs`: paired-t / bootstrap-percentile / Wilson CIs; test selection `{PairedT, McNemarExact, WilcoxonSignedRank, Bootstrap}` with real `p_value`; Holm-Bonferroni + Benjamini-Hochberg; `power.rs` (`required_sample_size`, `achieved_power`) | L | none |
+| 3.5 | Experiment depth | single metric, no segments | Multi-named-metric + segment tags on `ExperimentRunReport`; `ExperimentStore::list_runs` + `GET /v1/experiments/:tenant/:project` **[contract]**; per-slice comparison | M | contract |
+| 3.6 | CI integration | none | `sdks/python/beater/pytest_plugin.py` (`@beater.eval` marker running cases through the API, asserting via `GatePolicy`); TS vitest reporter; `beater eval` gating CLI subcommand | L | contract |
+
+Acceptance: an experiment reports a delta with a method-appropriate CI and real
+p-value, FWER-corrected across metrics, refusing underpowered comparisons; a
+custom uploaded scorer runs sandboxed; `pytest`/`beater eval` fails CI on
+regression.
+
+### 19.6 Phase 4 — Online Evals, Alerting & Prompt Management
+
+Goal: production scoring, real alert delivery, and the missing prompt pillar.
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 4.1 | Online evals that score | sampling decision only, never scored | `beater-online` worker (or `beater-temporal` workflow) consuming tail-sampled traces, running configured deterministic+judge evaluators, persisting online-tagged `EvalResult`s; `GET /v1/online/.../scores` timeseries **[contract]** | XL | design |
+| 4.2 | Alert policy persistence + CRUD | policies passed inline; nothing stored | `AlertPolicyStore` (sqlite+sql) + `POST/GET/PATCH/DELETE /v1/alert-policies/...`; persist `OnlineSamplingPolicy` per project; load in `evaluate_alert`/ingest **[contract]** | L | contract |
+| 4.3 | Actual webhook delivery | `WebhookDelivery` computed, never sent | delivery worker POSTing with retry/backoff + `beater-security` HMAC signature; persist attempts/status; delivery-history endpoint | M | evidence |
+| 4.4 | Slack integration | zero references | `SlackChannel` formatting `AlertInput` into Block Kit (severity, score-vs-baseline, trace deep-link button); stored incoming-webhook config | M | evidence |
+| 4.5 | Baseline/anomaly/drift alerting | static threshold only | `AlertCondition{AbsoluteThreshold, BaselineDeviation, Drift}` with rolling EWMA/z-score/percentile baseline over recent project scores | L | design |
+| 4.6 | Durable dedupe/grouping | in-memory `AlertState` | back `AlertState` with the store so dedupe survives restarts + is shared across workers; group rollups in payload | M | none |
+| 4.7 | Prompt management | `prompt_version_id` is a dangling pin, no producer | New `beater-prompts`: `PromptRegistry`, versioned `PromptTemplate`, variable schema, tags, diff; `/v1/prompts` CRUD + `runPrompt` (playground) **[contract]**; `web/dashboard/app/prompts` registry + playground + prompt-from-trace; resolve `prompt_version_id` at eval time | XL | contract |
+
+Acceptance: sampled production traces get scored on a schedule with a visible
+trend; an alert policy persists, fires on baseline deviation, and is actually
+delivered to Slack with a trace link; a prompt can be created, versioned,
+diffed, run in a playground, and linked to an eval run.
+
+### 19.7 Phase 5 — Hosted Control Plane & Compliance (Enterprise GA)
+
+Goal: everything required before hosted multi-tenant GA can be sold (see §13, §17.3).
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 5.1 | Orgs/projects/environments CRUD | id types + `TenantScope` only | `POST/GET/DELETE /v1/organizations\|projects\|environments` on `MetadataStore`; membership; org/project switcher in UI/SDK **[contract]** | L | contract |
+| 5.2 | Human identity + enforced RBAC | `RoleBinding` data model never consulted by `authorize()` | `beater-rbac` (or extend `beater-auth`): `Role`/`Permission` + `resolve_permissions(principal, scope)` called inside `authorize()` on every mutating route; users + memberships; member/role-grant endpoints **[contract]**; conformance tests | XL | contract |
+| 5.3 | SSO / SAML / SCIM / OIDC | none | `beater-identity`: OIDC (auth-code+PKCE) + SAML2 SP + SCIM 2.0 `/Users`/`/Groups`; session/JWT issuance; per-org IdP config; enforced-SSO toggle; JIT provisioning | XL | design |
+| 5.4 | Storage-layer tenant isolation + secure default | app-enforced `WHERE tenant_id=?`; default auth effectively open | hosted store on Postgres with Row-Level Security keyed on per-request `SET app.tenant_id`; conformance test proving cross-tenant reads fail at the DB; make `Required` auth the default for non-localhost binds | XL | design |
+| 5.5 | Data deletion / crypto-shred / GDPR | no DELETE routes, no erasure | per-tenant data-encryption keys for crypto-shred; `DELETE /v1/tenants/{id}` (key destroy + cascade), `DELETE /v1/traces/{id}`; background purge worker; deletion audit events **[contract]** | XL | contract |
+| 5.6 | Data residency / regional | single-region placeholder | `region` on `OrganizationMetadata`; region-aware gateway routing to home-region backends; per-region object/DB stores; EU/US topology doc | XL | design |
+| 5.7 | Comprehensive tamper-evident audit | covers exactly one action (`PiiUnmask`) | expand `AuditAction` (key/secret/role/config/export/login/auth-failure); emit from `beater-auth`/`beater-secrets`/RBAC/login; hash-chained tamper-evident column; `GET /v1/audit-events` **[contract]** | L | contract |
+| 5.8 | Billing / usage ledger | idempotent ledger exists; no plans/invoicing | meters for ingest/storage/eval/judge; per-org rollups; `beater-billing` (plan/subscription + Stripe metered sync) linked to `QuotaLimiter` | L | contract |
+| 5.9 | Backups + restore drills | none | hosted on Postgres+object store with PITR; `beaterctl backup`/`restore` for self-host; CI restore-drill job with documented RPO/RTO | L | evidence |
+| 5.10 | SLO dashboards + dogfooding | Prometheus facade exists | Grafana dashboard JSON + Prometheus alert rules under `ops/`; self-trace OTLP exporter so `beaterd` traces into a Beater project; load test producing the §15 numbers | M | evidence |
+| 5.11 | Governance / SOC2 controls | LICENSE + GOVERNANCE only | `SECURITY.md` (coordinated disclosure); `docs/compliance/` SOC2 control matrix, access-review runbook, incident-response plan, subprocessor list, DPA template | M | evidence |
+| 5.12 | KMS-backed BYOK + at-rest rotation for blobs | ChaCha20 envelope for secrets only | KMS `Keyring` (AWS/GCP CMK wrap) behind `SecretKeyring`; extend envelope encryption to trace I/O blobs + PII fields; concurrency-safe rotation across stores | XL | design |
+
+Acceptance: a non-owner is denied a mutating route by enforced RBAC; SSO login
+provisions a user; a cross-tenant query fails at the database; a tenant can be
+crypto-shredded and proven unreadable across hot/cold/artifact stores; billing
+totals drive quota; a restore drill passes; SLO dashboards show live numbers.
+
+### 19.8 Phase 6 — Auto-Instrumentation & Ecosystem Breadth
+
+Goal: lower adoption friction to match the incumbents' framework coverage.
+
+| # | Requirement | Now | Target / concrete task | Effort | Blocker |
+| --- | --- | --- | --- | --- | --- |
+| 6.1 | Auto-instrumentation (OpenAI/Anthropic) | one-line `wrap_*` wrappers only | `beater.auto.instrument(providers=[...])` monkeypatching `openai`/`anthropic` (incl streaming + tool calls) in py + ts | L | none |
+| 6.2 | Zero-code env-var bootstrap | all paths require code | `opentelemetry-distro`/configurator (py) + TS `--require` preload reading `BEATER_*` env, setting OTLP exporter+headers, enabling installed auto-instrumentors | M | none |
+| 6.3 | Modern framework coverage | LangChain (py+ts), LlamaIndex (py) only | examples + instrumentation for Vercel AI SDK (TS), OpenAI Agents SDK, CrewAI, DSPy, Pydantic AI, AutoGen, Haystack; TS LlamaIndex; token-usage extraction; 3-level span-tree integration tests | XL | evidence |
+| 6.4 | `beaterctl quickstart` (TTFT) | manual compose + snippet | one command boots compose, provisions tenant/key, prints exporter snippet + dashboard URL; timed e2e asserting trace visible < SLO | M | evidence |
+
+Acceptance: an env-var-only Python app produces traces with zero code edits;
+each named framework has a working example emitting a correct agent span tree;
+`beaterctl quickstart` demonstrates time-to-first-trace under the §14 SLO.
+
+### 19.9 New Crates, Contracts & Sequencing
+
+New crates introduced by this plan (all under the §4 workspace conventions):
+
+- `beater-bench` — criterion benches + load-test fixtures (Phase 0).
+- `beater-stats` — CIs, test selection, p-values, power, FWER/FDR (Phase 3).
+- `beater-scorers` — custom-scorer registry over the WASI sandbox (Phase 3).
+- `beater-online` — online-eval scoring worker (Phase 4).
+- `beater-prompts` — prompt registry/versioning/playground (Phase 4).
+- `beater-rbac` — role/permission resolution wired into `authorize()` (Phase 5).
+- `beater-identity` — OIDC/SAML/SCIM (Phase 5).
+- `beater-billing` — plans/subscriptions/Stripe metered sync (Phase 5).
+
+Sequencing rationale (each phase unblocks the next):
+
+```text
+Phase 0  scale & data plane     -> every scale/latency claim depends on it
+Phase 1  agent data model       -> sessions/messages/multimodal feed UI + evals
+Phase 2  read APIs + product UI -> makes the eval/observability backend usable
+Phase 3  eval depth + stats     -> defensible experiments and scorer breadth
+Phase 4  online + alerts + prompts -> production loop + the prompt pillar
+Phase 5  hosted control plane   -> enterprise multi-tenant GA (gates §17 hosted)
+Phase 6  ecosystem breadth      -> adoption parity; can run partly in parallel
+```
+
+Cross-cutting bar for every item (no exceptions):
+
+- Contract-touching changes regenerate spec + 7 SDKs + semconv and pass
+  `scripts/check-contract-sync.sh` (CI-gated). These need Docker for
+  `regen-sdks.sh`.
+- Every non-trivial change lands with a runnable test; `cargo clippy
+  --all-targets -D warnings` is clean (the workspace denies `unwrap`/`expect`,
+  including in tests).
+- New scale/perf claims ship with a benchmark or load test, never an assertion.
+- Tenant isolation, redaction, and audit are never weakened to ship a feature.
+
+Done, per §18, is when a team can replace ad-hoc Phoenix/LangSmith/Braintrust
+workflows end to end. This plan is the path from 33% to that bar.
+
+## 20. Planned: Recursive Self-Improvement MCP & Agent Studio
+
+This is a second product surface layered on the Beater eval/judge/trace/dataset/
+replay primitives (§9–§12, §19): a single MCP server that gives an agent — driven
+by Claude Code or any MCP client — a recursive self-improvement loop, plus a
+visual Studio to design, watch, and edit agents. The thesis: **"a tool belt that
+generates tool belts."** The MCP reuses Beater for traces, evals, judges,
+datasets, and replay; it does not reinvent them.
+
+Design invariants (carried from §1):
+
+- **Human-in-the-loop by default.** The loop runs as plan → approve → execute:
+  the MCP indexes the agent, reports what it found ("is this correct? which of
+  1–6 are you OK changing?"), and only then iterates. Full autonomy is opt-in.
+- **Generalize, do not overfit.** Improvements must target the stated goal and
+  generalize across inputs, not curve-fit the current trace/dataset. The loop is
+  policy-aware: load-bearing prompts/tools are not changed unless contradictory.
+- **Standards + reuse at the edge.** Scoring is Beater's existing LLM-judge +
+  deterministic WASI evals; memory/tools are provisioned, not hand-rolled.
+- **MCP-first, SDK-second.** Recommend the MCP to learn the workflow, then expose
+  a deterministic SDK for repeatable monitoring/improvement pipelines.
+
+### 20.1 The MCP Server (`beater-mcp-improve`)
+
+A single MCP exposing a tool-belt for recursive self-improvement. Every tool call
+is a metered self-improvement action (see §20.6). Core tools:
+
+- `index_agent` — discover the agent's code, config, system/UI/customer prompts,
+  policy, tools, and runtime (localhost, API logs, browser) and build a map from
+  symptom → corresponding code/prompt/data.
+- `propose_change` — given a goal + traces + evals, propose a typed change:
+  `{prompt | system_prompt | customer_prompt | code | tool_add | tool_remove |
+  data_label | memory_config}`, with rationale and the exact file/symbol/span it
+  targets. Returns a plan, never a silent edit.
+- `simulate` — run N candidate iterations through Beater's harness (§11) with
+  judge + simulation loops; report the score gradient (LLM-judge + deterministic)
+  and whether a change is promising before it touches the repo.
+- `apply_change` — wire the approved change at a chosen integration depth
+  (suggest-only → wire a Studio node → edit repo code), collaborating with Claude
+  Code for the actual code write.
+- `track_evolution` — record the agent's version history (tools added/removed,
+  prompts rewritten, labels challenged) so the loop can see its own trajectory.
+- `challenge_labels` — flag dataset labels the evidence contradicts; route to the
+  human grader (§20.5).
+
+### 20.2 Auto-Provisioned Tool-Belt (`beater-toolbelt`)
+
+OAuth in, and the platform auto-provisions agent capabilities on demand — the
+"pop-up" experience:
+
+- **Vector memory** — one-click managed vector DB; the loop can propose "this
+  agent would benefit from vector-search memory" and simulate a few iterations
+  before committing.
+- **SQL store**, **web search**, **scrapers**, and common agent tooling as
+  built-ins, auto-wired into the agent and addressable by the improvement loop.
+- Tools are discoverable, versioned, and applied/removed by `propose_change`/
+  `apply_change`; provisioning is metered.
+
+### 20.3 The Self-Improvement Loop
+
+```text
+goal + params + few examples
+  -> index_agent (code + prompts + policy + runtime)
+  -> collect traces/evals (Beater) + classify failures
+  -> propose_change (typed, goal-targeted, generalizable)
+  -> simulate (judge loops + simulation loops -> score gradient)
+  -> human approve (which changes; depth)
+  -> apply_change (Claude Code / hosted writer) + re-eval
+  -> track_evolution -> repeat
+```
+
+The gradient is "where is the best performance" by LLM-judge **and** deterministic
+eval (the latter trusted only where state is known-correct). Anti-overfit and
+policy-awareness gate every accepted change.
+
+### 20.4 Integrations & Code-Awareness
+
+- **Runtime introspection:** aware of where localhost runs; can open the browser,
+  read API logs from the user's codebase, and locate the responsible stack layer.
+- **Frameworks:** direct link to browser-use; Temporal (sub-agent trace steps map
+  cleanly to canonical spans); LangChain / LangGraph. Auto-discover internal
+  workflows and classify their traces into improvement candidates.
+- **Integration depths:** (1) suggest-only, (2) wire a Studio node, (3) change
+  actual repo code — chosen per change.
+
+### 20.5 Agent Studio (`beater-studio`)
+
+A visual surface that maps front-end ↔ back-end:
+
+- **Canvas** (Excalidraw-style, mostly native): agent design auto-drawn as nodes,
+  **topologically sorted left→right**, with explicit visualization of recursive
+  self-improvement loops.
+- **JSON-schema-first:** every node/edge is backed by JSON schema stored in the
+  backend; Claude Code assists with the schema via the MCP. A canonical
+  "good workflow" example + a skills doc the MCP/Claude Code pull from.
+- **Studio mode:** watch the agent run, see traces live, drag tools in; Claude
+  Code wires them (AI tier: a hosted agent wires them).
+- **Human grading:** an expert feedback area to grade right/wrong inline, feeding
+  `challenge_labels` and calibration (§9.3).
+
+### 20.6 Commercial Model & Metering (DRAFT — not for public publish until confirmed)
+
+Metering counts MCP tool calls / endpoint calls as "requests"; AI credits meter
+model spend (judge/code-writer). Margin target: large; the $20 plan is roughly
+break-even at full utilization.
+
+| Plan | Price | Requests/mo | Included AI credits | Overage |
+| --- | --- | --- | --- | --- |
+| Free | $0 | 5,000 | $5 | — |
+| Starter | $8/mo | 8,000 | — | — |
+| Pro / AI | $20/mo | 50,000 | $40 | pay-as-you-go credits |
+| Usage (AI) | metered | — | per plan above | pay-as-you-go |
+
+Two metered dimensions:
+
+- **Requests** — MCP tool calls / endpoint calls, capped per plan per month.
+- **AI credits** — model spend (judge + code-writer); Free includes $5/mo, Pro
+  includes $40/mo, beyond which it is pay-as-you-go.
+
+**Rolling-window rate limiting (Claude-Code/Codex-style).** On top of the monthly
+caps, both tiers enforce **rolling 5-hour and weekly windows** computed from a
+multi-factor cost (tool-call count, tokens, model tier, simulation depth), so
+bursty usage is smoothed and abuse is bounded without a hard monthly cliff. The
+windows reset continuously (seek-based), not on calendar boundaries.
+
+Margin target: large; the $20 Pro plan is roughly break-even at full utilization.
+
+Requires: a metering/credits service (`beater-credits`) over the existing
+`beater-usage` ledger (§9 usage records) + `QuotaLimiter` (§7.4) with rolling
+5h/weekly windows, plan tiers, and Stripe metered billing (ties into §19.7 5.8).
+
+### 20.7 New Crates & SDK
+
+- `beater-mcp-improve` — the self-improvement MCP server + tool-belt protocol.
+- `beater-toolbelt` — auto-provisioned vector/SQL/web/scraper tools.
+- `beater-studio` — Studio canvas UI (Next.js) + JSON-schema store.
+- `beater-credits` — request + AI-credit metering, plan tiers, Stripe sync.
+- Deterministic **improvement SDK** (py/ts) over the same endpoints for repeatable
+  monitoring/improvement pipelines.
+
+### 20.8 Phasing & Acceptance
+
+- **MVP:** `beater-mcp-improve` with `index_agent`/`propose_change`/`simulate`/
+  `apply_change`, wired to Beater evals/judge/harness, plan→approve→execute,
+  metering on tool calls. Acceptance: from a goal + a small agent (system prompt +
+  policy), the MCP indexes it, proposes a generalizable change, simulates a score
+  gain, and applies it via Claude Code with human approval.
+- **+1:** auto-provisioned tool-belt (vector/SQL/web) + browser-use/Temporal
+  integration.
+- **+2:** Studio canvas (topo-sorted nodes, JSON schema, live traces, drag-to-add)
+  + human grading.
+- **+3:** deterministic SDK, LangGraph integration, credits/billing tiers GA.
+
+This product depends on Phases 0–4 of §19 (scale, data model, read APIs, evals/
+stats, online evals) being far enough along that traces and evals are real inputs
+to the loop.
