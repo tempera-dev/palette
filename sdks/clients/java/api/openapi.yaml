@@ -5429,6 +5429,7 @@ components:
     AuditAction:
       enum:
       - pii_unmask
+      - connector_tool_invoke
       type: string
     AuditEvent:
       example:

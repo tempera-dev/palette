@@ -27,6 +27,7 @@ class AuditAction(str, Enum):
     allowed enum values
     """
     PII_UNMASK = 'pii_unmask'
+    CONNECTOR_TOOL_INVOKE = 'connector_tool_invoke'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

@@ -16,6 +16,8 @@ use serde::{Deserialize, Serialize};
 pub enum AuditAction {
     #[serde(rename = "pii_unmask")]
     PiiUnmask,
+    #[serde(rename = "connector_tool_invoke")]
+    ConnectorToolInvoke,
 
 }
 
@@ -23,6 +25,7 @@ impl std::fmt::Display for AuditAction {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::PiiUnmask => write!(f, "pii_unmask"),
+            Self::ConnectorToolInvoke => write!(f, "connector_tool_invoke"),
         }
     }
 }

@@ -18,7 +18,8 @@
  * @export
  */
 export const AuditAction = {
-    PiiUnmask: 'pii_unmask'
+    PiiUnmask: 'pii_unmask',
+    ConnectorToolInvoke: 'connector_tool_invoke'
 } as const;
 export type AuditAction = typeof AuditAction[keyof typeof AuditAction];
 

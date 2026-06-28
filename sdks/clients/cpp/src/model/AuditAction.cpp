@@ -26,6 +26,8 @@ AuditAction::eAuditAction toEnum(const EnumUnderlyingType& val)
 {
     if (val == utility::conversions::to_string_t(U("pii_unmask")))
         return AuditAction::eAuditAction::AuditAction_PII_UNMASK;
+    if (val == utility::conversions::to_string_t(U("connector_tool_invoke")))
+        return AuditAction::eAuditAction::AuditAction_CONNECTOR_TOOL_INVOKE;
     return {};
 }
 
@@ -35,6 +37,8 @@ EnumUnderlyingType fromEnum(AuditAction::eAuditAction e)
     {
     case AuditAction::eAuditAction::AuditAction_PII_UNMASK:
         return U("pii_unmask");
+    case AuditAction::eAuditAction::AuditAction_CONNECTOR_TOOL_INVOKE:
+        return U("connector_tool_invoke");
     default:
         break;
     }

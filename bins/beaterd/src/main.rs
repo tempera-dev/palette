@@ -9,6 +9,7 @@ use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
 use beater_bus::{DeadLetter, DurableBus, InMemoryBus, SqliteDurableBus};
 use beater_calibration::SqliteCalibrationStore;
+use beater_composio::ConnectorToolPolicy;
 use beater_core::{IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, TraceId};
 use beater_datasets::SqliteDatasetStore;
 use beater_experiments::SqliteExperimentStore;
@@ -99,6 +100,14 @@ struct Args {
     auth_mode: AuthModeArg,
     #[arg(long, env = "BEATER_PROVIDER_SECRET_KEY")]
     provider_secret_key: Option<String>,
+    /// Comma-separated connector tool slugs allowed to execute even when they
+    /// are external-write, destructive, messaging, payment, secret, or unknown
+    /// risk. Deny entries still win.
+    #[arg(long, env = "BEATER_CONNECTOR_ALLOW_TOOLS", value_delimiter = ',')]
+    connector_allow_tools: Vec<String>,
+    /// Comma-separated connector tool slugs that must never execute.
+    #[arg(long, env = "BEATER_CONNECTOR_DENY_TOOLS", value_delimiter = ',')]
+    connector_deny_tools: Vec<String>,
     #[arg(long, value_enum, default_value_t = JudgeProviderArg::Keyword)]
     judge_provider: JudgeProviderArg,
     #[arg(long, env = "BEATER_JUDGE_BUDGET_MICROS", default_value_t = 1_000_000)]
@@ -370,7 +379,19 @@ async fn main() -> anyhow::Result<()> {
             .with_calibrations(calibrations)
             .with_usage(usage)
             .with_audit(audit)
-            .with_judge(provider_secrets, judge_broker, judge_ledger);
+            .with_judge(provider_secrets, judge_broker, judge_ledger)
+            .with_connector_tool_policy(
+                ConnectorToolPolicy::default()
+                    .with_allowed_tools(args.connector_allow_tools.clone())
+                    .with_denied_tools(args.connector_deny_tools.clone()),
+            );
+    if !args.connector_allow_tools.is_empty() || !args.connector_deny_tools.is_empty() {
+        eprintln!(
+            "connector tool policy configured: allow={} deny={}",
+            args.connector_allow_tools.len(),
+            args.connector_deny_tools.len()
+        );
+    }
     // Build the API-key store once (strict auth only) and share it between the
     // `/v1` auth path and the session-authorized `/auth/api-keys` endpoints.
     let api_key_store: Option<Arc<dyn beater_auth::ApiKeyStore>> =

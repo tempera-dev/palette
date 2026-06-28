@@ -29,8 +29,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets AuditAction
  */
 public enum AuditAction {
-  
-  PII_UNMASK("pii_unmask");
+
+  PII_UNMASK("pii_unmask"),
+
+  CONNECTOR_TOOL_INVOKE("connector_tool_invoke");
 
   private String value;
 
@@ -73,4 +75,3 @@ public enum AuditAction {
   }
 
 }
-

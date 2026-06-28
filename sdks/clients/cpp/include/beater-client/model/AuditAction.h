@@ -49,6 +49,7 @@ public:
     enum class eAuditAction
     {
         AuditAction_PII_UNMASK,
+        AuditAction_CONNECTOR_TOOL_INVOKE,
     };
 
     eAuditAction getValue() const;

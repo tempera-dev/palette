@@ -7252,7 +7252,8 @@
       "AuditAction": {
         "type": "string",
         "enum": [
-          "pii_unmask"
+          "pii_unmask",
+          "connector_tool_invoke"
         ]
       },
       "AuditEvent": {
