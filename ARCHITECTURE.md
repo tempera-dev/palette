@@ -521,22 +521,9 @@ The dashboard can use TypeScript/React for product velocity, but all platform
 logic, ingestion, storage, eval, replay, API contracts, and SDK primitives remain
 Rust-owned.
 
-**Crate deltas from the staff-SWE refactor (summary; details in the cited
-sections).** NEW: `beater-stats` (the statistics correctness layer, §10.3).
-CHANGED: `beater-calibration` (adds agent/score proper-scoring calibration, §10.5),
-`beater-eval` (deletes the hardcoded-z path, §10.3), `beater-datasets` +
-`beater-schema` + `beater-store` + `beater-ingest` (Train/Dev/Test split +
-`sampling_weight` + weighted aggregates, §5.3/§6.4/§9), `beater-replay` (real
-forked replay + earliest-failing-span attribution, §11), `beater-gates` (gate
-number sourced from `beater-stats`, §10.3), `beater-api` (mapping importer + bulk
-promote, §7/§20.4), `beater-mcp` (composite recipe tools + folded-in improvement
-loop, §21). DEFERRED (design-only, ideas preserved, not dropped): full
-evolutionary/population search over agent configs; a skill library on a vector
-store; and a standalone Studio / toolbelt / credits productization as separate
-products (§21). An MVP foundation for the latter (`beater-credits`,
-`beater-mcp-improve`) already exists on the `feat/mcp-improve-foundation` branch,
-but the architecture now prefers folding improvement into `beater-mcp` and
-deferring credits productization (§21.7).
+The per-crate `[NEW]`/`[CHANGED]`/`[planned]`/`[DEFERRED]` status is carried inline
+on the beat-box list and the crate tree above, and the new crates are sequenced in
+§20.9 — so it is not restated as a separate summary here.
 
 ### 4.1 Implementation Picks
 
@@ -2931,11 +2918,8 @@ prints the exporter snippet + dashboard URL; and the MCP does the heavy lifting
 (stats, splits, guardrail) so the developer doesn't have to hand-roll any of it. The
 **DX SLO is time-to-first-scored-failure** (§15) — not just a trace, a *scored
 failing case* — and the Claude-Code / Codex attach is the fastest route to it.
-
-> **Built-vs-planned (honest).** The **OAuth 2.1 server** and the **`/mcp` HTTP
-> endpoint** are **[built]** (`crates/beater-oauth-server`, `crates/beater-mcp` on
-> `main`). The **streamable-HTTP transport**, the **end-to-end Claude-Code / Codex
-> OAuth connect verification**, and the **`stdio`** transport are **partial/planned**.
+(The built-vs-planned status of each transport is the numbered connect-flow list
+and the `stdio` note above; it is not restated here.)
 
 ### 21.6 Bounded-autonomy policy
 
