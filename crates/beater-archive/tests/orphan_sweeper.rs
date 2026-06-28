@@ -8,7 +8,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::Arc;
 
-use beater_archive::OrphanedArtifactSweeper;
+use beater_archive::{OrphanedArtifactSweeper, SweepConfig};
 use beater_core::{EnvironmentId, IdempotencyKey, ProjectId, SpanId, TenantId, TraceId};
 use beater_schema::{
     AgentSpanKind, ArtifactRef, AuthContext, CanonicalSpan, CanonicalTraceBatch, RawEnvelope,
@@ -59,7 +59,8 @@ async fn sweeps_orphaned_artifacts_against_live_spans() {
             &trace_store,
             tenant.clone(),
             Some(project.clone()),
-            &candidates,
+            candidates.clone(),
+            &SweepConfig::default(),
         )
         .await
         .unwrap_or_else(|err| panic!("{err}"));
@@ -67,6 +68,10 @@ async fn sweeps_orphaned_artifacts_against_live_spans() {
     assert_eq!(report.retained, 2, "raw + output refs are still referenced");
     assert_eq!(report.deleted, 1, "only the orphan is deleted");
     assert_eq!(report.deleted_uris, vec![orphan_ref.uri.clone()]);
+    assert_eq!(report.candidates, 3, "all three candidates are in scope");
+    assert_eq!(report.scanned_spans, 1);
+    assert_eq!(report.scanned_traces, 1);
+    assert_eq!(report.errors, 0);
 
     // Referenced artifacts survive.
     artifacts
@@ -87,7 +92,13 @@ async fn sweeps_orphaned_artifacts_against_live_spans() {
     // Re-running the sweep is idempotent: the orphan is already gone, so nothing
     // new is deleted and the referenced artifacts are still retained.
     let second = sweeper
-        .sweep(&trace_store, tenant, Some(project), &candidates)
+        .sweep(
+            &trace_store,
+            tenant,
+            Some(project),
+            candidates,
+            &SweepConfig::default(),
+        )
         .await
         .unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(second.retained, 2);
