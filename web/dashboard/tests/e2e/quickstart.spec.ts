@@ -93,6 +93,10 @@ test("renders the five-line stock OTLP quickstart trace in a browser", async ({ 
   await expect(detail).toContainText("USD 0.001200");
   await expect(detail.getByRole("heading", { name: "Prompt" })).toBeVisible();
   await expect(detail.getByRole("heading", { name: "Completion" })).toBeVisible();
-  await expect(detail).toContainText("hello from stock OpenTelemetry");
-  await expect(detail).toContainText("hello from Beater");
+  await expect(detail.getByLabel("Prompt I/O").locator("pre")).toHaveText("redacted by policy");
+  await expect(detail.getByLabel("Completion I/O").locator("pre")).toHaveText(
+    "redacted by policy"
+  );
+  await expect(detail).not.toContainText("hello from stock OpenTelemetry");
+  await expect(detail).not.toContainText("hello from Beater");
 });
