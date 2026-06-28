@@ -105,11 +105,7 @@ fn validate_power(power: f64) -> Result<(), StatsError> {
 /// let n = required_sample_size(0.5, 0.05, 0.8).unwrap();
 /// assert_eq!(n, 32);
 /// ```
-pub fn required_sample_size(
-    effect_size: f64,
-    alpha: f64,
-    power: f64,
-) -> Result<usize, StatsError> {
+pub fn required_sample_size(effect_size: f64, alpha: f64, power: f64) -> Result<usize, StatsError> {
     validate_alpha(alpha)?;
     validate_power(power)?;
     if !effect_size.is_finite() || effect_size == 0.0 {
@@ -161,11 +157,7 @@ pub fn required_sample_size(
 /// let d = minimum_detectable_effect(32, 0.05, 0.8).unwrap();
 /// assert!((d - 0.495).abs() < 1e-2, "d = {d}");
 /// ```
-pub fn minimum_detectable_effect(
-    n: usize,
-    alpha: f64,
-    power: f64,
-) -> Result<f64, StatsError> {
+pub fn minimum_detectable_effect(n: usize, alpha: f64, power: f64) -> Result<f64, StatsError> {
     validate_alpha(alpha)?;
     validate_power(power)?;
     if n == 0 {

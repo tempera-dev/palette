@@ -679,7 +679,8 @@ fn power_annotations(
         .map(|d| d * sd);
 
     // Required N to detect the observed standardized effect d = |delta| / SD.
-    let required_n = beater_stats::required_sample_size(delta / sd, alpha, beater_stats::DEFAULT_POWER).ok();
+    let required_n =
+        beater_stats::required_sample_size(delta / sd, alpha, beater_stats::DEFAULT_POWER).ok();
 
     (mde, required_n)
 }
@@ -944,7 +945,10 @@ mod tests {
             .unwrap_or_else(|| panic!("inconclusive comparison must report required_n"));
         // The observed effect is far smaller than the spread, so detecting it
         // would take many more than the 8 cases we ran.
-        assert!(required_n > comparison.sample_size, "required_n = {required_n}");
+        assert!(
+            required_n > comparison.sample_size,
+            "required_n = {required_n}"
+        );
     }
 
     fn browser_step(action: &str, selector: Option<&str>, matched: bool, status: &str) -> Value {
