@@ -200,10 +200,11 @@ Hosted cannot be sold seriously until all are true:
 
 ## R16. Completion Audit Rule
 
-Before marking Beater "shipped", audit every requirement above against direct
+Before marking Beater "shipped", audit every requirement against direct
 evidence. Passing tests are evidence only when the tests cover the requirement's
 full scope. Search results, intent, partial implementation, and plausible docs do
-not prove completion.
+not prove completion. **This rule applies to every requirement in this file,
+including R17–R18 below, not only those above it.**
 
 ## R17. Execution Readiness
 
