@@ -53,7 +53,72 @@ pub const LOCAL_BEATERD_SQLITE_MIGRATIONS: &[SqliteMigration] = &[SqliteMigratio
 }];
 
 pub fn migrate_local_beaterd_sqlite(path: impl AsRef<Path>) -> StoreResult<SqliteMigrationReport> {
-    apply_sqlite_migrations(path, LOCAL_BEATERD_SQLITE_MIGRATIONS)
+    let path = path.as_ref();
+    let report = apply_sqlite_migrations(path, LOCAL_BEATERD_SQLITE_MIGRATIONS)?;
+    reconcile_local_beaterd_sqlite(path)?;
+    Ok(report)
+}
+
+/// Idempotently reconcile additive columns that a store `open()` adds on top of
+/// the versioned migration's `CREATE TABLE`, so the migration remains the single
+/// source of truth for the local beaterd schema (issue #205).
+///
+/// The versioned migration (`0001_local_beaterd.sql`) is checksum-gated, so it
+/// cannot be hand-edited without invalidating every existing on-disk database.
+/// When a store later grew a column via its own idempotent `ALTER TABLE`
+/// bootstrap (e.g. `beater-audit`'s hash-chain columns added in #104, after the
+/// migration file was last touched), the migration fell behind. This pass closes
+/// that gap WITHOUT changing any `CREATE TABLE`/checksummed DDL and WITHOUT
+/// breaking existing databases: each column is added only when missing, matching
+/// the store's own `ensure_*` bootstrap exactly. The drift test in
+/// `bins/beaterd/tests/sqlite_migrations.rs` proves the two stay in lockstep.
+fn reconcile_local_beaterd_sqlite(path: &Path) -> StoreResult<()> {
+    let connection = Connection::open(path).map_err(StoreError::backend)?;
+    configure_sqlite_connection(&connection)?;
+    // beater-audit hash-chain columns (nullable TEXT), mirroring
+    // `beater_audit::ensure_audit_chain_columns`.
+    ensure_sqlite_column(&connection, "audit_events", "previous_event_hash", "TEXT")?;
+    ensure_sqlite_column(&connection, "audit_events", "event_hash", "TEXT")?;
+    Ok(())
+}
+
+/// Add a nullable column to a table only when it does not already exist. SQLite
+/// has no `ADD COLUMN IF NOT EXISTS`, so the presence check via
+/// `PRAGMA table_info` makes the reconciliation idempotent across fresh and
+/// already-migrated databases.
+fn ensure_sqlite_column(
+    connection: &Connection,
+    table: &str,
+    column: &str,
+    column_type: &str,
+) -> StoreResult<()> {
+    if sqlite_column_exists(connection, table, column)? {
+        return Ok(());
+    }
+    // `table`/`column`/`column_type` are fixed string literals owned by this
+    // crate (never user input), so the formatted DDL is safe.
+    connection
+        .execute(
+            &format!("ALTER TABLE {table} ADD COLUMN {column} {column_type}"),
+            [],
+        )
+        .map_err(StoreError::backend)?;
+    Ok(())
+}
+
+fn sqlite_column_exists(connection: &Connection, table: &str, column: &str) -> StoreResult<bool> {
+    let escaped_table = table.replace('"', "\"\"");
+    let mut statement = connection
+        .prepare(&format!("PRAGMA table_info(\"{escaped_table}\")"))
+        .map_err(StoreError::backend)?;
+    let mut rows = statement.query([]).map_err(StoreError::backend)?;
+    while let Some(row) = rows.next().map_err(StoreError::backend)? {
+        let name: String = row.get(1).map_err(StoreError::backend)?;
+        if name == column {
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }
 
 pub fn apply_sqlite_migrations(

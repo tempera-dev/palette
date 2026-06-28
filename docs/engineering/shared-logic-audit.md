@@ -74,11 +74,20 @@ contracts narrow, shared, and testable.
 
 ## Audit Findings
 
-- SQLite schema ownership is the largest remaining duplication. `beaterd`
-  applies one local all-tables migration across several store databases while
-  individual store crates also own `CREATE TABLE` blocks. The safe direction is
-  either one local SQLite database with one migration manager, or per-store
-  migrations exported by the owning crate and consumed by runtime wiring.
+- SQLite schema ownership (resolved, issue #205). `beaterd` applies one local
+  all-tables migration across several store databases while individual store
+  crates also own `CREATE TABLE` blocks. Resolution: the runtime migration
+  (`migrate_local_beaterd_sqlite` over `LOCAL_BEATERD_SQLITE_MIGRATIONS` plus an
+  idempotent additive-column reconciliation pass) is the documented single
+  source of truth; store `init()`/`open()` blocks stay as idempotent
+  compatibility bootstrap that must remain a subset of the migration schema. The
+  drift test
+  `bins/beaterd/tests/sqlite_migrations.rs::runtime_migration_is_superset_of_store_open_schema`
+  proves store `open()` never introduces a table/index/column the migration
+  lacks. See `migrations/sqlite/README.md` for the ownership contract. (This
+  surfaced one pre-existing divergence: `beater-audit` durably carries the
+  `previous_event_hash`/`event_hash` columns the checksummed migration file
+  never gained; the reconciliation pass closes the gap additively.)
 - Store boilerplate is repeated across auth, audit, datasets, gates, human,
   replay, search, secrets, usage, experiments, and calibration. A small SQLite
   support module should own connection setup, the repeated `IntoStoreResult`
