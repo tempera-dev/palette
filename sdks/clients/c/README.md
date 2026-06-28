@@ -101,6 +101,10 @@ Category | Method | HTTP request | Description
 *ReviewsAPI* | [**ReviewsAPI_listReviewTasks**](docs/ReviewsAPI.md#ReviewsAPI_listReviewTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks | 
 *ReviewsAPI* | [**ReviewsAPI_promoteReviewAnnotation**](docs/ReviewsAPI.md#ReviewsAPI_promoteReviewAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote | 
 *ReviewsAPI* | [**ReviewsAPI_submitReviewAnnotation**](docs/ReviewsAPI.md#ReviewsAPI_submitReviewAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations | 
+*ScenariosAPI* | [**ScenariosAPI_createScenario**](docs/ScenariosAPI.md#ScenariosAPI_createScenario) | **POST** /v1/scenarios/{tenant_id}/{project_id} | 
+*ScenariosAPI* | [**ScenariosAPI_getScenario**](docs/ScenariosAPI.md#ScenariosAPI_getScenario) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} | 
+*ScenariosAPI* | [**ScenariosAPI_listScenarios**](docs/ScenariosAPI.md#ScenariosAPI_listScenarios) | **GET** /v1/scenarios/{tenant_id}/{project_id} | 
+*ScenariosAPI* | [**ScenariosAPI_mineScenarios**](docs/ScenariosAPI.md#ScenariosAPI_mineScenarios) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine | 
 *SearchAPI* | [**SearchAPI_searchSpans**](docs/SearchAPI.md#SearchAPI_searchSpans) | **GET** /v1/search/{tenant_id}/spans | 
 *SpansAPI* | [**SpansAPI_getSpan**](docs/SpansAPI.md#SpansAPI_getSpan) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} | 
 *SpansAPI* | [**SpansAPI_getSpanIo**](docs/SpansAPI.md#SpansAPI_getSpanIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io | 
@@ -141,6 +145,7 @@ Category | Method | HTTP request | Description
  - [create_gate_request_t](docs/create_gate_request.md)
  - [create_provider_secret_http_request_t](docs/create_provider_secret_http_request.md)
  - [create_review_queue_http_request_t](docs/create_review_queue_http_request.md)
+ - [create_scenario_request_t](docs/create_scenario_request.md)
  - [currency_t](docs/currency.md)
  - [dataset_t](docs/dataset.md)
  - [dataset_case_t](docs/dataset_case.md)
@@ -170,6 +175,7 @@ Category | Method | HTTP request | Description
  - [evaluator_spec_t](docs/evaluator_spec.md)
  - [experiment_comparison_t](docs/experiment_comparison.md)
  - [experiment_run_report_t](docs/experiment_run_report.md)
+ - [failure_mode_t](docs/failure_mode.md)
  - [gate_decision_t](docs/gate_decision.md)
  - [gate_definition_t](docs/gate_definition.md)
  - [gate_policy_t](docs/gate_policy.md)
@@ -181,7 +187,10 @@ Category | Method | HTTP request | Description
  - [ingest_queue_status_t](docs/ingest_queue_status.md)
  - [judge_audit_record_t](docs/judge_audit_record.md)
  - [judge_broker_outcome_t](docs/judge_broker_outcome.md)
+ - [list_scenarios_response_t](docs/list_scenarios_response.md)
  - [maintenance_window_t](docs/maintenance_window.md)
+ - [mine_scenarios_request_t](docs/mine_scenarios_request.md)
+ - [mine_scenarios_response_t](docs/mine_scenarios_response.md)
  - [model_ref_t](docs/model_ref.md)
  - [money_t](docs/money.md)
  - [native_ingest_request_t](docs/native_ingest_request.md)
@@ -189,6 +198,7 @@ Category | Method | HTTP request | Description
  - [otlp_ingest_outcome_t](docs/otlp_ingest_outcome.md)
  - [page_run_summary_t](docs/page_run_summary.md)
  - [page_run_summary_items_inner_t](docs/page_run_summary_items_inner.md)
+ - [perturbation_knobs_t](docs/perturbation_knobs.md)
  - [promote_review_annotation_http_request_t](docs/promote_review_annotation_http_request.md)
  - [promote_trace_case_request_t](docs/promote_trace_case_request.md)
  - [provider_secret_metadata_t](docs/provider_secret_metadata.md)
@@ -213,9 +223,12 @@ Category | Method | HTTP request | Description
  - [run_summary_t](docs/run_summary.md)
  - [sampling_decision_t](docs/sampling_decision.md)
  - [sampling_reason_t](docs/sampling_reason.md)
+ - [scenario_t](docs/scenario.md)
+ - [scenario_cluster_t](docs/scenario_cluster.md)
  - [score_result_t](docs/score_result.md)
  - [search_hit_t](docs/search_hit.md)
  - [search_response_t](docs/search_response.md)
+ - [signature_t](docs/signature.md)
  - [span_io_response_t](docs/span_io_response.md)
  - [span_io_value_t](docs/span_io_value.md)
  - [span_io_value_one_of_t](docs/span_io_value_one_of.md)

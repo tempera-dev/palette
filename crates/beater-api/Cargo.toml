@@ -22,6 +22,7 @@ beater-ingest = { path = "../beater-ingest" }
 beater-judge = { path = "../beater-judge" }
 beater-oauth = { path = "../beater-oauth" }
 beater-otlp = { path = "../beater-otlp" }
+beater-scenarios = { path = "../beater-scenarios" }
 beater-schema = { path = "../beater-schema" }
 beater-search = { path = "../beater-search" }
 beater-security = { path = "../beater-security" }
@@ -35,6 +36,7 @@ percent-encoding.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 utoipa.workspace = true
+uuid.workspace = true
 
 [dev-dependencies]
 async-trait.workspace = true

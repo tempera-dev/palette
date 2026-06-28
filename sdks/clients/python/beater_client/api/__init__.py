@@ -16,6 +16,7 @@ from beater_client.api.judge_api import JudgeApi
 from beater_client.api.online_api import OnlineApi
 from beater_client.api.provider_secrets_api import ProviderSecretsApi
 from beater_client.api.reviews_api import ReviewsApi
+from beater_client.api.scenarios_api import ScenariosApi
 from beater_client.api.search_api import SearchApi
 from beater_client.api.spans_api import SpansApi
 from beater_client.api.traces_api import TracesApi

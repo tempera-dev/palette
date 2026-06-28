@@ -18,6 +18,7 @@ src/apis/JudgeApi.ts
 src/apis/OnlineApi.ts
 src/apis/ProviderSecretsApi.ts
 src/apis/ReviewsApi.ts
+src/apis/ScenariosApi.ts
 src/apis/SearchApi.ts
 src/apis/SpansApi.ts
 src/apis/TracesApi.ts
@@ -54,6 +55,7 @@ src/models/CreateDatasetVersionRequest.ts
 src/models/CreateGateRequest.ts
 src/models/CreateProviderSecretHttpRequest.ts
 src/models/CreateReviewQueueHttpRequest.ts
+src/models/CreateScenarioRequest.ts
 src/models/Currency.ts
 src/models/Dataset.ts
 src/models/DatasetCase.ts
@@ -83,6 +85,7 @@ src/models/EvaluatorLane.ts
 src/models/EvaluatorSpec.ts
 src/models/ExperimentComparison.ts
 src/models/ExperimentRunReport.ts
+src/models/FailureMode.ts
 src/models/GateDecision.ts
 src/models/GateDefinition.ts
 src/models/GatePolicy.ts
@@ -94,7 +97,10 @@ src/models/IngestOutcome.ts
 src/models/IngestQueueStatus.ts
 src/models/JudgeAuditRecord.ts
 src/models/JudgeBrokerOutcome.ts
+src/models/ListScenariosResponse.ts
 src/models/MaintenanceWindow.ts
+src/models/MineScenariosRequest.ts
+src/models/MineScenariosResponse.ts
 src/models/ModelRef.ts
 src/models/Money.ts
 src/models/NativeIngestRequest.ts
@@ -102,6 +108,7 @@ src/models/OnlineSamplingPolicy.ts
 src/models/OtlpIngestOutcome.ts
 src/models/PageRunSummary.ts
 src/models/PageRunSummaryItemsInner.ts
+src/models/PerturbationKnobs.ts
 src/models/PromoteReviewAnnotationHttpRequest.ts
 src/models/PromoteTraceCaseRequest.ts
 src/models/ProviderSecretMetadata.ts
@@ -126,9 +133,12 @@ src/models/RunJudgeExperimentRequest.ts
 src/models/RunSummary.ts
 src/models/SamplingDecision.ts
 src/models/SamplingReason.ts
+src/models/Scenario.ts
+src/models/ScenarioCluster.ts
 src/models/ScoreResult.ts
 src/models/SearchHit.ts
 src/models/SearchResponse.ts
+src/models/Signature.ts
 src/models/SpanIoResponse.ts
 src/models/SpanIoValue.ts
 src/models/SpanIoValueOneOf.ts

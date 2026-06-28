@@ -78,6 +78,7 @@ set(SRCS
     model/create_gate_request.c
     model/create_provider_secret_http_request.c
     model/create_review_queue_http_request.c
+    model/create_scenario_request.c
     model/currency.c
     model/dataset.c
     model/dataset_case.c
@@ -107,6 +108,7 @@ set(SRCS
     model/evaluator_spec.c
     model/experiment_comparison.c
     model/experiment_run_report.c
+    model/failure_mode.c
     model/gate_decision.c
     model/gate_definition.c
     model/gate_policy.c
@@ -118,7 +120,10 @@ set(SRCS
     model/ingest_queue_status.c
     model/judge_audit_record.c
     model/judge_broker_outcome.c
+    model/list_scenarios_response.c
     model/maintenance_window.c
+    model/mine_scenarios_request.c
+    model/mine_scenarios_response.c
     model/model_ref.c
     model/money.c
     model/native_ingest_request.c
@@ -126,6 +131,7 @@ set(SRCS
     model/otlp_ingest_outcome.c
     model/page_run_summary.c
     model/page_run_summary_items_inner.c
+    model/perturbation_knobs.c
     model/promote_review_annotation_http_request.c
     model/promote_trace_case_request.c
     model/provider_secret_metadata.c
@@ -150,9 +156,12 @@ set(SRCS
     model/run_summary.c
     model/sampling_decision.c
     model/sampling_reason.c
+    model/scenario.c
+    model/scenario_cluster.c
     model/score_result.c
     model/search_hit.c
     model/search_response.c
+    model/signature.c
     model/span_io_response.c
     model/span_io_value.c
     model/span_io_value_one_of.c
@@ -187,6 +196,7 @@ set(SRCS
     api/OnlineAPI.c
     api/ProviderSecretsAPI.c
     api/ReviewsAPI.c
+    api/ScenariosAPI.c
     api/SearchAPI.c
     api/SpansAPI.c
     api/TracesAPI.c
@@ -232,6 +242,7 @@ set(HDRS
     model/create_gate_request.h
     model/create_provider_secret_http_request.h
     model/create_review_queue_http_request.h
+    model/create_scenario_request.h
     model/currency.h
     model/dataset.h
     model/dataset_case.h
@@ -261,6 +272,7 @@ set(HDRS
     model/evaluator_spec.h
     model/experiment_comparison.h
     model/experiment_run_report.h
+    model/failure_mode.h
     model/gate_decision.h
     model/gate_definition.h
     model/gate_policy.h
@@ -272,7 +284,10 @@ set(HDRS
     model/ingest_queue_status.h
     model/judge_audit_record.h
     model/judge_broker_outcome.h
+    model/list_scenarios_response.h
     model/maintenance_window.h
+    model/mine_scenarios_request.h
+    model/mine_scenarios_response.h
     model/model_ref.h
     model/money.h
     model/native_ingest_request.h
@@ -280,6 +295,7 @@ set(HDRS
     model/otlp_ingest_outcome.h
     model/page_run_summary.h
     model/page_run_summary_items_inner.h
+    model/perturbation_knobs.h
     model/promote_review_annotation_http_request.h
     model/promote_trace_case_request.h
     model/provider_secret_metadata.h
@@ -304,9 +320,12 @@ set(HDRS
     model/run_summary.h
     model/sampling_decision.h
     model/sampling_reason.h
+    model/scenario.h
+    model/scenario_cluster.h
     model/score_result.h
     model/search_hit.h
     model/search_response.h
+    model/signature.h
     model/span_io_response.h
     model/span_io_value.h
     model/span_io_value_one_of.h
@@ -341,6 +360,7 @@ set(HDRS
     api/OnlineAPI.h
     api/ProviderSecretsAPI.h
     api/ReviewsAPI.h
+    api/ScenariosAPI.h
     api/SearchAPI.h
     api/SpansAPI.h
     api/TracesAPI.h
@@ -441,6 +461,7 @@ set(HDRS "")
 #    unit-tests/manual-OnlineAPI.c
 #    unit-tests/manual-ProviderSecretsAPI.c
 #    unit-tests/manual-ReviewsAPI.c
+#    unit-tests/manual-ScenariosAPI.c
 #    unit-tests/manual-SearchAPI.c
 #    unit-tests/manual-SpansAPI.c
 #    unit-tests/manual-TracesAPI.c
