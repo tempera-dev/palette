@@ -6,7 +6,7 @@ use beater_experiments::{CaseExperimentScore, ExperimentRunReport};
 use beater_judge::JudgeBrokerOutcome;
 use beater_store::{IntoStoreResult, StoreError, StoreResult};
 use chrono::Utc;
-use rusqlite::{params, Connection};
+use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
@@ -128,15 +128,22 @@ pub struct UsageSummary {
 ///   source_id)` is unique. Re-recording the same dedup tuple is idempotent and
 ///   returns the *canonical stored row* (same `usage_record_id`, same stored
 ///   quantity), never a freshly generated one.
-/// * **Overflow-safe rollups.** [`summarize_usage`](Self::summarize_usage) sums
-///   quantities with checked arithmetic and returns a typed error rather than
-///   wrapping or panicking; it also rejects mixed units within a single meter.
+/// * **Bounded, overflow-safe rollups.** Each `(tenant, project, meter, unit)`
+///   total is maintained as a pre-aggregated snapshot, folded with checked
+///   arithmetic *at record time* and inside the same transaction as the record
+///   it accounts for. [`summarize_usage`](Self::summarize_usage) therefore reads
+///   O(distinct meter*unit) rows — never the whole ledger — and does no
+///   summation. A record whose quantity would overflow its meter's i64 total is
+///   rejected with a typed error (the record and rollup stay consistent); a
+///   meter that somehow carries two units surfaces a typed mismatch error rather
+///   than silently combining incompatible totals.
 #[async_trait]
 pub trait UsageLedgerStore: Send + Sync {
     /// Append a usage record, idempotently on its dedup tuple.
     ///
     /// On a duplicate dedup tuple this is a no-op write and returns the existing
-    /// canonical stored row rather than the in-memory candidate.
+    /// canonical stored row rather than the in-memory candidate; the rollup
+    /// snapshot is folded exactly once, only when a genuinely new row is added.
     async fn record_usage(&self, insert: UsageRecordInsert) -> StoreResult<UsageRecord>;
 
     async fn list_usage(
@@ -145,6 +152,8 @@ pub trait UsageLedgerStore: Send + Sync {
         project_id: ProjectId,
     ) -> StoreResult<Vec<UsageRecord>>;
 
+    /// Roll up usage from the pre-aggregated snapshot. Bounded to
+    /// O(distinct meter*unit) work regardless of ledger size.
     async fn summarize_usage(
         &self,
         tenant_id: TenantId,
@@ -183,7 +192,7 @@ impl SqliteUsageLedger {
     }
 
     fn init(&self) -> anyhow::Result<()> {
-        let connection = self.lock()?;
+        let mut connection = self.lock()?;
         connection
             .execute_batch(
                 r#"
@@ -207,9 +216,96 @@ impl SqliteUsageLedger {
 
                 CREATE INDEX IF NOT EXISTS idx_usage_records_list
                   ON usage_records (tenant_id, project_id, created_at, usage_record_id);
+
+                -- Pre-aggregated rollup snapshot, one row per
+                -- (tenant, project, meter, unit). Maintained incrementally inside
+                -- the same transaction as each new `usage_records` insert, so
+                -- `summarize_usage` reads O(distinct meter*unit) rows instead of
+                -- scanning the whole ledger. `total_quantity` is the running
+                -- checked sum of the per-row quantities (refunds net negatively).
+                CREATE TABLE IF NOT EXISTS usage_rollups (
+                    tenant_id TEXT NOT NULL,
+                    project_id TEXT NOT NULL,
+                    meter TEXT NOT NULL,
+                    unit TEXT NOT NULL,
+                    total_quantity INTEGER NOT NULL,
+                    updated_at TEXT NOT NULL,
+                    PRIMARY KEY (tenant_id, project_id, meter, unit)
+                );
                 "#,
             )
             .context("initialize sqlite usage ledger")?;
+        // One-time backfill for ledgers written before the rollup table existed:
+        // if there are records but no rollups, fold the existing ledger into the
+        // snapshot once. New writes maintain it incrementally from here on.
+        let rollups_empty: bool = connection
+            .query_row("SELECT NOT EXISTS(SELECT 1 FROM usage_rollups)", [], |row| {
+                row.get(0)
+            })
+            .context("probe usage rollups")?;
+        let has_records: bool = connection
+            .query_row("SELECT EXISTS(SELECT 1 FROM usage_records)", [], |row| {
+                row.get(0)
+            })
+            .context("probe usage records")?;
+        if rollups_empty && has_records {
+            Self::backfill_rollups(&mut connection)?;
+        }
+        Ok(())
+    }
+
+    /// Rebuild the rollup snapshot from the full `usage_records` ledger with
+    /// overflow-checked arithmetic. Used once on open for pre-rollup ledgers.
+    fn backfill_rollups(connection: &mut Connection) -> anyhow::Result<()> {
+        let tx = connection
+            .transaction()
+            .context("begin usage rollup backfill")?;
+        // (tenant, project, meter, unit) -> running checked total.
+        let mut totals: BTreeMap<(String, String, String, String), i64> = BTreeMap::new();
+        {
+            let mut statement = tx
+                .prepare(
+                    r#"
+                    SELECT tenant_id, project_id, meter, unit, quantity
+                    FROM usage_records
+                    "#,
+                )
+                .context("prepare usage rollup backfill scan")?;
+            let rows = statement
+                .query_map([], |row| {
+                    Ok((
+                        row.get::<_, String>(0)?,
+                        row.get::<_, String>(1)?,
+                        row.get::<_, String>(2)?,
+                        row.get::<_, String>(3)?,
+                        row.get::<_, i64>(4)?,
+                    ))
+                })
+                .context("scan usage records for backfill")?;
+            for row in rows {
+                let (tenant_id, project_id, meter, unit, quantity) =
+                    row.context("read usage record during backfill")?;
+                let entry = totals
+                    .entry((tenant_id, project_id, meter, unit))
+                    .or_insert(0);
+                *entry = entry.checked_add(quantity).ok_or_else(|| {
+                    anyhow!("usage rollup overflow during backfill; ledger total exceeds i64")
+                })?;
+            }
+        }
+        let now = Utc::now().to_rfc3339();
+        for ((tenant_id, project_id, meter, unit), total) in totals {
+            tx.execute(
+                r#"
+                INSERT INTO usage_rollups
+                  (tenant_id, project_id, meter, unit, total_quantity, updated_at)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6)
+                "#,
+                params![tenant_id, project_id, meter, unit, total, now],
+            )
+            .context("insert backfilled usage rollup")?;
+        }
+        tx.commit().context("commit usage rollup backfill")?;
         Ok(())
     }
 
@@ -249,6 +345,71 @@ impl SqliteUsageLedger {
             )
             .with_context(|| format!("usage record source {source_id} not found"))?;
         serde_json::from_str(&record_json).context("decode usage record")
+    }
+
+    /// Fold a single record's `quantity` into the `(tenant, project, meter,
+    /// unit)` rollup with overflow-checked arithmetic. Runs inside the caller's
+    /// transaction so the rollup and the underlying record commit atomically.
+    ///
+    /// Overflow is reported here, at record time, rather than deferred to
+    /// `summarize_usage`: the offending event is the one that cannot be
+    /// represented, and rejecting it keeps the durable rollup an always-valid
+    /// i64. (A meter total overflowing i64 implies astronomically large money
+    /// and signals ledger corruption.)
+    fn apply_rollup_delta(
+        connection: &Connection,
+        tenant_id: &TenantId,
+        project_id: &ProjectId,
+        meter: UsageMeter,
+        unit: &str,
+        quantity: i64,
+    ) -> StoreResult<()> {
+        let current: Option<i64> = connection
+            .query_row(
+                r#"
+                SELECT total_quantity
+                FROM usage_rollups
+                WHERE tenant_id = ?1 AND project_id = ?2 AND meter = ?3 AND unit = ?4
+                "#,
+                params![
+                    tenant_id.as_str(),
+                    project_id.as_str(),
+                    meter.as_str(),
+                    unit
+                ],
+                |row| row.get(0),
+            )
+            .optional()
+            .context("read usage rollup")
+            .into_store()?;
+        let new_total = current.unwrap_or(0).checked_add(quantity).ok_or_else(|| {
+            StoreError::Integrity(format!(
+                "usage rollup overflow folding quantity for meter {}",
+                meter.as_str()
+            ))
+        })?;
+        connection
+            .execute(
+                r#"
+                INSERT INTO usage_rollups
+                  (tenant_id, project_id, meter, unit, total_quantity, updated_at)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6)
+                ON CONFLICT(tenant_id, project_id, meter, unit) DO UPDATE SET
+                  total_quantity = excluded.total_quantity,
+                  updated_at = excluded.updated_at
+                "#,
+                params![
+                    tenant_id.as_str(),
+                    project_id.as_str(),
+                    meter.as_str(),
+                    unit,
+                    new_total,
+                    Utc::now().to_rfc3339()
+                ],
+            )
+            .context("upsert usage rollup")
+            .into_store()?;
+        Ok(())
     }
 }
 
@@ -315,6 +476,20 @@ impl UsageLedgerStore for SqliteUsageLedger {
             )
             .context("insert usage record")
             .into_store()?;
+        // Maintain the rollup snapshot only when this insert actually added a
+        // new row. A duplicate dedup tuple is ignored above (`changes() == 0`),
+        // so its quantity must NOT be folded again — that is what keeps the
+        // rollup exactly-once even under client/process retries.
+        if transaction.changes() == 1 {
+            Self::apply_rollup_delta(
+                &transaction,
+                &record.tenant_id,
+                &record.project_id,
+                record.meter,
+                &record.unit,
+                record.quantity,
+            )?;
+        }
         let stored = Self::select_by_unique(
             &transaction,
             &record.tenant_id,
@@ -372,16 +547,17 @@ impl UsageLedgerStore for SqliteUsageLedger {
         project_id: ProjectId,
     ) -> StoreResult<UsageSummary> {
         let connection = self.lock().into_store()?;
-        // Fold the per-row quantities in Rust with checked arithmetic. SQLite's
-        // `SUM` silently promotes to a float on i64 overflow (corrupting money),
-        // so we never let the database do the summation. Rows are read raw
-        // (no GROUP BY) so a per-meter unit/currency mismatch surfaces as a
-        // typed error instead of silently overwriting a bucket.
+        // Read the pre-aggregated rollup snapshot — one row per (meter, unit) —
+        // instead of scanning every usage record. The running totals are folded
+        // with checked arithmetic at record time (see `apply_rollup_delta`), so
+        // this path does no summation and touches O(distinct meter*unit) rows
+        // regardless of ledger size. A meter that appears under two different
+        // units is still a hard integrity error: the totals cannot be combined.
         let mut statement = connection
             .prepare(
                 r#"
-                SELECT meter, unit, quantity
-                FROM usage_records
+                SELECT meter, unit, total_quantity
+                FROM usage_rollups
                 WHERE tenant_id = ?1 AND project_id = ?2
                 ORDER BY meter ASC, unit ASC
                 "#,
@@ -401,25 +577,14 @@ impl UsageLedgerStore for SqliteUsageLedger {
         let mut totals: BTreeMap<String, UsageTotal> = BTreeMap::new();
         for row in rows {
             let (meter, unit, quantity) = row.context("read usage summary row").into_store()?;
-            match totals.get_mut(&meter) {
-                None => {
-                    totals.insert(meter, UsageTotal { quantity, unit });
-                }
-                Some(total) => {
-                    if total.unit != unit {
-                        return Err(StoreError::Integrity(format!(
-                            "usage rollup unit mismatch for meter {meter}: \
-                             cannot sum {} and {}",
-                            total.unit, unit
-                        )));
-                    }
-                    total.quantity = total.quantity.checked_add(quantity).ok_or_else(|| {
-                        StoreError::Integrity(format!(
-                            "usage rollup overflow summing quantities for meter {meter}"
-                        ))
-                    })?;
-                }
+            if let Some(existing) = totals.get(&meter) {
+                return Err(StoreError::Integrity(format!(
+                    "usage rollup unit mismatch for meter {meter}: \
+                     cannot sum {} and {unit}",
+                    existing.unit
+                )));
             }
+            totals.insert(meter, UsageTotal { quantity, unit });
         }
         Ok(UsageSummary {
             tenant_id,
@@ -974,18 +1139,31 @@ mod tests {
     #[tokio::test]
     async fn rollup_overflow_returns_typed_error_not_panic() -> anyhow::Result<()> {
         let store = SqliteUsageLedger::in_memory()?;
+        // The first charge sets the running rollup to i64::MAX. The second would
+        // push the snapshot past i64, so it is rejected at record time (the
+        // offending event is the one that cannot be represented) with a typed
+        // error rather than a panic or a silently corrupted total.
         store.record_usage(charge("near-max", i64::MAX)?).await?;
-        store.record_usage(charge("one-more", 1)?).await?;
-
         let error = store
-            .summarize_usage(TenantId::new("tenant")?, ProjectId::new("project")?)
+            .record_usage(charge("one-more", 1)?)
             .await
             .err()
             .ok_or_else(|| anyhow!("overflowing rollup should error"))?;
         assert!(matches!(
-            error,
+            &error,
             StoreError::Integrity(message) if message.contains("overflow")
         ));
+
+        // The rejected event left no trace: the ledger and its rollup still
+        // reflect only the first, representable charge.
+        let summary = store
+            .summarize_usage(TenantId::new("tenant")?, ProjectId::new("project")?)
+            .await?;
+        assert_eq!(summary_quantity(&summary), Some(i64::MAX));
+        let records = store
+            .list_usage(TenantId::new("tenant")?, ProjectId::new("project")?)
+            .await?;
+        assert_eq!(records.len(), 1, "overflowing record must not be persisted");
         Ok(())
     }
 
@@ -1006,6 +1184,58 @@ mod tests {
             error,
             StoreError::Integrity(message) if message.contains("unit mismatch")
         ));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn rollup_snapshot_survives_reopen() -> anyhow::Result<()> {
+        let dir = tempfile::tempdir()?;
+        let path = dir.path().join("usage.db");
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+
+        {
+            let store = SqliteUsageLedger::open(&path)?;
+            store.record_usage(charge("a", 10)?).await?;
+            store.record_usage(charge("b", 5)?).await?;
+        }
+
+        // A fresh handle to the same file must read the persisted snapshot
+        // (the backfill path must NOT re-run and double-count).
+        let reopened = SqliteUsageLedger::open(&path)?;
+        let summary = reopened.summarize_usage(tenant, project).await?;
+        assert_eq!(summary_quantity(&summary), Some(15));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn rollup_backfills_for_pre_rollup_ledger() -> anyhow::Result<()> {
+        let dir = tempfile::tempdir()?;
+        let path = dir.path().join("usage.db");
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+
+        {
+            let store = SqliteUsageLedger::open(&path)?;
+            store.record_usage(charge("a", 10)?).await?;
+            store.record_usage(charge("b", 5)?).await?;
+            let mut refund = charge("a", -4)?;
+            refund.source_id = "a-refund".to_string();
+            refund.source_kind = UsageRecordSourceKind::Refund;
+            store.record_usage(refund).await?;
+        }
+
+        // Simulate a ledger written before the rollup snapshot existed: the
+        // records are present but the snapshot is empty. `open` must rebuild it.
+        {
+            let raw = Connection::open(&path)?;
+            raw.execute("DELETE FROM usage_rollups", [])?;
+        }
+
+        let reopened = SqliteUsageLedger::open(&path)?;
+        let summary = reopened.summarize_usage(tenant, project).await?;
+        // 10 + 5 - 4 == 11, proving the backfill folds refunds too.
+        assert_eq!(summary_quantity(&summary), Some(11));
         Ok(())
     }
 

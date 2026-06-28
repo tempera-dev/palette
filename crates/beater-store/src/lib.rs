@@ -339,6 +339,24 @@ pub struct QuotaReservationRequest {
     pub limit: u64,
     pub window_start: Timestamp,
     pub reset_at: Timestamp,
+    /// Optional client-supplied token that makes a reservation idempotent under
+    /// retries.
+    ///
+    /// Concurrency between *distinct* reservers is already race-free (the
+    /// read-modify-write of the counter is atomic). This key closes the
+    /// remaining gap: a client that retries *the same logical reservation*
+    /// (e.g. after a network timeout where the first response was lost) would
+    /// otherwise be counted twice, because the second call is a legitimately new
+    /// reservation as far as the server can tell.
+    ///
+    /// When set, the first *accepted* reservation for
+    /// `(tenant_id, project_id, idempotency_key)` is recorded, and any later
+    /// reservation carrying the same key replays that original
+    /// [`QuotaDecision`] verbatim without advancing the counter. Rejected
+    /// reservations do not mutate the counter, so they are never deduplicated —
+    /// retrying a rejected reservation simply re-evaluates against the current
+    /// window. `None` preserves the prior at-least-once behaviour.
+    pub idempotency_key: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

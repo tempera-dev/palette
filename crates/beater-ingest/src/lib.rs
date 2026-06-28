@@ -1503,6 +1503,10 @@ impl IngestService {
                 limit,
                 window_start,
                 reset_at,
+                // Ingest batches are not retried through this path with a
+                // stable token today; at-least-once reservation is preserved by
+                // leaving the key unset.
+                idempotency_key: None,
             })
             .await
             .map_err(IngestError::Store)?;

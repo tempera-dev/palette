@@ -22,6 +22,7 @@ uuid.workspace = true
 
 [dev-dependencies]
 beater-eval = { path = "../beater-eval" }
+tempfile.workspace = true
 tokio.workspace = true
 
 [lints]

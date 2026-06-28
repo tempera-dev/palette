@@ -929,6 +929,7 @@ where
             limit: 3,
             window_start,
             reset_at,
+            idempotency_key: None,
         })
         .await
         .unwrap_or_else(|err| panic!("{err}"));
@@ -943,6 +944,7 @@ where
             limit: 3,
             window_start,
             reset_at,
+            idempotency_key: None,
         })
         .await
         .unwrap_or_else(|err| panic!("{err}"));
@@ -966,11 +968,101 @@ where
             limit: 3,
             window_start: next_window,
             reset_at: next_reset,
+            idempotency_key: None,
         })
         .await
         .unwrap_or_else(|err| panic!("{err}"));
     assert!(after_reset.accepted);
     assert_eq!(after_reset.used, 3);
+}
+
+/// Idempotency invariant for any [`QuotaLimiter`]: replaying a reservation that
+/// carries the same `idempotency_key` must NOT advance the counter a second
+/// time, and must return the original decision verbatim. This is the
+/// billing-critical guard against a client retry (after a lost response)
+/// double-counting an already-committed reservation.
+///
+/// The contract proven here:
+///
+/// * a first keyed reservation is charged once and accepted;
+/// * an identical retry (same key) replays the same `used`/`limit`/`reset_at`
+///   without charging again — even though a *different* key would be charged;
+/// * keys are scoped per `(tenant, project)` — the same key string under a
+///   different project is an independent reservation;
+/// * an unkeyed (`None`) reservation is never deduplicated.
+///
+/// Runs cleanly against both the in-memory and SQLite backends.
+pub async fn assert_quota_limiter_idempotency_conformance<L>(limiter: L)
+where
+    L: QuotaLimiter,
+{
+    let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+    let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+    let other_project = ProjectId::new("project-2").unwrap_or_else(|err| panic!("{err}"));
+    let window_start = Utc
+        .with_ymd_and_hms(2026, 2, 1, 0, 0, 0)
+        .single()
+        .unwrap_or_else(|| panic!("valid timestamp"));
+    let reset_at = Utc
+        .with_ymd_and_hms(2026, 2, 1, 0, 1, 0)
+        .single()
+        .unwrap_or_else(|| panic!("valid timestamp"));
+
+    let keyed = |project: &ProjectId, amount: u64, key: &str| QuotaReservationRequest {
+        tenant_id: tenant.clone(),
+        project_id: project.clone(),
+        amount,
+        limit: 10,
+        window_start,
+        reset_at,
+        idempotency_key: Some(key.to_string()),
+    };
+
+    // First keyed reservation: charged once.
+    let first = limiter
+        .reserve_quota(keyed(&project, 4, "reserve-abc"))
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert!(first.accepted);
+    assert_eq!(first.used, 4);
+
+    // Retry with the SAME key: replayed, counter NOT advanced.
+    let retry = limiter
+        .reserve_quota(keyed(&project, 4, "reserve-abc"))
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert!(retry.accepted);
+    assert_eq!(
+        retry.used, 4,
+        "retry of an idempotent reservation must not advance the counter"
+    );
+    assert_eq!(retry.reset_at, reset_at);
+
+    // A genuinely new key IS charged, proving the retry above was a replay and
+    // not a no-op limiter.
+    let distinct = limiter
+        .reserve_quota(keyed(&project, 3, "reserve-xyz"))
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert!(distinct.accepted);
+    assert_eq!(distinct.used, 7);
+
+    // The same key string under a different project is independent.
+    let other = limiter
+        .reserve_quota(keyed(&other_project, 5, "reserve-abc"))
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert!(other.accepted);
+    assert_eq!(other.used, 5);
+
+    // And replaying the original key once more is still the original decision,
+    // unaffected by the intervening reservations.
+    let replay_again = limiter
+        .reserve_quota(keyed(&project, 4, "reserve-abc"))
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert!(replay_again.accepted);
+    assert_eq!(replay_again.used, 4);
 }
 
 /// Concurrency invariant for any [`QuotaLimiter`]: under a storm of simultaneous
@@ -1053,6 +1145,7 @@ async fn assert_reservation_storm<L>(
             limit,
             window_start,
             reset_at,
+            idempotency_key: None,
         };
         handles.push(tokio::spawn(
             async move { limiter.reserve_quota(request).await },
@@ -1101,6 +1194,7 @@ async fn assert_reservation_storm<L>(
             limit,
             window_start,
             reset_at,
+            idempotency_key: None,
         })
         .await
         .unwrap_or_else(|err| panic!("{err}"));

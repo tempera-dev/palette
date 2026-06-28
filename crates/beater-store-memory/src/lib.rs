@@ -34,9 +34,21 @@ struct InMemoryQuotaCounter {
     used: u64,
 }
 
+/// Recorded decision for an accepted, idempotency-keyed reservation. A retry
+/// carrying the same `(tenant, project, key)` replays this verbatim instead of
+/// advancing the counter again. Mirrors the SQLite `quota_reservations` table.
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct InMemoryQuotaReservation {
+    tenant_id: TenantId,
+    project_id: ProjectId,
+    idempotency_key: String,
+    decision: QuotaDecision,
+}
+
 #[derive(Clone, Default)]
 struct InMemoryQuotaState {
     counters: Vec<InMemoryQuotaCounter>,
+    reservations: Vec<InMemoryQuotaReservation>,
 }
 
 #[derive(Clone, Default)]
@@ -357,6 +369,17 @@ impl MetadataStore for InMemoryMetadataStore {
 impl QuotaLimiter for InMemoryQuotaLimiter {
     async fn reserve_quota(&self, request: QuotaReservationRequest) -> StoreResult<QuotaDecision> {
         let mut state = self.lock()?;
+        // Idempotent replay: a retry carrying a previously-recorded key returns
+        // the original decision without advancing the counter.
+        if let Some(key) = request.idempotency_key.as_deref() {
+            if let Some(existing) = state.reservations.iter().find(|reservation| {
+                reservation.tenant_id == request.tenant_id
+                    && reservation.project_id == request.project_id
+                    && reservation.idempotency_key == key
+            }) {
+                return Ok(existing.decision.clone());
+            }
+        }
         let counter = state.counters.iter_mut().find(|counter| {
             counter.tenant_id == request.tenant_id
                 && counter.project_id == request.project_id
@@ -379,18 +402,28 @@ impl QuotaLimiter for InMemoryQuotaLimiter {
             counter.used = new_used;
         } else {
             state.counters.push(InMemoryQuotaCounter {
-                tenant_id: request.tenant_id,
-                project_id: request.project_id,
+                tenant_id: request.tenant_id.clone(),
+                project_id: request.project_id.clone(),
                 window_start: request.window_start,
                 used: new_used,
             });
         }
-        Ok(QuotaDecision {
+        let decision = QuotaDecision {
             accepted: true,
             used: new_used,
             limit: request.limit,
             reset_at: request.reset_at,
-        })
+        };
+        // Record the accepted reservation so an identical retry replays it.
+        if let Some(key) = request.idempotency_key {
+            state.reservations.push(InMemoryQuotaReservation {
+                tenant_id: request.tenant_id,
+                project_id: request.project_id,
+                idempotency_key: key,
+                decision: decision.clone(),
+            });
+        }
+        Ok(decision)
     }
 }
 
@@ -399,7 +432,8 @@ mod tests {
     use super::*;
     use beater_store_conformance::{
         assert_metadata_store_conformance, assert_quota_limiter_concurrency_conformance,
-        assert_quota_limiter_conformance, assert_trace_store_conformance,
+        assert_quota_limiter_conformance, assert_quota_limiter_idempotency_conformance,
+        assert_trace_store_conformance,
     };
     use std::collections::BTreeSet;
 
@@ -506,6 +540,11 @@ mod tests {
     #[tokio::test]
     async fn in_memory_quota_limiter_conforms() {
         assert_quota_limiter_conformance(InMemoryQuotaLimiter::new()).await;
+    }
+
+    #[tokio::test]
+    async fn in_memory_quota_limiter_idempotency_conforms() {
+        assert_quota_limiter_idempotency_conformance(InMemoryQuotaLimiter::new()).await;
     }
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 8)]

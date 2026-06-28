@@ -219,6 +219,22 @@ impl SqliteQuotaLimiter {
                     updated_at TEXT NOT NULL,
                     PRIMARY KEY (tenant_id, project_id, window_start)
                 );
+
+                -- Dedup ledger for idempotent reservations. Only *accepted*
+                -- reservations carrying an idempotency key land here; a retry of
+                -- the same key replays the recorded decision instead of
+                -- advancing `quota_counters` a second time.
+                CREATE TABLE IF NOT EXISTS quota_reservations (
+                    tenant_id TEXT NOT NULL,
+                    project_id TEXT NOT NULL,
+                    idempotency_key TEXT NOT NULL,
+                    accepted_amount INTEGER NOT NULL,
+                    used_after INTEGER NOT NULL,
+                    reservation_limit INTEGER NOT NULL,
+                    reset_at TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    PRIMARY KEY (tenant_id, project_id, idempotency_key)
+                );
                 "#,
             )
             .map_err(StoreError::backend)?;
@@ -237,6 +253,45 @@ impl QuotaLimiter for SqliteQuotaLimiter {
         let tx = connection
             .transaction_with_behavior(TransactionBehavior::Immediate)
             .map_err(StoreError::backend)?;
+        // Idempotent replay: if this key already recorded an accepted
+        // reservation, return that decision verbatim without touching the
+        // counter. The lookup runs inside the IMMEDIATE transaction so it
+        // serializes with concurrent reservers — a retry can never interleave
+        // between a sibling's counter bump and its dedup write.
+        if let Some(key) = request.idempotency_key.as_deref() {
+            let replay = tx
+                .query_row(
+                    r#"
+                    SELECT used_after, reservation_limit, reset_at
+                    FROM quota_reservations
+                    WHERE tenant_id = ?1 AND project_id = ?2 AND idempotency_key = ?3
+                    "#,
+                    params![
+                        request.tenant_id.as_str(),
+                        request.project_id.as_str(),
+                        key,
+                    ],
+                    |row| {
+                        Ok((
+                            row.get::<_, i64>(0)?,
+                            row.get::<_, i64>(1)?,
+                            row.get::<_, String>(2)?,
+                        ))
+                    },
+                )
+                .optional()
+                .map_err(StoreError::backend)?;
+            if let Some((used_after, reservation_limit, reset_at)) = replay {
+                tx.commit().map_err(StoreError::backend)?;
+                let reset_at = parse_timestamp(reset_at).map_err(StoreError::backend)?;
+                return Ok(QuotaDecision {
+                    accepted: true,
+                    used: used_after.max(0) as u64,
+                    limit: reservation_limit.max(0) as u64,
+                    reset_at,
+                });
+            }
+        }
         let current_used = tx
             .query_row(
                 r#"
@@ -291,6 +346,33 @@ impl QuotaLimiter for SqliteQuotaLimiter {
             ],
         )
         .map_err(StoreError::backend)?;
+        // Record the accepted reservation so a later retry of the same logical
+        // request replays this decision instead of double-counting. The write
+        // shares the transaction with the counter bump, so the counter and its
+        // dedup row commit atomically. `INSERT OR IGNORE` keeps the first
+        // writer's decision authoritative if two carriers of the same key race
+        // (the lookup above already covers the common retry-after-commit case).
+        if let Some(key) = request.idempotency_key.as_deref() {
+            tx.execute(
+                r#"
+                INSERT OR IGNORE INTO quota_reservations
+                  (tenant_id, project_id, idempotency_key, accepted_amount,
+                   used_after, reservation_limit, reset_at, created_at)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
+                "#,
+                params![
+                    request.tenant_id.as_str(),
+                    request.project_id.as_str(),
+                    key,
+                    request.amount as i64,
+                    new_used as i64,
+                    request.limit as i64,
+                    request.reset_at.to_rfc3339(),
+                    self.clock.now().to_rfc3339(),
+                ],
+            )
+            .map_err(StoreError::backend)?;
+        }
         tx.commit().map_err(StoreError::backend)?;
 
         Ok(QuotaDecision {
@@ -1070,9 +1152,9 @@ mod tests {
     use beater_core::FixedClock;
     use beater_store_conformance::{
         assert_metadata_store_conformance, assert_quota_limiter_concurrency_conformance,
-        assert_quota_limiter_conformance, assert_span_pagination_keyset_stability,
-        assert_span_pagination_seq_tiebreak, assert_span_pagination_tenant_wide_tiebreak,
-        assert_trace_store_conformance,
+        assert_quota_limiter_conformance, assert_quota_limiter_idempotency_conformance,
+        assert_span_pagination_keyset_stability, assert_span_pagination_seq_tiebreak,
+        assert_span_pagination_tenant_wide_tiebreak, assert_trace_store_conformance,
     };
     use beater_store_memory::{InMemoryMetadataStore, InMemoryQuotaLimiter, InMemoryTraceStore};
     use chrono::{TimeZone, Utc};
@@ -1211,6 +1293,14 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn sqlite_quota_limiter_idempotency_conforms() {
+        assert_quota_limiter_idempotency_conformance(
+            SqliteQuotaLimiter::in_memory().unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await;
+    }
+
+    #[tokio::test]
     async fn sqlite_quota_limiter_uses_injected_clock_for_updates() {
         let now = Utc
             .with_ymd_and_hms(2026, 1, 1, 0, 0, 42)
@@ -1238,6 +1328,7 @@ mod tests {
                 limit: 2,
                 window_start,
                 reset_at,
+                idempotency_key: None,
             })
             .await
             .unwrap_or_else(|err| panic!("{err}"));
@@ -1275,6 +1366,7 @@ mod tests {
             limit: 1,
             window_start,
             reset_at,
+            idempotency_key: None,
         };
         let first_request = request.clone();
         let second_request = request;
@@ -1354,6 +1446,7 @@ mod tests {
                 limit: LIMIT,
                 window_start,
                 reset_at,
+                idempotency_key: None,
             };
             handles.push(tokio::spawn(
                 async move { limiter.reserve_quota(request).await },
@@ -1433,6 +1526,7 @@ mod tests {
                 limit: LIMIT,
                 window_start,
                 reset_at,
+                idempotency_key: None,
             };
             handles.push(tokio::spawn(
                 async move { limiter.reserve_quota(request).await },
