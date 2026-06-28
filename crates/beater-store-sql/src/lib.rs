@@ -837,7 +837,7 @@ impl TraceStore for SqliteTraceStore {
         page: PageRequest,
     ) -> StoreResult<Page<SpanSummary>> {
         let limit = page.limit.max(1) as usize;
-        // Keyset (seek) cursor on `(start_time, span_id, seq)` per
+        // Keyset (seek) cursor on `(start_time, span_id, project_id, trace_id, seq)` per
         // ARCHITECTURE.md §20.2 #0.2: the cursor carries the last row of the
         // previous page, so the scan resumes from that point instead of
         // counting rows with OFFSET. This fixes scan cost at depth and keeps
@@ -846,12 +846,21 @@ impl TraceStore for SqliteTraceStore {
         // seq)`: a re-emitted span shares its `span_id` (and usually its
         // `start_time`) with an earlier version, so `(start_time, span_id)`
         // alone is NOT unique and a page boundary between two versions would
-        // either skip or duplicate a row. A malformed cursor decodes to `None`
-        // and is treated as "start from the beginning" rather than panicking.
-        let (cursor_start_time, cursor_span_id, cursor_seq) =
+        // either skip or duplicate a row. `project_id` and `trace_id` complete
+        // the key for tenant-wide or project-wide queries, where otherwise two
+        // traces can share the same `(start_time, span_id, seq)`. A malformed
+        // cursor decodes to `None` and is treated as "start from the beginning"
+        // rather than panicking.
+        let (cursor_start_time, cursor_span_id, cursor_project_id, cursor_trace_id, cursor_seq) =
             match page.cursor.as_deref().and_then(decode_span_cursor) {
-                Some((start_time, span_id, seq)) => (Some(start_time), Some(span_id), Some(seq)),
-                None => (None, None, None),
+                Some((start_time, span_id, project_id, trace_id, seq)) => (
+                    Some(start_time),
+                    Some(span_id),
+                    Some(project_id),
+                    Some(trace_id),
+                    Some(seq),
+                ),
+                None => (None, None, None, None, None),
             };
         let fetch_limit = limit.saturating_add(1);
         let fetch_limit_i64 = i64::try_from(fetch_limit).unwrap_or(i64::MAX);
@@ -860,12 +869,11 @@ impl TraceStore for SqliteTraceStore {
             .prepare(
                 // The rows are ordered newest-first (`start_time DESC`), so the
                 // keyset predicate seeks to rows that sort strictly *after* the
-                // cursor in that order: `(start_time, span_id, seq) < (cursor)`.
-                // The tenant filter leads the predicate per §8.3. `span_id`
-                // then `seq` are the deterministic tiebreakers that match the
-                // cursor key and the PRIMARY KEY, so two versions of the same
-                // span (same `span_id`, different `seq`) never collide on a
-                // page boundary.
+                // cursor in that order:
+                // `(start_time, span_id, project_id, trace_id, seq) < (cursor)`.
+                // The tenant filter leads the predicate per §8.3. The remaining
+                // fields make the key total across tenant-wide queries and match
+                // the PRIMARY KEY components that can otherwise tie.
                 r#"
                 SELECT span_json, seq
                 FROM spans
@@ -879,9 +887,11 @@ impl TraceStore for SqliteTraceStore {
                   AND (?8 IS NULL
                        OR start_time < ?8
                        OR (start_time = ?8 AND span_id < ?9)
-                       OR (start_time = ?8 AND span_id = ?9 AND seq < ?10))
-                ORDER BY start_time DESC, span_id DESC, seq DESC
-                LIMIT ?11
+                       OR (start_time = ?8 AND span_id = ?9 AND project_id < ?10)
+                       OR (start_time = ?8 AND span_id = ?9 AND project_id = ?10 AND trace_id < ?11)
+                       OR (start_time = ?8 AND span_id = ?9 AND project_id = ?10 AND trace_id = ?11 AND seq < ?12))
+                ORDER BY start_time DESC, span_id DESC, project_id DESC, trace_id DESC, seq DESC
+                LIMIT ?13
                 "#,
             )
             .map_err(StoreError::backend)?;
@@ -903,6 +913,8 @@ impl TraceStore for SqliteTraceStore {
                     filter.status.as_ref().map(|status| status.as_str()),
                     cursor_start_time.as_deref(),
                     cursor_span_id.as_deref(),
+                    cursor_project_id.as_deref(),
+                    cursor_trace_id.as_deref(),
                     cursor_seq,
                     fetch_limit_i64,
                 ],
@@ -937,43 +949,43 @@ impl TraceStore for SqliteTraceStore {
 
 /// Encode an opaque keyset cursor from the last span of a page.
 ///
-/// The cursor is the base64 of `<start_time RFC3339>|<span_id>|<seq>`. The start
-/// time is rendered with the same `to_rfc3339()` representation that is stored
-/// in the `start_time` column, so the seek predicate compares like-for-like.
-/// `seq` is the final tiebreaker that makes the key unique against the table
-/// PRIMARY KEY `(tenant, project, trace, span_id, seq)`, so a re-emitted span
-/// (same `span_id`, new `seq`) is never skipped at a page boundary. The two `|`
-/// separators are unambiguous because neither an RFC3339 timestamp nor a decimal
-/// `seq` contains `|`, and `seq` is split off the *end* with `rsplit_once('|')`
-/// so a span id that itself contained a `|` still decodes correctly.
+/// The cursor is the base64 of a small JSON object containing
+/// `start_time`, `span_id`, `project_id`, `trace_id`, and `seq`. The timestamp
+/// is rendered with the same `to_rfc3339()` representation that is stored in the
+/// `start_time` column, so the seek predicate compares like-for-like. The extra
+/// key fields make pagination stable across tenant-wide queries where multiple
+/// traces can share the same `(start_time, span_id, seq)`.
 fn encode_span_cursor(summary: &SpanSummary, seq: u64) -> String {
     use base64::Engine as _;
-    let raw = format!(
-        "{}|{}|{}",
-        summary.started_at.to_rfc3339(),
-        summary.span_id.as_str(),
-        seq
-    );
+    let raw = serde_json::json!({
+        "start_time": summary.started_at.to_rfc3339(),
+        "span_id": summary.span_id.as_str(),
+        "project_id": summary.project_id.as_str(),
+        "trace_id": summary.trace_id.as_str(),
+        "seq": seq,
+    })
+    .to_string();
     base64::engine::general_purpose::STANDARD.encode(raw)
 }
 
-/// Decode a keyset cursor into its `(start_time, span_id, seq)` components.
+/// Decode a keyset cursor into its ordered key components.
 ///
-/// Returns `None` for any malformed cursor (bad base64, non-UTF-8, a missing
-/// separator, or a non-integer `seq`). Callers treat `None` as "no cursor" so a
-/// corrupt token degrades to the first page rather than panicking — the
-/// workspace denies `unwrap`/`expect`, including in tests.
-fn decode_span_cursor(cursor: &str) -> Option<(String, String, i64)> {
+/// Returns `None` for any malformed cursor (bad base64, invalid JSON, missing
+/// fields, or a non-integer `seq`). Callers treat `None` as "no cursor" so a
+/// corrupt token degrades to the first page rather than panicking.
+fn decode_span_cursor(cursor: &str) -> Option<(String, String, String, String, i64)> {
     use base64::Engine as _;
     let bytes = base64::engine::general_purpose::STANDARD
         .decode(cursor)
         .ok()?;
-    let text = String::from_utf8(bytes).ok()?;
-    // Split `seq` off the end first so a `|` inside a span id stays with the id.
-    let (head, seq) = text.rsplit_once('|')?;
-    let seq = seq.parse::<i64>().ok()?;
-    let (start_time, span_id) = head.split_once('|')?;
-    Some((start_time.to_string(), span_id.to_string(), seq))
+    let value: serde_json::Value = serde_json::from_slice(&bytes).ok()?;
+    Some((
+        value.get("start_time")?.as_str()?.to_string(),
+        value.get("span_id")?.as_str()?.to_string(),
+        value.get("project_id")?.as_str()?.to_string(),
+        value.get("trace_id")?.as_str()?.to_string(),
+        value.get("seq")?.as_i64()?,
+    ))
 }
 
 fn decode_organization(row: &rusqlite::Row<'_>) -> rusqlite::Result<OrganizationMetadata> {
@@ -1057,8 +1069,9 @@ mod tests {
     use super::*;
     use beater_core::FixedClock;
     use beater_store_conformance::{
-        assert_metadata_store_conformance, assert_quota_limiter_conformance,
-        assert_span_pagination_keyset_stability, assert_span_pagination_seq_tiebreak,
+        assert_metadata_store_conformance, assert_quota_limiter_concurrency_conformance,
+        assert_quota_limiter_conformance, assert_span_pagination_keyset_stability,
+        assert_span_pagination_seq_tiebreak, assert_span_pagination_tenant_wide_tiebreak,
         assert_trace_store_conformance,
     };
     use beater_store_memory::{InMemoryMetadataStore, InMemoryQuotaLimiter, InMemoryTraceStore};
@@ -1160,6 +1173,17 @@ mod tests {
         // two versions of one span share `span_id` and `start_time`, so a
         // `(start_time, span_id)` key would skip the second at a page boundary.
         assert_span_pagination_seq_tiebreak(
+            SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await;
+    }
+
+    #[tokio::test]
+    async fn sqlite_span_pagination_breaks_ties_across_traces() {
+        // Tenant-wide span queries can see identical `(start_time, span_id, seq)`
+        // values from different traces/projects, so the cursor must carry
+        // project_id and trace_id too.
+        assert_span_pagination_tenant_wide_tiebreak(
             SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")),
         )
         .await;
@@ -1282,6 +1306,175 @@ mod tests {
     #[tokio::test]
     async fn in_memory_quota_limiter_conforms() {
         assert_quota_limiter_conformance(InMemoryQuotaLimiter::new()).await;
+    }
+
+    #[tokio::test(flavor = "multi_thread", worker_threads = 8)]
+    async fn sqlite_quota_limiter_concurrency_conforms() {
+        assert_quota_limiter_concurrency_conformance(
+            SqliteQuotaLimiter::in_memory().unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await;
+    }
+
+    /// Billing-critical: a storm of reservations arriving over *independent*
+    /// connections to the same database file must not overcommit the window.
+    /// Independent connections defeat the per-process `Mutex<Connection>`, so the
+    /// only thing keeping the read-modify-write atomic is the `BEGIN IMMEDIATE`
+    /// write lock (plus the busy-timeout so contenders serialize instead of
+    /// erroring). With the historical lock-free `SELECT`-then-`UPSERT` (a plain
+    /// deferred transaction) two reservers could both read `used` before either
+    /// wrote, and both grant — overcommitting. This asserts exactly `limit`
+    /// reservations of size 1 are granted out of 50, the rest denied, and the
+    /// persisted counter settles at exactly `limit`.
+    #[tokio::test(flavor = "multi_thread", worker_threads = 8)]
+    async fn sqlite_quota_limiter_atomic_across_independent_connections() {
+        const RESERVERS: usize = 50;
+        const LIMIT: u64 = 10;
+
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("quotas.sqlite");
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let window_start = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+        let reset_at = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 1, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+
+        let mut handles = Vec::with_capacity(RESERVERS);
+        for _ in 0..RESERVERS {
+            let limiter = SqliteQuotaLimiter::open(&path).unwrap_or_else(|err| panic!("{err}"));
+            let request = QuotaReservationRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                amount: 1,
+                limit: LIMIT,
+                window_start,
+                reset_at,
+            };
+            handles.push(tokio::spawn(
+                async move { limiter.reserve_quota(request).await },
+            ));
+        }
+
+        let mut accepted = 0u64;
+        let mut denied = 0u64;
+        for handle in handles {
+            let decision = handle
+                .await
+                .unwrap_or_else(|err| panic!("reservation task panicked: {err}"))
+                .unwrap_or_else(|err| panic!("reserve_quota failed: {err}"));
+            assert!(
+                decision.used <= LIMIT,
+                "observed used {} exceeding limit {LIMIT}",
+                decision.used
+            );
+            if decision.accepted {
+                accepted += 1;
+            } else {
+                denied += 1;
+            }
+        }
+
+        assert_eq!(
+            accepted, LIMIT,
+            "expected exactly {LIMIT} reservations granted"
+        );
+        assert_eq!(denied, RESERVERS as u64 - LIMIT, "unexpected denied count");
+
+        // The persisted counter must settle at exactly the limit, never above.
+        let reader = SqliteQuotaLimiter::open(&path).unwrap_or_else(|err| panic!("{err}"));
+        let used = reader
+            .lock()
+            .unwrap_or_else(|err| panic!("{err}"))
+            .query_row("SELECT used_events FROM quota_counters", [], |row| {
+                row.get::<_, i64>(0)
+            })
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            used, LIMIT as i64,
+            "persisted counter overcommitted the window"
+        );
+    }
+
+    /// Same race, with reservation size > 1: 50 reservers each asking for 3
+    /// against a limit of 10 may grant at most 3 (9 used) — a 4th would push the
+    /// counter to 12 > 10. Proves the atomic check-then-act holds when a single
+    /// reservation can leave the window partially full.
+    #[tokio::test(flavor = "multi_thread", worker_threads = 8)]
+    async fn sqlite_quota_limiter_atomic_with_multi_unit_reservations() {
+        const RESERVERS: usize = 50;
+        const LIMIT: u64 = 10;
+        const AMOUNT: u64 = 3;
+
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let path = tempdir.path().join("quotas.sqlite");
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let window_start = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+        let reset_at = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 1, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+
+        let mut handles = Vec::with_capacity(RESERVERS);
+        for _ in 0..RESERVERS {
+            let limiter = SqliteQuotaLimiter::open(&path).unwrap_or_else(|err| panic!("{err}"));
+            let request = QuotaReservationRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                amount: AMOUNT,
+                limit: LIMIT,
+                window_start,
+                reset_at,
+            };
+            handles.push(tokio::spawn(
+                async move { limiter.reserve_quota(request).await },
+            ));
+        }
+
+        let mut accepted = 0u64;
+        for handle in handles {
+            let decision = handle
+                .await
+                .unwrap_or_else(|err| panic!("reservation task panicked: {err}"))
+                .unwrap_or_else(|err| panic!("reserve_quota failed: {err}"));
+            assert!(
+                decision.used <= LIMIT,
+                "observed used {} exceeding limit {LIMIT}",
+                decision.used
+            );
+            if decision.accepted {
+                accepted += 1;
+            }
+        }
+
+        assert_eq!(
+            accepted,
+            LIMIT / AMOUNT,
+            "expected exactly 3 reservations granted"
+        );
+
+        let reader = SqliteQuotaLimiter::open(&path).unwrap_or_else(|err| panic!("{err}"));
+        let used = reader
+            .lock()
+            .unwrap_or_else(|err| panic!("{err}"))
+            .query_row("SELECT used_events FROM quota_counters", [], |row| {
+                row.get::<_, i64>(0)
+            })
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            used,
+            (LIMIT / AMOUNT * AMOUNT) as i64,
+            "counter settled incorrectly"
+        );
+        assert!(used <= LIMIT as i64, "counter overcommitted the window");
     }
 
     fn sqlite_object_exists(connection: &Connection, object_type: &str, name: &str) -> bool {
