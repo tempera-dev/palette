@@ -848,14 +848,11 @@ impl TraceStore for SqliteTraceStore {
         // alone is NOT unique and a page boundary between two versions would
         // either skip or duplicate a row. A malformed cursor decodes to `None`
         // and is treated as "start from the beginning" rather than panicking.
-        let (cursor_start_time, cursor_span_id, cursor_seq) = match page
-            .cursor
-            .as_deref()
-            .and_then(decode_span_cursor)
-        {
-            Some((start_time, span_id, seq)) => (Some(start_time), Some(span_id), Some(seq)),
-            None => (None, None, None),
-        };
+        let (cursor_start_time, cursor_span_id, cursor_seq) =
+            match page.cursor.as_deref().and_then(decode_span_cursor) {
+                Some((start_time, span_id, seq)) => (Some(start_time), Some(span_id), Some(seq)),
+                None => (None, None, None),
+            };
         let fetch_limit = limit.saturating_add(1);
         let fetch_limit_i64 = i64::try_from(fetch_limit).unwrap_or(i64::MAX);
         let connection = self.lock()?;
@@ -968,7 +965,9 @@ fn encode_span_cursor(summary: &SpanSummary, seq: u64) -> String {
 /// workspace denies `unwrap`/`expect`, including in tests.
 fn decode_span_cursor(cursor: &str) -> Option<(String, String, i64)> {
     use base64::Engine as _;
-    let bytes = base64::engine::general_purpose::STANDARD.decode(cursor).ok()?;
+    let bytes = base64::engine::general_purpose::STANDARD
+        .decode(cursor)
+        .ok()?;
     let text = String::from_utf8(bytes).ok()?;
     // Split `seq` off the end first so a `|` inside a span id stays with the id.
     let (head, seq) = text.rsplit_once('|')?;

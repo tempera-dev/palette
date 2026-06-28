@@ -468,7 +468,8 @@ where
     // Seed four spans. `seq` drives `start_time` (base + seq seconds), so the
     // newest-first order is seq 4, 3, 2, 1.
     for seq in 1..=4u64 {
-        let trace = TraceId::new(format!("keyset-trace-{seq}")).unwrap_or_else(|err| panic!("{err}"));
+        let trace =
+            TraceId::new(format!("keyset-trace-{seq}")).unwrap_or_else(|err| panic!("{err}"));
         let ack = store
             .write_batch(fixture_project_batch(
                 &tenant,
@@ -636,11 +637,7 @@ where
     let mut cursor = None;
     for _ in 0..3 {
         let page = store
-            .query_spans(
-                tenant.clone(),
-                filter(),
-                PageRequest { limit: 1, cursor },
-            )
+            .query_spans(tenant.clone(), filter(), PageRequest { limit: 1, cursor })
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         for span in &page.items {

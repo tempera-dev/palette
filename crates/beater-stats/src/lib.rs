@@ -216,7 +216,10 @@ pub fn wilson_interval(successes: u64, trials: u64, z: f64) -> Result<Interval, 
         return Err(StatsError::SuccessesExceedTrials { successes, trials });
     }
     if !z.is_finite() || z <= 0.0 {
-        return Err(StatsError::InvalidParameter { name: "z", value: z });
+        return Err(StatsError::InvalidParameter {
+            name: "z",
+            value: z,
+        });
     }
 
     let n = trials as f64;
@@ -487,10 +490,15 @@ fn mcnemar_outcome(
     let p_value = mcnemar_exact_p(b, c)?;
     let n = total as f64;
     let diff = (b as f64 - c as f64) / n;
-    // Standard McNemar large-sample SE for the difference of paired proportions.
-    let discordant = b as f64 + c as f64;
-    let variance = (discordant - (b as f64 - c as f64).powi(2) / n) / (n * n);
-    let ci = if variance <= 0.0 {
+    let discordant = b + c;
+    // CI for the paired difference (b-c)/n. Only the discordant pairs are
+    // informative: b | (b+c) ~ Binomial(b+c, π), and the difference equals
+    // (m/n)·(2π − 1) with m = b+c. Build a *score* (Wilson) interval for π and map
+    // it through, rather than a Wald normal-approximation SE — the Wald interval is
+    // anti-conservative for small discordant counts and can disagree with the exact
+    // sign test (e.g. b=0, c=3, n=10 → Wald reports a regression while the exact
+    // p = 0.25 does not). The score interval stays consistent with the exact p.
+    let ci = if discordant == 0 {
         ConfidenceInterval {
             low: diff,
             high: diff,
@@ -498,10 +506,11 @@ fn mcnemar_outcome(
         }
     } else {
         let z = numerics::normal_quantile(1.0 - alpha / 2.0);
-        let half = z * variance.sqrt();
+        let pi = wilson_interval(b, discordant, z)?;
+        let scale = discordant as f64 / n;
         ConfidenceInterval {
-            low: diff - half,
-            high: diff + half,
+            low: scale * (2.0 * pi.lower - 1.0),
+            high: scale * (2.0 * pi.upper - 1.0),
             confidence: 1.0 - alpha,
         }
     };
@@ -561,9 +570,10 @@ fn erfc_approx(x: f64) -> f64 {
     let (x_abs, flip) = if x < 0.0 { (-x, true) } else { (x, false) };
 
     let t = 1.0 / (1.0 + 0.3275911 * x_abs);
-    let poly = t * (0.254_829_592
-        + t * (-0.284_496_736
-            + t * (1.421_413_741 + t * (-1.453_152_027 + t * 1.061_405_429))));
+    let poly = t
+        * (0.254_829_592
+            + t * (-0.284_496_736
+                + t * (1.421_413_741 + t * (-1.453_152_027 + t * 1.061_405_429))));
     let erfc = poly * (-x_abs * x_abs).exp();
 
     if flip {
@@ -585,7 +595,11 @@ impl Xorshift64 {
     fn new(seed: u64) -> Self {
         // Avoid the forbidden all-zero state
         Self {
-            state: if seed == 0 { 0xcafe_babe_dead_beef } else { seed },
+            state: if seed == 0 {
+                0xcafe_babe_dead_beef
+            } else {
+                seed
+            },
         }
     }
 
@@ -813,7 +827,10 @@ mod tests {
     fn wilson_error_bad_z() {
         assert_eq!(
             wilson_interval(5, 10, 0.0),
-            Err(StatsError::InvalidParameter { name: "z", value: 0.0 })
+            Err(StatsError::InvalidParameter {
+                name: "z",
+                value: 0.0
+            })
         );
         assert!(wilson_interval(5, 10, f64::NAN).is_err());
     }
@@ -937,8 +954,7 @@ mod tests {
         let ci2 = bootstrap_diff_ci(&a, &b, 0.95, 500, 99999).unwrap_or_else(|err| panic!("{err}"));
         // They should differ (probability of collision is negligible)
         assert!(
-            (ci1.lower - ci2.lower).abs() > 1e-12
-                || (ci1.upper - ci2.upper).abs() > 1e-12,
+            (ci1.lower - ci2.lower).abs() > 1e-12 || (ci1.upper - ci2.upper).abs() > 1e-12,
             "CIs suspiciously identical across seeds"
         );
     }
@@ -963,7 +979,11 @@ mod tests {
         let a = vec![0.5, 0.55, 0.45, 0.52, 0.48];
         let b = vec![0.9, 0.85, 0.88, 0.92, 0.95];
         let ci = bootstrap_diff_ci(&a, &b, 0.95, 5000, 7).unwrap_or_else(|err| panic!("{err}"));
-        assert!(ci.upper < 0.0, "upper = {} — expected entirely negative", ci.upper);
+        assert!(
+            ci.upper < 0.0,
+            "upper = {} — expected entirely negative",
+            ci.upper
+        );
         assert!(ci.estimate < 0.0);
     }
 
@@ -1027,7 +1047,8 @@ mod tests {
         // "test" (held-out) scores: lower
         let test: Vec<f64> = vec![0.60; 20];
 
-        let ci = bootstrap_diff_ci(&train, &test, 0.95, 2000, 123).unwrap_or_else(|err| panic!("{err}"));
+        let ci =
+            bootstrap_diff_ci(&train, &test, 0.95, 2000, 123).unwrap_or_else(|err| panic!("{err}"));
         // gap CI-low > 0 → overfitting signal should trip the guardrail
         assert!(
             ci.lower > 0.0,
