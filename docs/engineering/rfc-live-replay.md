@@ -19,6 +19,11 @@ This matches Beater's core constraints:
 - privacy and tenant isolation before hosted ingest
 - honest replay labels when cassettes are incomplete
 
+Replay-mode labels stay aligned with `ARCHITECTURE.md` §11:
+`deterministic_replay` is allowed only when provider, tool, memory, and clock
+cassettes are complete and hashes match; otherwise the live view labels the run
+as `forked_replay` or `simulation`.
+
 ## Primary-source research
 
 - MDN documents Server-Sent Events as a browser-native `EventSource` stream over
