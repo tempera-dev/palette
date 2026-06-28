@@ -34,6 +34,9 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Architecture status ledger has not drifted
+        run: cargo xtask check-arch-status
+
       - name: Semantic conventions in sync across all SDKs
         run: |
           cargo xtask regen-semconv

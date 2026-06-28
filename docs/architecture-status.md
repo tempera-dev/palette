@@ -13,6 +13,40 @@
 > between the doc's claimed status and reality are highlighted in the **Notes /
 > Discrepancy** column.
 
+## Maintaining this ledger (read before editing)
+
+This file is a hand-maintained ledger, but a deterministic drift guard keeps it
+honest. Run it locally before pushing:
+
+```bash
+cargo run -q -p xtask -- check-arch-status
+```
+
+It is wired into CI as a step in `.github/workflows/sdk-contract.yml`, so a
+ledger that drifts cannot merge. The checker (`crates/xtask/src/main.rs`,
+`check_arch_status`) enforces three rules against the table rows below:
+
+1. **Crate refs are real.** Every `beater-*` crate name mentioned must be a
+   workspace member in the root `Cargo.toml`. Renaming or removing a crate
+   without updating its row fails the check.
+2. **Shipped surfaces can't be called "planned".** A curated `MUST_BE_BUILT`
+   list pins surfaces that exist in code (each with a file + symbol proof, e.g.
+   MCP stdio → `beater_mcp::serve_stdio`). If the proof exists but the row is
+   not marked **built**, the check fails. When you ship something the ledger
+   should never regress on, add an entry there.
+3. **Planned rows are tracked.** Every row whose *Claimed status* is
+   `planned`/`deferred` must carry a GitHub issue/PR link (`#123` or a
+   `github.com/...` URL) **or** be listed in `PLANNED_WITHOUT_ISSUE_ALLOWLIST`
+   in the same file. Prefer adding a real `#issue` link over growing the
+   allowlist.
+
+**When you ship a feature:** flip its row's *Claimed status* to `built`, update
+the *Actual (verified)* cell with the proving path/symbol, and (if it should be
+permanently guarded) add it to `MUST_BE_BUILT`. **When you mark something
+planned:** link an issue or allowlist it. The checker is a checklist, not a
+semantic auditor — it can't tell you a "built" claim is wrong, only that a
+proven-built surface is mislabeled or a referenced crate is missing.
+
 ---
 
 ## 1. Storage
@@ -116,9 +150,9 @@
 
 | Component | ARCH § | Claimed status | Actual (verified) | Notes / Discrepancy |
 |---|---|---|---|---|
-| `beater-mcp` (spec-driven tool server, composite recipes) | §21 | streamable-HTTP built; stdio planned | **Partial** — `crates/beater-mcp/` in workspace | `POST /mcp` streamable-HTTP + OAuth 2.1 is built; `beaterd mcp --stdio` transport is not |
+| `beater-mcp` (spec-driven tool server, composite recipes) | §21 | streamable-HTTP + stdio built | **Built (transports)** — `crates/beater-mcp/` in workspace | Both `POST /mcp` streamable-HTTP + OAuth 2.1 and `beaterd mcp --stdio` (`beater_mcp::serve_stdio`) transports are built; composite RSI recipes remain planned |
 | MCP streamable-HTTP transport (`POST /GET /mcp`) | §21, §21.5b | built | **Built** | OAuth 2.1 authorization server wired |
-| MCP stdio transport (`beaterd mcp --stdio`) | §21, §21.5b | planned | **Planned** | Named gap in §21; required for Claude Code / Cursor local integration |
+| MCP stdio transport (`beaterd mcp --stdio`) | §21, §21.5b | built | **Built** — `bins/beaterd/src/main.rs` `Mcp { stdio }` subcommand calls `beater_mcp::serve_stdio`; smoke test `bins/beaterd/tests/mcp_stdio.rs` | Newline-delimited JSON-RPC over stdin/stdout; required for Claude Code / Cursor local integration |
 | RSI improvement tools (`propose`, `simulate`, `accept`, `gate_candidate`) | §21.1 | planned | **Planned** | RSI loop end-to-end is planned; `beater-mcp` crate exists but RSI recipes are not yet built |
 | RSI anti-overfit guardrail (§21.4 signals) | §21.4 | planned | **Planned** | Five signals (OOD probe, smoothness, EvalStop, etc.) all planned |
 | `beater-studio` (Agent Studio visual canvas) | §21.6b | DEFERRED (design-only) | **Deferred** — no directory | Ideas preserved; not a near-term product |
@@ -267,9 +301,9 @@ in a material way:
 
 6. **Overall readiness ≈ 33%.** ARCH §20.1 states this honestly. The built
    primitives are strong (OTLP, normalizer, WASI sandbox, OAuth 2.1, crypto, 7 SDKs,
-   MCP streamable-HTTP, contract-drift CI; `beater-stats` Phase 1 and the
+   MCP streamable-HTTP + stdio transports, contract-drift CI; `beater-stats` Phase 1 and the
    `beater-bench` skeleton have since landed). The largest unbuilt pillars are:
-   `beater-stats` wiring into eval/gates plus its sequential/FWER-FDR layers, MCP
-   stdio transport, product UI beyond the waterfall, enforced RBAC, hosted
+   `beater-stats` wiring into eval/gates plus its sequential/FWER-FDR layers,
+   product UI beyond the waterfall, enforced RBAC, hosted
    control-plane (identity/SSO), online eval scoring, alert delivery, the load
    benchmark gates, and the full RSI loop.
