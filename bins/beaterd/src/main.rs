@@ -30,7 +30,9 @@ use beater_schema::{
     ArtifactRef, AuthContext, CanonicalTraceBatch, RawEnvelope, RedactionClass, RunFilter,
     RunSummary, SpanFilter, SpanSummary, TraceView, WriteAck,
 };
-use beater_search::{SearchIndex, TantivySearchIndex, TraceIngestedSearchProcessor};
+use beater_search::{
+    SearchIndex, SearchIndexConfig, TantivySearchIndex, TraceIngestedSearchProcessor,
+};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{ArtifactStore, StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
@@ -167,6 +169,28 @@ struct Args {
     /// a self-hosted beaterd makes no outbound telemetry call unless this is set.
     #[arg(long, env = beater_core::SelfHostTelemetryConfig::ENV_VAR)]
     self_host_telemetry: bool,
+    /// Heap budget (bytes) for the Tantivy search index writer. Larger heaps
+    /// buffer more docs between segment flushes under sustained ingest (#247).
+    #[arg(
+        long,
+        env = "BEATER_SEARCH_WRITER_HEAP_BYTES",
+        default_value_t = 50_000_000
+    )]
+    search_writer_heap_bytes: usize,
+    /// Result-set size used when a search request omits an explicit limit (#247).
+    #[arg(long, env = "BEATER_SEARCH_DEFAULT_LIMIT", default_value_t = 50)]
+    search_default_limit: u32,
+    /// Hard upper bound the per-request search limit is clamped to (#247).
+    #[arg(long, env = "BEATER_SEARCH_MAX_LIMIT", default_value_t = 200)]
+    search_max_limit: u32,
+    /// Commit the search index after this many buffered docs accumulate, rather
+    /// than committing on every indexed trace (#247).
+    #[arg(long, env = "BEATER_SEARCH_COMMIT_MAX_DOCS", default_value_t = 1)]
+    search_commit_max_docs: u64,
+    /// Commit the search index after this many milliseconds elapse since the last
+    /// commit when docs are buffered (OR'd with --search-commit-max-docs) (#247).
+    #[arg(long, env = "BEATER_SEARCH_COMMIT_INTERVAL_MS", default_value_t = 0)]
+    search_commit_interval_ms: u64,
 }
 
 #[derive(Debug, Subcommand)]
@@ -255,8 +279,21 @@ async fn main() -> anyhow::Result<()> {
     };
     let quota_limiter = Arc::new(SqliteQuotaLimiter::open(store_paths.quota.clone())?);
     let metadata = Arc::new(SqliteMetadataStore::open(store_paths.metadata.clone())?);
-    let search = Arc::new(TantivySearchIndex::open_or_create(
+    // Fail fast with a descriptive error for impossible search-config values
+    // (heap=0, default>max, max=0) before opening the index (#247).
+    let search_config = build_search_index_config(&args)?;
+    eprintln!(
+        "search index config: writer_heap_bytes={} default_limit={} max_limit={} \
+         commit_max_docs={} commit_interval_ms={}",
+        search_config.writer_heap_bytes,
+        search_config.default_search_limit,
+        search_config.max_search_limit,
+        search_config.commit_max_docs,
+        args.search_commit_interval_ms,
+    );
+    let search = Arc::new(TantivySearchIndex::open_or_create_with_config(
         args.data_dir.join("search"),
+        search_config,
     )?);
     let archive = ParquetTraceArchive::new(args.data_dir.join("archive"))?;
     let datasets = Arc::new(SqliteDatasetStore::open(store_paths.datasets.clone())?);
@@ -496,6 +533,23 @@ fn build_ingest_policy(args: &Args) -> anyhow::Result<IngestPolicy> {
         .validate()
         .map_err(|reason| anyhow::anyhow!("invalid ingest policy configuration: {reason}"))?;
     Ok(policy)
+}
+
+/// Resolve the [`SearchIndexConfig`] from parsed CLI/env args and validate it
+/// (heap>0, default<=max, max>0), mirroring the #248 ingest-policy pattern so an
+/// operator gets a clear startup failure rather than a panic (#247).
+fn build_search_index_config(args: &Args) -> anyhow::Result<SearchIndexConfig> {
+    let config = SearchIndexConfig {
+        writer_heap_bytes: args.search_writer_heap_bytes,
+        default_search_limit: args.search_default_limit,
+        max_search_limit: args.search_max_limit,
+        commit_max_docs: args.search_commit_max_docs,
+        commit_interval: Duration::from_millis(args.search_commit_interval_ms),
+    };
+    config
+        .validate()
+        .map_err(|reason| anyhow::anyhow!("invalid search index configuration: {reason}"))?;
+    Ok(config)
 }
 
 #[derive(Clone, Debug, Default)]
@@ -1347,5 +1401,81 @@ mod ingest_policy_arg_tests {
     fn ingest_policy_rejects_zero_idle_timeout() {
         let args = Args::parse_from(["beaterd", "--trace-idle-timeout-seconds", "0"]);
         assert!(build_ingest_policy(&args).is_err());
+    }
+}
+
+#[cfg(test)]
+mod search_config_arg_tests {
+    use super::*;
+
+    // #247: with no search flags the resolved config matches the library defaults
+    // (heap 50_000_000, default 50, max 200) and validates cleanly.
+    #[test]
+    fn search_config_defaults_match_library_defaults() {
+        let args = Args::parse_from(["beaterd"]);
+        let config = build_search_index_config(&args).unwrap_or_else(|err| panic!("{err}"));
+        let defaults = SearchIndexConfig::default();
+        assert_eq!(config, defaults);
+        assert_eq!(config.writer_heap_bytes, 50_000_000);
+        assert_eq!(config.default_search_limit, 50);
+        assert_eq!(config.max_search_limit, 200);
+    }
+
+    // #247: each knob flows from CLI flag into the resolved config.
+    #[test]
+    fn search_config_overrides_flow_from_flags() {
+        let args = Args::parse_from([
+            "beaterd",
+            "--search-writer-heap-bytes",
+            "100000000",
+            "--search-default-limit",
+            "25",
+            "--search-max-limit",
+            "100",
+            "--search-commit-max-docs",
+            "500",
+            "--search-commit-interval-ms",
+            "250",
+        ]);
+        let config = build_search_index_config(&args).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(config.writer_heap_bytes, 100_000_000);
+        assert_eq!(config.default_search_limit, 25);
+        assert_eq!(config.max_search_limit, 100);
+        assert_eq!(config.commit_max_docs, 500);
+        assert_eq!(config.commit_interval, Duration::from_millis(250));
+    }
+
+    // #247: a zero writer heap is impossible and must fail at startup.
+    #[test]
+    fn search_config_rejects_zero_heap() {
+        let args = Args::parse_from(["beaterd", "--search-writer-heap-bytes", "0"]);
+        assert!(build_search_index_config(&args).is_err());
+    }
+
+    // #247: a default limit larger than the max limit is incoherent and rejected.
+    #[test]
+    fn search_config_rejects_default_over_max() {
+        let args = Args::parse_from([
+            "beaterd",
+            "--search-default-limit",
+            "300",
+            "--search-max-limit",
+            "100",
+        ]);
+        let err = build_search_index_config(&args)
+            .err()
+            .unwrap_or_else(|| panic!("default>max should be rejected"));
+        let msg = format!("{err}");
+        assert!(
+            msg.contains("default_search_limit") && msg.contains("max_search_limit"),
+            "error should name the offending limits, got: {msg}"
+        );
+    }
+
+    // #247: a zero max limit is impossible and must be rejected.
+    #[test]
+    fn search_config_rejects_zero_max_limit() {
+        let args = Args::parse_from(["beaterd", "--search-max-limit", "0"]);
+        assert!(build_search_index_config(&args).is_err());
     }
 }
