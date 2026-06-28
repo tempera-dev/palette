@@ -693,6 +693,34 @@ pub fn span_release_id(span: &CanonicalSpan) -> Option<String> {
     })
 }
 
+/// Computes the per-run cache-hit ratio from the canonical span forest.
+///
+/// Definition from ARCHITECTURE.md 27.6:
+/// sum(cache_read) / sum(prompt + cache_read), restricted to `llm.call` spans.
+/// Returns `None` when no LLM span contributes prompt or cache-read tokens.
+pub fn llm_cache_hit_ratio(spans: &[CanonicalSpan]) -> Option<f64> {
+    let (cache_read_tokens, prompt_plus_cache_read_tokens) = spans
+        .iter()
+        .filter(|span| span.kind == AgentSpanKind::LlmCall)
+        .filter_map(|span| span.tokens.as_ref())
+        .fold(
+            (0_u128, 0_u128),
+            |(cache_read_total, denominator), tokens| {
+                let cache_read = u128::from(tokens.cache_read);
+                (
+                    cache_read_total + cache_read,
+                    denominator + u128::from(tokens.input) + cache_read,
+                )
+            },
+        );
+
+    if prompt_plus_cache_read_tokens == 0 {
+        None
+    } else {
+        Some(cache_read_tokens as f64 / prompt_plus_cache_read_tokens as f64)
+    }
+}
+
 pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary> {
     let mut runs = Vec::<RunSummary>::new();
     // Index (project_id, trace_id) -> position in `runs` so each span resolves
@@ -1118,5 +1146,112 @@ mod tests {
         assert_eq!(filtered.len(), 1);
         assert_eq!(filtered[0].project_id, other_project);
         assert_eq!(filtered[0].trace_id, trace);
+    }
+
+    #[test]
+    fn llm_cache_hit_ratio_aggregates_only_llm_prompt_and_cache_tokens() {
+        let spans = vec![
+            canonical_span(
+                "cached-llm",
+                AgentSpanKind::LlmCall,
+                Some(TokenCounts {
+                    input: 70,
+                    output: 20,
+                    reasoning: 5,
+                    cache_read: 30,
+                }),
+            ),
+            canonical_span(
+                "mostly-cached-llm",
+                AgentSpanKind::LlmCall,
+                Some(TokenCounts {
+                    input: 0,
+                    output: 10,
+                    reasoning: 0,
+                    cache_read: 20,
+                }),
+            ),
+            canonical_span(
+                "tool-with-tokens",
+                AgentSpanKind::ToolCall,
+                Some(TokenCounts {
+                    input: 100,
+                    output: 100,
+                    reasoning: 0,
+                    cache_read: 100,
+                }),
+            ),
+            canonical_span("untokened-llm", AgentSpanKind::LlmCall, None),
+        ];
+
+        let ratio = llm_cache_hit_ratio(&spans).unwrap_or_else(|| panic!("ratio exists"));
+
+        assert!((ratio - (50.0 / 120.0)).abs() < f64::EPSILON);
+    }
+
+    #[test]
+    fn llm_cache_hit_ratio_is_none_without_a_prompt_or_cache_denominator() {
+        assert_eq!(llm_cache_hit_ratio(&[]), None);
+
+        let spans = vec![canonical_span(
+            "completion-only-llm",
+            AgentSpanKind::LlmCall,
+            Some(TokenCounts {
+                input: 0,
+                output: 7,
+                reasoning: 3,
+                cache_read: 0,
+            }),
+        )];
+
+        assert_eq!(llm_cache_hit_ratio(&spans), None);
+    }
+
+    fn canonical_span(
+        span_id: &str,
+        kind: AgentSpanKind,
+        tokens: Option<TokenCounts>,
+    ) -> CanonicalSpan {
+        let timestamp = Utc
+            .with_ymd_and_hms(2026, 1, 1, 0, 0, 0)
+            .single()
+            .unwrap_or_else(|| panic!("valid timestamp"));
+
+        CanonicalSpan {
+            schema_version: CANONICAL_SCHEMA_VERSION,
+            normalizer_version: "test".to_string(),
+            tenant_id: TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+            project_id: ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            environment_id: EnvironmentId::new("local").unwrap_or_else(|err| panic!("{err}")),
+            trace_id: TraceId::new("trace").unwrap_or_else(|err| panic!("{err}")),
+            span_id: SpanId::new(span_id).unwrap_or_else(|err| panic!("{err}")),
+            parent_span_id: None,
+            seq: 1,
+            kind,
+            name: span_id.to_string(),
+            status: SpanStatus::Ok,
+            start_time: timestamp,
+            end_time: Some(timestamp),
+            model: None,
+            cost: None,
+            tokens,
+            input_ref: None,
+            output_ref: None,
+            attributes: BTreeMap::new(),
+            unmapped_attrs: Value::Null,
+            raw_ref: artifact_ref(span_id),
+        }
+    }
+
+    fn artifact_ref(id: &str) -> ArtifactRef {
+        ArtifactRef {
+            artifact_id: ArtifactId::new(format!("artifact-{id}"))
+                .unwrap_or_else(|err| panic!("{err}")),
+            uri: format!("artifact://{id}"),
+            sha256: Sha256Hash::new(format!("sha256-{id}")).unwrap_or_else(|err| panic!("{err}")),
+            size_bytes: 0,
+            mime_type: "application/json".to_string(),
+            redaction_class: RedactionClass::Internal,
+        }
     }
 }
