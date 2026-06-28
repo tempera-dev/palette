@@ -84,7 +84,7 @@ Current behaviors declared in the manifest:
 | id | title |
 | --- | --- |
 | `retry-429-backoff` | Exponential back-off retry on HTTP 429 |
-| `auth-header-shape` | Authorization header carries Bearer token (RFC 6750) |
+| `auth-header-shape` | Auth token via `Authorization: Bearer` or `x-beater-api-key` header (both valid per contract) |
 | `error-envelope-mapping` | API error envelope deserializes to typed SDK errors |
 | `pagination-cursor` | List endpoints iterate via next_cursor keyset pagination |
 

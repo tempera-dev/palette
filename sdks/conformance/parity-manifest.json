@@ -32,16 +32,18 @@
     },
     {
       "id": "auth-header-shape",
-      "title": "Authorization header carries Bearer token (RFC 6750)",
-      "description": "Every authenticated request MUST include 'Authorization: Bearer <token>'. The SDK MUST NOT place the token in a query parameter or a custom header. Session cookies from the OAuth flow are not forwarded by the SDK layer — only the API key Bearer token.",
+      "title": "Auth token sent via Authorization: Bearer or x-beater-api-key header",
+      "description": "The Beater API accepts two explicit authentication header alternatives, both declared as OpenAPI parameters on every authenticated endpoint: (1) 'Authorization: Bearer <token>' (RFC 6750) and (2) 'x-beater-api-key: <token>' (API key header). The SDK MAY support either or both alternatives; it MUST NOT place the token in a query parameter. Session cookies from the OAuth flow are not forwarded by the SDK layer — only the API key token.",
       "references": [
         "crates/beater-auth/src/lib.rs",
+        "sdks/openapi/beater-api.json — 'authorization' and 'x-beater-api-key' header parameters",
         "ARCHITECTURE.md §5 auth / §20.7"
       ],
       "assertions": [
-        "Authorization header is present on every non-health request when a token is configured",
-        "header value matches the pattern: Authorization: Bearer <token>",
-        "no token leakage via query parameter (e.g. ?api_key=) or custom header (e.g. X-Api-Key)",
+        "at least one of 'Authorization: Bearer <token>' or 'x-beater-api-key: <token>' is present on every non-health request when a token is configured",
+        "when Authorization header is used, value matches the pattern: Authorization: Bearer <token>",
+        "when x-beater-api-key header is used, the token is placed directly in the header value (no 'Bearer' prefix)",
+        "no token leakage via query parameter (e.g. ?api_key=)",
         "missing token results in an unauthenticated request, not a client-side panic"
       ],
       "sdk_status": {
