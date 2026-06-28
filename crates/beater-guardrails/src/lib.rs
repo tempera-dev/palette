@@ -13,6 +13,7 @@
 //!   credit-card-ish numbers → [`GuardrailVerdict::Redact`] with byte ranges),
 //! - a [`PromptInjectionGuardrail`] (well-known jailbreak / override patterns →
 //!   [`GuardrailVerdict::Flag`] or [`GuardrailVerdict::Block`]),
+//! - [`apply_guardrail_redactions`] for deterministic in-process PII masking,
 //! - a [`CompositeGuardrail`] that runs several guardrails and returns the
 //!   highest-severity verdict (`Block` > `Redact` > `Flag` > `Allow`).
 //!
@@ -115,6 +116,75 @@ impl GuardrailOutcome {
             matched_spans: Vec::new(),
         }
     }
+}
+
+/// Default replacement marker for matched redaction spans.
+pub const REDACTION_REPLACEMENT: &str = "[REDACTED]";
+
+/// Apply matched redaction spans from `outcome` to `text`.
+///
+/// This helper enforces only [`GuardrailVerdict::Redact`]. Outcomes with
+/// [`GuardrailVerdict::Allow`], [`GuardrailVerdict::Flag`], or
+/// [`GuardrailVerdict::Block`] return the original text unchanged, preserving
+/// their non-redaction semantics for callers that handle those verdicts
+/// separately.
+///
+/// Valid spans are interpreted as half-open byte ranges. Spans whose starts are
+/// out of bounds, empty after end clamping, or not on UTF-8 character
+/// boundaries are ignored. Overlong ends are bounded to `text.len()`, then
+/// checked for character-boundary safety. Overlapping valid spans are merged so
+/// the output is deterministic regardless of input order.
+#[must_use]
+pub fn apply_guardrail_redactions(text: &str, outcome: &GuardrailOutcome) -> String {
+    if outcome.verdict != GuardrailVerdict::Redact {
+        return text.to_string();
+    }
+
+    let mut ranges: Vec<(usize, usize)> = outcome
+        .matched_spans
+        .iter()
+        .filter_map(|span| normalize_redaction_span(text, span))
+        .collect();
+    if ranges.is_empty() {
+        return text.to_string();
+    }
+
+    ranges.sort_unstable_by(|a, b| a.0.cmp(&b.0).then(a.1.cmp(&b.1)));
+
+    let mut merged: Vec<(usize, usize)> = Vec::with_capacity(ranges.len());
+    for (start, end) in ranges {
+        if let Some((_, current_end)) = merged.last_mut() {
+            if start < *current_end {
+                *current_end = (*current_end).max(end);
+                continue;
+            }
+        }
+        merged.push((start, end));
+    }
+
+    let mut redacted = String::with_capacity(text.len());
+    let mut cursor = 0;
+    for (start, end) in merged {
+        redacted.push_str(&text[cursor..start]);
+        redacted.push_str(REDACTION_REPLACEMENT);
+        cursor = end;
+    }
+    redacted.push_str(&text[cursor..]);
+    redacted
+}
+
+fn normalize_redaction_span(text: &str, span: &RedactionSpan) -> Option<(usize, usize)> {
+    if span.start > text.len() {
+        return None;
+    }
+
+    let start = span.start;
+    let end = span.end.min(text.len());
+    if start >= end || !text.is_char_boundary(start) || !text.is_char_boundary(end) {
+        return None;
+    }
+
+    Some((start, end))
 }
 
 /// Optional context handed to a guardrail. Currently minimal; kept as an
@@ -445,6 +515,77 @@ mod tests {
         assert_eq!(outcome.verdict, GuardrailVerdict::Redact);
         assert!(outcome.matched_spans.iter().any(|s| s.label == "ssn"));
         Ok(())
+    }
+
+    #[test]
+    fn redaction_helper_replaces_email_and_ssn() -> TestResult {
+        let guard = PiiGuardrail::new()?;
+        let text = "email a@b.com and ssn 123-45-6789";
+        let outcome = guard.check(text, &GuardrailContext::default())?;
+
+        assert_eq!(outcome.verdict, GuardrailVerdict::Redact);
+        assert_eq!(
+            apply_guardrail_redactions(text, &outcome),
+            "email [REDACTED] and ssn [REDACTED]"
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn redaction_helper_handles_overlapping_out_of_order_spans() {
+        let text = "abcdefghij";
+        let outcome = GuardrailOutcome {
+            verdict: GuardrailVerdict::Redact,
+            kind: GuardrailKind::Pii,
+            rationale: "test spans".to_string(),
+            matched_spans: vec![
+                RedactionSpan::new(5, 8, "late"),
+                RedactionSpan::new(0, 1, "first"),
+                RedactionSpan::new(2, 6, "early"),
+            ],
+        };
+
+        assert_eq!(
+            apply_guardrail_redactions(text, &outcome),
+            "[REDACTED]b[REDACTED]ij"
+        );
+    }
+
+    #[test]
+    fn redaction_helper_returns_original_for_non_redaction_verdicts() {
+        let text = "email a@b.com";
+        for verdict in [
+            GuardrailVerdict::Allow,
+            GuardrailVerdict::Flag,
+            GuardrailVerdict::Block,
+        ] {
+            let outcome = GuardrailOutcome {
+                verdict,
+                kind: GuardrailKind::Pii,
+                rationale: "non-redaction verdict".to_string(),
+                matched_spans: vec![RedactionSpan::new(6, 13, "email")],
+            };
+            assert_eq!(apply_guardrail_redactions(text, &outcome), text);
+        }
+    }
+
+    #[test]
+    fn redaction_helper_bounds_or_ignores_invalid_byte_spans() {
+        let text = "aébc";
+        let outcome = GuardrailOutcome {
+            verdict: GuardrailVerdict::Redact,
+            kind: GuardrailKind::Pii,
+            rationale: "invalid byte spans".to_string(),
+            matched_spans: vec![
+                // Ignored: start is inside the two-byte 'é' code point.
+                RedactionSpan::new(2, 4, "mid_char"),
+                // Bounded to text.len(), then applied because both boundaries
+                // are valid UTF-8 boundaries.
+                RedactionSpan::new(3, 99, "overlong_end"),
+            ],
+        };
+
+        assert_eq!(apply_guardrail_redactions(text, &outcome), "aé[REDACTED]");
     }
 
     #[test]
