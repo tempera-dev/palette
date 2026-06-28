@@ -12,6 +12,7 @@ beater-archive = { path = "../beater-archive" }
 beater-audit = { path = "../beater-audit" }
 beater-auth = { path = "../beater-auth" }
 beater-calibration = { path = "../beater-calibration" }
+beater-composio = { path = "../beater-composio" }
 beater-core = { path = "../beater-core" }
 beater-datasets = { path = "../beater-datasets" }
 beater-eval = { path = "../beater-eval" }

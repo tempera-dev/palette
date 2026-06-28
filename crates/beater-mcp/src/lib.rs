@@ -961,6 +961,8 @@ mod tests {
     fn output_schemas_are_object_rooted_or_absent() {
         let array_ops = [
             "listAuditEvents",
+            "listConnectors",
+            "listConnectorTools",
             "listJudgeLedger",
             "listProviderSecrets",
             "listReviewTasks",

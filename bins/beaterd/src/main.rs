@@ -382,6 +382,21 @@ async fn main() -> anyhow::Result<()> {
     if let Some(api_keys) = api_key_store.clone() {
         state = state.require_auth(api_keys);
     }
+    // Enable Composio-backed connectors when `COMPOSIO_API_KEY` is set. Left
+    // unset, the `/v1/connectors` endpoints report "not configured" (501); the
+    // rest of the server is unaffected. This drives the agent `tool_set` lever:
+    // discovery, managed-OAuth connect, and tool execution, all auto-exposed as
+    // MCP tools via the spec→MCP bridge.
+    match beater_composio::HttpComposioClient::from_env() {
+        Some(client) => {
+            eprintln!("composio connectors enabled");
+            state = state.with_connectors(Arc::new(client));
+        }
+        None => eprintln!(
+            "composio connectors disabled ({} unset)",
+            beater_composio::API_KEY_ENV
+        ),
+    }
     // Serve the MCP endpoint (`/mcp`) alongside the HTTP API, sharing the same
     // `ApiState` and auth. The MCP tool catalog is derived from the OpenAPI spec
     // and dispatches through the real router, so it cannot drift from the API.

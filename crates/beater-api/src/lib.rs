@@ -13,6 +13,10 @@ use beater_auth::{ApiKeyStore, CreateApiKeyRequest, RevokedApiKey};
 use beater_calibration::{
     calibrate_eval_report, CalibrationPolicy, CalibrationReport, CalibrationStore,
 };
+use beater_composio::{
+    skill, ComposioClient, ComposioError, ConnectionLink, ConnectionStatus, ConnectorTool,
+    ToolExecution, Toolkit,
+};
 use beater_core::{
     AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId, DatasetVersionId,
     EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page, PageRequest, ProjectId,
@@ -102,6 +106,10 @@ pub struct ApiState {
     auth_mode: AuthMode,
     api_keys: Option<Arc<dyn ApiKeyStore>>,
     provider_secrets: Option<Arc<dyn ProviderSecretStore>>,
+    /// Composio-backed third-party tool provider. When set, the `/v1/connectors`
+    /// endpoints broker managed-OAuth connections and tool execution; when
+    /// `None` they report "not configured" (501).
+    connectors: Option<Arc<dyn ComposioClient>>,
     judge_broker: Option<Arc<dyn JudgeBroker>>,
     judge_ledger: Option<Arc<dyn JudgeLedgerStore>>,
     usage: Option<Arc<dyn UsageLedgerStore>>,
@@ -136,6 +144,7 @@ impl ApiState {
             auth_mode: AuthMode::Disabled,
             api_keys: None,
             provider_secrets: None,
+            connectors: None,
             judge_broker: None,
             judge_ledger: None,
             usage: None,
@@ -242,6 +251,14 @@ impl ApiState {
         self
     }
 
+    /// Wire a Composio-backed connector provider so the `/v1/connectors`
+    /// endpoints (and, via the spec→MCP bridge, the `invokeConnectorTool` MCP
+    /// tool) can discover, connect, and execute third-party tools.
+    pub fn with_connectors(mut self, connectors: Arc<dyn ComposioClient>) -> Self {
+        self.connectors = Some(connectors);
+        self
+    }
+
     pub fn with_human_reviews(mut self, human_reviews: Arc<dyn HumanReviewStore>) -> Self {
         self.human_reviews = Some(human_reviews);
         self
@@ -273,7 +290,7 @@ impl ApiState {
 /// spec; the `openapi_coverage` integration test enforces this both ways.
 ///
 /// Update this when adding or removing a `/v1` route in [`router`].
-pub const V1_ROUTE_COUNT: usize = 41;
+pub const V1_ROUTE_COUNT: usize = 47;
 
 /// See [`V1_ROUTE_COUNT`].
 pub fn v1_route_count() -> usize {
@@ -300,6 +317,30 @@ pub fn router(state: ApiState) -> Router {
         .route(
             "/v1/provider-secrets/:tenant_id/:project_id/:provider_secret_id/revoke",
             post(revoke_provider_secret_route),
+        )
+        .route(
+            "/v1/connectors/:tenant_id/:project_id",
+            get(list_connectors_route),
+        )
+        .route(
+            "/v1/connectors/:tenant_id/:project_id/tools",
+            get(list_connector_tools_route),
+        )
+        .route(
+            "/v1/connectors/:tenant_id/:project_id/skills",
+            get(connector_skills_route),
+        )
+        .route(
+            "/v1/connectors/:tenant_id/:project_id/connect",
+            post(connect_connector_route),
+        )
+        .route(
+            "/v1/connectors/:tenant_id/:project_id/status",
+            get(connector_status_route),
+        )
+        .route(
+            "/v1/connectors/:tenant_id/:project_id/invoke",
+            post(invoke_connector_tool_route),
         )
         .route(
             "/v1/judge/:tenant_id/:project_id/evaluate",
@@ -737,6 +778,364 @@ async fn revoke_provider_secret_route(
             ))
         })?;
     Ok(Json(revoked))
+}
+
+// ---------------------------------------------------------------------------
+// Connectors (Composio-backed third-party tools)
+//
+// These broker managed-OAuth connections and tool execution for an agent's
+// `tool_set` lever. Every operation here auto-becomes an MCP tool (the MCP
+// catalog is derived from the `/v1` surface), so an RSI agent session reaches
+// Composio tools through the same path it already uses for Beater's own tools.
+// The Composio "entity" is keyed per project: `beater:{tenant}:{project}`, so
+// connections are isolated per project under one shared Composio API key.
+// ---------------------------------------------------------------------------
+
+/// Maximum apps returned from the catalog listing.
+const CONNECTOR_CATALOG_LIMIT: u32 = 100;
+/// Maximum tools returned for a single toolkit.
+const CONNECTOR_TOOL_LIMIT: u32 = 100;
+
+/// Composio entity id Beater uses for a project's connections.
+fn connector_user_id(tenant_id: &TenantId, project_id: &ProjectId) -> String {
+    format!("beater:{}:{}", tenant_id.as_str(), project_id.as_str())
+}
+
+fn connector_client(state: &ApiState) -> Result<Arc<dyn ComposioClient>, ApiError> {
+    require(
+        &state.connectors,
+        "connector provider (set COMPOSIO_API_KEY)",
+    )
+}
+
+/// Map a Composio client error onto an API error. Upstream 4xx (bad arguments)
+/// surface as 400; auth/transport/decode failures are our configuration problem
+/// and surface as 500.
+fn map_composio_err(err: ComposioError) -> ApiError {
+    match err {
+        ComposioError::Api { status, message }
+            if (400..500).contains(&status) && status != 401 && status != 403 =>
+        {
+            ApiError::bad_request(format!("composio: {message}"))
+        }
+        other => ApiError::internal(format!("composio: {other}")),
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, ToSchema)]
+struct ConnectConnectorRequest {
+    /// Toolkit slug to connect (e.g. `github`, `gmail`, `slack`).
+    toolkit: String,
+}
+
+#[derive(Clone, Debug, Deserialize, ToSchema)]
+struct InvokeConnectorRequest {
+    /// Tool slug to execute (e.g. `GITHUB_CREATE_AN_ISSUE`).
+    tool: String,
+    /// Arguments object matching the tool's input schema.
+    #[serde(default)]
+    #[schema(value_type = Object)]
+    arguments: serde_json::Value,
+}
+
+#[derive(Clone, Debug, Deserialize, IntoParams)]
+struct ToolkitQuery {
+    /// Toolkit slug to scope the request to.
+    toolkit: String,
+}
+
+#[derive(Clone, Debug, Deserialize, IntoParams)]
+struct CatalogQuery {
+    /// Maximum number of apps to return (page size).
+    limit: Option<u32>,
+}
+
+#[derive(Clone, Debug, Deserialize, IntoParams)]
+struct ToolListQuery {
+    /// Toolkit slug to list tools for.
+    toolkit: String,
+    /// Maximum number of tools to return (page size).
+    limit: Option<u32>,
+}
+
+/// Generated prompting scaffold ("skills.md") for a toolkit's tools.
+#[derive(Clone, Debug, Serialize, ToSchema)]
+struct ConnectorSkillsResponse {
+    /// Toolkit the skills document covers.
+    toolkit: String,
+    /// Markdown document: one skill card per tool, ready to splice into an
+    /// agent's system prompt.
+    skills: String,
+}
+
+#[utoipa::path(
+    get,
+    path = "/v1/connectors/{tenant_id}/{project_id}",
+    tag = "connectors",
+    operation_id = "listConnectors",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        CatalogQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List connectable third-party apps (catalog)", body = Vec < Toolkit >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 501, description = "Connector provider not configured", body = ErrorResponse),
+    )
+)]
+async fn list_connectors_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Query(query): Query<CatalogQuery>,
+) -> Result<Json<Vec<Toolkit>>, ApiError> {
+    let connectors = connector_client(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(
+        &state,
+        &headers,
+        &tenant_id,
+        &project_id,
+        ApiScope::TraceRead,
+    )
+    .await?;
+    let limit = query.limit.unwrap_or(CONNECTOR_CATALOG_LIMIT);
+    let toolkits = connectors
+        .list_toolkits(limit)
+        .await
+        .map_err(map_composio_err)?;
+    Ok(Json(toolkits))
+}
+
+#[utoipa::path(
+    get,
+    path = "/v1/connectors/{tenant_id}/{project_id}/tools",
+    tag = "connectors",
+    operation_id = "listConnectorTools",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ToolListQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "List a toolkit's executable tools with input schemas", body = Vec < ConnectorTool >),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 501, description = "Connector provider not configured", body = ErrorResponse),
+    )
+)]
+async fn list_connector_tools_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Query(query): Query<ToolListQuery>,
+) -> Result<Json<Vec<ConnectorTool>>, ApiError> {
+    let connectors = connector_client(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(
+        &state,
+        &headers,
+        &tenant_id,
+        &project_id,
+        ApiScope::TraceRead,
+    )
+    .await?;
+    let limit = query.limit.unwrap_or(CONNECTOR_TOOL_LIMIT);
+    let tools = connectors
+        .list_tools(&query.toolkit, limit)
+        .await
+        .map_err(map_composio_err)?;
+    Ok(Json(tools))
+}
+
+#[utoipa::path(
+    get,
+    path = "/v1/connectors/{tenant_id}/{project_id}/skills",
+    tag = "connectors",
+    operation_id = "getConnectorSkills",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ToolkitQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Generated prompting scaffold (skill cards) for a toolkit", body = ConnectorSkillsResponse),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 501, description = "Connector provider not configured", body = ErrorResponse),
+    )
+)]
+async fn connector_skills_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Query(query): Query<ToolkitQuery>,
+) -> Result<Json<ConnectorSkillsResponse>, ApiError> {
+    let connectors = connector_client(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(
+        &state,
+        &headers,
+        &tenant_id,
+        &project_id,
+        ApiScope::TraceRead,
+    )
+    .await?;
+    let tools = connectors
+        .list_tools(&query.toolkit, CONNECTOR_TOOL_LIMIT)
+        .await
+        .map_err(map_composio_err)?;
+    Ok(Json(ConnectorSkillsResponse {
+        toolkit: query.toolkit,
+        skills: skill::skills_doc(&tools),
+    }))
+}
+
+#[utoipa::path(
+    post,
+    path = "/v1/connectors/{tenant_id}/{project_id}/connect",
+    tag = "connectors",
+    operation_id = "connectConnector",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = ConnectConnectorRequest,
+    responses(
+        (status = 200, description = "One-time login link to authorize the app", body = ConnectionLink),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 501, description = "Connector provider not configured", body = ErrorResponse),
+    )
+)]
+async fn connect_connector_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Json(request): Json<ConnectConnectorRequest>,
+) -> Result<Json<ConnectionLink>, ApiError> {
+    let connectors = connector_client(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
+    let user_id = connector_user_id(&tenant_id, &project_id);
+    let link = connectors
+        .connect(&request.toolkit, &user_id)
+        .await
+        .map_err(map_composio_err)?;
+    Ok(Json(link))
+}
+
+#[utoipa::path(
+    get,
+    path = "/v1/connectors/{tenant_id}/{project_id}/status",
+    tag = "connectors",
+    operation_id = "connectorStatus",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ToolkitQuery,
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Connection status of a toolkit for this project", body = ConnectionStatus),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 501, description = "Connector provider not configured", body = ErrorResponse),
+    )
+)]
+async fn connector_status_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Query(query): Query<ToolkitQuery>,
+) -> Result<Json<ConnectionStatus>, ApiError> {
+    let connectors = connector_client(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(
+        &state,
+        &headers,
+        &tenant_id,
+        &project_id,
+        ApiScope::TraceRead,
+    )
+    .await?;
+    let user_id = connector_user_id(&tenant_id, &project_id);
+    let status = connectors
+        .connection_status(&query.toolkit, &user_id)
+        .await
+        .map_err(map_composio_err)?;
+    Ok(Json(status))
+}
+
+#[utoipa::path(
+    post,
+    path = "/v1/connectors/{tenant_id}/{project_id}/invoke",
+    tag = "connectors",
+    operation_id = "invokeConnectorTool",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = InvokeConnectorRequest,
+    responses(
+        (status = 200, description = "Execute a connector tool and return its result envelope", body = ToolExecution),
+        (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 501, description = "Connector provider not configured", body = ErrorResponse),
+    )
+)]
+async fn invoke_connector_tool_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Json(request): Json<InvokeConnectorRequest>,
+) -> Result<Json<ToolExecution>, ApiError> {
+    let connectors = connector_client(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
+    let user_id = connector_user_id(&tenant_id, &project_id);
+    let execution = connectors
+        .execute(&request.tool, &user_id, request.arguments)
+        .await
+        .map_err(map_composio_err)?;
+    Ok(Json(execution))
 }
 
 #[utoipa::path(

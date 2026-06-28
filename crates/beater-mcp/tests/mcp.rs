@@ -188,8 +188,8 @@ fn tool_set_equals_spec_v1_operations() {
         !tools.contains("help"),
         "the synthetic help tool must not appear in spec-coverage tool_names()"
     );
-    // Sanity: the spec covers 41 /v1 operations.
-    assert_eq!(tools.len(), 41, "expected 41 tools, got {}", tools.len());
+    // Sanity: the spec covers 47 /v1 operations.
+    assert_eq!(tools.len(), 47, "expected 47 tools, got {}", tools.len());
 }
 
 #[tokio::test]
@@ -220,8 +220,8 @@ async fn initialize_and_tools_list_over_mcp_route() {
     .await;
     assert_eq!(status, StatusCode::OK);
     let tools = listed["result"]["tools"].as_array().expect("tools array");
-    // 41 spec-derived tools + the synthetic `help` meta tool.
-    assert_eq!(tools.len(), 42);
+    // 47 spec-derived tools + the synthetic `help` meta tool.
+    assert_eq!(tools.len(), 48);
     // Each tool has the required MCP shape.
     for tool in tools {
         assert!(tool["name"].is_string());
@@ -398,13 +398,15 @@ async fn tools_list_exposes_output_schema_and_annotations() {
     let app = beater_mcp::router(state);
     let tools = list_tools(&app).await;
     let methods = spec_op_methods();
-    // 41 spec-derived tools + the synthetic `help` meta tool.
-    assert_eq!(tools.len(), 42);
+    // 47 spec-derived tools + the synthetic `help` meta tool.
+    assert_eq!(tools.len(), 48);
 
-    // The four list endpoints return top-level JSON arrays, which MCP forbids as
+    // These list endpoints return top-level JSON arrays, which MCP forbids as
     // structured output, so they advertise no outputSchema.
     let array_ops = [
         "listAuditEvents",
+        "listConnectors",
+        "listConnectorTools",
         "listJudgeLedger",
         "listProviderSecrets",
         "listReviewTasks",
@@ -692,11 +694,11 @@ async fn help_overview_lists_every_spec_tool() {
     assert!(structured.is_object(), "structuredContent is an object");
     assert_eq!(structured["server"]["name"], "beater-mcp");
     assert_eq!(
-        structured["toolCount"], 41,
-        "overview covers all 41 spec tools"
+        structured["toolCount"], 47,
+        "overview covers all 47 spec tools"
     );
     let listed = structured["tools"].as_array().expect("tools array");
-    assert_eq!(listed.len(), 41);
+    assert_eq!(listed.len(), 47);
     // Each entry is a compact {name, method, description} summary.
     for entry in listed {
         assert!(entry["name"].is_string());
