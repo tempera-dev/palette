@@ -26,6 +26,15 @@ CREATE TABLE IF NOT EXISTS spans (
   name TEXT NOT NULL,
   start_time TIMESTAMPTZ NOT NULL,
   end_time TIMESTAMPTZ,
+  -- Per-span roll-up columns derived from the canonical span at write time so
+  -- query_runs aggregates run summaries with a backend GROUP BY instead of
+  -- materializing every span (ARCHITECTURE.md §8.1). The full canonical object
+  -- still lives in span_json.
+  model_provider TEXT,
+  model_name TEXT,
+  cost_currency TEXT,
+  cost_micros BIGINT,
+  release_id TEXT,
   span_json JSONB NOT NULL,
   PRIMARY KEY (tenant_id, project_id, trace_id, span_id, seq),
   CONSTRAINT spans_kind_known CHECK (
@@ -54,6 +63,15 @@ CREATE INDEX IF NOT EXISTS idx_spans_tenant_trace
 
 CREATE INDEX IF NOT EXISTS idx_spans_tenant_kind_status
   ON spans (tenant_id, kind, status, start_time);
+
+-- Backfill the roll-up columns on databases created before they were added.
+-- CREATE TABLE IF NOT EXISTS above skips an existing table, so these run as
+-- separate idempotent statements.
+ALTER TABLE spans ADD COLUMN IF NOT EXISTS model_provider TEXT;
+ALTER TABLE spans ADD COLUMN IF NOT EXISTS model_name TEXT;
+ALTER TABLE spans ADD COLUMN IF NOT EXISTS cost_currency TEXT;
+ALTER TABLE spans ADD COLUMN IF NOT EXISTS cost_micros BIGINT;
+ALTER TABLE spans ADD COLUMN IF NOT EXISTS release_id TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_spans_scope_start
   ON spans (tenant_id, project_id, environment_id, start_time DESC);
