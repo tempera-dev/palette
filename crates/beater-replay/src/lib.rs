@@ -340,6 +340,16 @@ pub struct ReplayRunReport {
     pub created_at: Timestamp,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DeterministicReplayFidelityReport {
+    pub tenant_id: TenantId,
+    pub project_id: ProjectId,
+    pub trace_id: TraceId,
+    pub iterations: usize,
+    pub event_keys: Vec<String>,
+    pub verified_at: Timestamp,
+}
+
 pub fn execute_replay(
     cassette: &ReplayCassette,
     events: &[ReplayEvent],
@@ -411,6 +421,77 @@ pub fn execute_replay(
         live_steps_required,
         created_at: Utc::now(),
     })
+}
+
+/// Run the same replay scenario repeatedly and verify deterministic replay is
+/// bit-stable at the event-key layer.
+///
+/// This is the cheap E4 audit from ARCHITECTURE.md §27.2: no provider calls, no
+/// forked steps, and no comparison of volatile run metadata. The stable surface is
+/// the ordered `(seq, kind, request_hash)` key sequence produced by
+/// [`execute_replay`].
+pub fn audit_deterministic_replay_fidelity(
+    cassette: &ReplayCassette,
+    events: &[ReplayEvent],
+    scenario: ReplayScenario,
+    iterations: usize,
+) -> anyhow::Result<DeterministicReplayFidelityReport> {
+    if iterations == 0 {
+        return Err(anyhow!(
+            "deterministic replay fidelity audit requires at least one iteration"
+        ));
+    }
+
+    let tenant_id = scenario.tenant_id.clone();
+    let project_id = scenario.project_id.clone();
+    let trace_id = scenario.trace_id.clone();
+    let mut expected_keys = None;
+
+    for iteration in 1..=iterations {
+        let report = execute_replay(cassette, events, scenario.clone())
+            .with_context(|| format!("run deterministic replay audit iteration {iteration}"))?;
+        if report.plan.mode != ReplayMode::DeterministicReplay {
+            return Err(anyhow!(
+                "deterministic replay fidelity audit requires deterministic_replay mode, got {:?}",
+                report.plan.mode
+            ));
+        }
+        if !report.live_steps_required.is_empty() {
+            return Err(anyhow!(
+                "deterministic replay fidelity audit produced {} live step(s) on iteration {iteration}",
+                report.live_steps_required.len()
+            ));
+        }
+
+        let event_keys = replayed_step_event_keys(&report.replayed_steps);
+        if let Some(expected) = &expected_keys {
+            if &event_keys != expected {
+                return Err(anyhow!(
+                    "deterministic replay event keys drifted on iteration {iteration}: expected {:?}, got {:?}",
+                    expected,
+                    event_keys
+                ));
+            }
+        } else {
+            expected_keys = Some(event_keys);
+        }
+    }
+
+    Ok(DeterministicReplayFidelityReport {
+        tenant_id,
+        project_id,
+        trace_id,
+        iterations,
+        event_keys: expected_keys.unwrap_or_default(),
+        verified_at: Utc::now(),
+    })
+}
+
+fn replayed_step_event_keys(steps: &[ReplayedStep]) -> Vec<String> {
+    steps
+        .iter()
+        .map(|step| event_key(step.seq, &step.kind, &step.request_hash))
+        .collect()
 }
 
 pub fn cassette_from_events(
@@ -1155,6 +1236,102 @@ mod tests {
         assert!(error
             .to_string()
             .contains("deterministic replay missing event"));
+    }
+
+    #[test]
+    fn deterministic_replay_fidelity_audit_pins_event_keys_across_iterations() {
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let trace = TraceId::new("trace").unwrap_or_else(|err| panic!("{err}"));
+        let events = complete_events(&tenant, &project, &trace);
+        let cassette = cassette_from_events(tenant.clone(), trace.clone(), &events);
+        let scenario = ReplayScenario {
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            trace_id: trace.clone(),
+            steps: events
+                .iter()
+                .map(|event| ReplayStep {
+                    seq: event.seq,
+                    kind: event.kind.clone(),
+                    request: event.request.clone(),
+                })
+                .collect(),
+            fork_after_seq: None,
+        };
+
+        let report = audit_deterministic_replay_fidelity(&cassette, &events, scenario, 3)
+            .unwrap_or_else(|err| panic!("{err}"));
+        let expected_keys = events
+            .iter()
+            .map(|event| event_key(event.seq, &event.kind, &event.request_hash))
+            .collect::<Vec<_>>();
+
+        assert_eq!(report.tenant_id, tenant);
+        assert_eq!(report.project_id, project);
+        assert_eq!(report.trace_id, trace);
+        assert_eq!(report.iterations, 3);
+        assert_eq!(report.event_keys, expected_keys);
+    }
+
+    #[test]
+    fn deterministic_replay_fidelity_audit_requires_iterations() {
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let trace = TraceId::new("trace").unwrap_or_else(|err| panic!("{err}"));
+        let events = complete_events(&tenant, &project, &trace);
+        let cassette = cassette_from_events(tenant.clone(), trace.clone(), &events);
+
+        let error = audit_deterministic_replay_fidelity(
+            &cassette,
+            &events,
+            ReplayScenario {
+                tenant_id: tenant,
+                project_id: project,
+                trace_id: trace,
+                steps: Vec::new(),
+                fork_after_seq: None,
+            },
+            0,
+        )
+        .err()
+        .unwrap_or_else(|| panic!("zero-iteration audit must fail"));
+
+        assert!(error.to_string().contains("at least one iteration"));
+    }
+
+    #[test]
+    fn deterministic_replay_fidelity_audit_rejects_forked_replay() {
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let trace = TraceId::new("trace").unwrap_or_else(|err| panic!("{err}"));
+        let events = complete_events(&tenant, &project, &trace);
+        let cassette = cassette_from_events(tenant.clone(), trace.clone(), &events);
+        let error = audit_deterministic_replay_fidelity(
+            &cassette,
+            &events,
+            ReplayScenario {
+                tenant_id: tenant,
+                project_id: project,
+                trace_id: trace,
+                steps: events
+                    .iter()
+                    .map(|event| ReplayStep {
+                        seq: event.seq,
+                        kind: event.kind.clone(),
+                        request: event.request.clone(),
+                    })
+                    .collect(),
+                fork_after_seq: Some(3),
+            },
+            2,
+        )
+        .err()
+        .unwrap_or_else(|| panic!("forked replay audit must fail"));
+
+        assert!(error
+            .to_string()
+            .contains("requires deterministic_replay mode"));
     }
 
     #[test]
