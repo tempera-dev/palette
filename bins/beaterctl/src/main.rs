@@ -1,3 +1,5 @@
+mod fixtures;
+
 use anyhow::Context;
 use beater_alerts::{
     decide_trace_sampling, AlertEngine, AlertInput, AlertLinks, AlertPolicy, AlertSeverity,
@@ -37,14 +39,13 @@ use beater_human::{
     HumanReviewStore, ReviewVerdict, SqliteHumanReviewStore, SubmitAnnotationRequest,
 };
 use beater_ingest::{
-    anonymous_auth_context, smoke_trace, IngestPolicy, IngestService, NativeIngestRequest,
-    TRACE_WRITE_BATCH_KIND,
+    smoke_trace, IngestPolicy, IngestService, NativeIngestRequest, TRACE_WRITE_BATCH_KIND,
 };
 use beater_judge::{
     JudgeBrokerRequest, JudgeBrokerService, JudgeLedgerStore, KeywordJudgeProvider,
     SqliteJudgeLedger,
 };
-use beater_otlp::{encode_export_trace_request, export_to_raw_trace_ingest_request};
+use beater_otlp::encode_export_trace_request;
 use beater_replay::{
     execute_replay, ReplayEvent, ReplayEventKind, ReplayScenario, ReplayStep, SqliteReplayStore,
 };
@@ -67,11 +68,6 @@ use chrono::Utc;
 use clap::{Parser, Subcommand, ValueEnum};
 use opentelemetry_proto::tonic::collector::trace::v1::{
     trace_service_client::TraceServiceClient, ExportTraceServiceRequest,
-};
-use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, InstrumentationScope, KeyValue};
-use opentelemetry_proto::tonic::resource::v1::Resource;
-use opentelemetry_proto::tonic::trace::v1::{
-    span, status, ResourceSpans, ScopeSpans, Span, Status,
 };
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
@@ -797,42 +793,14 @@ async fn main() -> anyhow::Result<()> {
             );
         }
         Command::EvalFixture { data_dir } => {
-            let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
-            let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
-            let datasets = SqliteDatasetStore::open(data_dir.join("datasets.sqlite"))?;
-            let bus = local_bus(&data_dir)?;
-            let service =
-                IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
-            let _outcome = smoke_trace(&service).await.context("run smoke trace")?;
-            let tenant = TenantId::new("demo")?;
-            let project = ProjectId::new("demo")?;
-            let trace_id = TraceId::new("smoke-trace")?;
-            let span_id = SpanId::new("smoke-root")?;
-            let trace = traces
-                .get_trace(tenant.clone(), trace_id)
-                .await
-                .context("read smoke trace")?;
-            let dataset = datasets
-                .create_dataset(tenant.clone(), project.clone(), "smoke-fixture".to_string())
-                .await
-                .context("create smoke dataset")?;
-            let case = promote_trace_span_to_case(
-                tenant.clone(),
-                project.clone(),
-                dataset.dataset_id.clone(),
-                &trace,
-                Some(span_id),
-                Some(json!({ "answer": "world" })),
+            let setup = fixtures::smoke_dataset_version(
+                &data_dir,
+                "smoke-fixture",
+                json!({ "answer": "world" }),
             )
-            .context("promote smoke trace to dataset")?;
-            datasets
-                .put_case(case)
-                .await
-                .context("store smoke dataset case")?;
-            let version = datasets
-                .create_version(tenant.clone(), project.clone(), dataset.dataset_id, None)
-                .await
-                .context("create smoke dataset version")?;
+            .await?;
+            let datasets = setup.datasets;
+            let version = setup.version;
             let report = evaluate_dataset_version(
                 &version,
                 DatasetEvalSpec {
@@ -856,9 +824,16 @@ async fn main() -> anyhow::Result<()> {
             println!("{}", serde_json::to_string_pretty(&report)?);
         }
         Command::JudgeDatasetFixture { data_dir } => {
-            let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
-            let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
-            let datasets = SqliteDatasetStore::open(data_dir.join("datasets.sqlite"))?;
+            let setup = fixtures::smoke_dataset_version(
+                &data_dir,
+                "judge-fixture",
+                json!({ "answer": "world" }),
+            )
+            .await?;
+            let datasets = setup.datasets;
+            let tenant = setup.tenant;
+            let project = setup.project;
+            let version = setup.version;
             let secret_keyring = SecretKeyring::load_or_create_local_file(
                 data_dir.join("provider-secrets.key"),
                 "local-v1",
@@ -868,37 +843,6 @@ async fn main() -> anyhow::Result<()> {
                 secret_keyring,
             )?;
             let ledger = SqliteJudgeLedger::open(data_dir.join("judge.sqlite"))?;
-            let bus = local_bus(&data_dir)?;
-            let service =
-                IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
-            let _outcome = smoke_trace(&service).await.context("run smoke trace")?;
-            let tenant = TenantId::new("demo")?;
-            let project = ProjectId::new("demo")?;
-            let trace = traces
-                .get_trace(tenant.clone(), TraceId::new("smoke-trace")?)
-                .await
-                .context("read smoke trace")?;
-            let dataset = datasets
-                .create_dataset(tenant.clone(), project.clone(), "judge-fixture".to_string())
-                .await
-                .context("create judge dataset")?;
-            let case = promote_trace_span_to_case(
-                tenant.clone(),
-                project.clone(),
-                dataset.dataset_id.clone(),
-                &trace,
-                Some(SpanId::new("smoke-root")?),
-                Some(json!({ "answer": "world" })),
-            )
-            .context("promote smoke trace to judge dataset")?;
-            datasets
-                .put_case(case)
-                .await
-                .context("store judge dataset case")?;
-            let version = datasets
-                .create_version(tenant.clone(), project.clone(), dataset.dataset_id, None)
-                .await
-                .context("create judge dataset version")?;
             let fixture_secret = "sk-local-dataset-judge-secret";
             let secret_metadata = secrets
                 .put_secret(PutProviderSecretRequest {
@@ -960,45 +904,15 @@ async fn main() -> anyhow::Result<()> {
             println!("{output}");
         }
         Command::ExperimentFixture { data_dir } => {
-            let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
-            let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
-            let datasets = SqliteDatasetStore::open(data_dir.join("datasets.sqlite"))?;
-            let experiments = SqliteExperimentStore::open(data_dir.join("experiments.sqlite"))?;
-            let bus = local_bus(&data_dir)?;
-            let service =
-                IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
-            let _outcome = smoke_trace(&service).await.context("run smoke trace")?;
-            let tenant = TenantId::new("demo")?;
-            let project = ProjectId::new("demo")?;
-            let trace = traces
-                .get_trace(tenant.clone(), TraceId::new("smoke-trace")?)
-                .await
-                .context("read smoke trace")?;
-            let dataset = datasets
-                .create_dataset(
-                    tenant.clone(),
-                    project.clone(),
-                    "experiment-fixture".to_string(),
-                )
-                .await
-                .context("create experiment dataset")?;
-            let case = promote_trace_span_to_case(
-                tenant.clone(),
-                project.clone(),
-                dataset.dataset_id.clone(),
-                &trace,
-                Some(SpanId::new("smoke-root")?),
-                Some(json!({ "answer": "world" })),
+            let setup = fixtures::smoke_dataset_version(
+                &data_dir,
+                "experiment-fixture",
+                json!({ "answer": "world" }),
             )
-            .context("promote smoke trace to experiment dataset")?;
-            let case = datasets
-                .put_case(case)
-                .await
-                .context("store experiment dataset case")?;
-            let version = datasets
-                .create_version(tenant, project, dataset.dataset_id, None)
-                .await
-                .context("create experiment dataset version")?;
+            .await?;
+            let experiments = SqliteExperimentStore::open(data_dir.join("experiments.sqlite"))?;
+            let case = setup.case;
+            let version = setup.version;
             let report = run_deterministic_experiment(
                 &version,
                 ExperimentRunSpec {
@@ -1035,10 +949,17 @@ async fn main() -> anyhow::Result<()> {
             println!("{}", serde_json::to_string_pretty(&report)?);
         }
         Command::JudgeExperimentFixture { data_dir } => {
-            let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
-            let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
-            let datasets = SqliteDatasetStore::open(data_dir.join("datasets.sqlite"))?;
+            let setup = fixtures::smoke_dataset_version(
+                &data_dir,
+                "judge-experiment-fixture",
+                json!({ "answer": "world" }),
+            )
+            .await?;
             let experiments = SqliteExperimentStore::open(data_dir.join("experiments.sqlite"))?;
+            let tenant = setup.tenant;
+            let project = setup.project;
+            let case = setup.case;
+            let version = setup.version;
             let secret_keyring = SecretKeyring::load_or_create_local_file(
                 data_dir.join("provider-secrets.key"),
                 "local-v1",
@@ -1048,41 +969,6 @@ async fn main() -> anyhow::Result<()> {
                 secret_keyring,
             )?;
             let ledger = SqliteJudgeLedger::open(data_dir.join("judge.sqlite"))?;
-            let bus = local_bus(&data_dir)?;
-            let service =
-                IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
-            let _outcome = smoke_trace(&service).await.context("run smoke trace")?;
-            let tenant = TenantId::new("demo")?;
-            let project = ProjectId::new("demo")?;
-            let trace = traces
-                .get_trace(tenant.clone(), TraceId::new("smoke-trace")?)
-                .await
-                .context("read smoke trace")?;
-            let dataset = datasets
-                .create_dataset(
-                    tenant.clone(),
-                    project.clone(),
-                    "judge-experiment-fixture".to_string(),
-                )
-                .await
-                .context("create judge experiment dataset")?;
-            let case = promote_trace_span_to_case(
-                tenant.clone(),
-                project.clone(),
-                dataset.dataset_id.clone(),
-                &trace,
-                Some(SpanId::new("smoke-root")?),
-                Some(json!({ "answer": "world" })),
-            )
-            .context("promote smoke trace to judge experiment dataset")?;
-            let case = datasets
-                .put_case(case)
-                .await
-                .context("store judge experiment dataset case")?;
-            let version = datasets
-                .create_version(tenant.clone(), project.clone(), dataset.dataset_id, None)
-                .await
-                .context("create judge experiment dataset version")?;
             let fixture_secret = "sk-local-experiment-judge-secret";
             let secret_metadata = secrets
                 .put_secret(PutProviderSecretRequest {
@@ -1945,21 +1831,8 @@ async fn run_local_smoke(data_dir: PathBuf) -> anyhow::Result<serde_json::Value>
     let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
     let bus = local_bus(&data_dir)?;
     let service = IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
-    let scope = TenantScope::new(
-        TenantId::new("demo")?,
-        ProjectId::new("demo")?,
-        EnvironmentId::new("local")?,
-    );
-    let (trace_bytes, span_bytes) = smoke_ids();
-    let export = otlp_smoke_export(trace_bytes, span_bytes);
-    let raw_bytes = encode_export_trace_request(&export);
-    let raw_request = export_to_raw_trace_ingest_request(
-        scope.clone(),
-        raw_bytes,
-        export,
-        anonymous_auth_context(),
-    )
-    .context("build OTLP smoke ingest request")?;
+    let scope = fixtures::demo_scope()?;
+    let raw_request = fixtures::smoke_raw_ingest_request(scope.clone())?;
     let trace_id = raw_request
         .spans
         .first()
@@ -2018,9 +1891,9 @@ async fn run_remote_smoke(
     timeout_ms: u64,
     api_key: Option<&str>,
 ) -> anyhow::Result<serde_json::Value> {
-    let (trace_bytes, span_bytes) = smoke_ids();
+    let (trace_bytes, span_bytes) = fixtures::smoke_ids();
     let trace_id = lower_hex(&trace_bytes);
-    let export = otlp_smoke_export(trace_bytes, span_bytes);
+    let export = fixtures::otlp_smoke_export(trace_bytes, span_bytes);
     let started = std::time::Instant::now();
     let protocol = if let Some(otlp_grpc_url) = otlp_grpc_url {
         emit_remote_grpc(
@@ -2431,74 +2304,6 @@ async fn run_api_call(
         anyhow::bail!("request failed with status {}", status.as_u16());
     }
     Ok(())
-}
-
-fn smoke_ids() -> ([u8; 16], [u8; 8]) {
-    let now = Utc::now().timestamp_nanos_opt().unwrap_or_default() as u128;
-    let trace = now.to_be_bytes();
-    let span = (now as u64).to_be_bytes();
-    (trace, span)
-}
-
-fn otlp_smoke_export(trace_id: [u8; 16], span_id: [u8; 8]) -> ExportTraceServiceRequest {
-    ExportTraceServiceRequest {
-        resource_spans: vec![ResourceSpans {
-            resource: Some(Resource {
-                attributes: vec![otel_kv("service.name", otel_string("beaterctl-smoke"))],
-                dropped_attributes_count: 0,
-                entity_refs: Vec::new(),
-            }),
-            scope_spans: vec![ScopeSpans {
-                scope: Some(InstrumentationScope {
-                    name: "beaterctl".to_string(),
-                    version: env!("CARGO_PKG_VERSION").to_string(),
-                    attributes: Vec::new(),
-                    dropped_attributes_count: 0,
-                }),
-                spans: vec![Span {
-                    trace_id: trace_id.to_vec(),
-                    span_id: span_id.to_vec(),
-                    trace_state: String::new(),
-                    parent_span_id: Vec::new(),
-                    flags: 0,
-                    name: "beaterctl otlp smoke".to_string(),
-                    kind: span::SpanKind::Client as i32,
-                    start_time_unix_nano: Utc::now().timestamp_nanos_opt().unwrap_or(0) as u64,
-                    end_time_unix_nano: Utc::now().timestamp_nanos_opt().unwrap_or(0) as u64,
-                    attributes: vec![
-                        otel_kv("openinference.span.kind", otel_string("llm")),
-                        otel_kv("input.value", otel_string("hello")),
-                        otel_kv("output.value", otel_string("world")),
-                    ],
-                    dropped_attributes_count: 0,
-                    events: Vec::new(),
-                    dropped_events_count: 0,
-                    links: Vec::new(),
-                    dropped_links_count: 0,
-                    status: Some(Status {
-                        message: String::new(),
-                        code: status::StatusCode::Ok as i32,
-                    }),
-                }],
-                schema_url: "https://opentelemetry.io/schemas/1.37.0".to_string(),
-            }],
-            schema_url: "https://opentelemetry.io/schemas/1.37.0".to_string(),
-        }],
-    }
-}
-
-fn otel_kv(key: &str, value: AnyValue) -> KeyValue {
-    KeyValue {
-        key: key.to_string(),
-        key_strindex: 0,
-        value: Some(value),
-    }
-}
-
-fn otel_string(value: &str) -> AnyValue {
-    AnyValue {
-        value: Some(any_value::Value::StringValue(value.to_string())),
-    }
 }
 
 struct GateFixtureExperimentSpec<'a> {

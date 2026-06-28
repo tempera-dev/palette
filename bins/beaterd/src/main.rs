@@ -1,5 +1,6 @@
 mod metrics;
 mod metrics_http;
+mod runtime;
 
 use anyhow::Context;
 use beater_accounts::SqliteAccountStore;
@@ -33,9 +34,7 @@ use beater_search::{SearchIndex, TantivySearchIndex, TraceIngestedSearchProcesso
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{ArtifactStore, StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
-use beater_store_sql::{
-    migrate_local_beaterd_sqlite, SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore,
-};
+use beater_store_sql::{SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore};
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, Subcommand, ValueEnum};
 use serde::de::DeserializeOwned;
@@ -229,44 +228,13 @@ async fn main() -> anyhow::Result<()> {
         eprintln!("  Pass --auth-mode required to enforce API-key authentication.");
         eprintln!("============================================================");
     }
-    let trace_db_path = args.data_dir.join("traces.sqlite");
-    let quota_path = args
-        .quota_db_path
-        .clone()
-        .unwrap_or_else(|| args.data_dir.join("quotas.sqlite"));
-    let metadata_db_path = args.data_dir.join("metadata.sqlite");
-    let dataset_db_path = args.data_dir.join("datasets.sqlite");
-    let experiment_db_path = args.data_dir.join("experiments.sqlite");
-    let gate_db_path = args.data_dir.join("gates.sqlite");
-    let review_db_path = args.data_dir.join("reviews.sqlite");
-    let calibration_db_path = args.data_dir.join("calibrations.sqlite");
-    let usage_db_path = args.data_dir.join("usage.sqlite");
-    let audit_db_path = args.data_dir.join("audit.sqlite");
-    let provider_secret_db_path = args.data_dir.join("provider-secrets.sqlite");
-    let judge_db_path = args.data_dir.join("judge.sqlite");
-    let bus_db_path = args.data_dir.join("bus.sqlite");
-    let security_db_path = args.data_dir.join("security.sqlite");
-    let mut sqlite_store_paths = vec![
-        trace_db_path.clone(),
-        quota_path.clone(),
-        metadata_db_path.clone(),
-        dataset_db_path.clone(),
-        experiment_db_path.clone(),
-        gate_db_path.clone(),
-        review_db_path.clone(),
-        calibration_db_path.clone(),
-        usage_db_path.clone(),
-        audit_db_path.clone(),
-        provider_secret_db_path.clone(),
-        judge_db_path.clone(),
-    ];
-    if matches!(args.bus_backend, BusBackendArg::Sqlite) {
-        sqlite_store_paths.push(bus_db_path.clone());
-    }
-    if matches!(args.auth_mode, AuthModeArg::Required) {
-        sqlite_store_paths.push(security_db_path.clone());
-    }
-    migrate_local_sqlite_stores(&sqlite_store_paths)?;
+    // Per-store SQLite file paths under --data-dir, plus the deduplicated
+    // migration target list. Extracted into `runtime::LocalStorePaths` so the
+    // on-disk file-name contract and the migration set live in one tested
+    // place (issue #207). File names and the migrated set are unchanged.
+    let store_paths = runtime::LocalStorePaths::new(&args.data_dir, args.quota_db_path.as_deref());
+    let sqlite_store_paths = store_paths.migration_targets(args.bus_backend, args.auth_mode);
+    runtime::migrate_local_sqlite_stores(&sqlite_store_paths)?;
 
     // R13.9 — wrap the object store so every read/write outcome is counted.
     // §23.7 — enforce the artifact write-size cap by default in the runtime,
@@ -276,7 +244,7 @@ async fn main() -> anyhow::Result<()> {
         args.artifact_max_bytes,
         metrics.clone(),
     )?);
-    let sqlite_traces = Arc::new(SqliteTraceStore::open(trace_db_path)?);
+    let sqlite_traces = Arc::new(SqliteTraceStore::open(store_paths.traces.clone())?);
     let traces: Arc<dyn TraceStore> = if let Some(url) = args.test_http_trace_store_url.clone() {
         Arc::new(HttpTraceStore::new(url))
     } else {
@@ -285,19 +253,23 @@ async fn main() -> anyhow::Result<()> {
             None => sqlite_traces.clone(),
         }
     };
-    let quota_limiter = Arc::new(SqliteQuotaLimiter::open(quota_path)?);
-    let metadata = Arc::new(SqliteMetadataStore::open(metadata_db_path)?);
+    let quota_limiter = Arc::new(SqliteQuotaLimiter::open(store_paths.quota.clone())?);
+    let metadata = Arc::new(SqliteMetadataStore::open(store_paths.metadata.clone())?);
     let search = Arc::new(TantivySearchIndex::open_or_create(
         args.data_dir.join("search"),
     )?);
     let archive = ParquetTraceArchive::new(args.data_dir.join("archive"))?;
-    let datasets = Arc::new(SqliteDatasetStore::open(dataset_db_path)?);
-    let experiments = Arc::new(SqliteExperimentStore::open(experiment_db_path)?);
-    let gates = Arc::new(SqliteGateStore::open(gate_db_path)?);
-    let human_reviews = Arc::new(SqliteHumanReviewStore::open(review_db_path)?);
-    let calibrations = Arc::new(SqliteCalibrationStore::open(calibration_db_path)?);
-    let usage = Arc::new(SqliteUsageLedger::open(usage_db_path)?);
-    let audit = Arc::new(SqliteAuditStore::open(audit_db_path)?);
+    let datasets = Arc::new(SqliteDatasetStore::open(store_paths.datasets.clone())?);
+    let experiments = Arc::new(SqliteExperimentStore::open(
+        store_paths.experiments.clone(),
+    )?);
+    let gates = Arc::new(SqliteGateStore::open(store_paths.gates.clone())?);
+    let human_reviews = Arc::new(SqliteHumanReviewStore::open(store_paths.reviews.clone())?);
+    let calibrations = Arc::new(SqliteCalibrationStore::open(
+        store_paths.calibrations.clone(),
+    )?);
+    let usage = Arc::new(SqliteUsageLedger::open(store_paths.usage.clone())?);
+    let audit = Arc::new(SqliteAuditStore::open(store_paths.audit.clone())?);
     let provider_secret_keyring = match args.provider_secret_key.as_deref() {
         Some(encoded) => SecretKeyring::from_base64("env-v1", encoded)?,
         None => SecretKeyring::load_or_create_local_file(
@@ -306,10 +278,10 @@ async fn main() -> anyhow::Result<()> {
         )?,
     };
     let provider_secrets = Arc::new(EncryptedSqliteProviderSecretStore::open(
-        provider_secret_db_path,
+        store_paths.provider_secrets.clone(),
         provider_secret_keyring,
     )?);
-    let judge_ledger = Arc::new(SqliteJudgeLedger::open(judge_db_path)?);
+    let judge_ledger = Arc::new(SqliteJudgeLedger::open(store_paths.judge.clone())?);
     let judge_provider: Arc<dyn JudgeProvider> = match args.judge_provider {
         JudgeProviderArg::Keyword => Arc::new(KeywordJudgeProvider::default()),
         JudgeProviderArg::HttpRouting => Arc::new(HttpRoutingJudgeProvider::default()),
@@ -322,7 +294,8 @@ async fn main() -> anyhow::Result<()> {
     ));
     let bus: Arc<dyn DurableBus> = match args.bus_backend {
         BusBackendArg::Sqlite => Arc::new(
-            SqliteDurableBus::open(bus_db_path, args.bus_capacity).map_err(anyhow::Error::from)?,
+            SqliteDurableBus::open(store_paths.bus.clone(), args.bus_capacity)
+                .map_err(anyhow::Error::from)?,
         ),
         BusBackendArg::Memory => Arc::new(InMemoryBus::new(args.bus_capacity)),
     };
@@ -418,7 +391,9 @@ async fn main() -> anyhow::Result<()> {
     // `/v1` auth path and the session-authorized `/auth/api-keys` endpoints.
     let api_key_store: Option<Arc<dyn beater_auth::ApiKeyStore>> =
         if matches!(args.auth_mode, AuthModeArg::Required) {
-            Some(Arc::new(SqliteApiKeyStore::open(security_db_path)?))
+            Some(Arc::new(SqliteApiKeyStore::open(
+                store_paths.security.clone(),
+            )?))
         } else {
             None
         };
@@ -521,17 +496,6 @@ fn build_ingest_policy(args: &Args) -> anyhow::Result<IngestPolicy> {
         .validate()
         .map_err(|reason| anyhow::anyhow!("invalid ingest policy configuration: {reason}"))?;
     Ok(policy)
-}
-
-fn migrate_local_sqlite_stores(paths: &[PathBuf]) -> anyhow::Result<()> {
-    let mut unique_paths = paths.to_vec();
-    unique_paths.sort();
-    unique_paths.dedup();
-    for path in unique_paths {
-        migrate_local_beaterd_sqlite(&path)
-            .with_context(|| format!("migrate local sqlite schema {}", path.display()))?;
-    }
-    Ok(())
 }
 
 #[derive(Clone, Debug, Default)]
