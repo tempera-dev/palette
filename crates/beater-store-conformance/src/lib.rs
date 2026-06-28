@@ -402,6 +402,95 @@ where
     }
 }
 
+/// Conformance for the **`seq` tiebreaker** in keyset span pagination.
+///
+/// The trace-store PRIMARY KEY is `(tenant, project, trace, span_id, seq)`, so a
+/// re-emitted span shares its `span_id` (and, in practice, its `start_time`)
+/// with the earlier version and differs only in `seq`. A keyset key of just
+/// `(start_time, span_id)` is therefore NOT unique: if a page boundary lands
+/// between two versions, a strict `span_id < cursor` predicate excludes the
+/// equal-`span_id` sibling and the second version is silently SKIPPED. The key
+/// must carry `seq` as the final tiebreaker so every version is returned exactly
+/// once.
+///
+/// This seeds two versions of one span — identical `span_id` AND identical
+/// `start_time`, distinguished only by `seq` (and `name`, so the summaries are
+/// distinguishable) — then paginates with `limit = 1` across the boundary and
+/// asserts BOTH versions come back, with no skip and no duplicate.
+///
+/// Only call this against backends whose `query_spans` is keyset-based; the
+/// in-memory store paginates by offset and is exempt by design.
+pub async fn assert_span_pagination_seq_tiebreak<S>(store: S)
+where
+    S: TraceStore,
+{
+    let tenant = TenantId::new("seq-tenant").unwrap_or_else(|err| panic!("{err}"));
+    let project = ProjectId::new("seq-project").unwrap_or_else(|err| panic!("{err}"));
+    let trace = TraceId::new("seq-trace").unwrap_or_else(|err| panic!("{err}"));
+
+    // Two versions of the SAME span: identical span_id AND start_time, differing
+    // only in `seq`. They go in one batch (a re-emission), so both rows persist
+    // under the composite PRIMARY KEY. Distinct names let us tell the summaries
+    // apart even though their span_id is identical.
+    let batch = fixture_versioned_span_batch(
+        &tenant,
+        &project,
+        &trace,
+        "dup-span",
+        &[(1, "version one"), (2, "version two")],
+    );
+    let ack = store
+        .write_batch(batch)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(
+        ack.accepted_spans, 2,
+        "both seq versions of the span must persist (distinct PRIMARY KEY)"
+    );
+
+    let filter = || SpanFilter {
+        project_id: Some(project.clone()),
+        span_id: Some(SpanId::new("dup-span").unwrap_or_else(|err| panic!("{err}"))),
+        ..SpanFilter::default()
+    };
+
+    // Walk the two versions one page at a time. With a unique keyset key this
+    // visits each version exactly once; with the buggy `(start_time, span_id)`
+    // key the second version is skipped at the page boundary.
+    let mut names: Vec<String> = Vec::new();
+    let mut cursor = None;
+    for _ in 0..3 {
+        let page = store
+            .query_spans(
+                tenant.clone(),
+                filter(),
+                PageRequest { limit: 1, cursor },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        for span in &page.items {
+            assert_eq!(
+                span.span_id.as_str(),
+                "dup-span",
+                "every page item is a version of the re-emitted span"
+            );
+            names.push(span.name.clone());
+        }
+        match page.next_cursor {
+            Some(next) => cursor = Some(next),
+            None => break,
+        }
+    }
+
+    names.sort();
+    assert_eq!(
+        names,
+        vec!["version one".to_string(), "version two".to_string()],
+        "both seq versions must be returned exactly once across the keyset pages \
+         (no skip from a non-unique (start_time, span_id) key, no duplicate)"
+    );
+}
+
 pub async fn assert_metadata_store_conformance<S>(store: S)
 where
     S: MetadataStore,
@@ -650,6 +739,70 @@ fn fixture_project_batch(
     CanonicalTraceBatch {
         raw_envelopes: vec![raw],
         spans: vec![span],
+    }
+}
+
+/// Builds one batch holding several *versions* of a single span: every entry
+/// shares the same `trace`, `span_id`, and `start_time` and differs only in
+/// `(seq, name)`. The composite PRIMARY KEY keeps each `(span_id, seq)` row
+/// distinct, so this models a span re-emitted under a new `seq`. The `start_time`
+/// is pinned to `fixture_base_time()` for *all* versions (not offset by `seq`),
+/// which is exactly the collision the keyset `seq` tiebreaker must survive.
+fn fixture_versioned_span_batch(
+    tenant: &TenantId,
+    project: &ProjectId,
+    trace: &TraceId,
+    span_id: &str,
+    versions: &[(u64, &str)],
+) -> CanonicalTraceBatch {
+    let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
+    let idempotency_key = IdempotencyKey::new(format!(
+        "{}:{}:{}:versioned",
+        tenant.as_str(),
+        project.as_str(),
+        trace.as_str()
+    ))
+    .unwrap_or_else(|err| panic!("{err}"));
+    let body_ref = artifact_ref("versioned-span-raw");
+    let raw = RawEnvelope {
+        schema_version: RAW_SCHEMA_VERSION,
+        tenant_id: tenant.clone(),
+        project_id: project.clone(),
+        environment_id: environment.clone(),
+        source: SourceDialect::Native,
+        source_schema_url: Some("beater://native/v1".to_string()),
+        source_schema_version: Some("1".to_string()),
+        received_at: fixture_base_time(),
+        idempotency_key,
+        payload_hash: body_ref.sha256.clone(),
+        body_ref: body_ref.clone(),
+        auth_context: AuthContext {
+            api_key_id: None,
+            scopes: BTreeSet::new(),
+        },
+    };
+    let spans = versions
+        .iter()
+        .map(|&(seq, name)| {
+            let mut span = canonical_span(CanonicalSpanFixture {
+                tenant,
+                project,
+                environment: &environment,
+                trace,
+                span: span_id,
+                seq,
+                kind: AgentSpanKind::AgentRun,
+                name,
+                raw_ref: body_ref.clone(),
+            });
+            // Pin every version to the same instant so only `seq` breaks the tie.
+            span.start_time = fixture_base_time();
+            span
+        })
+        .collect();
+    CanonicalTraceBatch {
+        raw_envelopes: vec![raw],
+        spans,
     }
 }
 
