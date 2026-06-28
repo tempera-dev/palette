@@ -542,6 +542,10 @@ impl BeaterdChild {
             .arg(grpc_addr.to_string())
             .arg("--data-dir")
             .arg(data_dir)
+            // #127: beaterd now requires auth by default. This smoke harness
+            // exercises trace/dataset routes anonymously, so opt into local.
+            .arg("--auth-mode")
+            .arg("local")
             .arg("--trace-write-drain-interval-ms")
             .arg("25")
             .arg("--trace-ingested-drain-interval-ms")
@@ -730,6 +734,7 @@ fn sidecar_store_error(error: StoreError) -> (StatusCode, String) {
         StoreError::NotFound(_) => StatusCode::NOT_FOUND,
         StoreError::Conflict(_) => StatusCode::CONFLICT,
         StoreError::Backpressure(_) => StatusCode::SERVICE_UNAVAILABLE,
+        StoreError::LimitExceeded(_) => StatusCode::PAYLOAD_TOO_LARGE,
         StoreError::Integrity(_) => StatusCode::UNPROCESSABLE_ENTITY,
         StoreError::Backend(_) => StatusCode::INTERNAL_SERVER_ERROR,
     };

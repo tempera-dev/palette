@@ -6,7 +6,8 @@ use arrow_schema::{DataType, Field, Schema, SchemaRef};
 use beater_core::{EnvironmentId, ProjectId, SpanId, TenantId, Timestamp, TraceId};
 use beater_schema::{AgentSpanKind, CanonicalSpan, SpanStatus};
 use chrono::Utc;
-use datafusion::prelude::{ParquetReadOptions, SessionContext};
+use datafusion::dataframe::DataFrame;
+use datafusion::prelude::{col, lit, ParquetReadOptions, SessionContext};
 use parquet::arrow::ArrowWriter;
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -104,8 +105,11 @@ impl ParquetTraceArchive {
         ctx.register_parquet(TABLE_NAME, path_str, ParquetReadOptions::default())
             .await
             .with_context(|| format!("register parquet archive {}", path.display()))?;
-        let sql = build_query_sql(&query);
-        let dataframe = ctx.sql(&sql).await.context("compile archive query")?;
+        let dataframe = ctx
+            .table(TABLE_NAME)
+            .await
+            .context("load archive table")?;
+        let dataframe = build_query_dataframe(dataframe, &query)?;
         let batches = dataframe.collect().await.context("run archive query")?;
         rows_from_batches(&batches)
     }
@@ -342,43 +346,62 @@ fn archive_schema() -> SchemaRef {
     ]))
 }
 
-fn build_query_sql(query: &ArchiveQuery) -> String {
-    let mut predicates = vec![format!(
-        "tenant_id = '{}'",
-        sql_literal(query.tenant_id.as_str())
-    )];
+/// Build the archive query as a structured DataFusion `DataFrame` instead of
+/// interpolated SQL text. Table and column identifiers are compile-time
+/// constants; only user-supplied VALUES enter the plan, and they do so through
+/// `lit(...)` (a bound `ScalarValue`), never string concatenation. This makes
+/// attacker-influenced tenant/project/environment/trace/span IDs and filters
+/// structurally incapable of altering the query shape.
+fn build_query_dataframe(dataframe: DataFrame, query: &ArchiveQuery) -> anyhow::Result<DataFrame> {
+    let column_names = archive_columns();
+    let columns: Vec<&str> = column_names.iter().map(String::as_str).collect();
+    let mut dataframe = dataframe
+        .select_columns(&columns)
+        .context("select archive columns")?;
+
+    dataframe = dataframe
+        .filter(col("tenant_id").eq(lit(query.tenant_id.as_str())))
+        .context("filter tenant_id")?;
     if let Some(project_id) = &query.project_id {
-        predicates.push(format!(
-            "project_id = '{}'",
-            sql_literal(project_id.as_str())
-        ));
+        dataframe = dataframe
+            .filter(col("project_id").eq(lit(project_id.as_str())))
+            .context("filter project_id")?;
     }
     if let Some(environment_id) = &query.environment_id {
-        predicates.push(format!(
-            "environment_id = '{}'",
-            sql_literal(environment_id.as_str())
-        ));
+        dataframe = dataframe
+            .filter(col("environment_id").eq(lit(environment_id.as_str())))
+            .context("filter environment_id")?;
     }
     if let Some(trace_id) = &query.trace_id {
-        predicates.push(format!("trace_id = '{}'", sql_literal(trace_id.as_str())));
+        dataframe = dataframe
+            .filter(col("trace_id").eq(lit(trace_id.as_str())))
+            .context("filter trace_id")?;
     }
     if let Some(span_id) = &query.span_id {
-        predicates.push(format!("span_id = '{}'", sql_literal(span_id.as_str())));
+        dataframe = dataframe
+            .filter(col("span_id").eq(lit(span_id.as_str())))
+            .context("filter span_id")?;
     }
     if let Some(kind) = &query.kind {
-        predicates.push(format!("kind = '{}'", sql_literal(kind.as_str())));
+        dataframe = dataframe
+            .filter(col("kind").eq(lit(kind.as_str())))
+            .context("filter kind")?;
     }
     if let Some(status) = &query.status {
-        predicates.push(format!("status = '{}'", sql_literal(status.as_str())));
+        dataframe = dataframe
+            .filter(col("status").eq(lit(status.as_str())))
+            .context("filter status")?;
     }
 
-    format!(
-        "SELECT {} FROM {} WHERE {} ORDER BY start_time ASC, seq ASC LIMIT {}",
-        archive_columns().join(", "),
-        TABLE_NAME,
-        predicates.join(" AND "),
-        query.limit.unwrap_or(100).clamp(1, 1000)
-    )
+    let dataframe = dataframe
+        .sort(vec![
+            col("start_time").sort(true, false),
+            col("seq").sort(true, false),
+        ])
+        .context("sort archive rows")?;
+
+    let limit = query.limit.unwrap_or(100).clamp(1, 1000);
+    dataframe.limit(0, Some(limit)).context("limit archive rows")
 }
 
 fn archive_columns() -> Vec<String> {
@@ -595,10 +618,6 @@ fn project_dir_has_parquet(path: &Path) -> anyhow::Result<bool> {
     Ok(false)
 }
 
-fn sql_literal(value: &str) -> String {
-    value.replace('\'', "''")
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -740,6 +759,385 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
 
         assert!(rows.is_empty());
+    }
+
+    // ── SQL-injection regression tests ────────────────────────────────────────
+    //
+    // The archive query is now assembled as a structured DataFusion `DataFrame`
+    // (`build_query_dataframe`): table/column identifiers are compile-time
+    // constants and user-supplied filter VALUES enter the plan exclusively via
+    // `lit(...)` as bound `ScalarValue`s. No filter value is ever concatenated
+    // into SQL text, so an attacker-influenced tenant/project/environment/
+    // trace/span ID cannot change the query shape — it can only fail to match.
+    //
+    // Note: `TenantId::new` / `TraceId::new` etc. already reject whitespace, so
+    // the classic `' OR 1=1 --` form is blocked at construction. The tests below
+    // use the harder no-whitespace variants (e.g. `'OR'a'='a`) that do pass the
+    // type constructor; the structured path must bind them as opaque literals.
+
+    // --- unit: plan inspection (value bound as literal, not interpolated) ------
+
+    #[tokio::test]
+    async fn hostile_id_is_bound_as_literal_not_interpolated_into_sql() {
+        // Prove the migration's core invariant directly on the logical plan: a
+        // hostile value containing SQL metacharacters is carried verbatim as a
+        // bound `Utf8` literal, never escaped-and-spliced into SQL text the way
+        // the old string builder required.
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let real_tenant = TenantId::new("real-tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("proj-lit").unwrap_or_else(|err| panic!("{err}"));
+        let manifest = archive
+            .archive_spans(
+                &real_tenant,
+                &project,
+                &[fixture_span(
+                    &real_tenant,
+                    &project,
+                    "prod",
+                    "trace-l",
+                    "span-l",
+                    1,
+                    SpanStatus::Ok,
+                )],
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let hostile_raw = "'OR'1'='1";
+        let query = ArchiveQuery {
+            tenant_id: TenantId::new(hostile_raw).unwrap_or_else(|err| panic!("{err}")),
+            project_id: None,
+            environment_id: None,
+            trace_id: None,
+            span_id: None,
+            kind: None,
+            status: None,
+            limit: Some(10),
+        };
+
+        let path_str = manifest
+            .path
+            .to_str()
+            .unwrap_or_else(|| panic!("archive path is not utf-8"));
+        let ctx = SessionContext::new();
+        ctx.register_parquet(TABLE_NAME, path_str, ParquetReadOptions::default())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let dataframe = ctx
+            .table(TABLE_NAME)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let dataframe =
+            build_query_dataframe(dataframe, &query).unwrap_or_else(|err| panic!("{err}"));
+        let plan = format!("{}", dataframe.logical_plan().display_indent());
+
+        // The raw hostile value survives verbatim as a bound literal …
+        assert!(
+            plan.contains(hostile_raw),
+            "hostile value must be a bound literal; plan={plan}"
+        );
+        // … and is NOT doubled/escaped the way interpolated-SQL would require,
+        // proving no `sql_literal`-style text splicing happens anywhere.
+        assert!(
+            !plan.contains("''OR''1''=''1"),
+            "value must not be SQL-escaped text; plan={plan}"
+        );
+
+        // And end-to-end the hostile tenant matches no real-tenant rows.
+        let rows = archive
+            .query_file(&manifest, query)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            rows.len(),
+            0,
+            "hostile tenant_id must not return real-tenant rows"
+        );
+    }
+
+    #[tokio::test]
+    async fn hostile_quotes_in_all_id_filter_positions_match_no_rows() {
+        // Exercises every ID-typed filter position with a leading-quote marker;
+        // through the structured path each value is bound as a literal and
+        // matches nothing in the real-tenant archive.
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant-allpos").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("proj-allpos").unwrap_or_else(|err| panic!("{err}"));
+        let manifest = archive
+            .archive_spans(
+                &tenant,
+                &project,
+                &[fixture_span(
+                    &tenant,
+                    &project,
+                    "prod",
+                    "trace-allpos",
+                    "span-allpos",
+                    1,
+                    SpanStatus::Ok,
+                )],
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let rows = archive
+            .query_file(
+                &manifest,
+                ArchiveQuery {
+                    tenant_id: tenant.clone(),
+                    project_id: Some(ProjectId::new("'proj").unwrap_or_else(|err| panic!("{err}"))),
+                    environment_id: Some(
+                        EnvironmentId::new("'env").unwrap_or_else(|err| panic!("{err}")),
+                    ),
+                    trace_id: Some(TraceId::new("'tr").unwrap_or_else(|err| panic!("{err}"))),
+                    span_id: Some(SpanId::new("'sp").unwrap_or_else(|err| panic!("{err}"))),
+                    kind: None,
+                    status: None,
+                    limit: Some(5),
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            rows.len(),
+            0,
+            "hostile quotes in any id filter must return no rows"
+        );
+    }
+
+    // --- integration: hostile values must return zero rows (not all rows) -----
+    //
+    // If injection succeeded the WHERE clause would become a tautology and
+    // the real rows in the archive would be returned.  Safe escaping makes
+    // DataFusion evaluate `column = <escaped-literal>`, which matches nothing.
+
+    #[tokio::test]
+    async fn hostile_tenant_id_with_quotes_matches_no_rows() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let real_tenant = TenantId::new("real-tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("proj-rt").unwrap_or_else(|err| panic!("{err}"));
+
+        let manifest = archive
+            .archive_spans(
+                &real_tenant,
+                &project,
+                &[fixture_span(
+                    &real_tenant,
+                    &project,
+                    "prod",
+                    "trace-r",
+                    "span-r",
+                    1,
+                    SpanStatus::Ok,
+                )],
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        // "'OR'a'='a" has no whitespace so TenantId::new accepts it.
+        // Bound through `lit(...)` as an opaque literal, it matches no real row.
+        let hostile = TenantId::new("'OR'a'='a").unwrap_or_else(|err| panic!("{err}"));
+        let rows = archive
+            .query_file(
+                &manifest,
+                ArchiveQuery {
+                    tenant_id: hostile,
+                    project_id: None,
+                    environment_id: None,
+                    trace_id: None,
+                    span_id: None,
+                    kind: None,
+                    status: None,
+                    limit: Some(10),
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(
+            rows.len(),
+            0,
+            "injection in tenant_id must not return real-tenant rows"
+        );
+    }
+
+    #[tokio::test]
+    async fn hostile_trace_id_with_quotes_matches_no_rows() {
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant-inj-tr").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("proj-inj-tr").unwrap_or_else(|err| panic!("{err}"));
+
+        let manifest = archive
+            .archive_spans(
+                &tenant,
+                &project,
+                &[fixture_span(
+                    &tenant,
+                    &project,
+                    "prod",
+                    "trace-real",
+                    "span-real",
+                    1,
+                    SpanStatus::Ok,
+                )],
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let hostile_trace = TraceId::new("'OR'1'='1").unwrap_or_else(|err| panic!("{err}"));
+        let rows = archive
+            .query_file(
+                &manifest,
+                ArchiveQuery {
+                    tenant_id: tenant.clone(),
+                    project_id: None,
+                    environment_id: None,
+                    trace_id: Some(hostile_trace),
+                    span_id: None,
+                    kind: None,
+                    status: None,
+                    limit: Some(10),
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(
+            rows.len(),
+            0,
+            "injection in trace_id must not return real rows"
+        );
+    }
+
+    #[tokio::test]
+    async fn semicolon_injection_in_span_id_does_not_corrupt_query() {
+        // Closest no-whitespace SQL-terminator pattern: ';DROPTABLEspans;--
+        // The leading `'` is doubled, keeping the rest inside the string literal.
+        // DataFusion must not crash, and must return 0 rows.
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant-sem").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("proj-sem").unwrap_or_else(|err| panic!("{err}"));
+
+        let manifest = archive
+            .archive_spans(
+                &tenant,
+                &project,
+                &[fixture_span(
+                    &tenant,
+                    &project,
+                    "prod",
+                    "trace-sem",
+                    "span-sem",
+                    1,
+                    SpanStatus::Ok,
+                )],
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let hostile_span = SpanId::new("';DROPTABLEspans;--").unwrap_or_else(|err| panic!("{err}"));
+        let rows = archive
+            .query_file(
+                &manifest,
+                ArchiveQuery {
+                    tenant_id: tenant.clone(),
+                    project_id: None,
+                    environment_id: None,
+                    trace_id: None,
+                    span_id: Some(hostile_span),
+                    kind: None,
+                    status: None,
+                    limit: Some(10),
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(
+            rows.len(),
+            0,
+            "semicolon-injection span_id must not corrupt the DataFusion query"
+        );
+    }
+
+    #[tokio::test]
+    async fn hostile_project_and_environment_ids_match_no_rows() {
+        // Covers the two remaining ID-filter positions: project_id and
+        // environment_id.  Both are bound through `lit(...)` as literals.
+        let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+        let archive =
+            ParquetTraceArchive::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant-pe").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("proj-pe").unwrap_or_else(|err| panic!("{err}"));
+
+        let manifest = archive
+            .archive_spans(
+                &tenant,
+                &project,
+                &[fixture_span(
+                    &tenant,
+                    &project,
+                    "prod",
+                    "trace-pe",
+                    "span-pe",
+                    1,
+                    SpanStatus::Ok,
+                )],
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let hostile_proj = ProjectId::new("'OR'b'='b").unwrap_or_else(|err| panic!("{err}"));
+        let rows_proj = archive
+            .query_file(
+                &manifest,
+                ArchiveQuery {
+                    tenant_id: tenant.clone(),
+                    project_id: Some(hostile_proj),
+                    environment_id: None,
+                    trace_id: None,
+                    span_id: None,
+                    kind: None,
+                    status: None,
+                    limit: Some(10),
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(rows_proj.len(), 0, "hostile project_id must return no rows");
+
+        let hostile_env = EnvironmentId::new("'OR'c'='c").unwrap_or_else(|err| panic!("{err}"));
+        let rows_env = archive
+            .query_file(
+                &manifest,
+                ArchiveQuery {
+                    tenant_id: tenant.clone(),
+                    project_id: None,
+                    environment_id: Some(hostile_env),
+                    trace_id: None,
+                    span_id: None,
+                    kind: None,
+                    status: None,
+                    limit: Some(10),
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            rows_env.len(),
+            0,
+            "hostile environment_id must return no rows"
+        );
     }
 
     #[tokio::test]
