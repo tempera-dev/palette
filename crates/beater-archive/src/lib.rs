@@ -827,9 +827,7 @@ mod tests {
         let query = ArchiveQuery {
             tenant_id: TenantId::new("t").unwrap_or_else(|err| panic!("{err}")),
             project_id: Some(ProjectId::new("'proj").unwrap_or_else(|err| panic!("{err}"))),
-            environment_id: Some(
-                EnvironmentId::new("'env").unwrap_or_else(|err| panic!("{err}")),
-            ),
+            environment_id: Some(EnvironmentId::new("'env").unwrap_or_else(|err| panic!("{err}"))),
             trace_id: Some(TraceId::new("'tr").unwrap_or_else(|err| panic!("{err}"))),
             span_id: Some(SpanId::new("'sp").unwrap_or_else(|err| panic!("{err}"))),
             kind: None,
@@ -927,8 +925,7 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
 
-        let hostile_trace =
-            TraceId::new("'OR'1'='1").unwrap_or_else(|err| panic!("{err}"));
+        let hostile_trace = TraceId::new("'OR'1'='1").unwrap_or_else(|err| panic!("{err}"));
         let rows = archive
             .query_file(
                 &manifest,
@@ -981,8 +978,7 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
 
-        let hostile_span =
-            SpanId::new("';DROPTABLEspans;--").unwrap_or_else(|err| panic!("{err}"));
+        let hostile_span = SpanId::new("';DROPTABLEspans;--").unwrap_or_else(|err| panic!("{err}"));
         let rows = archive
             .query_file(
                 &manifest,
@@ -1034,8 +1030,7 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
 
-        let hostile_proj =
-            ProjectId::new("'OR'b'='b").unwrap_or_else(|err| panic!("{err}"));
+        let hostile_proj = ProjectId::new("'OR'b'='b").unwrap_or_else(|err| panic!("{err}"));
         let rows_proj = archive
             .query_file(
                 &manifest,
@@ -1054,8 +1049,7 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(rows_proj.len(), 0, "hostile project_id must return no rows");
 
-        let hostile_env =
-            EnvironmentId::new("'OR'c'='c").unwrap_or_else(|err| panic!("{err}"));
+        let hostile_env = EnvironmentId::new("'OR'c'='c").unwrap_or_else(|err| panic!("{err}"));
         let rows_env = archive
             .query_file(
                 &manifest,
