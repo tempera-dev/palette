@@ -84,6 +84,9 @@ fn context_store_error(error: StoreError, context: String) -> StoreError {
         StoreError::Backpressure(message) => {
             StoreError::Backpressure(format!("{context}: {message}"))
         }
+        StoreError::LimitExceeded(message) => {
+            StoreError::LimitExceeded(format!("{context}: {message}"))
+        }
         StoreError::Integrity(message) => StoreError::Integrity(format!("{context}: {message}")),
         StoreError::Backend(message) => StoreError::Backend(format!("{context}: {message}")),
     }
@@ -225,12 +228,28 @@ impl SearchIndex for TantivySearchIndex {
     }
 }
 
+/// Maximum byte length of a user-supplied query string.  Strings longer than
+/// this are rejected before reaching the Tantivy parser, preventing slow or
+/// memory-hungry tokenisation passes on adversarially large inputs.
+const MAX_QUERY_LEN: usize = 1_000;
+
 impl TantivySearchIndex {
     fn filtered_query(
         &self,
         query: &SearchRequest,
         parser: &QueryParser,
     ) -> StoreResult<Box<dyn Query>> {
+        // Guard against pathologically long query strings before they reach
+        // the Tantivy parser.  Parse errors (malformed DSL, unbalanced quotes,
+        // unknown fields, etc.) are already converted to StoreError::Backend
+        // by the .into_store()? below — they do not panic.
+        if query.text.len() > MAX_QUERY_LEN {
+            return Err(StoreError::backend(format!(
+                "search query too long: {} bytes (limit {MAX_QUERY_LEN})",
+                query.text.len(),
+            )));
+        }
+
         let mut clauses: Vec<(Occur, Box<dyn Query>)> = vec![(
             Occur::Must,
             exact_field_query(self.fields.tenant_id, query.tenant_id.as_str()),
@@ -809,6 +828,370 @@ mod tests {
         assert!(old.hits.is_empty());
         assert_eq!(new.hits.len(), 1);
     }
+
+    // ── query-hardening regression tests ──────────────────────────────────────
+
+    /// An unbalanced double-quote is a DSL metacharacter that Tantivy cannot
+    /// parse.  The search method must return a typed error, not panic.
+    #[tokio::test]
+    async fn malformed_query_unbalanced_quote_returns_error() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let result = index
+            .search(SearchRequest {
+                text: "\"unbalanced".to_string(),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await;
+        assert!(
+            result.is_err(),
+            "expected error for unbalanced quote, got: {result:?}"
+        );
+    }
+
+    /// A raw `"` character (lone double-quote) is the minimal unbalanced-phrase
+    /// trigger — also must not panic.
+    #[tokio::test]
+    async fn malformed_query_lone_quote_returns_error() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let result = index
+            .search(SearchRequest {
+                text: "\"".to_string(),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await;
+        assert!(
+            result.is_err(),
+            "expected error for lone quote, got: {result:?}"
+        );
+    }
+
+    /// A query string longer than MAX_QUERY_LEN bytes is rejected before it
+    /// reaches the Tantivy parser, preventing slow tokenisation passes.
+    #[tokio::test]
+    async fn oversized_query_returns_error() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let long_query = "a ".repeat(MAX_QUERY_LEN + 1);
+        let result = index
+            .search(SearchRequest {
+                text: long_query,
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await;
+        let Err(err) = result else {
+            panic!("expected error for oversized query, got ok");
+        };
+        let err_msg = err.to_string();
+        assert!(
+            err_msg.contains("too long"),
+            "error should mention 'too long', got: {err_msg}"
+        );
+    }
+
+    /// The per-request result limit is clamped to at most 200 regardless of
+    /// what the caller supplies.  Index more than 200 docs and request 9999;
+    /// the response must cap at 200.
+    #[tokio::test]
+    async fn result_limit_is_clamped_to_200() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let spans: Vec<_> = (0..250)
+            .map(|i| {
+                fixture_span(
+                    &tenant,
+                    &format!("trace-{i}"),
+                    &format!("span-{i}"),
+                    "needle",
+                    SpanStatus::Ok,
+                )
+            })
+            .collect();
+        index
+            .index_spans(&spans)
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                text: "needle".to_string(),
+                limit: Some(9_999),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert!(
+            response.hits.len() <= 200,
+            "expected ≤200 hits (limit clamp), got {}",
+            response.hits.len()
+        );
+    }
+
+    /// A well-formed normal query succeeds as a baseline regression guard.
+    #[tokio::test]
+    async fn normal_query_succeeds() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        index
+            .index_spans(&[fixture_span(
+                &tenant,
+                "trace-ok",
+                "span-ok",
+                "healthy span",
+                SpanStatus::Ok,
+            )])
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let response = index
+            .search(SearchRequest {
+                text: "healthy".to_string(),
+                limit: Some(10),
+                ..SearchRequest::default_for_tenant(tenant)
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(response.hits.len(), 1);
+        assert_eq!(response.hits[0].trace_id, "trace-ok");
+    }
+
+    // ── end query-hardening regression tests ──────────────────────────────────
+
+    // ── H7 cross-tenant DSL field-injection regression tests ──────────────────
+    //
+    // These tests prove that the mandatory `Occur::Must` tenant clause in
+    // `filtered_query` cannot be escaped by anything a caller places in the
+    // free-text query string.  All three variants must return zero hits from
+    // tenant B's documents when the search is executed as tenant A.
+
+    /// Happy path: tenant A can see its own spans, tenant B can see its own.
+    /// This baseline confirms the shared index actually has both tenants' data.
+    #[tokio::test]
+    async fn cross_tenant_baseline_each_tenant_sees_own_data() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant_a = TenantId::new("tenant-alpha").unwrap_or_else(|err| panic!("{err}"));
+        let tenant_b = TenantId::new("tenant-bravo").unwrap_or_else(|err| panic!("{err}"));
+
+        index
+            .index_spans(&[
+                fixture_span(
+                    &tenant_a,
+                    "trace-a",
+                    "span-a",
+                    "alpha secret",
+                    SpanStatus::Ok,
+                ),
+                fixture_span(
+                    &tenant_b,
+                    "trace-b",
+                    "span-b",
+                    "bravo secret",
+                    SpanStatus::Ok,
+                ),
+            ])
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let resp_a = index
+            .search(SearchRequest {
+                text: "secret".to_string(),
+                limit: Some(50),
+                ..SearchRequest::default_for_tenant(tenant_a.clone())
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        let resp_b = index
+            .search(SearchRequest {
+                text: "secret".to_string(),
+                limit: Some(50),
+                ..SearchRequest::default_for_tenant(tenant_b.clone())
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        // Each tenant sees exactly its own span.
+        assert_eq!(
+            resp_a.hits.len(),
+            1,
+            "tenant A should see 1 hit, got {:?}",
+            resp_a.hits.iter().map(|h| &h.span_id).collect::<Vec<_>>()
+        );
+        assert_eq!(resp_a.hits[0].span_id, "span-a");
+        assert_eq!(
+            resp_b.hits.len(),
+            1,
+            "tenant B should see 1 hit, got {:?}",
+            resp_b.hits.iter().map(|h| &h.span_id).collect::<Vec<_>>()
+        );
+        assert_eq!(resp_b.hits[0].span_id, "span-b");
+    }
+
+    /// Attempt 1 — direct field injection: user query string contains
+    /// `tenant_id:tenant-bravo`.  Tantivy's QueryParser can reference any
+    /// schema field with the `field:value` DSL syntax.  Even if Tantivy
+    /// parses this clause, the outer `Occur::Must` tenant guard must prevent
+    /// any tenant-B document from appearing in tenant-A's results.
+    #[tokio::test]
+    async fn cross_tenant_dsl_direct_field_injection_returns_no_hits() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant_a = TenantId::new("tenant-alpha").unwrap_or_else(|err| panic!("{err}"));
+        let tenant_b = TenantId::new("tenant-bravo").unwrap_or_else(|err| panic!("{err}"));
+
+        index
+            .index_spans(&[
+                fixture_span(&tenant_a, "trace-a", "span-a", "alpha data", SpanStatus::Ok),
+                fixture_span(&tenant_b, "trace-b", "span-b", "bravo data", SpanStatus::Ok),
+            ])
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        // Attempt to reference tenant B's tenant_id field directly.
+        // May return an error (field not in parser defaults) or zero hits —
+        // either outcome is acceptable; returning tenant-B docs is not.
+        let result = index
+            .search(SearchRequest {
+                text: "tenant_id:tenant-bravo".to_string(),
+                limit: Some(50),
+                ..SearchRequest::default_for_tenant(tenant_a.clone())
+            })
+            .await;
+
+        match result {
+            Err(_) => {
+                // Parser rejected the injected field reference — fine.
+            }
+            Ok(resp) => {
+                let cross_tenant_hits: Vec<_> =
+                    resp.hits.iter().filter(|h| h.span_id == "span-b").collect();
+                assert!(
+                    cross_tenant_hits.is_empty(),
+                    "SECURITY LEAK: tenant-A query with DSL injection returned tenant-B span: \
+                     {:?}",
+                    cross_tenant_hits
+                );
+            }
+        }
+    }
+
+    /// Attempt 2 — OR injection: user query string is `alpha OR
+    /// tenant_id:tenant-bravo`.  An attacker hopes the OR arms are evaluated
+    /// without the tenant guard, leaking docs that match the second arm.
+    /// The mandatory `Occur::Must` tenant clause must prevent this.
+    #[tokio::test]
+    async fn cross_tenant_dsl_or_injection_returns_no_tenant_b_hits() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant_a = TenantId::new("tenant-alpha").unwrap_or_else(|err| panic!("{err}"));
+        let tenant_b = TenantId::new("tenant-bravo").unwrap_or_else(|err| panic!("{err}"));
+
+        index
+            .index_spans(&[
+                fixture_span(
+                    &tenant_a,
+                    "trace-a",
+                    "span-a",
+                    "alpha payload",
+                    SpanStatus::Ok,
+                ),
+                fixture_span(
+                    &tenant_b,
+                    "trace-b",
+                    "span-b",
+                    "bravo payload",
+                    SpanStatus::Ok,
+                ),
+            ])
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        // OR-injection: attempt to also match tenant B spans via an OR clause.
+        let result = index
+            .search(SearchRequest {
+                text: "alpha OR tenant_id:tenant-bravo".to_string(),
+                limit: Some(50),
+                ..SearchRequest::default_for_tenant(tenant_a.clone())
+            })
+            .await;
+
+        match result {
+            Err(_) => {
+                // Rejected as malformed / unknown field — acceptable.
+            }
+            Ok(resp) => {
+                let cross_tenant_hits: Vec<_> =
+                    resp.hits.iter().filter(|h| h.span_id == "span-b").collect();
+                assert!(
+                    cross_tenant_hits.is_empty(),
+                    "SECURITY LEAK: OR-injection returned tenant-B span in tenant-A results: \
+                     {:?}",
+                    cross_tenant_hits
+                );
+                // Tenant A's own document MAY appear (the OR's left arm matches).
+                // What must NOT appear is any tenant-B document.
+            }
+        }
+    }
+
+    /// Attempt 3 — raw field override: user query string contains the literal
+    /// `tenant_id` field name but targeting tenant B, using quoted-phrase DSL
+    /// so that it is unlikely to be parsed as a default-field text search.
+    /// This exercises the case where the QueryParser can resolve named fields
+    /// from the Tantivy schema regardless of the default-field list.
+    #[tokio::test]
+    async fn cross_tenant_dsl_quoted_field_injection_returns_no_tenant_b_hits() {
+        let index = TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant_a = TenantId::new("tenant-alpha").unwrap_or_else(|err| panic!("{err}"));
+        let tenant_b = TenantId::new("tenant-bravo").unwrap_or_else(|err| panic!("{err}"));
+
+        index
+            .index_spans(&[
+                fixture_span(
+                    &tenant_a,
+                    "trace-a",
+                    "span-a",
+                    "alpha content here",
+                    SpanStatus::Ok,
+                ),
+                fixture_span(
+                    &tenant_b,
+                    "trace-b",
+                    "span-b",
+                    "bravo content here",
+                    SpanStatus::Ok,
+                ),
+            ])
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        // Quoted phrase targeting the tenant_id field for tenant B.
+        let result = index
+            .search(SearchRequest {
+                text: r#"tenant_id:"tenant-bravo""#.to_string(),
+                limit: Some(50),
+                ..SearchRequest::default_for_tenant(tenant_a.clone())
+            })
+            .await;
+
+        match result {
+            Err(_) => {
+                // Parse error — field reference rejected. Acceptable.
+            }
+            Ok(resp) => {
+                let cross_tenant_hits: Vec<_> =
+                    resp.hits.iter().filter(|h| h.span_id == "span-b").collect();
+                assert!(
+                    cross_tenant_hits.is_empty(),
+                    "SECURITY LEAK: quoted field injection returned tenant-B span in \
+                     tenant-A results: {:?}",
+                    cross_tenant_hits
+                );
+            }
+        }
+    }
+
+    // ── end H7 cross-tenant DSL field-injection regression tests ──────────────
 
     #[tokio::test]
     async fn trace_ingested_processor_reads_project_trace_and_indexes_spans() {
