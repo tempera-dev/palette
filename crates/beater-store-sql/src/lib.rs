@@ -8,7 +8,7 @@ use beater_schema::{
     SpanFilter, SpanSummary, TraceView, WriteAck,
 };
 use beater_store::{
-    lock_poisoned, page_vec, query_runs_by_materializing_spans, EnvironmentMetadata, MetadataStore,
+    lock_poisoned, query_runs_by_materializing_spans, EnvironmentMetadata, MetadataStore,
     OrganizationMetadata, ProjectMetadata, QuotaDecision, QuotaLimiter, QuotaReservationRequest,
     RoleBinding, StoreError, StoreResult, TraceStore,
 };
@@ -836,6 +836,14 @@ impl TraceStore for SqliteTraceStore {
         filter: SpanFilter,
         page: PageRequest,
     ) -> StoreResult<Page<SpanSummary>> {
+        let limit = page.limit.max(1) as usize;
+        let offset = page
+            .cursor
+            .as_deref()
+            .and_then(|cursor| cursor.parse::<usize>().ok())
+            .unwrap_or(0);
+        let sql_limit = limit.saturating_add(1).min(i64::MAX as usize) as i64;
+        let sql_offset = offset.min(i64::MAX as usize) as i64;
         let connection = self.lock()?;
         let mut statement = connection
             .prepare(
@@ -850,6 +858,7 @@ impl TraceStore for SqliteTraceStore {
                   AND (?6 IS NULL OR kind = ?6)
                   AND (?7 IS NULL OR status = ?7)
                 ORDER BY start_time DESC, seq ASC
+                LIMIT ?8 OFFSET ?9
                 "#,
             )
             .map_err(StoreError::backend)?;
@@ -869,6 +878,8 @@ impl TraceStore for SqliteTraceStore {
                     filter.span_id.as_ref().map(|span_id| span_id.as_str()),
                     filter.kind.as_ref().map(|kind| kind.as_str()),
                     filter.status.as_ref().map(|status| status.as_str()),
+                    sql_limit,
+                    sql_offset,
                 ],
                 |row| row.get::<_, String>(0),
             )
@@ -881,7 +892,13 @@ impl TraceStore for SqliteTraceStore {
             spans.push(span_summary(span));
         }
 
-        Ok(page_vec(spans, page))
+        let next_cursor = if spans.len() > limit {
+            spans.truncate(limit);
+            Some(offset.saturating_add(limit).to_string())
+        } else {
+            None
+        };
+        Ok(Page::new(spans, next_cursor))
     }
 }
 
@@ -964,13 +981,18 @@ fn conversion_error(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use beater_core::FixedClock;
+    use beater_core::{ArtifactId, FixedClock, Sha256Hash, SpanId};
+    use beater_schema::{
+        AgentSpanKind, ArtifactRef, RedactionClass, SpanStatus, CANONICAL_SCHEMA_VERSION,
+    };
     use beater_store_conformance::{
         assert_metadata_store_conformance, assert_quota_limiter_conformance,
         assert_trace_store_conformance,
     };
     use beater_store_memory::{InMemoryMetadataStore, InMemoryQuotaLimiter, InMemoryTraceStore};
     use chrono::{TimeZone, Utc};
+    use serde_json::json;
+    use std::collections::BTreeMap;
 
     #[test]
     fn local_sqlite_migration_executes_and_is_idempotent() {
@@ -1044,6 +1066,168 @@ mod tests {
             SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")),
         )
         .await;
+    }
+
+    #[tokio::test]
+    async fn sqlite_query_spans_pushes_page_limit_to_sql() {
+        let store = SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
+        let trace = TraceId::new("trace").unwrap_or_else(|err| panic!("{err}"));
+        let raw_ref = test_artifact_ref("raw");
+        let newest = test_span(
+            &tenant,
+            &project,
+            &environment,
+            &trace,
+            "newest",
+            10,
+            raw_ref.clone(),
+        );
+        let middle = test_span(
+            &tenant,
+            &project,
+            &environment,
+            &trace,
+            "middle",
+            9,
+            raw_ref.clone(),
+        );
+        let older = test_span(
+            &tenant,
+            &project,
+            &environment,
+            &trace,
+            "older",
+            8,
+            raw_ref.clone(),
+        );
+        store
+            .write_batch(CanonicalTraceBatch {
+                raw_envelopes: Vec::new(),
+                spans: vec![newest, middle, older],
+            })
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        insert_malformed_older_span(&store, &tenant, &project, &environment, &trace);
+
+        let first = store
+            .query_spans(
+                tenant.clone(),
+                SpanFilter::default(),
+                PageRequest {
+                    limit: 1,
+                    cursor: None,
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(first.items.len(), 1);
+        assert_eq!(first.items[0].span_id.as_str(), "newest");
+        assert_eq!(first.next_cursor.as_deref(), Some("1"));
+
+        let second = store
+            .query_spans(
+                tenant,
+                SpanFilter::default(),
+                PageRequest {
+                    limit: 1,
+                    cursor: first.next_cursor,
+                },
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(second.items.len(), 1);
+        assert_eq!(second.items[0].span_id.as_str(), "middle");
+        assert_eq!(second.next_cursor.as_deref(), Some("2"));
+    }
+
+    fn test_span(
+        tenant: &TenantId,
+        project: &ProjectId,
+        environment: &EnvironmentId,
+        trace: &TraceId,
+        span: &str,
+        seq: u64,
+        raw_ref: ArtifactRef,
+    ) -> CanonicalSpan {
+        CanonicalSpan {
+            schema_version: CANONICAL_SCHEMA_VERSION,
+            normalizer_version: "test-normalizer".to_string(),
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            environment_id: environment.clone(),
+            trace_id: trace.clone(),
+            span_id: SpanId::new(span).unwrap_or_else(|err| panic!("{err}")),
+            parent_span_id: None,
+            seq,
+            kind: AgentSpanKind::AgentRun,
+            name: span.to_string(),
+            status: SpanStatus::Ok,
+            start_time: Utc
+                .with_ymd_and_hms(2026, 6, 1, 0, 0, seq as u32)
+                .single()
+                .unwrap_or_else(|| panic!("valid timestamp")),
+            end_time: None,
+            model: None,
+            cost: None,
+            tokens: None,
+            input_ref: None,
+            output_ref: None,
+            attributes: BTreeMap::new(),
+            unmapped_attrs: json!({}),
+            raw_ref,
+        }
+    }
+
+    fn insert_malformed_older_span(
+        store: &SqliteTraceStore,
+        tenant: &TenantId,
+        project: &ProjectId,
+        environment: &EnvironmentId,
+        trace: &TraceId,
+    ) {
+        let connection = store.lock().unwrap_or_else(|err| panic!("{err}"));
+        connection
+            .execute(
+                r#"
+                INSERT INTO spans
+                  (tenant_id, project_id, environment_id, trace_id, span_id, seq,
+                   kind, status, name, start_time, end_time, span_json)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, NULL, ?11)
+                "#,
+                params![
+                    tenant.as_str(),
+                    project.as_str(),
+                    environment.as_str(),
+                    trace.as_str(),
+                    "malformed",
+                    1_i64,
+                    AgentSpanKind::AgentRun.as_str(),
+                    SpanStatus::Ok.as_str(),
+                    "malformed",
+                    Utc.with_ymd_and_hms(2026, 6, 1, 0, 0, 1)
+                        .single()
+                        .unwrap_or_else(|| panic!("valid timestamp"))
+                        .to_rfc3339(),
+                    "{not-json",
+                ],
+            )
+            .unwrap_or_else(|err| panic!("{err}"));
+    }
+
+    fn test_artifact_ref(name: &str) -> ArtifactRef {
+        ArtifactRef {
+            artifact_id: ArtifactId::new(name).unwrap_or_else(|err| panic!("{err}")),
+            uri: format!("artifact://tenant/project/{name}"),
+            sha256: Sha256Hash::new("ab".repeat(32)).unwrap_or_else(|err| panic!("{err}")),
+            size_bytes: 2,
+            mime_type: "application/json".to_string(),
+            redaction_class: RedactionClass::Internal,
+        }
     }
 
     #[tokio::test]
