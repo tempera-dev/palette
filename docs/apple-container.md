@@ -51,6 +51,11 @@ available on this hardware."` Run the Apple-`container` path locally on bare-met
 Apple silicon with the commands above; re-introduce a CI job only behind a
 self-hosted bare-metal Apple-silicon runner.
 
+The static contract for this local-only path is
+`scripts/check-apple-container-docs.py`; it keeps the docs aligned with
+`scripts/container-runtime.sh`, `scripts/build-image.sh`, and
+`scripts/run-beaterd.sh`.
+
 ## Notes
 
 - Apple `container` requires **macOS 26 on Apple silicon**.
