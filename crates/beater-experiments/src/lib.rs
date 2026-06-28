@@ -877,7 +877,10 @@ impl ProposalStrategy for LlmRewrite {
         Ok(vec![CandidateChange {
             kind: ChangeKind::SystemPrompt,
             target: "system_prompt".to_string(),
-            description: format!("Rewrite the system prompt to better satisfy goal: {}", ctx.goal),
+            description: format!(
+                "Rewrite the system prompt to better satisfy goal: {}",
+                ctx.goal
+            ),
             rationale:
                 "reflective LLM rewrite placeholder candidate (§21.3); must clear the held-out \
                  Test gate + beater-stats CI before acceptance"
