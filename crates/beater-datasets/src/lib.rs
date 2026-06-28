@@ -1,9 +1,9 @@
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{
-    sha256_json_hash, AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId, EnvironmentId,
-    EvalResultId, EvaluatorVersionId, ProjectId, PromptVersionId, ProviderSecretId, Sha256Hash,
-    SpanId, TenantId, Timestamp, TraceId,
+    sha256_hex, sha256_json_hash, AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId,
+    EnvironmentId, EvalResultId, EvaluatorVersionId, ProjectId, PromptVersionId, ProviderSecretId,
+    Sha256Hash, SpanId, TenantId, Timestamp, TraceId,
 };
 use beater_eval::{evaluate_deterministic, EvaluationCase, EvaluatorSpec, ScoreResult};
 use beater_judge::{JudgeBroker, JudgeBrokerOutcome, JudgeBrokerRequest};
@@ -13,6 +13,8 @@ use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use std::collections::BTreeSet;
+use std::fmt;
 use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
@@ -114,6 +116,190 @@ pub struct DatasetVersionSnapshot {
     pub cases: Vec<DatasetCase>,
     #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DatasetSplit {
+    Train,
+    Dev,
+    Test,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct SplitProportions {
+    pub train_bps: u16,
+    pub dev_bps: u16,
+    pub test_bps: u16,
+}
+
+impl SplitProportions {
+    pub const DEFAULT: Self = Self {
+        train_bps: 7_000,
+        dev_bps: 1_500,
+        test_bps: 1_500,
+    };
+
+    pub const BASIS_POINTS: u16 = 10_000;
+
+    pub const fn new(train_bps: u16, dev_bps: u16, test_bps: u16) -> Self {
+        Self {
+            train_bps,
+            dev_bps,
+            test_bps,
+        }
+    }
+
+    pub fn validate(self) -> Result<Self, SplitAssignmentError> {
+        if self.train_bps == 0 || self.dev_bps == 0 || self.test_bps == 0 {
+            return Err(SplitAssignmentError::ZeroBucket);
+        }
+        if u32::from(self.train_bps) + u32::from(self.dev_bps) + u32::from(self.test_bps)
+            != u32::from(Self::BASIS_POINTS)
+        {
+            return Err(SplitAssignmentError::InvalidTotal);
+        }
+        Ok(self)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum SplitAssignmentError {
+    ZeroBucket,
+    InvalidTotal,
+}
+
+impl fmt::Display for SplitAssignmentError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::ZeroBucket => write!(formatter, "dataset split proportions must be non-zero"),
+            Self::InvalidTotal => write!(
+                formatter,
+                "dataset split proportions must sum to 10000 basis points"
+            ),
+        }
+    }
+}
+
+impl std::error::Error for SplitAssignmentError {}
+
+pub fn assign_dataset_split(dataset_version_seed: &str, case_id: &DatasetCaseId) -> DatasetSplit {
+    match assign_dataset_split_with_proportions(
+        dataset_version_seed,
+        case_id,
+        SplitProportions::DEFAULT,
+    ) {
+        Ok(split) => split,
+        Err(_) => unreachable!("default split proportions are valid"),
+    }
+}
+
+pub fn assign_dataset_split_with_proportions(
+    dataset_version_seed: &str,
+    case_id: &DatasetCaseId,
+    proportions: SplitProportions,
+) -> Result<DatasetSplit, SplitAssignmentError> {
+    let proportions = proportions.validate()?;
+    let bucket = split_bucket(dataset_version_seed, case_id);
+    if bucket < u64::from(proportions.train_bps) {
+        Ok(DatasetSplit::Train)
+    } else if bucket < u64::from(proportions.train_bps + proportions.dev_bps) {
+        Ok(DatasetSplit::Dev)
+    } else {
+        Ok(DatasetSplit::Test)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct NearDuplicatePolicy {
+    pub ngram_width: usize,
+    pub jaccard_threshold: f64,
+}
+
+impl Default for NearDuplicatePolicy {
+    fn default() -> Self {
+        Self {
+            ngram_width: 5,
+            jaccard_threshold: 0.8,
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ContaminationCase {
+    pub case_id: DatasetCaseId,
+    pub split: DatasetSplit,
+    pub text: String,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub struct ContaminationOverlap {
+    pub train_case_id: DatasetCaseId,
+    pub test_case_id: DatasetCaseId,
+    pub similarity: f64,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum ContaminationError {
+    InvalidPolicy(String),
+    TrainTestOverlap(ContaminationOverlap),
+}
+
+impl fmt::Display for ContaminationError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::InvalidPolicy(reason) => write!(formatter, "invalid contamination policy: {reason}"),
+            Self::TrainTestOverlap(overlap) => write!(
+                formatter,
+                "near-duplicate contamination between train case {} and test case {} (similarity {:.3})",
+                overlap.train_case_id.as_str(),
+                overlap.test_case_id.as_str(),
+                overlap.similarity
+            ),
+        }
+    }
+}
+
+impl std::error::Error for ContaminationError {}
+
+pub fn contamination_text_for_case(case: &DatasetCase) -> String {
+    let mut parts = Vec::new();
+    parts.push(case.input.to_string());
+    if let Some(reference) = &case.reference {
+        parts.push(reference.to_string());
+    }
+    parts.push(case.output.to_string());
+    parts.join("\n")
+}
+
+pub fn reject_train_test_contamination(
+    cases: &[ContaminationCase],
+    policy: &NearDuplicatePolicy,
+) -> Result<(), ContaminationError> {
+    validate_near_duplicate_policy(policy)?;
+    let train = cases
+        .iter()
+        .filter(|case| case.split == DatasetSplit::Train)
+        .collect::<Vec<_>>();
+    let test = cases
+        .iter()
+        .filter(|case| case.split == DatasetSplit::Test)
+        .collect::<Vec<_>>();
+
+    for train_case in train {
+        for test_case in &test {
+            let similarity =
+                near_duplicate_similarity(&train_case.text, &test_case.text, policy.ngram_width);
+            if similarity >= policy.jaccard_threshold {
+                return Err(ContaminationError::TrainTestOverlap(ContaminationOverlap {
+                    train_case_id: train_case.case_id.clone(),
+                    test_case_id: test_case.case_id.clone(),
+                    similarity,
+                }));
+            }
+        }
+    }
+    Ok(())
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -862,6 +1048,99 @@ fn evaluator_spec_hash(spec: &EvaluatorSpec) -> anyhow::Result<Sha256Hash> {
     sha256_json_hash(spec).context("serialize evaluator spec for hash")
 }
 
+fn split_bucket(dataset_version_seed: &str, case_id: &DatasetCaseId) -> u64 {
+    let mut hash_input =
+        Vec::with_capacity(dataset_version_seed.len() + case_id.as_str().len() + 1);
+    hash_input.extend_from_slice(dataset_version_seed.as_bytes());
+    hash_input.push(0);
+    hash_input.extend_from_slice(case_id.as_str().as_bytes());
+    let digest = sha256_hex(&hash_input);
+    let value = digest
+        .bytes()
+        .take(16)
+        .fold(0u64, |value, byte| (value << 4) | hex_nibble(byte));
+    value % u64::from(SplitProportions::BASIS_POINTS)
+}
+
+fn hex_nibble(byte: u8) -> u64 {
+    match byte {
+        b'0'..=b'9' => u64::from(byte - b'0'),
+        b'a'..=b'f' => u64::from(byte - b'a' + 10),
+        b'A'..=b'F' => u64::from(byte - b'A' + 10),
+        _ => unreachable!("sha256 digest contains only hex digits"),
+    }
+}
+
+fn validate_near_duplicate_policy(policy: &NearDuplicatePolicy) -> Result<(), ContaminationError> {
+    if policy.ngram_width == 0 {
+        return Err(ContaminationError::InvalidPolicy(
+            "ngram_width must be greater than zero".to_string(),
+        ));
+    }
+    if !(0.0..=1.0).contains(&policy.jaccard_threshold) || policy.jaccard_threshold.is_nan() {
+        return Err(ContaminationError::InvalidPolicy(
+            "jaccard_threshold must be between 0.0 and 1.0".to_string(),
+        ));
+    }
+    Ok(())
+}
+
+fn near_duplicate_similarity(left: &str, right: &str, ngram_width: usize) -> f64 {
+    let left_normalized = normalize_contamination_text(left);
+    let right_normalized = normalize_contamination_text(right);
+    if left_normalized.is_empty() || right_normalized.is_empty() {
+        return 0.0;
+    }
+    if left_normalized == right_normalized {
+        return 1.0;
+    }
+    let left_ngrams = word_ngrams(&left_normalized, ngram_width);
+    let right_ngrams = word_ngrams(&right_normalized, ngram_width);
+    jaccard_similarity(&left_ngrams, &right_ngrams)
+}
+
+fn normalize_contamination_text(text: &str) -> String {
+    let mut normalized = String::with_capacity(text.len());
+    let mut pending_space = false;
+    for character in text.chars() {
+        if character.is_alphanumeric() {
+            if pending_space && !normalized.is_empty() {
+                normalized.push(' ');
+            }
+            for lower in character.to_lowercase() {
+                normalized.push(lower);
+            }
+            pending_space = false;
+        } else {
+            pending_space = true;
+        }
+    }
+    normalized
+}
+
+fn word_ngrams(normalized: &str, ngram_width: usize) -> BTreeSet<String> {
+    let words = normalized.split_whitespace().collect::<Vec<_>>();
+    if words.is_empty() {
+        return BTreeSet::new();
+    }
+    if words.len() <= ngram_width {
+        return BTreeSet::from([words.join(" ")]);
+    }
+    words
+        .windows(ngram_width)
+        .map(|window| window.join(" "))
+        .collect()
+}
+
+fn jaccard_similarity(left: &BTreeSet<String>, right: &BTreeSet<String>) -> f64 {
+    if left.is_empty() || right.is_empty() {
+        return 0.0;
+    }
+    let intersection = left.intersection(right).count();
+    let union = left.union(right).count();
+    intersection as f64 / union as f64
+}
+
 fn select_cases(
     all_cases: Vec<DatasetCase>,
     case_ids: Option<Vec<DatasetCaseId>>,
@@ -914,6 +1193,121 @@ mod tests {
     };
     use serde_json::json;
     use std::collections::BTreeMap;
+
+    #[test]
+    fn split_assignment_is_seeded_and_stable() {
+        let case_id = DatasetCaseId::new("case-42").unwrap_or_else(|err| panic!("{err}"));
+
+        let first = assign_dataset_split("dataset-version-seed-a", &case_id);
+        let second = assign_dataset_split("dataset-version-seed-a", &case_id);
+        assert_eq!(first, second);
+
+        let custom = assign_dataset_split_with_proportions(
+            "dataset-version-seed-a",
+            &case_id,
+            SplitProportions::new(9_999, 0, 1),
+        );
+        assert_eq!(custom, Err(SplitAssignmentError::ZeroBucket));
+
+        let mostly_train = assign_dataset_split_with_proportions(
+            "dataset-version-seed-a",
+            &case_id,
+            SplitProportions::new(9_998, 1, 1),
+        )
+        .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(mostly_train, DatasetSplit::Train);
+    }
+
+    #[test]
+    fn split_assignment_tracks_default_proportions_without_reshuffling() {
+        let mut train = 0;
+        let mut dev = 0;
+        let mut test = 0;
+        for index in 0..1_000 {
+            let case_id =
+                DatasetCaseId::new(format!("case-{index}")).unwrap_or_else(|err| panic!("{err}"));
+            match assign_dataset_split("frozen-version-seed", &case_id) {
+                DatasetSplit::Train => train += 1,
+                DatasetSplit::Dev => dev += 1,
+                DatasetSplit::Test => test += 1,
+            }
+        }
+
+        assert!((650..=750).contains(&train), "train={train}");
+        assert!((100..=200).contains(&dev), "dev={dev}");
+        assert!((100..=200).contains(&test), "test={test}");
+    }
+
+    #[test]
+    fn contamination_guard_rejects_train_test_near_duplicate() {
+        let policy = NearDuplicatePolicy {
+            ngram_width: 2,
+            jaccard_threshold: 0.35,
+        };
+        let result = reject_train_test_contamination(
+            &[
+                contamination_case(
+                    "train-1",
+                    DatasetSplit::Train,
+                    "Reset the customer password after verifying email ownership",
+                ),
+                contamination_case(
+                    "test-1",
+                    DatasetSplit::Test,
+                    "reset customer password after verifying the email ownership",
+                ),
+            ],
+            &policy,
+        );
+
+        let Err(ContaminationError::TrainTestOverlap(overlap)) = result else {
+            panic!("expected train/test contamination rejection");
+        };
+        assert_eq!(overlap.train_case_id.as_str(), "train-1");
+        assert_eq!(overlap.test_case_id.as_str(), "test-1");
+        assert!(overlap.similarity >= 0.35, "{}", overlap.similarity);
+    }
+
+    #[test]
+    fn contamination_guard_allows_dev_overlap_and_distinct_test() {
+        let cases = [
+            contamination_case(
+                "train-1",
+                DatasetSplit::Train,
+                "Summarize the failed payment dispute for an account manager",
+            ),
+            contamination_case(
+                "dev-1",
+                DatasetSplit::Dev,
+                "Summarize failed payment dispute for the account manager",
+            ),
+            contamination_case(
+                "test-1",
+                DatasetSplit::Test,
+                "Classify whether a support answer contains a citation",
+            ),
+        ];
+
+        reject_train_test_contamination(&cases, &NearDuplicatePolicy::default())
+            .unwrap_or_else(|err| panic!("{err}"));
+    }
+
+    #[test]
+    fn contamination_text_uses_case_io_without_trace_payload() {
+        let case = fixture_dataset_case(
+            "case-with-trace",
+            json!({ "prompt": "question" }),
+            json!({ "answer": "response" }),
+            Some(json!("reference")),
+            json!({ "large_trace": "not part of fingerprint text" }),
+        );
+
+        let text = contamination_text_for_case(&case);
+        assert!(text.contains("question"));
+        assert!(text.contains("reference"));
+        assert!(text.contains("response"));
+        assert!(!text.contains("large_trace"));
+    }
 
     #[tokio::test]
     async fn promotes_trace_case_versions_and_runs_deterministic_eval() {
@@ -1064,6 +1458,40 @@ mod tests {
             .await
             .unwrap_or_else(|err| panic!("{err}"));
         assert!(cases.is_empty());
+    }
+
+    fn contamination_case(case_id: &str, split: DatasetSplit, text: &str) -> ContaminationCase {
+        ContaminationCase {
+            case_id: DatasetCaseId::new(case_id).unwrap_or_else(|err| panic!("{err}")),
+            split,
+            text: text.to_string(),
+        }
+    }
+
+    fn fixture_dataset_case(
+        case_id: &str,
+        input: Value,
+        output: Value,
+        reference: Option<Value>,
+        trace: Value,
+    ) -> DatasetCase {
+        DatasetCase {
+            tenant_id: TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+            project_id: ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            dataset_id: DatasetId::new("dataset").unwrap_or_else(|err| panic!("{err}")),
+            case_id: DatasetCaseId::new(case_id).unwrap_or_else(|err| panic!("{err}")),
+            source_trace_id: TraceId::new("trace").unwrap_or_else(|err| panic!("{err}")),
+            source_span_id: SpanId::new("span").unwrap_or_else(|err| panic!("{err}")),
+            source_environment_id: EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}")),
+            input,
+            output,
+            reference,
+            trace,
+            normalizer_version: "beater-test-v1".to_string(),
+            trace_schema_version: CANONICAL_SCHEMA_VERSION,
+            input_artifact_hashes: Vec::new(),
+            created_at: Utc::now(),
+        }
     }
 
     fn fixture_trace(tenant: &TenantId, project: &ProjectId) -> TraceView {
