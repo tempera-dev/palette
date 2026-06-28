@@ -137,6 +137,24 @@ fn spec_op_methods() -> BTreeMap<String, String> {
     map
 }
 
+/// Test-side mirror of the bridge's `post_is_destructive` operation-aware risk
+/// policy (kept private in `lib.rs`). Used to compute the expected
+/// `destructiveHint` for dangerous `POST` tools advertised over `/mcp`. If the
+/// bridge policy changes, this must change with it.
+fn post_is_dangerous(operation_id: &str) -> bool {
+    const DANGEROUS_SUBSTRINGS: &[&str] =
+        &["ApiKey", "Secret", "Dataset", "Gate", "Review", "Connector"];
+    const DANGEROUS_PREFIXES: &[&str] = &[
+        "revoke", "delete", "remove", "purge", "run", "evaluate", "import",
+    ];
+    DANGEROUS_SUBSTRINGS
+        .iter()
+        .any(|frag| operation_id.contains(frag))
+        || DANGEROUS_PREFIXES
+            .iter()
+            .any(|verb| operation_id.starts_with(verb))
+}
+
 /// Fetch the `tools/list` array over the `/mcp` route.
 async fn list_tools(app: &Router) -> Vec<Value> {
     let (status, listed) = mcp_call(
@@ -456,7 +474,11 @@ async fn tools_list_exposes_output_schema_and_annotations() {
         let method = methods.get(name).expect("tool maps to a spec method");
         let expect_read_only = method == "GET";
         let expect_idempotent = matches!(method.as_str(), "GET" | "PUT" | "DELETE");
-        let expect_destructive = matches!(method.as_str(), "PUT" | "DELETE");
+        // `PUT`/`DELETE` are destructive by method; a `POST` is destructive when
+        // the operation-aware risk policy flags it (mirrors `post_is_destructive`
+        // in the bridge — see `lib.rs`).
+        let expect_destructive = matches!(method.as_str(), "PUT" | "DELETE")
+            || (method == "POST" && post_is_dangerous(name));
         assert_eq!(
             ann["readOnlyHint"], expect_read_only,
             "{name} ({method}): readOnlyHint"
@@ -494,10 +516,73 @@ async fn representative_tools_have_correct_safety_hints() {
     assert_eq!(listing["annotations"]["destructiveHint"], false);
     assert_eq!(listing["annotations"]["idempotentHint"], true);
 
-    // POST: a write, not read-only.
+    // POST: a write, not read-only. `createDataset` is a dataset write, so the
+    // operation-aware policy elevates it to destructive.
     let create = by_name("createDataset");
     assert_eq!(create["annotations"]["readOnlyHint"], false);
     assert_eq!(create["annotations"]["idempotentHint"], false);
+    assert_eq!(
+        create["annotations"]["destructiveHint"], true,
+        "createDataset is a dataset write and must advertise destructiveHint: true"
+    );
+
+    // POST: a benign append-only ingest stays non-destructive.
+    let ingest = by_name("ingestOtlp");
+    assert_eq!(ingest["annotations"]["readOnlyHint"], false);
+    assert_eq!(
+        ingest["annotations"]["destructiveHint"], false,
+        "ingestOtlp is append-only telemetry and must stay destructiveHint: false"
+    );
+}
+
+/// Over the live `/mcp` route, every known dangerous `POST` operation advertises
+/// `destructiveHint: true` so MCP clients gate them behind confirmation UX. This
+/// enumerates real, spec-derived operationIds across each dangerous category.
+#[tokio::test]
+async fn dangerous_post_tools_advertise_destructive_hint_over_route() {
+    let (state, _tempdir) = build_state();
+    let app = beater_mcp::router(state);
+    let tools = list_tools(&app).await;
+    let by_name = |n: &str| {
+        tools
+            .iter()
+            .find(|t| t["name"] == n)
+            .unwrap_or_else(|| panic!("{n} present"))
+            .clone()
+    };
+
+    let dangerous = [
+        "createApiKey",
+        "revokeApiKey",
+        "createProviderSecret",
+        "revokeProviderSecret",
+        "runGate",
+        "runDeterministicEval",
+        "runJudgeEval",
+        "runJudgeExperiment",
+        "runCalibration",
+        "evaluateJudge",
+        "createDataset",
+        "createDatasetVersion",
+        "promoteDatasetCaseFromTrace",
+        "createGate",
+        "createReviewQueue",
+        "submitReviewAnnotation",
+        "promoteReviewAnnotation",
+        "enqueueReviewTaskFromTrace",
+        "importSource",
+    ];
+    for name in dangerous {
+        let tool = by_name(name);
+        assert_eq!(
+            tool["annotations"]["destructiveHint"], true,
+            "{name}: dangerous POST must advertise destructiveHint: true"
+        );
+        assert_eq!(
+            tool["annotations"]["readOnlyHint"], false,
+            "{name}: dangerous POST is never read-only"
+        );
+    }
 }
 
 /// The `outputSchema` for an operation returning a component type resolves its

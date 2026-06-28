@@ -320,26 +320,105 @@ fn tool_to_json(tool: &ToolSpec) -> Value {
     }
     obj.insert(
         "annotations".to_string(),
-        annotations_for(&tool.method, &tool.description),
+        annotations_for(&tool.name, &tool.method, &tool.description),
     );
     Value::Object(obj)
 }
 
-/// Behavioural hints derived purely from the HTTP method, per the MCP tool
-/// annotations contract: `GET` is read-only; `PUT`/`DELETE` are idempotent and
-/// may overwrite/remove state, so they are flagged destructive; `POST` is a
-/// non-idempotent, non-destructive write. These are advisory hints clients use
-/// to gate or batch calls — they are not a security boundary.
-fn annotations_for(method: &str, title: &str) -> Value {
+/// Behavioural hints for one tool, per the MCP tool annotations contract.
+///
+/// The base hints follow HTTP method semantics: `GET` is read-only and
+/// idempotent; `PUT`/`DELETE` are idempotent and may overwrite/remove state, so
+/// they are flagged destructive; `POST` is a non-idempotent write.
+///
+/// HTTP method alone is *not* sufficient for `POST`, though. Beater models many
+/// genuinely dangerous actions as `POST` — creating/revoking secrets and API
+/// keys, running evals/gates/experiments, mutating datasets and review queues,
+/// and invoking external connectors. A method-only policy would mark all of
+/// these `destructiveHint: false`, causing MCP clients that gate on
+/// `destructiveHint` to under-warn users before irreversible or side-effecting
+/// calls. We therefore consult [`post_is_destructive`], an operation-aware risk
+/// policy keyed on the `operation_id`, to elevate dangerous `POST`s.
+///
+/// These remain advisory hints clients use to gate or batch calls — they are not
+/// a security boundary, and the server still authorizes every call independently.
+fn annotations_for(operation_id: &str, method: &str, title: &str) -> Value {
     let read_only = method == "GET";
     let idempotent = matches!(method, "GET" | "PUT" | "DELETE");
-    let destructive = matches!(method, "PUT" | "DELETE");
+    // `PUT`/`DELETE` are destructive by HTTP semantics; a `POST` is destructive
+    // only when the operation-aware risk policy flags it.
+    let destructive = matches!(method, "PUT" | "DELETE")
+        || (method == "POST" && post_is_destructive(operation_id));
     json!({
         "title": title,
         "readOnlyHint": read_only,
         "destructiveHint": destructive,
         "idempotentHint": idempotent,
     })
+}
+
+/// Operation-aware risk policy for `POST` tools: returns `true` when an
+/// operation should advertise `destructiveHint: true`.
+///
+/// ## Why this exists
+///
+/// The tool catalog is spec-derived (see [`build_tools`]) and stays the single
+/// source of truth for *which* tools exist. This function does NOT re-list tools;
+/// it only encodes the *risk policy* for the `POST` ones, matching real
+/// `operationId`s (camelCase, e.g. `revokeApiKey`, `runGate`) by prefix/substring
+/// so new operations in an existing dangerous family are covered automatically.
+///
+/// ## Reviewing new `/v1` operations for MCP risk metadata
+///
+/// MCP annotations default-safe: a brand-new `POST` is `destructiveHint: false`
+/// unless it matches a category below. So **when you add a `/v1` `POST` that
+/// mutates persistent state, revokes/rotates credentials, runs an eval/gate, or
+/// invokes an external system, extend the policy below to cover it.** The
+/// `post_policy_flags_known_dangerous_ops` test enumerates the currently known
+/// dangerous operations and fails if the policy stops flagging them, so the
+/// review is enforced rather than relying on memory.
+///
+/// ## Categories flagged destructive
+///
+/// - Secret / API-key lifecycle — create, rotate, or revoke credentials:
+///   `*ApiKey*`, `*Secret*` (covers `createApiKey`, `createProviderSecret`,
+///   `revokeApiKey`, `revokeProviderSecret`).
+/// - Any revoke/delete-like verb: `revoke*`, `delete*`, `remove*`, `purge*`.
+/// - Eval / gate / experiment / calibration RUNS, which spend compute, call
+///   model providers, and write results: `run*`, `evaluate*` (covers
+///   `runGate`, `runDeterministicEval`, `runJudgeEval`, `runJudgeExperiment`,
+///   `runDeterministicExperiment`, `runCalibration`, `evaluateJudge`,
+///   `evaluateAlert`).
+/// - Dataset writes: `*Dataset*` (covers `createDataset`, `createDatasetVersion`,
+///   `promoteDatasetCaseFromTrace`).
+/// - Gate creation: `*Gate*` (covers `createGate`).
+/// - Review-queue mutations: `*Review*` (covers `createReviewQueue`,
+///   `submitReviewAnnotation`, `promoteReviewAnnotation`,
+///   `enqueueReviewTaskFromTrace`).
+/// - Connector / external-system invocation that imports or pushes data:
+///   `import*`, `*Connector*` (covers `importSource` and any future
+///   `invokeConnectorTool`-style operation).
+///
+/// Benign `POST`s deliberately left non-destructive (append-only telemetry or
+/// idempotent operational drains, none of which destroy user data): `ingestOtlp`,
+/// `ingestNative`, `decideOnlineSampling`, `drainTraceIngested`,
+/// `drainTraceWrites`, `reconcileTrace`, `replayDeadLetter`, `archiveTrace`.
+fn post_is_destructive(operation_id: &str) -> bool {
+    /// Substrings whose presence anywhere in the camelCase id marks a dangerous
+    /// operation family.
+    const DANGEROUS_SUBSTRINGS: &[&str] =
+        &["ApiKey", "Secret", "Dataset", "Gate", "Review", "Connector"];
+    /// Prefixes (verbs) that mark a dangerous action regardless of resource.
+    const DANGEROUS_PREFIXES: &[&str] = &[
+        "revoke", "delete", "remove", "purge", "run", "evaluate", "import",
+    ];
+
+    DANGEROUS_SUBSTRINGS
+        .iter()
+        .any(|frag| operation_id.contains(frag))
+        || DANGEROUS_PREFIXES
+            .iter()
+            .any(|verb| operation_id.starts_with(verb))
 }
 
 /// Name of the one synthetic, non-spec meta tool. Every other tool maps 1:1 to a
@@ -381,7 +460,7 @@ fn help_tool_json() -> Value {
             }
         },
         // Pure read of static, in-process data: read-only and idempotent.
-        "annotations": annotations_for("GET", "Discover Beater MCP tools"),
+        "annotations": annotations_for(HELP_TOOL_NAME, "GET", "Discover Beater MCP tools"),
     })
 }
 
@@ -804,7 +883,8 @@ mod tests {
 
     /// Method-derived annotations follow HTTP semantics for every method,
     /// including `PUT`/`DELETE` (which the spec does not currently use, so they
-    /// are only exercised here).
+    /// are only exercised here). Uses a benign operationId so the `POST` row
+    /// reflects pure method semantics, not the risk policy.
     #[test]
     fn annotations_track_http_method_semantics() {
         let cases = [
@@ -815,7 +895,9 @@ mod tests {
             ("DELETE", false, true, true),
         ];
         for (method, read_only, destructive, idempotent) in cases {
-            let a = annotations_for(method, "do a thing");
+            // `ingestOtlp` is a benign POST (append-only telemetry) so the base
+            // method semantics show through without the dangerous-op override.
+            let a = annotations_for("ingestOtlp", method, "do a thing");
             assert_eq!(a["title"], "do a thing", "{method}: title carried through");
             assert_eq!(a["readOnlyHint"], read_only, "{method}: readOnlyHint");
             assert_eq!(
@@ -831,9 +913,115 @@ mod tests {
     #[test]
     fn read_only_is_never_destructive() {
         for method in ["GET", "POST", "PUT", "DELETE"] {
-            let a = annotations_for(method, "t");
+            let a = annotations_for("getTrace", method, "t");
             if a["readOnlyHint"] == Value::Bool(true) {
                 assert_eq!(a["destructiveHint"], Value::Bool(false), "{method}");
+            }
+        }
+    }
+
+    /// The operation-aware risk policy elevates dangerous `POST`s to
+    /// `destructiveHint: true` while leaving benign `POST`s and read-only `GET`s
+    /// with correct hints. Enumerates known dangerous operationIds across every
+    /// category so a regression that silently downgrades them is caught.
+    #[test]
+    fn post_policy_flags_known_dangerous_ops() {
+        // Real operationIds from the spec that MUST be flagged destructive.
+        let dangerous = [
+            // Secret / API-key lifecycle (create / revoke).
+            "createApiKey",
+            "revokeApiKey",
+            "createProviderSecret",
+            "revokeProviderSecret",
+            // Eval / gate / experiment / calibration RUNS.
+            "runGate",
+            "runDeterministicEval",
+            "runJudgeEval",
+            "runDeterministicExperiment",
+            "runJudgeExperiment",
+            "runCalibration",
+            "evaluateJudge",
+            "evaluateAlert",
+            // Dataset writes.
+            "createDataset",
+            "createDatasetVersion",
+            "promoteDatasetCaseFromTrace",
+            // Gate creation.
+            "createGate",
+            // Review-queue mutations.
+            "createReviewQueue",
+            "submitReviewAnnotation",
+            "promoteReviewAnnotation",
+            "enqueueReviewTaskFromTrace",
+            // Connector / external-system invocation.
+            "importSource",
+        ];
+        for op in dangerous {
+            assert!(post_is_destructive(op), "{op} must be policy-dangerous");
+            let a = annotations_for(op, "POST", "t");
+            assert_eq!(
+                a["destructiveHint"],
+                Value::Bool(true),
+                "{op}: dangerous POST must advertise destructiveHint: true"
+            );
+            assert_eq!(
+                a["readOnlyHint"],
+                Value::Bool(false),
+                "{op}: dangerous POST is never read-only"
+            );
+        }
+    }
+
+    /// Benign `POST`s (append-only telemetry, idempotent operational drains) keep
+    /// `destructiveHint: false`, and read-only `GET`s are unaffected by the
+    /// policy. Guards against the policy over-warning on safe operations.
+    #[test]
+    fn benign_posts_and_reads_keep_correct_hints() {
+        let benign_posts = [
+            "ingestOtlp",
+            "ingestNative",
+            "decideOnlineSampling",
+            "drainTraceIngested",
+            "drainTraceWrites",
+            "reconcileTrace",
+            "replayDeadLetter",
+            "archiveTrace",
+        ];
+        for op in benign_posts {
+            assert!(
+                !post_is_destructive(op),
+                "{op} must NOT be policy-dangerous"
+            );
+            let a = annotations_for(op, "POST", "t");
+            assert_eq!(
+                a["destructiveHint"],
+                Value::Bool(false),
+                "{op}: benign POST must keep destructiveHint: false"
+            );
+        }
+
+        // A read-only GET that happens to share a dangerous resource word (e.g.
+        // `listProviderSecrets`) is still read-only and non-destructive — the
+        // override only applies to POST.
+        let a = annotations_for("listProviderSecrets", "GET", "t");
+        assert_eq!(a["readOnlyHint"], Value::Bool(true));
+        assert_eq!(a["destructiveHint"], Value::Bool(false));
+    }
+
+    /// Every dangerous `POST` advertised in `tools/list` carries
+    /// `destructiveHint: true`, tying the risk policy to the live spec-derived
+    /// catalog rather than a hand-maintained list.
+    #[test]
+    fn dangerous_post_tools_advertise_destructive_hint() {
+        for tool in tools() {
+            if tool.method == "POST" && post_is_destructive(&tool.name) {
+                let json = tool_to_json(tool);
+                assert_eq!(
+                    json["annotations"]["destructiveHint"],
+                    Value::Bool(true),
+                    "{}: dangerous POST tool must advertise destructiveHint: true",
+                    tool.name
+                );
             }
         }
     }
