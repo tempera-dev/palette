@@ -970,14 +970,26 @@ by `(dialect, source_span_kind)` → canonical span kind (§5.2), plus an
 **attribute-rename map** `source_attr → canonical_attr`, plus typed **unit/timestamp
 coercions** (epoch-ns vs RFC3339; tokens/cost field names; ms vs s). The pipeline per
 span is: (1) detect the dialect (explicit `?source=` or signature attributes); (2)
-look up the span-kind mapping (unknown kinds map to `agent.step` with the raw kind
-preserved as an attribute, never dropped); (3) apply the attribute-rename map and
-coerce units/timestamps; (4) emit the canonical span tagged with the **pinned
-normalizer version** (§10.2). The mapping is **table-driven** so adding/auditing a
-dialect is data, and every projection is re-derivable from the immutable raw envelope
-(§1 #3). The hard-coded normalizers (OTLP/OpenInference/GenAI/Vercel-AI) are
-hand-written tables on this same shape; the declarative MAPPING importer below is the
-same table supplied as config instead of code.
+look up the span-kind mapping (an unrecognized *declared* kind is not forced to
+`agent.step`; it falls through to the browser-marker and OTLP span-kind fallbacks,
+and the raw kind is preserved as an attribute, never dropped); (3) apply the
+attribute-rename map and coerce units/timestamps; (4) emit the canonical span tagged
+with the **pinned normalizer version** (§10.2). The mapping is **table-driven** so
+adding/auditing a dialect is data, and every projection is re-derivable from the
+immutable raw envelope (§1 #3). The hard-coded normalizers
+(OTLP/OpenInference/GenAI/Vercel-AI) are hand-written tables on this same shape; the
+declarative MAPPING importer below is the same table supplied as config instead of
+code.
+
+OpenInference defines ten `openinference.span.kind` values —
+`LLM`, `EMBEDDING`, `CHAIN`, `RETRIEVER`, `RERANKER`, `TOOL`, `AGENT`, `GUARDRAIL`,
+`EVALUATOR`, `PROMPT`. The `beater-otlp` table maps eight of them into §5.2 today
+(`CHAIN → agent.step`, `EMBEDDING → retrieval.query`, etc.); **`RERANKER` and
+`PROMPT` are not yet in the table and currently fall through to the OTLP fallback** —
+closing that gap (e.g. `RERANKER → retrieval.query` with the raw kind and
+`reranker.*` attributes preserved) is the §26.2 O8 interop-completeness target, along
+with the churn-prone new OTel `gen_ai.*` names (`gen_ai.provider.name` superseding
+`gen_ai.system`, `gen_ai.conversation.id`, `gen_ai.agent.*`, `gen_ai.tool.*`).
 
 Config-driven mapping importer (`SourceImporter` boundary). The hand-written
 normalizers above (OTLP/OpenInference/GenAI/Vercel-AI) cover the standard dialects,
@@ -1149,17 +1161,22 @@ Required survivability behavior:
 
 - Backpressure with bounded queues.
 - **At-least-once delivery reconciled by idempotency keys (the dedup algorithm).**
-  Each ingest unit carries an **idempotency key** = a stable content hash of its
-  identity — `blake3(tenant_id ‖ trace_id ‖ span_id ‖ canonical-payload-hash)`,
-  or a client-supplied `Idempotency-Key` when present. Dedup is an
-  **existence-check-then-insert**: the write path does an atomic
+  Each ingest unit carries an **idempotency key** — a deterministic identity string
+  built by `make_idempotency_key` (`beater-schema`) as
+  `tenant_id:project_id:trace_id:span_id:seq:payload_hash`, where `payload_hash` is
+  the SHA-256 of the canonical payload — or a client-supplied `Idempotency-Key` when
+  present. (The struct field is still `payload_hash: Sha256Hash`; moving the
+  hot-path payload hash to **blake3** — keeping SHA-256 only where an external
+  contract requires it — is the §26.2 O7 micro-optimization, not yet applied.) Dedup
+  is an **existence-check-then-insert**: the write path does an atomic
   insert-if-absent on that key (a `UNIQUE` constraint / `INSERT … ON CONFLICT DO
   NOTHING` in SQL backends, the natural primary key in ClickHouse's
   versioned-replacing model, §8.3); a key already present is acknowledged as a
-  no-op, never written twice. Because the key is a deterministic content hash, a
-  retried or fanned-out delivery (at-least-once bus, §8.4) collapses to **exactly
-  once** in storage without coordination. This is what makes "no silent drops" and
-  "at-least-once" coexist: redelivery is safe and observable.
+  no-op, never written twice. Because the key is a deterministic function of the
+  span's identity and payload hash, a retried or fanned-out delivery
+  (at-least-once bus, §8.4) collapses to **exactly once** in storage without
+  coordination. This is what makes "no silent drops" and "at-least-once" coexist:
+  redelivery is safe and observable.
 - Dead-letter queue for invalid, unauthenticated, unnormalizable, or repeatedly
   unwritable events.
 - Poison-message isolation so one bad tenant payload cannot stall a shard.
@@ -4028,5 +4045,171 @@ contract (§25.3).
   **beat-boxes naming** (§4) are preserved throughout: the dashboard is
   **Soundstage**, and each screen carries its beat-box (Encore, Backbeat,
   Beatboxing, Setlist, Mixdown, Rewind, Crate Dig, Tempo/Heartbeat) crosswalk.
+
+## 26. Competitive Margins & Targeted Optimizations
+
+This section is the PM-level competitive audit: a teardown of what Arize Phoenix,
+Braintrust, LangSmith, Langfuse, Helicone, and Judgment (`judgeval`) actually ship
+(researched 2026-06-27; primary sources cited inline), the **structural margins
+Beater already holds**, and a **small, high-leverage set of targeted
+optimizations** that widen the gap *on the current §4.1 Rust stack* without
+over-engineering. The discipline is §1/§23's: prefer the boring, bounded,
+measurable win; add a mechanism only where it attacks a *named, sourced* incumbent
+weakness; and say plainly what we are **deliberately not building** (§26.3) so the
+document does not grow a feature it cannot justify. Every optimization names the
+**beat-box/crate** it extends and an honest **[built]/[partial]/[planned]/
+[deferred]** status; **none is a rewrite** — each is one additive impl behind an
+existing trait, gated by the existing §22 conformance/bench discipline.
+
+### 26.0 The convergent incumbent architecture (and the opening it leaves)
+
+Across the field, the scale answer converged on the same shape — a **4–6 process
+distributed system**: a columnar/OLAP trace store, a relational metadata DB, a
+queue, object storage, and one or more app/worker tiers. The columnar engine is
+either **proprietary** (Braintrust **Brainstore**, Arize **adb**) or an
+**ops-heavy cluster** (Langfuse and Helicone on **ClickHouse**). The one
+single-process exception, **Phoenix OSS**, pays for that simplicity with a
+**documented hard ceiling** — row-oriented JSON-in-Postgres goes "more or less
+non-functional" at **~200M spans / 2TB+**, the exact wall Arize reserves the paid
+`adb` product (Arrow + Parquet/Iceberg + Arrow Flight) to clear.
+
+| Incumbent | Trace store | Self-host shape | Sourced weakness Beater attacks |
+| --- | --- | --- | --- |
+| **Braintrust** | Brainstore (proprietary; object-storage WAL + Tantivy) | Enterprise-only | object-storage **latency floor** (cold query ≤500ms, write ~7s, async scoring), **per-GB "processed data" tax**, closed core, **no deterministic replay**, **no documented significance testing** |
+| **Arize Phoenix / AX** | OSS: SQLite/Postgres JSON row store; AX: `adb` (Arrow/Parquet/Iceberg) | OSS single Python container; scale → paid | OSS **~200M-span ceiling**, **ELv2** (not OSI-approved), Python hot path, "Span Replay" = single LLM-call only, **no CI merge-gate**, **LLM/token-only cost** |
+| **Langfuse** | ClickHouse (+ Postgres + Redis + S3) | full-featured but **5-service Helm** | heavy self-host ops, **eventual-consistency ingest lag** ("where's my trace?"), no replay, no first-class CI gate |
+| **LangSmith** | closed cloud | SaaS / BYOC (commercial) | closed, **per-seat + per-trace** cost at agent span volumes, LangChain lock-in |
+| **Helicone** | ClickHouse (+ Postgres + S3) | Apache-2.0, 5-service | **proxy on the hot path** (misses non-LLM agent steps); parts in maintenance mode |
+| **Judgment (`judgeval`)** | hosted only (`api.judgmentlabs.ai`) | OTLP shipper; **no local store** | **prompt-judge-only, zero statistical layer**, "replay" only re-scores judges (not the agent), hosted-dependent |
+
+The **whitespace no incumbent fills** — confirmed independently across all four
+teardowns — is the exact intersection Beater is built on: **Rust-first +
+local-first single binary + deterministic agent replay + framework-agnostic CI
+merge-gating + rigorous statistics + permissive (Apache-2.0) core.** §26.1 is what
+already delivers that intersection; §26.2 is how we widen it.
+
+### 26.1 Structural margins already in the design (do not rebuild)
+
+These are *already specified* in this document; named here only so the competitive
+map sits in one place. Each is a category an incumbent teardown showed is missing
+field-wide:
+
+- **Deterministic agent replay** (§11 Rewind) — cassettes for every nondeterministic
+  boundary + counterfactual earliest-flip attribution. *No incumbent has agent-run
+  replay*; Phoenix/Braintrust/Judgment "replay" only re-runs one LLM call or
+  re-scores a stored output.
+- **Framework-agnostic CI merge-gate on real statistics** (§10.3 Backbeat + §12 Cue)
+  — a powered, multiplicity-corrected, held-out gate. Braintrust's GitHub Action and
+  LangSmith's pytest are the only partial analogues, and both sit on weak/undocumented
+  stats; Judgment's gate sits on a single stochastic judge call.
+- **Statistical correctness as a product invariant** (§1 #9/#11, §10.3) —
+  Wilson/BCa-bootstrap/McNemar/Holm-BH/power/mSPRT. The teardowns found *no documented
+  significance testing* at Braintrust and *no statistical layer at all* in `judgeval`.
+- **One Apache-2.0 binary, no cloud dependency** (§1 #8, §2, §3.1) — vs Phoenix
+  **ELv2**, the closed Braintrust/LangSmith cores, and the 5-service Langfuse/Helicone
+  self-host.
+
+### 26.2 Targeted optimizations that widen the gap
+
+A tight set, ordered by leverage. Each attacks a §26.0 weakness, extends an existing
+crate, and is buildable on the §4.1 stack. Status is honest; the biggest get prose
+below the table.
+
+| # | Optimization | Incumbent weakness attacked | Where it lives | Status |
+| --- | --- | --- | --- | --- |
+| O1 | **Embedded columnar HOT tier** (DataFusion/Arrow over Parquet) as a first-class `TraceStore` backend, not cold-only | Brainstore/adb proprietary; Langfuse/Helicone need a ClickHouse cluster; Phoenix row-store 200M ceiling | Groove + Cold Storage (`beater-store-sql`/`beater-archive`) | [planned] |
+| O2 | **Synchronous, immediately-consistent ingest** as a stated guarantee (direct mode) | Langfuse/Braintrust async queue lag ("where's my trace?") | Upbeat (`beater-ingest`) + §16 SLO | [partial] (direct mode built; guarantee not codified) |
+| O3 | **Content-addressed (blake3 CAS) artifact/cassette store** with structural dedup of repeated prompts/tool-schemas/bodies | Braintrust per-GB tax on tens-of-MB spans; all incumbents store full bodies | Crate (`beater-store-obj`) | [planned] |
+| O4 | **Anytime-valid early-stop of eval/experiment runs** — stop once the gate is statistically decided at power | every incumbent runs **fixed-N** eval suites and bills every judge call | Backbeat (`beater-stats` mSPRT, reusing §10.3 #6) | [planned] |
+| O5 | **Verifier-first eval cascade** — cheap deterministic WASI scorers first, judge only on the unresolved/disputed remainder | Judgment/Phoenix/Braintrust route everything through the LLM judge | Backbeat (`beater-eval`/`beater-judge`) | [planned] |
+| O6 | **Cassette-backed, cached judge replay → ~zero-cost deterministic CI reruns** | incumbents re-call (and re-bill) the judge each CI run; judge stochasticity makes their gate flaky | Backbeat (judge cache §23.6 + Rewind §11) | [partial] (request-hash cache built; CI-rerun guarantee not codified) |
+| O7 | **blake3 on the hot hashing path** (payload/idempotency), SHA-256 only where an external contract requires it | n/a (pure micro-opt; resolves the §9 hash description) | Downbeat/Upbeat (`beater-core`/`beater-ingest`) | [planned] |
+| O8 | **Stock-OTel interop completeness** — the churn-prone new `gen_ai.*` names + the full OpenInference kind/attribute set (incl. `RERANKER`, `graph.node.*`, `llm.cost.*`) | adoption friction; "lights up any already-instrumented app with zero code" is the cheapest, highest-leverage interop win | Upbeat (`beater-otlp` normalizer, §7) | [partial] |
+
+**O1 — the headline macro-margin: an embedded columnar hot tier.** Today the doc
+positions the hot path as SQLite (default) → ClickHouse for scale (§8.2), with
+DataFusion/Arrow/Parquet confined to the **cold** archive (`beater-archive`). The
+teardowns show this leaves the single strongest structural margin on the table:
+**promote DataFusion-over-Parquet to a first-class *hot* analytical `TraceStore`
+backend** so the OSS **single binary** gets Brainstore/`adb`/ClickHouse-class trace
+analytics with **zero extra processes**. This is exactly Arize's proprietary `adb`
+(Arrow + Parquet/Iceberg + Arrow Flight) and Braintrust's Brainstore — except given
+away as Apache-2.0 in one binary, on deps Beater already vendors (`arrow`/`parquet`/
+`datafusion` in `beater-archive`). It collapses Langfuse's biggest complaint (the
+5-service ClickHouse Helm) and clears Phoenix's documented 200M-span row-store wall
+with no ops tier. It does **not** require beating ClickHouse on a 100-node cluster —
+that is still the §8.3 hosted answer; O1 is the *OSS-scale* answer the field lacks.
+Scope guard: O1 is one new `TraceStore` impl behind the existing §8.1 trait + §22
+conformance suite — additive, not a rewrite — and **no scale claim ships without the
+§20.2 #0.3 bench** (§1 honesty).
+
+**O3 — content-addressed dedup attacks the per-GB cost model structurally.** Agent
+traces are dominated by *repeated* bytes — the same system prompt and tool-schema on
+every span, the same retrieved document across a session (Braintrust itself cites
+tens-of-MB spans / tens-of-GB traces). A **blake3 content-addressed**
+`beater-store-obj` stores each distinct body **once** and references it everywhere
+(spans, traces, cassettes, exports), so storage scales with *distinct* content, not
+request count. Where Braintrust/Phoenix/Langfuse meter or strain on raw volume,
+Beater's footprint shrinks on the most repetitive workloads — a margin that compounds
+with O1 (smaller columnar payloads) and §11 cassettes (replay bodies dedup against
+trace bodies).
+
+**O4 — early-stopping evals is a cost margin no incumbent has.** Beater already
+mandates anytime-valid mSPRT/confidence sequences for the *online* path (§10.3 #6).
+The same e-process makes an *offline* eval/experiment batch **stop as soon as the
+gate verdict is statistically determined at the target power** — if 180 of 1,000
+cases already put the delta's confidence sequence cleanly past (or below) the bound,
+the remaining 820 judge calls are pure waste. Incumbents run the full fixed-N suite
+and bill every call; Beater returns the *same* error-controlled verdict for a fraction
+of the judge spend, and — because the stop is anytime-valid — without the peeking
+inflation a naive early-stop would cause (A7/A8). This reuses `beater-stats`; it is a
+scheduling policy over the existing gate, not new statistics.
+
+**O5 — the verifier-first cascade turns §21.2's philosophy into a cost mechanism.**
+§21.2 already weights the deterministic **verifier_gain** above the noisy
+**judge_gain**. O5 operationalizes that for cost: run the cheap, hermetic WASI scorers
+(§10.1 deterministic lane) **first**, and spend a judge call **only** on cases the
+deterministic lane cannot resolve or where a cheap signal disputes it. Judgment
+(prompt-judge-only) and Phoenix (every eval is an `llm_classify`) have no such
+cascade; the cascade is both cheaper and more reproducible because more verdicts come
+from the deterministic lane (A15/A16).
+
+### 26.3 Explicitly NOT building (anti-over-engineering guardrail)
+
+A PM audit is also the list of tempting things we are **declining**, each with the
+reason, so the document does not accrete them later by default:
+
+- **A proprietary columnar engine / a Brainstore-or-`adb` rewrite.** O1 *embeds*
+  `datafusion`; we do not hand-roll a columnar store. The margin is embedding the
+  boring engine, not building a clever one.
+- **A custom trace query language (à la Braintrust BTQL).** §13's structured filters +
+  Tantivy BM25 cover the need; a DSL is surface area without a sourced user pull.
+  Revisit only if filter expressiveness becomes a *measured* limit.
+- **A semantic (embedding-near) judge cache.** The exact request-hash cache (§23.6,
+  O6) is correctness-preserving; a fuzzy cache trades a cost win for silent eval
+  error — declined on §1 #9 honesty grounds.
+- **A bundled vector database (LanceDB/etc.).** Embedding similarity (§10.4) needs a
+  provider, not a new datastore; the deferred toolbelt (§21.6c) already houses managed
+  vector memory if it is ever productized.
+- **Multi-process by default.** §3.1/§23.9 stand: one binary until *measured*
+  pressure. O1 is what keeps that promise credible at scale, not a reason to break it.
+
+### 26.4 Consistency check (this section vs the rest of the doc)
+
+- **O1/O2** extend §8 (storage planes, trait boundary) and are gated by §16 SLOs +
+  the §20.2 #0.3 bench — no scale claim without load evidence (§1 honesty).
+- **O3/O7** extend §5.3 (raw-envelope hashing) and §11 (cassettes), and resolve the §9
+  idempotency-key description to what `make_idempotency_key` actually computes
+  (corrected in §9).
+- **O4/O5/O6** extend §10.3 (`beater-stats`), §10.1 (lanes), §21.2 (typed reward), and
+  §23.6 (caches) — reuse, not new statistics.
+- **O8** extends §7 (normalizer) and §20.8 (ecosystem breadth); the new `gen_ai.*`
+  names and the `RERANKER`/`PROMPT` kinds are added to the §7 mapping note.
+- Every optimization carries an honest [built]/[partial]/[planned]/[deferred] marker
+  (§4 convention) and a beat-box crosswalk; none is a rewrite. The competitive claims
+  trace to the 2026-06-27 teardowns (Braintrust Brainstore/benchmarks; Arize
+  Phoenix/`adb` + the ~200M-span community thread; Langfuse v3 ClickHouse stack;
+  Helicone gateway; `judgeval` source) and should be re-verified before any are quoted
+  externally — incumbent internals move.
 
 
