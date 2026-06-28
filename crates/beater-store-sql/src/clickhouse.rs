@@ -21,7 +21,9 @@
 //! Docker-less `cargo test` still passes; CI with Docker runs it explicitly.
 
 use async_trait::async_trait;
-use beater_core::{IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, Timestamp, TraceId};
+use beater_core::{
+    IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, Timestamp, TraceId,
+};
 use beater_schema::{
     span_release_id, span_summary, AgentSpanKind, CanonicalSpan, CanonicalTraceBatch, ModelRef,
     RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanStatus, SpanSummary, TraceView, WriteAck,
@@ -693,7 +695,9 @@ fn run_aggregate_from_json(row: &serde_json::Value) -> StoreResult<RunAggregateR
         .map_err(StoreError::integrity)?;
         let amount_micros = occurrence_field(&occurrence, 3)?
             .parse::<i64>()
-            .map_err(|err| StoreError::integrity(format!("cost_micros is not an integer: {err}")))?;
+            .map_err(|err| {
+                StoreError::integrity(format!("cost_micros is not an integer: {err}"))
+            })?;
         costs.push(Money::new(amount_micros, currency));
     }
 

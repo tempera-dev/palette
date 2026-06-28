@@ -73,6 +73,33 @@ ALTER TABLE spans ADD COLUMN IF NOT EXISTS cost_currency TEXT;
 ALTER TABLE spans ADD COLUMN IF NOT EXISTS cost_micros BIGINT;
 ALTER TABLE spans ADD COLUMN IF NOT EXISTS release_id TEXT;
 
+UPDATE spans
+SET
+  model_provider = COALESCE(model_provider, span_json #>> '{model,provider}'),
+  model_name = COALESCE(model_name, span_json #>> '{model,name}'),
+  cost_currency = COALESCE(cost_currency, span_json #>> '{cost,currency}'),
+  cost_micros = COALESCE(
+    cost_micros,
+    CASE
+      WHEN (span_json #>> '{cost,amount_micros}') ~ '^-?[0-9]+$'
+      THEN (span_json #>> '{cost,amount_micros}')::BIGINT
+      ELSE NULL
+    END
+  ),
+  release_id = COALESCE(
+    release_id,
+    span_json #>> '{attributes,beater.release_id}',
+    span_json #>> '{attributes,agent.release_id}',
+    span_json #>> '{attributes,deployment.release_id}',
+    span_json #>> '{attributes,release.id}',
+    span_json #>> '{attributes,release_id}'
+  )
+WHERE model_provider IS NULL
+   OR model_name IS NULL
+   OR cost_currency IS NULL
+   OR cost_micros IS NULL
+   OR release_id IS NULL;
+
 CREATE INDEX IF NOT EXISTS idx_spans_scope_start
   ON spans (tenant_id, project_id, environment_id, start_time DESC);
 

@@ -14,7 +14,9 @@
 //! so a Docker-less `cargo test` still passes; CI with Docker runs it explicitly.
 
 use async_trait::async_trait;
-use beater_core::{IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, Timestamp, TraceId};
+use beater_core::{
+    IdempotencyKey, Money, Page, PageRequest, ProjectId, TenantId, Timestamp, TraceId,
+};
 use beater_schema::{
     span_release_id, span_summary, AgentSpanKind, CanonicalSpan, CanonicalTraceBatch, ModelRef,
     RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanStatus, SpanSummary, TraceView, WriteAck,
@@ -422,7 +424,8 @@ fn parse_costs(value: &serde_json::Value) -> StoreResult<Vec<Money>> {
                 .get(1)
                 .and_then(serde_json::Value::as_i64)
                 .ok_or_else(|| StoreError::integrity("cost tuple missing amount_micros"))?;
-            let currency = serde_json::from_value(currency.clone()).map_err(StoreError::integrity)?;
+            let currency =
+                serde_json::from_value(currency.clone()).map_err(StoreError::integrity)?;
             Ok(Money::new(amount_micros, currency))
         })
         .collect()

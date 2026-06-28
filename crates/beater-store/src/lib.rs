@@ -516,7 +516,10 @@ mod tests {
                     ended_at,
                     models: members.iter().filter_map(|s| s.model.clone()).collect(),
                     costs: members.iter().filter_map(|s| s.cost.clone()).collect(),
-                    release_ids: members.iter().filter_map(|s| s.release_id.clone()).collect(),
+                    release_ids: members
+                        .iter()
+                        .filter_map(|s| s.release_id.clone())
+                        .collect(),
                     kinds: members.iter().map(|s| s.kind.clone()).collect(),
                 }
             })
@@ -525,11 +528,7 @@ mod tests {
 
     /// The reference run page: the in-memory rollup the columnar backends must
     /// reproduce exactly.
-    fn reference(
-        spans: &[SpanSummary],
-        filter: &RunFilter,
-        page: PageRequest,
-    ) -> Page<RunSummary> {
+    fn reference(spans: &[SpanSummary], filter: &RunFilter, page: PageRequest) -> Page<RunSummary> {
         let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
         let runs = filter_run_summaries(roll_up_runs(tenant, spans.to_vec()), spans, filter);
         page_vec(runs, page)
@@ -538,18 +537,84 @@ mod tests {
     fn fixture_spans() -> Vec<SpanSummary> {
         // Ordered `start_time DESC, seq ASC`, as `query_spans` returns them.
         vec![
-            span("project", "trace-a", "a-late", AgentSpanKind::LlmCall, "a latest",
-                SpanStatus::Ok, 30, Some(40), Some(("openai", "gpt-4")), Some(300), Some("rel-2")),
-            span("project", "trace-b", "b-late", AgentSpanKind::ToolCall, "b latest",
-                SpanStatus::Error, 25, Some(25), None, None, None),
-            span("project", "trace-a", "a-mid", AgentSpanKind::LlmCall, "a middle",
-                SpanStatus::Error, 20, Some(35), Some(("anthropic", "claude")), Some(200), Some("rel-1")),
-            span("project", "trace-a", "a-early", AgentSpanKind::AgentRun, "a earliest",
-                SpanStatus::Ok, 10, Some(15), Some(("openai", "gpt-4")), Some(100), Some("rel-1")),
-            span("project", "trace-b", "b-early", AgentSpanKind::AgentRun, "b earliest",
-                SpanStatus::Ok, 5, None, None, Some(50), Some("rel-3")),
-            span("other", "trace-c", "c-only", AgentSpanKind::LlmCall, "c only",
-                SpanStatus::Ok, 12, Some(18), Some(("openai", "gpt-4o")), Some(70), Some("rel-4")),
+            span(
+                "project",
+                "trace-a",
+                "a-late",
+                AgentSpanKind::LlmCall,
+                "a latest",
+                SpanStatus::Ok,
+                30,
+                Some(40),
+                Some(("openai", "gpt-4")),
+                Some(300),
+                Some("rel-2"),
+            ),
+            span(
+                "project",
+                "trace-b",
+                "b-late",
+                AgentSpanKind::ToolCall,
+                "b latest",
+                SpanStatus::Error,
+                25,
+                Some(25),
+                None,
+                None,
+                None,
+            ),
+            span(
+                "project",
+                "trace-a",
+                "a-mid",
+                AgentSpanKind::LlmCall,
+                "a middle",
+                SpanStatus::Error,
+                20,
+                Some(35),
+                Some(("anthropic", "claude")),
+                Some(200),
+                Some("rel-1"),
+            ),
+            span(
+                "project",
+                "trace-a",
+                "a-early",
+                AgentSpanKind::AgentRun,
+                "a earliest",
+                SpanStatus::Ok,
+                10,
+                Some(15),
+                Some(("openai", "gpt-4")),
+                Some(100),
+                Some("rel-1"),
+            ),
+            span(
+                "project",
+                "trace-b",
+                "b-early",
+                AgentSpanKind::AgentRun,
+                "b earliest",
+                SpanStatus::Ok,
+                5,
+                None,
+                None,
+                Some(50),
+                Some("rel-3"),
+            ),
+            span(
+                "other",
+                "trace-c",
+                "c-only",
+                AgentSpanKind::LlmCall,
+                "c only",
+                SpanStatus::Ok,
+                12,
+                Some(18),
+                Some(("openai", "gpt-4o")),
+                Some(70),
+                Some("rel-4"),
+            ),
         ]
     }
 
@@ -568,7 +633,11 @@ mod tests {
         // models/release ids, status precedence, earliest-span name, and duration.
         assert_parity(RunFilter::default(), PageRequest::default());
 
-        let expected = reference(&fixture_spans(), &RunFilter::default(), PageRequest::default());
+        let expected = reference(
+            &fixture_spans(),
+            &RunFilter::default(),
+            PageRequest::default(),
+        );
         let run_a = expected
             .items
             .iter()
@@ -582,11 +651,20 @@ mod tests {
         assert_eq!(
             run_a.models,
             vec![
-                ModelRef { provider: "openai".to_string(), name: "gpt-4".to_string() },
-                ModelRef { provider: "anthropic".to_string(), name: "claude".to_string() },
+                ModelRef {
+                    provider: "openai".to_string(),
+                    name: "gpt-4".to_string()
+                },
+                ModelRef {
+                    provider: "anthropic".to_string(),
+                    name: "claude".to_string()
+                },
             ]
         );
-        assert_eq!(run_a.release_ids, vec!["rel-2".to_string(), "rel-1".to_string()]);
+        assert_eq!(
+            run_a.release_ids,
+            vec!["rel-2".to_string(), "rel-1".to_string()]
+        );
     }
 
     #[test]
@@ -594,19 +672,58 @@ mod tests {
         let trace_a = TraceId::new("trace-a").unwrap_or_else(|err| panic!("{err}"));
         let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
         let cases = [
-            RunFilter { status: Some(SpanStatus::Error), ..RunFilter::default() },
-            RunFilter { kind: Some(AgentSpanKind::ToolCall), ..RunFilter::default() },
-            RunFilter { kind: Some(AgentSpanKind::AgentRun), ..RunFilter::default() },
-            RunFilter { project_id: Some(project), ..RunFilter::default() },
-            RunFilter { trace_id: Some(trace_a), ..RunFilter::default() },
-            RunFilter { model: Some("openai".to_string()), ..RunFilter::default() },
-            RunFilter { release: Some("rel-1".to_string()), ..RunFilter::default() },
-            RunFilter { min_cost_micros: Some(100), ..RunFilter::default() },
-            RunFilter { max_cost_micros: Some(80), ..RunFilter::default() },
-            RunFilter { min_latency_ms: Some(20_000), ..RunFilter::default() },
-            RunFilter { max_latency_ms: Some(10_000), ..RunFilter::default() },
-            RunFilter { started_after: Some(ts(8)), ..RunFilter::default() },
-            RunFilter { started_before: Some(ts(8)), ..RunFilter::default() },
+            RunFilter {
+                status: Some(SpanStatus::Error),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                kind: Some(AgentSpanKind::ToolCall),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                kind: Some(AgentSpanKind::AgentRun),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                project_id: Some(project),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                trace_id: Some(trace_a),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                model: Some("openai".to_string()),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                release: Some("rel-1".to_string()),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                min_cost_micros: Some(100),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                max_cost_micros: Some(80),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                min_latency_ms: Some(20_000),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                max_latency_ms: Some(10_000),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                started_after: Some(ts(8)),
+                ..RunFilter::default()
+            },
+            RunFilter {
+                started_before: Some(ts(8)),
+                ..RunFilter::default()
+            },
         ];
         for filter in cases {
             assert_parity(filter, PageRequest::default());
@@ -619,18 +736,41 @@ mod tests {
             tenant.clone(),
             aggregate_rows(&spans),
             RunFilter::default(),
-            PageRequest { limit: 1, cursor: None },
+            PageRequest {
+                limit: 1,
+                cursor: None,
+            },
         );
-        let expected_first = reference(&spans, &RunFilter::default(), PageRequest { limit: 1, cursor: None });
+        let expected_first = reference(
+            &spans,
+            &RunFilter::default(),
+            PageRequest {
+                limit: 1,
+                cursor: None,
+            },
+        );
         assert_eq!(first.items, expected_first.items);
-        let cursor = first.next_cursor.clone().unwrap_or_else(|| panic!("first page has a cursor"));
+        let cursor = first
+            .next_cursor
+            .clone()
+            .unwrap_or_else(|| panic!("first page has a cursor"));
         let second = finalize_run_aggregates(
             tenant,
             aggregate_rows(&spans),
             RunFilter::default(),
-            PageRequest { limit: 2, cursor: Some(cursor.clone()) },
+            PageRequest {
+                limit: 2,
+                cursor: Some(cursor.clone()),
+            },
         );
-        let expected_second = reference(&spans, &RunFilter::default(), PageRequest { limit: 2, cursor: Some(cursor) });
+        let expected_second = reference(
+            &spans,
+            &RunFilter::default(),
+            PageRequest {
+                limit: 2,
+                cursor: Some(cursor),
+            },
+        );
         assert_eq!(second.items, expected_second.items);
         assert_eq!(second.next_cursor, expected_second.next_cursor);
     }
