@@ -245,9 +245,43 @@ pub struct TokenCounts {
     pub cache_read: u64,
 }
 
+#[derive(Debug, thiserror::Error, Clone, PartialEq, Eq)]
+pub enum TokenCountsError {
+    #[error("token count overflow")]
+    Overflow,
+}
+
 impl TokenCounts {
     pub fn total(&self) -> u64 {
         self.input + self.output + self.reasoning
+    }
+
+    pub fn checked_total(&self) -> Result<u64, TokenCountsError> {
+        self.input
+            .checked_add(self.output)
+            .and_then(|total| total.checked_add(self.reasoning))
+            .ok_or(TokenCountsError::Overflow)
+    }
+
+    pub fn try_add(&self, other: &Self) -> Result<Self, TokenCountsError> {
+        Ok(Self {
+            input: self
+                .input
+                .checked_add(other.input)
+                .ok_or(TokenCountsError::Overflow)?,
+            output: self
+                .output
+                .checked_add(other.output)
+                .ok_or(TokenCountsError::Overflow)?,
+            reasoning: self
+                .reasoning
+                .checked_add(other.reasoning)
+                .ok_or(TokenCountsError::Overflow)?,
+            cache_read: self
+                .cache_read
+                .checked_add(other.cache_read)
+                .ok_or(TokenCountsError::Overflow)?,
+        })
     }
 }
 
@@ -377,6 +411,62 @@ mod tests {
             cache_read: 100,
         };
         assert_eq!(counts.total(), 35);
+    }
+
+    #[test]
+    fn token_counts_try_add_sums_all_fields() {
+        let left = TokenCounts {
+            input: 10,
+            output: 20,
+            reasoning: 5,
+            cache_read: 100,
+        };
+        let right = TokenCounts {
+            input: 7,
+            output: 3,
+            reasoning: 11,
+            cache_read: 13,
+        };
+
+        assert_eq!(
+            left.try_add(&right),
+            Ok(TokenCounts {
+                input: 17,
+                output: 23,
+                reasoning: 16,
+                cache_read: 113,
+            })
+        );
+    }
+
+    #[test]
+    fn token_counts_try_add_detects_overflow() {
+        let left = TokenCounts {
+            input: u64::MAX,
+            output: 1,
+            reasoning: 1,
+            cache_read: 1,
+        };
+        let right = TokenCounts {
+            input: 1,
+            output: 1,
+            reasoning: 1,
+            cache_read: 1,
+        };
+
+        assert_eq!(left.try_add(&right), Err(TokenCountsError::Overflow));
+    }
+
+    #[test]
+    fn token_counts_checked_total_detects_overflow() {
+        let counts = TokenCounts {
+            input: u64::MAX,
+            output: 1,
+            reasoning: 0,
+            cache_read: 100,
+        };
+
+        assert_eq!(counts.checked_total(), Err(TokenCountsError::Overflow));
     }
 
     #[test]
