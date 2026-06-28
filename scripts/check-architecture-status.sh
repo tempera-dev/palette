@@ -212,9 +212,7 @@ echo "  ledger: $LEDGER_FILE"
 echo
 
 violations=0
-if ! check_claims "$ARCH_FILE" "$LEDGER_FILE"; then
-  violations=$?
-fi
+check_claims "$ARCH_FILE" "$LEDGER_FILE" || violations=$?
 
 echo
 if [[ "$violations" -ne 0 ]]; then
