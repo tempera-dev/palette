@@ -1,0 +1,18 @@
+[package]
+name = "beater-prompts"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+beater-core = { path = "../beater-core" }
+serde.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+chrono.workspace = true
+
+[lints]
+workspace = true

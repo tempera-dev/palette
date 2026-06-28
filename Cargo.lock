@@ -1293,6 +1293,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "beater-prompts"
+version = "0.1.0"
+dependencies = [
+ "beater-core",
+ "chrono",
+ "serde",
+ "thiserror 1.0.69",
+ "uuid",
+]
+
+[[package]]
 name = "beater-receipts"
 version = "0.1.0"
 dependencies = [
