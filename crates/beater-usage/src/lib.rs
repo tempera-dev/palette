@@ -6,7 +6,7 @@ use beater_experiments::{CaseExperimentScore, ExperimentRunReport};
 use beater_judge::JudgeBrokerOutcome;
 use beater_store::{IntoStoreResult, StoreError, StoreResult};
 use chrono::Utc;
-use rusqlite::{params, Connection, OptionalExtension};
+use rusqlite::{params, Connection, OptionalExtension, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
@@ -187,7 +187,7 @@ impl SqliteUsageLedger {
     }
 
     fn init(&self) -> anyhow::Result<()> {
-        let connection = self.lock()?;
+        let mut connection = self.lock()?;
         connection
             .execute_batch(
                 r#"
@@ -235,7 +235,7 @@ impl SqliteUsageLedger {
         // the historical rows in once. A net-zero meter still leaves a (zero)
         // rollup row, so "rollup empty AND records present" reliably means
         // "never rolled up", not "legitimately nets to zero".
-        Self::backfill_rollups(&connection)?;
+        Self::backfill_rollups(&mut connection)?;
         Ok(())
     }
 
@@ -243,53 +243,65 @@ impl SqliteUsageLedger {
     /// when the rollup table is empty but records already exist. Folds quantities
     /// in Rust with checked arithmetic (SQLite's `SUM` silently promotes to float
     /// on i64 overflow, which would corrupt money), mirroring `summarize_usage`.
-    fn backfill_rollups(connection: &Connection) -> anyhow::Result<()> {
-        let rollup_rows: i64 = connection
+    fn backfill_rollups(connection: &mut Connection) -> anyhow::Result<()> {
+        let transaction = connection
+            .transaction_with_behavior(TransactionBehavior::Immediate)
+            .context("begin usage rollup backfill transaction")?;
+        let rollup_rows: i64 = transaction
             .query_row("SELECT COUNT(*) FROM usage_rollups", [], |row| row.get(0))
             .context("count usage rollups")?;
         if rollup_rows > 0 {
+            transaction
+                .commit()
+                .context("commit no-op usage rollup backfill transaction")?;
             return Ok(());
         }
-        let record_rows: i64 = connection
+        let record_rows: i64 = transaction
             .query_row("SELECT COUNT(*) FROM usage_records", [], |row| row.get(0))
             .context("count usage records")?;
         if record_rows == 0 {
+            transaction
+                .commit()
+                .context("commit empty usage rollup backfill transaction")?;
             return Ok(());
         }
 
         // (tenant, project, meter, unit) -> running total, folded with checked_add.
-        let mut totals: BTreeMap<(String, String, String, String), i64> = BTreeMap::new();
-        let mut statement = connection
-            .prepare(
-                r#"
-                SELECT tenant_id, project_id, meter, unit, quantity
-                FROM usage_records
-                "#,
-            )
-            .context("prepare usage rollup backfill scan")?;
-        let rows = statement
-            .query_map([], |row| {
-                Ok((
-                    row.get::<_, String>(0)?,
-                    row.get::<_, String>(1)?,
-                    row.get::<_, String>(2)?,
-                    row.get::<_, String>(3)?,
-                    row.get::<_, i64>(4)?,
-                ))
-            })
-            .context("scan usage records for rollup backfill")?;
-        for row in rows {
-            let (tenant, project, meter, unit, quantity) =
-                row.context("read usage record row for backfill")?;
-            let entry = totals.entry((tenant, project, meter, unit)).or_insert(0);
-            *entry = entry.checked_add(quantity).ok_or_else(|| {
-                anyhow!("usage rollup backfill overflow folding historical quantities")
-            })?;
-        }
+        let totals = {
+            let mut totals: BTreeMap<(String, String, String, String), i64> = BTreeMap::new();
+            let mut statement = transaction
+                .prepare(
+                    r#"
+                    SELECT tenant_id, project_id, meter, unit, quantity
+                    FROM usage_records
+                    "#,
+                )
+                .context("prepare usage rollup backfill scan")?;
+            let rows = statement
+                .query_map([], |row| {
+                    Ok((
+                        row.get::<_, String>(0)?,
+                        row.get::<_, String>(1)?,
+                        row.get::<_, String>(2)?,
+                        row.get::<_, String>(3)?,
+                        row.get::<_, i64>(4)?,
+                    ))
+                })
+                .context("scan usage records for rollup backfill")?;
+            for row in rows {
+                let (tenant, project, meter, unit, quantity) =
+                    row.context("read usage record row for backfill")?;
+                let entry = totals.entry((tenant, project, meter, unit)).or_insert(0);
+                *entry = entry.checked_add(quantity).ok_or_else(|| {
+                    anyhow!("usage rollup backfill overflow folding historical quantities")
+                })?;
+            }
+            totals
+        };
 
         let now = Utc::now().to_rfc3339();
         for ((tenant, project, meter, unit), total) in totals {
-            connection
+            transaction
                 .execute(
                     r#"
                     INSERT INTO usage_rollups
@@ -300,6 +312,9 @@ impl SqliteUsageLedger {
                 )
                 .context("insert backfilled usage rollup")?;
         }
+        transaction
+            .commit()
+            .context("commit usage rollup backfill transaction")?;
         Ok(())
     }
 
