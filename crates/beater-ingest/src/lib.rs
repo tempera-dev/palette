@@ -1058,7 +1058,7 @@ impl IngestService {
         let mut unmapped = BTreeMap::new();
         for (key, value) in attributes {
             if self.policy.denied_attributes.contains(&key) {
-                dropped.insert(key, value);
+                dropped.insert(key, json!("[redacted]"));
                 continue;
             }
             if let Some(allowed) = &self.policy.allowed_attributes {
@@ -2217,7 +2217,7 @@ mod tests {
         assert!(!span.attributes.contains_key("secret"));
         assert_eq!(
             span.unmapped_attrs["dropped_attributes"]["secret"],
-            json!("drop")
+            json!("[redacted]")
         );
     }
 
@@ -3056,7 +3056,7 @@ mod tests {
         assert!(!span.attributes.contains_key("secret"));
         let dropped = &span.unmapped_attrs["dropped_attributes"];
         assert_eq!(dropped["drop_me"], json!("unlisted"));
-        assert_eq!(dropped["secret"], json!("denied"));
+        assert_eq!(dropped["secret"], json!("[redacted]"));
         assert!(dropped.get("keep").is_none());
     }
 
@@ -3114,6 +3114,11 @@ mod tests {
             assert!(
                 dropped.get(key).is_some(),
                 "{key} should be recorded as dropped provenance"
+            );
+            assert_eq!(
+                dropped[key],
+                json!("[redacted]"),
+                "{key} value must not survive in dropped provenance"
             );
         }
     }
