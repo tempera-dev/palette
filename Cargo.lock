@@ -1244,6 +1244,7 @@ dependencies = [
  "async-trait",
  "beater-core",
  "beater-schema",
+ "chrono",
  "thiserror 1.0.69",
  "tokio",
 ]
