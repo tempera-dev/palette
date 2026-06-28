@@ -1356,6 +1356,7 @@ async fn get_trace(
     let trace_id = TraceId::new(trace_id)?;
     let auth = authorize_tenant_route(&state, &headers, &tenant_id, ApiScope::TraceRead).await?;
     let trace = load_trace_for_auth_scope(&state, tenant_id, trace_id, &auth).await?;
+    ensure_trace_not_empty(&trace)?;
     ensure_trace_auth_scope(&trace, &auth)?;
     if params.unmask.unwrap_or(false) {
         let trace =
@@ -1693,8 +1694,12 @@ async fn promote_dataset_case(
         .traces
         .get_project_trace(tenant_id.clone(), project_id.clone(), trace_id)
         .await?;
+    ensure_trace_not_empty(&trace)?;
     ensure_trace_project(&trace, &project_id)?;
     ensure_trace_auth_scope(&trace, &auth)?;
+    if let Some(span_id) = &span_id {
+        ensure_trace_has_span(&trace, span_id)?;
+    }
     let case = promote_trace_span_to_case(
         tenant_id,
         project_id,
@@ -3311,6 +3316,16 @@ fn ensure_trace_has_span(trace: &TraceView, span_id: &SpanId) -> Result<(), ApiE
     Err(ApiError::not_found(format!(
         "span {} not found in trace {}",
         span_id.as_str(),
+        trace.trace_id.as_str()
+    )))
+}
+
+fn ensure_trace_not_empty(trace: &TraceView) -> Result<(), ApiError> {
+    if !trace.spans.is_empty() {
+        return Ok(());
+    }
+    Err(ApiError::not_found(format!(
+        "trace {} not found",
         trace.trace_id.as_str()
     )))
 }

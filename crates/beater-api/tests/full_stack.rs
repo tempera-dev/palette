@@ -114,6 +114,138 @@ impl SearchIndex for FailNTimesSearchIndex {
     }
 }
 
+fn full_stack_test_app() -> (Router, tempfile::TempDir) {
+    let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
+    let artifacts = Arc::new(
+        FsArtifactStore::new(tempdir.path().join("artifacts"))
+            .unwrap_or_else(|err| panic!("{err}")),
+    );
+    let traces = Arc::new(SqliteTraceStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let search = Arc::new(TantivySearchIndex::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let archive = ParquetTraceArchive::new(tempdir.path().join("archive"))
+        .unwrap_or_else(|err| panic!("{err}"));
+    let datasets = Arc::new(SqliteDatasetStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let experiments =
+        Arc::new(SqliteExperimentStore::in_memory().unwrap_or_else(|err| panic!("{err}")));
+    let bus = Arc::new(InMemoryBus::new(32));
+    let ingest = IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
+    let app = router(ApiState::with_integrations(
+        ingest,
+        traces,
+        search,
+        archive,
+        datasets,
+        experiments,
+    ));
+    (app, tempdir)
+}
+
+#[tokio::test]
+async fn get_trace_missing_trace_returns_404() {
+    let (app, _tempdir) = full_stack_test_app();
+
+    let response = app
+        .oneshot(
+            Request::builder()
+                .method("GET")
+                .uri("/v1/traces/tenant/missing-trace")
+                .body(Body::empty())
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let error: serde_json::Value =
+        serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(error["status"], 404);
+    assert!(
+        error["error"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("trace missing-trace not found"),
+        "unexpected error body: {error}"
+    );
+}
+
+#[tokio::test]
+async fn promote_dataset_case_missing_trace_or_span_returns_404() {
+    let (app, _tempdir) = full_stack_test_app();
+
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/datasets/tenant/project")
+                .header("content-type", "application/json")
+                .body(Body::from(r#"{"name":"failures"}"#))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::OK);
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    let dataset: Dataset = serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri(format!(
+                    "/v1/datasets/tenant/project/{}/cases/from-trace",
+                    dataset.dataset_id.as_str()
+                ))
+                .header("content-type", "application/json")
+                .body(Body::from(
+                    r#"{"trace_id":"missing-trace","span_id":"span","reference":"answer"}"#,
+                ))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+
+    let response = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/traces/native")
+                .header("content-type", "application/json")
+                .body(Body::from(
+                    serde_json::to_vec(&native_request()).unwrap_or_else(|err| panic!("{err}")),
+                ))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::OK);
+
+    let response = app
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri(format!(
+                    "/v1/datasets/tenant/project/{}/cases/from-trace",
+                    dataset.dataset_id.as_str()
+                ))
+                .header("content-type", "application/json")
+                .body(Body::from(
+                    r#"{"trace_id":"trace","span_id":"missing-span","reference":"answer"}"#,
+                ))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+}
+
 #[tokio::test]
 async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
