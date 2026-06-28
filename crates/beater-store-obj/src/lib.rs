@@ -240,14 +240,14 @@ mod tests {
         let store = FsArtifactStore::new(tempdir.path()).unwrap_or_else(|err| panic!("{err}"));
 
         let make_ref = |uri: &str| ArtifactRef {
-            artifact_id: ArtifactId::new("abc").unwrap(),
+            artifact_id: ArtifactId::new("abc").unwrap_or_else(|err| panic!("{err}")),
             uri: uri.to_string(),
             // SHA-256 of empty input — irrelevant since the guard fires before
             // any read is attempted.
             sha256: Sha256Hash::new(
                 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
             )
-            .unwrap(),
+            .unwrap_or_else(|err| panic!("{err}")),
             size_bytes: 0,
             mime_type: "application/octet-stream".to_string(),
             redaction_class: RedactionClass::Internal,
