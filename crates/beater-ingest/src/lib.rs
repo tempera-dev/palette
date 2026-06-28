@@ -1854,6 +1854,7 @@ pub mod canonical_mapping {
         "openinference.",
         "w3c.",
         "temporal.",
+        "langfuse.",
     ];
 
     /// Exact keys without a recognized prefix that are still canonical because the
