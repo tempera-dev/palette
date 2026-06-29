@@ -885,7 +885,7 @@ mod tests {
             1,
             SpanStatus::Ok,
         );
-        let batch = CanonicalTraceBatch::one(raw, span);
+        let batch = Arc::new(CanonicalTraceBatch::one(raw, span));
 
         store
             .write_batch(batch)

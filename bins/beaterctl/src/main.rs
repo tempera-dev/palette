@@ -2920,7 +2920,7 @@ struct UnavailableTraceStore;
 impl TraceStore for UnavailableTraceStore {
     async fn write_batch(
         &self,
-        _batch: CanonicalTraceBatch,
+        _batch: Arc<CanonicalTraceBatch>,
     ) -> beater_store::StoreResult<WriteAck> {
         Err(StoreError::Backend("trace store unavailable".to_string()))
     }

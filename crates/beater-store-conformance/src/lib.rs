@@ -43,6 +43,7 @@ where
 {
     let (batch, tenant, project, trace, idempotency_key) = fixture_batch();
 
+    let batch = Arc::new(batch);
     let first = store
         .write_batch(batch.clone())
         .await
@@ -1185,7 +1186,7 @@ fn fixture_project_batch(
     trace: &TraceId,
     span_id: &str,
     seq: u64,
-) -> CanonicalTraceBatch {
+) -> Arc<CanonicalTraceBatch> {
     let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
     let idempotency_key = IdempotencyKey::new(format!(
         "{}:{}:{}:raw",
@@ -1223,10 +1224,10 @@ fn fixture_project_batch(
         name: "other project run",
         raw_ref: body_ref,
     });
-    CanonicalTraceBatch {
+    Arc::new(CanonicalTraceBatch {
         raw_envelopes: vec![raw],
         spans: vec![span],
-    }
+    })
 }
 
 /// Builds a single-trace batch whose spans carry cost, model, release, status,
@@ -1236,7 +1237,7 @@ fn fixture_rollup_batch(
     tenant: &TenantId,
     project: &ProjectId,
     trace: &TraceId,
-) -> CanonicalTraceBatch {
+) -> Arc<CanonicalTraceBatch> {
     let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
     let idempotency_key = IdempotencyKey::new(format!(
         "{}:{}:{}:rollup",
@@ -1344,10 +1345,10 @@ fn fixture_rollup_batch(
         ),
     ];
 
-    CanonicalTraceBatch {
+    Arc::new(CanonicalTraceBatch {
         raw_envelopes: vec![raw],
         spans,
-    }
+    })
 }
 
 /// Builds one batch holding several *versions* of a single span: every entry
@@ -1362,7 +1363,7 @@ fn fixture_versioned_span_batch(
     trace: &TraceId,
     span_id: &str,
     versions: &[(u64, &str)],
-) -> CanonicalTraceBatch {
+) -> Arc<CanonicalTraceBatch> {
     let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
     let idempotency_key = IdempotencyKey::new(format!(
         "{}:{}:{}:versioned",
@@ -1408,10 +1409,10 @@ fn fixture_versioned_span_batch(
             span
         })
         .collect();
-    CanonicalTraceBatch {
+    Arc::new(CanonicalTraceBatch {
         raw_envelopes: vec![raw],
         spans,
-    }
+    })
 }
 
 struct CanonicalSpanFixture<'a> {
