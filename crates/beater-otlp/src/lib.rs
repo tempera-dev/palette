@@ -171,7 +171,7 @@ pub fn export_to_raw_trace_ingest_request(
         source_schema_version,
         normalizer_version: "beater-otlp-v1".to_string(),
         mime_type: "application/x-protobuf".to_string(),
-        redaction_class: RedactionClass::Internal,
+        redaction_class: RedactionClass::Sensitive,
         raw_bytes,
         raw_idempotency_key: None,
         auth_context: Some(auth_context),
@@ -203,17 +203,17 @@ fn scope_from_metadata(
     metadata: &MetadataMap,
     default_scope: &TenantScope,
 ) -> Result<TenantScope, Status> {
-    let tenant_id = metadata_text(metadata, TENANT_METADATA_KEY)
+    let tenant_id = metadata_text(metadata, TENANT_METADATA_KEY)?
         .map(TenantId::new)
         .transpose()
         .map_err(|err| Status::invalid_argument(err.to_string()))?
         .unwrap_or_else(|| default_scope.tenant_id.clone());
-    let project_id = metadata_text(metadata, PROJECT_METADATA_KEY)
+    let project_id = metadata_text(metadata, PROJECT_METADATA_KEY)?
         .map(ProjectId::new)
         .transpose()
         .map_err(|err| Status::invalid_argument(err.to_string()))?
         .unwrap_or_else(|| default_scope.project_id.clone());
-    let environment_id = metadata_text(metadata, ENVIRONMENT_METADATA_KEY)
+    let environment_id = metadata_text(metadata, ENVIRONMENT_METADATA_KEY)?
         .map(EnvironmentId::new)
         .transpose()
         .map_err(|err| Status::invalid_argument(err.to_string()))?
@@ -221,8 +221,13 @@ fn scope_from_metadata(
     Ok(TenantScope::new(tenant_id, project_id, environment_id))
 }
 
-fn metadata_text<'a>(metadata: &'a MetadataMap, key: &str) -> Option<&'a str> {
-    metadata.get(key).and_then(|value| value.to_str().ok())
+fn metadata_text<'a>(metadata: &'a MetadataMap, key: &str) -> Result<Option<&'a str>, Status> {
+    let Some(value) = metadata.get(key) else {
+        return Ok(None);
+    };
+    value.to_str().map(Some).map_err(|_| {
+        Status::invalid_argument(format!("{key} metadata must contain a visible ASCII value"))
+    })
 }
 
 fn status_from_ingest_error(error: IngestError) -> Status {
@@ -405,7 +410,7 @@ fn convert_span(
         input: attributes.remove("input.value"),
         output: attributes.remove("output.value"),
         attributes,
-        redaction_class: RedactionClass::Internal,
+        redaction_class: RedactionClass::Sensitive,
         idempotency_key: Some(IdempotencyKey::new(format!(
             "otlp:{}:{}:{}:{}",
             scope.tenant_id.as_str(),
@@ -493,7 +498,7 @@ fn infer_agent_span_kind(attrs: &CanonicalAttrs, name: &str, otel_kind: i32) -> 
             "tool" | "tool.call" => Some(AgentSpanKind::ToolCall),
             "mcp" | "mcp.request" => Some(AgentSpanKind::McpRequest),
             "retriever" | "retrieval.query" => Some(AgentSpanKind::RetrievalQuery),
-            "embedding" => Some(AgentSpanKind::RetrievalQuery),
+            "embedding" | "reranker" => Some(AgentSpanKind::RetrievalQuery),
             "memory_read" | "memory.read" => Some(AgentSpanKind::MemoryRead),
             "memory_write" | "memory.write" => Some(AgentSpanKind::MemoryWrite),
             "guardrail" | "guardrail.check" => Some(AgentSpanKind::GuardrailCheck),
@@ -1050,6 +1055,29 @@ mod tests {
         assert_eq!(bus.depth_for_kind(TRACE_WRITE_BATCH_KIND).await, Ok(1));
     }
 
+    #[test]
+    fn scope_metadata_rejects_non_visible_ascii_values() {
+        let default_scope = TenantScope::new(
+            TenantId::new("default-tenant").unwrap_or_else(|err| panic!("{err}")),
+            ProjectId::new("default-project").unwrap_or_else(|err| panic!("{err}")),
+            EnvironmentId::new("local").unwrap_or_else(|err| panic!("{err}")),
+        );
+        let mut metadata = MetadataMap::new();
+        let opaque_value = tonic::metadata::AsciiMetadataValue::try_from(&b"tenant\xFA"[..])
+            .unwrap_or_else(|err| panic!("{err}"));
+        metadata.insert(TENANT_METADATA_KEY, opaque_value);
+
+        let error = scope_from_metadata(&metadata, &default_scope)
+            .err()
+            .unwrap_or_else(|| panic!("opaque scope metadata must be rejected"));
+
+        assert_eq!(error.code(), tonic::Code::InvalidArgument);
+        assert!(
+            error.message().contains(TENANT_METADATA_KEY),
+            "error should name the invalid metadata key: {error}"
+        );
+    }
+
     #[tokio::test]
     async fn export_propagates_w3c_context_across_spawn_and_redacts_baggage_secrets() {
         let tempdir = tempfile::tempdir().unwrap_or_else(|err| panic!("{err}"));
@@ -1226,6 +1254,7 @@ mod tests {
         assert_eq!(span.span_id.as_str(), "1112131415161718");
         assert_eq!(span.kind, AgentSpanKind::LlmCall);
         assert_eq!(span.status, SpanStatus::Ok);
+        assert_eq!(span.redaction_class, RedactionClass::Sensitive);
         assert_eq!(
             span.model,
             Some(ModelRef {
@@ -1268,6 +1297,7 @@ mod tests {
         );
         assert_eq!(raw_request.source_schema_version.as_deref(), Some("1.37.0"));
         assert_eq!(raw_request.normalizer_version, "beater-otlp-v1");
+        assert_eq!(raw_request.redaction_class, RedactionClass::Sensitive);
         assert_eq!(raw_request.spans.len(), 1);
         assert_eq!(raw_request.spans[0].kind, AgentSpanKind::LlmCall);
     }
@@ -1301,6 +1331,74 @@ mod tests {
                 "{value} should map to {expected:?}"
             );
         }
+    }
+
+    #[test]
+    fn maps_openinference_reranker_to_retrieval_query_and_preserves_attrs() {
+        let request = ExportTraceServiceRequest {
+            resource_spans: vec![ResourceSpans {
+                resource: Some(Resource {
+                    attributes: vec![kv("service.name", string_value("search-agent"))],
+                    dropped_attributes_count: 0,
+                    entity_refs: Vec::new(),
+                }),
+                scope_spans: vec![ScopeSpans {
+                    scope: Some(InstrumentationScope {
+                        name: "openinference".to_string(),
+                        version: "1.0.0".to_string(),
+                        attributes: Vec::new(),
+                        dropped_attributes_count: 0,
+                    }),
+                    spans: vec![Span {
+                        trace_id: vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+                        span_id: vec![3, 3, 3, 3, 3, 3, 3, 3],
+                        trace_state: String::new(),
+                        parent_span_id: Vec::new(),
+                        flags: 0,
+                        name: "rerank documents".to_string(),
+                        kind: span::SpanKind::Internal as i32,
+                        start_time_unix_nano: 1_700_000_000_000_000_000,
+                        end_time_unix_nano: 1_700_000_001_000_000_000,
+                        attributes: vec![
+                            kv("openinference.span.kind", string_value("RERANKER")),
+                            kv("reranker.model_name", string_value("bge-reranker-large")),
+                            kv("reranker.input_documents", int_value(20)),
+                            kv("reranker.output_documents", int_value(5)),
+                        ],
+                        dropped_attributes_count: 0,
+                        events: Vec::new(),
+                        dropped_events_count: 0,
+                        links: Vec::new(),
+                        dropped_links_count: 0,
+                        status: None,
+                    }],
+                    schema_url: String::new(),
+                }],
+                schema_url: String::new(),
+            }],
+        };
+        let scope = TenantScope::new(
+            TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+            ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+            EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}")),
+        );
+
+        let native =
+            export_to_native_requests(scope, request).unwrap_or_else(|err| panic!("{err}"));
+
+        assert_eq!(native.len(), 1);
+        let span = &native[0];
+        assert_eq!(span.kind, AgentSpanKind::RetrievalQuery);
+        assert_eq!(
+            span.attributes["openinference.span.kind"],
+            json!("RERANKER")
+        );
+        assert_eq!(
+            span.attributes["reranker.model_name"],
+            json!("bge-reranker-large")
+        );
+        assert_eq!(span.attributes["reranker.input_documents"], json!(20));
+        assert_eq!(span.attributes["reranker.output_documents"], json!(5));
     }
 
     #[test]

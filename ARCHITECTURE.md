@@ -454,9 +454,10 @@ beater/
     beater-secrets/       # Stash — opaque provider-secret refs, BYOK metadata, revocation
     beater-security/      # Vault — crypto primitives: Argon2 keys, ChaCha20 envelope, signed webhooks
     beater-judge/         # Backbeat (with beater-eval/-stats) — LLM/embedding judge broker, BYOK, calibration
-    beater-replay/        # Rewind [CHANGED] cassettes + deterministic replay PLUS real forked
-                          #   replay and earliest-failing-span attribution (§11); the
-                          #   current `attribute_failure` first-error heuristic is replaced
+    beater-replay/        # Rewind [CHANGED] cassettes + deterministic replay PLUS
+                          #   recovery-aware recorded-trace attribution and a linear
+                          #   earliest-outcome-flip helper; harness-backed forked
+                          #   replay + bisection remain planned (§11)
     beater-datasets/      # Encore [CHANGED] datasets, versions, examples, trace promotion PLUS a
                           #   seeded-hash Train/Dev/Test `split` on DatasetCase + min-sample
                           #   gate + contamination guard (§5.3, §6.4); bulk promote-from-query
@@ -993,13 +994,13 @@ code.
 
 OpenInference defines ten `openinference.span.kind` values —
 `LLM`, `EMBEDDING`, `CHAIN`, `RETRIEVER`, `RERANKER`, `TOOL`, `AGENT`, `GUARDRAIL`,
-`EVALUATOR`, `PROMPT`. The `beater-otlp` table maps eight of them into §5.2 today
-(`CHAIN → agent.step`, `EMBEDDING → retrieval.query`, etc.); **`RERANKER` and
-`PROMPT` are not yet in the table and currently fall through to the OTLP fallback** —
-closing that gap (e.g. `RERANKER → retrieval.query` with the raw kind and
-`reranker.*` attributes preserved) is the §26.2 O8 interop-completeness target, along
-with the churn-prone new OTel `gen_ai.*` names (`gen_ai.provider.name` superseding
-`gen_ai.system`, `gen_ai.conversation.id`, `gen_ai.agent.*`, `gen_ai.tool.*`).
+`EVALUATOR`, `PROMPT`. The `beater-otlp` table maps nine of them into §5.2 today
+(`CHAIN → agent.step`, `EMBEDDING/RERANKER → retrieval.query`, etc.); **`PROMPT`
+is not yet in the table and currently falls through to the OTLP fallback** —
+closing that final OpenInference kind gap is part of the §26.2 O8
+interop-completeness target, along with the churn-prone new OTel `gen_ai.*` names
+(`gen_ai.provider.name` superseding `gen_ai.system`, `gen_ai.conversation.id`,
+`gen_ai.agent.*`, `gen_ai.tool.*`).
 
 Config-driven mapping importer (`SourceImporter` boundary). The hand-written
 normalizers above (OTLP/OpenInference/GenAI/Vercel-AI) cover the standard dialects,
@@ -1012,7 +1013,10 @@ normalizers remain the fast path; the mapping importer is the escape hatch that
 makes "bring your weird exporter" a config task, not a PR. It rides the
 single-source contract (the `/v1` import endpoint is **[contract]**, §20.4) and,
 like every other importer, preserves the immutable raw envelope (§1 #3) so a
-mis-configured mapping is always re-projectable.
+mis-configured mapping is always re-projectable. **Status:** a first `source:
+mapping` importer is [built] for dot-path JSON span arrays, span-kind maps,
+attribute renames, RFC3339/epoch timestamp coercion, and raw-envelope
+preservation; richer dialect helpers remain incremental.
 
 Output dialects:
 
@@ -1822,13 +1826,14 @@ failed trace
   -> write root-cause annotation and regression candidate
 ```
 
-**Real forked replay + earliest-failing-span attribution (replaces the current
-first-error heuristic).** Today `attribute_failure` in `beater-replay` is a stub:
-it sorts spans by `seq` and returns the first span that is `Status::Error` or whose
-evidence score `< 0.5`. That is "the first thing that looked bad," which is *not*
-the same as "the earliest change that flips the outcome" — an early low-score span
-may be irrelevant while a later one is causal, and a trace can fail with no errored
-span at all. The replacement is a real **forked-replay search**:
+**Real forked replay + earliest-failing-span attribution.** The old
+`attribute_failure` first-error stub has been retired. Current `beater-replay`
+has two partial pieces: recovery-aware recorded-trace attribution, which skips
+failure signals the trace later recovers from, and a linear
+`find_earliest_outcome_flip` helper that probes caller-supplied fork evaluations
+earliest-first. That is still not the full product contract: it does not yet run
+the agent harness from the fork point or attach the counterfactual correction
+generator. The target replacement remains a real **forked-replay search**:
 
 ```text
 for candidate fork points, earliest-first along the causal span order:
@@ -1846,21 +1851,23 @@ return the EARLIEST fork point whose correction flips the outcome
 ```
 
 This is a counterfactual definition — the root cause is the *earliest* span whose
-correction is *sufficient* to flip the outcome — so it survives the cases the
-heuristic fails on (no errored span; misleading early low score).
+correction is *sufficient* to flip the outcome — so it survives the cases a
+first-error heuristic fails on (no errored span; misleading early low score).
 
-**Complexity + the bisection optimization.** The naive scan tries each of the `n`
-candidate fork points earliest-first and stops at the first flip: worst case `O(n)`
-forked replays, each costing one prefix-replay + resume + re-score. When the outcome
-is **monotone in the fork point** — correcting an *earlier* span never *un*-flips a
-later success (the common case for a single propagating fault) — the earliest
-flipping span is found by **binary search (bisection) over the span order in
-`O(log n)` replays**: replay-and-score at the midpoint, recurse left if it flips,
-right if it does not. `beater-stats` is not involved; this is a deterministic search.
-Monotonicity is an assumption, not a guarantee, so bisection is the fast path and the
-linear earliest-first scan is the **fallback** whenever the cheap monotonicity check
-fails (e.g. interacting faults), preserving correctness at `O(n)`. The search is also
-bounded by a fork budget. Attribution
+**Complexity + the bisection optimization.** The implemented helper currently
+uses the naive scan: it tries each of the `n` candidate fork points
+earliest-first and stops at the first flip, for worst case `O(n)` fork
+evaluations. When the outcome is **monotone in the fork point** — correcting an
+*earlier* span never *un*-flips a later success (the common case for a single
+propagating fault) — the earliest flipping span can be found by **binary search
+(bisection) over the span order in `O(log n)` replays**: replay-and-score at the
+midpoint, recurse left if it flips, right if it does not. `beater-stats` is not
+involved; this is a deterministic search.
+Monotonicity is an assumption, not a guarantee, so the planned bisection
+optimization should be the fast path and the linear earliest-first scan remains
+the **fallback** whenever the cheap monotonicity check fails (e.g. interacting
+faults), preserving correctness at `O(n)`. The search is also bounded by a fork
+budget. Attribution
 confidence is reported with its replay guarantee level: a flip found under
 `deterministic_replay` (all cassettes present, hashes match) is high-confidence; a
 flip found under `forked_replay`/`simulation` is labeled as such (§1 #6). The
@@ -2358,7 +2365,7 @@ Goal: close the table-stakes agent concepts the data model lacks.
 | 1.5 | OTLP/JSON + canonical `/v1/traces` alias | OTLP HTTP is protobuf-only on a tenant-scoped path | Content-type negotiation in `ingest_otlp_http` (deserialize `ExportTraceServiceRequest` from JSON); gRPC `partial_success` population; optionally `/v1/logs` for events **[contract]** | M | contract |
 | 1.6 | Sampling weights + weighted aggregates (**honesty fix**, §9, §1 #9) | tail-sampling keeps/drops but records no weight; roll-ups average kept spans (biased) | Add `sampling_weight: f64` to `CanonicalSpan` (`beater-schema`); stamp `1/keep_probability` on the keep path in `beater-ingest`; make `beater-store` roll-up/aggregate queries weighted (Horvitz-Thompson); label any unweighted view biased **[contract]** | M | contract |
 | 1.7 | DatasetCase Train/Dev/Test split + contamination guard (§5.4, §6.4) | `DatasetCase` has no split; no held-out discipline | Add `split: DatasetSplit` (seeded hash off `dataset_version_seed ++ case_id`) to `DatasetCase` (`beater-datasets`/`beater-schema`); min-sample gate; near-dup contamination detection train↔test; gates/RSI read Test-only **[contract]** | M | contract |
-| 1.8 | Config-driven MAPPING importer (§7) | hand-written normalizers only; custom/older dialects need a PR | `SourceImporter` config dialect (field-path/span-kind/attr/units mapping) projecting a foreign shape to canonical with no code; `/v1/import` mapping endpoint; raw envelope preserved for re-projection **[contract]** | L | contract |
+| 1.8 | Config-driven MAPPING importer (§7) | first `source: mapping` dot-path JSON importer is built; richer helpers still needed for broad custom dialect ergonomics | `SourceImporter` config dialect (field-path/span-kind/attr/units mapping) projecting a foreign shape to canonical with no code; `/v1/import` mapping endpoint; raw envelope preserved for re-projection **[contract]** | L | contract |
 
 Acceptance: a multi-turn agent trace groups by session in the API; a vision LLM
 call renders its image; full-text search hits prompt/output bodies stored as
@@ -2436,7 +2443,7 @@ Goal: everything required before hosted multi-tenant GA can be sold (see §14, �
 | 5.4 | Storage-layer tenant isolation + secure default | app-enforced `WHERE tenant_id=?`; default auth effectively open | hosted store on Postgres with Row-Level Security keyed on per-request `SET app.tenant_id`; conformance test proving cross-tenant reads fail at the DB; make `Required` auth the default for non-localhost binds | XL | design |
 | 5.5 | Data deletion / crypto-shred / GDPR | no DELETE routes, no erasure | per-tenant data-encryption keys for crypto-shred; `DELETE /v1/tenants/{id}` (key destroy + cascade), `DELETE /v1/traces/{id}`; background purge worker; deletion audit events **[contract]** | XL | contract |
 | 5.6 | Data residency / regional | single-region placeholder | `region` on `OrganizationMetadata`; region-aware gateway routing to home-region backends; per-region object/DB stores; EU/US topology doc | XL | design |
-| 5.7 | Comprehensive tamper-evident audit | covers exactly one action (`PiiUnmask`) | expand `AuditAction` (key/secret/role/config/export/login/auth-failure); emit from `beater-auth`/`beater-secrets`/RBAC/login; hash-chained tamper-evident column; `GET /v1/audit-events` **[contract]** | L | contract |
+| 5.7 | Comprehensive tamper-evident audit | covers `PiiUnmask` plus API-key/provider-secret create/revoke; role/config/export/login/auth-failure still missing | expand `AuditAction` (key/secret/role/config/export/login/auth-failure); emit from `beater-auth`/`beater-secrets`/RBAC/login; hash-chained tamper-evident column; `GET /v1/audit-events` **[contract]** | L | contract |
 | 5.8 | Billing / usage ledger | idempotent ledger exists; no plans/invoicing | meters for ingest/storage/eval/judge; per-org rollups; `beater-billing` (plan/subscription + Stripe metered sync) linked to `QuotaLimiter` | L | contract |
 | 5.9 | Backups + restore drills | none | hosted on Postgres+object store with PITR; `beaterctl backup`/`restore` for self-host; CI restore-drill job with documented RPO/RTO | L | evidence |
 | 5.10 | SLO dashboards + dogfooding | Prometheus facade exists | Grafana dashboard JSON + Prometheus alert rules under `ops/`; self-trace OTLP exporter so `beaterd` traces into a Beater project; load test producing the §16 numbers | M | evidence |
@@ -3481,7 +3488,7 @@ The CI gate is the workflow that blocks merge if the item regresses.
 | §20.3 #1.3 multimodal **[contract]** | a vision LLM call renders its image | media-artifact parse + render test `[planned]` | `sdk-contract` / `frontend` |
 | §20.3 #1.6 sampling weights **[contract]** | weighted aggregate matches population rate (A19) | unit: weighted vs unweighted diverge on tail-sampled fixture `[planned]` | `sdk-contract` / `backend` |
 | §20.3 #1.7 Train/Dev/Test split **[contract]** | seeded split + contamination guard rejects a near-dup in Test (A13) | dataset split + contamination unit test `[planned]` | `sdk-contract` |
-| §20.3 #1.8 mapping importer **[contract]** | a foreign dialect projects to canonical with no code | `/v1/import` mapping fixture `[planned]` | `sdk-contract` |
+| §20.3 #1.8 mapping importer **[contract]** | a foreign dialect projects to canonical with no code | `/v1/import` mapping fixture `[built]` for the first dot-path JSON importer | `sdk-contract` |
 | §20.4 #2.x read APIs + UI | browse datasets, open an experiment with per-case CIs + gate badge, annotate, diff, analytics | Playwright e2e over the dashboard `[planned]` | `frontend` |
 | §20.4 #2.1b bulk promote **[contract]** | `promote-from-query` materializes failures as cases with seeded split | `curl /v1/datasets/:id/promote-from-query` `[planned]` | `sdk-contract` |
 | §20.5 #3.1 scorer breadth **[contract]** | new scorers pass on valid + invalid-when fixtures (§10.4) | per-scorer unit tests `[planned]` | `sdk-contract` / `backend` |
@@ -3871,7 +3878,7 @@ to §18 milestones, §19 Bar-for-Done, §20/§21 phase items, and §22 tests.
 | Orgs / projects / envs | org/project/environment entities + scoping enforced | §22.1 Store row; `beater-store-conformance` boundaries `[built]` | built |
 | Enforced RBAC | a non-owner is **denied** a mutating route by `authorize()` (A20) | §22.3 §20.7 #5.2; `sdk-contract` (403 test) | planned (RBAC data model exists, never consulted by `authorize()`, §20.1) |
 | SSO / SAML / SCIM | enterprise login JIT-provisions a user (OIDC/SAML/SCIM) | §22.1 Hosted control plane (SSO JIT); Passport (`beater-identity` [planned]) | planned |
-| Storage-layer tenant isolation (RLS) + secure-default auth | cross-tenant read/write **fails at the DB** under Postgres RLS; auth required by default | §22.3 §20.7 #5.4 (A20); `storage-backends` (app-layer `[built]` → DB-layer `[planned]`) | partial (app-enforced today; DB RLS planned) |
+| Storage-layer tenant isolation (RLS) + secure-default auth | cross-tenant read/write **fails at the DB** under Postgres RLS; auth required by default | §22.3 §20.7 #5.4 (A20); `storage-backends` (app-layer `[built]` → DB-layer `[planned]`) | partial (auth required by default; `--auth-mode local` rejects non-loopback HTTP binds; app-enforced today; DB RLS planned) |
 | Quotas / rate-limits / billing ledger | per-tenant quota + rolling-window limit + a usage/billing ledger | §22.1 + Tempo (`beater-usage`) `[built]` ledger; Bandwidth (`beater-billing` [planned]) | partial |
 | Crypto-shred deletion / GDPR + retention + residency | a shredded tenant is **unreadable across hot/cold/artifact**; retention sweeper runs; residency honored | §22.3 §20.7 #5.5 + §20.2 #0.4; `sdk-contract` / `backend` | planned (crypto primitives built; lifecycle planned) |
 | Backups + passing restore drill | a restore drill **meets documented RPO/RTO** | §22.3 §20.7 #5.9; CI restore-drill job | planned |
@@ -4457,3 +4464,267 @@ table is the scorecard; **none of it is shipped yet** (§24.4).
   Phoenix/`adb` + the ~200M-span community thread; Langfuse v3 ClickHouse stack;
   Helicone gateway; `judgeval` source) and should be re-verified before any are quoted
   externally — incumbent internals move.
+
+## 27. Agent Tracking & RSI Instrumentation (the observability surface for self-improvement)
+
+This section consolidates the **tracking and instrumentation** that turns the
+RSI loop (§21) from "score went up, ship it" into a loop that can *attribute*,
+*localize*, and *distrust* its own gains. It extends §10 (Evaluator), §11 (Replay
+and Failure Attribution), §13 (Query/UI/Alerting), and §21 (RSI); it invents no
+new storage — every signal below is a projection of the canonical span forest (§5)
+or a use of the existing replay primitive (§11).
+
+**The unifying thesis — replay converts population-statistics into per-trace
+experiments.** The hard constraint on agent evaluation is small `n` (tens of
+precious cases, not thousands), which kills any method that *estimates* an effect
+from observational variance. Replay (§11) sidesteps this: it *executes* the
+counterfactual instead of estimating it, so a single forked run (`n = 1`) is a
+valid controlled experiment, not a noisy sample. The binding constraint moves from
+*statistical power* to **fork budget** (real provider $/latency per fork). Every
+replay-based tracker below is therefore designed to be **triggered on a
+failure/regression** and **O(log n) or O(small-k) forks**, never a corpus sweep.
+This is also why it rehabilitates ideas that pure passive monitoring cannot
+support: e.g. counterfactual routing needs no logged action *propensities* here —
+you fork and run the alternative directly.
+
+### 27.1 Two structural blind spots (what we are not currently noticing)
+
+- **The RSI loop has amnesia.** `ExperimentRunReport` (§10/§21) records
+  `baseline_release_id` / `candidate_release_id` but has **no pointer to its parent
+  experiment** — the iteration chain is invisible. The defining RSI question,
+  *"which proposed change caused which behavior delta across generations,"* is
+  therefore unanswerable today. Every cross-generation safety signal (convergence,
+  judge-gaming, cost spiral, evaluator drift) depends on first giving the loop a
+  memory of itself. [planned]
+- **Behavior is invisible — we only compare scores.** Experiment traces are stored
+  as opaque `Value` blobs, not parseable `CanonicalSpan` forests, so two releases
+  that **score identically via completely different span-level paths** (one having
+  learned an in-distribution shortcut that will fail OOD) read as "no regression."
+  We track *what* the agent scored, never *how* it got there. [planned]
+- **Deterministic-replay fidelity is unverified.** If `DeterministicReplay` (§11)
+  is not bit-stable, every fork-based tracker in §27.4 is measuring leaked
+  nondeterminism rather than a real effect. This must be audited first. [planned]
+
+### 27.2 Foundational enablers (build first — each unlocks many trackers)
+
+| ID | Enabler | What it is | Unlocks |
+|----|---------|------------|---------|
+| **E1** | Parseable trace forests | store experiment traces as `CanonicalSpan` forests, not opaque `Value` | credit assignment, behavioral diff, cost rollup, per-run aggregates |
+| **E2** | RSI provenance chain | `parent_experiment_run_id` + a `lineage()` query walking the FK chain | convergence, judge-gaming drift, cost-spiral guard, evaluator-version guard — **the backbone of §21** |
+| **E3** | Mid-trace span substitution | inject a recorded/synthetic response at `(seq, kind, request_hash)` and replay forward; one engine in `beater-replay` | bisection, fault injection, ablation, sensitivity, regret — **one build serves §27.4 + the `attribute_failure` work** |
+| **E4** | Deterministic-replay fidelity audit | run a trace through `DeterministicReplay` K× and assert bit-identical event keys | trust foundation for all of §27.4 — ship first, costs no provider calls |
+| **E5** | Release-stamped runs | record `agent_release_id` on `agent.run` spans at ingest | circular-evidence guard (§27.3) |
+
+### 27.3 Tier 1 — cheap, ship-now trackers (existing span data)
+
+- **Behavioral fingerprint diff.** Hash the ordered `(kind, request_hash)` action
+  path of a trace (reusing `execute_replay`'s `event_key()`); compute per-case
+  Jaccard similarity between baseline and candidate. A `min_behavioral_similarity`
+  on `GatePolicy` escalates to human review when the **score is flat but the path
+  diverged** — catching shortcuts that pass in-distribution. The same fingerprint
+  curates the eval set (near-duplicate detection + coverage gaps + mode-collapse
+  across generations), raising information-per-case for every other tracker. [planned]
+- **Cost axis in the gate.** Roll up `CanonicalSpan.cost` across the `agent.run`
+  forest per case; surface `baseline_agent_cost` / `candidate_agent_cost` and add
+  `max_cost_regression` to `GatePolicy` so a "+0.02 score for 3× cost" change
+  cannot auto-ship. Requires E1 (parseable forests to roll up). [planned]
+- **Circular-evidence guard.** Before an experiment runs, walk each
+  `DatasetCase.source_trace_id` against the provenance chain (E2/E5): quarantine
+  any case whose source trace was produced by the candidate or an ancestor release,
+  and block a Pass if the contaminated fraction exceeds policy. Stops the loop
+  grading itself on its own homework. [planned]
+- **Convergence / diminishing-returns stop signal.** Over the last `N` deltas in
+  the generation chain (E2), fit a trend; if the slope is within one standard error
+  of zero **and** the latest `ci_low`/`ci_high` straddle zero, emit a
+  `StopRecommended` advisory. *Knowing when to stop iterating* is unaddressed today.
+  Uses the real-statistics work tracked in `beater-stats`. [planned]
+- **Evaluator-version consistency guard.** When loading the chain (E2), warn if
+  ancestors used a different `evaluator_version_id` — a "Pass" under a more lenient
+  rubric is not a real win. [planned]
+- **OOD-probe co-evaluation, wired into the harness.** The held-out OOD probe
+  guardrail (§21.4) exists as policy but is not enforced inside
+  `run_*_experiment`; require `Pass` on every registered probe dataset before the
+  overall decision is `Pass`. [planned]
+- **Per-run signal catalog (§27.6)** — a batch of mundane SRE-grade aggregates,
+  all pure span queries.
+
+### 27.4 Tier 2 — replay-as-experiment trackers (require E3 + E4)
+
+- **Causal failure bisection ("git bisect for traces").** On a failing trace,
+  binary-search the span sequence; at each split, splice in the corresponding
+  recorded response from a *passing sibling* trace and forked-replay forward. The
+  earliest split that flips the evaluator to Pass is the causal first-divergence
+  point. Beats "blame the last error span" exactly when the symptom is downstream
+  of the root cause (bad retrieval → bad plan → tool error) — the common agent
+  case. `O(log #spans)` forks; immune to small `n`. Replaces the `attribute_failure`
+  stub (§11). **Strongest single idea.** [planned]
+- **Cross-release regression delta-debugging.** When a candidate regresses on a
+  case, forked-replay the candidate while splicing the baseline's recorded response
+  at one divergence point at a time, to localize *which* change (prompt / model /
+  tool version / retrieval) caused it — causally, not by config-diff guessing.
+  `O(#divergence points)` forks per regressed case. [planned]
+- **Internal-boundary fault injection ("chaos engineering for agents").** At
+  `tool.call` / `retrieval.query` / `memory.read` boundaries, inject
+  corrupted/adversarial responses (a prompt-injected retrieval, a wrong-but-
+  plausible tool result, a transient error) and replay forward; measure derail rate
+  and whether `guardrail.check` spans actually fire. Reaches *internal* boundaries a
+  top-level red-team prompt can never touch, and measures *propagation*. [planned]
+
+### 27.5 Tier 3 — promising, but require new logging or a generator (honest gate)
+
+- **Counterfactual context ablation.** Fork-replay dropping individual retrieved
+  chunks / memory reads / prior turns; any item whose removal never changes the
+  outcome is *causally* dead weight → a proven token/cost cut. Beats relevance
+  scores (relevance ≠ causal influence). Sharpest when attention/citation is also
+  logged to prioritize what to ablate. [needs new logging]
+- **Counterfactual action coverage / regret.** Fork and force top-k alternative
+  actions at a decision span, replay, score → per-decision regret and a map of
+  never-explored alternatives. The honest rehab of off-policy routing (no
+  propensities needed — replay executes the counterfactual). Requires the agent to
+  **log its considered-but-rejected candidate set**; without it this degrades to a
+  noisy brute-force over the tool registry. [needs new logging]
+- **Judge surface-sensitivity probe (reward-hacking detector).** Replay the
+  LLM-judge on the candidate output and on a meaning-preserving surface-perturbed
+  copy; a large judge-score drop = the gain was surface-hacking, not real
+  improvement. Requires a paraphrase/perturbation generator (shared with ablation
+  and the sensitivity map). [needs generator]
+- **Decision-point sensitivity map.** Perturb a single span's *input* (paraphrase a
+  turn, reorder retrieval docs, drop one tool result), replay forward, measure
+  outcome-flip rate → an influence map ranking decision points by brittleness.
+  Localizes *which* input the agent is fragile to, where a temperature-variance
+  baseline cannot. Shares the perturbation generator. [needs generator]
+
+### 27.6 Per-run signal catalog (mundane, high-signal, pure span aggregates)
+
+All computable from existing `CanonicalSpan` fields; surface in §13 (Query/UI) and
+as `beater-alerts` advisories.
+
+| Signal | Definition | Why it matters |
+|--------|------------|----------------|
+| Duplicate tool calls | count identical `(tool name + input_ref hash)` within a run | confusion / looping without explicit retry |
+| Error-recovery rate | error spans followed by a succeeding retry ÷ all error spans | resilient vs spiralling agents |
+| Token waste on errors | Σ prompt+completion tokens over error-status spans | direct wasted-cost signal |
+| Cache-hit ratio | Σ `cache_read` ÷ Σ `(prompt + cache_read)` over `llm.call` | is prompt caching actually working |
+| Dead-weight turns | `agent.turn` spans with zero child `tool.call` ÷ all turns | over-thinking / wasted planning cost |
+| Max tool nesting depth | deepest `tool→tool` chain via `parent_span_id` | runaway recursion early-warning |
+| Guardrail block ratio | `guardrail.check` with error status ÷ all guardrail checks | safety overhead & guard drift |
+| Retry count per span | siblings sharing `(parent, name)` | flaky tools / pathological retry loops |
+| Retrieval hit density | `retrieval.query` with non-empty `output_ref` ÷ all | retrieval working vs poisoning |
+| Model diversity per run | unique `(provider, name)` across `llm.call` | unintended fallback thrashing |
+| Human-review turnaround | `human.review` span duration | human-in-the-loop bottlenecks |
+
+### 27.7 Judge-gaming / Goodhart detection (cross-references §27.4–§27.6)
+
+RSI optimizes against the platform's own evaluators, so the platform must detect
+when the agent games them. Three layered, complementary detectors, escalating only
+when more than one fires:
+
+1. **Shadow-holdout divergence** — a held-out evaluator set never exposed to the
+   loop (disciplined train/test; necessary, not novel).
+2. **Judge score-distribution drift** (E2) — ceiling-clustering (>N% of cases at
+   score ≥ 0.95) or inter-generation variance collapse (>50% drop) → advisory,
+   cross-checked against `beater-calibration` judge↔human agreement to separate
+   *real improvement* from *judge-gaming*.
+3. **Judge surface-sensitivity probe** (§27.5) — adds *mechanism*: the win is
+   fragile to paraphrase.
+
+### 27.8 Honest gate — what this surface deliberately excludes
+
+To keep the instrumentation honest at small `n` (§1), the following were evaluated
+and **rejected**, recorded here so they are not rebuilt by reflex:
+
+- **Spectral-radius / branching-process runaway detection** — agents have hard step
+  caps, so the process is sub-critical by construction; a `steps > N` / `depth > D`
+  / `cost > budget` counter (§27.6) strictly dominates.
+- **Observational causal inference over traces** — severe confounding, no
+  positivity; replay (§27.4) *is* the experiment, so the observational machinery is
+  unnecessary.
+- **Off-policy routing via IPW/DR** — requires logged action propensities we do not
+  record; the replay regret tracker (§27.5) supersedes it.
+- **Mahalanobis / MMD distribution-drift scores** — fragile on heavy-tailed,
+  mixed-type span features; per-metric drift (§27.6) dominates on interpretability.
+
+Deferred (right idea, blocked on data/scale, revisit later): anytime-valid
+confidence sequences (need streaming evals, not single-look CI gating); isotonic /
+Dawid–Skene judge models (need label volume / multi-rater data).
+
+### 27.9 Build order & crosswalk
+
+1. **E4** deterministic-replay fidelity audit (trust foundation, no provider calls).
+2. **E1 + E2** parseable forests + provenance chain — convert a dozen "impossible
+   today" trackers into a query; **E2 is the backbone of §21**.
+3. **E3** one substitution engine — turns failures into root-cause experiments;
+   implements the `attribute_failure` replacement (§11).
+4. **Behavioral fingerprint diff** + the **per-run catalog** (§27.6) — cheapest
+   wins, multiply the value of everything else.
+5. Tier-2 replay trackers (§27.4) on top of E3/E4; then Tier-3 (§27.5) once the
+   shared perturbation generator and candidate-set logging exist.
+
+Crosswalk to the existing ledger: credit-assignment + bisection extend the
+`attribute_failure` work (§11); convergence + real CIs use `beater-stats` (§20.5);
+OOD-probe wiring enforces §21.4; the provenance chain (E2) is prerequisite plumbing
+for §21.
+
+## 28. Integrations & the Agent-Tooling Ecosystem
+
+§26 is about *optimizations and competitive margins*. This section is the missing
+*other axis*: **how the agent ecosystem plugs into Beater, and how Beater sources and
+exposes agent tooling.** The thesis is "very easy for agents **and** humans, with
+sophisticated agentics underneath" — §10/§11/§21 deliver the sophistication; this
+section is the **ease-of-plugging-in** that converts the architectural lead into
+adoption. Every entry carries an honest `[built]/[partial]/[planned]/[deferred]`
+marker (§4 convention) and names the crate it extends. The discipline of §26.3 holds:
+where we **deliberately don't integrate**, we say so (§28.4) rather than leaving a
+silent blind spot. Tracked end-to-end in **#275** (this catalog's working issue),
+with #276 (crate wiring) and #277 (MCP loop-closing) as the code companions. **Integration status verified 2026-06-27**; re-verify each sprint per §26's dated-audit discipline so the [planned] rows do not drift toward fiction.
+
+### 28.0 Design stance — passive OTLP is necessary but not sufficient
+
+The default integration today is *"emit OTLP/OpenInference/OpenLLMetry and we
+normalize it"* (§7) — portable, zero-lock-in, and the right floor. But it is
+**passive**: Beater is not present inside any framework's tool/handoff lifecycle, and
+it neither sources tools for agents nor exposes its own eval/gate/replay tools *into*
+the registries agents already use. The integration roadmap moves up three rungs —
+**ingest (passive) → adapter (present in the lifecycle) → bidirectional (Beater's
+tools callable from the ecosystem)** — without ever making the higher rungs a
+prerequisite for the floor.
+
+### 28.1 Inbound — frameworks & instrumentation
+
+| Surface | Status | Where it lives | Note |
+| --- | --- | --- | --- |
+| Generic OTLP / OpenInference / OpenLLMetry ingest | **[built]** | `beater-otlp`, `beater-ingest` (§7) | the zero-code floor; any instrumented app lights up |
+| OTel `gen_ai.*` semantic-convention completeness | **[partial]** | `beater-otlp` (§26 O8) | churn-prone new names + full OpenInference kind/attr set; #93 |
+| browser-use / Stagehand SDKs | **[built]** | `sdks/python-browser-use`, `sdks/ts-stagehand` | the one shipped first-class agent vertical |
+| Temporal history → canonical spans | **[built]** | `beater-temporal` | sub-agent steps map cleanly to canonical spans |
+| LangChain / LangGraph callbacks | **[partial]** | `sdks/*` (promised in `sdks/README.md`) | mentioned in §21.5; adapter not yet first-class |
+| OpenAI Agents SDK / Anthropic Agent SDK / CrewAI / AutoGen / Pydantic AI / Mastra / Vercel AI SDK / LlamaIndex | **[planned]** | `sdks/*` | **breadth gap (#275 §B)** — span kinds are ready, so each is a mapping exercise. Build **one** deep reference adapter, then template the rest |
+
+### 28.2 Inbound — migration on-ramps ("switch from X")
+
+The `SourceImporter` trait (`beater-temporal/src/lib.rs:256`) + unified `POST /v1/import`
+endpoint are **[built]** but only `temporal_history` + `native` are wired
+(`beaterd/src/main.rs`). Importers for **LangSmith / Langfuse / Braintrust / Phoenix**
+are **[planned]** — additive, no contract change, high conversion value. This is the
+concrete code behind the OTLP-"Switzerland" positioning (#155); export-out keeps the
+round-trip lossless (#155).
+
+### 28.3 Bidirectional — tool registries & agent protocols
+
+| Surface | Status | Triage (#275) | Rationale |
+| --- | --- | --- | --- |
+| **Composio / tool-registry** (inbound: auto-instrument tool calls made *through* a registry as canonical `tool.call` spans) | **[planned]** | INTEGRATE | the user-named headline gap; `tool.call`/`mcp.request` schema already exists |
+| **Composio / MCP directories** (outbound: expose `gate_candidate`/`promote_failures` etc. *as* registry tools) | **[planned]** | PARTNER / BUILD | makes Beater's loop callable from any agent; depends on #277 composite tools |
+| **`beater-mcp` attach inside coding agents** (Claude Code / Codex / ChatGPT connectors, OAuth 2.1 RFC 9728→8414→7591) | **[partial]** | BUILD | connect flow built (§21.5b); **stdio transport + e2e verify still missing (#277)** |
+| **A2A (agent-to-agent) / AG-UI** protocol ingest | **[deferred]** | SKIP-document | needs a canonical `agent.handoff` span kind first (#159); revisit when standards stabilize |
+| **n8n / Zapier / Pipedream** workflow platforms | **[deferred]** | SKIP-document | lower priority than frameworks/registries; conscious deferral, not a blind spot |
+
+### 28.4 What we deliberately don't integrate (yet)
+
+Per §26.3 honesty: **A2A/AG-UI protocol surfaces** and **no-code workflow platforms**
+are consciously deferred until (a) a real user ask exists and (b) the multi-agent
+schema (`agent.handoff`, #159) lands — building them now would add doc/feature weight
+we can't yet justify against the §1 discipline. The bidirectional registry rung
+(§28.3) is gated on #277's composite tools shipping first; we will not expose a
+"loop-closing" tool externally until the loop actually closes (#71).
+

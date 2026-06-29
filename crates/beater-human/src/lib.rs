@@ -452,18 +452,24 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         request: SubmitAnnotationRequest,
     ) -> StoreResult<ReviewAnnotation> {
         let now = Utc::now();
-        let mut task = self
-            .get_task(
-                request.tenant_id.clone(),
-                request.project_id.clone(),
-                request.queue_id.clone(),
-                request.task_id.clone(),
-            )
-            .await?;
         let annotation_id = match request.annotation_id {
             Some(annotation_id) => annotation_id,
             None => AnnotationId::new(Uuid::new_v4().to_string()).map_err(StoreError::backend)?,
         };
+        let mut connection = self.lock().into_store()?;
+        let transaction = connection
+            .transaction()
+            .context("begin review annotation transaction")
+            .into_store()?;
+        let mut task = get_task_locked(
+            &transaction,
+            &request.tenant_id,
+            &request.project_id,
+            &request.queue_id,
+            &request.task_id,
+        )
+        .context("load review task for annotation")
+        .into_store()?;
         let annotation = ReviewAnnotation {
             tenant_id: request.tenant_id,
             project_id: request.project_id,
@@ -483,8 +489,7 @@ impl HumanReviewStore for SqliteHumanReviewStore {
         let annotation_json = serde_json::to_string(&annotation)
             .context("serialize review annotation")
             .into_store()?;
-        let connection = self.lock().into_store()?;
-        connection
+        transaction
             .execute(
                 r#"
                 INSERT INTO review_annotations
@@ -506,7 +511,7 @@ impl HumanReviewStore for SqliteHumanReviewStore {
             )
             .context("insert review annotation")
             .into_store()?;
-        connection
+        transaction
             .execute(
                 r#"
                 UPDATE review_tasks
@@ -524,6 +529,10 @@ impl HumanReviewStore for SqliteHumanReviewStore {
                 ],
             )
             .context("mark review task submitted")
+            .into_store()?;
+        transaction
+            .commit()
+            .context("commit review annotation transaction")
             .into_store()?;
         Ok(annotation)
     }
@@ -646,14 +655,22 @@ pub fn promote_review_annotation_to_dataset_case(
             trace.trace_id.as_str()
         ));
     }
-    let reference = reference_override.or_else(|| annotation_reference(annotation));
+    let reference = reference_override
+        .and_then(usable_reference)
+        .or_else(|| annotation_reference(annotation))
+        .ok_or_else(|| {
+            anyhow!(
+                "review annotation {} requires a non-null reference or expected value before dataset promotion",
+                annotation.annotation_id.as_str()
+            )
+        })?;
     promote_trace_span_to_case(
         tenant_id,
         project_id,
         dataset_id,
         trace,
         task.span_id.clone(),
-        reference,
+        Some(reference),
     )
 }
 
@@ -688,7 +705,17 @@ fn annotation_reference(annotation: &ReviewAnnotation) -> Option<Value> {
         .payload
         .get("reference")
         .cloned()
+        .and_then(usable_reference)
         .or_else(|| annotation.payload.get("expected").cloned())
+        .and_then(usable_reference)
+}
+
+fn usable_reference(reference: Value) -> Option<Value> {
+    if reference.is_null() {
+        None
+    } else {
+        Some(reference)
+    }
 }
 
 fn task_state_name(state: &ReviewTaskState) -> &'static str {
@@ -780,36 +807,154 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn submit_annotation_rolls_back_when_task_update_fails() -> anyhow::Result<()> {
+        let store = SqliteHumanReviewStore::in_memory()?;
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+        let queue = store
+            .create_queue(CreateReviewQueueRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                queue_id: Some(ReviewQueueId::new("quality")?),
+                name: "quality".to_string(),
+                annotation_schema: json!({"type":"object"}),
+            })
+            .await?;
+        let task = store
+            .enqueue_task(EnqueueReviewTaskRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                queue_id: queue.queue_id.clone(),
+                task_id: Some(ReviewTaskId::new("task-1")?),
+                trace_id: TraceId::new("trace-1")?,
+                span_id: Some(SpanId::new("span-1")?),
+                dataset_id: None,
+                dataset_case_id: None,
+                priority: 10,
+            })
+            .await?;
+
+        {
+            let connection = store.lock()?;
+            connection.execute_batch(
+                r#"
+                CREATE TEMP TRIGGER fail_review_task_submit
+                BEFORE UPDATE OF state ON review_tasks
+                WHEN NEW.state = 'submitted'
+                BEGIN
+                    SELECT RAISE(FAIL, 'forced review task update failure');
+                END;
+                "#,
+            )?;
+        }
+
+        let annotation_id = AnnotationId::new("annotation-1")?;
+        let error = store
+            .submit_annotation(SubmitAnnotationRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                queue_id: queue.queue_id.clone(),
+                task_id: task.task_id.clone(),
+                annotation_id: Some(annotation_id),
+                reviewer_id: "reviewer-a".to_string(),
+                verdict: ReviewVerdict::Fail,
+                payload: json!({"reference": "expected answer", "notes": "wrong answer"}),
+            })
+            .await
+            .err()
+            .unwrap_or_else(|| panic!("forced task update failure should abort submit"));
+        assert!(
+            format!("{error:?}").contains("mark review task submitted"),
+            "unexpected error: {error:?}"
+        );
+
+        {
+            let connection = store.lock()?;
+            connection.execute_batch("DROP TRIGGER fail_review_task_submit;")?;
+        }
+
+        let annotations = store
+            .list_annotations(
+                tenant.clone(),
+                project.clone(),
+                queue.queue_id.clone(),
+                task.task_id.clone(),
+            )
+            .await?;
+        assert!(annotations.is_empty());
+
+        let task = store
+            .get_task(tenant, project, queue.queue_id, task.task_id)
+            .await?;
+        assert_eq!(task.state, ReviewTaskState::Open);
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn review_task_listing_isolates_scope() -> anyhow::Result<()> {
+        let store = SqliteHumanReviewStore::in_memory()?;
+        let tenant = TenantId::new("tenant")?;
+        let other_tenant = TenantId::new("other-tenant")?;
+        let project = ProjectId::new("project")?;
+        let other_project = ProjectId::new("other-project")?;
+
+        let target_queue = create_queue(&store, &tenant, &project, "target").await?;
+        let sibling_queue = create_queue(&store, &tenant, &project, "sibling").await?;
+        let other_project_queue =
+            create_queue(&store, &tenant, &other_project, "other-project-queue").await?;
+        let other_tenant_queue =
+            create_queue(&store, &other_tenant, &project, "other-tenant-queue").await?;
+
+        enqueue_task(&store, &tenant, &project, &target_queue, "target-task", 10).await?;
+        enqueue_task(&store, &tenant, &project, &sibling_queue, "queue-leak", 20).await?;
+        enqueue_task(
+            &store,
+            &tenant,
+            &other_project,
+            &other_project_queue,
+            "project-leak",
+            30,
+        )
+        .await?;
+        enqueue_task(
+            &store,
+            &other_tenant,
+            &project,
+            &other_tenant_queue,
+            "tenant-leak",
+            40,
+        )
+        .await?;
+
+        let tasks = store
+            .list_tasks(
+                tenant,
+                project,
+                target_queue.queue_id,
+                Some(ReviewTaskState::Open),
+            )
+            .await?;
+
+        assert_eq!(tasks.len(), 1);
+        assert_eq!(tasks[0].task_id.as_str(), "target-task");
+        Ok(())
+    }
+
+    #[tokio::test]
     async fn review_annotation_promotes_to_dataset_case_with_human_reference() -> anyhow::Result<()>
     {
         let tenant = TenantId::new("tenant")?;
         let project = ProjectId::new("project")?;
         let queue = ReviewQueueId::new("quality")?;
-        let task = ReviewTask {
-            tenant_id: tenant.clone(),
-            project_id: project.clone(),
-            queue_id: queue.clone(),
-            task_id: ReviewTaskId::new("task-1")?,
-            trace_id: TraceId::new("trace-1")?,
-            span_id: Some(SpanId::new("span-1")?),
-            dataset_id: None,
-            dataset_case_id: None,
-            priority: 1,
-            state: ReviewTaskState::Submitted,
-            created_at: Utc::now(),
-            updated_at: Utc::now(),
-        };
-        let annotation = ReviewAnnotation {
-            tenant_id: tenant.clone(),
-            project_id: project.clone(),
-            queue_id: queue,
-            task_id: task.task_id.clone(),
-            annotation_id: AnnotationId::new("annotation-1")?,
-            reviewer_id: "reviewer-a".to_string(),
-            verdict: ReviewVerdict::NeedsFix,
-            payload: json!({"reference": {"answer": "world"}}),
-            created_at: Utc::now(),
-        };
+        let task = fixture_review_task(&tenant, &project, &queue)?;
+        let annotation = fixture_annotation(
+            &tenant,
+            &project,
+            &queue,
+            &task,
+            "annotation-1",
+            json!({"reference": {"answer": "world"}}),
+        )?;
         let trace = fixture_trace(&tenant, &project)?;
         let case = promote_review_annotation_to_dataset_case(
             tenant,
@@ -824,6 +969,182 @@ mod tests {
         assert_eq!(case.reference, Some(json!({"answer": "world"})));
         assert_eq!(case.source_span_id.as_str(), "span-1");
         Ok(())
+    }
+
+    #[tokio::test]
+    async fn review_annotation_promotes_to_dataset_case_with_expected_value() -> anyhow::Result<()>
+    {
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+        let queue = ReviewQueueId::new("quality")?;
+        let task = fixture_review_task(&tenant, &project, &queue)?;
+        let annotation = fixture_annotation(
+            &tenant,
+            &project,
+            &queue,
+            &task,
+            "annotation-expected",
+            json!({"expected": {"answer": "world"}}),
+        )?;
+        let trace = fixture_trace(&tenant, &project)?;
+        let case = promote_review_annotation_to_dataset_case(
+            tenant,
+            project,
+            DatasetId::new("dataset")?,
+            &trace,
+            &task,
+            &annotation,
+            None,
+        )?;
+
+        assert_eq!(case.reference, Some(json!({"answer": "world"})));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn review_annotation_promotion_allows_reference_override() -> anyhow::Result<()> {
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+        let queue = ReviewQueueId::new("quality")?;
+        let task = fixture_review_task(&tenant, &project, &queue)?;
+        let annotation = fixture_annotation(
+            &tenant,
+            &project,
+            &queue,
+            &task,
+            "annotation-override",
+            json!({"notes": "use supplied reference"}),
+        )?;
+        let trace = fixture_trace(&tenant, &project)?;
+        let case = promote_review_annotation_to_dataset_case(
+            tenant,
+            project,
+            DatasetId::new("dataset")?,
+            &trace,
+            &task,
+            &annotation,
+            Some(json!({"answer": "override"})),
+        )?;
+
+        assert_eq!(case.reference, Some(json!({"answer": "override"})));
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn review_annotation_promotion_rejects_missing_reference() -> anyhow::Result<()> {
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+        let queue = ReviewQueueId::new("quality")?;
+        let task = fixture_review_task(&tenant, &project, &queue)?;
+        let annotation = fixture_annotation(
+            &tenant,
+            &project,
+            &queue,
+            &task,
+            "annotation-missing-reference",
+            json!({"reference": null, "expected": null}),
+        )?;
+        let trace = fixture_trace(&tenant, &project)?;
+
+        let error = match promote_review_annotation_to_dataset_case(
+            tenant,
+            project,
+            DatasetId::new("dataset")?,
+            &trace,
+            &task,
+            &annotation,
+            None,
+        ) {
+            Ok(_) => panic!("promotion should reject an annotation without a usable reference"),
+            Err(error) => error,
+        };
+
+        assert!(error
+            .to_string()
+            .contains("requires a non-null reference or expected value"));
+        Ok(())
+    }
+
+    fn fixture_review_task(
+        tenant: &TenantId,
+        project: &ProjectId,
+        queue: &ReviewQueueId,
+    ) -> anyhow::Result<ReviewTask> {
+        Ok(ReviewTask {
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            queue_id: queue.clone(),
+            task_id: ReviewTaskId::new("task-1")?,
+            trace_id: TraceId::new("trace-1")?,
+            span_id: Some(SpanId::new("span-1")?),
+            dataset_id: None,
+            dataset_case_id: None,
+            priority: 1,
+            state: ReviewTaskState::Submitted,
+            created_at: Utc::now(),
+            updated_at: Utc::now(),
+        })
+    }
+
+    async fn create_queue(
+        store: &SqliteHumanReviewStore,
+        tenant: &TenantId,
+        project: &ProjectId,
+        queue_id: &str,
+    ) -> anyhow::Result<ReviewQueue> {
+        Ok(store
+            .create_queue(CreateReviewQueueRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                queue_id: Some(ReviewQueueId::new(queue_id)?),
+                name: queue_id.to_string(),
+                annotation_schema: json!({"type": "object"}),
+            })
+            .await?)
+    }
+
+    async fn enqueue_task(
+        store: &SqliteHumanReviewStore,
+        tenant: &TenantId,
+        project: &ProjectId,
+        queue: &ReviewQueue,
+        task_id: &str,
+        priority: i64,
+    ) -> anyhow::Result<ReviewTask> {
+        Ok(store
+            .enqueue_task(EnqueueReviewTaskRequest {
+                tenant_id: tenant.clone(),
+                project_id: project.clone(),
+                queue_id: queue.queue_id.clone(),
+                task_id: Some(ReviewTaskId::new(task_id)?),
+                trace_id: TraceId::new(format!("trace-{task_id}"))?,
+                span_id: Some(SpanId::new(format!("span-{task_id}"))?),
+                dataset_id: None,
+                dataset_case_id: None,
+                priority,
+            })
+            .await?)
+    }
+
+    fn fixture_annotation(
+        tenant: &TenantId,
+        project: &ProjectId,
+        queue: &ReviewQueueId,
+        task: &ReviewTask,
+        annotation_id: &str,
+        payload: Value,
+    ) -> anyhow::Result<ReviewAnnotation> {
+        Ok(ReviewAnnotation {
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            queue_id: queue.clone(),
+            task_id: task.task_id.clone(),
+            annotation_id: AnnotationId::new(annotation_id)?,
+            reviewer_id: "reviewer-a".to_string(),
+            verdict: ReviewVerdict::NeedsFix,
+            payload,
+            created_at: Utc::now(),
+        })
     }
 
     fn fixture_trace(tenant: &TenantId, project: &ProjectId) -> anyhow::Result<TraceView> {
