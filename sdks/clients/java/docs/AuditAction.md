@@ -9,5 +9,13 @@
 
 * `CONNECTOR_TOOL_INVOKE` (value: `"connector_tool_invoke"`)
 
+* `API_KEY_CREATE` (value: `"api_key_create"`)
+
+* `API_KEY_REVOKE` (value: `"api_key_revoke"`)
+
+* `PROVIDER_SECRET_CREATE` (value: `"provider_secret_create"`)
+
+* `PROVIDER_SECRET_REVOKE` (value: `"provider_secret_revoke"`)
+
 
 

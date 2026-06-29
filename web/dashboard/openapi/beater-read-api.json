@@ -7253,7 +7253,11 @@
         "type": "string",
         "enum": [
           "pii_unmask",
-          "connector_tool_invoke"
+          "connector_tool_invoke",
+          "api_key_create",
+          "api_key_revoke",
+          "provider_secret_create",
+          "provider_secret_revoke"
         ]
       },
       "AuditEvent": {

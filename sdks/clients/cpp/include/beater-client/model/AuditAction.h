@@ -50,6 +50,10 @@ public:
     {
         AuditAction_PII_UNMASK,
         AuditAction_CONNECTOR_TOOL_INVOKE,
+        AuditAction_API_KEY_CREATE,
+        AuditAction_API_KEY_REVOKE,
+        AuditAction_PROVIDER_SECRET_CREATE,
+        AuditAction_PROVIDER_SECRET_REVOKE,
     };
 
     eAuditAction getValue() const;

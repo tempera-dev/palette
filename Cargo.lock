@@ -622,6 +622,7 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "tempfile",
+ "thiserror 1.0.69",
  "utoipa",
 ]
 
@@ -735,7 +736,11 @@ dependencies = [
 name = "beater-bench"
 version = "0.1.0"
 dependencies = [
+ "beater-core",
+ "beater-schema",
+ "chrono",
  "criterion",
+ "serde_json",
 ]
 
 [[package]]
@@ -1042,6 +1047,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "beater-langfuse"
+version = "0.1.0"
+dependencies = [
+ "beater-bus",
+ "beater-core",
+ "beater-ingest",
+ "beater-schema",
+ "beater-store",
+ "beater-store-memory",
+ "beater-store-obj",
+ "chrono",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
 name = "beater-mcp"
 version = "0.1.0"
 dependencies = [
@@ -1051,6 +1075,7 @@ dependencies = [
  "beater-api",
  "beater-archive",
  "beater-audit",
+ "beater-auth",
  "beater-bus",
  "beater-calibration",
  "beater-core",
@@ -1062,6 +1087,7 @@ dependencies = [
  "beater-judge",
  "beater-search",
  "beater-secrets",
+ "beater-security",
  "beater-store-obj",
  "beater-store-sql",
  "beater-usage",
@@ -1084,6 +1110,7 @@ dependencies = [
  "beater-core",
  "beater-store",
  "chrono",
+ "http 1.4.2",
  "rand_core 0.6.4",
  "rusqlite",
  "serde",
@@ -1254,6 +1281,7 @@ dependencies = [
  "async-trait",
  "beater-core",
  "beater-schema",
+ "chrono",
  "thiserror 1.0.69",
  "tokio",
 ]
@@ -1290,6 +1318,7 @@ dependencies = [
  "beater-core",
  "beater-schema",
  "beater-store",
+ "blake3",
  "tempfile",
  "tokio",
  "uuid",
@@ -1412,6 +1441,7 @@ dependencies = [
  "beater-human",
  "beater-ingest",
  "beater-judge",
+ "beater-langfuse",
  "beater-mcp",
  "beater-oauth",
  "beater-oauth-server",

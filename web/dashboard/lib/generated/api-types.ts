@@ -868,7 +868,7 @@ export interface components {
             uri: string;
         };
         /** @enum {string} */
-        AuditAction: "pii_unmask" | "connector_tool_invoke";
+        AuditAction: "pii_unmask" | "connector_tool_invoke" | "api_key_create" | "api_key_revoke" | "provider_secret_create" | "provider_secret_revoke";
         AuditEvent: {
             action: components["schemas"]["AuditAction"];
             actor_api_key_id?: null | components["schemas"]["ApiKeyId"];

@@ -22,12 +22,20 @@ type AuditAction string
 const (
 	AUDITACTION_PII_UNMASK AuditAction = "pii_unmask"
 	AUDITACTION_CONNECTOR_TOOL_INVOKE AuditAction = "connector_tool_invoke"
+	AUDITACTION_API_KEY_CREATE AuditAction = "api_key_create"
+	AUDITACTION_API_KEY_REVOKE AuditAction = "api_key_revoke"
+	AUDITACTION_PROVIDER_SECRET_CREATE AuditAction = "provider_secret_create"
+	AUDITACTION_PROVIDER_SECRET_REVOKE AuditAction = "provider_secret_revoke"
 )
 
 // All allowed values of AuditAction enum
 var AllowedAuditActionEnumValues = []AuditAction{
 	"pii_unmask",
 	"connector_tool_invoke",
+	"api_key_create",
+	"api_key_revoke",
+	"provider_secret_create",
+	"provider_secret_revoke",
 }
 
 func (v *AuditAction) UnmarshalJSON(src []byte) error {

@@ -19,7 +19,11 @@
  */
 export const AuditAction = {
     PiiUnmask: 'pii_unmask',
-    ConnectorToolInvoke: 'connector_tool_invoke'
+    ConnectorToolInvoke: 'connector_tool_invoke',
+    ApiKeyCreate: 'api_key_create',
+    ApiKeyRevoke: 'api_key_revoke',
+    ProviderSecretCreate: 'provider_secret_create',
+    ProviderSecretRevoke: 'provider_secret_revoke'
 } as const;
 export type AuditAction = typeof AuditAction[keyof typeof AuditAction];
 
