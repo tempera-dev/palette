@@ -96,7 +96,10 @@ async fn handler(State(state): State<Arc<MockState>>, Json(body): Json<Value>) -
         .unwrap_or_default();
 
     // Proposer (reflective rewrite) call → return the canned candidate prompt.
-    if system.contains("prompt engineer") || user.contains("GOAL:") {
+    // Structural signal: the reflective brief always carries a "FAILURE STATS:"
+    // line, which never appears in a factual question/answer — so eval calls are
+    // never misclassified as proposer calls.
+    if user.contains("FAILURE STATS:") {
         return text_response(REWRITE);
     }
 

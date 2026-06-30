@@ -256,7 +256,12 @@ fn classify(body: &Value) -> (bool, String, String) {
         .and_then(Value::as_str)
         .unwrap_or_default()
         .to_string();
-    let is_proposer = system.contains("prompt engineer") || user.contains("GOAL:");
+    // Structural proposer signal, not a fixture coincidence: `LlmRewrite`'s
+    // reflective brief unconditionally emits a "FAILURE STATS:" line (even with
+    // zero failures), and that exact token never appears in a factual question or
+    // an answer. So an evaluation call can never be misclassified as a proposer
+    // call (or vice-versa) regardless of how a question/prompt is worded.
+    let is_proposer = user.contains("FAILURE STATS:");
     (is_proposer, system, user)
 }
 
@@ -665,6 +670,7 @@ async fn proposer_sends_reflective_brief_not_a_judge_rubric_and_carries_the_key(
 /// A scripted evaluator that returns a fixed, generalizing score sheet without any
 /// network — used by the proposer-error and gate-edge tests where the model call
 /// is not the thing under test.
+#[derive(Clone)]
 struct ScriptedEvaluator {
     optimize: Vec<(f64, f64)>,
     test: Vec<(f64, f64)>,
@@ -809,8 +815,8 @@ async fn proposer_retries_transient_failure_then_succeeds() {
 // Gate edge cases — real HTTP proposer + scripted scores for exact control.
 // ---------------------------------------------------------------------------
 
-async fn run_real_proposer_with(
-    eval: ScriptedEvaluator,
+async fn run_real_proposer_with<E: CandidateEvaluator>(
+    eval: E,
     strategy: OptimizerStrategy,
 ) -> Result<beater_experiments::OptimizationOutcome, OptimizerError> {
     let state = MockState::new(ProposerBehavior::Rewrite, EvalPolicy::Unused);
@@ -969,4 +975,216 @@ async fn empty_goal_is_a_config_error() {
         .err()
         .expect("empty goal must error");
     assert!(matches!(err, OptimizerError::InvalidConfig(_)), "{err:?}");
+}
+
+// ---------------------------------------------------------------------------
+// Additional gate-behaviour coverage surfaced by review: the third gate verdict,
+// multiple-comparison correction, the OpenAI failure path, accept-ordering with
+// mixed candidate outcomes, and an empty failure set.
+// ---------------------------------------------------------------------------
+
+/// A held-out Test split that is powered (≥ `min_sample_size`) but statistically
+/// ambiguous — a tiny, noisy effect whose CI straddles the regression bound —
+/// resolves to `Inconclusive`, NOT `Pass`, and is therefore not accepted. This
+/// exercises the third `GateDecision` arm (and its power annotations) that the
+/// Pass/FailRegression tests never reach.
+#[tokio::test]
+async fn inconclusive_gate_decision_is_not_accepted() {
+    // Small mean lift with high variance → paired-t CI brackets 0 at α=0.05.
+    let noisy = vec![
+        (0.50, 0.55),
+        (0.50, 0.45),
+        (0.50, 0.62),
+        (0.50, 0.40),
+        (0.50, 0.58),
+        (0.50, 0.48),
+    ];
+    let eval = ScriptedEvaluator {
+        optimize: noisy.clone(),
+        test: noisy,
+    };
+    let outcome = run_real_proposer_with(eval, OptimizerStrategy::LlmRewrite)
+        .await
+        .unwrap_or_else(|e| panic!("{e}"));
+    let evaluation = &outcome.evaluated[0];
+    assert_eq!(
+        evaluation.gate.decision,
+        GateDecision::Inconclusive,
+        "expected an ambiguous CI to be Inconclusive, got {:?} (ci [{}, {}])",
+        evaluation.gate.decision,
+        evaluation.gate.ci_low,
+        evaluation.gate.ci_high
+    );
+    assert!(!evaluation.accepted, "an inconclusive gate must not accept");
+    assert!(outcome.accepted.is_none());
+}
+
+/// Multiple-comparison correction flows through the RSI gate: the *same*
+/// candidate that clears the gate at `comparison_count = 1` is held to a
+/// Bonferroni-tightened bound at `comparison_count = 12` and no longer clears it.
+/// Proves screening many candidates against one baseline cannot manufacture a
+/// "win" by chance — the §21.4 / #436 multiplicity guard is real in the loop.
+#[tokio::test]
+async fn multiple_comparison_correction_tightens_the_rsi_gate() {
+    // A modest, genuine lift (mean ≈ +0.15, sd ≈ 0.13) chosen so the paired-t CI
+    // lower bound clears 0 at α=0.05 but dips below 0 once α is divided by 12 —
+    // i.e. significant alone, withdrawn under a 12-way Bonferroni correction.
+    let pairs = vec![
+        (0.5, 0.5),
+        (0.5, 0.8),
+        (0.5, 0.5),
+        (0.5, 0.8),
+        (0.5, 0.55),
+        (0.5, 0.75),
+        (0.5, 0.6),
+        (0.5, 0.7),
+    ];
+    let scores = ScriptedEvaluator {
+        optimize: pairs.clone(),
+        test: pairs,
+    };
+
+    let decision_at = |comparison_count: usize, scores: ScriptedEvaluator| async move {
+        let state = MockState::new(ProposerBehavior::Rewrite, EvalPolicy::Unused);
+        let endpoint = spawn(state, Wire::Anthropic).await;
+        let provider = AnthropicJudgeProvider::new(provider_config(endpoint));
+        let mut cfg = round_config(OptimizerStrategy::LlmRewrite);
+        cfg.gate_policy.comparison_count = comparison_count;
+        let outcome = run_optimization_round(cfg, &provider, creds(), &scores)
+            .await
+            .unwrap_or_else(|e| panic!("{e}"));
+        outcome.evaluated[0].gate.decision.clone()
+    };
+
+    let at_one = decision_at(1, scores.clone()).await;
+    let at_twelve = decision_at(12, scores).await;
+    assert_eq!(at_one, GateDecision::Pass, "should pass uncorrected");
+    assert_ne!(
+        at_twelve,
+        GateDecision::Pass,
+        "a 12x Bonferroni correction must withdraw the uncorrected pass"
+    );
+}
+
+/// The OpenAI provider wire surfaces a regression rejection too — proving the
+/// loop is provider-agnostic on the *failure* path, not just the accept path.
+#[tokio::test]
+async fn dual_http_regressing_candidate_is_rejected_via_openai_wire() {
+    let state = MockState::new(ProposerBehavior::Rewrite, EvalPolicy::Regress);
+    let endpoint = spawn(state.clone(), Wire::OpenAi).await;
+    let provider = OpenAiJudgeProvider::new(provider_config(endpoint));
+    let evaluator = HttpModelEvaluator {
+        generator: provider.clone(),
+        credentials: ProviderCredentials::new("openai", "sk-openai-mock"),
+        model: "mock-model".to_string(),
+        baseline_prompt: "You are a helpful assistant.".to_string(),
+        cases: e2e_cases(),
+    };
+    let outcome = run_optimization_round(
+        round_config(OptimizerStrategy::LlmRewrite),
+        &provider,
+        ProviderCredentials::new("openai", "sk-openai-mock"),
+        &evaluator,
+    )
+    .await
+    .unwrap_or_else(|e| panic!("{e}"));
+    assert_eq!(
+        outcome.evaluated[0].gate.decision,
+        GateDecision::FailRegression
+    );
+    assert!(outcome.accepted.is_none());
+}
+
+/// A scripted evaluator that scores a candidate by its `target`: candidates whose
+/// target contains `accept_marker` generalize (accepted); all others regress
+/// (rejected). Lets a ParamSearch round produce a *mix* of accepted and rejected
+/// grid points.
+struct TargetedEvaluator {
+    accept_marker: String,
+}
+
+#[async_trait]
+impl CandidateEvaluator for TargetedEvaluator {
+    async fn evaluate(
+        &self,
+        candidate: &CandidateChange,
+        _cases: &[Value],
+    ) -> Result<Vec<CaseScore>, String> {
+        let good = candidate.target.contains(&self.accept_marker);
+        let (b, c) = if good { (0.5, 0.9) } else { (0.9, 0.5) };
+        let mut out = Vec::new();
+        for i in 0..6 {
+            let split = if i % 2 == 0 { Split::Train } else { Split::Val };
+            out.push(CaseScore {
+                split,
+                baseline_score: b,
+                candidate_score: c,
+            });
+        }
+        for _ in 0..6 {
+            out.push(CaseScore {
+                split: Split::Test,
+                baseline_score: b,
+                candidate_score: c,
+            });
+        }
+        Ok(out)
+    }
+}
+
+/// When several proposed candidates clear both gates, the FIRST in proposal order
+/// is the accepted one — and every candidate is still evaluated for the audit
+/// trail. Driven by a ParamSearch grid where only the `temperature=0.3` points
+/// generalize: the earlier `temperature=0` points are evaluated and rejected, the
+/// first accepting point wins, and later accepting points do not override it.
+#[tokio::test]
+async fn first_accepted_candidate_in_proposal_order_wins() {
+    let evaluator = TargetedEvaluator {
+        accept_marker: "temperature=0.3".to_string(),
+    };
+    let outcome = run_real_proposer_with(evaluator, OptimizerStrategy::ParamSearch)
+        .await
+        .unwrap_or_else(|e| panic!("{e}"));
+
+    // All six grid points were evaluated (full audit trail).
+    assert_eq!(outcome.evaluated.len(), 6);
+    let accepted_count = outcome.evaluated.iter().filter(|e| e.accepted).count();
+    assert_eq!(
+        accepted_count, 2,
+        "both temperature=0.3 points should clear"
+    );
+    // The earliest accepting grid point wins: temperature=0.3, top_p=0.9.
+    let accepted = outcome.accepted.expect("a candidate should be accepted");
+    assert!(
+        accepted.target.contains("temperature=0.3,top_p=0.9"),
+        "first-in-order accept should win, got {}",
+        accepted.target
+    );
+    // The earlier temperature=0 points were evaluated but rejected (regression).
+    assert!(outcome.evaluated[0]
+        .candidate
+        .target
+        .contains("temperature=0,"));
+    assert!(!outcome.evaluated[0].accepted);
+}
+
+/// An optimization round with NO failing examples still proposes and gates: the
+/// reflective brief is built with zero examples (its "FAILURE STATS: 0" line) and
+/// the round runs to a normal verdict. Pins the current behaviour — empty
+/// failures are allowed, not a hard config error.
+#[tokio::test]
+async fn empty_failures_round_still_proposes_and_gates() {
+    let state = MockState::new(ProposerBehavior::Rewrite, EvalPolicy::Unused);
+    let endpoint = spawn(state, Wire::Anthropic).await;
+    let provider = AnthropicJudgeProvider::new(provider_config(endpoint));
+    let mut cfg = round_config(OptimizerStrategy::LlmRewrite);
+    cfg.failures = Vec::new();
+    let outcome = run_optimization_round(cfg, &provider, creds(), &generalizing_scores())
+        .await
+        .unwrap_or_else(|e| panic!("{e}"));
+    assert_eq!(outcome.evaluated.len(), 1, "a candidate is still proposed");
+    assert!(
+        outcome.accepted.is_some(),
+        "a generalizing candidate is accepted"
+    );
 }
