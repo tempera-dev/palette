@@ -3251,6 +3251,26 @@ fn live_factual_cases() -> Vec<FactualCase> {
     cases
 }
 
+/// Build the Anthropic provider config for the live RSI round, honoring an
+/// optional `BEATER_ANTHROPIC_BASE_URL` override.
+///
+/// Default: the real `https://api.anthropic.com/v1/messages` endpoint. When the
+/// env var is set (and non-empty) its value replaces `endpoint_url`, so the live
+/// `rsi-round` command can be driven against a mock Anthropic server in tests/CI
+/// without real network — every other field (cost cap, retry policy) and the BYOK
+/// key gate are unchanged. This is a testing seam, not a feature surface.
+fn anthropic_provider_config() -> HttpJudgeProviderConfig {
+    let mut config = HttpJudgeProviderConfig::anthropic_default();
+    if let Some(base_url) = std::env::var("BEATER_ANTHROPIC_BASE_URL")
+        .ok()
+        .map(|url| url.trim().to_string())
+        .filter(|url| !url.is_empty())
+    {
+        config.endpoint_url = base_url;
+    }
+    config
+}
+
 /// Drive one LIVE, Anthropic-backed RSI optimization round end-to-end and build
 /// the same JSON report shape as `run_rsi_round_fixture`, plus the model used.
 ///
@@ -3277,7 +3297,13 @@ async fn run_rsi_round_live(
     // Real Anthropic provider, used as both the proposer's TextGenerator and the
     // evaluator's model. The model-forcing wrapper makes LlmRewrite's hardcoded
     // proposer model resolve to the operator-chosen `--model`.
-    let provider = AnthropicJudgeProvider::new(HttpJudgeProviderConfig::anthropic_default());
+    //
+    // The endpoint defaults to the real Anthropic messages API. A test/dev harness
+    // can point it at a mock server with `BEATER_ANTHROPIC_BASE_URL` to exercise
+    // this exact live path end-to-end without real network — the URL replaces the
+    // default `endpoint_url`, nothing else changes (same BYOK key gate, same
+    // request shaping). Unset (the default) keeps the real API.
+    let provider = AnthropicJudgeProvider::new(anthropic_provider_config());
     let proposer = ModelForcingGenerator {
         inner: provider.clone(),
         model: model.clone(),
