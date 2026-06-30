@@ -1014,6 +1014,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "axum 0.7.9",
  "beater-core",
  "beater-datasets",
  "beater-eval",
@@ -1566,6 +1567,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "axum 0.7.9",
  "beater-alerts",
  "beater-api",
  "beater-audit",
