@@ -78,9 +78,17 @@ hash, not raw connector arguments.
 1. **Discovery + execution.** The `/v1/connectors` MCP tools let a running agent
    find tools (`listConnectorTools`, with schemas), connect them, and execute
    permitted tools (`invokeConnectorTool`).
-2. **The `tool_set` lever.** `beater_composio::skill::tool_definition_json()`
-   emits the `tools.json` entry the RSI loop's `apply_change`/`ToolAdd` writes
-   into an agent repo — schema-and-skill-complete, not a bare slug.
+2. **The `tool_set` lever — gated tool acquisition.** The full loop is wired:
+   `beater_composio::rsi::tool_candidates()` converts the live catalog into the
+   optimizer's search space, **filtered through the connector policy** (a tool
+   the policy would refuse to execute can never even be proposed). The
+   `ConnectorToolSearch` strategy in `beater-experiments` deterministically
+   ranks those candidates against the round's failure signal and proposes
+   `ToolAdd` changes; `run_optimization_round` then decides acceptance with the
+   held-out Test gate + the §21.4 generalization-gap guardrail — tool
+   acquisition gets no exemption from non-overfitting RSI. Each candidate
+   carries `skill::tool_definition_json()` (the schema-and-skill-complete
+   `tools.json` entry) so an accepted change is apply-ready.
 3. **Prompting scaffold.** `skill::skill_card` / `skills_doc` turn Composio
    metadata into the "skills.md" an agent splices into its system prompt
    (what the tool does, when to use it, the argument contract, the exact
@@ -103,3 +111,8 @@ newly-published high-risk tool is deny-by-default until allowlisted).
 - `cargo test -p beater-api --test connectors` — full router→handler→trait
   wiring with an in-memory fake, including connector execution policy, the RSI
   add-then-execute flow, and the 501-when-unconfigured path.
+- `cargo test -p beater-composio --test rsi_round` — the holistic RSI loop:
+  catalog → policy filter → `ConnectorToolSearch` proposal →
+  `run_optimization_round` → held-out statistical gate. Proves a generalizing
+  tool is accepted, an optimize-split-only lift is rejected as overfit, and a
+  policy-denied tool never enters the search space.

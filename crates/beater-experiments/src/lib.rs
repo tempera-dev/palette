@@ -25,7 +25,7 @@ use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
@@ -804,6 +804,13 @@ pub enum OptimizerStrategy {
     Gepa,
     /// Hyperparameter / model-params search over the model-params lever of π (§6.1).
     ParamSearch,
+    /// Deterministic search over an external connector-tool catalog — the
+    /// tool_set lever of π (§6.1). Proposes [`ChangeKind::ToolAdd`] candidates
+    /// from [`ProposalContext::available_tools`] (a **policy-filtered** catalog:
+    /// tools Beater's connector policy would refuse to execute are excluded
+    /// before they ever reach the proposer). Like every strategy, it only
+    /// proposes — the held-out Test gate + §21.4 guardrail decide acceptance.
+    ConnectorToolSearch,
 }
 
 /// The policy-π (§6.1) lever a [`CandidateChange`] targets, mirroring the planned
@@ -1064,6 +1071,14 @@ pub struct ProposalContext {
     /// The most common failure signatures, most frequent first, ties broken by
     /// signature string for determinism.
     pub failure_signatures: Vec<FailureSignature>,
+    /// External tools the round may propose adding via the tool_set lever of π
+    /// (§6.1). Populated by the caller from a **policy-filtered** connector
+    /// catalog (e.g. `beater_composio::rsi::tool_candidates`, which excludes
+    /// every tool Beater's connector policy would refuse to execute) — a tool
+    /// that cannot run can never be proposed. Empty when the round does not
+    /// search the tool_set lever.
+    #[serde(default)]
+    pub available_tools: Vec<ToolCandidate>,
 }
 
 impl ProposalContext {
@@ -1083,6 +1098,7 @@ impl ProposalContext {
             failing_examples,
             stats,
             failure_signatures,
+            available_tools: Vec::new(),
         }
     }
 
@@ -1090,6 +1106,16 @@ impl ProposalContext {
     /// two-field call sites and the empty-failure case.
     pub fn from_goal(goal: impl Into<String>, current_prompt: impl Into<String>) -> Self {
         Self::new(goal, current_prompt, Vec::new())
+    }
+
+    /// Attach the policy-filtered external tool catalog the round may search
+    /// (the tool_set lever of π, §6.1). The caller is responsible for filtering
+    /// the catalog through Beater's connector policy *before* attaching it, so
+    /// the proposer's search space never contains a tool the runtime would
+    /// refuse to execute.
+    pub fn with_available_tools(mut self, tools: Vec<ToolCandidate>) -> Self {
+        self.available_tools = tools;
+        self
     }
 
     /// Production constructor (#435): build a [`ProposalContext`] from the real
@@ -1393,13 +1419,173 @@ impl ProposalStrategy for ParamSearch {
     }
 }
 
+/// One external tool the [`ConnectorToolSearch`] strategy may propose adding to
+/// the agent's tool_set (§6.1).
+///
+/// Integration-agnostic on purpose: this crate never talks to a connector
+/// provider. The caller builds candidates from an already **policy-filtered**
+/// catalog (the canonical producer is `beater_composio::rsi::tool_candidates`,
+/// which runs every tool through Beater's connector execution policy first), so
+/// the search space handed to the proposer only ever contains tools the runtime
+/// would actually execute.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ToolCandidate {
+    /// Stable executable slug (e.g. `GITHUB_GET_REPOSITORY`).
+    pub slug: String,
+    /// Human display name.
+    pub name: String,
+    /// What the tool does, if the catalog provides it.
+    pub description: Option<String>,
+    /// Free-form catalog tags (categories, importance, …).
+    pub tags: Vec<String>,
+    /// The connector policy's risk classification (e.g. `read_only`), carried
+    /// for the gate's audit trail.
+    pub risk_class: String,
+    /// `true` when the tool needs a connected account before it can execute.
+    pub requires_connection: bool,
+    /// The complete `tools.json` entry to write into the agent repo when the
+    /// gate accepts the candidate (schema-and-skill-complete, not a bare slug).
+    pub definition: Value,
+}
+
+/// Deterministic search over an external connector-tool catalog — the missing
+/// proposer for the tool_set lever of π (§6.1).
+///
+/// Scores every [`ToolCandidate`] in [`ProposalContext::available_tools`] by
+/// keyword overlap between the tool's own text (slug words, name, description,
+/// tags) and the round's failure signal (goal, failure signatures, error and
+/// input excerpts), then proposes the top [`Self::MAX_PROPOSALS`] tools with a
+/// non-zero match as [`ChangeKind::ToolAdd`] candidates. Fully deterministic:
+/// ranking ties break on the slug string.
+///
+/// The proposal cap is a statistics decision, not a UX one: every proposed
+/// candidate enters the round's multiple-comparison family, and the Holm
+/// correction in [`run_optimization_round`] shrinks per-candidate alpha as the
+/// family grows — an uncapped catalog sweep would destroy the round's power.
+///
+/// Like every strategy, this only *proposes*. Acceptance is decided by the
+/// held-out Test gate + the §21.4 generalization-gap guardrail, and execution
+/// of an accepted tool is still gated at runtime by the connector policy.
+pub struct ConnectorToolSearch;
+
+impl ConnectorToolSearch {
+    /// Maximum candidates proposed per round, bounding the multiplicity family.
+    pub const MAX_PROPOSALS: usize = 3;
+    /// Minimum keyword length considered signal (filters `a`, `to`, `the`, …).
+    const MIN_TOKEN_LEN: usize = 3;
+
+    /// Lowercased word set of all round failure signal text.
+    fn signal_tokens(ctx: &ProposalContext) -> BTreeSet<String> {
+        let mut tokens = BTreeSet::new();
+        let mut extend = |text: &str| {
+            for word in text
+                .split(|c: char| !c.is_ascii_alphanumeric())
+                .filter(|w| w.len() >= Self::MIN_TOKEN_LEN)
+            {
+                tokens.insert(word.to_ascii_lowercase());
+            }
+        };
+        extend(&ctx.goal);
+        for signature in &ctx.failure_signatures {
+            extend(&signature.signature);
+        }
+        for example in &ctx.failing_examples {
+            extend(&example.input_excerpt);
+            if let Some(error) = &example.error {
+                extend(error);
+            }
+        }
+        tokens
+    }
+
+    /// Distinct signal words matched by the tool's own text.
+    fn relevance(tool: &ToolCandidate, signal: &BTreeSet<String>) -> usize {
+        let mut tool_tokens = BTreeSet::new();
+        let mut extend = |text: &str| {
+            for word in text
+                .split(|c: char| !c.is_ascii_alphanumeric())
+                .filter(|w| w.len() >= Self::MIN_TOKEN_LEN)
+            {
+                tool_tokens.insert(word.to_ascii_lowercase());
+            }
+        };
+        extend(&tool.slug);
+        extend(&tool.name);
+        if let Some(description) = &tool.description {
+            extend(description);
+        }
+        for tag in &tool.tags {
+            extend(tag);
+        }
+        tool_tokens.intersection(signal).count()
+    }
+}
+
+impl ProposalStrategy for ConnectorToolSearch {
+    fn propose(&self, ctx: &ProposalContext) -> Result<Vec<CandidateChange>, OptimizerError> {
+        if ctx.goal.trim().is_empty() {
+            return Err(OptimizerError::InvalidContext(
+                "goal must not be empty".to_string(),
+            ));
+        }
+        if ctx.available_tools.is_empty() {
+            return Err(OptimizerError::InvalidContext(
+                "connector tool search needs a policy-filtered tool catalog; attach one with \
+                 ProposalContext::with_available_tools (e.g. from \
+                 beater_composio::rsi::tool_candidates)"
+                    .to_string(),
+            ));
+        }
+
+        let signal = Self::signal_tokens(ctx);
+        let mut ranked: Vec<(usize, &ToolCandidate)> = ctx
+            .available_tools
+            .iter()
+            .map(|tool| (Self::relevance(tool, &signal), tool))
+            .filter(|(score, _)| *score > 0)
+            .collect();
+        // Descending relevance; ties break on the slug string for determinism.
+        ranked.sort_by(|a, b| b.0.cmp(&a.0).then(a.1.slug.cmp(&b.1.slug)));
+
+        Ok(ranked
+            .into_iter()
+            .take(Self::MAX_PROPOSALS)
+            .map(|(score, tool)| CandidateChange {
+                kind: ChangeKind::ToolAdd,
+                target: format!("tool_set/{}", tool.slug),
+                description: format!(
+                    "Add connector tool {} ({}) to the agent tool_set",
+                    tool.slug, tool.name
+                ),
+                rationale: format!(
+                    "matched {score} failure-signal keyword(s) for goal: {}; risk class \
+                     {}; {} — proposed from a policy-filtered catalog, and a proposal \
+                     only: the held-out Test gate + generalization-gap guardrail decide \
+                     acceptance, and the connector policy still gates execution at runtime.",
+                    ctx.goal,
+                    tool.risk_class,
+                    if tool.requires_connection {
+                        "requires a connected account"
+                    } else {
+                        "no account connection required"
+                    },
+                ),
+                proposed_by: OptimizerStrategy::ConnectorToolSearch,
+            })
+            .collect())
+    }
+}
+
 /// Dispatch to the named [`OptimizerStrategy`], returning its proposed candidates.
 ///
-/// Two strategies are implemented synchronously here:
+/// Three strategies are implemented synchronously here:
 /// * [`OptimizerStrategy::LlmRewrite`] — emits the reflective-rewrite *scaffold*
 ///   (no model call). For the live, generation-backed rewrite call
 ///   [`LlmRewrite::propose_async`] directly, which needs an async [`TextGenerator`].
 /// * [`OptimizerStrategy::ParamSearch`] — a deterministic model-params grid.
+/// * [`OptimizerStrategy::ConnectorToolSearch`] — a deterministic tool_set
+///   search over [`ProposalContext::available_tools`] (a policy-filtered
+///   connector catalog).
 ///
 /// The remaining variants are genuinely deferred and return a typed
 /// [`OptimizerError::NotYetImplemented`]. Whatever a strategy proposes is *only*
@@ -1412,6 +1598,7 @@ pub fn propose_with(
     let candidates = match strategy {
         OptimizerStrategy::LlmRewrite => LlmRewrite.propose(ctx),
         OptimizerStrategy::ParamSearch => ParamSearch.propose(ctx),
+        OptimizerStrategy::ConnectorToolSearch => ConnectorToolSearch.propose(ctx),
         OptimizerStrategy::FewShotBayesian
         | OptimizerStrategy::Mipro
         | OptimizerStrategy::Evolutionary
@@ -1523,6 +1710,10 @@ pub struct OptimizationRoundConfig {
     pub current_prompt: String,
     /// The round's failing examples, used to build the reflective context.
     pub failures: Vec<FailureExample>,
+    /// Policy-filtered external tool catalog for the tool_set lever, attached
+    /// to the round's [`ProposalContext`]. Required by
+    /// [`OptimizerStrategy::ConnectorToolSearch`]; ignored by other strategies.
+    pub available_tools: Vec<ToolCandidate>,
     /// The cases to score each candidate against (opaque payloads the injected
     /// evaluator understands). The evaluator tags each returned [`CaseScore`]
     /// with its [`Split`].
@@ -1584,6 +1775,7 @@ impl OptimizationRoundConfig {
             goal: goal.into(),
             current_prompt: current_prompt.into(),
             failures,
+            available_tools: Vec::new(),
             cases,
             strategy,
             gate_policy,
@@ -1685,8 +1877,11 @@ pub async fn run_optimization_round(
         ));
     }
 
-    // 1. Build the reflective context from the round's real failing cases.
-    let ctx = ProposalContext::from_failures(&cfg.goal, &cfg.current_prompt, &cfg.failures);
+    // 1. Build the reflective context from the round's real failing cases, plus
+    //    the policy-filtered tool catalog when the round searches the tool_set
+    //    lever.
+    let ctx = ProposalContext::from_failures(&cfg.goal, &cfg.current_prompt, &cfg.failures)
+        .with_available_tools(cfg.available_tools.clone());
 
     // 2. Propose candidate(s) via the configured strategy. LlmRewrite consults
     //    the live generation seam; every other implemented strategy is
@@ -2709,6 +2904,133 @@ mod tests {
         let again = propose_with(OptimizerStrategy::ParamSearch, &proposal_context())
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(candidates, again);
+    }
+
+    fn tool_candidate(slug: &str, name: &str, description: &str, risk: &str) -> ToolCandidate {
+        ToolCandidate {
+            slug: slug.to_string(),
+            name: name.to_string(),
+            description: Some(description.to_string()),
+            tags: vec![],
+            risk_class: risk.to_string(),
+            requires_connection: true,
+            definition: json!({ "slug": slug }),
+        }
+    }
+
+    /// Context whose failure signal is about repository metadata lookups, plus a
+    /// catalog with one relevant tool and one irrelevant tool.
+    fn tool_search_context() -> ProposalContext {
+        ProposalContext::new(
+            "answer repository metadata questions correctly",
+            "You are a helpful assistant.",
+            vec![FailureExample::from_parts(
+                "What is the default branch of acme/widgets?",
+                Some("main".to_string()),
+                "I don't know",
+                0.0,
+                Some("missing repository metadata".to_string()),
+            )],
+        )
+        .with_available_tools(vec![
+            tool_candidate(
+                "CALENDAR_LIST_EVENTS",
+                "List calendar events",
+                "List upcoming calendar events.",
+                "read_only",
+            ),
+            tool_candidate(
+                "GITHUB_GET_REPOSITORY",
+                "Get a repository",
+                "Get repository metadata such as default branch.",
+                "read_only",
+            ),
+        ])
+    }
+
+    #[test]
+    fn connector_tool_search_ranks_by_failure_signal_relevance() {
+        let candidates = propose_with(
+            OptimizerStrategy::ConnectorToolSearch,
+            &tool_search_context(),
+        )
+        .unwrap_or_else(|err| panic!("{err}"));
+        // Only the repository tool matches the goal/failure keywords; the
+        // calendar tool has zero signal overlap and must not be proposed.
+        assert_eq!(candidates.len(), 1, "{candidates:?}");
+        assert_eq!(candidates[0].kind, ChangeKind::ToolAdd);
+        assert_eq!(candidates[0].target, "tool_set/GITHUB_GET_REPOSITORY");
+        assert_eq!(
+            candidates[0].proposed_by,
+            OptimizerStrategy::ConnectorToolSearch
+        );
+        assert!(candidates[0].rationale.contains("read_only"));
+        // Deterministic: a second call is identical.
+        let again = propose_with(
+            OptimizerStrategy::ConnectorToolSearch,
+            &tool_search_context(),
+        )
+        .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(candidates, again);
+    }
+
+    #[test]
+    fn connector_tool_search_caps_the_multiplicity_family() {
+        // Five equally-relevant tools: only MAX_PROPOSALS survive, chosen
+        // deterministically by slug order.
+        let tools: Vec<ToolCandidate> = (0..5)
+            .map(|i| {
+                tool_candidate(
+                    &format!("GITHUB_REPO_TOOL_{i}"),
+                    "Repository tool",
+                    "Works with repository metadata.",
+                    "read_only",
+                )
+            })
+            .collect();
+        let ctx = ProposalContext::from_goal(
+            "answer repository metadata questions",
+            "You are a helpful assistant.",
+        )
+        .with_available_tools(tools);
+        let candidates = propose_with(OptimizerStrategy::ConnectorToolSearch, &ctx)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(candidates.len(), ConnectorToolSearch::MAX_PROPOSALS);
+        assert_eq!(candidates[0].target, "tool_set/GITHUB_REPO_TOOL_0");
+        assert_eq!(candidates[1].target, "tool_set/GITHUB_REPO_TOOL_1");
+        assert_eq!(candidates[2].target, "tool_set/GITHUB_REPO_TOOL_2");
+    }
+
+    #[test]
+    fn connector_tool_search_requires_a_catalog() {
+        let ctx = ProposalContext::from_goal("improve accuracy", "prompt");
+        let err = propose_with(OptimizerStrategy::ConnectorToolSearch, &ctx)
+            .err()
+            .unwrap_or_else(|| panic!("expected an error on an empty catalog"));
+        assert!(
+            err.to_string().contains("policy-filtered tool catalog"),
+            "{err}"
+        );
+    }
+
+    #[test]
+    fn connector_tool_search_proposes_nothing_for_an_irrelevant_catalog() {
+        let ctx = ProposalContext::from_goal(
+            "answer repository metadata questions",
+            "You are a helpful assistant.",
+        )
+        .with_available_tools(vec![tool_candidate(
+            "CALENDAR_LIST_EVENTS",
+            "List calendar events",
+            "List upcoming calendar events.",
+            "read_only",
+        )]);
+        let candidates = propose_with(OptimizerStrategy::ConnectorToolSearch, &ctx)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(
+            candidates.is_empty(),
+            "zero-relevance tools must not be proposed: {candidates:?}"
+        );
     }
 
     #[tokio::test]

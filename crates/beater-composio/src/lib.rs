@@ -29,6 +29,7 @@ use serde_json::Value;
 use utoipa::ToSchema;
 
 pub mod policy;
+pub mod rsi;
 pub mod skill;
 
 pub use policy::{

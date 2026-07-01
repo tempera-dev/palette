@@ -935,6 +935,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "beater-eval",
+ "beater-experiments",
+ "beater-judge",
  "reqwest",
  "serde",
  "serde_json",
