@@ -40,6 +40,17 @@ fly deploy   # builds the Dockerfile `tools` stage, runs with --auth-mode requir
 curl -fsS https://beater-api.fly.dev/health   # -> {"ok":true}
 ```
 
+### Trace-store backends (optional)
+
+`beaterd` stores traces in SQLite under `--data-dir` by default — no extra
+flags, no external database. `--trace-store postgres|clickhouse` (env
+`BEATER_TRACE_STORE`) selects an experimental scale backend instead; both
+require `--trace-store-url` / `BEATER_TRACE_STORE_URL` (postgres: libpq-style
+connection string; clickhouse: HTTP endpoint such as `http://localhost:8123`),
+apply their checked-in migration contracts from `migrations/{postgres,clickhouse}`
+on startup, and are covered by Docker-gated conformance tests. All other stores
+(datasets, gates, audit, …) remain SQLite on the volume either way.
+
 ### Bootstrap the first Admin API key (strict auth)
 
 With `--auth-mode required`, the HTTP `createApiKey` route needs an existing

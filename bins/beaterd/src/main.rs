@@ -1,5 +1,6 @@
 mod metrics;
 mod metrics_http;
+mod trace_store;
 
 use anyhow::Context;
 use beater_accounts::SqliteAccountStore;
@@ -38,9 +39,7 @@ use beater_search::{SearchIndex, TantivySearchIndex, TraceIngestedSearchProcesso
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{ArtifactStore, StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
-use beater_store_sql::{
-    migrate_local_beaterd_sqlite, SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore,
-};
+use beater_store_sql::{migrate_local_beaterd_sqlite, SqliteMetadataStore, SqliteQuotaLimiter};
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, Subcommand, ValueEnum};
 use serde::de::DeserializeOwned;
@@ -52,6 +51,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::Duration;
 use tonic::transport::Server;
+use trace_store::{build_trace_store, TraceStoreBackendArg};
 
 const DEFAULT_ARTIFACT_MAX_BYTES: u64 = 16 * 1024 * 1024;
 
@@ -94,6 +94,22 @@ struct Args {
     bus_capacity: usize,
     #[arg(long, value_enum, default_value_t = BusBackendArg::Sqlite)]
     bus_backend: BusBackendArg,
+    /// Trace-store backend (ARCHITECTURE.md §20.2 Phase 0.1). `sqlite` (the
+    /// default) stores traces in `traces.sqlite` under --data-dir; `postgres`
+    /// and `clickhouse` are experimental scale backends that require
+    /// --trace-store-url and are covered by Docker-gated conformance tests.
+    #[arg(
+        long,
+        value_enum,
+        env = "BEATER_TRACE_STORE",
+        default_value_t = TraceStoreBackendArg::Sqlite
+    )]
+    trace_store: TraceStoreBackendArg,
+    /// Connection URL for the postgres/clickhouse trace-store backends
+    /// (postgres: libpq-style connection string; clickhouse: HTTP endpoint
+    /// such as http://localhost:8123). Ignored by the sqlite backend.
+    #[arg(long, env = "BEATER_TRACE_STORE_URL")]
+    trace_store_url: Option<String>,
     #[arg(long, env = "BEATER_PER_PROJECT_EVENT_QUOTA")]
     per_project_event_quota: Option<u64>,
     #[arg(long, env = "BEATER_QUOTA_WINDOW_SECONDS", default_value_t = 60)]
@@ -279,7 +295,6 @@ async fn main() -> anyhow::Result<()> {
     let bus_db_path = args.data_dir.join("bus.sqlite");
     let security_db_path = args.data_dir.join("security.sqlite");
     let mut sqlite_store_paths = vec![
-        trace_db_path.clone(),
         quota_path.clone(),
         metadata_db_path.clone(),
         dataset_db_path.clone(),
@@ -296,6 +311,12 @@ async fn main() -> anyhow::Result<()> {
     ];
     #[cfg(feature = "billing")]
     sqlite_store_paths.push(billing_db_path.clone());
+    // Only the sqlite trace-store backend owns a local traces.sqlite; the
+    // postgres/clickhouse backends apply their own migration contracts on
+    // connect and must not leave an unused sqlite file behind.
+    if matches!(args.trace_store, TraceStoreBackendArg::Sqlite) {
+        sqlite_store_paths.push(trace_db_path.clone());
+    }
     if matches!(args.bus_backend, BusBackendArg::Sqlite) {
         sqlite_store_paths.push(bus_db_path.clone());
     }
@@ -312,13 +333,22 @@ async fn main() -> anyhow::Result<()> {
         args.artifact_max_bytes,
         metrics.clone(),
     )?);
-    let sqlite_traces = Arc::new(SqliteTraceStore::open(trace_db_path)?);
+    // Runtime backend selection (§20.2 Phase 0.1): sqlite (default), postgres,
+    // or clickhouse, behind the same `Arc<dyn TraceStore>` seam. The hidden
+    // test wrappers (HTTP outage adapter + fail switch) compose over whichever
+    // backend was selected, exactly as they previously did over sqlite.
+    let base_traces = build_trace_store(
+        args.trace_store,
+        args.trace_store_url.as_deref(),
+        &trace_db_path,
+    )
+    .await?;
     let traces: Arc<dyn TraceStore> = if let Some(url) = args.test_http_trace_store_url.clone() {
         Arc::new(HttpTraceStore::new(url))
     } else {
         match args.test_trace_store_fail_write_while_path.clone() {
-            Some(path) => Arc::new(FailSwitchTraceStore::new(sqlite_traces.clone(), path)),
-            None => sqlite_traces.clone(),
+            Some(path) => Arc::new(FailSwitchTraceStore::new(base_traces, path)),
+            None => base_traces,
         }
     };
     let quota_limiter = Arc::new(SqliteQuotaLimiter::open(quota_path)?);
@@ -984,12 +1014,12 @@ impl TraceStore for HttpTraceStore {
 
 #[derive(Clone)]
 struct FailSwitchTraceStore {
-    inner: Arc<SqliteTraceStore>,
+    inner: Arc<dyn TraceStore>,
     fail_write_while_path: PathBuf,
 }
 
 impl FailSwitchTraceStore {
-    fn new(inner: Arc<SqliteTraceStore>, fail_write_while_path: PathBuf) -> Self {
+    fn new(inner: Arc<dyn TraceStore>, fail_write_while_path: PathBuf) -> Self {
         Self {
             inner,
             fail_write_while_path,
@@ -1318,6 +1348,61 @@ mod queue_stats_tests {
             (lane_oldest_failure_seconds(&dead_letters, TRACE_WRITE_BATCH_KIND, now) - 290.0).abs()
                 < 1.5
         );
+    }
+}
+
+#[cfg(test)]
+mod trace_store_arg_tests {
+    use super::*;
+
+    // §20.2 Phase 0.1: with no flags, the trace store must stay sqlite so the
+    // OSS default deployment is byte-identical to before backend selection.
+    #[test]
+    fn trace_store_defaults_to_sqlite_with_no_url() {
+        let args = Args::try_parse_from(["beaterd"])
+            .unwrap_or_else(|err| panic!("parse default args: {err}"));
+        assert_eq!(args.trace_store, TraceStoreBackendArg::Sqlite);
+        assert_eq!(args.trace_store_url, None);
+    }
+
+    #[test]
+    fn trace_store_backend_and_url_parse() {
+        let args = Args::try_parse_from([
+            "beaterd",
+            "--trace-store",
+            "postgres",
+            "--trace-store-url",
+            "host=localhost user=beater dbname=beater",
+        ])
+        .unwrap_or_else(|err| panic!("parse postgres args: {err}"));
+        assert_eq!(args.trace_store, TraceStoreBackendArg::Postgres);
+        assert_eq!(
+            args.trace_store_url.as_deref(),
+            Some("host=localhost user=beater dbname=beater")
+        );
+
+        let args = Args::try_parse_from([
+            "beaterd",
+            "--trace-store",
+            "clickhouse",
+            "--trace-store-url",
+            "http://localhost:8123",
+        ])
+        .unwrap_or_else(|err| panic!("parse clickhouse args: {err}"));
+        assert_eq!(args.trace_store, TraceStoreBackendArg::Clickhouse);
+        assert_eq!(
+            args.trace_store_url.as_deref(),
+            Some("http://localhost:8123")
+        );
+    }
+
+    #[test]
+    fn trace_store_rejects_unknown_backends() {
+        let err = match Args::try_parse_from(["beaterd", "--trace-store", "mysql"]) {
+            Ok(_) => panic!("unknown trace-store backend must be rejected"),
+            Err(err) => err.to_string(),
+        };
+        assert!(err.contains("invalid value 'mysql'"), "{err}");
     }
 }
 
