@@ -29,6 +29,7 @@ use beater_oauth::SqliteOAuthStore;
 use beater_oauth_server::OAuthServerState;
 use beater_otlp::{OtlpGrpcTraceService, TraceServiceServer};
 use beater_prompts::SqlitePromptRegistry;
+use beater_scenarios::SqliteScenarioStore;
 use beater_schema::{
     ArtifactRef, AuthContext, CanonicalTraceBatch, RawEnvelope, RedactionClass, RunFilter,
     RunSummary, SpanFilter, SpanSummary, TraceView, WriteAck,
@@ -263,6 +264,7 @@ async fn main() -> anyhow::Result<()> {
         .unwrap_or_else(|| args.data_dir.join("quotas.sqlite"));
     let metadata_db_path = args.data_dir.join("metadata.sqlite");
     let dataset_db_path = args.data_dir.join("datasets.sqlite");
+    let scenario_db_path = args.data_dir.join("scenarios.sqlite");
     let experiment_db_path = args.data_dir.join("experiments.sqlite");
     let gate_db_path = args.data_dir.join("gates.sqlite");
     let review_db_path = args.data_dir.join("reviews.sqlite");
@@ -281,6 +283,7 @@ async fn main() -> anyhow::Result<()> {
         quota_path.clone(),
         metadata_db_path.clone(),
         dataset_db_path.clone(),
+        scenario_db_path.clone(),
         experiment_db_path.clone(),
         gate_db_path.clone(),
         review_db_path.clone(),
@@ -325,6 +328,7 @@ async fn main() -> anyhow::Result<()> {
     )?);
     let archive = ParquetTraceArchive::new(args.data_dir.join("archive"))?;
     let datasets = Arc::new(SqliteDatasetStore::open(dataset_db_path)?);
+    let scenarios = Arc::new(SqliteScenarioStore::open(scenario_db_path)?);
     let experiments = Arc::new(SqliteExperimentStore::open(experiment_db_path)?);
     let gates = Arc::new(SqliteGateStore::open(gate_db_path)?);
     let human_reviews = Arc::new(SqliteHumanReviewStore::open(review_db_path)?);
@@ -455,6 +459,7 @@ async fn main() -> anyhow::Result<()> {
     let otlp_grpc = OtlpGrpcTraceService::new(ingest.clone(), otlp_default_scope);
     let mut state =
         ApiState::with_integrations(ingest, traces, search, archive, datasets, experiments)
+            .with_scenarios(scenarios)
             .with_metadata(metadata)
             .with_gates(gates)
             .with_human_reviews(human_reviews)
