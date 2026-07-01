@@ -528,7 +528,11 @@ async fn main() -> anyhow::Result<()> {
         if !stdio {
             anyhow::bail!("the mcp subcommand currently requires --stdio");
         }
-        beater_mcp::serve_stdio(state)
+        // stdio has no HTTP headers, so session credentials come from the
+        // environment (BEATER_API_KEY / BEATER_MCP_TOKEN / scope ids) — required
+        // for real tool calls when running with the default --auth-mode required.
+        let stdio_headers = beater_mcp::stdio_headers_from_env(|name| std::env::var(name).ok());
+        beater_mcp::serve_stdio(state, stdio_headers)
             .await
             .context("serve mcp stdio")?;
         return Ok(());

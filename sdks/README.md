@@ -34,8 +34,10 @@ language that mirrors the server normalizer (`crates/beater-otlp`).
 | --- | --- | --- |
 | Python | `sdks/clients/python` (`beater_client`) | `sdks/python` (`beater-sdk`) ✅ |
 | TypeScript | `sdks/clients/typescript` (`@beater/client`) | `sdks/typescript` (`@beater/sdk`) ✅ |
-| Rust | `sdks/clients/rust` (`beater-client`) | (uses Layer 1 + tracing) |
-| Go / Java / C / C++ | `sdks/clients/{go,java,c,cpp}` | tracing helpers (planned) |
+| Rust | `sdks/clients/rust` (`beater-client`) | `sdks/rust` (`beater`) ✅ |
+| Go | `sdks/clients/go` | `sdks/go` ✅ |
+| Java | `sdks/clients/java` | `sdks/java` ✅ |
+| C / C++ | `sdks/clients/{c,cpp}` | tracing helpers (planned) |
 
 ## Generation status
 

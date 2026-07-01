@@ -1646,6 +1646,7 @@ dependencies = [
  "beater-schema",
  "beater-search",
  "beater-secrets",
+ "beater-security",
  "beater-store",
  "beater-store-obj",
  "beater-store-sql",

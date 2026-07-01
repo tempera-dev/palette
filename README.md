@@ -82,7 +82,11 @@ cargo run -q -p beaterctl -- api listTraces --param tenant_id=demo --param proje
 ```
 
 **MCP — use Beater as agent tools.** Every API operation is exposed as one MCP tool at
-`POST http://127.0.0.1:8080/mcp` (or `beaterd mcp --stdio` for a local editor agent).
+`POST http://127.0.0.1:8080/mcp` (or `beaterd mcp --stdio` for a local editor agent;
+stdio reads credentials from `BEATER_API_KEY` / `BEATER_MCP_TOKEN` plus the
+`BEATER_PROJECT_ID`/`BEATER_ENVIRONMENT_ID` scope pair — see
+[docs/mcp-client-setup.md](docs/mcp-client-setup.md)). Both transports and both
+auth modes are gated live in CI by `scripts/e2e-mcp-live.sh`.
 
 ## The RSI loop, and the math that gates it
 
@@ -93,6 +97,11 @@ gate decides. Run a full round (deterministic, no network, no key):
 
 ```bash
 cargo run -q -p beaterctl -- rsi-round-fixture --record-trace --data-dir /tmp/beater-rsi
+
+# the same held-out gate over the REAL substrate: ingest failing traces,
+# promote them to a dataset, version + split it, gate two candidates
+# (generalizing -> accept, overfit -> reject):
+cargo run -q -p beaterctl -- rsi-holdout-fixture --data-dir /tmp/beater-rsi
 
 # or live, with a real model proposing (bring your own key):
 ANTHROPIC_API_KEY=sk-ant-... cargo run -q -p beaterctl -- rsi-round \

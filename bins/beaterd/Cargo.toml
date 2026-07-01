@@ -73,6 +73,7 @@ required-features = ["thin-bins"]
 
 [dev-dependencies]
 beater-replay = { path = "../../crates/beater-replay" }
+beater-security = { path = "../../crates/beater-security" }
 opentelemetry-proto.workspace = true
 tempfile.workspace = true
 tower.workspace = true

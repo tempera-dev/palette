@@ -154,8 +154,8 @@
 | `beater-identity` (OIDC/SAML/SCIM) | §20.7 | planned | **Planned** — no directory, not in workspace | |
 | Storage-layer tenant isolation (Postgres RLS) | §20.7 #5.4 | partial | **Partial** — app-layer enforcement exists | DB-level RLS is planned; cross-tenant isolation is currently app-enforced only |
 | Crypto-shred / GDPR deletion | §20.7 #5.5 | planned | **Planned** | Crypto primitives built; lifecycle planned |
-| `beater-usage` (usage ledger, billing meters) | §20.7, §21.7 | built (ledger) | **Built** — `crates/beater-usage/` in workspace | Usage ledger metering exists; billing/Stripe sync is `beater-billing` (planned) |
-| `beater-billing` (Stripe metered sync) | §20.7 | planned | **Planned** — no directory, not in workspace | |
+| `beater-usage` (usage ledger, billing meters) | §20.7, §21.7 | built (ledger) | **Built** — `crates/beater-usage/` in workspace | Usage ledger metering exists; only the judge-cost meter is emitted by the live pipeline today |
+| `beater-billing` (plans, subscriptions, invoices, Stripe webhook sync) | §20.7 | partial | **Partial** — `crates/beater-billing/` in workspace, behind the non-default `billing` cargo feature | Accounting core (rollup, proration, adjustments, webhook dedup) built + tested; no live Stripe HTTP client, and no scheduler triggers rollup/finalize in production |
 
 ---
 
@@ -197,7 +197,7 @@
 | `/login` page | §25 | built | **Built** — `web/dashboard/app/login/` present | |
 | `/settings`, `/settings/api-keys` | §25.4 | partial | **Partial** — `web/dashboard/app/settings/` and `app/settings/api-keys/` present | orgs/RBAC/billing settings need read-API |
 | `/docs`, `/docs/mcp`, `/docs/quickstarts` | §25.4 | built | **Built** — directories present under `web/dashboard/app/docs/` | Renders the committed OpenAPI snapshot |
-| `/search` **Crate Dig** | §25.4, §20.4 #2.8 | planned | **Planned** — no directory `web/dashboard/app/search/` on `main` | Documented in ARCH §25 and §20.4 #2.8 (`web/dashboard/app/search` + `searchSpansPath()` calling `/v1/search/:tenant/spans`) but **not yet built**. The route directory does not exist on `main`. |
+| `/search` **Crate Dig** | §25.4, §20.4 #2.8 | planned | **Built** — `web/dashboard/app/search/page.tsx` present | Calls `/v1/search/:tenant/spans` via the read API |
 | `/connect` (coding-agent connect screen) | §25.4 | partial | **Planned** — no directory `web/dashboard/app/connect/` | OAuth server built; the connect *screen* itself not built |
 | `/review` (Setlist annotation UI) | §25.4 | planned | **Planned** — no directory | Backend (`beater-human`) built; UI not built |
 | `/studio` **Agent Studio** | §25.4, §21.6b | deferred | **Deferred** — no directory; ARCH §21.6b marks `beater-studio` as DEFERRED design-only | Documented in ARCH §25; no implementation in-repo. Depends on forked-replay + `simulate` (both planned). |

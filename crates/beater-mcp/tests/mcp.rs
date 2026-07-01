@@ -33,7 +33,7 @@ use beater_security::ApiScope;
 use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::SqliteUsageLedger;
-use http::{Request, StatusCode};
+use http::{HeaderMap, Request, StatusCode};
 use serde_json::{json, Value};
 use tower::ServiceExt;
 
@@ -270,7 +270,10 @@ async fn initialize_and_tools_list_over_stdio_transport() {
         + "\n";
     let mut output = Vec::new();
 
-    unwrap(beater_mcp::serve_stdio_streams(state, input.as_bytes(), &mut output).await);
+    unwrap(
+        beater_mcp::serve_stdio_streams(state, HeaderMap::new(), input.as_bytes(), &mut output)
+            .await,
+    );
 
     let text = String::from_utf8(output).expect("stdio output is utf8");
     let lines: Vec<Value> = text
@@ -287,6 +290,82 @@ async fn initialize_and_tools_list_over_stdio_transport() {
         .as_array()
         .expect("tools/list result");
     assert_eq!(tools.len(), beater_mcp::tool_names().len() + 1);
+}
+
+/// stdio credentials: with `--auth-mode required` semantics, env-derived
+/// session headers must authenticate real `tools/call`s over stdio, and their
+/// absence must surface the same 401 the HTTP surface returns.
+#[tokio::test]
+async fn stdio_transport_authenticates_tools_call_via_env_headers() {
+    let (state, _tempdir) = build_state();
+    let api_keys = Arc::new(unwrap(SqliteApiKeyStore::in_memory()));
+    let created = unwrap(
+        api_keys
+            .create_key(CreateApiKeyRequest {
+                tenant_id: unwrap(TenantId::new("tenant-1")),
+                project_id: unwrap(ProjectId::new("proj-1")),
+                environment_id: unwrap(EnvironmentId::new("env-1")),
+                scopes: BTreeSet::from([ApiScope::TraceRead]),
+            })
+            .await,
+    );
+    let state = state.require_auth(api_keys);
+    let call = json!({
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "tools/call",
+        "params": {
+            "name": "listTraces",
+            "arguments": {
+                "tenant_id": "tenant-1",
+                "project_id": "proj-1",
+                "environment_id": "env-1"
+            }
+        }
+    })
+    .to_string()
+        + "\n";
+
+    // Without credentials the dispatched call is rejected by the real auth path.
+    let mut output = Vec::new();
+    unwrap(
+        beater_mcp::serve_stdio_streams(
+            state.clone(),
+            HeaderMap::new(),
+            call.as_bytes(),
+            &mut output,
+        )
+        .await,
+    );
+    let anonymous: Value = unwrap(serde_json::from_str(
+        String::from_utf8(output).expect("utf8").trim(),
+    ));
+    assert_eq!(anonymous["result"]["isError"], true);
+    assert_eq!(anonymous["result"]["_meta"]["httpStatus"], 401);
+
+    // With env-derived headers (API key + strict-auth scope) the same call
+    // authenticates and succeeds.
+    let secret = created.secret.clone();
+    let headers = beater_mcp::stdio_headers_from_env(|name| match name {
+        beater_mcp::STDIO_ENV_API_KEY => Some(secret.clone()),
+        beater_mcp::STDIO_ENV_PROJECT_ID => Some("proj-1".to_string()),
+        beater_mcp::STDIO_ENV_ENVIRONMENT_ID => Some("env-1".to_string()),
+        _ => None,
+    });
+    let mut output = Vec::new();
+    unwrap(beater_mcp::serve_stdio_streams(state, headers, call.as_bytes(), &mut output).await);
+    let authorized: Value = unwrap(serde_json::from_str(
+        String::from_utf8(output).expect("utf8").trim(),
+    ));
+    assert_eq!(
+        authorized["result"]["isError"], false,
+        "env-credentialed stdio call must pass auth: {authorized}"
+    );
+    assert_eq!(authorized["result"]["_meta"]["httpStatus"], 200);
+    assert!(
+        authorized["result"]["structuredContent"]["items"].is_array(),
+        "authenticated listTraces must return the trace page payload: {authorized}"
+    );
 }
 
 /// Parity: a `tools/call` returns the same JSON body as the equivalent direct

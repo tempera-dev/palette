@@ -17,6 +17,23 @@ the MCP process has the same storage every time the client launches it:
 beaterd --data-dir ~/.local/share/beater mcp --stdio
 ```
 
+`beaterd` defaults to `--auth-mode required`, so real tool calls (anything other
+than `initialize`, `tools/list`, and `help`) need credentials. stdio has no HTTP
+headers; the transport reads them from the environment instead:
+
+| Variable | Sent as |
+| --- | --- |
+| `BEATER_API_KEY` | `x-beater-api-key` |
+| `BEATER_MCP_TOKEN` (or `BEATER_API_TOKEN`) | `Authorization: Bearer …` |
+| `BEATER_PROJECT_ID` | `x-beater-project-id` (strict-auth scope) |
+| `BEATER_ENVIRONMENT_ID` | `x-beater-environment-id` (strict-auth scope) |
+
+Bootstrap a key once with `beaterctl api-key-create --data-dir ~/.local/share/beater
+--tenant-id <t> --project-id <p> --environment-id <e> --scopes trace-read`, then
+export `BEATER_API_KEY` (plus the two scope ids) in the environment the MCP client
+uses to launch `beaterd`. For anonymous local experimentation on a loopback
+address, pass `--auth-mode local` before the `mcp` subcommand instead.
+
 Smoke the local transport before wiring a client:
 
 ```sh
@@ -64,9 +81,12 @@ For hosted or remote clients, point the MCP client at:
 https://<beater-api-host>/mcp
 ```
 
-The client discovers OAuth metadata from:
+An uncredentialed `POST /mcp` returns an RFC 9728 `WWW-Authenticate` challenge
+pointing at the protected-resource metadata, which in turn names the
+authorization server:
 
 ```text
+https://<beater-api-host>/.well-known/oauth-protected-resource
 https://<beater-api-host>/.well-known/oauth-authorization-server
 ```
 

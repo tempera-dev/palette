@@ -25,6 +25,12 @@
 //! forwarded verbatim onto every synthesized `/v1` request, so the real
 //! `authorize()` path runs unchanged. When the server is built with auth
 //! disabled, calls are anonymous, exactly as for direct HTTP.
+//!
+//! The stdio transport has no HTTP headers, so its credentials come from the
+//! process environment instead: [`stdio_headers_from_env`] maps `BEATER_API_KEY`,
+//! `BEATER_MCP_TOKEN`/`BEATER_API_TOKEN`, `BEATER_PROJECT_ID`, and
+//! `BEATER_ENVIRONMENT_ID` onto the same auth + strict-auth scope headers, and
+//! [`serve_stdio`] applies them to every dispatched call.
 
 use axum::body::{to_bytes, Body};
 use axum::extract::State;
@@ -488,19 +494,69 @@ pub fn router(state: ApiState) -> Router {
         .with_state(state)
 }
 
+/// Environment variables recognized by [`stdio_headers_from_env`], in the order
+/// they are consulted: API key, bearer token (MCP-specific first), then the
+/// strict-auth project/environment scope pair.
+pub const STDIO_ENV_API_KEY: &str = "BEATER_API_KEY";
+pub const STDIO_ENV_MCP_TOKEN: &str = "BEATER_MCP_TOKEN";
+pub const STDIO_ENV_API_TOKEN: &str = "BEATER_API_TOKEN";
+pub const STDIO_ENV_PROJECT_ID: &str = "BEATER_PROJECT_ID";
+pub const STDIO_ENV_ENVIRONMENT_ID: &str = "BEATER_ENVIRONMENT_ID";
+
+/// Build the stdio transport's base auth headers from environment-style lookups.
+///
+/// stdio has no per-request HTTP headers, so credentials come from the process
+/// environment and apply to every `tools/call` in the session:
+///
+/// - `BEATER_API_KEY` → `x-beater-api-key`
+/// - `BEATER_MCP_TOKEN` (or `BEATER_API_TOKEN`) → `Authorization: Bearer …`
+/// - `BEATER_PROJECT_ID` → `x-beater-project-id`
+/// - `BEATER_ENVIRONMENT_ID` → `x-beater-environment-id`
+///
+/// Values that are empty or not valid header values are skipped. The lookup is
+/// injected (rather than reading `std::env` directly) so tests stay hermetic;
+/// callers pass `|name| std::env::var(name).ok()`.
+pub fn stdio_headers_from_env(lookup: impl Fn(&str) -> Option<String>) -> HeaderMap {
+    let mut headers = HeaderMap::new();
+    let mut insert = |name: &'static str, value: String| {
+        if let Ok(value) = value.parse() {
+            headers.insert(name, value);
+        }
+    };
+    let non_empty = |name: &str| lookup(name).filter(|value| !value.trim().is_empty());
+    if let Some(key) = non_empty(STDIO_ENV_API_KEY) {
+        insert("x-beater-api-key", key);
+    }
+    if let Some(token) = non_empty(STDIO_ENV_MCP_TOKEN).or_else(|| non_empty(STDIO_ENV_API_TOKEN)) {
+        insert("authorization", format!("Bearer {token}"));
+    }
+    if let Some(project) = non_empty(STDIO_ENV_PROJECT_ID) {
+        insert("x-beater-project-id", project);
+    }
+    if let Some(environment) = non_empty(STDIO_ENV_ENVIRONMENT_ID) {
+        insert("x-beater-environment-id", environment);
+    }
+    headers
+}
+
 /// Serve MCP JSON-RPC over stdin/stdout.
 ///
 /// The stdio transport is line-delimited JSON-RPC: each non-empty stdin line is
 /// one request, and every response is written as exactly one stdout line. All
 /// diagnostic output belongs on stderr in the caller so stdout remains valid MCP
 /// traffic for local clients.
-pub async fn serve_stdio(state: ApiState) -> std::io::Result<()> {
-    serve_stdio_streams(state, tokio::io::stdin(), tokio::io::stdout()).await
+///
+/// `headers` is the session-wide base header map applied to every dispatched
+/// call — typically [`stdio_headers_from_env`] so `--auth-mode required`
+/// servers accept real tool calls over stdio.
+pub async fn serve_stdio(state: ApiState, headers: HeaderMap) -> std::io::Result<()> {
+    serve_stdio_streams(state, headers, tokio::io::stdin(), tokio::io::stdout()).await
 }
 
 /// Testable stdio transport implementation over arbitrary async streams.
 pub async fn serve_stdio_streams<R, W>(
     state: ApiState,
+    headers: HeaderMap,
     input: R,
     mut output: W,
 ) -> std::io::Result<()>
@@ -509,7 +565,6 @@ where
     W: AsyncWrite + Unpin,
 {
     let mut lines = BufReader::new(input).lines();
-    let headers = HeaderMap::new();
 
     while let Some(line) = lines.next_line().await? {
         if line.trim().is_empty() {
@@ -1142,5 +1197,50 @@ mod tests {
         let mut bad = Map::new();
         bad.insert("tool".to_string(), json!("does-not-exist"));
         assert!(handle_help(&bad).is_err());
+    }
+
+    #[test]
+    fn stdio_headers_from_env_maps_all_credentials() {
+        let env = |name: &str| match name {
+            STDIO_ENV_API_KEY => Some("key-123".to_string()),
+            STDIO_ENV_MCP_TOKEN => Some("token-abc".to_string()),
+            STDIO_ENV_PROJECT_ID => Some("proj-1".to_string()),
+            STDIO_ENV_ENVIRONMENT_ID => Some("env-1".to_string()),
+            _ => None,
+        };
+        let headers = stdio_headers_from_env(env);
+        assert_eq!(headers["x-beater-api-key"], "key-123");
+        assert_eq!(headers["authorization"], "Bearer token-abc");
+        assert_eq!(headers["x-beater-project-id"], "proj-1");
+        assert_eq!(headers["x-beater-environment-id"], "env-1");
+    }
+
+    #[test]
+    fn stdio_headers_from_env_prefers_mcp_token_and_skips_empty() {
+        // BEATER_MCP_TOKEN wins over BEATER_API_TOKEN.
+        let both = |name: &str| match name {
+            STDIO_ENV_MCP_TOKEN => Some("mcp-token".to_string()),
+            STDIO_ENV_API_TOKEN => Some("api-token".to_string()),
+            _ => None,
+        };
+        assert_eq!(
+            stdio_headers_from_env(both)["authorization"],
+            "Bearer mcp-token"
+        );
+
+        // BEATER_API_TOKEN is the fallback.
+        let fallback = |name: &str| (name == STDIO_ENV_API_TOKEN).then(|| "api-token".to_string());
+        assert_eq!(
+            stdio_headers_from_env(fallback)["authorization"],
+            "Bearer api-token"
+        );
+
+        // Empty/whitespace values and invalid header bytes are ignored.
+        let junk = |name: &str| match name {
+            STDIO_ENV_API_KEY => Some("  ".to_string()),
+            STDIO_ENV_MCP_TOKEN => Some("bad\nvalue".to_string()),
+            _ => None,
+        };
+        assert!(stdio_headers_from_env(junk).is_empty());
     }
 }

@@ -20,12 +20,14 @@ use beater_core::{
 };
 use beater_datasets::{
     evaluate_dataset_version, evaluate_dataset_version_with_judge, promote_trace_span_to_case,
-    DatasetCase, DatasetEvalSpec, DatasetJudgeEvalSpec, DatasetStore, SqliteDatasetStore,
+    split_for_input, DatasetCase, DatasetEvalSpec, DatasetJudgeEvalSpec, DatasetStore, SplitConfig,
+    SplitLabel, SqliteDatasetStore,
 };
 use beater_eval::{
     compare_paired_scores, EvaluationCase, EvaluatorKind, EvaluatorSpec, ExperimentComparison,
     GateDecision, GatePolicy, StatisticalTest,
 };
+use beater_experiments::rsi::gate_candidate_on_holdout;
 use beater_experiments::{
     run_agent_experiment, run_deterministic_experiment, run_judge_experiment,
     run_optimization_round, AgentExperimentSpec, CandidateChange, CandidateEvaluator,
@@ -296,6 +298,24 @@ enum Command {
         #[arg(long)]
         record_trace: bool,
         /// SQLite store + artifact dir used only when `--record-trace` is set.
+        #[arg(long, default_value = ".beater")]
+        data_dir: PathBuf,
+    },
+    /// Prove the RSI held-out gate end-to-end on the REAL dataset substrate —
+    /// the path a production round takes, deterministic and with no network:
+    ///
+    ///   ingest real failing traces → `promote_trace_span_to_case` →
+    ///   content-addressed dataset version → content-keyed Train/Val/Test split
+    ///   (`SplitConfig::standard`) → `gate_candidate_on_holdout`
+    ///
+    /// Two candidates run through the same gate to prove BOTH decision paths:
+    /// a generalizing candidate (correct everywhere) must be ACCEPTED, and an
+    /// overfit candidate (correct only on the optimization split, unchanged on
+    /// held-out Test) must be REJECTED by the generalization-gap guardrail even
+    /// though the Test gate alone would pass it. Unlike `rsi-round-fixture`
+    /// (seeded in-memory cases), every case here flows through the real ingest,
+    /// promotion, versioning, and split machinery in `--data-dir`.
+    RsiHoldoutFixture {
         #[arg(long, default_value = ".beater")]
         data_dir: PathBuf,
     },
@@ -1421,6 +1441,10 @@ async fn main() -> anyhow::Result<()> {
                 )
                 .await?;
             }
+            println!("{}", serde_json::to_string_pretty(&output)?);
+        }
+        Command::RsiHoldoutFixture { data_dir } => {
+            let output = run_rsi_holdout_fixture(&data_dir).await?;
             println!("{}", serde_json::to_string_pretty(&output)?);
         }
         Command::ReviewFixture { data_dir } => {
@@ -3047,6 +3071,203 @@ async fn run_rsi_round_fixture() -> anyhow::Result<serde_json::Value> {
             "proposed_by": candidate.proposed_by,
         })),
         "evaluated": evaluated,
+    }))
+}
+
+/// Run the held-out RSI gate over the REAL dataset substrate (see the
+/// `rsi-holdout-fixture` command doc). Returns the JSON report; errors if
+/// either gate decision deviates from the proven-correct outcome, so the
+/// command is a self-checking fixture rather than a demo.
+async fn run_rsi_holdout_fixture(data_dir: &Path) -> anyhow::Result<serde_json::Value> {
+    let artifacts = Arc::new(FsArtifactStore::new(data_dir.join("artifacts"))?);
+    let traces = Arc::new(SqliteTraceStore::open(data_dir.join("traces.sqlite"))?);
+    let datasets = SqliteDatasetStore::open(data_dir.join("datasets.sqlite"))?;
+    let bus = local_bus(data_dir)?;
+    let service = IngestService::new(artifacts, traces.clone(), bus, IngestPolicy::default());
+
+    let tenant = TenantId::new("demo")?;
+    let project = ProjectId::new("demo")?;
+    let scope = TenantScope::new(
+        tenant.clone(),
+        project.clone(),
+        EnvironmentId::new("local")?,
+    );
+    let dataset = datasets
+        .create_dataset(
+            tenant.clone(),
+            project.clone(),
+            "rsi-holdout-fixture".to_string(),
+        )
+        .await
+        .context("create rsi holdout dataset")?;
+
+    // Ingest deterministic failing agent traces (wrong arithmetic answers) and
+    // promote each through the real trace → dataset-case path. 120 cases under
+    // the standard 70/15/15 split leaves a powered (~18-case) held-out set.
+    const TOTAL_CASES: usize = 120;
+    for i in 0..TOTAL_CASES {
+        let (a, b) = ((i % 37 + 3) as i64, ((i * 7) % 41 + 2) as i64);
+        let trace_id = TraceId::new(format!("rsi-holdout-{i:04}"))?;
+        let span_id = SpanId::new(format!("rsi-holdout-span-{i:04}"))?;
+        service
+            .ingest_native(NativeIngestRequest {
+                scope: scope.clone(),
+                trace_id: trace_id.clone(),
+                span_id: span_id.clone(),
+                parent_span_id: None,
+                seq: 1,
+                kind: AgentSpanKind::LlmCall,
+                name: format!("factual answer {i}"),
+                status: SpanStatus::Ok,
+                start_time: Some(Utc::now()),
+                end_time: Some(Utc::now()),
+                model: None,
+                cost: None,
+                tokens: None,
+                input: Some(json!({ "question": format!("What is {a} + {b}?") })),
+                output: Some(json!((a + b + 1).to_string())),
+                attributes: BTreeMap::new(),
+                redaction_class: RedactionClass::Internal,
+                idempotency_key: None,
+                auth_context: None,
+            })
+            .await
+            .map_err(anyhow::Error::from)
+            .with_context(|| format!("ingest rsi holdout trace {i}"))?;
+        let trace = traces
+            .get_trace(tenant.clone(), trace_id)
+            .await
+            .with_context(|| format!("read rsi holdout trace {i}"))?;
+        let case = promote_trace_span_to_case(
+            tenant.clone(),
+            project.clone(),
+            dataset.dataset_id.clone(),
+            &trace,
+            Some(span_id),
+            Some(json!((a + b).to_string())),
+        )
+        .with_context(|| format!("promote rsi holdout trace {i}"))?;
+        datasets
+            .put_case(case)
+            .await
+            .with_context(|| format!("store rsi holdout case {i}"))?;
+    }
+
+    let snapshot = datasets
+        .create_version(
+            tenant.clone(),
+            project.clone(),
+            dataset.dataset_id.clone(),
+            None,
+        )
+        .await
+        .context("create rsi holdout dataset version")?;
+
+    let split = SplitConfig::standard(20260701);
+    let evaluator = EvaluatorSpec {
+        id: "exact".to_string(),
+        lane: EvaluatorLane::DeterministicWasi,
+        kind: EvaluatorKind::ExactMatch,
+    };
+    // Two candidates go through the gate, so the family-wise correction is 2.
+    let policy = GatePolicy {
+        min_sample_size: 10,
+        max_regression: 0.0,
+        alpha: 0.05,
+        comparison_count: 2,
+    };
+
+    // Baseline = the stored (wrong) outputs. The generalizing candidate answers
+    // correctly everywhere; the overfit candidate answers correctly only on the
+    // optimization (Train+Val) split and stays wrong on held-out Test.
+    let baseline = BTreeMap::new();
+    let mut generalizing = BTreeMap::new();
+    let mut overfit = BTreeMap::new();
+    for case in &snapshot.cases {
+        let correct = case
+            .reference
+            .clone()
+            .ok_or_else(|| anyhow::anyhow!("promoted case missing reference"))?;
+        generalizing.insert(case.case_id.clone(), correct.clone());
+        let label = split_for_input(&case.input, &split)
+            .with_context(|| format!("split case {}", case.case_id.as_str()))?;
+        let output = if label == SplitLabel::Test {
+            case.output.clone()
+        } else {
+            correct
+        };
+        overfit.insert(case.case_id.clone(), output);
+    }
+
+    let good = gate_candidate_on_holdout(
+        &snapshot,
+        &evaluator,
+        &baseline,
+        &generalizing,
+        &policy,
+        &split,
+        0.0,
+        2000,
+        7,
+    )
+    .context("gate generalizing candidate")?;
+    let bad = gate_candidate_on_holdout(
+        &snapshot, &evaluator, &baseline, &overfit, &policy, &split, 0.0, 2000, 7,
+    )
+    .context("gate overfit candidate")?;
+
+    anyhow::ensure!(
+        good.accepted,
+        "generalizing candidate must be accepted: {}",
+        good.reason
+    );
+    anyhow::ensure!(
+        !bad.accepted && bad.gap.overfit,
+        "overfit candidate must be rejected by the gap guardrail: {}",
+        bad.reason
+    );
+
+    let decision_json = |name: &str, decision: &beater_experiments::rsi::GatedDecision| {
+        json!({
+            "candidate": name,
+            "accepted": decision.accepted,
+            "reason": decision.reason,
+            "test_gate_decision": decision.test_decision.name(),
+            "test_gate": {
+                "sample_size": decision.test_comparison.sample_size,
+                "baseline_mean": decision.test_comparison.baseline_mean,
+                "candidate_mean": decision.test_comparison.candidate_mean,
+                "delta": decision.test_comparison.delta,
+                "ci_low": decision.test_comparison.ci_low,
+                "ci_high": decision.test_comparison.ci_high,
+                "p_value": decision.test_comparison.p_value,
+            },
+            "generalization_gap": {
+                "optimize_lift": decision.gap.optimize_lift,
+                "holdout_lift": decision.gap.holdout_lift,
+                "gap": decision.gap.gap,
+                "gap_ci_low": decision.gap.gap_ci_low,
+                "gap_ci_high": decision.gap.gap_ci_high,
+                "overfit": decision.gap.overfit,
+            },
+            "splits": {
+                "train": decision.n_train,
+                "val": decision.n_val,
+                "test": decision.n_test,
+            },
+        })
+    };
+
+    Ok(json!({
+        "dataset_id": dataset.dataset_id,
+        "version_id": snapshot.version_id,
+        "corpus_root": snapshot.corpus_root,
+        "cases": snapshot.cases.len(),
+        "split_config": { "train": 0.70, "val": 0.15, "test": 0.15, "seed": 20260701 },
+        "decisions": [
+            decision_json("generalizing", &good),
+            decision_json("overfit", &bad),
+        ],
     }))
 }
 
