@@ -26,15 +26,15 @@ use beater_calibration::{
 };
 use beater_composio::{
     skill, ComposioClient, ComposioError, ConnectionLink, ConnectionStatus, ConnectorTool,
-    ToolExecution, Toolkit,
+    ConnectorToolPolicy, ConnectorToolPolicyDecision, ToolExecution, Toolkit,
 };
 #[cfg(feature = "billing")]
 use beater_core::OrganizationId;
 use beater_core::{
-    AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId, DatasetVersionId,
-    EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page, PageRequest, ProjectId,
-    PromptId, PromptVersionId, ProviderSecretId, ReviewQueueId, ReviewTaskId, Sha256Hash, SpanId,
-    TenantId, TenantScope, TraceId,
+    sha256_json_hash, AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId,
+    DatasetVersionId, EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page,
+    PageRequest, ProjectId, PromptId, PromptVersionId, ProviderSecretId, ReviewQueueId,
+    ReviewTaskId, Sha256Hash, SpanId, TenantId, TenantScope, TraceId,
 };
 use beater_datasets::{
     evaluate_dataset_version, evaluate_dataset_version_with_judge, promote_trace_span_to_case,
@@ -138,6 +138,11 @@ pub struct ApiState {
     /// (no `COMPOSIO_API_KEY`), those endpoints report 501 and the core runs with
     /// zero cloud dependency.
     connectors: Option<Arc<dyn ComposioClient>>,
+    /// Beater-owned policy gate for connector execution. The connector provider
+    /// supplies metadata and performs execution; this policy decides whether a
+    /// caller may use a specific external tool before execution reaches the
+    /// provider.
+    connector_tool_policy: ConnectorToolPolicy,
     prompts: Option<Arc<dyn PromptRegistry>>,
     /// OAuth 2.1 authorization-server store. When set, `authorize()` also
     /// accepts OAuth access tokens (`bao_...`) as bearer credentials, mapping
@@ -178,6 +183,7 @@ impl ApiState {
             stripe_webhook_secret: None,
             audit: None,
             connectors: None,
+            connector_tool_policy: ConnectorToolPolicy::default(),
             prompts: None,
             oauth: None,
             oauth_metadata_url: None,
@@ -324,6 +330,11 @@ impl ApiState {
     /// tool) can discover, connect, and execute third-party tools.
     pub fn with_connectors(mut self, connectors: Arc<dyn ComposioClient>) -> Self {
         self.connectors = Some(connectors);
+        self
+    }
+
+    pub fn with_connector_tool_policy(mut self, policy: ConnectorToolPolicy) -> Self {
+        self.connector_tool_policy = policy;
         self
     }
 
@@ -1188,9 +1199,13 @@ async fn connector_skills_route(
         .list_tools(&query.toolkit, CONNECTOR_TOOL_LIMIT)
         .await
         .map_err(map_composio_err)?;
+    let allowed_tools: Vec<ConnectorTool> = tools
+        .into_iter()
+        .filter(|tool| state.connector_tool_policy.evaluate(tool).allowed)
+        .collect();
     Ok(Json(ConnectorSkillsResponse {
         toolkit: query.toolkit,
-        skills: skill::skills_doc(&tools),
+        skills: skill::skills_doc(&allowed_tools),
     }))
 }
 
@@ -1312,13 +1327,85 @@ async fn invoke_connector_tool_route(
     let connectors = connector_client(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
-    authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
+    let auth =
+        authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun)
+            .await?;
+    let tool = connectors
+        .get_tool(&request.tool)
+        .await
+        .map_err(map_composio_err)?;
+    if !tool.slug.eq_ignore_ascii_case(request.tool.trim()) {
+        return Err(ApiError::internal(format!(
+            "connector provider returned metadata for {} while resolving {}",
+            tool.slug, request.tool
+        )));
+    }
+    let policy_decision = state.connector_tool_policy.evaluate(&tool);
+    record_connector_tool_policy_audit(
+        &state,
+        &tenant_id,
+        &project_id,
+        &auth,
+        &tool,
+        &request.arguments,
+        &policy_decision,
+    )
+    .await?;
+    if !policy_decision.allowed {
+        return Err(ApiError::forbidden(policy_decision.reason));
+    }
     let user_id = connector_user_id(&tenant_id, &project_id);
     let execution = connectors
         .execute(&request.tool, &user_id, request.arguments)
         .await
         .map_err(map_composio_err)?;
     Ok(Json(execution))
+}
+
+/// Audit every connector tool policy decision (allowed and denied) when the
+/// audit store is configured. Arguments are recorded only as a SHA-256 hash so
+/// the audit log never stores raw third-party payloads.
+async fn record_connector_tool_policy_audit(
+    state: &ApiState,
+    tenant_id: &TenantId,
+    project_id: &ProjectId,
+    auth: &AuthDecision,
+    tool: &ConnectorTool,
+    arguments: &serde_json::Value,
+    policy_decision: &ConnectorToolPolicyDecision,
+) -> Result<(), ApiError> {
+    let arguments_hash = sha256_json_hash(arguments)
+        .map_err(|err| ApiError::internal(format!("hash connector tool arguments: {err}")))?;
+    let outcome = if policy_decision.allowed {
+        AuditOutcome::Allowed
+    } else {
+        AuditOutcome::Denied
+    };
+    append_optional_audit_event(
+        state,
+        AuditEventInsert {
+            tenant_id: tenant_id.clone(),
+            project_id: project_id.clone(),
+            environment_id: auth.environment_id.clone(),
+            actor_api_key_id: auth.context.api_key_id.clone(),
+            action: AuditAction::ConnectorToolInvoke,
+            resource_type: "connector_tool".to_string(),
+            resource_id: tool.slug.clone(),
+            outcome,
+            reason: Some(policy_decision.reason.clone()),
+            attributes: serde_json::json!({
+                "arguments_hash": arguments_hash.as_str(),
+                "approval_id": policy_decision.approval_id,
+                "connector": "composio",
+                "no_auth": tool.no_auth,
+                "policy_decision": if policy_decision.allowed { "allowed" } else { "denied" },
+                "risk_class": policy_decision.risk_class.as_str(),
+                "tool": tool.slug,
+                "toolkit": tool.toolkit,
+            }),
+        },
+    )
+    .await
 }
 
 #[utoipa::path(

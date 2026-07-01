@@ -22,6 +22,7 @@ pub enum AuditAction {
     ApiKeyRevoke,
     ProviderSecretCreate,
     ProviderSecretRevoke,
+    ConnectorToolInvoke,
 }
 
 impl AuditAction {
@@ -32,6 +33,7 @@ impl AuditAction {
             Self::ApiKeyRevoke => "api_key_revoke",
             Self::ProviderSecretCreate => "provider_secret_create",
             Self::ProviderSecretRevoke => "provider_secret_revoke",
+            Self::ConnectorToolInvoke => "connector_tool_invoke",
         }
     }
 }
@@ -528,6 +530,10 @@ mod tests {
         assert_eq!(
             AuditAction::ProviderSecretRevoke.as_str(),
             "provider_secret_revoke"
+        );
+        assert_eq!(
+            AuditAction::ConnectorToolInvoke.as_str(),
+            "connector_tool_invoke"
         );
     }
 
