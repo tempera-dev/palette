@@ -1,3 +1,5 @@
+pub mod rsi;
+
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
 use beater_core::{
@@ -6,15 +8,18 @@ use beater_core::{
 };
 use beater_datasets::DatasetVersionSnapshot;
 use beater_eval::{
-    compare_paired_scores_with_design, conservative_gate_design, evaluate_deterministic,
-    EvaluationCase, EvaluatorSpec, ExperimentComparison, GateDecision, GatePolicy, ScoreResult,
+    compare_paired_scores_cuped, compare_paired_scores_with_design, conservative_gate_design,
+    evaluate_deterministic, EvaluationCase, EvaluatorSpec, ExperimentComparison, GateDecision,
+    GatePolicy, MultiplicityPolicy, ScoreResult, VarianceReduction,
 };
 use beater_judge::{
     GenerationRequest, JudgeBroker, JudgeBrokerOutcome, JudgeBrokerRequest, ProviderCredentials,
     TextGenerator,
 };
 use beater_schema::EvaluatorLane;
-use beater_stats::{assess_generalization_gap, GapAssessment};
+use beater_stats::{
+    assess_generalization_gap, benjamini_hochberg, hoeffding_race, holm_bonferroni, GapAssessment,
+};
 use beater_store::{IntoStoreResult, StoreError, StoreResult};
 use chrono::Utc;
 use rusqlite::{params, Connection, OptionalExtension};
@@ -782,11 +787,12 @@ where
 /// → [`compare_paired_scores`] → [`GateDecision`], §21.3) and the planned §21.4
 /// anti-overfitting guardrail before it can be accepted. Proposal is not
 /// acceptance: the strategy emits candidates, the gate decides.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum OptimizerStrategy {
     /// Reflective single-shot LLM rewrite of a prompt lever of π (§6.1) — the
     /// reflective-proposal baseline of §21.3. Implemented (minimally) below.
+    #[default]
     LlmRewrite,
     /// Few-shot exemplar selection driven by a Bayesian acquisition function.
     FewShotBayesian,
@@ -1136,6 +1142,13 @@ pub enum OptimizerError {
     /// implemented. Returned as a typed error — never a panic / `unimplemented!()`.
     #[error("optimizer strategy {0:?} is not yet implemented")]
     NotYetImplemented(OptimizerStrategy),
+    /// A candidate was emitted with provenance that does not match the selected
+    /// dispatch strategy.
+    #[error("optimizer strategy mismatch: expected {expected:?}, candidate recorded {actual:?}")]
+    StrategyMismatch {
+        expected: OptimizerStrategy,
+        actual: OptimizerStrategy,
+    },
     /// The proposal context was insufficient to produce a candidate.
     #[error("invalid proposal context: {0}")]
     InvalidContext(String),
@@ -1396,14 +1409,31 @@ pub fn propose_with(
     strategy: OptimizerStrategy,
     ctx: &ProposalContext,
 ) -> Result<Vec<CandidateChange>, OptimizerError> {
-    match strategy {
+    let candidates = match strategy {
         OptimizerStrategy::LlmRewrite => LlmRewrite.propose(ctx),
         OptimizerStrategy::ParamSearch => ParamSearch.propose(ctx),
         OptimizerStrategy::FewShotBayesian
         | OptimizerStrategy::Mipro
         | OptimizerStrategy::Evolutionary
         | OptimizerStrategy::Gepa => Err(OptimizerError::NotYetImplemented(strategy)),
+    }?;
+    ensure_candidates_record_strategy(strategy, candidates)
+}
+
+fn ensure_candidates_record_strategy(
+    strategy: OptimizerStrategy,
+    candidates: Vec<CandidateChange>,
+) -> Result<Vec<CandidateChange>, OptimizerError> {
+    if let Some(candidate) = candidates
+        .iter()
+        .find(|candidate| candidate.proposed_by != strategy)
+    {
+        return Err(OptimizerError::StrategyMismatch {
+            expected: strategy,
+            actual: candidate.proposed_by,
+        });
     }
+    Ok(candidates)
 }
 
 /// Which split of the optimization substrate a [`CaseScore`] belongs to.
@@ -1439,6 +1469,15 @@ pub struct CaseScore {
     pub baseline_score: f64,
     /// Score of the candidate policy on the same case (paired with baseline).
     pub candidate_score: f64,
+    /// Optional pre-experiment covariate for CUPED variance reduction (§10.3 #4 /
+    /// #436 item 4), consumed by the gate only when the round's design declares
+    /// [`VarianceReduction::Cuped`]. It MUST be independent of the candidate under
+    /// test — a per-case difficulty measured before this experiment is the
+    /// canonical choice; **never** an arm's own score (that un-pairs the design,
+    /// see [`beater_stats::cuped_adjust`]). `None` disables CUPED for the case; the
+    /// gate only applies CUPED when *every* Test case carries one.
+    #[serde(default)]
+    pub covariate: Option<f64>,
 }
 
 /// Scores a proposed [`CandidateChange`] against a set of cases — the seam the
@@ -1495,6 +1534,27 @@ pub struct OptimizationRoundConfig {
     /// Gate policy applied to the held-out **Test** split via
     /// [`compare_paired_scores`].
     pub gate_policy: GatePolicy,
+    /// Multiple-comparison control across the *candidate family* proposed in this
+    /// round (§10.3 #4 / #436). When a strategy emits more than one candidate,
+    /// screening each against the same baseline inflates the family-wise false-win
+    /// rate; this policy corrects for it. [`MultiplicityPolicy::Holm`] (the default)
+    /// controls the family-wise error rate and uniformly dominates the single-step
+    /// `alpha / comparison_count` Bonferroni already applied inside the gate;
+    /// [`MultiplicityPolicy::BenjaminiHochberg`] controls the false-discovery rate;
+    /// [`MultiplicityPolicy::None`] disables the family guard. It is orthogonal to
+    /// `gate_policy.comparison_count` (which pre-declares a fixed comparison
+    /// budget): the guard only ever *withdraws* a within-round `Pass`, never grants
+    /// one, and is a no-op when the round proposes a single candidate.
+    pub multiplicity: MultiplicityPolicy,
+    /// Variance-reduction policy for the held-out gate (§10.3 #4 / #436 item 4).
+    /// [`VarianceReduction::Cuped`] regresses a pre-experiment covariate (carried
+    /// per-case on [`CaseScore::covariate`]) out of the paired difference before
+    /// the gate's t-test, tightening the CI without moving the point estimate — so
+    /// a borderline-underpowered round can resolve to a `Pass` on the same data.
+    /// [`VarianceReduction::None`] (the default) leaves the gate unchanged. Like
+    /// the multiplicity guard it is safe-by-construction: it never manufactures a
+    /// win, and it is a no-op unless every Test case carries a covariate.
+    pub variance_reduction: VarianceReduction,
     /// Largest benign generalization gap for [`assess_generalization_gap`]
     /// (e.g. `0.0` — "held-out lift must not be significantly below the
     /// optimization-split lift").
@@ -1509,7 +1569,8 @@ pub struct OptimizationRoundConfig {
 
 impl OptimizationRoundConfig {
     /// Sensible anti-overfit defaults: zero-tolerance gap, 95% bootstrap CI,
-    /// 2000 resamples, fixed seed. The caller still must set `goal`,
+    /// 2000 resamples, fixed seed, and Holm family-wise multiplicity control
+    /// across the candidate family. The caller still must set `goal`,
     /// `current_prompt`, `failures`, `cases`, `strategy`, and `gate_policy`.
     pub fn new(
         goal: impl Into<String>,
@@ -1526,6 +1587,8 @@ impl OptimizationRoundConfig {
             cases,
             strategy,
             gate_policy,
+            multiplicity: MultiplicityPolicy::Holm,
+            variance_reduction: VarianceReduction::None,
             overfit_tolerance: 0.0,
             overfit_confidence: 0.95,
             overfit_resamples: 2000,
@@ -1638,7 +1701,9 @@ pub async fn run_optimization_round(
     };
 
     let mut evaluated = Vec::with_capacity(candidates.len());
-    let mut accepted: Option<CandidateChange> = None;
+    // Each candidate's held-out Test-split candidate scores, kept parallel to
+    // `evaluated` so the best-arm race can compare arms after gating.
+    let mut test_arms: Vec<Vec<f64>> = Vec::with_capacity(candidates.len());
 
     // 3 + 4. For each candidate: score its cases (injected evaluator), then run
     //         the REAL held-out gate + anti-overfit assessment.
@@ -1649,17 +1714,143 @@ pub async fn run_optimization_round(
             .map_err(OptimizerError::EvaluationFailed)?;
 
         let evaluation = gate_candidate(&candidate, &scores, &cfg)?;
-        if evaluation.accepted && accepted.is_none() {
-            // First candidate (in proposal order) to clear both gates wins.
-            accepted = Some(evaluation.candidate.clone());
-        }
+        // gate_candidate already proved the Test split is non-empty.
+        let (_, test_candidate) = split_scores(&scores, Split::Test);
         evaluated.push(evaluation);
+        test_arms.push(test_candidate);
     }
+
+    // 5. Family-wise multiple-comparison control across the candidates proposed
+    //    this round (§10.3 #4 / #436 item 3). Screening N candidates against one
+    //    baseline inflates the family-wise false-win rate; a candidate that clears
+    //    the gate on its own but does not survive the correction has its `Pass`
+    //    withdrawn to `Inconclusive` (and loses acceptance). No-op for a single
+    //    candidate — a family of one needs no correction — so the pre-declared
+    //    `comparison_count` path (and its e2e coverage) is unchanged.
+    apply_family_multiplicity(&mut evaluated, cfg.multiplicity, cfg.gate_policy.alpha)?;
+
+    // 6. Best-arm race across the *accepted* candidates (§10.3 / #436 item 2):
+    //    drop any that a strictly-better accepted candidate confidently dominates
+    //    on the held-out split, so acceptance never lands on a dominated arm. A
+    //    no-op unless two or more candidates are accepted and their intervals are
+    //    disjoint, so single-candidate and tied rounds are unchanged.
+    apply_best_arm_race(&mut evaluated, &test_arms, cfg.gate_policy.alpha)?;
+
+    // First candidate (in proposal order) that still clears every gate — the
+    // held-out gate, anti-overfit guardrail, family correction, and best-arm
+    // race — wins. Deterministic in proposal order.
+    let accepted = evaluated
+        .iter()
+        .find(|evaluation| evaluation.accepted)
+        .map(|evaluation| evaluation.candidate.clone());
 
     Ok(OptimizationOutcome {
         accepted,
         evaluated,
     })
+}
+
+/// Apply a family-wise / false-discovery multiple-comparison correction across a
+/// round's candidate evaluations (§10.3 #4 / #436 item 3).
+///
+/// The gate already applies the pre-declared single-step Bonferroni
+/// (`alpha / comparison_count`) to each candidate's CI. This adds the *within-round*
+/// family correction across the candidates actually proposed: the raw per-candidate
+/// p-values (`ExperimentComparison::p_value`, which is independent of the CI's alpha)
+/// are run through Holm (FWER) or Benjamini-Hochberg (FDR). A candidate whose gate
+/// decision is `Pass` but which does **not** survive the correction has its decision
+/// downgraded to `Inconclusive` and its acceptance withdrawn — mirroring the
+/// `EvalDesign::permit_pass` downgrade discipline: the guard can only ever remove a
+/// win, never manufacture one.
+///
+/// It is a deliberate no-op when:
+/// * the policy is [`MultiplicityPolicy::None`], or
+/// * fewer than two candidates were evaluated (a family of one has no multiplicity),
+///
+/// so single-candidate rounds — including the pre-declared `comparison_count` gate
+/// path — are byte-for-byte unchanged.
+fn apply_family_multiplicity(
+    evaluated: &mut [CandidateEvaluation],
+    policy: MultiplicityPolicy,
+    alpha: f64,
+) -> Result<(), OptimizerError> {
+    if matches!(policy, MultiplicityPolicy::None) || evaluated.len() < 2 {
+        return Ok(());
+    }
+
+    let p_values: Vec<f64> = evaluated
+        .iter()
+        .map(|evaluation| evaluation.gate.p_value)
+        .collect();
+
+    let decisions = match policy {
+        MultiplicityPolicy::Holm => holm_bonferroni(&p_values, alpha),
+        MultiplicityPolicy::BenjaminiHochberg => benjamini_hochberg(&p_values, alpha),
+        // `None` handled above.
+        MultiplicityPolicy::None => return Ok(()),
+    }
+    .map_err(|err| OptimizerError::GateFailed(err.to_string()))?;
+
+    for (evaluation, decision) in evaluated.iter_mut().zip(decisions) {
+        // Only a genuine `Pass` can be withdrawn; a regression failure or an
+        // already-inconclusive verdict is left untouched. Survival of the family
+        // correction is the `reject`-the-null (candidate really beats baseline)
+        // decision at the family level.
+        if evaluation.gate.decision == GateDecision::Pass && !decision.reject {
+            evaluation.gate.decision = GateDecision::Inconclusive;
+            evaluation.accepted = false;
+        }
+    }
+
+    Ok(())
+}
+
+/// Best-arm race across a round's *accepted* candidates (§10.3 / #436 item 2).
+///
+/// Among the candidates that cleared the gate, the anti-overfit guardrail, and
+/// the family correction, a Hoeffding race on their held-out Test scores drops
+/// any candidate that a strictly-better accepted candidate *confidently
+/// dominates* — so the round never accepts a candidate that a demonstrably better
+/// one beats at the same eval budget. The gate decision of a dropped candidate is
+/// left as `Pass` (it genuinely cleared its own gate) for the audit trail; only
+/// its acceptance is withdrawn.
+///
+/// A deliberate no-op unless at least two candidates are still accepted, and even
+/// then it only eliminates arms with *disjoint* confidence intervals — tied or
+/// statistically-indistinguishable candidates all survive, so deterministic
+/// proposal-order selection is preserved. The Hoeffding range is `1.0` because
+/// eval scores are bounded to `[0, 1]`. The empirically-best arm can never be
+/// eliminated, so the accepted set is never emptied.
+fn apply_best_arm_race(
+    evaluated: &mut [CandidateEvaluation],
+    test_arms: &[Vec<f64>],
+    alpha: f64,
+) -> Result<(), OptimizerError> {
+    let accepted_indices: Vec<usize> = evaluated
+        .iter()
+        .enumerate()
+        .filter(|(_, evaluation)| evaluation.accepted)
+        .map(|(index, _)| index)
+        .collect();
+    if accepted_indices.len() < 2 {
+        return Ok(());
+    }
+
+    let arms: Vec<&[f64]> = accepted_indices
+        .iter()
+        .map(|&index| test_arms[index].as_slice())
+        .collect();
+    let outcome = hoeffding_race(&arms, 1.0, alpha)
+        .map_err(|err| OptimizerError::GateFailed(err.to_string()))?;
+
+    // `survivors` are positions within `arms`, i.e. into `accepted_indices`.
+    for (position, &eval_index) in accepted_indices.iter().enumerate() {
+        if !outcome.survivors.contains(&position) {
+            evaluated[eval_index].accepted = false;
+        }
+    }
+
+    Ok(())
 }
 
 /// The gate-relevant subset of [`OptimizationRoundConfig`]: the held-out Test
@@ -1670,6 +1861,10 @@ pub async fn run_optimization_round(
 pub struct GateParams {
     /// Gate policy applied to the held-out **Test** split via `compare_paired_scores`.
     pub gate_policy: GatePolicy,
+    /// CUPED variance-reduction design for the held-out Test gate, mirroring the
+    /// round's [`OptimizationRoundConfig::variance_reduction`]; `None` keeps the
+    /// plain paired gate.
+    pub variance_reduction: VarianceReduction,
     /// Largest benign generalization gap for [`assess_generalization_gap`].
     pub overfit_tolerance: f64,
     /// Bootstrap confidence level for the generalization-gap CI.
@@ -1686,6 +1881,7 @@ impl GateParams {
     pub fn new(gate_policy: GatePolicy) -> Self {
         Self {
             gate_policy,
+            variance_reduction: VarianceReduction::None,
             overfit_tolerance: 0.0,
             overfit_confidence: 0.95,
             overfit_resamples: 2000,
@@ -1705,8 +1901,7 @@ impl GateParams {
 /// reuses `compare_paired_scores` (held-out Test) and `assess_generalization_gap`
 /// (§21.4), and accepts only when the Test gate `Pass`es AND no significant
 /// generalization gap is flagged.
-pub fn gate_scored_candidate(
-    candidate: &CandidateChange,
+pub fn gate_scored_candidate(    candidate: &CandidateChange,
     scores: &[CaseScore],
     params: &GateParams,
 ) -> Result<CandidateEvaluation, OptimizerError> {
@@ -1736,12 +1931,18 @@ pub fn gate_scored_candidate(
     // enforces `EvalDesign::permit_pass` too (a structurally-invalid design can
     // never certify a Pass). The conservative default design always permits pass,
     // so this changes no accept/reject outcome (§1 #9, §10.3).
-    let gate_design = conservative_gate_design(&params.gate_policy, test_baseline.len());
-    let gate = compare_paired_scores_with_design(
+    let mut gate_design = conservative_gate_design(&params.gate_policy, test_baseline.len());
+    gate_design.variance_reduction = params.variance_reduction.clone();
+    // Pre-experiment covariate for CUPED, only when *every* Test case carries one
+    // (a partial covariate is a data bug — fall back to the unadjusted gate rather
+    // than impute). `compare_paired_scores_cuped` further no-ops unless the design
+    // pre-registers CUPED, so this changes nothing for the default (None) policy.
+    let test_covariate = split_covariate(scores, Split::Test);
+    let gate = compare_paired_scores_cuped(
         &test_baseline,
         &test_candidate,
-        &params.gate_policy,
-        &gate_design,
+        test_covariate.as_deref(),
+        &params.gate_policy,        &gate_design,
     )
     .map_err(|err| OptimizerError::GateFailed(err.to_string()))?;
 
@@ -1783,6 +1984,7 @@ fn gate_candidate(
         scores,
         &GateParams {
             gate_policy: cfg.gate_policy.clone(),
+            variance_reduction: cfg.variance_reduction.clone(),
             overfit_tolerance: cfg.overfit_tolerance,
             overfit_confidence: cfg.overfit_confidence,
             overfit_resamples: cfg.overfit_resamples,
@@ -1799,6 +2001,17 @@ fn split_scores(scores: &[CaseScore], split: Split) -> (Vec<f64>, Vec<f64>) {
         .filter(|s| s.split == split)
         .map(|s| (s.baseline_score, s.candidate_score))
         .unzip()
+}
+
+/// The per-case CUPED covariates for a single [`Split`], in the same case order
+/// as [`split_scores`]. Returns `Some` only when *every* case in the split carries
+/// a covariate (and the split is non-empty); a partial covariate is a data bug, so
+/// the gate falls back to the unadjusted path rather than imputing a value.
+fn split_covariate(scores: &[CaseScore], split: Split) -> Option<Vec<f64>> {
+    let in_split = scores.iter().filter(|s| s.split == split);
+    let covariates: Vec<f64> = in_split.clone().filter_map(|s| s.covariate).collect();
+    let count = in_split.count();
+    (count > 0 && covariates.len() == count).then_some(covariates)
 }
 
 #[cfg(test)]
@@ -1878,6 +2091,69 @@ mod tests {
                 model: Some(req.model),
             })
         }
+    }
+
+    #[test]
+    fn optimizer_strategy_defaults_to_llm_rewrite() {
+        assert_eq!(OptimizerStrategy::default(), OptimizerStrategy::LlmRewrite);
+    }
+
+    #[test]
+    fn optimizer_strategy_serializes_named_variants() {
+        for (strategy, serialized) in [
+            (OptimizerStrategy::LlmRewrite, "llm_rewrite"),
+            (OptimizerStrategy::FewShotBayesian, "few_shot_bayesian"),
+            (OptimizerStrategy::Mipro, "mipro"),
+            (OptimizerStrategy::Evolutionary, "evolutionary"),
+            (OptimizerStrategy::Gepa, "gepa"),
+            (OptimizerStrategy::ParamSearch, "param_search"),
+        ] {
+            let value = serde_json::to_value(strategy).unwrap_or_else(|err| panic!("{err}"));
+            assert_eq!(value, json!(serialized));
+            let round_trip: OptimizerStrategy =
+                serde_json::from_value(value).unwrap_or_else(|err| panic!("{err}"));
+            assert_eq!(round_trip, strategy);
+        }
+    }
+
+    #[test]
+    fn candidate_change_serializes_strategy_provenance() {
+        let candidate = CandidateChange {
+            kind: ChangeKind::SystemPrompt,
+            target: "system_prompt".to_string(),
+            description: "Try a MIPRO candidate".to_string(),
+            rationale: "records the optimizer family for the gate audit".to_string(),
+            proposed_by: OptimizerStrategy::Mipro,
+        };
+
+        let value = serde_json::to_value(&candidate).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(value["proposed_by"], json!("mipro"));
+
+        let round_trip: CandidateChange =
+            serde_json::from_value(value).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(round_trip.proposed_by, OptimizerStrategy::Mipro);
+    }
+
+    #[test]
+    fn candidate_strategy_guard_rejects_mismatched_provenance() {
+        let candidate = CandidateChange {
+            kind: ChangeKind::SystemPrompt,
+            target: "system_prompt".to_string(),
+            description: "Mis-stamped candidate".to_string(),
+            rationale: "would confuse gate audit provenance".to_string(),
+            proposed_by: OptimizerStrategy::LlmRewrite,
+        };
+
+        let err = ensure_candidates_record_strategy(OptimizerStrategy::Mipro, vec![candidate])
+            .err()
+            .unwrap_or_else(|| panic!("expected strategy mismatch"));
+        assert_eq!(
+            err,
+            OptimizerError::StrategyMismatch {
+                expected: OptimizerStrategy::Mipro,
+                actual: OptimizerStrategy::LlmRewrite,
+            }
+        );
     }
 
     #[test]
@@ -2059,6 +2335,7 @@ mod tests {
                     split,
                     baseline_score: *b,
                     candidate_score: *c,
+                    covariate: None,
                 });
             }
             for (b, c) in &self.test {
@@ -2066,6 +2343,7 @@ mod tests {
                     split: Split::Test,
                     baseline_score: *b,
                     candidate_score: *c,
+                    covariate: None,
                 });
             }
             Ok(out)
@@ -2099,6 +2377,50 @@ mod tests {
         }
     }
 
+    /// A candidate + per-case scores where the held-out Test lift is a fixed
+    /// +0.05 buried under noise that a pre-experiment covariate almost fully
+    /// explains, plus a clean matching optimization-split lift (so there is no
+    /// generalization gap). This is the fixture the CUPED wiring test drives
+    /// straight through `gate_candidate`.
+    fn cuped_round_scores() -> Vec<CaseScore> {
+        let covariate = [0.0, 1.0, 0.1, 0.9, 0.2, 0.8, 0.3, 0.7, 0.4, 0.6, 0.45, 0.55];
+        let candidate = [
+            0.405, 0.695, 0.435, 0.665, 0.465, 0.635, 0.495, 0.605, 0.525, 0.575, 0.54, 0.56,
+        ];
+        let mut scores = Vec::new();
+        // Held-out Test split: noisy but covariate-explained (baseline constant, so
+        // the covariate is independent of it — a valid difficulty proxy).
+        for (x, c) in covariate.iter().zip(candidate.iter()) {
+            scores.push(CaseScore {
+                split: Split::Test,
+                baseline_score: 0.5,
+                candidate_score: *c,
+                covariate: Some(*x),
+            });
+        }
+        // Optimization split: the same +0.05 mean lift, cleanly, so the
+        // generalization gap is ~0 and the anti-overfit guardrail stays quiet.
+        for i in 0..8 {
+            let split = if i % 2 == 0 { Split::Train } else { Split::Val };
+            scores.push(CaseScore {
+                split,
+                baseline_score: 0.50,
+                candidate_score: 0.55,
+                covariate: None,
+            });
+        }
+        scores
+    }
+
+    fn cuped_candidate() -> CandidateChange {
+        CandidateChange {
+            kind: ChangeKind::SystemPrompt,
+            target: "system_prompt".to_string(),
+            description: "tighten the instructions".to_string(),
+            rationale: "reduce variance on hard cases".to_string(),            proposed_by: OptimizerStrategy::LlmRewrite,
+        }
+    }
+
     fn gate_params_fixture() -> GateParams {
         GateParams::new(GatePolicy {
             min_sample_size: 6,
@@ -2115,6 +2437,7 @@ mod tests {
                 split: if i % 2 == 0 { Split::Train } else { Split::Val },
                 baseline_score: optimize.0,
                 candidate_score: optimize.1,
+                covariate: None,
             });
         }
         for _ in 0..6 {
@@ -2122,6 +2445,7 @@ mod tests {
                 split: Split::Test,
                 baseline_score: test.0,
                 candidate_score: test.1,
+                covariate: None,
             });
         }
         out
@@ -2160,6 +2484,7 @@ mod tests {
                 split: if i % 2 == 0 { Split::Train } else { Split::Val },
                 baseline_score: 0.2,
                 candidate_score: 0.9,
+                covariate: None,
             })
             .collect();
         assert!(matches!(
@@ -2167,6 +2492,82 @@ mod tests {
             Err(OptimizerError::GateFailed(_)),
         ));
     }
+
+    /// The load-bearing wiring test: the SAME held-out scores are `Inconclusive`
+    /// through the default (no variance reduction) gate, but a pre-registered CUPED
+    /// covariate — threaded via `CaseScore::covariate` and
+    /// `OptimizationRoundConfig::variance_reduction` — resolves it to a `Pass` via
+    /// the regression estimator. Proves the covariate and its population mean
+    /// actually reach `compare_paired_scores_cuped` inside `gate_candidate`.
+    #[test]
+    fn cuped_covariate_flips_the_round_gate_from_inconclusive_to_pass() {
+        let scores = cuped_round_scores();
+        let candidate = cuped_candidate();
+
+        // Default policy: no variance reduction → the noise leaves it underpowered.
+        let plain_cfg = round_config(OptimizerStrategy::LlmRewrite);
+        assert_eq!(plain_cfg.variance_reduction, VarianceReduction::None);
+        let plain =
+            gate_candidate(&candidate, &scores, &plain_cfg).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            plain.gate.decision,
+            GateDecision::Inconclusive,
+            "without CUPED the round gate is underpowered"
+        );
+        assert!(!plain.accepted);
+
+        // Same scores + a pre-registered covariate (known population mean 0.7,
+        // above this sample's 0.5) → the regression estimator corrects the lift
+        // upward and the variance-reduced CI clears the bound → Pass.
+        let mut cuped_cfg = round_config(OptimizerStrategy::LlmRewrite);
+        cuped_cfg.variance_reduction = VarianceReduction::Cuped {
+            covariate: "prior_difficulty".to_string(),
+            population_mean: 0.7,
+        };
+        let cuped =
+            gate_candidate(&candidate, &scores, &cuped_cfg).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            cuped.gate.decision,
+            GateDecision::Pass,
+            "CUPED resolves the round gate to a Pass"
+        );
+        // The regression estimator MOVES the estimate off the plain mean and the
+        // variance-reduced CI is narrower — both are how CUPED earns the Pass.
+        assert!(
+            cuped.gate.delta > plain.gate.delta,
+            "estimate corrected upward"
+        );
+        assert!(
+            cuped.gate.ci_high - cuped.gate.ci_low < plain.gate.ci_high - plain.gate.ci_low,
+            "CUPED must narrow the round gate's CI"
+        );
+        // No generalization gap in this fixture, so the Pass is a real acceptance.
+        assert!(
+            cuped.accepted,
+            "a covariate-resolved Pass with no overfit gap must be accepted"
+        );
+    }
+
+    /// A partial covariate (not every Test case carries one) must fall back to the
+    /// unadjusted gate rather than impute — identical to the default policy.
+    #[test]
+    fn cuped_round_falls_back_when_covariate_is_partial() {
+        let mut scores = cuped_round_scores();
+        // Drop the covariate on one Test case.
+        if let Some(first_test) = scores.iter_mut().find(|s| s.split == Split::Test) {
+            first_test.covariate = None;
+        }
+        let candidate = cuped_candidate();
+        let mut cfg = round_config(OptimizerStrategy::LlmRewrite);
+        cfg.variance_reduction = VarianceReduction::Cuped {
+            covariate: "prior_difficulty".to_string(),
+            population_mean: 0.7,
+        };
+        let evaluated =
+            gate_candidate(&candidate, &scores, &cfg).unwrap_or_else(|err| panic!("{err}"));
+        // Fell back to the plain paired-t, so still Inconclusive on the raw noise.
+        assert_eq!(evaluated.gate.decision, GateDecision::Inconclusive);
+        assert_eq!(evaluated.gate.test, beater_eval::StatisticalTest::PairedT);    }
 
     /// Test A: a candidate that improves uniformly across every split clears the
     /// held-out Test gate AND the anti-overfit guardrail → accepted.
@@ -2307,6 +2708,137 @@ mod tests {
         .err()
         .unwrap_or_else(|| panic!("expected a GateFailed error"));
         assert!(matches!(err, OptimizerError::GateFailed(_)), "{err:?}");
+    }
+
+    /// Build a minimal `CandidateEvaluation` that `Pass`ed the gate on its own,
+    /// carrying a chosen raw p-value — the only field the family multiplicity
+    /// correction reads.
+    fn passing_eval(p_value: f64) -> CandidateEvaluation {
+        CandidateEvaluation {
+            candidate: CandidateChange {
+                kind: ChangeKind::SystemPrompt,
+                target: "prompt".to_string(),
+                description: "desc".to_string(),
+                rationale: "why".to_string(),
+                proposed_by: OptimizerStrategy::ParamSearch,
+            },
+            gate: ExperimentComparison {
+                sample_size: 6,
+                baseline_mean: 0.5,
+                candidate_mean: 0.6,
+                delta: 0.1,
+                ci_low: 0.0,
+                ci_high: 0.2,
+                p_value,
+                decision: GateDecision::Pass,
+                test: beater_eval::StatisticalTest::PairedT,
+                adjusted_alpha: 0.05,
+                mde: None,
+                required_n: None,
+            },
+            overfit: GapAssessment {
+                optimize_lift: 0.1,
+                holdout_lift: 0.1,
+                gap: 0.0,
+                gap_ci_low: -0.1,
+                gap_ci_high: 0.1,
+                overfit: false,
+            },
+            accepted: true,
+        }
+    }
+
+    /// Holm withdraws a family of three marginal passers: each clears α=0.05 alone
+    /// (p ∈ {0.02, 0.03, 0.04}) but none survives the family-wise correction
+    /// (Holm's tightest step is α/3 ≈ 0.0167), so all are downgraded and none is
+    /// accepted. Proves the §10.3 #4 / #436 guard is load-bearing.
+    #[test]
+    fn holm_withdraws_a_family_of_marginal_passers() {
+        let mut evals = vec![passing_eval(0.02), passing_eval(0.03), passing_eval(0.04)];
+        apply_family_multiplicity(&mut evals, MultiplicityPolicy::Holm, 0.05)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(
+            evals
+                .iter()
+                .all(|e| e.gate.decision == GateDecision::Inconclusive && !e.accepted),
+            "every marginal candidate must be withdrawn under Holm"
+        );
+    }
+
+    /// Benjamini-Hochberg (FDR) is more lenient than Holm (FWER) on the *same*
+    /// family: the three marginal passers all clear the BH threshold (adjusted
+    /// p ≈ 0.04 ≤ 0.05), so they keep their `Pass`. Same input, different policy,
+    /// different outcome — both branches are load-bearing.
+    #[test]
+    fn benjamini_hochberg_keeps_family_that_holm_withdraws() {
+        let mut evals = vec![passing_eval(0.02), passing_eval(0.03), passing_eval(0.04)];
+        apply_family_multiplicity(&mut evals, MultiplicityPolicy::BenjaminiHochberg, 0.05)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(
+            evals
+                .iter()
+                .all(|e| e.gate.decision == GateDecision::Pass && e.accepted),
+            "BH controls FDR, not FWER, so this family survives"
+        );
+    }
+
+    /// A strongly-significant family (p ≈ 0.001) survives Holm intact — the guard
+    /// only removes noise, it never withdraws a genuine win.
+    #[test]
+    fn holm_keeps_a_strongly_significant_family() {
+        let mut evals = vec![
+            passing_eval(0.001),
+            passing_eval(0.002),
+            passing_eval(0.003),
+        ];
+        apply_family_multiplicity(&mut evals, MultiplicityPolicy::Holm, 0.05)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(evals
+            .iter()
+            .all(|e| e.gate.decision == GateDecision::Pass && e.accepted));
+    }
+
+    /// The guard is a deliberate no-op for a single candidate (a family of one has
+    /// no multiplicity) and when the policy is `None` — so the pre-declared
+    /// `comparison_count` gate path is never double-corrected.
+    #[test]
+    fn family_guard_is_a_noop_for_single_candidate_or_none_policy() {
+        // Single candidate with a terrible p-value: still untouched.
+        let mut one = vec![passing_eval(0.9)];
+        apply_family_multiplicity(&mut one, MultiplicityPolicy::Holm, 0.05)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(one[0].gate.decision == GateDecision::Pass && one[0].accepted);
+
+        // Policy None disables the correction even for a marginal family.
+        let mut none = vec![passing_eval(0.04), passing_eval(0.04)];
+        apply_family_multiplicity(&mut none, MultiplicityPolicy::None, 0.05)
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(none
+            .iter()
+            .all(|e| e.gate.decision == GateDecision::Pass && e.accepted));
+    }
+
+    /// The best-arm race withdraws acceptance from a candidate that a strictly
+    /// better accepted candidate confidently dominates on the held-out split —
+    /// proving §10.3 / #436 item 2 is load-bearing in the round.
+    #[test]
+    fn best_arm_race_drops_a_dominated_accepted_candidate() {
+        let mut evals = vec![passing_eval(0.001), passing_eval(0.001)];
+        // 40 held-out cases each: arm 0 ≈ 0.95, arm 1 ≈ 0.05 → disjoint intervals.
+        let test_arms = vec![vec![0.95; 40], vec![0.05; 40]];
+        apply_best_arm_race(&mut evals, &test_arms, 0.05).unwrap_or_else(|err| panic!("{err}"));
+        assert!(evals[0].accepted, "the dominant arm survives");
+        assert!(!evals[1].accepted, "the dominated arm loses acceptance");
+    }
+
+    /// Tied (statistically-indistinguishable) accepted candidates all survive the
+    /// race, so proposal-order selection is preserved.
+    #[test]
+    fn best_arm_race_keeps_tied_candidates() {
+        let mut evals = vec![passing_eval(0.001), passing_eval(0.001)];
+        let test_arms = vec![vec![0.6; 30], vec![0.6; 30]];
+        apply_best_arm_race(&mut evals, &test_arms, 0.05).unwrap_or_else(|err| panic!("{err}"));
+        assert!(evals.iter().all(|e| e.accepted), "tied arms both survive");
     }
 
     #[test]

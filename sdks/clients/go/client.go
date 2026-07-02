@@ -83,6 +83,10 @@ type APIClient struct {
 
 	ReviewsAPI *ReviewsAPIService
 
+	RsiAPI *RsiAPIService
+
+	ScenariosAPI *ScenariosAPIService
+
 	SearchAPI *SearchAPIService
 
 	SpansAPI *SpansAPIService
@@ -125,6 +129,8 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.PromptsAPI = (*PromptsAPIService)(&c.common)
 	c.ProviderSecretsAPI = (*ProviderSecretsAPIService)(&c.common)
 	c.ReviewsAPI = (*ReviewsAPIService)(&c.common)
+	c.RsiAPI = (*RsiAPIService)(&c.common)
+	c.ScenariosAPI = (*ScenariosAPIService)(&c.common)
 	c.SearchAPI = (*SearchAPIService)(&c.common)
 	c.SpansAPI = (*SpansAPIService)(&c.common)
 	c.TracesAPI = (*TracesAPIService)(&c.common)
