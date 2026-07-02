@@ -59,6 +59,18 @@ def fmt_num(value, digits: int = 4) -> str:
     return str(value)
 
 
+def cell(value) -> str:
+    """Make a value safe inside a Markdown table cell: `|` starts a new
+    column and a newline ends the row."""
+    return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def inline(value) -> str:
+    """Make a value safe inside `inline code`: a backtick would close the
+    span and leak the rest as raw Markdown."""
+    return str(value).replace("`", "'").replace("\n", " ")
+
+
 def fmt_p_value(p) -> str:
     if p is None:
         return "—"
@@ -79,14 +91,14 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
     lines.append(f"## {emoji} Beater eval gate: {label}")
     lines.append("")
 
-    gate_name = report.get("gate_name", "?")
-    dataset = report.get("dataset_id", "?")
-    evaluator = report.get("evaluator_version_id", "?")
+    gate_name = inline(report.get("gate_name", "?"))
+    dataset = inline(report.get("dataset_id", "?"))
+    evaluator = inline(report.get("evaluator_version_id", "?"))
     lines.append(
         f"**Gate** `{gate_name}` · dataset `{dataset}` · evaluator `{evaluator}`"
     )
-    baseline = report.get("baseline_release_id", "?")
-    candidate = report.get("candidate_release_id", "?")
+    baseline = inline(report.get("baseline_release_id", "?"))
+    candidate = inline(report.get("candidate_release_id", "?"))
     lines.append(f"Baseline `{baseline}` → candidate `{candidate}`")
     lines.append("")
 
@@ -110,7 +122,7 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
                 lo=fmt_num(comparison.get("ci_low")),
                 hi=fmt_num(comparison.get("ci_high")),
                 p=fmt_p_value(comparison.get("p_value")),
-                t=test_name,
+                t=cell(test_name),
             )
         )
         lines.append("")
@@ -140,11 +152,14 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
 
     reason = report.get("reason")
     if reason:
-        lines.append(f"> {reason}")
+        # Prefix every line so a multi-line reason stays inside the quote
+        # instead of leaking as raw Markdown after the first line.
+        quoted = str(reason).replace("\r", "").replace("\n", "\n> ")
+        lines.append(f"> {quoted}")
         lines.append("")
 
-    run_id = report.get("gate_run_id", "?")
-    experiment = report.get("experiment_run_id", "?")
+    run_id = inline(report.get("gate_run_id", "?"))
+    experiment = inline(report.get("experiment_run_id", "?"))
     lines.append(f"<sub>gate run `{run_id}` · experiment `{experiment}`</sub>")
     return "\n".join(lines) + "\n"
 
@@ -178,7 +193,9 @@ def main() -> int:
     if args.comment_file:
         Path(args.comment_file).write_text(markdown, encoding="utf-8")
     if args.outputs:
-        reason = str(report.get("reason", "")).replace("\n", " ")
+        # GITHUB_OUTPUT is line-oriented: both \n and \r would terminate or
+        # corrupt the value.
+        reason = str(report.get("reason", "")).replace("\r", " ").replace("\n", " ")
         append_file(
             args.outputs,
             "verdict={v}\npassed={p}\ndecision={d}\nreason={r}\n".format(

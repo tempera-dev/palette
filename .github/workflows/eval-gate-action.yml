@@ -59,15 +59,18 @@ jobs:
         uses: actions/checkout@v7
       - name: Install Rust
         run: rustup toolchain install stable --profile minimal && rustup default stable
+      # Debug profile: the fixture workload is milliseconds of SQLite, so
+      # build time dominates and release optimization buys nothing here.
+      # Passing beaterctl-path also exercises the prebuilt-binary input.
       - name: Build beaterctl
-        run: cargo build --release -q -p beaterctl
+        run: cargo build -q -p beaterctl
       - name: Run the eval gate action against the demo fixture
         id: gate
         uses: ./
         with:
           data-dir: ${{ runner.temp }}/beater-selftest
           demo-fixture: "true"
-          beaterctl-path: target/release/beaterctl
+          beaterctl-path: target/debug/beaterctl
           # The fixture's latest experiment is a regression on purpose; the
           # selftest asserts on outputs instead of failing the step.
           fail-on-gate-failure: "false"

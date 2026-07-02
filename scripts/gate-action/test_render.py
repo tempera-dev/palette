@@ -83,7 +83,18 @@ def main() -> int:
     expect(md, "About **214 paired cases**", "inconclusive")
     expect(md, "an underpowered comparison is not a pass", "inconclusive")
 
-    print("render_verdict self-check: 3/3 verdicts OK")
+    # Markdown-hostile report values must not corrupt the rendering: `|`
+    # would open a table column, a backtick would close an inline-code span,
+    # and a multi-line reason would leak out of the blockquote.
+    hostile = base_report("fail_regression", False, test="pipe|d")
+    hostile["dataset_id"] = "ds`x"
+    hostile["reason"] = "line one\nline two"
+    md = render_markdown(hostile, comment_tag=None)
+    expect(md, "pipe\\|d |", "hostile")
+    expect(md, "dataset `ds'x`", "hostile")
+    expect(md, "> line one\n> line two", "hostile")
+
+    print("render_verdict self-check: 4/4 cases OK")
     return 0
 
 
