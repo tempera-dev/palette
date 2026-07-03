@@ -13,9 +13,18 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 
 # Pin the generator for reproducible output.
-GENERATOR_IMAGE="openapitools/openapi-generator-cli:v7.11.0"
+GENERATOR_VERSION="7.11.0"
+GENERATOR_IMAGE="openapitools/openapi-generator-cli:v${GENERATOR_VERSION}"
 SPEC="sdks/openapi/beater-api.json"
-LANGS=(rust python typescript go java c cpp)
+LANGS=(rust python typescript go java c cpp ruby)
+
+# Generator backend: by default the pinned Docker image (CI path). When
+# BEATER_OPENAPI_GENERATOR_JAR points at the matching openapi-generator-cli JAR,
+# run it with a local JVM instead -- byte-identical output to the Docker image
+# (both wrap the same pinned JAR), for environments where Docker Hub is
+# unreachable (e.g. a proxy that blocks the registry CDN). The Docker image
+# remains the default so CI behavior is unchanged.
+GENERATOR_JAR="${BEATER_OPENAPI_GENERATOR_JAR:-}"
 
 CHECK_MODE=0
 if [[ "${1:-}" == "--check" ]]; then
@@ -37,26 +46,48 @@ mv "$tmp_spec" "$SPEC"
 # Keep the dashboard snapshot identical to the canonical spec.
 cp "$SPEC" web/dashboard/openapi/beater-read-api.json
 
-echo "==> Pulling generator image ($GENERATOR_IMAGE)"
-docker pull -q "$GENERATOR_IMAGE" >/dev/null
+# Generate one client. Uses the local JAR when BEATER_OPENAPI_GENERATOR_JAR is
+# set, otherwise the pinned Docker image. Both invoke openapi-generator-cli
+# v${GENERATOR_VERSION}, so the committed output is identical either way.
+run_generator() {
+  local lang="$1" out="$2"
+  if [[ -n "$GENERATOR_JAR" ]]; then
+    java -jar "$GENERATOR_JAR" generate \
+      -i "$SPEC" \
+      -c "sdks/config/$lang.yaml" \
+      ${version_props[@]+"${version_props[@]}"} \
+      -o "$out" \
+      >/dev/null
+  else
+    # Run the generator as the host user so output isn't root-owned/read-only on Linux
+    # CI runners (where the daemon runs as root); otherwise the patch step below cannot
+    # write its temp files. No-op on Docker Desktop, which already maps to the host user.
+    docker run --rm \
+      --user "$(id -u):$(id -g)" \
+      -v "$root:/local" \
+      "$GENERATOR_IMAGE" generate \
+      -i "/local/$SPEC" \
+      -c "/local/sdks/config/$lang.yaml" \
+      ${version_props[@]+"${version_props[@]}"} \
+      -o "/local/$out" \
+      >/dev/null
+  fi
+}
+
+if [[ -n "$GENERATOR_JAR" ]]; then
+  echo "==> Using local generator JAR ($GENERATOR_JAR)"
+  java -jar "$GENERATOR_JAR" version >/dev/null
+else
+  echo "==> Pulling generator image ($GENERATOR_IMAGE)"
+  docker pull -q "$GENERATOR_IMAGE" >/dev/null
+fi
 
 for lang in "${LANGS[@]}"; do
   out="sdks/clients/$lang"
   echo "==> Generating $lang -> $out"
   rm -rf "$out"
   mkdir -p "$out"
-  # Run the generator as the host user so output isn't root-owned/read-only on Linux
-  # CI runners (where the daemon runs as root); otherwise the patch step below cannot
-  # write its temp files. No-op on Docker Desktop, which already maps to the host user.
-  docker run --rm \
-    --user "$(id -u):$(id -g)" \
-    -v "$root:/local" \
-    "$GENERATOR_IMAGE" generate \
-    -i "/local/$SPEC" \
-    -c "/local/sdks/config/$lang.yaml" \
-    ${version_props[@]+"${version_props[@]}"} \
-    -o "/local/$out" \
-    >/dev/null
+  run_generator "$lang" "$out"
 
   # Reproducibly re-apply committed fixes for known openapi-generator output bugs
   # (C/C++ only). This keeps the generated clients buildable WITHOUT hand-editing

@@ -132,8 +132,8 @@ def test_contract_check_warns_but_passes_when_local_docker_is_unavailable() -> N
     result, calls = run_contract_check({"BEATER_TEST_DOCKER_INFO_RC": "1"})
 
     assert result.returncode == 0, result.stderr
-    assert "WARN: docker unavailable -- skipping client regen check" in result.stderr
-    assert "No drift: API, 7 SDKs, MCP tools, docs, and conventions are all in sync." in result.stdout
+    assert "WARN: no generator (docker/JAR) available -- skipping client regen check" in result.stderr
+    assert "No drift: API, 8 SDKs, MCP tools, docs, and conventions are all in sync." in result.stdout
     assert "cargo:test -q -p beater-api --test openapi_coverage" in calls
     assert "cargo:xtask regen-semconv" in calls
     assert "check-docs-walkthrough:--dry-run" in calls

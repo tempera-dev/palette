@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-command drift test: proves the API contract, the 7 SDK clients, the MCP
+# One-command drift test: proves the API contract, the 8 SDK clients, the MCP
 # tools, the docs, and the semantic conventions are all in sync with the Rust
 # handlers. Run before pushing; CI (sdk-contract.yml) runs the same gates.
 #
@@ -14,13 +14,16 @@ step() { echo; echo "==> $1"; }
 step "1/5 spec == served routes (openapi_coverage)"
 cargo test -q -p beater-api --test openapi_coverage || fail=1
 
-step "2/5 spec + all 7 SDK clients are current (regen --check)"
-# Needs Docker; skip with a loud message if unavailable so local runs don't
-# silently pass. CI always has Docker.
-if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
+step "2/5 spec + all 8 SDK clients are current (regen --check)"
+# Needs the generator: Docker by default, or a local JAR via
+# BEATER_OPENAPI_GENERATOR_JAR. Skip with a loud message if neither is available
+# so local runs don't silently pass. CI always has Docker.
+if [ -n "${BEATER_OPENAPI_GENERATOR_JAR:-}" ]; then
+  scripts/regen-sdks.sh --check || fail=1
+elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
   scripts/regen-sdks.sh --check || fail=1
 else
-  echo "WARN: docker unavailable -- skipping client regen check (CI enforces it)" >&2
+  echo "WARN: no generator (docker/JAR) available -- skipping client regen check (CI enforces it)" >&2
 fi
 
 step "3/5 API shape consistency audit"
@@ -39,4 +42,4 @@ if [ "$fail" -ne 0 ]; then
   echo "CONTRACT DRIFT DETECTED -- regenerate (see CONTRIBUTING.md) and commit." >&2
   exit 1
 fi
-echo "No drift: API, 7 SDKs, MCP tools, docs, and conventions are all in sync."
+echo "No drift: API, 8 SDKs, MCP tools, docs, and conventions are all in sync."

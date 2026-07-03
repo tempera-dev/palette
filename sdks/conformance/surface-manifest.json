@@ -49,6 +49,14 @@
       ]
     },
     {
+      "language": "ruby",
+      "client_path": "sdks/clients/ruby",
+      "conformance_script": "sdks/conformance/ruby/run.sh",
+      "required_files": [
+        "sdks/conformance/ruby/conformance.rb"
+      ]
+    },
+    {
       "language": "rust",
       "client_path": "sdks/clients/rust",
       "conformance_script": "sdks/conformance/rust/run.sh",

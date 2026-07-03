@@ -64,6 +64,7 @@ run_lang go "go version"
 run_lang c "cmake --version"
 run_lang java "command -v mvn"
 run_lang cpp "cpprest_present"
+run_lang ruby "ruby --version"
 
 echo
 echo "================ live conformance summary ================"

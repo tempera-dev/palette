@@ -1,0 +1,15 @@
+# openapi-generator config: Ruby control-plane client (Layer 1).
+# faraday (not typhoeus) avoids a native build in CI; hideGenerationTimestamp
+# keeps output deterministic for the zero-drift gate.
+generatorName: ruby
+additionalProperties:
+  gemName: beater_client
+  moduleName: BeaterClient
+  library: faraday
+  gemVersion: 0.1.0
+  gemHomepage: https://github.com/jadenfix/beater
+  gemSummary: Generated control-plane client for the Beater API
+  gemDescription: Generated control-plane client for the Beater API (OpenAPI).
+  gemAuthorEmail: support@beater.ai
+  gemLicense: Apache-2.0
+  hideGenerationTimestamp: true
