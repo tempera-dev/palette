@@ -1,7 +1,7 @@
 pub mod split;
 pub use split::{
-    duplicate_inputs, fingerprint_input, partition, split_for_fingerprint, split_for_input,
-    DuplicateGroup, SplitConfig, SplitError, SplitLabel, SplitPartition,
+    case_input_fingerprint, duplicate_inputs, fingerprint_input, partition, split_for_fingerprint,
+    split_for_input, DuplicateGroup, SplitConfig, SplitError, SplitLabel, SplitPartition,
 };
 
 use anyhow::{anyhow, Context};
@@ -166,14 +166,27 @@ pub fn corpus_root_for_cases(cases: &[DatasetCase]) -> StoreResult<CorpusRoot> {
     for case in cases {
         leaves.push(MerkleLeaf {
             key: case.case_id.as_str().to_string(),
-            content_hash: case_content_hash(case)?,
+            content_hash: case_content_fingerprint(case)?,
         });
     }
     corpus_root(leaves).map_err(StoreError::backend)
 }
 
-/// Stable content+provenance hash of a single dataset case.
-fn case_content_hash(case: &DatasetCase) -> StoreResult<String> {
+/// Whole-case content fingerprint — the corpus-root Merkle **leaf** hash.
+///
+/// Unlike [`case_input_fingerprint`], which hashes the `input` *only* to route
+/// splits, this hashes the *entire* case content and provenance
+/// (input/output/reference/trace plus normalizer/trace-schema versions and input
+/// artifact hashes, keyed by `case_id`) so the leaf captures *what the case is*,
+/// giving each dataset version a content-addressed snapshot identity. Volatile
+/// fields (`created_at`, ambient tenant/project/dataset ids) are excluded on
+/// purpose.
+///
+/// The two fingerprints are intentionally distinct — input-only routing vs
+/// whole-case snapshot identity — and must never be substituted for one another.
+/// `case_id` is deliberately kept in this hash and the JSON is deliberately *not*
+/// canonicalized; both are deferred as separate decisions (see issue #529).
+pub fn case_content_fingerprint(case: &DatasetCase) -> StoreResult<String> {
     #[derive(Serialize)]
     struct CaseContentView<'a> {
         case_id: &'a str,
@@ -1150,6 +1163,65 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         assert_ne!(twin.version_id, created.version_id);
         assert_eq!(twin.corpus_root, created.corpus_root);
+    }
+
+    #[test]
+    fn case_content_fingerprint_hashes_exactly_the_whole_case_view() {
+        // Locks the whole-case leaf hash to its explicit field set, so a future
+        // change to what the leaf covers can't slip through unnoticed — and is
+        // demonstrably distinct from the input-only split fingerprint.
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let trace = fixture_trace(&tenant, &project);
+        let span_id = SpanId::new("span").unwrap_or_else(|err| panic!("{err}"));
+        let case = promote_trace_span_to_case(
+            tenant.clone(),
+            project.clone(),
+            DatasetId::new("dataset").unwrap_or_else(|err| panic!("{err}")),
+            &trace,
+            Some(span_id),
+            Some(json!("answer")),
+        )
+        .unwrap_or_else(|err| panic!("{err}"));
+
+        // Mirror of the private CaseContentView: identical field set => identical
+        // hash. If someone edits the leaf's coverage, this assertion breaks.
+        #[derive(Serialize)]
+        struct ExpectedView<'a> {
+            case_id: &'a str,
+            source_trace_id: &'a str,
+            source_span_id: &'a str,
+            source_environment_id: &'a str,
+            input: &'a Value,
+            output: &'a Value,
+            reference: &'a Option<Value>,
+            trace: &'a Value,
+            normalizer_version: &'a str,
+            trace_schema_version: u32,
+            input_artifact_hashes: &'a [Sha256Hash],
+        }
+        let expected = sha256_json_hash(&ExpectedView {
+            case_id: case.case_id.as_str(),
+            source_trace_id: case.source_trace_id.as_str(),
+            source_span_id: case.source_span_id.as_str(),
+            source_environment_id: case.source_environment_id.as_str(),
+            input: &case.input,
+            output: &case.output,
+            reference: &case.reference,
+            trace: &case.trace,
+            normalizer_version: &case.normalizer_version,
+            trace_schema_version: case.trace_schema_version,
+            input_artifact_hashes: &case.input_artifact_hashes,
+        })
+        .unwrap_or_else(|err| panic!("{err}"));
+
+        let got = case_content_fingerprint(&case).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(got, expected.as_str());
+
+        // Whole-case identity is a strictly different notion from input routing:
+        // the two fingerprints must not coincide for a non-trivial case.
+        let input_fp = case_input_fingerprint(&case.input).unwrap_or_else(|err| panic!("{err}"));
+        assert_ne!(got, input_fp.as_str());
     }
 
     #[tokio::test]

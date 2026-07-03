@@ -120,11 +120,33 @@ impl SplitConfig {
     }
 }
 
-/// Canonical content fingerprint of a case input — the split key and the
-/// duplicate-detection key. Thin wrapper over [`sha256_json_hash`] so callers
-/// (e.g. the anti-overfitting gate in PR2) fingerprint inputs the same way.
-pub fn fingerprint_input(input: &Value) -> Result<Sha256Hash, JsonHashError> {
+/// Content fingerprint of a case **input only** — the split/dedup routing key.
+///
+/// This deliberately covers *only* the `input` value: never the output,
+/// reference, trace, or any provenance. It is the key for deterministic
+/// splitting and exact-duplicate detection, which is what makes the held-out
+/// gate leak-proof — two cases with byte-identical inputs must land in the same
+/// split regardless of anything else about them (see this module's header).
+///
+/// Contrast [`crate::case_content_fingerprint`], which hashes the *whole* case
+/// (input/output/reference/trace + provenance) for corpus snapshot identity. The
+/// two are intentionally different notions — input-only routing vs whole-case
+/// identity — and must never be substituted for one another.
+///
+/// Thin wrapper over [`sha256_json_hash`] so every input-routing caller (e.g.
+/// the anti-overfitting gate) fingerprints inputs the same way. The JSON is
+/// *not* canonicalized (byte-different-but-equal inputs are treated as distinct;
+/// canonicalization is a deliberately deferred decision — see issue #529).
+pub fn case_input_fingerprint(input: &Value) -> Result<Sha256Hash, JsonHashError> {
     sha256_json_hash(input)
+}
+
+/// Legacy name for [`case_input_fingerprint`], retained so existing callers keep
+/// resolving. Prefer [`case_input_fingerprint`] in new code — its name states
+/// that only the input is covered, distinguishing it from the whole-case
+/// [`crate::case_content_fingerprint`].
+pub fn fingerprint_input(input: &Value) -> Result<Sha256Hash, JsonHashError> {
+    case_input_fingerprint(input)
 }
 
 /// Map a content fingerprint to a stable fraction in `[0, 1)`.
@@ -172,7 +194,7 @@ pub fn split_for_fingerprint(fingerprint: &Sha256Hash, config: &SplitConfig) -> 
 /// Assign a case to a split from its input content. Identical inputs always map
 /// to the same split — the leak-proof property.
 pub fn split_for_input(input: &Value, config: &SplitConfig) -> Result<SplitLabel, JsonHashError> {
-    let fingerprint = fingerprint_input(input)?;
+    let fingerprint = case_input_fingerprint(input)?;
     Ok(split_for_fingerprint(&fingerprint, config))
 }
 
@@ -252,7 +274,7 @@ pub fn duplicate_inputs(
 ) -> Result<Vec<DuplicateGroup>, JsonHashError> {
     let mut groups: BTreeMap<Sha256Hash, Vec<DatasetCaseId>> = BTreeMap::new();
     for case in cases {
-        let fingerprint = fingerprint_input(&case.input)?;
+        let fingerprint = case_input_fingerprint(&case.input)?;
         groups
             .entry(fingerprint)
             .or_default()
@@ -296,6 +318,18 @@ mod tests {
             input_artifact_hashes: vec![],
             created_at: Timestamp::default(),
         }
+    }
+
+    #[test]
+    fn case_input_fingerprint_matches_legacy_and_raw_hash() {
+        // Locks the rename/dedup: the new name, the retained legacy alias, and
+        // the underlying raw hash must all produce byte-identical fingerprints.
+        let input = json!({"prompt": "hello", "n": 7, "nested": {"a": [1, 2, 3]}});
+        let new = case_input_fingerprint(&input).unwrap_or_else(|err| panic!("{err}"));
+        let legacy = fingerprint_input(&input).unwrap_or_else(|err| panic!("{err}"));
+        let raw = sha256_json_hash(&input).unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(new, legacy);
+        assert_eq!(new, raw);
     }
 
     #[test]
