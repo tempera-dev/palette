@@ -107,6 +107,10 @@ pub trait BillingStore: Send + Sync {
     async fn last_applied_stripe_created(&self, object_id: &str) -> StoreResult<Option<i64>>;
     /// Mark a recorded event as applied (drives out-of-order detection).
     async fn mark_stripe_event_applied(&self, event_id: &str) -> StoreResult<()>;
+    /// Whether a recorded event has already been applied. `false` for an unknown
+    /// event id or one recorded-but-not-yet-applied (a prior apply failed and
+    /// must be retried on redelivery).
+    async fn stripe_event_applied(&self, event_id: &str) -> StoreResult<bool>;
 }
 
 /// SQLite-backed [`BillingStore`].
@@ -652,6 +656,19 @@ impl BillingStore for SqliteBillingStore {
             )
             .into_store_ctx("mark stripe event applied")?;
         Ok(())
+    }
+
+    async fn stripe_event_applied(&self, event_id: &str) -> StoreResult<bool> {
+        let connection = self.lock()?;
+        let applied: Option<i64> = connection
+            .query_row(
+                "SELECT applied FROM billing_stripe_events WHERE event_id = ?1",
+                params![event_id],
+                |row| row.get(0),
+            )
+            .optional()
+            .into_store_ctx("read stripe event applied")?;
+        Ok(applied == Some(1))
     }
 }
 
