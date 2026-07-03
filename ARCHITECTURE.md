@@ -192,9 +192,9 @@ Primary source links:
 - https://vercel.com/docs/queues
 - https://vercel.com/docs/queues/poll-mode
 
-### 3.3 Deployment & Distribution (server, docs, 9 SDKs, MCP, CLI)
+### 3.3 Deployment & Distribution (server, docs, 11 SDKs, MCP, CLI)
 
-Beater is not one artifact — it is a server, a documentation site, nine
+Beater is not one artifact — it is a server, a documentation site, eleven
 generated SDK clients plus a native Rust SDK, an MCP server, and a CLI. Each is
 built, versioned, published, and deployed differently, but they all derive from
 the same contract (the `CLAUDE.md` single-source-of-truth rule), so they cannot
@@ -205,7 +205,7 @@ drift. What is **[built]** today vs **[planned]** is marked.
 | **`beaterd` server** (+ `beaterctl`) | Rust workspace, multi-stage `cargo-chef` Dockerfile | multi-arch GHCR image (`container-images` workflow); also a raw binary | git SHA tag per build; semver tag at release | OSS: `docker compose up`. Hosted: Rust cells (§3.2). | [built] |
 | **Dashboard** | `web/dashboard` (Next.js) consuming the generated TS client | GHCR image (`container-images`); Vercel deploy for hosted | git SHA / release tag | OSS: compose service on `:3000`. Hosted: Vercel (§3.2). | [built] |
 | **Docs site** | renders the committed `sdks/openapi/beater-api.json` | static site / hosted docs | tracks the spec version | published from `main`; the committed spec is the source so docs never drift | [planned site; spec is built] |
-| **9 generated SDK clients** (`sdks/clients/*`: py, ts, go, java, c, cpp, ruby, php, …) | OpenAPI spec via `scripts/regen-sdks.sh` (+ reproducible C/C++ patches) | committed in-repo; published to each language registry (PyPI / npm / pkg.go.dev / Maven / RubyGems / Packagist, etc.) by `scripts/publish-sdk.sh` | spec/contract version; per-language package version | `pip`/`npm`/`go get`/Maven/`gem`/`composer` by users; `sdk-contract` CI blocks any drift from the spec | clients [built]; registry publish [planned] |
+| **11 generated SDK clients** (`sdks/clients/*`: py, ts, go, java, c, cpp, ruby, php, csharp, kotlin, …) | OpenAPI spec via `scripts/regen-sdks.sh` (+ reproducible C/C++ patches) | committed in-repo; published to each language registry (PyPI / npm / pkg.go.dev / Maven / RubyGems / Packagist / NuGet, etc.) by `scripts/publish-sdk.sh` | spec/contract version; per-language package version | `pip`/`npm`/`go get`/Maven/`gem`/`composer`/`dotnet` by users; `sdk-contract` CI blocks any drift from the spec | clients [built]; registry publish [planned] |
 | **Native Rust SDK** (`sdks/rust`) | hand-written, `tracing`/OTel layers; **excluded** from the cargo workspace | crates.io package | semver | `cargo add beater` (accelerator, not the adoption gate, §1 #2, §15) | [built in-repo; crates.io publish planned] |
 | **MCP server** (`beater-mcp`) | every `/v1` operation resolved from the spec at runtime, + composite recipes + RSI tools (§21) | served by `beaterd` at `POST /mcp`; local stdio via `beaterd mcp --stdio` | tracks the spec (operations resolved at runtime → auto-in-sync) | **stdio** for local clients (Claude Code/Cursor/Codex) and **streamable-HTTP + OAuth 2.1** for hosted (§21). | streamable-HTTP [built]; stdio tools/list smoke [built] |
 | **CLI** (`beaterctl`) | resolves `/v1` operations from the spec at runtime (`beater api`), plus local fixtures/smoke | the server image, and a standalone binary | tracks server/spec | `cargo run -p beaterctl` or the released binary; used in CI smoke + local dev | [built] |
@@ -214,7 +214,7 @@ The discipline that keeps these consistent is one workflow (`CLAUDE.md`,
 `CONTRIBUTING.md`): a `/v1` change runs `cargo xtask regen-spec` →
 `scripts/regen-sdks.sh` → `cargo xtask regen-semconv`, and
 `scripts/check-contract-sync.sh` (mirrored by the `sdk-contract` CI gate) blocks
-any drift across the spec, all 7 clients, semconv, MCP, CLI, and docs. Because
+any drift across the spec, all 11 clients, semconv, MCP, CLI, and docs. Because
 the MCP and CLI resolve operations from the committed spec at runtime, they
 update automatically; the docs render the committed spec, so they update too. The
 per-artifact "how to verify it's deployed/in-sync" commands are in §22.
@@ -405,7 +405,7 @@ beater/
   sdks/
     rust/                 # native Rust SDK + tracing layers (a standalone package,
                           #   excluded from the workspace; there is no beater-sdk crate)
-    clients/*             # 9 generated SDK clients (py/ts/go/java/c/cpp/ruby/php/...) from the OpenAPI spec
+    clients/*             # 11 generated SDK clients (py/ts/go/java/c/cpp/ruby/php/csharp/kotlin/...) from the OpenAPI spec
     openapi/, semconv/    # single-source contract artifacts
   api/
     *.rs                  # [planned] Vercel Rust Function entrypoints where needed
@@ -651,7 +651,7 @@ clean. This is *only* about the normalized/canonical/API schemas. The
 source schema URL/version, payload hash, and normalizer version are preserved
 forever, which is precisely what makes free re-normalization safe — the lossless
 source is never destroyed. The single-source-of-truth contract regen
-(spec → 7 SDKs → MCP → CLI → docs, `CLAUDE.md`) still runs on every contract change;
+(spec → 11 SDKs → MCP → CLI → docs, `CLAUDE.md`) still runs on every contract change;
 dropping wire compat does **not** drop the regen discipline.
 
 ### 5.4 DatasetCase Train/Dev/Test split (held-out discipline)
@@ -1993,7 +1993,7 @@ docs-walkthrough check:
   step by step.
 - **"Beater in Claude Code & Codex" setup guide** — the §21.5b OAuth connect flow
   and the concrete `claude mcp add` / Codex MCP-config setup.
-- **Per-language SDK guides** — one per shipped client (the 7 generated SDKs).
+- **Per-language SDK guides** — one per shipped client (the 11 generated SDKs).
 - **Framework-integration guides** — LangChain / LangGraph, Temporal, browser-use,
   OpenInference/OpenLLMetry exporters (§21.5).
 - **API & MCP-tool reference** — the `/v1` API reference and the MCP-tool reference,
@@ -2224,7 +2224,7 @@ reproducibility/lineage pinning; WASI scorer sandbox; judge broker with
 cost/ledger/audit; tail-sampling; crypto primitives (Argon2 keys, ChaCha20
 envelope + online re-wrap, signed webhooks, BYOK); OAuth 2.1 authorization server
 (PKCE, accounts, sessions) wired into `beaterd`; quota limiter; single-source
-OpenAPI → 7 SDKs + MCP + CLI with a CI drift gate; Apache-2.0 + governance.
+OpenAPI → 11 SDKs + MCP + CLI with a CI drift gate; Apache-2.0 + governance.
 
 Biggest missing pillars: prompt management; hosted control plane
 (identity/SSO/enforced RBAC); load-tested scale; product UI beyond the waterfall;
@@ -2362,13 +2362,13 @@ Goal: lower adoption friction to match the incumbents' framework coverage.
 | 6.2 | Zero-code env-var bootstrap (**DEFAULT onboarding**, §1 #13, §15) | `beaterctl ingest test` verifies live OTLP ingest and prints the exporter env block; env-var-only auto-instrumented app path is still planned | `opentelemetry-distro`/configurator (py) + TS `--require` preload reading `BEATER_*` env, setting OTLP exporter+headers, enabling installed auto-instrumentors; promoted to the documented first path | M | none |
 | 6.3 | Modern framework coverage | LangChain (py+ts), LlamaIndex (py) only | examples + instrumentation for Vercel AI SDK (TS), OpenAI Agents SDK, CrewAI, DSPy, Pydantic AI, AutoGen, Haystack; TS LlamaIndex; token-usage extraction; 3-level span-tree integration tests | XL | evidence |
 | 6.4 | `beaterctl quickstart` (time to first SCORED FAILURE) | manual compose + snippet | one command boots compose, provisions tenant/key, prints exporter snippet + dashboard URL; timed e2e asserting not just a trace but a *scored failing case* visible < the §15 SLO | M | evidence |
-| 6.5 | Cross-SDK behavioral parity conformance (**none drift, all do the same thing**, §3.3, §22.5) | `regen-sdks.sh --check` proves each generated client's *code* matches the spec and `check-semconv-drift.py` proves its constants match, but the **hand-authored ergonomic layer above the generated client** — `observe()/span()`, context propagation, auth-header assembly, retry/backoff, batch flush, `BEATER_*` env-var bootstrap, error→exception mapping, redaction/sampling — and the **native Rust SDK** (`sdks/rust`, excluded from spec generation, §3.3) are written per-language with **no cross-language parity gate**: two SDKs can each be spec- and semconv-conformant yet emit different wire bytes or expose a different method surface | New `sdks/conformance/` golden harness + `scripts/check-sdk-parity.sh` (new `sdk-parity` CI gate, §22.5): (a) one canonical scripted-agent program implemented in all 7 generated SDKs **+ native Rust**, run against a single in-process recorder, asserting **byte-identical canonical OTLP envelopes** (modulo language/runtime-only fields) for the same logical run; (b) a declarative `surface-manifest.json` of the required ergonomic API (method names, params, env vars, defaults) every SDK must expose, failing CI if any SDK adds, omits, or renames a member; (c) folds into Metronome as the **4th (behavioral) drift surface** (§22.5) so behavioral drift — not just structural — is unmergeable | XL | evidence |
+| 6.5 | Cross-SDK behavioral parity conformance (**none drift, all do the same thing**, §3.3, §22.5) | `regen-sdks.sh --check` proves each generated client's *code* matches the spec and `check-semconv-drift.py` proves its constants match, but the **hand-authored ergonomic layer above the generated client** — `observe()/span()`, context propagation, auth-header assembly, retry/backoff, batch flush, `BEATER_*` env-var bootstrap, error→exception mapping, redaction/sampling — and the **native Rust SDK** (`sdks/rust`, excluded from spec generation, §3.3) are written per-language with **no cross-language parity gate**: two SDKs can each be spec- and semconv-conformant yet emit different wire bytes or expose a different method surface | New `sdks/conformance/` golden harness + `scripts/check-sdk-parity.sh` (new `sdk-parity` CI gate, §22.5): (a) one canonical scripted-agent program implemented in all 11 generated SDKs **+ native Rust**, run against a single in-process recorder, asserting **byte-identical canonical OTLP envelopes** (modulo language/runtime-only fields) for the same logical run; (b) a declarative `surface-manifest.json` of the required ergonomic API (method names, params, env vars, defaults) every SDK must expose, failing CI if any SDK adds, omits, or renames a member; (c) folds into Metronome as the **4th (behavioral) drift surface** (§22.5) so behavioral drift — not just structural — is unmergeable | XL | evidence |
 
 Acceptance: an env-var-only Python app produces traces with zero code edits;
 each named framework has a working example emitting a correct agent span tree;
 `beaterctl quickstart` demonstrates **time to first scored failure** under the §15
 SLO (a failing case shown with a score, not merely a trace rendered); the
-cross-SDK conformance matrix proves all 7 generated SDKs **plus native Rust** emit
+cross-SDK conformance matrix proves all 11 generated SDKs **plus native Rust** emit
 byte-identical canonical envelopes for the same program and expose the same
 ergonomic surface — no behavioral drift, every API endpoint exercised identically
 across languages.
@@ -2423,7 +2423,7 @@ Phase 6  ecosystem breadth      -> adoption parity; can run partly in parallel
 
 Cross-cutting bar for every item (no exceptions):
 
-- Contract-touching changes regenerate spec + 7 SDKs + semconv and pass
+- Contract-touching changes regenerate spec + 11 SDKs + semconv and pass
   `scripts/check-contract-sync.sh` (CI-gated). These need Docker for
   `regen-sdks.sh`.
 - Every non-trivial change lands with a runnable test; `cargo clippy
@@ -3307,7 +3307,7 @@ printf '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}\n' \
   | beaterd mcp --stdio
 ```
 
-**SDKs (7 generated clients + native Rust, §3.3).**
+**SDKs (11 generated clients + native Rust, §3.3).**
 *Tests:* the `sdk-contract` gate — spec ↔ served routes, spec ↔ each of the 7
 clients, semconv ↔ 5 SDKs, `oasdiff` breaking-change check. live conformance —
 each client round-trips a real call against `beaterd`.
@@ -3460,10 +3460,10 @@ red required gate.
 Metronome's defining job is that **no generated artifact can fall out of sync with
 its single source without a gate going red.** The three drift surfaces of §1 #2:
 
-1. **Contract drift — `spec → 7 SDKs → MCP → CLI → docs`** (the `sdk-contract`
+1. **Contract drift — `spec → 11 SDKs → MCP → CLI → docs`** (the `sdk-contract`
    gate / `scripts/check-contract-sync.sh`, §22.2). The Rust `#[utoipa::path]`
    handlers in `beater-api` (Mixing Board) generate `sdks/openapi/beater-api.json`
-   via `cargo xtask regen-spec`; that spec then generates the 7 clients
+   via `cargo xtask regen-spec`; that spec then generates the 11 clients
    (`scripts/regen-sdks.sh`). `check-contract-sync.sh` proves, in one command:
    spec == served routes (`openapi_coverage`), spec == all 7 regenerated clients
    (`regen-sdks.sh --check`), the API-shape audit, and an additive-only `oasdiff`
@@ -3495,7 +3495,7 @@ client — and the native Rust SDK (`sdks/rust`), which is not spec-generated at
 (§3.3) — can still diverge while every structural gate stays green: two SDKs can
 each be spec- and semconv-conformant yet emit different wire bytes or expose a
 different method surface. The `sdk-parity` gate (`scripts/check-sdk-parity.sh`)
-runs one canonical scripted-agent program through all 7 generated SDKs plus native
+runs one canonical scripted-agent program through all 11 generated SDKs plus native
 Rust against a single recorder, asserts **byte-identical canonical OTLP envelopes**
 (modulo language/runtime-only fields), and checks every SDK against a declarative
 `surface-manifest.json`, so behavioral drift — not just structural — is unmergeable.
@@ -3575,7 +3575,7 @@ SLO evidence is **[planned]** (the §20.2 #0.3 bench gate).
   fast-return surface (`tools/list` and dispatch-ack), separate from the long job's
   own completion SLO; codified in §16 once the §20.2 #0.3 bench lands **[planned]**.
 
-### 23.3 Low-latency SDK (the 7 clients + native tracing SDKs, §3.3)
+### 23.3 Low-latency SDK (the 11 clients + native tracing SDKs, §3.3)
 
 - **Non-blocking, BATCHED async export.** The tracing SDKs use the **OTLP batch span
   processor**: spans are enqueued to a **bounded in-memory buffer** and flushed on a
@@ -3745,7 +3745,7 @@ to §18 milestones, §19 Bar-for-Done, §20/§21 phase items, and §22 tests.
 | MCP deployable < 5 min | stdio **and** hosted streamable-HTTP/OAuth, connecting from Claude Code/Cursor/ChatGPT/Codex with `tools/list`+`tools/call` | §22.1 MCP row; `curl POST /mcp` `[built]`; `beaterd mcp --stdio` `[built]` | partial (basic transports built; end-client attach proof remains) |
 | RSI loop closes end-to-end | index→propose→simulate(Train)→accept(Test)→apply via Claude Code with approval | §22.1 RSI row; end-to-end MCP episode `[planned]` | planned |
 | §21 guardrail rejects an overfit change | the §21.4 guardrail **REJECTS** a deliberately-overfit change on a **held-out OOD probe** (demonstrated) | §22.1 RSI row; OOD-reject acceptance test (§21.4) `[planned]` | planned |
-| SDK ↔ MCP ↔ API zero-drift | spec == served routes == all 7 clients == MCP tools == CLI == 5 semconv SDKs | §22.5 `sdk-contract` gate; `scripts/check-contract-sync.sh` `[built]` | built |
+| SDK ↔ MCP ↔ API zero-drift | spec == served routes == all 11 clients == MCP tools == CLI == 5 semconv SDKs | §22.5 `sdk-contract` gate; `scripts/check-contract-sync.sh` `[built]` | built |
 | Docker compose offline | `scripts/smoke-compose.sh` runs the full loop with **no cloud calls** | §22.2 compose row; `gate2-proof-contract` | partial (compose path built; offline-guarantee assertion to harden) |
 | Heartbeat SLO dashboards live | `/metrics` exposes ingest success, ingest→queryable lag, DLQ age, query p95 (§16) | §22.1 Self-observability; `curl /metrics` `[built]`; load evidence §23.10 `[planned]` | partial |
 
@@ -3817,7 +3817,7 @@ ledger, which this section *adds rows to* in §25.10).
 ### 25.0 Positioning — OPTIONAL and headless-first (non-negotiable)
 
 **Soundstage is an accelerator, never the gate.** The platform is **fully usable
-with no dashboard at all** — via the stable `/v1` API, the 7 generated SDKs (§3.3),
+with no dashboard at all** — via the stable `/v1` API, the 11 generated SDKs (§3.3),
 the MCP server (§21), and the `beaterctl` CLI. This is a direct consequence of the
 §1.8 *no-cloud* principle and the §13 contract that the core loop is API-first: a
 self-hoster who never starts the Next.js process loses *zero* core capability

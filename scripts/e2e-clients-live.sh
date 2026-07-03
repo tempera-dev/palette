@@ -67,6 +67,7 @@ run_lang cpp "cpprest_present"
 run_lang ruby "ruby --version"
 run_lang php "command -v composer"
 run_lang csharp "dotnet --version"
+run_lang kotlin "command -v gradle"
 
 echo
 echo "================ live conformance summary ================"

@@ -50,6 +50,16 @@
       ]
     },
     {
+      "language": "kotlin",
+      "client_path": "sdks/clients/kotlin",
+      "conformance_script": "sdks/conformance/kotlin/run.sh",
+      "required_files": [
+        "sdks/conformance/kotlin/build.gradle.kts",
+        "sdks/conformance/kotlin/settings.gradle.kts",
+        "sdks/conformance/kotlin/src/main/kotlin/Main.kt"
+      ]
+    },
+    {
       "language": "php",
       "client_path": "sdks/clients/php",
       "conformance_script": "sdks/conformance/php/run.sh",

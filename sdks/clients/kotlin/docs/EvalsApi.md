@@ -1,0 +1,130 @@
+# EvalsApi
+
+All URIs are relative to *http://localhost*
+
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**runDeterministicEval**](EvalsApi.md#runDeterministicEval) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
+| [**runJudgeEval**](EvalsApi.md#runJudgeEval) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
+
+
+<a id="runDeterministicEval"></a>
+# **runDeterministicEval**
+> DatasetEvalReport runDeterministicEval(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+
+
+
+### Example
+```kotlin
+// Import classes:
+//import ai.beater.client.kotlin.infrastructure.*
+//import ai.beater.client.kotlin.models.*
+
+val apiInstance = EvalsApi()
+val tenantId : kotlin.String = tenantId_example // kotlin.String | tenant_id
+val projectId : kotlin.String = projectId_example // kotlin.String | project_id
+val datasetId : kotlin.String = datasetId_example // kotlin.String | dataset_id
+val versionId : kotlin.String = versionId_example // kotlin.String | version_id
+val runDeterministicEvalRequest : RunDeterministicEvalRequest =  // RunDeterministicEvalRequest | 
+val authorization : kotlin.String = authorization_example // kotlin.String | Bearer API token for strict auth
+val xBeaterApiKey : kotlin.String = xBeaterApiKey_example // kotlin.String | API key alternative for strict auth
+val xBeaterProjectId : kotlin.String = xBeaterProjectId_example // kotlin.String | Strict-auth project scope
+val xBeaterEnvironmentId : kotlin.String = xBeaterEnvironmentId_example // kotlin.String | Strict-auth environment scope
+try {
+    val result : DatasetEvalReport = apiInstance.runDeterministicEval(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling EvalsApi#runDeterministicEval")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling EvalsApi#runDeterministicEval")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **tenantId** | **kotlin.String**| tenant_id | |
+| **projectId** | **kotlin.String**| project_id | |
+| **datasetId** | **kotlin.String**| dataset_id | |
+| **versionId** | **kotlin.String**| version_id | |
+| **runDeterministicEvalRequest** | [**RunDeterministicEvalRequest**](RunDeterministicEvalRequest.md)|  | |
+| **authorization** | **kotlin.String**| Bearer API token for strict auth | [optional] |
+| **xBeaterApiKey** | **kotlin.String**| API key alternative for strict auth | [optional] |
+| **xBeaterProjectId** | **kotlin.String**| Strict-auth project scope | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **xBeaterEnvironmentId** | **kotlin.String**| Strict-auth environment scope | [optional] |
+
+### Return type
+
+[**DatasetEvalReport**](DatasetEvalReport.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a id="runJudgeEval"></a>
+# **runJudgeEval**
+> DatasetEvalReport runJudgeEval(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+
+
+
+### Example
+```kotlin
+// Import classes:
+//import ai.beater.client.kotlin.infrastructure.*
+//import ai.beater.client.kotlin.models.*
+
+val apiInstance = EvalsApi()
+val tenantId : kotlin.String = tenantId_example // kotlin.String | tenant_id
+val projectId : kotlin.String = projectId_example // kotlin.String | project_id
+val datasetId : kotlin.String = datasetId_example // kotlin.String | dataset_id
+val versionId : kotlin.String = versionId_example // kotlin.String | version_id
+val runJudgeDatasetEvalRequest : RunJudgeDatasetEvalRequest =  // RunJudgeDatasetEvalRequest | 
+val authorization : kotlin.String = authorization_example // kotlin.String | Bearer API token for strict auth
+val xBeaterApiKey : kotlin.String = xBeaterApiKey_example // kotlin.String | API key alternative for strict auth
+val xBeaterProjectId : kotlin.String = xBeaterProjectId_example // kotlin.String | Strict-auth project scope
+val xBeaterEnvironmentId : kotlin.String = xBeaterEnvironmentId_example // kotlin.String | Strict-auth environment scope
+try {
+    val result : DatasetEvalReport = apiInstance.runJudgeEval(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling EvalsApi#runJudgeEval")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling EvalsApi#runJudgeEval")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **tenantId** | **kotlin.String**| tenant_id | |
+| **projectId** | **kotlin.String**| project_id | |
+| **datasetId** | **kotlin.String**| dataset_id | |
+| **versionId** | **kotlin.String**| version_id | |
+| **runJudgeDatasetEvalRequest** | [**RunJudgeDatasetEvalRequest**](RunJudgeDatasetEvalRequest.md)|  | |
+| **authorization** | **kotlin.String**| Bearer API token for strict auth | [optional] |
+| **xBeaterApiKey** | **kotlin.String**| API key alternative for strict auth | [optional] |
+| **xBeaterProjectId** | **kotlin.String**| Strict-auth project scope | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **xBeaterEnvironmentId** | **kotlin.String**| Strict-auth environment scope | [optional] |
+
+### Return type
+
+[**DatasetEvalReport**](DatasetEvalReport.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+

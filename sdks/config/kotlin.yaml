@@ -1,0 +1,13 @@
+# openapi-generator config: Kotlin control-plane client (Layer 1).
+# jvm-okhttp4 + moshi is a deterministic, widely-available stack; publishes to
+# Maven Central (reuses the Java OSSRH path). hideGenerationTimestamp removes
+# dates so the zero-drift gate stays reproducible.
+generatorName: kotlin
+additionalProperties:
+  library: jvm-okhttp4
+  serializationLibrary: moshi
+  groupId: ai.beater
+  artifactId: beater-client-kotlin
+  packageName: ai.beater.client.kotlin
+  artifactVersion: 0.1.0
+  hideGenerationTimestamp: true
