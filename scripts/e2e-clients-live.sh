@@ -66,6 +66,7 @@ run_lang java "command -v mvn"
 run_lang cpp "cpprest_present"
 run_lang ruby "ruby --version"
 run_lang php "command -v composer"
+run_lang csharp "dotnet --version"
 
 echo
 echo "================ live conformance summary ================"

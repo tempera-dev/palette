@@ -1,0 +1,13 @@
+# openapi-generator config: C#/.NET control-plane client (Layer 1).
+# The `csharp` generator is the client generator (NOT `aspnetcore`, a server
+# stub). packageGuid is pinned so the generated .sln/.csproj GUID is stable and
+# the zero-drift gate stays deterministic; hideGenerationTimestamp removes dates.
+generatorName: csharp
+additionalProperties:
+  packageName: Beater.Client
+  targetFramework: net8.0
+  library: httpclient
+  packageVersion: 0.1.0
+  packageGuid: '{5F8A1E2C-3B4D-4E6F-9A0B-1C2D3E4F5A6B}'
+  licenseId: Apache-2.0
+  hideGenerationTimestamp: true

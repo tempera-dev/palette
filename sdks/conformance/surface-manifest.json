@@ -23,6 +23,15 @@
       ]
     },
     {
+      "language": "csharp",
+      "client_path": "sdks/clients/csharp",
+      "conformance_script": "sdks/conformance/csharp/run.sh",
+      "required_files": [
+        "sdks/conformance/csharp/Conformance.csproj",
+        "sdks/conformance/csharp/Program.cs"
+      ]
+    },
+    {
       "language": "go",
       "client_path": "sdks/clients/go",
       "conformance_script": "sdks/conformance/go/run.sh",
