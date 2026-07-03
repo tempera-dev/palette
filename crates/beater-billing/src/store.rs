@@ -105,6 +105,13 @@ pub trait BillingStore: Send + Sync {
     ) -> StoreResult<bool>;
     /// The `created` timestamp of the newest *applied* event for `object_id`.
     async fn last_applied_stripe_created(&self, object_id: &str) -> StoreResult<Option<i64>>;
+    /// Whether a recorded Stripe event has been *applied*. `None` when the event
+    /// id has never been recorded, `Some(false)` when recorded but its effect
+    /// has not yet been applied (a prior delivery crashed or errored between
+    /// `record_stripe_event` and `mark_stripe_event_applied`). Lets a redelivery
+    /// of an un-applied event be retried instead of deduped away — otherwise the
+    /// effect would be lost forever (at-most-once effect).
+    async fn stripe_event_applied(&self, event_id: &str) -> StoreResult<Option<bool>>;
     /// Mark a recorded event as applied (drives out-of-order detection).
     async fn mark_stripe_event_applied(&self, event_id: &str) -> StoreResult<()>;
 }
@@ -641,6 +648,19 @@ impl BillingStore for SqliteBillingStore {
             .into_store_ctx("read last applied stripe event")?
             .flatten();
         Ok(value)
+    }
+
+    async fn stripe_event_applied(&self, event_id: &str) -> StoreResult<Option<bool>> {
+        let connection = self.lock()?;
+        let applied: Option<i64> = connection
+            .query_row(
+                "SELECT applied FROM billing_stripe_events WHERE event_id = ?1",
+                params![event_id],
+                |row| row.get(0),
+            )
+            .optional()
+            .into_store_ctx("read stripe event applied flag")?;
+        Ok(applied.map(|value| value == 1))
     }
 
     async fn mark_stripe_event_applied(&self, event_id: &str) -> StoreResult<()> {

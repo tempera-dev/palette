@@ -9,8 +9,11 @@
 //! Exactly-once + ordering guarantees (see [`StripeSync::apply_event`]):
 //! 1. **Signature** — verified via `beater-security` (HMAC + replay window).
 //! 2. **Dedup** — the event id is inserted into a `UNIQUE` table; a repeat
-//!    delivery is acknowledged as [`EventApplication::Duplicate`] and not
-//!    re-applied.
+//!    delivery whose effect was already *applied* is acknowledged as
+//!    [`EventApplication::Duplicate`] and not re-applied. A delivery that was
+//!    recorded but whose effect failed before being marked applied is retried
+//!    on redelivery, so the effect is never silently lost (at-least-once
+//!    effect, deduped once applied).
 //! 3. **Ordering** — an event older-or-equal to the last applied event for the
 //!    same object is acknowledged as [`EventApplication::Stale`] and not
 //!    applied.
@@ -201,13 +204,24 @@ impl<C: Clock> StripeSync<C> {
             serde_json::from_slice(raw).map_err(|err| StripeError::Malformed(err.to_string()))?;
         let object_id = event.data.object.id.clone();
 
-        // 2. Dedup by event id (UNIQUE). A repeat delivery is acknowledged but
-        //    not re-applied.
+        // 2. Dedup by event id (UNIQUE) — but only an event whose effect was
+        //    actually *applied* is a true duplicate. A row recorded on a prior
+        //    delivery whose effect then failed (crash/error before
+        //    `mark_stripe_event_applied`) is retried here rather than dropped,
+        //    so the effect is applied at-least-once instead of being lost
+        //    forever. `record_stripe_event` is INSERT OR IGNORE, so re-recording
+        //    an existing id is a harmless no-op.
         let newly_recorded = self
             .store
             .record_stripe_event(&event.id, &object_id, event.created)
             .await?;
-        if !newly_recorded {
+        if !newly_recorded
+            && self
+                .store
+                .stripe_event_applied(&event.id)
+                .await?
+                .unwrap_or(false)
+        {
             return Ok(EventApplication::Duplicate);
         }
 
@@ -428,6 +442,168 @@ mod tests {
         let org = OrganizationId::new("org-1").map_err(|e| anyhow::anyhow!(e.to_string()))?;
         // Only the newer event produced an adjustment.
         assert_eq!(store.list_adjustments(&org).await?.len(), 1);
+        Ok(())
+    }
+
+    use crate::{Invoice, Plan, PlanId, Subscription};
+    use beater_store::{StoreError, StoreResult};
+    use std::sync::atomic::{AtomicUsize, Ordering};
+
+    /// A [`BillingStore`] decorator whose first `append_adjustment` call fails,
+    /// then delegates. Simulates the effect crashing/erroring *after* the event
+    /// id was recorded — the exact window that used to lose the effect forever.
+    struct FailFirstAppend {
+        inner: Arc<SqliteBillingStore>,
+        append_calls: AtomicUsize,
+    }
+
+    #[async_trait]
+    impl BillingStore for FailFirstAppend {
+        async fn put_plan(&self, plan: Plan) -> StoreResult<()> {
+            self.inner.put_plan(plan).await
+        }
+        async fn get_plan(&self, plan_id: &PlanId) -> StoreResult<Option<Plan>> {
+            self.inner.get_plan(plan_id).await
+        }
+        async fn list_plans(&self) -> StoreResult<Vec<Plan>> {
+            self.inner.list_plans().await
+        }
+        async fn create_subscription(
+            &self,
+            subscription: Subscription,
+        ) -> StoreResult<Subscription> {
+            self.inner.create_subscription(subscription).await
+        }
+        async fn get_subscription(
+            &self,
+            org_id: &OrganizationId,
+        ) -> StoreResult<Option<Subscription>> {
+            self.inner.get_subscription(org_id).await
+        }
+        async fn change_subscription_plan(
+            &self,
+            org_id: &OrganizationId,
+            expected_version: i64,
+            new_plan_id: &PlanId,
+            adjustments: &[BillingAdjustment],
+        ) -> StoreResult<Subscription> {
+            self.inner
+                .change_subscription_plan(org_id, expected_version, new_plan_id, adjustments)
+                .await
+        }
+        async fn set_subscription_status(
+            &self,
+            org_id: &OrganizationId,
+            status: SubscriptionStatus,
+        ) -> StoreResult<Option<Subscription>> {
+            self.inner.set_subscription_status(org_id, status).await
+        }
+        async fn insert_invoice_if_absent(&self, invoice: Invoice) -> StoreResult<Invoice> {
+            self.inner.insert_invoice_if_absent(invoice).await
+        }
+        async fn get_invoice(
+            &self,
+            org_id: &OrganizationId,
+            period_key: &str,
+        ) -> StoreResult<Option<Invoice>> {
+            self.inner.get_invoice(org_id, period_key).await
+        }
+        async fn list_invoices(&self, org_id: &OrganizationId) -> StoreResult<Vec<Invoice>> {
+            self.inner.list_invoices(org_id).await
+        }
+        async fn finalize_invoice(
+            &self,
+            org_id: &OrganizationId,
+            period_key: &str,
+        ) -> StoreResult<Invoice> {
+            self.inner.finalize_invoice(org_id, period_key).await
+        }
+        async fn set_invoice_status(
+            &self,
+            org_id: &OrganizationId,
+            period_key: &str,
+            status: InvoiceStatus,
+        ) -> StoreResult<Invoice> {
+            self.inner
+                .set_invoice_status(org_id, period_key, status)
+                .await
+        }
+        async fn append_adjustment(
+            &self,
+            adjustment: BillingAdjustment,
+        ) -> StoreResult<BillingAdjustment> {
+            if self.append_calls.fetch_add(1, Ordering::SeqCst) == 0 {
+                return Err(StoreError::backend("injected append failure".to_string()));
+            }
+            self.inner.append_adjustment(adjustment).await
+        }
+        async fn list_adjustments(
+            &self,
+            org_id: &OrganizationId,
+        ) -> StoreResult<Vec<BillingAdjustment>> {
+            self.inner.list_adjustments(org_id).await
+        }
+        async fn record_stripe_event(
+            &self,
+            event_id: &str,
+            object_id: &str,
+            created: i64,
+        ) -> StoreResult<bool> {
+            self.inner
+                .record_stripe_event(event_id, object_id, created)
+                .await
+        }
+        async fn last_applied_stripe_created(&self, object_id: &str) -> StoreResult<Option<i64>> {
+            self.inner.last_applied_stripe_created(object_id).await
+        }
+        async fn stripe_event_applied(&self, event_id: &str) -> StoreResult<Option<bool>> {
+            self.inner.stripe_event_applied(event_id).await
+        }
+        async fn mark_stripe_event_applied(&self, event_id: &str) -> StoreResult<()> {
+            self.inner.mark_stripe_event_applied(event_id).await
+        }
+    }
+
+    /// Regression for the at-most-once-effect bug: if the effect fails *after*
+    /// the event id is recorded, a redelivery must retry and apply it — not dedup
+    /// it away as a duplicate (which permanently lost the charge/refund/status).
+    #[tokio::test]
+    async fn effect_failure_is_retried_not_lost_on_redelivery() -> anyhow::Result<()> {
+        let inner = Arc::new(SqliteBillingStore::in_memory()?);
+        let store = Arc::new(FailFirstAppend {
+            inner: inner.clone(),
+            append_calls: AtomicUsize::new(0),
+        });
+        let sync = sync(store.clone())?;
+        let body = event_json("evt_fail", 1000, "invoice.payment_succeeded", "org-1");
+        let header = signed_header(&body)?;
+
+        // First delivery: the effect fails after the event id was recorded.
+        let first = sync.apply_event(&body, &header).await;
+        assert!(
+            first.is_err(),
+            "first delivery should surface the apply error"
+        );
+
+        // Redelivery: the recorded-but-unapplied event is retried, not deduped.
+        let second = sync.apply_event(&body, &header).await?;
+        assert_eq!(
+            second,
+            EventApplication::Applied,
+            "redelivery of an un-applied event must retry, not dedup"
+        );
+
+        // Now that it is applied, a further delivery is a true duplicate.
+        let third = sync.apply_event(&body, &header).await?;
+        assert_eq!(third, EventApplication::Duplicate);
+
+        // The effect landed exactly once across the failure + retries.
+        let org = OrganizationId::new("org-1").map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        assert_eq!(
+            inner.list_adjustments(&org).await?.len(),
+            1,
+            "effect applied exactly once despite the initial failure"
+        );
         Ok(())
     }
 
