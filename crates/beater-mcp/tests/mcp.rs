@@ -289,6 +289,65 @@ async fn initialize_and_tools_list_over_stdio_transport() {
     assert_eq!(tools.len(), beater_mcp::tool_names().len() + 1);
 }
 
+/// Drive a real `tools/call` over the stdio transport (not via the HTTP router)
+/// and assert the dispatched tool result comes back as one JSON-RPC line.
+#[tokio::test]
+async fn tools_call_over_stdio_transport() {
+    let (state, _tempdir) = build_state();
+    let input = [
+        json!({ "jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {} }).to_string(),
+        json!({
+            "jsonrpc": "2.0",
+            "id": 2,
+            "method": "tools/call",
+            "params": {
+                "name": "listTraces",
+                "arguments": {
+                    "tenant_id": "tenant-1",
+                    "project_id": "proj-1",
+                    "environment_id": "env-1"
+                }
+            }
+        })
+        .to_string(),
+    ]
+    .join("\n")
+        + "\n";
+    let mut output = Vec::new();
+
+    unwrap(beater_mcp::serve_stdio_streams(state, input.as_bytes(), &mut output).await);
+
+    let text = String::from_utf8(output).expect("stdio output is utf8");
+    let lines: Vec<Value> = text
+        .lines()
+        .map(|line| serde_json::from_str(line).expect("stdout line is JSON-RPC"))
+        .collect();
+    assert_eq!(lines.len(), 2, "one response per request line");
+
+    // The second line is the tools/call response, carrying a successful tool
+    // result that was dispatched through the real handler over stdio.
+    let call = &lines[1];
+    assert_eq!(call["jsonrpc"], "2.0");
+    assert_eq!(call["id"], 2);
+    let result = &call["result"];
+    assert_eq!(
+        result["isError"], false,
+        "successful stdio tool call must not be an MCP error: {call}"
+    );
+    assert_eq!(
+        result["_meta"]["httpStatus"], 200,
+        "stdio tool call reports the underlying HTTP status"
+    );
+    assert!(
+        result["content"][0]["text"].is_string(),
+        "tool result carries text content over stdio"
+    );
+    assert!(
+        result["structuredContent"].is_object(),
+        "listTraces returns object structured content over stdio"
+    );
+}
+
 /// Parity: a `tools/call` returns the same JSON body as the equivalent direct
 /// HTTP request, with identical auth (here: anonymous, auth disabled).
 #[tokio::test]
