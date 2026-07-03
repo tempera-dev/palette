@@ -64,3 +64,24 @@ instead (byte-identical output — useful where Docker Hub is unreachable). CI r
 `--check` so a handler change that isn't regenerated cannot merge, and `oasdiff`
 blocks breaking contract changes. On release, all packages bump to one
 synchronized version and publish together.
+
+## Publishing (zero-config, secret-gated)
+
+A `v*` tag triggers [`.github/workflows/release.yml`](../.github/workflows/release.yml),
+which regenerates every client at the tag version and runs
+[`scripts/publish-sdk.sh`](../scripts/publish-sdk.sh) per language. Each target
+**no-ops with a clear `SKIP` message when its registry secret is absent**, so the
+pipeline is wired now and starts publishing the moment tokens are added as repo
+secrets:
+
+| Language(s) | Registry | Secret(s) |
+| --- | --- | --- |
+| rust | crates.io | `CARGO_REGISTRY_TOKEN` |
+| python | PyPI | `PYPI_TOKEN` |
+| typescript | npm | `NPM_TOKEN` |
+| java, kotlin | Maven Central (OSSRH) | `OSSRH_USERNAME`, `OSSRH_PASSWORD` |
+| ruby | RubyGems | `RUBYGEMS_API_KEY` |
+| csharp | NuGet | `NUGET_API_KEY` |
+| go | pkg.go.dev | none (module proxy serves the git tag) |
+| php | Packagist | none required (serves the git tag); optional `PACKAGIST_USERNAME` + `PACKAGIST_API_TOKEN` to force reindex |
+| c, cpp | — | no central registry; shipped as source + release tarballs |

@@ -74,6 +74,41 @@ case "$target" in
     [ -n "${OSSRH_USERNAME:-}" ] || skip OSSRH_USERNAME
     (cd sdks/clients/java && mvn --batch-mode versions:set -DnewVersion="$version" -DgenerateBackupPoms=false && mvn --batch-mode deploy -DskipTests)
     ;;
+  ruby)
+    [ -n "${RUBYGEMS_API_KEY:-}" ] || skip RUBYGEMS_API_KEY
+    # The gem version is stamped at generation time (gemVersion -> version.rb,
+    # see regen-sdks.sh). Write the API key narrowly and remove it on exit.
+    ( umask 077 && mkdir -p ~/.gem && printf -- '---\n:rubygems_api_key: %s\n' "$RUBYGEMS_API_KEY" > ~/.gem/credentials )
+    trap 'rm -f ~/.gem/credentials' EXIT
+    (cd sdks/clients/ruby && gem build beater_client.gemspec -o beater_client.gem && gem push beater_client.gem)
+    ;;
+  php)
+    # Packagist serves from the git tag (like Go): pushing v${version} makes it
+    # available. If a Packagist API user/token is wired, ping the update hook so
+    # the new tag is indexed immediately; otherwise no-op with a clear message.
+    if [ -n "${PACKAGIST_USERNAME:-}" ] && [ -n "${PACKAGIST_API_TOKEN:-}" ]; then
+      curl -fsS -XPOST -H'content-type:application/json' \
+        "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_API_TOKEN}" \
+        -d'{"repository":{"url":"https://github.com/jadenfix/beater"}}' >/dev/null
+      echo "php: pinged Packagist update hook for tag v${version}"
+    else
+      echo "php: tag v${version} pushed; Packagist serves sdks/clients/php from the tag (set PACKAGIST_USERNAME/PACKAGIST_API_TOKEN to force reindex)"
+    fi
+    ;;
+  csharp)
+    [ -n "${NUGET_API_KEY:-}" ] || skip NUGET_API_KEY
+    # The package version is stamped at generation time (packageVersion, see
+    # regen-sdks.sh). Pack the generated client and push the produced .nupkg.
+    (cd sdks/clients/csharp && dotnet pack -c Release src/Beater.Client/Beater.Client.csproj -o ./nupkg)
+    dotnet nuget push "sdks/clients/csharp/nupkg/"*.nupkg \
+      --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+    ;;
+  kotlin)
+    # Kotlin publishes to Maven Central via the same OSSRH credentials as Java.
+    # The artifact version is stamped at generation time (artifactVersion).
+    [ -n "${OSSRH_USERNAME:-}" ] || skip OSSRH_USERNAME
+    (cd sdks/clients/kotlin && gradle --no-daemon --console=plain publish)
+    ;;
   *)
     echo "Unknown target: $target" >&2; exit 1 ;;
 esac

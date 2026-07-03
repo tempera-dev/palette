@@ -35,7 +35,7 @@ fi
 VERSION="${BEATER_SDK_VERSION:-}"
 version_props=()
 if [[ -n "$VERSION" ]]; then
-  version_props=(--additional-properties "packageVersion=$VERSION,artifactVersion=$VERSION,npmVersion=$VERSION")
+  version_props=(--additional-properties "packageVersion=$VERSION,artifactVersion=$VERSION,npmVersion=$VERSION,gemVersion=$VERSION")
 fi
 
 echo "==> Regenerating OpenAPI spec from beater-api handlers"
