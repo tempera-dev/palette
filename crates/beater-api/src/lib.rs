@@ -111,6 +111,20 @@ pub enum AuthMode {
     Required,
 }
 
+/// Whether `authorize()` enforces role-based access control on mutating routes.
+///
+/// Disabled by default so that authentication (`AuthMode`, #127) and RBAC remain
+/// independent opt-ins: enabling RBAC is additive and never weakens
+/// auth-required-by-default. When `Required`, a mutating route additionally
+/// consults the caller's `RoleBinding`s (via the metadata store) and returns
+/// `403` unless one grants the permission named by the route's `ApiScope`
+/// (§20.7 #5.2). Read-only routes are never gated by RBAC.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RbacMode {
+    Disabled,
+    Required,
+}
+
 #[derive(Clone)]
 pub struct ApiState {
     ingest: IngestService,
@@ -126,6 +140,7 @@ pub struct ApiState {
     calibrations: Option<Arc<dyn CalibrationStore>>,
     alerts: Arc<AlertEngine>,
     auth_mode: AuthMode,
+    rbac_mode: RbacMode,
     api_keys: Option<Arc<dyn ApiKeyStore>>,
     provider_secrets: Option<Arc<dyn ProviderSecretStore>>,
     /// Beater-owned policy gate for connector execution. The connector provider
@@ -178,6 +193,7 @@ impl ApiState {
             calibrations: None,
             alerts: Arc::new(AlertEngine::new()),
             auth_mode: AuthMode::Disabled,
+            rbac_mode: RbacMode::Disabled,
             api_keys: None,
             provider_secrets: None,
             connector_tool_policy: ConnectorToolPolicy::default(),
@@ -248,6 +264,18 @@ impl ApiState {
     pub fn require_auth(mut self, api_keys: Arc<dyn ApiKeyStore>) -> Self {
         self.auth_mode = AuthMode::Required;
         self.api_keys = Some(api_keys);
+        self
+    }
+
+    /// Enforce role-based access control on mutating routes (§20.7 #5.2). Once
+    /// enabled, `authorize()` consults the caller's `RoleBinding`s in the
+    /// metadata store on every mutating (write/admin) route and returns `403`
+    /// unless a binding grants the permission named by the route's `ApiScope`.
+    /// Read-only routes are unaffected. RBAC is orthogonal to authentication;
+    /// callers must still `require_auth` for RBAC enforcement to run (RBAC is a
+    /// no-op when auth is disabled, since there is no authenticated principal).
+    pub fn require_rbac(mut self) -> Self {
+        self.rbac_mode = RbacMode::Required;
         self
     }
 
@@ -356,6 +384,10 @@ impl ApiState {
 
     fn auth_required(&self) -> bool {
         self.auth_mode == AuthMode::Required
+    }
+
+    fn rbac_required(&self) -> bool {
+        self.rbac_mode == RbacMode::Required
     }
 }
 
@@ -4799,6 +4831,68 @@ async fn authorize_query_scope(
     .await
 }
 
+/// Whether a route guarded by `scope` mutates state and therefore requires an
+/// RBAC permission grant. Enumerated exhaustively so that adding an `ApiScope`
+/// forces an explicit read/write decision here. `PiiUnmask` is a sensitive read
+/// (already a distinct scope, §20.7) rather than a mutation and stays read-only.
+fn scope_is_mutating(scope: ApiScope) -> bool {
+    match scope {
+        ApiScope::TraceWrite
+        | ApiScope::DatasetWrite
+        | ApiScope::ScenarioWrite
+        | ApiScope::EvalRun
+        | ApiScope::Admin => true,
+        ApiScope::TraceRead | ApiScope::ScenarioRead | ApiScope::PiiUnmask => false,
+    }
+}
+
+/// Consult the caller's `RoleBinding`s and enforce the permission a mutating
+/// route requires (§20.7 #5.2). This is the subject-level access check — does
+/// the caller's role permit mutation — and is orthogonal to the object-level
+/// scope checks already performed by `verify_api_key`/OAuth claims.
+///
+/// A no-op unless RBAC is enabled *and* the route is mutating, so read-only
+/// routes and RBAC-disabled deployments are unchanged. When it applies, the
+/// principal must hold a `RoleBinding` — project-scoped or tenant-wide — whose
+/// permissions grant the route's scope (by its `as_str()` name) or the `"*"`
+/// wildcard (an owner). Otherwise the request is denied with `403`.
+async fn enforce_rbac(
+    state: &ApiState,
+    tenant_id: &TenantId,
+    project_id: &ProjectId,
+    principal_id: &str,
+    required_scope: ApiScope,
+) -> Result<(), ApiError> {
+    if !state.rbac_required() || !scope_is_mutating(required_scope) {
+        return Ok(());
+    }
+    let permission = required_scope.as_str();
+    let mut bindings = state
+        .metadata
+        .list_role_bindings(
+            tenant_id.clone(),
+            Some(project_id.clone()),
+            principal_id.to_string(),
+        )
+        .await?;
+    bindings.extend(
+        state
+            .metadata
+            .list_role_bindings(tenant_id.clone(), None, principal_id.to_string())
+            .await?,
+    );
+    let granted = bindings.iter().any(|binding| {
+        binding.permissions.contains(permission) || binding.permissions.contains("*")
+    });
+    if granted {
+        Ok(())
+    } else {
+        Err(ApiError::forbidden(format!(
+            "principal is not granted permission {permission} for this route"
+        )))
+    }
+}
+
 async fn authorize(
     state: &ApiState,
     headers: &HeaderMap,
@@ -4817,6 +4911,7 @@ async fn authorize(
     if secret.starts_with("bao_") {
         if let Some(oauth) = state.oauth.as_ref() {
             return authorize_oauth(
+                state,
                 oauth.as_ref(),
                 secret,
                 tenant_id,
@@ -4845,6 +4940,14 @@ async fn authorize(
         required_scope,
     )
     .map_err(auth_failure)?;
+    enforce_rbac(
+        state,
+        tenant_id,
+        project_id,
+        record.api_key_id.as_str(),
+        required_scope,
+    )
+    .await?;
     api_keys
         .touch_last_used(record.api_key_id.clone(), Utc::now())
         .await?;
@@ -4867,6 +4970,7 @@ async fn authorize(
 /// OAuth scopes (which use the same names as [`ApiScope::as_str`]) onto the
 /// required scope. `admin` satisfies any scope.
 async fn authorize_oauth(
+    state: &ApiState,
     oauth: &dyn OAuthStore,
     secret: &str,
     tenant_id: &TenantId,
@@ -4894,6 +4998,14 @@ async fn authorize_oauth(
             required_scope.as_str()
         )));
     }
+    enforce_rbac(
+        state,
+        tenant_id,
+        project_id,
+        claims.user_id.as_str(),
+        required_scope,
+    )
+    .await?;
     Ok(AuthDecision {
         context: AuthContext {
             api_key_id: None,
