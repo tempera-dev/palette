@@ -440,6 +440,17 @@ pub struct CanonicalSpan {
     #[schema(value_type = serde_json::Value)]
     pub unmapped_attrs: Value,
     pub raw_ref: ArtifactRef,
+    /// Inverse-probability sampling weight, `1 / keep_probability`, stamped on the
+    /// tail-sampling keep path (§1 #9, §9): `1.0` for a span kept with certainty
+    /// (errors/slow/high-cost/policy keeps) and `1/p` for a span kept under
+    /// probabilistic routine-traffic sampling at rate `p`. Roll-ups over a
+    /// tail-sampled population must weight by this (Horvitz-Thompson) or be
+    /// labelled biased — never silently averaged. `None` on spans ingested before
+    /// the keep path recorded weights (or by clients that don't); such a span
+    /// cannot be de-biased, so any roll-up including it is flagged
+    /// [`RollupWeighting::BiasedUnweighted`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampling_weight: Option<f64>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -504,6 +515,10 @@ pub struct SpanSummary {
     pub model: Option<ModelRef>,
     pub cost: Option<Money>,
     pub release_id: Option<String>,
+    /// Carried through from [`CanonicalSpan::sampling_weight`] so run/analytics
+    /// roll-ups can produce Horvitz-Thompson weighted estimates (§1 #9).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampling_weight: Option<f64>,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
@@ -673,6 +688,7 @@ pub fn span_summary(span: CanonicalSpan) -> SpanSummary {
         model: span.model,
         cost: span.cost,
         release_id,
+        sampling_weight: span.sampling_weight,
     }
 }
 
@@ -691,6 +707,101 @@ pub fn span_release_id(span: &CanonicalSpan) -> Option<String> {
             .and_then(serde_json::Value::as_str)
             .map(ToString::to_string)
     })
+}
+
+/// Whether a roll-up estimate honestly accounts for tail-sampling bias (§1 #9,
+/// #146). A tail-sampled population is deliberately non-representative, so an
+/// unweighted mean is a biased estimator of the population it was drawn from.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum RollupWeighting {
+    /// Every observation carried a positive `sampling_weight`, so the estimate is
+    /// the inverse-probability (Horvitz-Thompson) weighted mean
+    /// `μ̂ = (Σ wᵢyᵢ)/(Σ wᵢ)` — unbiased for the tail-sampled population.
+    HorvitzThompson,
+    /// At least one observation lacked a `sampling_weight`, so the sample cannot
+    /// be de-biased; the estimate is a plain unweighted mean and MUST be
+    /// presented as biased, never as an unbiased population figure.
+    BiasedUnweighted,
+}
+
+/// A population-mean roll-up paired with the honesty label saying whether it is
+/// inverse-probability weighted or a biased unweighted average (§1 #9). The label
+/// travels with the value so a caller can never silently render a tail-sampled
+/// average as if it were unbiased.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct RollupEstimate {
+    pub value: f64,
+    pub weighting: RollupWeighting,
+}
+
+impl RollupEstimate {
+    /// `true` when this is a plain unweighted mean over a possibly
+    /// non-representative (tail-sampled) sample and must be shown as biased.
+    pub fn is_biased(self) -> bool {
+        matches!(self.weighting, RollupWeighting::BiasedUnweighted)
+    }
+}
+
+/// Horvitz-Thompson weighted population mean over `(value, sampling_weight)`
+/// observations — the implementation of the §1 #9 honesty invariant.
+///
+/// * If **every** observation carries a positive `sampling_weight`, returns the
+///   inverse-probability weighted mean `μ̂ = (Σ wᵢyᵢ)/(Σ wᵢ)`, flagged
+///   [`RollupWeighting::HorvitzThompson`] — the unbiased estimator for the
+///   tail-sampled population.
+/// * If **any** observation lacks a weight (`None`, or a non-positive one), the
+///   sample cannot be de-biased, so it falls back to the plain mean
+///   `(Σ yᵢ)/n` and flags the result [`RollupWeighting::BiasedUnweighted`] — a
+///   tail-sampled roll-up is never silently presented as unbiased.
+///
+/// Returns `None` for empty input (no mean is defined).
+pub fn weighted_population_mean(observations: &[(f64, Option<f64>)]) -> Option<RollupEstimate> {
+    if observations.is_empty() {
+        return None;
+    }
+    let all_weighted = observations
+        .iter()
+        .all(|(_, weight)| weight.is_some_and(|w| w > 0.0));
+    if all_weighted {
+        let mut weighted_sum = 0.0_f64;
+        let mut weight_total = 0.0_f64;
+        for (value, weight) in observations {
+            // Every weight is `Some(> 0)` under the guard above; `unwrap_or` keeps
+            // this panic-free without asserting it.
+            let w = weight.unwrap_or(0.0);
+            weighted_sum += w * value;
+            weight_total += w;
+        }
+        if weight_total > 0.0 {
+            return Some(RollupEstimate {
+                value: weighted_sum / weight_total,
+                weighting: RollupWeighting::HorvitzThompson,
+            });
+        }
+    }
+    let sum: f64 = observations.iter().map(|(value, _)| *value).sum();
+    Some(RollupEstimate {
+        value: sum / observations.len() as f64,
+        weighting: RollupWeighting::BiasedUnweighted,
+    })
+}
+
+/// Rolls up per-span cost (USD micros) over kept spans as a Horvitz-Thompson
+/// weighted population mean (§1 #9). Spans without a recorded cost are excluded;
+/// if any *costed* span lacks a `sampling_weight` the result is flagged
+/// [`RollupWeighting::BiasedUnweighted`]. Returns `None` when no span carries a
+/// cost.
+pub fn weighted_mean_span_cost_micros(spans: &[SpanSummary]) -> Option<RollupEstimate> {
+    let observations: Vec<(f64, Option<f64>)> = spans
+        .iter()
+        .filter_map(|span| {
+            span.cost
+                .as_ref()
+                .map(|cost| (cost.amount_micros as f64, span.sampling_weight))
+        })
+        .collect();
+    weighted_population_mean(&observations)
 }
 
 pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary> {
