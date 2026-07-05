@@ -5664,6 +5664,10 @@ mod tests {
         use std::collections::BTreeSet;
 
         let store = SqliteOAuthStore::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        // RBAC is disabled on this default state, so `authorize_oauth`'s RBAC
+        // step is a no-op and these assertions isolate the token/scope checks.
+        let (ingest, traces, _fixture_tempdir) = api_state_fixture();
+        let state = ApiState::new(ingest, traces);
         let now = Utc::now();
         let tenant = TenantId::new("acme").unwrap_or_else(|err| panic!("{err}"));
         let project = ProjectId::new("proj").unwrap_or_else(|err| panic!("{err}"));
@@ -5682,6 +5686,7 @@ mod tests {
 
         // Correct tenant + scope -> authorized; identity is OAuth (no api_key_id).
         let decision = authorize_oauth(
+            &state,
             &store,
             &issued.access_token,
             &tenant,
@@ -5697,6 +5702,7 @@ mod tests {
         // Wrong tenant -> forbidden (token is bound to its tenant scope).
         let other = TenantId::new("evil").unwrap_or_else(|err| panic!("{err}"));
         assert!(authorize_oauth(
+            &state,
             &store,
             &issued.access_token,
             &other,
@@ -5709,6 +5715,7 @@ mod tests {
 
         // Missing scope -> forbidden.
         assert!(authorize_oauth(
+            &state,
             &store,
             &issued.access_token,
             &tenant,
@@ -5721,6 +5728,7 @@ mod tests {
 
         // Garbage token -> rejected.
         assert!(authorize_oauth(
+            &state,
             &store,
             "bao_nope_nope",
             &tenant,
