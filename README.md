@@ -187,4 +187,4 @@ Beater is part of the [ecosystem](https://github.com/jadenfix/ecosystem) — a f
 
 - ingesting traces from sibling runtimes ([beater.js](https://github.com/jadenfix/beater.js) runs, [tempo](https://github.com/jadenfix/tempo) browsing sessions, [beaterOS](https://github.com/jadenfix/beaterOS) receipts) over the same OTEL boundary
 - gating changes across the whole family with its eval/CI loop
-- a shared canonical span format with [ReplayKit](https://github.com/jadenfix/ReplayKit) for deep fork/patch/replay debugging (roadmap)
+- absorbing the deep fork/patch/replay-affected/diff debugging loop directly into beater, per the [beater × ReplayKit integration design](https://github.com/jadenfix/ecosystem/blob/main/docs/beater-replaykit-integration.md)
