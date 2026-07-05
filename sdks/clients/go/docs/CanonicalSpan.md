@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **ParentSpanId** | Pointer to **string** |  | [optional] 
 **ProjectId** | **string** |  | 
 **RawRef** | [**ArtifactRef**](ArtifactRef.md) |  | 
+**SamplingWeight** | Pointer to **NullableFloat64** | Inverse-probability sampling weight, &#x60;1 / keep_probability&#x60;, stamped on the tail-sampling keep path (§1 #9, §9): &#x60;1.0&#x60; for a span kept with certainty (errors/slow/high-cost/policy keeps) and &#x60;1/p&#x60; for a span kept under probabilistic routine-traffic sampling at rate &#x60;p&#x60;. Roll-ups over a tail-sampled population must weight by this (Horvitz-Thompson) or be labelled biased — never silently averaged. &#x60;None&#x60; on spans ingested before the keep path recorded weights (or by clients that don&#39;t); such a span cannot be de-biased, so any roll-up including it is flagged [&#x60;RollupWeighting::BiasedUnweighted&#x60;]. | [optional] 
 **SchemaVersion** | **int32** |  | 
 **Seq** | **int64** |  | 
 **SpanId** | **string** |  | 
@@ -386,6 +387,41 @@ and a boolean to check if the value has been set.
 SetRawRef sets RawRef field to given value.
 
 
+### GetSamplingWeight
+
+`func (o *CanonicalSpan) GetSamplingWeight() float64`
+
+GetSamplingWeight returns the SamplingWeight field if non-nil, zero value otherwise.
+
+### GetSamplingWeightOk
+
+`func (o *CanonicalSpan) GetSamplingWeightOk() (*float64, bool)`
+
+GetSamplingWeightOk returns a tuple with the SamplingWeight field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSamplingWeight
+
+`func (o *CanonicalSpan) SetSamplingWeight(v float64)`
+
+SetSamplingWeight sets SamplingWeight field to given value.
+
+### HasSamplingWeight
+
+`func (o *CanonicalSpan) HasSamplingWeight() bool`
+
+HasSamplingWeight returns a boolean if a field has been set.
+
+### SetSamplingWeightNil
+
+`func (o *CanonicalSpan) SetSamplingWeightNil(b bool)`
+
+ SetSamplingWeightNil sets the value for SamplingWeight to be an explicit nil
+
+### UnsetSamplingWeight
+`func (o *CanonicalSpan) UnsetSamplingWeight()`
+
+UnsetSamplingWeight ensures that no value is present for SamplingWeight, not even an explicit nil
 ### GetSchemaVersion
 
 `func (o *CanonicalSpan) GetSchemaVersion() int32`

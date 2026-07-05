@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
 from beater_client.models.artifact_ref import ArtifactRef
 from beater_client.models.model_ref import ModelRef
@@ -46,6 +46,7 @@ class CanonicalSpan(BaseModel):
     parent_span_id: Optional[StrictStr] = None
     project_id: StrictStr
     raw_ref: ArtifactRef
+    sampling_weight: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Inverse-probability sampling weight, `1 / keep_probability`, stamped on the tail-sampling keep path (§1 #9, §9): `1.0` for a span kept with certainty (errors/slow/high-cost/policy keeps) and `1/p` for a span kept under probabilistic routine-traffic sampling at rate `p`. Roll-ups over a tail-sampled population must weight by this (Horvitz-Thompson) or be labelled biased — never silently averaged. `None` on spans ingested before the keep path recorded weights (or by clients that don't); such a span cannot be de-biased, so any roll-up including it is flagged [`RollupWeighting::BiasedUnweighted`].")
     schema_version: Annotated[int, Field(strict=True, ge=0)]
     seq: Annotated[int, Field(strict=True, ge=0)]
     span_id: StrictStr
@@ -55,7 +56,7 @@ class CanonicalSpan(BaseModel):
     tokens: Optional[TokenCounts] = None
     trace_id: StrictStr
     unmapped_attrs: Optional[Any]
-    __properties: ClassVar[List[str]] = ["attributes", "cost", "end_time", "environment_id", "input_ref", "kind", "model", "name", "normalizer_version", "output_ref", "parent_span_id", "project_id", "raw_ref", "schema_version", "seq", "span_id", "start_time", "status", "tenant_id", "tokens", "trace_id", "unmapped_attrs"]
+    __properties: ClassVar[List[str]] = ["attributes", "cost", "end_time", "environment_id", "input_ref", "kind", "model", "name", "normalizer_version", "output_ref", "parent_span_id", "project_id", "raw_ref", "sampling_weight", "schema_version", "seq", "span_id", "start_time", "status", "tenant_id", "tokens", "trace_id", "unmapped_attrs"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -139,6 +140,11 @@ class CanonicalSpan(BaseModel):
         if self.output_ref is None and "output_ref" in self.model_fields_set:
             _dict['output_ref'] = None
 
+        # set to None if sampling_weight (nullable) is None
+        # and model_fields_set contains the field
+        if self.sampling_weight is None and "sampling_weight" in self.model_fields_set:
+            _dict['sampling_weight'] = None
+
         # set to None if tokens (nullable) is None
         # and model_fields_set contains the field
         if self.tokens is None and "tokens" in self.model_fields_set:
@@ -174,6 +180,7 @@ class CanonicalSpan(BaseModel):
             "parent_span_id": obj.get("parent_span_id"),
             "project_id": obj.get("project_id"),
             "raw_ref": ArtifactRef.from_dict(obj["raw_ref"]) if obj.get("raw_ref") is not None else None,
+            "sampling_weight": obj.get("sampling_weight"),
             "schema_version": obj.get("schema_version"),
             "seq": obj.get("seq"),
             "span_id": obj.get("span_id"),

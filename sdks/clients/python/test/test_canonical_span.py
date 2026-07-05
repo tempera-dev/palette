@@ -72,6 +72,7 @@ class TestCanonicalSpan(unittest.TestCase):
                     sha256 = '', 
                     size_bytes = 0, 
                     uri = '', ),
+                sampling_weight = 1.337,
                 schema_version = 0,
                 seq = 0,
                 span_id = '',

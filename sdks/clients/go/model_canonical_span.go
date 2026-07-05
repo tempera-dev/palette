@@ -36,6 +36,8 @@ type CanonicalSpan struct {
 	ParentSpanId *string `json:"parent_span_id,omitempty"`
 	ProjectId string `json:"project_id"`
 	RawRef ArtifactRef `json:"raw_ref"`
+	// Inverse-probability sampling weight, `1 / keep_probability`, stamped on the tail-sampling keep path (§1 #9, §9): `1.0` for a span kept with certainty (errors/slow/high-cost/policy keeps) and `1/p` for a span kept under probabilistic routine-traffic sampling at rate `p`. Roll-ups over a tail-sampled population must weight by this (Horvitz-Thompson) or be labelled biased — never silently averaged. `None` on spans ingested before the keep path recorded weights (or by clients that don't); such a span cannot be de-biased, so any roll-up including it is flagged [`RollupWeighting::BiasedUnweighted`].
+	SamplingWeight NullableFloat64 `json:"sampling_weight,omitempty"`
 	SchemaVersion int32 `json:"schema_version"`
 	Seq int64 `json:"seq"`
 	SpanId string `json:"span_id"`
@@ -491,6 +493,48 @@ func (o *CanonicalSpan) SetRawRef(v ArtifactRef) {
 	o.RawRef = v
 }
 
+// GetSamplingWeight returns the SamplingWeight field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CanonicalSpan) GetSamplingWeight() float64 {
+	if o == nil || IsNil(o.SamplingWeight.Get()) {
+		var ret float64
+		return ret
+	}
+	return *o.SamplingWeight.Get()
+}
+
+// GetSamplingWeightOk returns a tuple with the SamplingWeight field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CanonicalSpan) GetSamplingWeightOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SamplingWeight.Get(), o.SamplingWeight.IsSet()
+}
+
+// HasSamplingWeight returns a boolean if a field has been set.
+func (o *CanonicalSpan) HasSamplingWeight() bool {
+	if o != nil && o.SamplingWeight.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSamplingWeight gets a reference to the given NullableFloat64 and assigns it to the SamplingWeight field.
+func (o *CanonicalSpan) SetSamplingWeight(v float64) {
+	o.SamplingWeight.Set(&v)
+}
+// SetSamplingWeightNil sets the value for SamplingWeight to be an explicit nil
+func (o *CanonicalSpan) SetSamplingWeightNil() {
+	o.SamplingWeight.Set(nil)
+}
+
+// UnsetSamplingWeight ensures that no value is present for SamplingWeight, not even an explicit nil
+func (o *CanonicalSpan) UnsetSamplingWeight() {
+	o.SamplingWeight.Unset()
+}
+
 // GetSchemaVersion returns the SchemaVersion field value
 func (o *CanonicalSpan) GetSchemaVersion() int32 {
 	if o == nil {
@@ -762,6 +806,9 @@ func (o CanonicalSpan) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["project_id"] = o.ProjectId
 	toSerialize["raw_ref"] = o.RawRef
+	if o.SamplingWeight.IsSet() {
+		toSerialize["sampling_weight"] = o.SamplingWeight.Get()
+	}
 	toSerialize["schema_version"] = o.SchemaVersion
 	toSerialize["seq"] = o.Seq
 	toSerialize["span_id"] = o.SpanId

@@ -58,6 +58,7 @@ import ai.beater.client.ApiClient;
   CanonicalSpan.JSON_PROPERTY_PARENT_SPAN_ID,
   CanonicalSpan.JSON_PROPERTY_PROJECT_ID,
   CanonicalSpan.JSON_PROPERTY_RAW_REF,
+  CanonicalSpan.JSON_PROPERTY_SAMPLING_WEIGHT,
   CanonicalSpan.JSON_PROPERTY_SCHEMA_VERSION,
   CanonicalSpan.JSON_PROPERTY_SEQ,
   CanonicalSpan.JSON_PROPERTY_SPAN_ID,
@@ -116,6 +117,9 @@ public class CanonicalSpan {
   public static final String JSON_PROPERTY_RAW_REF = "raw_ref";
   @javax.annotation.Nonnull
   private ArtifactRef rawRef;
+
+  public static final String JSON_PROPERTY_SAMPLING_WEIGHT = "sampling_weight";
+  private JsonNullable<Double> samplingWeight = JsonNullable.<Double>undefined();
 
   public static final String JSON_PROPERTY_SCHEMA_VERSION = "schema_version";
   @javax.annotation.Nonnull
@@ -515,6 +519,38 @@ public class CanonicalSpan {
   }
 
 
+  public CanonicalSpan samplingWeight(@javax.annotation.Nullable Double samplingWeight) {
+    this.samplingWeight = JsonNullable.<Double>of(samplingWeight);
+    return this;
+  }
+
+  /**
+   * Inverse-probability sampling weight, &#x60;1 / keep_probability&#x60;, stamped on the tail-sampling keep path (§1 #9, §9): &#x60;1.0&#x60; for a span kept with certainty (errors/slow/high-cost/policy keeps) and &#x60;1/p&#x60; for a span kept under probabilistic routine-traffic sampling at rate &#x60;p&#x60;. Roll-ups over a tail-sampled population must weight by this (Horvitz-Thompson) or be labelled biased — never silently averaged. &#x60;None&#x60; on spans ingested before the keep path recorded weights (or by clients that don&#39;t); such a span cannot be de-biased, so any roll-up including it is flagged [&#x60;RollupWeighting::BiasedUnweighted&#x60;].
+   * @return samplingWeight
+   */
+  @javax.annotation.Nullable
+  @JsonIgnore
+  public Double getSamplingWeight() {
+        return samplingWeight.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_SAMPLING_WEIGHT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Double> getSamplingWeight_JsonNullable() {
+    return samplingWeight;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_SAMPLING_WEIGHT)
+  public void setSamplingWeight_JsonNullable(JsonNullable<Double> samplingWeight) {
+    this.samplingWeight = samplingWeight;
+  }
+
+  public void setSamplingWeight(@javax.annotation.Nullable Double samplingWeight) {
+    this.samplingWeight = JsonNullable.<Double>of(samplingWeight);
+  }
+
+
   public CanonicalSpan schemaVersion(@javax.annotation.Nonnull Integer schemaVersion) {
     this.schemaVersion = schemaVersion;
     return this;
@@ -766,6 +802,7 @@ public class CanonicalSpan {
         Objects.equals(this.parentSpanId, canonicalSpan.parentSpanId) &&
         Objects.equals(this.projectId, canonicalSpan.projectId) &&
         Objects.equals(this.rawRef, canonicalSpan.rawRef) &&
+        equalsNullable(this.samplingWeight, canonicalSpan.samplingWeight) &&
         Objects.equals(this.schemaVersion, canonicalSpan.schemaVersion) &&
         Objects.equals(this.seq, canonicalSpan.seq) &&
         Objects.equals(this.spanId, canonicalSpan.spanId) &&
@@ -783,7 +820,7 @@ public class CanonicalSpan {
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributes, hashCodeNullable(cost), hashCodeNullable(endTime), environmentId, hashCodeNullable(inputRef), kind, hashCodeNullable(model), name, normalizerVersion, hashCodeNullable(outputRef), parentSpanId, projectId, rawRef, schemaVersion, seq, spanId, startTime, status, tenantId, hashCodeNullable(tokens), traceId, unmappedAttrs);
+    return Objects.hash(attributes, hashCodeNullable(cost), hashCodeNullable(endTime), environmentId, hashCodeNullable(inputRef), kind, hashCodeNullable(model), name, normalizerVersion, hashCodeNullable(outputRef), parentSpanId, projectId, rawRef, hashCodeNullable(samplingWeight), schemaVersion, seq, spanId, startTime, status, tenantId, hashCodeNullable(tokens), traceId, unmappedAttrs);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -810,6 +847,7 @@ public class CanonicalSpan {
     sb.append("    parentSpanId: ").append(toIndentedString(parentSpanId)).append("\n");
     sb.append("    projectId: ").append(toIndentedString(projectId)).append("\n");
     sb.append("    rawRef: ").append(toIndentedString(rawRef)).append("\n");
+    sb.append("    samplingWeight: ").append(toIndentedString(samplingWeight)).append("\n");
     sb.append("    schemaVersion: ").append(toIndentedString(schemaVersion)).append("\n");
     sb.append("    seq: ").append(toIndentedString(seq)).append("\n");
     sb.append("    spanId: ").append(toIndentedString(spanId)).append("\n");
@@ -933,6 +971,11 @@ public class CanonicalSpan {
     // add `raw_ref` to the URL query string
     if (getRawRef() != null) {
       joiner.add(getRawRef().toUrlQueryString(prefix + "raw_ref" + suffix));
+    }
+
+    // add `sampling_weight` to the URL query string
+    if (getSamplingWeight() != null) {
+      joiner.add(String.format("%ssampling_weight%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSamplingWeight()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `schema_version` to the URL query string

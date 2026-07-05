@@ -154,6 +154,14 @@ class CanonicalSpanTest {
     }
 
     /**
+     * Test the property 'samplingWeight'
+     */
+    @Test
+    void samplingWeightTest() {
+        // TODO: test samplingWeight
+    }
+
+    /**
      * Test the property 'schemaVersion'
      */
     @Test

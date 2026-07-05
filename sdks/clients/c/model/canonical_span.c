@@ -19,6 +19,7 @@ static canonical_span_t *canonical_span_create_internal(
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
+    double sampling_weight,
     int schema_version,
     long seq,
     char *span_id,
@@ -46,6 +47,7 @@ static canonical_span_t *canonical_span_create_internal(
     canonical_span_local_var->parent_span_id = parent_span_id;
     canonical_span_local_var->project_id = project_id;
     canonical_span_local_var->raw_ref = raw_ref;
+    canonical_span_local_var->sampling_weight = sampling_weight;
     canonical_span_local_var->schema_version = schema_version;
     canonical_span_local_var->seq = seq;
     canonical_span_local_var->span_id = span_id;
@@ -74,6 +76,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
+    double sampling_weight,
     int schema_version,
     long seq,
     char *span_id,
@@ -98,6 +101,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
         parent_span_id,
         project_id,
         raw_ref,
+        sampling_weight,
         schema_version,
         seq,
         span_id,
@@ -348,6 +352,14 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     cJSON_AddItemToObject(item, "raw_ref", raw_ref_local_JSON);
     if(item->child == NULL) {
     goto fail;
+    }
+
+
+    // canonical_span->sampling_weight
+    if(canonical_span->sampling_weight) {
+    if(cJSON_AddNumberToObject(item, "sampling_weight", canonical_span->sampling_weight) == NULL) {
+    goto fail; //Numeric
+    }
     }
 
 
@@ -657,6 +669,18 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     
     raw_ref_local_nonprim = artifact_ref_parseFromJSON(raw_ref); //nonprimitive
 
+    // canonical_span->sampling_weight
+    cJSON *sampling_weight = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "sampling_weight");
+    if (cJSON_IsNull(sampling_weight)) {
+        sampling_weight = NULL;
+    }
+    if (sampling_weight) { 
+    if(!cJSON_IsNumber(sampling_weight))
+    {
+    goto end; //Numeric
+    }
+    }
+
     // canonical_span->schema_version
     cJSON *schema_version = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "schema_version");
     if (cJSON_IsNull(schema_version)) {
@@ -795,6 +819,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
         parent_span_id && !cJSON_IsNull(parent_span_id) ? strdup(parent_span_id->valuestring) : NULL,
         strdup(project_id->valuestring),
         raw_ref_local_nonprim,
+        sampling_weight ? sampling_weight->valuedouble : 0,
         schema_version->valuedouble,
         seq->valuedouble,
         strdup(span_id->valuestring),

@@ -134,6 +134,20 @@ export interface CanonicalSpan {
      */
     rawRef: ArtifactRef;
     /**
+     * Inverse-probability sampling weight, `1 / keep_probability`, stamped on the
+     * tail-sampling keep path (§1 #9, §9): `1.0` for a span kept with certainty
+     * (errors/slow/high-cost/policy keeps) and `1/p` for a span kept under
+     * probabilistic routine-traffic sampling at rate `p`. Roll-ups over a
+     * tail-sampled population must weight by this (Horvitz-Thompson) or be
+     * labelled biased — never silently averaged. `None` on spans ingested before
+     * the keep path recorded weights (or by clients that don't); such a span
+     * cannot be de-biased, so any roll-up including it is flagged
+     * [`RollupWeighting::BiasedUnweighted`].
+     * @type {number}
+     * @memberof CanonicalSpan
+     */
+    samplingWeight?: number | null;
+    /**
      * 
      * @type {number}
      * @memberof CanonicalSpan
@@ -236,6 +250,7 @@ export function CanonicalSpanFromJSONTyped(json: any, ignoreDiscriminator: boole
         'parentSpanId': json['parent_span_id'] == null ? undefined : json['parent_span_id'],
         'projectId': json['project_id'],
         'rawRef': ArtifactRefFromJSON(json['raw_ref']),
+        'samplingWeight': json['sampling_weight'] == null ? undefined : json['sampling_weight'],
         'schemaVersion': json['schema_version'],
         'seq': json['seq'],
         'spanId': json['span_id'],
@@ -272,6 +287,7 @@ export function CanonicalSpanToJSONTyped(value?: CanonicalSpan | null, ignoreDis
         'parent_span_id': value['parentSpanId'],
         'project_id': value['projectId'],
         'raw_ref': ArtifactRefToJSON(value['rawRef']),
+        'sampling_weight': value['samplingWeight'],
         'schema_version': value['schemaVersion'],
         'seq': value['seq'],
         'span_id': value['spanId'],

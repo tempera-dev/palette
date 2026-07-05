@@ -40,6 +40,9 @@ pub struct CanonicalSpan {
     pub project_id: String,
     #[serde(rename = "raw_ref")]
     pub raw_ref: Box<models::ArtifactRef>,
+    /// Inverse-probability sampling weight, `1 / keep_probability`, stamped on the tail-sampling keep path (§1 #9, §9): `1.0` for a span kept with certainty (errors/slow/high-cost/policy keeps) and `1/p` for a span kept under probabilistic routine-traffic sampling at rate `p`. Roll-ups over a tail-sampled population must weight by this (Horvitz-Thompson) or be labelled biased — never silently averaged. `None` on spans ingested before the keep path recorded weights (or by clients that don't); such a span cannot be de-biased, so any roll-up including it is flagged [`RollupWeighting::BiasedUnweighted`].
+    #[serde(rename = "sampling_weight", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub sampling_weight: Option<Option<f64>>,
     #[serde(rename = "schema_version")]
     pub schema_version: i32,
     #[serde(rename = "seq")]
@@ -76,6 +79,7 @@ impl CanonicalSpan {
             parent_span_id: None,
             project_id,
             raw_ref: Box::new(raw_ref),
+            sampling_weight: None,
             schema_version,
             seq,
             span_id,

@@ -46,6 +46,7 @@ canonical_span_t* instantiate_canonical_span(int include_optional) {
       "0",
        // false, not to have infinite recursion
       instantiate_artifact_ref(0),
+      1.337,
       0,
       0,
       "0",
@@ -72,6 +73,7 @@ canonical_span_t* instantiate_canonical_span(int include_optional) {
       "0",
       "0",
       NULL,
+      1.337,
       0,
       0,
       "0",

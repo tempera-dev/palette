@@ -40,6 +40,8 @@ CanonicalSpan::CanonicalSpan()
     m_Project_id = utility::conversions::to_string_t("");
     m_Project_idIsSet = false;
     m_Raw_refIsSet = false;
+    m_Sampling_weight = 0.0;
+    m_Sampling_weightIsSet = false;
     m_Schema_version = 0;
     m_Schema_versionIsSet = false;
     m_Seq = 0L;
@@ -133,6 +135,11 @@ web::json::value CanonicalSpan::toJson() const
     {   
         
         val[utility::conversions::to_string_t(U("raw_ref"))] = ModelBase::toJson(m_Raw_ref);
+    }
+    if(m_Sampling_weightIsSet)
+    {   
+        
+        val[utility::conversions::to_string_t(U("sampling_weight"))] = ModelBase::toJson(m_Sampling_weight);
     }
     if(m_Schema_versionIsSet)
     {   
@@ -329,6 +336,17 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
+    if(val.has_field(utility::conversions::to_string_t(U("sampling_weight"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sampling_weight")));
+        if(!fieldValue.is_null())
+        {
+            double refVal_setSamplingWeight;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setSamplingWeight);
+            setSamplingWeight(refVal_setSamplingWeight);
+            
+        }
+    }
     if(val.has_field(utility::conversions::to_string_t(U("schema_version"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("schema_version")));
@@ -490,6 +508,10 @@ void CanonicalSpan::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("raw_ref")), m_Raw_ref));
     }
+    if(m_Sampling_weightIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sampling_weight")), m_Sampling_weight));
+    }
     if(m_Schema_versionIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("schema_version")), m_Schema_version));
@@ -614,6 +636,12 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         std::shared_ptr<ArtifactRef> refVal_setRawRef;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("raw_ref"))), refVal_setRawRef );
         setRawRef(refVal_setRawRef);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sampling_weight"))))
+    {
+        double refVal_setSamplingWeight;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sampling_weight"))), refVal_setSamplingWeight );
+        setSamplingWeight(refVal_setSamplingWeight);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("schema_version"))))
     {
@@ -945,6 +973,26 @@ bool CanonicalSpan::rawRefIsSet() const
 void CanonicalSpan::unsetRaw_ref()
 {
     m_Raw_refIsSet = false;
+}
+double CanonicalSpan::getSamplingWeight() const
+{
+    return m_Sampling_weight;
+}
+
+void CanonicalSpan::setSamplingWeight(double value)
+{
+    m_Sampling_weight = value;
+    m_Sampling_weightIsSet = true;
+}
+
+bool CanonicalSpan::samplingWeightIsSet() const
+{
+    return m_Sampling_weightIsSet;
+}
+
+void CanonicalSpan::unsetSampling_weight()
+{
+    m_Sampling_weightIsSet = false;
 }
 int32_t CanonicalSpan::getSchemaVersion() const
 {

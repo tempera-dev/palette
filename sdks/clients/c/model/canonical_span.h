@@ -38,6 +38,7 @@ typedef struct canonical_span_t {
     char *parent_span_id; // string
     char *project_id; // string
     struct artifact_ref_t *raw_ref; //model
+    double sampling_weight; //numeric
     int schema_version; //numeric
     long seq; //numeric
     char *span_id; // string
@@ -65,6 +66,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     char *parent_span_id,
     char *project_id,
     artifact_ref_t *raw_ref,
+    double sampling_weight,
     int schema_version,
     long seq,
     char *span_id,

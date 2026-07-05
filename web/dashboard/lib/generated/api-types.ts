@@ -1108,6 +1108,19 @@ export interface components {
             parent_span_id?: null | components["schemas"]["SpanId"];
             project_id: components["schemas"]["ProjectId"];
             raw_ref: components["schemas"]["ArtifactRef"];
+            /**
+             * Format: double
+             * @description Inverse-probability sampling weight, `1 / keep_probability`, stamped on the
+             *     tail-sampling keep path (§1 #9, §9): `1.0` for a span kept with certainty
+             *     (errors/slow/high-cost/policy keeps) and `1/p` for a span kept under
+             *     probabilistic routine-traffic sampling at rate `p`. Roll-ups over a
+             *     tail-sampled population must weight by this (Horvitz-Thompson) or be
+             *     labelled biased — never silently averaged. `None` on spans ingested before
+             *     the keep path recorded weights (or by clients that don't); such a span
+             *     cannot be de-biased, so any roll-up including it is flagged
+             *     [`RollupWeighting::BiasedUnweighted`].
+             */
+            sampling_weight?: number | null;
             /** Format: int32 */
             schema_version: number;
             /** Format: int64 */
