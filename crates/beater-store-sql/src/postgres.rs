@@ -281,7 +281,11 @@ impl TraceStore for PgTraceStore {
                     '[]'::jsonb
                   ) AS models,
                   COALESCE(
-                    jsonb_agg(jsonb_build_array(cost_currency, cost_micros, sampling_weight)
+                    jsonb_agg(jsonb_build_array(
+                        cost_currency,
+                        cost_micros,
+                        span_json -> 'sampling_weight'
+                    )
                       ORDER BY start_time DESC, seq ASC)
                       FILTER (WHERE cost_currency IS NOT NULL AND cost_micros IS NOT NULL),
                     '[]'::jsonb
