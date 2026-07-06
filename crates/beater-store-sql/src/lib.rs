@@ -8,7 +8,7 @@ use beater_schema::{
     RunFilter, RunSummary, SpanFilter, SpanStatus, SpanSummary, TraceView, WriteAck,
 };
 use beater_store::{
-    finalize_run_aggregates, lock_poisoned, EnvironmentMetadata, MetadataStore,
+    finalize_run_aggregates, lock_poisoned, CostObservation, EnvironmentMetadata, MetadataStore,
     OrganizationMetadata, ProjectMetadata, QuotaDecision, QuotaLimiter, QuotaReservationRequest,
     RoleBinding, RunAggregateRow, StoreError, StoreResult, TraceStore,
 };
@@ -971,7 +971,8 @@ impl TraceStore for SqliteTraceStore {
                   json_group_array(
                     json_array(
                       json_extract(span_json, '$.cost.currency'),
-                      json_extract(span_json, '$.cost.amount_micros')
+                      json_extract(span_json, '$.cost.amount_micros'),
+                      json_extract(span_json, '$.sampling_weight')
                     ) ORDER BY start_time DESC, seq ASC
                   ) FILTER (
                     WHERE json_extract(span_json, '$.cost.currency') IS NOT NULL
@@ -1343,6 +1344,7 @@ fn decode_run_aggregate(columns: RunAggregateColumns) -> StoreResult<RunAggregat
         ended_at,
         models: parse_models(&parse_json_array(&columns.models)?)?,
         costs: parse_costs(&parse_json_array(&columns.costs)?)?,
+        cost_observations: parse_cost_observations(&parse_json_array(&columns.costs)?)?,
         release_ids: parse_release_ids(&parse_json_array(&columns.release_ids)?)?,
         kinds: parse_kinds(&parse_json_array(&columns.kinds)?)?,
     })
@@ -1403,6 +1405,31 @@ fn parse_costs(value: &serde_json::Value) -> StoreResult<Vec<Money>> {
             let currency =
                 serde_json::from_value(currency.clone()).map_err(StoreError::integrity)?;
             Ok(Money::new(amount_micros, currency))
+        })
+        .collect()
+}
+
+fn parse_cost_observations(value: &serde_json::Value) -> StoreResult<Vec<CostObservation>> {
+    json_array_items(value)?
+        .iter()
+        .map(|entry| {
+            let currency = entry
+                .get(0)
+                .ok_or_else(|| StoreError::integrity("cost tuple missing currency"))?;
+            let amount_micros = entry
+                .get(1)
+                .and_then(serde_json::Value::as_i64)
+                .ok_or_else(|| StoreError::integrity("cost tuple missing amount_micros"))?;
+            let sampling_weight = match entry.get(2) {
+                Some(serde_json::Value::Number(number)) => number.as_f64(),
+                _ => None,
+            };
+            let currency =
+                serde_json::from_value(currency.clone()).map_err(StoreError::integrity)?;
+            Ok(CostObservation {
+                cost: Money::new(amount_micros, currency),
+                sampling_weight,
+            })
         })
         .collect()
 }

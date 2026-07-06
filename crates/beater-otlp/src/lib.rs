@@ -196,6 +196,7 @@ fn native_to_span_draft(request: NativeIngestRequest) -> CanonicalSpanDraft {
         input: request.input,
         output: request.output,
         attributes: request.attributes,
+        sampling_weight: request.sampling_weight,
     }
 }
 
@@ -418,6 +419,7 @@ fn convert_span(
             lower_hex(&span.trace_id),
             lower_hex(&span.span_id)
         ))?),
+        sampling_weight: None,
         auth_context: None,
     })
 }

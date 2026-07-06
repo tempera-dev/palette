@@ -496,7 +496,14 @@ pub struct RunSummary {
     #[schema(value_type = Option<String>, format = DateTime)]
     pub ended_at: Option<Timestamp>,
     pub duration_ms: Option<i64>,
+    /// Legacy raw sum of kept span costs. For tail-sampled populations, prefer
+    /// `total_cost_estimate_micros`, which carries the weighting label.
     pub total_cost: Option<Money>,
+    /// Population cost estimate over costed spans, in USD micros, with the
+    /// weighting label required to distinguish inverse-probability weighted
+    /// roll-ups from biased unweighted fallbacks.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub total_cost_estimate_micros: Option<RollupEstimate>,
     pub models: Vec<ModelRef>,
     pub release_ids: Vec<String>,
 }
@@ -826,6 +833,7 @@ pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary
             }
             run.status = aggregate_run_status(&run.status, &span.status);
             run.total_cost = merge_cost(run.total_cost.clone(), span.cost.clone());
+            push_cost_observation(&mut dedup.cost_observations, span);
             push_model(&mut run.models, &mut dedup.models, span.model.as_ref());
             push_release_id(
                 &mut run.release_ids,
@@ -849,6 +857,7 @@ pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary
                 &mut run_dedup.release_ids,
                 span.release_id.as_deref(),
             );
+            push_cost_observation(&mut run_dedup.cost_observations, span);
             index.insert(key, runs.len());
             runs.push(RunSummary {
                 tenant_id: tenant.clone(),
@@ -861,11 +870,16 @@ pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary
                 ended_at,
                 duration_ms: run_duration_ms(span.started_at, ended_at),
                 total_cost: span.cost.clone(),
+                total_cost_estimate_micros: None,
                 models,
                 release_ids,
             });
             dedup.push(run_dedup);
         }
+    }
+
+    for (run, dedup) in runs.iter_mut().zip(&dedup) {
+        run.total_cost_estimate_micros = weighted_population_mean(&dedup.cost_observations);
     }
 
     runs.sort_by(|left, right| right.started_at.cmp(&left.started_at));
@@ -876,6 +890,13 @@ pub fn roll_up_runs(tenant: TenantId, spans: Vec<SpanSummary>) -> Vec<RunSummary
 struct RunDedup<'a> {
     models: HashSet<(&'a str, &'a str)>,
     release_ids: HashSet<&'a str>,
+    cost_observations: Vec<(f64, Option<f64>)>,
+}
+
+fn push_cost_observation(observations: &mut Vec<(f64, Option<f64>)>, span: &SpanSummary) {
+    if let Some(cost) = &span.cost {
+        observations.push((cost.amount_micros as f64, span.sampling_weight));
+    }
 }
 
 pub fn filter_run_summaries(
@@ -1332,6 +1353,26 @@ mod tests {
     fn empty_rollup_has_no_estimate() {
         assert!(weighted_mean_span_cost_micros(&[]).is_none());
         assert!(weighted_population_mean(&[]).is_none());
+    }
+
+    #[test]
+    fn run_summary_carries_labeled_weighted_cost_estimate() {
+        let mut spans = vec![cost_span(100, Some(10.0)), cost_span(1000, Some(1.0))];
+        spans[0].span_id = SpanId::new("routine").unwrap_or_else(|err| panic!("{err}"));
+        spans[1].span_id = SpanId::new("certain").unwrap_or_else(|err| panic!("{err}"));
+
+        let runs = roll_up_runs(
+            TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
+            spans,
+        );
+        assert_eq!(runs.len(), 1);
+        let run = &runs[0];
+        assert_eq!(run.total_cost, Some(Money::usd_micros(1100)));
+        let estimate = run
+            .total_cost_estimate_micros
+            .unwrap_or_else(|| panic!("estimate defined"));
+        assert_eq!(estimate.weighting, RollupWeighting::HorvitzThompson);
+        assert!((estimate.value - 2000.0 / 11.0).abs() < 1e-9);
     }
 
     fn fixture_span(sampling_weight: Option<f64>) -> CanonicalSpan {

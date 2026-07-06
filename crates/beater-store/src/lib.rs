@@ -4,8 +4,9 @@ use beater_core::{
     Timestamp, TraceId,
 };
 use beater_schema::{
-    filter_run_summaries, roll_up_runs, AgentSpanKind, ArtifactRef, CanonicalTraceBatch, ModelRef,
-    RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanStatus, SpanSummary, TraceView, WriteAck,
+    filter_run_summaries, roll_up_runs, weighted_population_mean, AgentSpanKind, ArtifactRef,
+    CanonicalTraceBatch, ModelRef, RawEnvelope, RollupEstimate, RunFilter, RunSummary, SpanFilter,
+    SpanStatus, SpanSummary, TraceView, WriteAck,
 };
 use std::collections::BTreeSet;
 use std::sync::Arc;
@@ -189,12 +190,22 @@ pub struct RunAggregateRow {
     /// Per-span costs in `start_time DESC, seq ASC` order (spans without a cost
     /// omitted); folded in [`finalize_run_aggregates`].
     pub costs: Vec<Money>,
+    /// Per-cost sampling observations in the same semantic order as `costs`.
+    /// The optional inverse-probability sampling weight must stay attached to
+    /// the costed span so run summaries can label weighted estimates honestly.
+    pub cost_observations: Vec<CostObservation>,
     /// Per-span release ids in `start_time DESC, seq ASC` order (spans without a
     /// release id omitted); de-duplicated in [`finalize_run_aggregates`].
     pub release_ids: Vec<String>,
     /// The distinct span kinds present in the run, used for the `RunFilter::kind`
     /// roll-up filter.
     pub kinds: BTreeSet<AgentSpanKind>,
+}
+
+#[derive(Clone, Debug)]
+pub struct CostObservation {
+    pub cost: Money,
+    pub sampling_weight: Option<f64>,
 }
 
 /// Folds backend-aggregated [`RunAggregateRow`]s into the same
@@ -231,6 +242,7 @@ pub fn finalize_run_aggregates(
             ended_at: row.ended_at,
             duration_ms: run_duration_ms(row.started_at, row.ended_at),
             total_cost: fold_run_cost(&row.costs),
+            total_cost_estimate_micros: estimate_run_cost_micros(&row.cost_observations),
             models: dedup_models(&row.models),
             release_ids: dedup_release_ids(&row.release_ids),
         })
@@ -274,6 +286,19 @@ fn fold_run_cost(costs: &[Money]) -> Option<Money> {
         };
     }
     total
+}
+
+fn estimate_run_cost_micros(observations: &[CostObservation]) -> Option<RollupEstimate> {
+    let observations = observations
+        .iter()
+        .map(|observation| {
+            (
+                observation.cost.amount_micros as f64,
+                observation.sampling_weight,
+            )
+        })
+        .collect::<Vec<_>>();
+    weighted_population_mean(&observations)
 }
 
 /// Mirrors `beater_schema`'s private `push_model`: distinct models by
@@ -535,6 +560,15 @@ mod tests {
                     ended_at,
                     models: members.iter().filter_map(|s| s.model.clone()).collect(),
                     costs: members.iter().filter_map(|s| s.cost.clone()).collect(),
+                    cost_observations: members
+                        .iter()
+                        .filter_map(|s| {
+                            s.cost.clone().map(|cost| CostObservation {
+                                cost,
+                                sampling_weight: s.sampling_weight,
+                            })
+                        })
+                        .collect(),
                     release_ids: members
                         .iter()
                         .filter_map(|s| s.release_id.clone())

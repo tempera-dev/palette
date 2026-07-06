@@ -2066,6 +2066,7 @@ fn ingest_outage_request(
         redaction_class: RedactionClass::Internal,
         idempotency_key: Some(IdempotencyKey::new(idempotency_key)?),
         auth_context: None,
+        sampling_weight: None,
     })
 }
 
@@ -3504,6 +3505,7 @@ async fn record_rsi_round_trace(
             redaction_class: RedactionClass::Internal,
             idempotency_key: None,
             auth_context: None,
+            sampling_weight: None,
         })
         .await
         .context("ingest rsi round root span")?;
@@ -3561,6 +3563,7 @@ async fn record_rsi_round_trace(
             redaction_class: RedactionClass::Internal,
             idempotency_key: None,
             auth_context: None,
+            sampling_weight: None,
         })
         .await
         .context("ingest rsi round proposal span")?;
@@ -3623,6 +3626,7 @@ async fn record_rsi_round_trace(
                 redaction_class: RedactionClass::Internal,
                 idempotency_key: None,
                 auth_context: None,
+                sampling_weight: None,
             })
             .await
             .context("ingest rsi round evaluator span")?;

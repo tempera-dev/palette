@@ -29,7 +29,8 @@ use beater_schema::{
     RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanStatus, SpanSummary, TraceView, WriteAck,
 };
 use beater_store::{
-    finalize_run_aggregates, page_vec, RunAggregateRow, StoreError, StoreResult, TraceStore,
+    finalize_run_aggregates, page_vec, CostObservation, RunAggregateRow, StoreError, StoreResult,
+    TraceStore,
 };
 use std::collections::BTreeSet;
 use std::sync::Arc;
@@ -488,7 +489,7 @@ impl TraceStore for ClickHouseTraceStore {
                toString(min(start_time)) AS started_at, \
                toString(max(end_time)) AS ended_at, \
                groupArrayIf((toString(start_time), toString(seq), model_provider, model_name), isNotNull(model_provider) AND isNotNull(model_name)) AS models, \
-               groupArrayIf((toString(start_time), toString(seq), cost_currency, toString(cost_micros)), isNotNull(cost_currency) AND isNotNull(cost_micros)) AS costs, \
+               groupArrayIf((toString(start_time), toString(seq), cost_currency, toString(cost_micros), toString(JSONExtractFloat(span_json, 'sampling_weight'))), isNotNull(cost_currency) AND isNotNull(cost_micros)) AS costs, \
                groupArrayIf((toString(start_time), toString(seq), release_id), isNotNull(release_id)) AS release_ids, \
                groupUniqArray(kind) AS kinds \
              FROM beater.spans \
@@ -689,6 +690,7 @@ fn run_aggregate_from_json(row: &serde_json::Value) -> StoreResult<RunAggregateR
     }
 
     let mut costs = Vec::new();
+    let mut cost_observations = Vec::new();
     for occurrence in ordered_occurrences(row, "costs")? {
         let currency = serde_json::from_value(serde_json::Value::String(
             occurrence_field(&occurrence, 2)?.to_string(),
@@ -699,7 +701,17 @@ fn run_aggregate_from_json(row: &serde_json::Value) -> StoreResult<RunAggregateR
             .map_err(|err| {
                 StoreError::integrity(format!("cost_micros is not an integer: {err}"))
             })?;
-        costs.push(Money::new(amount_micros, currency));
+        let cost = Money::new(amount_micros, currency);
+        let sampling_weight = occurrence
+            .fields
+            .get(4)
+            .and_then(|value| value.parse::<f64>().ok())
+            .filter(|value| *value > 0.0);
+        cost_observations.push(CostObservation {
+            cost: cost.clone(),
+            sampling_weight,
+        });
+        costs.push(cost);
     }
 
     let mut release_ids = Vec::new();
@@ -732,6 +744,7 @@ fn run_aggregate_from_json(row: &serde_json::Value) -> StoreResult<RunAggregateR
         ended_at,
         models,
         costs,
+        cost_observations,
         release_ids,
         kinds,
     })

@@ -313,6 +313,7 @@ fn build_root_draft(
         input: trace.get("input").cloned(),
         output: trace.get("output").cloned(),
         attributes,
+        sampling_weight: None,
     }
 }
 
@@ -426,6 +427,7 @@ fn build_observation_draft(
         input: obs.get("input").cloned(),
         output: obs.get("output").cloned(),
         attributes,
+        sampling_weight: None,
     })
 }
 

@@ -371,6 +371,7 @@ fn mapping_span(
         input,
         output,
         attributes,
+        sampling_weight: None,
     })
 }
 
@@ -1168,7 +1169,7 @@ impl IngestService {
             attributes: canonical_attrs,
             unmapped_attrs,
             raw_ref,
-            sampling_weight: None,
+            sampling_weight: sanitize_sampling_weight(request.sampling_weight),
         };
         let trace_ids = BTreeSet::from([span.trace_id.clone()]);
         Ok(PreparedTraceBatch {
@@ -1290,7 +1291,7 @@ impl IngestService {
                 attributes: canonical_attrs,
                 unmapped_attrs,
                 raw_ref: raw_ref.clone(),
-                sampling_weight: None,
+                sampling_weight: sanitize_sampling_weight(draft.sampling_weight),
             };
             trace_ids.insert(span.trace_id.clone());
             spans.push(span);
@@ -1744,6 +1745,8 @@ pub struct NativeIngestRequest {
     pub redaction_class: RedactionClass,
     pub idempotency_key: Option<IdempotencyKey>,
     pub auth_context: Option<AuthContext>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampling_weight: Option<f64>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -1778,6 +1781,12 @@ pub struct CanonicalSpanDraft {
     pub input: Option<Value>,
     pub output: Option<Value>,
     pub attributes: CanonicalAttrs,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampling_weight: Option<f64>,
+}
+
+fn sanitize_sampling_weight(value: Option<f64>) -> Option<f64> {
+    value.filter(|weight| weight.is_finite() && *weight > 0.0)
 }
 
 #[derive(
@@ -2185,6 +2194,7 @@ pub async fn smoke_trace(service: &IngestService) -> Result<IngestOutcome, Inges
             redaction_class: RedactionClass::Internal,
             idempotency_key: None,
             auth_context: None,
+            sampling_weight: None,
         })
         .await
 }
@@ -2349,7 +2359,8 @@ mod tests {
             bus.clone(),
             IngestPolicy::default(),
         );
-        let request = fixture_request();
+        let mut request = fixture_request();
+        request.sampling_weight = Some(10.0);
 
         let outcome = service
             .ingest_native(request.clone())
@@ -2366,6 +2377,7 @@ mod tests {
         assert_eq!(trace.spans.len(), 1);
         assert_eq!(trace.spans[0].normalizer_version, "beater-native-v1");
         assert_eq!(trace.spans[0].schema_version, CANONICAL_SCHEMA_VERSION);
+        assert_eq!(trace.spans[0].sampling_weight, Some(10.0));
         assert_eq!(
             trace.spans[0].unmapped_attrs["dropped_attributes"],
             json!({})
@@ -2473,6 +2485,7 @@ mod tests {
                     input: Some(json!("hello")),
                     output: Some(json!("world")),
                     attributes: BTreeMap::from([("otel.span.kind".to_string(), json!("CLIENT"))]),
+                    sampling_weight: None,
                 }],
             })
             .await
@@ -2693,6 +2706,7 @@ mod tests {
                     input: None,
                     output: None,
                     attributes: BTreeMap::new(),
+                    sampling_weight: None,
                 }],
             })
             .await
@@ -4215,6 +4229,7 @@ mod tests {
             redaction_class: RedactionClass::Sensitive,
             idempotency_key: None,
             auth_context: None,
+            sampling_weight: None,
         }
     }
 

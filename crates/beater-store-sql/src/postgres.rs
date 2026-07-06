@@ -22,7 +22,8 @@ use beater_schema::{
     RawEnvelope, RunFilter, RunSummary, SpanFilter, SpanStatus, SpanSummary, TraceView, WriteAck,
 };
 use beater_store::{
-    finalize_run_aggregates, page_vec, RunAggregateRow, StoreError, StoreResult, TraceStore,
+    finalize_run_aggregates, page_vec, CostObservation, RunAggregateRow, StoreError, StoreResult,
+    TraceStore,
 };
 use std::collections::BTreeSet;
 use std::sync::Arc;
@@ -280,7 +281,7 @@ impl TraceStore for PgTraceStore {
                     '[]'::jsonb
                   ) AS models,
                   COALESCE(
-                    jsonb_agg(jsonb_build_array(cost_currency, cost_micros)
+                    jsonb_agg(jsonb_build_array(cost_currency, cost_micros, sampling_weight)
                       ORDER BY start_time DESC, seq ASC)
                       FILTER (WHERE cost_currency IS NOT NULL AND cost_micros IS NOT NULL),
                     '[]'::jsonb
@@ -387,6 +388,7 @@ fn run_aggregate_from_row(row: &tokio_postgres::Row) -> StoreResult<RunAggregate
         ended_at,
         models: parse_models(&models)?,
         costs: parse_costs(&costs)?,
+        cost_observations: parse_cost_observations(&costs)?,
         release_ids: parse_release_ids(&release_ids)?,
         kinds: parse_kinds(&kinds)?,
     })
@@ -428,6 +430,31 @@ fn parse_costs(value: &serde_json::Value) -> StoreResult<Vec<Money>> {
             let currency =
                 serde_json::from_value(currency.clone()).map_err(StoreError::integrity)?;
             Ok(Money::new(amount_micros, currency))
+        })
+        .collect()
+}
+
+fn parse_cost_observations(value: &serde_json::Value) -> StoreResult<Vec<CostObservation>> {
+    jsonb_array(value)?
+        .iter()
+        .map(|entry| {
+            let currency = entry
+                .get(0)
+                .ok_or_else(|| StoreError::integrity("cost tuple missing currency"))?;
+            let amount_micros = entry
+                .get(1)
+                .and_then(serde_json::Value::as_i64)
+                .ok_or_else(|| StoreError::integrity("cost tuple missing amount_micros"))?;
+            let sampling_weight = match entry.get(2) {
+                Some(serde_json::Value::Number(number)) => number.as_f64(),
+                _ => None,
+            };
+            let currency =
+                serde_json::from_value(currency.clone()).map_err(StoreError::integrity)?;
+            Ok(CostObservation {
+                cost: Money::new(amount_micros, currency),
+                sampling_weight,
+            })
         })
         .collect()
 }

@@ -3405,5 +3405,6 @@ fn native_request() -> NativeIngestRequest {
         redaction_class: RedactionClass::Internal,
         idempotency_key: None,
         auth_context: None,
+        sampling_weight: None,
     }
 }

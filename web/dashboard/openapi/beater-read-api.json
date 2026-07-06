@@ -11131,6 +11131,13 @@
           "redaction_class": {
             "$ref": "#/components/schemas/RedactionClass"
           },
+          "sampling_weight": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double"
+          },
           "scope": {
             "$ref": "#/components/schemas/TenantScope"
           },
@@ -11304,7 +11311,19 @@
                       "type": "null"
                     },
                     {
-                      "$ref": "#/components/schemas/Money"
+                      "$ref": "#/components/schemas/Money",
+                      "description": "Legacy raw sum of kept span costs. For tail-sampled populations, prefer\n`total_cost_estimate_micros`, which carries the weighting label."
+                    }
+                  ]
+                },
+                "total_cost_estimate_micros": {
+                  "oneOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RollupEstimate",
+                      "description": "Population cost estimate over costed spans, in USD micros, with the\nweighting label required to distinguish inverse-probability weighted\nroll-ups from biased unweighted fallbacks."
                     }
                   ]
                 },
@@ -11949,6 +11968,31 @@
           }
         }
       },
+      "RollupEstimate": {
+        "type": "object",
+        "description": "A population-mean roll-up paired with the honesty label saying whether it is\ninverse-probability weighted or a biased unweighted average (§1 #9). The label\ntravels with the value so a caller can never silently render a tail-sampled\naverage as if it were unbiased.",
+        "required": [
+          "value",
+          "weighting"
+        ],
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "weighting": {
+            "$ref": "#/components/schemas/RollupWeighting"
+          }
+        }
+      },
+      "RollupWeighting": {
+        "type": "string",
+        "description": "Whether a roll-up estimate honestly accounts for tail-sampling bias (§1 #9,\n#146). A tail-sampled population is deliberately non-representative, so an\nunweighted mean is a biased estimator of the population it was drawn from.",
+        "enum": [
+          "horvitz_thompson",
+          "biased_unweighted"
+        ]
+      },
       "RunCalibrationHttpRequest": {
         "type": "object",
         "properties": {
@@ -12262,7 +12306,19 @@
                 "type": "null"
               },
               {
-                "$ref": "#/components/schemas/Money"
+                "$ref": "#/components/schemas/Money",
+                "description": "Legacy raw sum of kept span costs. For tail-sampled populations, prefer\n`total_cost_estimate_micros`, which carries the weighting label."
+              }
+            ]
+          },
+          "total_cost_estimate_micros": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/RollupEstimate",
+                "description": "Population cost estimate over costed spans, in USD micros, with the\nweighting label required to distinguish inverse-probability weighted\nroll-ups from biased unweighted fallbacks."
               }
             ]
           },

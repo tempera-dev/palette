@@ -606,6 +606,7 @@ impl DraftBuilder {
             input: self.input,
             output: self.output,
             attributes: self.attributes,
+            sampling_weight: None,
         }
     }
 }

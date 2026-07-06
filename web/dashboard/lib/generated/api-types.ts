@@ -1704,6 +1704,8 @@ export interface components {
             output?: unknown;
             parent_span_id?: null | components["schemas"]["SpanId"];
             redaction_class: components["schemas"]["RedactionClass"];
+            /** Format: double */
+            sampling_weight?: number | null;
             scope: components["schemas"]["TenantScope"];
             /** Format: int64 */
             seq: number;
@@ -1746,6 +1748,7 @@ export interface components {
                 status: components["schemas"]["SpanStatus"];
                 tenant_id: components["schemas"]["TenantId"];
                 total_cost?: null | components["schemas"]["Money"];
+                total_cost_estimate_micros?: null | components["schemas"]["RollupEstimate"];
                 trace_id: components["schemas"]["TraceId"];
             }[];
             next_cursor?: string | null;
@@ -1920,6 +1923,24 @@ export interface components {
             /** Format: date-time */
             rotated_at: string;
         };
+        /**
+         * @description A population-mean roll-up paired with the honesty label saying whether it is
+         *     inverse-probability weighted or a biased unweighted average (§1 #9). The label
+         *     travels with the value so a caller can never silently render a tail-sampled
+         *     average as if it were unbiased.
+         */
+        RollupEstimate: {
+            /** Format: double */
+            value: number;
+            weighting: components["schemas"]["RollupWeighting"];
+        };
+        /**
+         * @description Whether a roll-up estimate honestly accounts for tail-sampling bias (§1 #9,
+         *     #146). A tail-sampled population is deliberately non-representative, so an
+         *     unweighted mean is a biased estimator of the population it was drawn from.
+         * @enum {string}
+         */
+        RollupWeighting: "horvitz_thompson" | "biased_unweighted";
         RunCalibrationHttpRequest: {
             eval_report_id?: string | null;
             evaluator_version_id?: string | null;
@@ -1993,6 +2014,7 @@ export interface components {
             status: components["schemas"]["SpanStatus"];
             tenant_id: components["schemas"]["TenantId"];
             total_cost?: null | components["schemas"]["Money"];
+            total_cost_estimate_micros?: null | components["schemas"]["RollupEstimate"];
             trace_id: components["schemas"]["TraceId"];
         };
         SamplingDecision: {
