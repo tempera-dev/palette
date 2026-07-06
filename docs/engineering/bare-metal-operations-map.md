@@ -51,6 +51,7 @@ Goal: turn hardware-readiness execution into a repeatable, policy-driven workflo
 - `scripts/bare-metal-dispatch.sh`
 - `scripts/bare-metal-run-matrix.sh`
 - `scripts/bare-metal-lane-fleet.sh`
+- `scripts/bare-metal-slice-plan.py`
 - `scripts/check-bare-metal-readiness.py`
 - `scripts/bare-metal-optimize-env.sh`
 - `scripts/bare-metal-assert-report.py`
@@ -80,6 +81,8 @@ bash scripts/bare-metal-run-matrix.sh --list --json
 bash scripts/bare-metal-run-matrix.sh --dry-run --target gpu-lean
 bash scripts/bare-metal-lane-fleet.sh --all --workers 3 --dry-run
 bash scripts/bare-metal-lane-fleet.sh --target cuda --target cuda-pro
+bash scripts/bare-metal-slice-plan.py --shards 4 --shard-id 0
+bash scripts/bare-metal-slice-plan.py --shards 4 --shard-id 1
 bash scripts/bare-metal-pr-helper.sh --title "[bare-metal] lane hardening" --reviewer reviewer-handle --dry-run
 python3 scripts/bare-metal-dispatch.sh --validate-only
 python3 scripts/bare-metal-dispatch.sh --dry-run --target-index 2
