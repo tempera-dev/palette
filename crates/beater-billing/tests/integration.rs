@@ -9,8 +9,9 @@ use beater_billing::stripe::{
     EventApplication, StripeClient, StripeError, StripeSync, StripeUsagePush,
 };
 use beater_billing::{
-    AdjustmentKind, Billing, BillingAdjustment, BillingPeriod, BillingScope, InvoiceStatus, Plan,
-    PlanId, PlanTier, SqliteBillingStore, Subscription, SubscriptionStatus,
+    AdjustmentKind, AetherSettlementApplication, AetherSettlementReceipt, Billing,
+    BillingAdjustment, BillingPeriod, BillingScope, Invoice, InvoiceStatus, Plan, PlanId, PlanTier,
+    SqliteBillingStore, Subscription, SubscriptionStatus,
 };
 use beater_core::{Money, OrganizationId, ProjectId, TenantId};
 use beater_security::sign_webhook;
@@ -41,6 +42,29 @@ fn plan(id: &str, base: i64, included: u64, rate: i64) -> anyhow::Result<Plan> {
         base_price: Money::usd_micros(base),
         overage_rates: rates,
     })
+}
+
+fn aether_receipt(
+    org_id: OrganizationId,
+    period_key: String,
+    total: Money,
+) -> AetherSettlementReceipt {
+    AetherSettlementReceipt {
+        settlement_id: "set_e2e".to_string(),
+        payment_hash: "0x0831ce74c89358835be790d4a7794a2bb30cd7e5968bafb5cc99423ea5f25783"
+            .to_string(),
+        network: "base-mainnet".to_string(),
+        chain_id: 8453,
+        asset: "USDC".to_string(),
+        amount_minor_units: "11000".to_string(),
+        asset_decimals: 6,
+        settled_value: total,
+        invoice_idempotency_key: Invoice::idempotency_key_for(&org_id, &period_key),
+        period_key,
+        org_id,
+        verifier: "aether-indexer:v1".to_string(),
+        settled_at: Utc::now(),
+    }
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
@@ -288,5 +312,168 @@ async fn e2e_subscribe_rollup_finalize_push_and_webhook_exactly_once() -> anyhow
         .await?
         .ok_or_else(|| anyhow::anyhow!("invoice missing"))?;
     assert_eq!(paid.status, InvoiceStatus::Paid);
+    Ok(())
+}
+
+#[tokio::test]
+async fn aether_settlement_pays_finalized_invoice_exactly_once() -> anyhow::Result<()> {
+    let store = Arc::new(SqliteBillingStore::in_memory()?);
+    let usage = Arc::new(SqliteUsageLedger::in_memory()?);
+    store.put_plan(plan("pro", 10_000, 0, 0)?).await?;
+
+    let now = Utc::now();
+    let period = BillingPeriod::new(now - Duration::days(1), now + Duration::days(1))?;
+    store
+        .create_subscription(Subscription {
+            org_id: org()?,
+            plan_id: plan_id("pro")?,
+            status: SubscriptionStatus::Active,
+            period_start: period.start,
+            period_end: period.end,
+            version: 1,
+        })
+        .await?;
+
+    let billing = Billing::new(
+        store.clone() as Arc<dyn BillingStore>,
+        usage.clone() as Arc<dyn UsageLedgerStore>,
+    );
+    let scope = BillingScope {
+        org_id: org()?,
+        tenant_id: TenantId::new("tenant-aether").map_err(|e| anyhow::anyhow!(e.to_string()))?,
+        project_id: ProjectId::new("project-aether").map_err(|e| anyhow::anyhow!(e.to_string()))?,
+    };
+    let invoice = billing.roll_up_period(&scope, &period).await?;
+    let finalized = billing.finalize_invoice(&org()?, &period.key()).await?;
+    assert_eq!(finalized.status, InvoiceStatus::Finalized);
+
+    let receipt = aether_receipt(org()?, period.key(), invoice.total.clone());
+    let first = billing.apply_aether_settlement(receipt.clone()).await?;
+    let second = billing.apply_aether_settlement(receipt).await?;
+    assert_eq!(first, AetherSettlementApplication::Applied);
+    assert_eq!(second, AetherSettlementApplication::Duplicate);
+
+    let paid = store
+        .get_invoice(&org()?, &period.key())
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("invoice missing"))?;
+    assert_eq!(paid.status, InvoiceStatus::Paid);
+    let adjustments = store.list_adjustments(&org()?).await?;
+    let aether_adjustments = adjustments
+        .iter()
+        .filter(|a| a.kind == AdjustmentKind::AetherSettlement)
+        .count();
+    assert_eq!(aether_adjustments, 1);
+    Ok(())
+}
+
+#[tokio::test]
+async fn aether_settlement_rejects_underpayment_without_mutating_invoice() -> anyhow::Result<()> {
+    let store = Arc::new(SqliteBillingStore::in_memory()?);
+    let usage = Arc::new(SqliteUsageLedger::in_memory()?);
+    store.put_plan(plan("pro", 10_000, 0, 0)?).await?;
+
+    let now = Utc::now();
+    let period = BillingPeriod::new(now - Duration::days(1), now + Duration::days(1))?;
+    store
+        .create_subscription(Subscription {
+            org_id: org()?,
+            plan_id: plan_id("pro")?,
+            status: SubscriptionStatus::Active,
+            period_start: period.start,
+            period_end: period.end,
+            version: 1,
+        })
+        .await?;
+
+    let billing = Billing::new(
+        store.clone() as Arc<dyn BillingStore>,
+        usage.clone() as Arc<dyn UsageLedgerStore>,
+    );
+    let scope = BillingScope {
+        org_id: org()?,
+        tenant_id: TenantId::new("tenant-aether-underpay")
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?,
+        project_id: ProjectId::new("project-aether-underpay")
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?,
+    };
+    let invoice = billing.roll_up_period(&scope, &period).await?;
+    billing.finalize_invoice(&org()?, &period.key()).await?;
+
+    let mut receipt = aether_receipt(org()?, period.key(), Money::usd_micros(9_999));
+    receipt.amount_minor_units = "9999".to_string();
+    let err = match billing.apply_aether_settlement(receipt).await {
+        Ok(_) => anyhow::bail!("underpaid settlement must fail"),
+        Err(err) => err,
+    };
+    assert!(err.to_string().contains("below invoice total"));
+
+    let stored = store
+        .get_invoice(&org()?, &period.key())
+        .await?
+        .ok_or_else(|| anyhow::anyhow!("invoice missing"))?;
+    assert_eq!(stored.status, InvoiceStatus::Finalized);
+    assert_eq!(stored.total, invoice.total);
+    assert!(store.list_adjustments(&org()?).await?.is_empty());
+    Ok(())
+}
+
+#[tokio::test]
+async fn aether_settlement_rejects_duplicate_key_with_different_invoice_binding(
+) -> anyhow::Result<()> {
+    let store = Arc::new(SqliteBillingStore::in_memory()?);
+    let usage = Arc::new(SqliteUsageLedger::in_memory()?);
+    store.put_plan(plan("pro", 10_000, 0, 0)?).await?;
+
+    let now = Utc::now();
+    let period = BillingPeriod::new(now - Duration::days(1), now + Duration::days(1))?;
+    store
+        .create_subscription(Subscription {
+            org_id: org()?,
+            plan_id: plan_id("pro")?,
+            status: SubscriptionStatus::Active,
+            period_start: period.start,
+            period_end: period.end,
+            version: 1,
+        })
+        .await?;
+
+    let billing = Billing::new(
+        store.clone() as Arc<dyn BillingStore>,
+        usage.clone() as Arc<dyn UsageLedgerStore>,
+    );
+    let scope = BillingScope {
+        org_id: org()?,
+        tenant_id: TenantId::new("tenant-aether-binding")
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?,
+        project_id: ProjectId::new("project-aether-binding")
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?,
+    };
+    let invoice = billing.roll_up_period(&scope, &period).await?;
+    billing.finalize_invoice(&org()?, &period.key()).await?;
+
+    let receipt = aether_receipt(org()?, period.key(), invoice.total.clone());
+    assert_eq!(
+        billing.apply_aether_settlement(receipt.clone()).await?,
+        AetherSettlementApplication::Applied
+    );
+
+    let mut mismatched = receipt;
+    mismatched.period_key = "2099-01".to_string();
+    mismatched.invoice_idempotency_key = Invoice::idempotency_key_for(&org()?, "2099-01");
+    let err = match billing.apply_aether_settlement(mismatched).await {
+        Ok(_) => anyhow::bail!("mismatched duplicate settlement key must fail"),
+        Err(err) => err,
+    };
+    assert!(err.to_string().contains("different receipt binding"));
+
+    let adjustments = store.list_adjustments(&org()?).await?;
+    assert_eq!(
+        adjustments
+            .iter()
+            .filter(|a| a.kind == AdjustmentKind::AetherSettlement)
+            .count(),
+        1
+    );
     Ok(())
 }

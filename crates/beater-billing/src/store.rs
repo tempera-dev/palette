@@ -15,8 +15,8 @@
 //!   has a `UNIQUE` id so at-least-once delivery dedups to exactly-once.
 
 use crate::{
-    AdjustmentKind, BillingAdjustment, Invoice, InvoiceStatus, Plan, PlanId, Subscription,
-    SubscriptionStatus,
+    AdjustmentKind, AetherSettlementReceipt, BillingAdjustment, Invoice, InvoiceStatus, Plan,
+    PlanId, Subscription, SubscriptionStatus,
 };
 use async_trait::async_trait;
 use beater_core::OrganizationId;
@@ -93,6 +93,16 @@ pub trait BillingStore: Send + Sync {
         &self,
         org_id: &OrganizationId,
     ) -> StoreResult<Vec<BillingAdjustment>>;
+
+    // --- Aether settlement dedup / invoice payment --------------------------
+    /// Atomically record an Aether settlement receipt, mark its finalized invoice
+    /// paid, and append the corresponding immutable adjustment. Returns `false`
+    /// if the same settlement or payment hash was already recorded.
+    async fn apply_aether_settlement(
+        &self,
+        receipt: &AetherSettlementReceipt,
+        adjustment: &BillingAdjustment,
+    ) -> StoreResult<bool>;
 
     // --- Stripe event dedup / ordering --------------------------------------
     /// Record a Stripe event id (UNIQUE). Returns `true` if it was newly
@@ -176,6 +186,18 @@ impl SqliteBillingStore {
             );
             CREATE INDEX IF NOT EXISTS idx_billing_adjustments_org
                 ON billing_adjustments (org_id, created_at, adjustment_id);
+
+            CREATE TABLE IF NOT EXISTS billing_aether_settlements (
+                settlement_id TEXT NOT NULL PRIMARY KEY,
+                payment_hash TEXT NOT NULL UNIQUE,
+                org_id TEXT NOT NULL,
+                period_key TEXT NOT NULL,
+                invoice_idempotency_key TEXT NOT NULL,
+                settled_at TEXT NOT NULL,
+                receipt_json TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_billing_aether_settlements_invoice
+                ON billing_aether_settlements (org_id, period_key, settlement_id);
 
             CREATE TABLE IF NOT EXISTS billing_stripe_events (
                 event_id TEXT NOT NULL PRIMARY KEY,
@@ -610,6 +632,109 @@ impl BillingStore for SqliteBillingStore {
         Ok(adjustments)
     }
 
+    async fn apply_aether_settlement(
+        &self,
+        receipt: &AetherSettlementReceipt,
+        adjustment: &BillingAdjustment,
+    ) -> StoreResult<bool> {
+        let receipt_json = encode(receipt, "aether settlement receipt")?;
+        let adjustment_json = encode(adjustment, "aether settlement adjustment")?;
+        let mut connection = self.lock()?;
+        let tx = connection
+            .transaction()
+            .into_store_ctx("begin aether settlement tx")?;
+
+        let already_recorded: Option<String> = tx
+            .query_row(
+                "SELECT receipt_json FROM billing_aether_settlements
+                  WHERE settlement_id = ?1 OR payment_hash = ?2",
+                params![
+                    receipt.settlement_id.as_str(),
+                    receipt.payment_hash.as_str()
+                ],
+                |row| row.get(0),
+            )
+            .optional()
+            .into_store_ctx("read aether settlement dedup")?;
+        if let Some(existing_json) = already_recorded {
+            let existing: AetherSettlementReceipt =
+                decode(&existing_json, "aether settlement receipt")?;
+            if &existing != receipt {
+                return Err(StoreError::Conflict(format!(
+                    "aether settlement duplicate key has different receipt binding: settlement_id {}, payment_hash {}",
+                    receipt.settlement_id, receipt.payment_hash
+                )));
+            }
+            tx.commit()
+                .into_store_ctx("commit duplicate aether settlement tx")?;
+            return Ok(false);
+        }
+
+        let invoice_json: Option<String> = tx
+            .query_row(
+                "SELECT invoice_json FROM billing_invoices WHERE org_id = ?1 AND period_key = ?2",
+                params![receipt.org_id.as_str(), receipt.period_key.as_str()],
+                |row| row.get(0),
+            )
+            .optional()
+            .into_store_ctx("read invoice for aether settlement")?;
+        let invoice_json = invoice_json.ok_or_else(|| {
+            StoreError::NotFound(format!(
+                "invoice for org {} period {}",
+                receipt.org_id.as_str(),
+                receipt.period_key
+            ))
+        })?;
+        let mut invoice: Invoice = decode(&invoice_json, "invoice")?;
+        validate_invoice_for_aether(receipt, &invoice)?;
+        invoice.status = InvoiceStatus::Paid;
+        let paid_invoice_json = encode(&invoice, "paid invoice")?;
+
+        tx.execute(
+            "INSERT INTO billing_aether_settlements
+               (settlement_id, payment_hash, org_id, period_key, invoice_idempotency_key, settled_at, receipt_json)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+            params![
+                receipt.settlement_id.as_str(),
+                receipt.payment_hash.as_str(),
+                receipt.org_id.as_str(),
+                receipt.period_key.as_str(),
+                receipt.invoice_idempotency_key.as_str(),
+                receipt.settled_at.to_rfc3339(),
+                receipt_json,
+            ],
+        )
+        .into_store_ctx("insert aether settlement")?;
+        tx.execute(
+            "UPDATE billing_invoices SET status = ?1, invoice_json = ?2
+              WHERE org_id = ?3 AND period_key = ?4 AND status = ?5",
+            params![
+                InvoiceStatus::Paid.as_str(),
+                paid_invoice_json,
+                receipt.org_id.as_str(),
+                receipt.period_key.as_str(),
+                InvoiceStatus::Finalized.as_str(),
+            ],
+        )
+        .into_store_ctx("mark invoice paid by aether")?;
+        tx.execute(
+            "INSERT INTO billing_adjustments
+               (adjustment_id, org_id, kind, created_at, adjustment_json)
+             VALUES (?1, ?2, ?3, ?4, ?5)",
+            params![
+                adjustment.adjustment_id.as_str(),
+                adjustment.org_id.as_str(),
+                adjustment.kind.as_str(),
+                adjustment.created_at.to_rfc3339(),
+                adjustment_json,
+            ],
+        )
+        .into_store_ctx("append aether settlement adjustment")?;
+
+        tx.commit().into_store_ctx("commit aether settlement tx")?;
+        Ok(true)
+    }
+
     async fn record_stripe_event(
         &self,
         event_id: &str,
@@ -671,6 +796,38 @@ impl<T> IntoStoreCtx<T> for Result<T, rusqlite::Error> {
 #[doc(hidden)]
 pub fn adjustment_kind_str(kind: AdjustmentKind) -> &'static str {
     kind.as_str()
+}
+
+fn validate_invoice_for_aether(
+    receipt: &AetherSettlementReceipt,
+    invoice: &Invoice,
+) -> StoreResult<()> {
+    if invoice.status != InvoiceStatus::Finalized {
+        return Err(StoreError::Conflict(format!(
+            "aether settlement requires finalized invoice {}, got {}",
+            invoice.idempotency_key,
+            invoice.status.as_str()
+        )));
+    }
+    if invoice.idempotency_key != receipt.invoice_idempotency_key {
+        return Err(StoreError::Conflict(format!(
+            "aether receipt invoice key {} does not match {}",
+            receipt.invoice_idempotency_key, invoice.idempotency_key
+        )));
+    }
+    if receipt.settled_value.currency != invoice.total.currency {
+        return Err(StoreError::Conflict(format!(
+            "aether settlement currency {} does not match invoice currency {}",
+            receipt.settled_value.currency, invoice.total.currency
+        )));
+    }
+    if receipt.settled_value.amount_micros < invoice.total.amount_micros {
+        return Err(StoreError::Conflict(format!(
+            "aether settled value {} is below invoice total {}",
+            receipt.settled_value.amount_micros, invoice.total.amount_micros
+        )));
+    }
+    Ok(())
 }
 
 #[cfg(test)]

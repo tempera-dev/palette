@@ -34,9 +34,11 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::fmt::{Display, Formatter};
 
+pub mod aether;
 pub mod store;
 pub mod stripe;
 
+pub use aether::{AetherSettlementApplication, AetherSettlementReceipt};
 pub use store::{BillingStore, SqliteBillingStore};
 
 use beater_usage::{UsageLedgerStore, UsageMeter};
@@ -211,6 +213,7 @@ pub enum AdjustmentKind {
     ProrationCharge,
     ProrationCredit,
     Refund,
+    AetherSettlement,
     StripeSync,
 }
 
@@ -222,6 +225,7 @@ impl AdjustmentKind {
             Self::ProrationCharge => "proration_charge",
             Self::ProrationCredit => "proration_credit",
             Self::Refund => "refund",
+            Self::AetherSettlement => "aether_settlement",
             Self::StripeSync => "stripe_sync",
         }
     }
@@ -230,7 +234,7 @@ impl AdjustmentKind {
     /// and refunds are negative.
     pub fn sign(self) -> i64 {
         match self {
-            Self::Charge | Self::ProrationCharge | Self::StripeSync => 1,
+            Self::Charge | Self::ProrationCharge | Self::AetherSettlement | Self::StripeSync => 1,
             Self::Credit | Self::ProrationCredit | Self::Refund => -1,
         }
     }
@@ -362,6 +366,8 @@ pub enum BillingError {
     InvalidPlan(String),
     #[error("invalid period: {0}")]
     InvalidPeriod(String),
+    #[error("invalid settlement: {0}")]
+    InvalidSettlement(String),
     #[error("currency mismatch or invalid money: {0}")]
     Money(#[from] MoneyError),
     #[error("arithmetic overflow in money computation")]
@@ -534,6 +540,41 @@ impl<C: beater_core::Clock> Billing<C> {
         period_key: &str,
     ) -> Result<Invoice, BillingError> {
         Ok(self.store.finalize_invoice(org_id, period_key).await?)
+    }
+
+    /// Apply a verified Aether settlement receipt to a finalized invoice.
+    ///
+    /// This is intentionally a receipt-ingest primitive, not a wallet or chain
+    /// client. The caller must supply a receipt that has already been verified
+    /// against the Aether payment contract. Beater enforces the billing side:
+    /// exact invoice binding, sufficient settled value, idempotent receipt
+    /// recording, immutable adjustment append, and a single paid transition.
+    pub async fn apply_aether_settlement(
+        &self,
+        receipt: AetherSettlementReceipt,
+    ) -> Result<AetherSettlementApplication, BillingError> {
+        receipt.validate()?;
+        let adjustment = BillingAdjustment {
+            adjustment_id: format!("adj_aether_{}", receipt.settlement_id),
+            org_id: receipt.org_id.clone(),
+            kind: AdjustmentKind::AetherSettlement,
+            amount: receipt.settled_value.clone(),
+            reason: format!(
+                "aether settlement {} payment {} on {}:{}",
+                receipt.settlement_id, receipt.payment_hash, receipt.network, receipt.chain_id
+            ),
+            period_key: Some(receipt.period_key.clone()),
+            created_at: self.clock.now(),
+        };
+        let applied = self
+            .store
+            .apply_aether_settlement(&receipt, &adjustment)
+            .await?;
+        Ok(if applied {
+            AetherSettlementApplication::Applied
+        } else {
+            AetherSettlementApplication::Duplicate
+        })
     }
 
     /// Change an org's plan, recording append-only proration adjustments and

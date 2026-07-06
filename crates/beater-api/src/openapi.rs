@@ -118,6 +118,7 @@ pub struct BeaterApi;
         crate::change_subscription_plan_route,
         crate::get_org_invoices_route,
         crate::get_invoice_route,
+        crate::apply_aether_settlement_route,
         crate::stripe_webhook_route,
     ),
     tags(

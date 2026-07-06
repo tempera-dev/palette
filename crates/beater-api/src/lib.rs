@@ -19,7 +19,8 @@ use beater_billing::store::BillingStore;
 use beater_billing::stripe::{EventApplication, StripeError, StripeSync};
 #[cfg(feature = "billing")]
 use beater_billing::{
-    Billing, BillingError, Invoice, Plan, PlanChange, PlanId, Subscription, SubscriptionStatus,
+    AetherSettlementApplication, AetherSettlementReceipt, Billing, BillingError, Invoice, Plan,
+    PlanChange, PlanId, Subscription, SubscriptionStatus,
 };
 use beater_calibration::{
     calibrate_eval_report, CalibrationPolicy, CalibrationReport, CalibrationStore,
@@ -370,8 +371,8 @@ impl ApiState {
 /// `billing` feature, so the count is feature-aware: the open-source default
 /// build registers 57 `/v1` routes (41 base + 6 always-on `/v1/connectors`
 /// routes + 6 `/v1/prompts` routes + 4 `/v1/scenarios` routes); the hosted
-/// `billing` build adds 8.
-pub const V1_ROUTE_COUNT: usize = if cfg!(feature = "billing") { 65 } else { 57 };
+/// `billing` build adds 9.
+pub const V1_ROUTE_COUNT: usize = if cfg!(feature = "billing") { 66 } else { 57 };
 
 /// See [`V1_ROUTE_COUNT`].
 pub fn v1_route_count() -> usize {
@@ -590,6 +591,10 @@ pub fn router(state: ApiState) -> Router {
         .route(
             "/v1/billing/invoices/:org_id/:period_key",
             get(get_invoice_route),
+        )
+        .route(
+            "/v1/billing/invoices/:org_id/:period_key/settlements/aether",
+            post(apply_aether_settlement_route),
         )
         .route("/v1/billing/webhooks/stripe", post(stripe_webhook_route));
 
@@ -1544,6 +1549,14 @@ struct StripeWebhookAck {
     outcome: String,
 }
 
+/// Acknowledgement for an Aether settlement receipt.
+#[cfg(feature = "billing")]
+#[derive(Clone, Debug, Serialize, ToSchema)]
+struct AetherSettlementAck {
+    /// `applied` or `duplicate`.
+    outcome: String,
+}
+
 #[cfg(feature = "billing")]
 #[utoipa::path(
     get,
@@ -1792,6 +1805,62 @@ async fn get_invoice_route(
             ))
         })?;
     Ok(Json(invoice))
+}
+
+#[cfg(feature = "billing")]
+#[utoipa::path(
+    post,
+    path = "/v1/billing/invoices/{org_id}/{period_key}/settlements/aether",
+    tag = "billing",
+    operation_id = "applyAetherSettlement",
+    params(
+        ("org_id" = String, Path, description = "org_id"),
+        ("period_key" = String, Path, description = "period_key (YYYY-MM)"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-beater-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-beater-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-beater-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = AetherSettlementReceipt,
+    responses(
+        (status = 200, description = "Aether settlement accepted (applied/duplicate)", body = AetherSettlementAck),
+        (status = 400, description = "Invalid settlement receipt", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Resource not found", body = ErrorResponse),
+        (status = 409, description = "Settlement conflicts with invoice state", body = ErrorResponse),
+    )
+)]
+async fn apply_aether_settlement_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((org_id, period_key)): Path<(String, String)>,
+    Json(receipt): Json<AetherSettlementReceipt>,
+) -> Result<Json<AetherSettlementAck>, ApiError> {
+    let billing = billing_service(&state)?;
+    let org_id = OrganizationId::new(org_id)?;
+    authorize_org_route(&state, &headers, &org_id, ApiScope::Admin).await?;
+    if receipt.org_id != org_id {
+        return Err(ApiError::bad_request(format!(
+            "receipt org_id {} does not match path org_id {}",
+            receipt.org_id.as_str(),
+            org_id.as_str()
+        )));
+    }
+    if receipt.period_key != period_key {
+        return Err(ApiError::bad_request(format!(
+            "receipt period_key {} does not match path period_key {period_key}",
+            receipt.period_key
+        )));
+    }
+    let outcome = billing.apply_aether_settlement(receipt).await?;
+    let outcome = match outcome {
+        AetherSettlementApplication::Applied => "applied",
+        AetherSettlementApplication::Duplicate => "duplicate",
+    };
+    Ok(Json(AetherSettlementAck {
+        outcome: outcome.to_string(),
+    }))
 }
 
 #[cfg(feature = "billing")]
@@ -5480,6 +5549,7 @@ impl From<BillingError> for ApiError {
             }
             BillingError::InvalidPlan(_)
             | BillingError::InvalidPeriod(_)
+            | BillingError::InvalidSettlement(_)
             | BillingError::Money(_)
             | BillingError::Overflow => Self::bad_request(error.to_string()),
             BillingError::Store(store) => store.into(),
