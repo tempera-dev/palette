@@ -9368,6 +9368,20 @@
           "trace": {}
         }
       },
+      "ChangeKind": {
+        "type": "string",
+        "description": "The policy-π (§6.1) lever a [`CandidateChange`] targets, mirroring the planned\n§21.1 `ChangeKind` taxonomy. Kept internal to this crate; intentionally not a\n`/v1` contract type.",
+        "enum": [
+          "system_prompt",
+          "customer_prompt",
+          "code",
+          "tool_add",
+          "tool_remove",
+          "memory_config",
+          "model_params",
+          "data_label"
+        ]
+      },
       "ConnectConnectorRequest": {
         "type": "object",
         "required": [
@@ -10676,7 +10690,7 @@
       },
       "GateCandidateChangeRequest": {
         "type": "object",
-        "description": "The candidate change being gated. `kind` and `proposed_by` are the RSI\noptimizer's snake_case enum tags (e.g. `system_prompt`, `llm_rewrite`).",
+        "description": "The candidate change being gated.",
         "required": [
           "kind",
           "target",
@@ -10690,11 +10704,11 @@
             "description": "Human-readable description of the proposed change."
           },
           "kind": {
-            "type": "string",
+            "$ref": "#/components/schemas/ChangeKind",
             "description": "The policy lever this change touches (e.g. `system_prompt`, `model_params`)."
           },
           "proposed_by": {
-            "type": "string",
+            "$ref": "#/components/schemas/OptimizerStrategy",
             "description": "Which optimizer strategy emitted the candidate (e.g. `llm_rewrite`)."
           },
           "rationale": {
@@ -10815,7 +10829,7 @@
             "description": "The candidate policy's score on the *same* case (paired with baseline)."
           },
           "split": {
-            "type": "string",
+            "$ref": "#/components/schemas/Split",
             "description": "The split this case belongs to: `train`, `val`, or `test`."
           }
         }
@@ -10855,7 +10869,7 @@
             "description": "Lower bound of the delta confidence interval."
           },
           "decision": {
-            "type": "string",
+            "$ref": "#/components/schemas/GateDecision",
             "description": "Gate decision: `pass`, `fail_regression`, or `inconclusive`."
           },
           "delta": {
@@ -11519,6 +11533,18 @@
             "minimum": 0
           }
         }
+      },
+      "OptimizerStrategy": {
+        "type": "string",
+        "description": "Pluggable optimizer strategies for the recursive self-improvement loop.\n\nEach variant names a concrete prompt/agent optimizer family called for by\nARCHITECTURE §20.10 #7.6 (\"named prompt/agent optimizer strategies, gated by\nheld-out statistics\") and REQUIREMENTS R18.6. The names mirror the\nreflective-proposal direction of §21.3 and the deferred population search of\n§21.6c.\n\n**Gating invariant — the differentiator vs. un-gated optimizers.** A strategy\nonly *proposes* [`CandidateChange`]s; it never *accepts* one. Every candidate\nfrom every strategy MUST flow through the existing held-out **Test** gate plus\nthe `beater-stats` confidence interval already implemented here\n(`run_deterministic_experiment` / `run_judge_experiment` / `run_agent_experiment`\n→ [`compare_paired_scores`] → [`GateDecision`], §21.3) and the planned §21.4\nanti-overfitting guardrail before it can be accepted. Proposal is not\nacceptance: the strategy emits candidates, the gate decides.",
+        "enum": [
+          "llm_rewrite",
+          "few_shot_bayesian",
+          "mipro",
+          "evolutionary",
+          "gepa",
+          "param_search"
+        ]
       },
       "OtlpIngestOutcome": {
         "type": "object",
@@ -12989,6 +13015,15 @@
           "ok",
           "error",
           "unset"
+        ]
+      },
+      "Split": {
+        "type": "string",
+        "description": "Which split of the optimization substrate a [`CaseScore`] belongs to.\n\nThe RSI optimizer searches candidates against `Train`/`Val` and decides\nacceptance only on the held-out `Test` split (§21.4). The split assignment is\nthe *caller's* responsibility — it owns the dataset and its train/val/test\npartition — so [`run_optimization_round`] never reshuffles or peeks at the\nsplit substrate; it merely routes each [`CaseScore`] to the gate by its tag.",
+        "enum": [
+          "train",
+          "val",
+          "test"
         ]
       },
       "StatisticalTest": {

@@ -41,7 +41,7 @@ use beater_datasets::{
     Dataset, DatasetEvalReport, DatasetEvalSpec, DatasetJudgeEvalSpec, DatasetStore,
     DatasetVersionSnapshot,
 };
-use beater_eval::{EvaluationCase, EvaluatorKind, EvaluatorSpec};
+use beater_eval::{EvaluationCase, EvaluatorKind, EvaluatorSpec, GateDecision};
 use beater_experiments::{
     gate_scored_candidate, run_deterministic_experiment, run_judge_experiment, CandidateChange,
     CaseOutputOverride, CaseScore, ChangeKind, ExperimentRunReport, ExperimentRunSpec,
@@ -3812,15 +3812,6 @@ async fn run_gate_route(
     Ok(Json(report))
 }
 
-/// Parse a snake_case enum tag from an untrusted request string via serde,
-/// turning an unknown variant into a 400 rather than a deserialize error deep in
-/// the body. Used for the RSI-internal `Split` / `ChangeKind` / `OptimizerStrategy`
-/// enums, which are intentionally *not* first-class `/v1` contract types.
-fn parse_enum_tag<T: serde::de::DeserializeOwned>(kind: &str, value: &str) -> Result<T, ApiError> {
-    serde_json::from_value(serde_json::Value::String(value.to_string()))
-        .map_err(|_| ApiError::bad_request(format!("unknown {kind}: {value}")))
-}
-
 #[utoipa::path(
     post,
     path = "/v1/rsi/{tenant_id}/{project_id}/gate-candidate",
@@ -3853,17 +3844,13 @@ async fn gate_optimization_candidate_route(
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
 
     // Provenance only — the candidate's identity does not influence the decision;
-    // the scores do. `kind` / `proposed_by` are the RSI-internal enums, parsed
-    // from their snake_case tags.
+    // the scores do. `kind` / `proposed_by` are the RSI-internal enums.
     let candidate = CandidateChange {
-        kind: parse_enum_tag::<ChangeKind>("change kind", &request.candidate.kind)?,
+        kind: request.candidate.kind,
         target: request.candidate.target,
         description: request.candidate.description,
         rationale: request.candidate.rationale,
-        proposed_by: parse_enum_tag::<OptimizerStrategy>(
-            "optimizer strategy",
-            &request.candidate.proposed_by,
-        )?,
+        proposed_by: request.candidate.proposed_by,
     };
 
     let scores = request
@@ -3871,7 +3858,7 @@ async fn gate_optimization_candidate_route(
         .into_iter()
         .map(|s| {
             Ok(CaseScore {
-                split: parse_enum_tag::<Split>("split", &s.split)?,
+                split: s.split,
                 baseline_score: s.baseline_score,
                 candidate_score: s.candidate_score,
                 // This endpoint gates precomputed scores without exposing CUPED
@@ -3906,7 +3893,7 @@ async fn gate_optimization_candidate_route(
     Ok(Json(GateCandidateResponse {
         accepted: evaluation.accepted,
         gate: GateComparisonResponse {
-            decision: evaluation.gate.decision.name().to_string(),
+            decision: evaluation.gate.decision,
             sample_size: evaluation.gate.sample_size,
             baseline_mean: evaluation.gate.baseline_mean,
             candidate_mean: evaluation.gate.candidate_mean,
@@ -4644,12 +4631,11 @@ struct GateCandidateRequest {
     overfit_seed: Option<u64>,
 }
 
-/// The candidate change being gated. `kind` and `proposed_by` are the RSI
-/// optimizer's snake_case enum tags (e.g. `system_prompt`, `llm_rewrite`).
+/// The candidate change being gated.
 #[derive(Clone, Debug, Deserialize, ToSchema)]
 struct GateCandidateChangeRequest {
     /// The policy lever this change touches (e.g. `system_prompt`, `model_params`).
-    kind: String,
+    kind: ChangeKind,
     /// The file / symbol / prompt the change targets.
     target: String,
     /// Human-readable description of the proposed change.
@@ -4657,14 +4643,14 @@ struct GateCandidateChangeRequest {
     /// Why the proposer believes this change helps (carried for audit).
     rationale: String,
     /// Which optimizer strategy emitted the candidate (e.g. `llm_rewrite`).
-    proposed_by: String,
+    proposed_by: OptimizerStrategy,
 }
 
 /// One case's paired baseline-vs-candidate score, tagged with its split.
 #[derive(Clone, Debug, Deserialize, ToSchema)]
 struct GateCaseScoreRequest {
     /// The split this case belongs to: `train`, `val`, or `test`.
-    split: String,
+    split: Split,
     /// The baseline policy's score on this case, in `[0, 1]` (higher is better).
     baseline_score: f64,
     /// The candidate policy's score on the *same* case (paired with baseline).
@@ -4688,7 +4674,7 @@ struct GateCandidateResponse {
 #[derive(Clone, Debug, Serialize, ToSchema)]
 struct GateComparisonResponse {
     /// Gate decision: `pass`, `fail_regression`, or `inconclusive`.
-    decision: String,
+    decision: GateDecision,
     /// Number of paired Test cases compared.
     sample_size: usize,
     /// Mean baseline score on the Test split.

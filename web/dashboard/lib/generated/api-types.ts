@@ -1164,6 +1164,13 @@ export interface components {
             output: unknown;
             trace?: unknown;
         };
+        /**
+         * @description The policy-π (§6.1) lever a [`CandidateChange`] targets, mirroring the planned
+         *     §21.1 `ChangeKind` taxonomy. Kept internal to this crate; intentionally not a
+         *     `/v1` contract type.
+         * @enum {string}
+         */
+        ChangeKind: "system_prompt" | "customer_prompt" | "code" | "tool_add" | "tool_remove" | "memory_config" | "model_params" | "data_label";
         ConnectConnectorRequest: {
             /** @description Toolkit slug to connect (e.g. `github`, `gmail`, `slack`). */
             toolkit: string;
@@ -1556,17 +1563,14 @@ export interface components {
          * @enum {string}
          */
         FailureMode: "tool_error" | "timeout" | "guardrail_block" | "wrong_output" | "retrieval_miss" | "other";
-        /**
-         * @description The candidate change being gated. `kind` and `proposed_by` are the RSI
-         *     optimizer's snake_case enum tags (e.g. `system_prompt`, `llm_rewrite`).
-         */
+        /** @description The candidate change being gated. */
         GateCandidateChangeRequest: {
             /** @description Human-readable description of the proposed change. */
             description: string;
             /** @description The policy lever this change touches (e.g. `system_prompt`, `model_params`). */
-            kind: string;
+            kind: components["schemas"]["ChangeKind"];
             /** @description Which optimizer strategy emitted the candidate (e.g. `llm_rewrite`). */
-            proposed_by: string;
+            proposed_by: components["schemas"]["OptimizerStrategy"];
             /** @description Why the proposer believes this change helps (carried for audit). */
             rationale: string;
             /** @description The file / symbol / prompt the change targets. */
@@ -1635,7 +1639,7 @@ export interface components {
              */
             candidate_score: number;
             /** @description The split this case belongs to: `train`, `val`, or `test`. */
-            split: string;
+            split: components["schemas"]["Split"];
         };
         /** @description The held-out Test-split gate comparison. */
         GateComparisonResponse: {
@@ -1660,7 +1664,7 @@ export interface components {
              */
             ci_low: number;
             /** @description Gate decision: `pass`, `fail_regression`, or `inconclusive`. */
-            decision: string;
+            decision: components["schemas"]["GateDecision"];
             /**
              * Format: double
              * @description `candidate_mean − baseline_mean` on the Test split.
@@ -1844,6 +1848,26 @@ export interface components {
             /** Format: int64 */
             slow_ms_threshold?: number | null;
         };
+        /**
+         * @description Pluggable optimizer strategies for the recursive self-improvement loop.
+         *
+         *     Each variant names a concrete prompt/agent optimizer family called for by
+         *     ARCHITECTURE §20.10 #7.6 ("named prompt/agent optimizer strategies, gated by
+         *     held-out statistics") and REQUIREMENTS R18.6. The names mirror the
+         *     reflective-proposal direction of §21.3 and the deferred population search of
+         *     §21.6c.
+         *
+         *     **Gating invariant — the differentiator vs. un-gated optimizers.** A strategy
+         *     only *proposes* [`CandidateChange`]s; it never *accepts* one. Every candidate
+         *     from every strategy MUST flow through the existing held-out **Test** gate plus
+         *     the `beater-stats` confidence interval already implemented here
+         *     (`run_deterministic_experiment` / `run_judge_experiment` / `run_agent_experiment`
+         *     → [`compare_paired_scores`] → [`GateDecision`], §21.3) and the planned §21.4
+         *     anti-overfitting guardrail before it can be accepted. Proposal is not
+         *     acceptance: the strategy emits candidates, the gate decides.
+         * @enum {string}
+         */
+        OptimizerStrategy: "llm_rewrite" | "few_shot_bayesian" | "mipro" | "evolutionary" | "gepa" | "param_search";
         OtlpIngestOutcome: {
             accepted_raw: number;
             accepted_spans: number;
@@ -2261,6 +2285,17 @@ export interface components {
         };
         /** @enum {string} */
         SpanStatus: "ok" | "error" | "unset";
+        /**
+         * @description Which split of the optimization substrate a [`CaseScore`] belongs to.
+         *
+         *     The RSI optimizer searches candidates against `Train`/`Val` and decides
+         *     acceptance only on the held-out `Test` split (§21.4). The split assignment is
+         *     the *caller's* responsibility — it owns the dataset and its train/val/test
+         *     partition — so [`run_optimization_round`] never reshuffles or peeks at the
+         *     split substrate; it merely routes each [`CaseScore`] to the gate by its tag.
+         * @enum {string}
+         */
+        Split: "train" | "val" | "test";
         /**
          * @description The statistical test that produced an [`ExperimentComparison`]. The gate
          *     records which method was **actually executed** so a reader can tell a

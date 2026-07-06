@@ -787,7 +787,9 @@ where
 /// → [`compare_paired_scores`] → [`GateDecision`], §21.3) and the planned §21.4
 /// anti-overfitting guardrail before it can be accepted. Proposal is not
 /// acceptance: the strategy emits candidates, the gate decides.
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(
+    Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize, utoipa::ToSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum OptimizerStrategy {
     /// Reflective single-shot LLM rewrite of a prompt lever of π (§6.1) — the
@@ -809,7 +811,7 @@ pub enum OptimizerStrategy {
 /// The policy-π (§6.1) lever a [`CandidateChange`] targets, mirroring the planned
 /// §21.1 `ChangeKind` taxonomy. Kept internal to this crate; intentionally not a
 /// `/v1` contract type.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ChangeKind {
     /// The system-prompt lever of π (§6.1).
@@ -1443,7 +1445,7 @@ fn ensure_candidates_record_strategy(
 /// the *caller's* responsibility — it owns the dataset and its train/val/test
 /// partition — so [`run_optimization_round`] never reshuffles or peeks at the
 /// split substrate; it merely routes each [`CaseScore`] to the gate by its tag.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize, utoipa::ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Split {
     /// Optimization split the proposer is allowed to fit against.
