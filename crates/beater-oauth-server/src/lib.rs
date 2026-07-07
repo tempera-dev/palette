@@ -657,8 +657,8 @@ async fn authorize(
             );
         }
     };
-    match state.accounts.get_membership(&org_id, &user_id).await {
-        Ok(Some(_membership)) => {}
+    let membership = match state.accounts.get_membership(&org_id, &user_id).await {
+        Ok(Some(membership)) => membership,
         Ok(None) => {
             return redirect_error(
                 &params.redirect_uri,
@@ -667,16 +667,27 @@ async fn authorize(
             );
         }
         Err(_) => return oauth_error(StatusCode::INTERNAL_SERVER_ERROR, "server_error", None),
-    }
+    };
     let tenant_scope = TenantScope::new(tenant_id, project_id, environment_id);
 
-    // Default the scope to the client's full registered set when omitted.
+    // If the client omits `scope`, grant the least-privilege MCP/read default
+    // when the client registered it. Elevated scopes must be requested
+    // explicitly so broad DCR registrations do not break normal member login.
     let requested = parse_scope(params.scope.as_deref());
     let scope = if requested.is_empty() {
-        if client.scopes.is_empty() {
-            default_oauth_scopes(&state.scopes_supported)
+        let defaults = default_oauth_scopes(&state.scopes_supported);
+        if client.scopes.is_empty() || defaults.is_empty() {
+            defaults
         } else {
-            client.scopes.clone()
+            let narrowed = defaults
+                .intersection(&client.scopes)
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            if narrowed.is_empty() {
+                client.scopes.clone()
+            } else {
+                narrowed
+            }
         }
     } else {
         requested
@@ -685,6 +696,13 @@ async fn authorize(
         return redirect_error(
             &params.redirect_uri,
             "invalid_scope",
+            params.state.as_deref(),
+        );
+    }
+    if !role_allows_scopes(membership.role, &scope) {
+        return redirect_error(
+            &params.redirect_uri,
+            "access_denied",
             params.state.as_deref(),
         );
     }
@@ -844,6 +862,19 @@ fn new_consent_nonce() -> String {
         let _ = write!(&mut out, "{byte:02x}");
     }
     out
+}
+
+fn role_allows_scopes(role: OrgRole, scopes: &BTreeSet<String>) -> bool {
+    scopes
+        .iter()
+        .all(|scope| role >= required_role_for_scope(scope))
+}
+
+fn required_role_for_scope(scope: &str) -> OrgRole {
+    match scope {
+        "admin" | "pii:unmask" | "pii_unmask" => OrgRole::Admin,
+        _ => OrgRole::Member,
+    }
 }
 
 // ---- token ----
@@ -1103,7 +1134,22 @@ fn consent_page(
         .join("\n");
     let scope_items = scopes
         .iter()
-        .map(|scope| format!("<li>{}</li>", html_escape(&scope_label(scope))))
+        .map(|scope| {
+            let role = required_role_for_scope(scope);
+            let badge = if role > OrgRole::Member {
+                format!(
+                    r#"<span class="badge elevated">{} required</span>"#,
+                    html_escape(role.as_str())
+                )
+            } else {
+                r#"<span class="badge">member</span>"#.to_string()
+            };
+            format!(
+                r#"<li><span>{}</span>{}</li>"#,
+                html_escape(&scope_label(scope)),
+                badge
+            )
+        })
         .collect::<Vec<_>>()
         .join("\n");
     let body = format!(
@@ -1119,8 +1165,10 @@ fn consent_page(
     section {{ width: min(520px, 100%); background: #fff; border: 1px solid #d9e1ea; border-radius: 8px; box-shadow: 0 24px 80px rgba(25, 39, 64, .12); padding: 28px; }}
     h1 {{ margin: 0 0 8px; font-size: 24px; line-height: 1.2; }}
     p {{ color: #526173; line-height: 1.55; }}
-    ul {{ margin: 18px 0; padding-left: 20px; }}
-    li {{ margin: 8px 0; }}
+    ul {{ list-style: none; margin: 18px 0; padding: 0; }}
+    li {{ align-items: center; border: 1px solid #e1e7ef; border-radius: 6px; display: flex; gap: 12px; justify-content: space-between; margin: 8px 0; padding: 10px 12px; }}
+    .badge {{ background: #edf7f5; border: 1px solid #b7dcd5; border-radius: 999px; color: #16645a; font-size: 12px; font-weight: 700; padding: 3px 8px; white-space: nowrap; }}
+    .badge.elevated {{ background: #fbf3e2; border-color: #e7d3a8; color: #7a5310; }}
     .meta {{ border: 1px solid #e1e7ef; border-radius: 6px; padding: 12px; background: #f9fbfd; font-size: 14px; color: #526173; }}
     .actions {{ display: flex; gap: 12px; margin-top: 22px; }}
     button {{ border: 0; border-radius: 6px; padding: 11px 16px; font-weight: 700; cursor: pointer; }}
@@ -1870,7 +1918,7 @@ mod tests {
         let client_id = registered.client.client_id.as_str().to_string();
         let app = router(state);
         let uri = format!(
-            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&scope=traces%3Adelete&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
             utf8_percent_encode("https://app.example.test/cb", NON_ALPHANUMERIC),
             challenge()
         );
@@ -1894,6 +1942,247 @@ mod tests {
             .unwrap_or("");
         assert!(loc.contains("error=invalid_scope"), "got {loc}");
         assert!(!loc.contains("code="), "must not issue a code: {loc}");
+    }
+
+    #[tokio::test]
+    async fn authorize_admin_scope_requires_org_admin_role() {
+        let mut state = test_state();
+        state.scopes_supported.push("admin".to_string());
+        let now = Utc::now();
+        let user = ok(state
+            .accounts
+            .register("member@example.test", "supersecret", now)
+            .await);
+        let session = ok(state
+            .accounts
+            .start_session(user.user_id.clone(), default_session_ttl(), now)
+            .await);
+        ok(state
+            .accounts
+            .put_membership(beater_accounts::OrgMembership {
+                organization_id: ok(OrganizationId::new("demo")),
+                user_id: user.user_id.clone(),
+                role: beater_accounts::OrgRole::Member,
+                created_at: now,
+            })
+            .await);
+        let registered = ok(state
+            .oauth
+            .register_client(
+                ClientRegistration {
+                    client_name: "Claude".to_string(),
+                    redirect_uris: vec!["https://app.example.test/cb".to_string()],
+                    grant_types: BTreeSet::from([GrantType::AuthorizationCode]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "admin".to_string()]),
+                    token_endpoint_auth_method: ClientAuthMethod::None,
+                },
+                now,
+            )
+            .await);
+        let client_id = registered.client.client_id.as_str().to_string();
+        let app = router(state);
+        let uri = format!(
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&scope=mcp%3Ainvoke%20admin&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
+            utf8_percent_encode("https://app.example.test/cb", NON_ALPHANUMERIC),
+            challenge()
+        );
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .uri(uri)
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::SEE_OTHER);
+        let loc = resp
+            .headers()
+            .get(LOCATION)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("");
+        assert!(loc.contains("error=access_denied"), "got {loc}");
+        assert!(
+            !loc.contains("code="),
+            "member must not mint admin token: {loc}"
+        );
+    }
+
+    #[tokio::test]
+    async fn authorize_admin_scope_consent_marks_elevated_permission() {
+        let mut state = test_state();
+        state.scopes_supported.push("admin".to_string());
+        let now = Utc::now();
+        let user = ok(state
+            .accounts
+            .register("admin@example.test", "supersecret", now)
+            .await);
+        let session = ok(state
+            .accounts
+            .start_session(user.user_id.clone(), default_session_ttl(), now)
+            .await);
+        ok(state
+            .accounts
+            .put_membership(beater_accounts::OrgMembership {
+                organization_id: ok(OrganizationId::new("demo")),
+                user_id: user.user_id.clone(),
+                role: beater_accounts::OrgRole::Admin,
+                created_at: now,
+            })
+            .await);
+        let registered = ok(state
+            .oauth
+            .register_client(
+                ClientRegistration {
+                    client_name: "Claude".to_string(),
+                    redirect_uris: vec!["https://app.example.test/cb".to_string()],
+                    grant_types: BTreeSet::from([GrantType::AuthorizationCode]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "admin".to_string()]),
+                    token_endpoint_auth_method: ClientAuthMethod::None,
+                },
+                now,
+            )
+            .await);
+        let client_id = registered.client.client_id.as_str().to_string();
+        let app = router(state);
+        let uri = format!(
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&scope=mcp%3Ainvoke%20admin&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
+            utf8_percent_encode("https://app.example.test/cb", NON_ALPHANUMERIC),
+            challenge()
+        );
+        let resp = ok(app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .uri(&uri)
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = body_text(resp).await;
+        assert!(body.contains("Administer this tenant"));
+        assert!(body.contains("admin required"));
+        let nonce = hidden_value(&body, "consent_nonce");
+
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .uri(format!("{uri}&consent_nonce={nonce}&approve=1"))
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::SEE_OTHER);
+        let loc = resp
+            .headers()
+            .get(LOCATION)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("");
+        assert!(
+            loc.starts_with("https://app.example.test/cb?code="),
+            "got {loc}"
+        );
+    }
+
+    #[tokio::test]
+    async fn authorize_omitted_scope_narrows_broad_client_to_member_safe_default() {
+        let mut state = test_state();
+        state.scopes_supported.push("admin".to_string());
+        let now = Utc::now();
+        let user = ok(state
+            .accounts
+            .register("broad-member@example.test", "supersecret", now)
+            .await);
+        let session = ok(state
+            .accounts
+            .start_session(user.user_id.clone(), default_session_ttl(), now)
+            .await);
+        ok(state
+            .accounts
+            .put_membership(beater_accounts::OrgMembership {
+                organization_id: ok(OrganizationId::new("demo")),
+                user_id: user.user_id.clone(),
+                role: beater_accounts::OrgRole::Member,
+                created_at: now,
+            })
+            .await);
+        let registered = ok(state
+            .oauth
+            .register_client(
+                ClientRegistration {
+                    client_name: "Cursor".to_string(),
+                    redirect_uris: vec!["https://app.example.test/cb".to_string()],
+                    grant_types: BTreeSet::from([GrantType::AuthorizationCode]),
+                    scopes: BTreeSet::from([
+                        "mcp:invoke".to_string(),
+                        "traces:read".to_string(),
+                        "admin".to_string(),
+                    ]),
+                    token_endpoint_auth_method: ClientAuthMethod::None,
+                },
+                now,
+            )
+            .await);
+        let client_id = registered.client.client_id.as_str().to_string();
+        let app = router(state);
+        let uri = format!(
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
+            utf8_percent_encode("https://app.example.test/cb", NON_ALPHANUMERIC),
+            challenge()
+        );
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .uri(uri)
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = body_text(resp).await;
+        assert!(body.contains("Use the Beater MCP tools"));
+        assert!(body.contains("Read traces and evaluation data"));
+        assert!(!body.contains("Administer this tenant"));
+        assert!(!body.contains("admin required"));
+    }
+
+    #[tokio::test]
+    async fn elevated_scope_policy_covers_pii_and_owner() {
+        let scopes = BTreeSet::from(["pii:unmask".to_string()]);
+        assert!(!role_allows_scopes(
+            beater_accounts::OrgRole::Member,
+            &scopes
+        ));
+        assert!(role_allows_scopes(beater_accounts::OrgRole::Admin, &scopes));
+        assert!(role_allows_scopes(beater_accounts::OrgRole::Owner, &scopes));
+        assert_eq!(
+            required_role_for_scope("admin"),
+            beater_accounts::OrgRole::Admin
+        );
+        assert_eq!(
+            required_role_for_scope("pii_unmask"),
+            beater_accounts::OrgRole::Admin
+        );
+        assert_eq!(
+            required_role_for_scope("eval:run"),
+            beater_accounts::OrgRole::Member
+        );
     }
 
     #[tokio::test]
