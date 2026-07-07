@@ -6,7 +6,7 @@
 
 use std::sync::Arc;
 
-use beater_api::{router, v1_route_count, ApiState};
+use beater_api::{ApiState, router, v1_route_count};
 use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
 use beater_bus::InMemoryBus;
@@ -25,8 +25,8 @@ use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::SqliteUsageLedger;
 
-use axum::body::{to_bytes, Body};
 use axum::Router;
+use axum::body::{Body, to_bytes};
 use beater_archive::ParquetTraceArchive;
 use http::{Request, StatusCode};
 use tower::ServiceExt;

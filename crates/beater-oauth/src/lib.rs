@@ -18,10 +18,10 @@
 //! - All token secrets are stored only as SHA-256 hashes and compared in
 //!   constant time; the plaintext is shown once at mint time.
 
-use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
 use argon2::Argon2;
-use base64::engine::general_purpose::URL_SAFE_NO_PAD;
+use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
 use base64::Engine;
+use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use beater_core::{
     AccessTokenId, AuthCodeId, OAuthClientId, RefreshTokenId, TenantScope, Timestamp,
     TokenFamilyId, UserId,
@@ -30,7 +30,7 @@ use beater_store::StoreError;
 use chrono::{DateTime, Duration, Utc};
 use http::Uri;
 use rand_core::{OsRng, RngCore};
-use rusqlite::{params, Connection, OptionalExtension};
+use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeSet;

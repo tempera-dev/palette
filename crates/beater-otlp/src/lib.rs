@@ -21,29 +21,29 @@
 //! invariant.
 
 use beater_core::{
-    lower_hex, Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId,
-    TenantScope, Timestamp, TokenCounts, TraceId,
+    Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId, TenantScope,
+    Timestamp, TokenCounts, TraceId, lower_hex,
 };
 use beater_ingest::{
-    anonymous_auth_context, CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest,
-    RawTraceIngestRequest,
+    CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest, RawTraceIngestRequest,
+    anonymous_auth_context,
 };
 use beater_schema::{
     AgentSpanKind, AuthContext, CanonicalAttrs, ModelRef, RedactionClass, SourceDialect, SpanStatus,
 };
 use chrono::{TimeZone, Utc};
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::TraceService, ExportTraceServiceRequest, ExportTraceServiceResponse,
+    ExportTraceServiceRequest, ExportTraceServiceResponse, trace_service_server::TraceService,
 };
 use opentelemetry_proto::tonic::common::v1::{
-    any_value, AnyValue, ArrayValue, InstrumentationScope, KeyValue, KeyValueList,
+    AnyValue, ArrayValue, InstrumentationScope, KeyValue, KeyValueList, any_value,
 };
 use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
-    span, ResourceSpans, ScopeSpans, Span, Status as OtlpStatus,
+    ResourceSpans, ScopeSpans, Span, Status as OtlpStatus, span,
 };
 use prost::Message;
-use serde_json::{json, Map, Value};
+use serde_json::{Map, Value, json};
 use std::collections::BTreeMap;
 use tonic::metadata::MetadataMap;
 use tonic::{Request, Response, Status};
@@ -52,8 +52,8 @@ pub use opentelemetry_proto::tonic::collector::trace::v1::trace_service_server::
 
 pub mod propagation;
 pub use propagation::{
-    carrier_from, spawn_with_context, Baggage, Carrier, CarrierMut, TraceContext, BAGGAGE_HEADER,
-    REDACTED_BAGGAGE_VALUE, TRACEPARENT_HEADER, TRACESTATE_HEADER,
+    BAGGAGE_HEADER, Baggage, Carrier, CarrierMut, REDACTED_BAGGAGE_VALUE, TRACEPARENT_HEADER,
+    TRACESTATE_HEADER, TraceContext, carrier_from, spawn_with_context,
 };
 
 const TENANT_METADATA_KEY: &str = "x-beater-tenant-id";
@@ -1256,14 +1256,14 @@ mod tests {
     use beater_ingest::{IngestPolicy, TRACE_WRITE_BATCH_KIND};
     use beater_store_obj::FsArtifactStore;
     use beater_store_sql::SqliteTraceStore;
-    use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, KeyValue};
+    use opentelemetry_proto::tonic::common::v1::{AnyValue, KeyValue, any_value};
     use opentelemetry_proto::tonic::resource::v1::Resource;
-    use opentelemetry_proto::tonic::trace::v1::{status, ResourceSpans, ScopeSpans, Span, Status};
+    use opentelemetry_proto::tonic::trace::v1::{ResourceSpans, ScopeSpans, Span, Status, status};
     use std::collections::{BTreeMap, BTreeSet};
     use std::sync::Arc;
 
     fn lossy_canonical_span() -> beater_schema::CanonicalSpan {
-        use beater_schema::{ArtifactRef, CanonicalSpan, CANONICAL_SCHEMA_VERSION};
+        use beater_schema::{ArtifactRef, CANONICAL_SCHEMA_VERSION, CanonicalSpan};
         CanonicalSpan {
             schema_version: CANONICAL_SCHEMA_VERSION,
             normalizer_version: "beater-otlp-v1".to_string(),
@@ -2078,9 +2078,11 @@ mod tests {
                 json!(4)
             );
             // No un-prefixed leakage of the dropped-count key.
-            assert!(!span
-                .attributes
-                .contains_key("otel.dropped_resource_attributes_count"));
+            assert!(
+                !span
+                    .attributes
+                    .contains_key("otel.dropped_resource_attributes_count")
+            );
         }
     }
 

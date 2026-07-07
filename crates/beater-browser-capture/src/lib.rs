@@ -15,19 +15,19 @@
 //! evaluators in `beater-eval` read.
 
 use beater_browser::{
-    semconv, BrowserAction, BrowserDriver, LlmDecision, Observation, StepStatus, StepTriple,
+    BrowserAction, BrowserDriver, LlmDecision, Observation, StepStatus, StepTriple, semconv,
 };
 use beater_core::{
     EnvironmentId, Money, ProjectId, SpanId, TenantId, Timestamp, TokenCounts, TraceId,
 };
 use beater_replay::{ReplayEvent, ReplayEventKind, SqliteReplayStore};
 use beater_schema::{
-    AgentSpanKind, ArtifactRef, CanonicalSpan, ModelRef, RedactionClass, SpanStatus,
-    CANONICAL_SCHEMA_VERSION,
+    AgentSpanKind, ArtifactRef, CANONICAL_SCHEMA_VERSION, CanonicalSpan, ModelRef, RedactionClass,
+    SpanStatus,
 };
 use beater_store::ArtifactStore;
 use chrono::{Duration, Utc};
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 use std::collections::BTreeMap;
 
 /// Errors raised while capturing a browser step.
@@ -509,10 +509,10 @@ pub fn browser_trace_from_spans(spans: &[CanonicalSpan]) -> Value {
         if let Some(selector) = attrs.get(semconv::SELECTOR).and_then(Value::as_str) {
             args.insert("selector".to_string(), json!(selector));
         }
-        if action == "goto" {
-            if let Some(url) = attrs.get(semconv::URL).and_then(Value::as_str) {
-                args.insert("url".to_string(), json!(url));
-            }
+        if action == "goto"
+            && let Some(url) = attrs.get(semconv::URL).and_then(Value::as_str)
+        {
+            args.insert("url".to_string(), json!(url));
         }
         let step = json!({
             "seq": seq,
@@ -567,8 +567,8 @@ pub fn browser_trace_from_spans(spans: &[CanonicalSpan]) -> Value {
 mod tests {
     use super::*;
     use beater_browser::{
-        BrowserEngine, BrowserError, ConsoleMessage, Grounding, MockDriver, StepOutcome,
-        FIXTURE_KNOWN_SELECTOR, FIXTURE_MISSING_SELECTOR,
+        BrowserEngine, BrowserError, ConsoleMessage, FIXTURE_KNOWN_SELECTOR,
+        FIXTURE_MISSING_SELECTOR, Grounding, MockDriver, StepOutcome,
     };
     use beater_replay::SqliteReplayStore;
     use beater_store::StoreResult;
@@ -923,9 +923,10 @@ mod tests {
         // the before (perception) and after (result) DOM + screenshot artifacts.
         assert!(tool.attributes.contains_key(semconv::ACTION_LATENCY_MS));
         assert!(tool.attributes.contains_key(semconv::DOM_BEFORE_ARTIFACT));
-        assert!(tool
-            .attributes
-            .contains_key(semconv::SCREENSHOT_BEFORE_ARTIFACT));
+        assert!(
+            tool.attributes
+                .contains_key(semconv::SCREENSHOT_BEFORE_ARTIFACT)
+        );
         assert!(
             tool.input_ref.is_some(),
             "the agent's pre-action perception should be referenced as the span input"

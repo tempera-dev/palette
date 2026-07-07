@@ -16,7 +16,7 @@ use std::sync::Arc;
 #[cfg(not(feature = "billing"))]
 use axum::body::Body;
 #[cfg(not(feature = "billing"))]
-use beater_api::{router, ApiState};
+use beater_api::{ApiState, router};
 #[cfg(not(feature = "billing"))]
 use beater_bus::InMemoryBus;
 #[cfg(not(feature = "billing"))]

@@ -217,10 +217,10 @@ impl<C: Clock> StripeSync<C> {
 
         // 3. Out-of-order guard: ignore events not newer than the last applied
         //    one for this object.
-        if let Some(last) = self.store.last_applied_stripe_created(&object_id).await? {
-            if event.created <= last {
-                return Ok(EventApplication::Stale);
-            }
+        if let Some(last) = self.store.last_applied_stripe_created(&object_id).await?
+            && event.created <= last
+        {
+            return Ok(EventApplication::Stale);
         }
 
         // 4. Apply the effect, then mark applied (drives future ordering).

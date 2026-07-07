@@ -628,7 +628,7 @@ impl<C: beater_core::Clock> Billing<C> {
             // A lost optimistic-version update is surfaced as a typed
             // concurrent-modification error, never a silent overwrite.
             Err(StoreError::Conflict(message)) => {
-                return Err(BillingError::ConcurrentModification(message))
+                return Err(BillingError::ConcurrentModification(message));
             }
             Err(other) => return Err(other.into()),
         };

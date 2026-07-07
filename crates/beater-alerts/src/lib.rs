@@ -1,7 +1,7 @@
 use anyhow::Context;
 use beater_core::{ProjectId, TenantId, Timestamp, TraceId};
 use beater_schema::{CanonicalSpan, SpanStatus, TraceView};
-use beater_security::{sign_webhook, webhook_idempotency_key, WEBHOOK_IDEMPOTENCY_KEY_HEADER};
+use beater_security::{WEBHOOK_IDEMPOTENCY_KEY_HEADER, sign_webhook, webhook_idempotency_key};
 use chrono::Duration;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -62,23 +62,23 @@ pub fn decide_trace_sampling(trace: &TraceView, policy: &OnlineSamplingPolicy) -
             stable_score_per_mille,
         };
     }
-    if let Some(threshold) = policy.slow_ms_threshold {
-        if trace_latency_ms(&trace.spans).is_some_and(|latency| latency >= threshold) {
-            return SamplingDecision {
-                selected: true,
-                reason: SamplingReason::SlowTrace,
-                stable_score_per_mille,
-            };
-        }
+    if let Some(threshold) = policy.slow_ms_threshold
+        && trace_latency_ms(&trace.spans).is_some_and(|latency| latency >= threshold)
+    {
+        return SamplingDecision {
+            selected: true,
+            reason: SamplingReason::SlowTrace,
+            stable_score_per_mille,
+        };
     }
-    if let Some(threshold) = policy.high_cost_micros_threshold {
-        if trace_cost_micros(&trace.spans) >= threshold {
-            return SamplingDecision {
-                selected: true,
-                reason: SamplingReason::HighCostTrace,
-                stable_score_per_mille,
-            };
-        }
+    if let Some(threshold) = policy.high_cost_micros_threshold
+        && trace_cost_micros(&trace.spans) >= threshold
+    {
+        return SamplingDecision {
+            selected: true,
+            reason: SamplingReason::HighCostTrace,
+            stable_score_per_mille,
+        };
     }
     let sample_rate = policy.sample_rate_per_mille.min(1000);
     let selected = stable_score_per_mille < sample_rate;
@@ -342,12 +342,12 @@ fn check_and_record_in_state(
     now: Timestamp,
     dedupe_window: Duration,
 ) -> AlertDedupeDecision {
-    if let Some(last_emitted) = state.last_emitted_by_group.get(group_key) {
-        if in_dedupe_window(*last_emitted, now, dedupe_window) {
-            return AlertDedupeDecision::Suppressed {
-                last_emitted_at: *last_emitted,
-            };
-        }
+    if let Some(last_emitted) = state.last_emitted_by_group.get(group_key)
+        && in_dedupe_window(*last_emitted, now, dedupe_window)
+    {
+        return AlertDedupeDecision::Suppressed {
+            last_emitted_at: *last_emitted,
+        };
     }
     state
         .last_emitted_by_group
@@ -490,10 +490,9 @@ pub fn validate_webhook_endpoint_url(endpoint_url: &str) -> anyhow::Result<()> {
         .parse::<IpAddr>()
         .ok()
         .or_else(|| parse_relaxed_ipv4(host).map(IpAddr::V4))
+        && let Some(reason) = blocked_webhook_ip_reason(&ip)
     {
-        if let Some(reason) = blocked_webhook_ip_reason(&ip) {
-            anyhow::bail!("webhook endpoint_url must not target {reason}");
-        }
+        anyhow::bail!("webhook endpoint_url must not target {reason}");
     }
     Ok(())
 }
@@ -942,14 +941,15 @@ impl TailBuffer {
         // Bounded guard: only a freshly opened trace can grow the open set, so the
         // cap is only ever breached here. Force-flush the oldest open trace so a
         // never-completing trace cannot leak memory forever.
-        if opened_new && self.by_trace.len() > self.max_open_traces {
-            if let Some((evicted_decision, evicted_spans)) = self.evict_oldest(&trace_id) {
-                return TailBufferOutcome::Evicted {
-                    buffered_spans,
-                    evicted_decision,
-                    evicted_spans,
-                };
-            }
+        if opened_new
+            && self.by_trace.len() > self.max_open_traces
+            && let Some((evicted_decision, evicted_spans)) = self.evict_oldest(&trace_id)
+        {
+            return TailBufferOutcome::Evicted {
+                buffered_spans,
+                evicted_decision,
+                evicted_spans,
+            };
         }
 
         TailBufferOutcome::Buffered { buffered_spans }
@@ -997,7 +997,7 @@ mod tests {
             .collect()
     }
 
-    use beater_schema::{AgentSpanKind, ArtifactRef, RedactionClass, CANONICAL_SCHEMA_VERSION};
+    use beater_schema::{AgentSpanKind, ArtifactRef, CANONICAL_SCHEMA_VERSION, RedactionClass};
     use chrono::Utc;
 
     #[test]

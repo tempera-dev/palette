@@ -26,14 +26,14 @@
 //! `authorize()` path runs unchanged. When the server is built with auth
 //! disabled, calls are anonymous, exactly as for direct HTTP.
 
-use axum::body::{to_bytes, Body};
+use axum::Router;
+use axum::body::{Body, to_bytes};
 use axum::extract::State;
 use axum::response::{IntoResponse, Response};
 use axum::routing::post;
-use axum::Router;
-use beater_api::{openapi::urlencode, router as api_router, ApiState};
+use beater_api::{ApiState, openapi::urlencode, router as api_router};
 use http::{HeaderMap, Method, Request, StatusCode};
-use serde_json::{json, Map, Value};
+use serde_json::{Map, Value, json};
 use std::sync::OnceLock;
 use tokio::io::{AsyncBufReadExt, AsyncRead, AsyncWrite, AsyncWriteExt, BufReader};
 use tower::ServiceExt;
@@ -579,7 +579,7 @@ async fn handle_mcp(State(state): State<ApiState>, headers: HeaderMap, body: Bod
                 Value::Null,
                 PARSE_ERROR,
                 "failed to read request body",
-            ))
+            ));
         }
     };
     let request: Value = match serde_json::from_slice(&bytes) {
@@ -601,11 +601,9 @@ async fn handle_mcp(State(state): State<ApiState>, headers: HeaderMap, body: Bod
     if let Some(url) = state.oauth_metadata_url() {
         let has_creds = headers.contains_key(http::header::AUTHORIZATION)
             || headers.contains_key("x-beater-api-key");
-        if !has_creds {
-            if let Ok(value) = format!("Bearer resource_metadata=\"{url}\"").parse() {
-                resp.headers_mut()
-                    .insert(http::header::WWW_AUTHENTICATE, value);
-            }
+        if !has_creds && let Ok(value) = format!("Bearer resource_metadata=\"{url}\"").parse() {
+            resp.headers_mut()
+                .insert(http::header::WWW_AUTHENTICATE, value);
         }
     }
     resp

@@ -1,8 +1,8 @@
 use async_trait::async_trait;
-use axum::body::{to_bytes, Body};
 use axum::Router;
+use axum::body::{Body, to_bytes};
 use beater_alerts::{AlertDecision, SamplingDecision, SamplingReason};
-use beater_api::{router, ApiState};
+use beater_api::{ApiState, router};
 use beater_archive::{ArchiveManifest, ParquetTraceArchive};
 use beater_audit::SqliteAuditStore;
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
@@ -16,8 +16,8 @@ use beater_datasets::{
     Dataset, DatasetCase, DatasetEvalReport, DatasetVersionSnapshot, SqliteDatasetStore,
 };
 use beater_eval::{
-    compare_paired_scores, evaluate_deterministic, EvaluationCase, EvaluatorKind, EvaluatorSpec,
-    GateDecision, GatePolicy,
+    EvaluationCase, EvaluatorKind, EvaluatorSpec, GateDecision, GatePolicy, compare_paired_scores,
+    evaluate_deterministic,
 };
 use beater_experiments::{ExperimentRunReport, SqliteExperimentStore};
 use beater_gates::{GateDefinition, GateRunReport, SqliteGateStore};
@@ -26,11 +26,11 @@ use beater_human::{
 };
 use beater_ingest::{
     DeadLetterReplayReport, IngestOutcome, IngestPolicy, IngestQueueStatus, IngestService,
-    NativeIngestRequest, TraceIngestedDrainReport, TraceIngestedReconcileReport,
-    TraceWriteDrainReport, TRACE_INGESTED_KIND,
+    NativeIngestRequest, TRACE_INGESTED_KIND, TraceIngestedDrainReport,
+    TraceIngestedReconcileReport, TraceWriteDrainReport,
 };
 use beater_judge::{JudgeBrokerService, KeywordJudgeProvider, SqliteJudgeLedger};
-use beater_replay::{plan_replay, ReplayMode};
+use beater_replay::{ReplayMode, plan_replay};
 use beater_sandbox::WasmEvaluatorRuntime;
 use beater_schema::{
     AgentSpanKind, AuthContext, CanonicalSpan, EvaluatorLane, ModelRef, RedactionClass,
@@ -38,7 +38,7 @@ use beater_schema::{
 };
 use beater_search::{SearchIndex, SearchRequest, SearchResponse, TantivySearchIndex};
 use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
-use beater_security::{api_key_id_from_secret, verify_webhook, ApiScope};
+use beater_security::{ApiScope, api_key_id_from_secret, verify_webhook};
 use beater_store::{
     ArtifactStore, EnvironmentMetadata, MetadataStore, OrganizationMetadata, ProjectMetadata,
     StoreError, StoreResult, TraceStore,
@@ -2118,9 +2118,11 @@ async fn malformed_trace_ingested_event_returns_error_and_lands_in_dlq() {
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(status.dead_letters.len(), 1);
     assert_eq!(status.dead_letters[0].message.kind, TRACE_INGESTED_KIND);
-    assert!(status.dead_letters[0]
-        .reason
-        .contains("invalid trace.ingested payload"));
+    assert!(
+        status.dead_letters[0]
+            .reason
+            .contains("invalid trace.ingested payload")
+    );
 }
 
 #[tokio::test]
@@ -2160,10 +2162,12 @@ async fn reconcile_trace_ingested_recovers_direct_write_after_publish_outage_thr
         .unwrap_or_else(|err| panic!("{err}"));
     let error: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert!(error["error"]
-        .as_str()
-        .unwrap_or_default()
-        .contains("capacity 0"));
+    assert!(
+        error["error"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("capacity 0")
+    );
 
     let stored_trace = traces
         .get_project_trace(
@@ -2360,10 +2364,12 @@ async fn buffered_ingest_backpressure_returns_429() {
     let error: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(error["status"], json!(429));
-    assert!(error["error"]
-        .as_str()
-        .unwrap_or_default()
-        .contains("capacity 0"));
+    assert!(
+        error["error"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("capacity 0")
+    );
 }
 
 #[tokio::test]
@@ -2421,11 +2427,13 @@ async fn api_quota_429_includes_reset_headers() {
 
     assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
     let headers = response.headers().clone();
-    assert!(headers
-        .get(RETRY_AFTER)
-        .and_then(|value| value.to_str().ok())
-        .and_then(|value| value.parse::<i64>().ok())
-        .is_some_and(|seconds| seconds >= 0));
+    assert!(
+        headers
+            .get(RETRY_AFTER)
+            .and_then(|value| value.to_str().ok())
+            .and_then(|value| value.parse::<i64>().ok())
+            .is_some_and(|seconds| seconds >= 0)
+    );
     assert_eq!(
         headers
             .get("x-ratelimit-limit")
@@ -2451,10 +2459,12 @@ async fn api_quota_429_includes_reset_headers() {
     let error: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(error["status"], json!(429));
-    assert!(error["error"]
-        .as_str()
-        .unwrap_or_default()
-        .contains("quota exceeded"));
+    assert!(
+        error["error"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("quota exceeded")
+    );
 }
 
 #[tokio::test]
@@ -2515,10 +2525,12 @@ async fn api_quota_is_shared_across_replicas_and_resets_on_window() {
         Some(reset_at_header.as_str())
     );
     assert_eq!(error["status"], json!(429));
-    assert!(error["error"]
-        .as_str()
-        .unwrap_or_default()
-        .contains("quota exceeded"));
+    assert!(
+        error["error"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("quota exceeded")
+    );
 
     clock.set(now + Duration::seconds(65));
     let (status, _, _) = post_native_span(&app_b, "quota-shared-span-3", 3).await;

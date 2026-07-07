@@ -292,8 +292,8 @@ async fn e2e_subscribe_rollup_finalize_push_and_webhook_exactly_once() -> anyhow
 }
 
 #[tokio::test]
-async fn refund_usage_nets_down_billable_overage_without_negative_invoice_units(
-) -> anyhow::Result<()> {
+async fn refund_usage_nets_down_billable_overage_without_negative_invoice_units()
+-> anyhow::Result<()> {
     let store = Arc::new(SqliteBillingStore::in_memory()?);
     let usage = Arc::new(SqliteUsageLedger::in_memory()?);
     store.put_plan(plan("pro", 10_000, 1000, 2)?).await?;

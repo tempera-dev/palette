@@ -24,20 +24,20 @@ use axum::http::{HeaderMap, StatusCode};
 use axum::response::{IntoResponse, Redirect, Response};
 use axum::routing::{get, post};
 use axum::{Json, Router};
-use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use base64::Engine;
-use beater_accounts::{default_session_ttl, AccountError, AccountStore, OrgMembership, OrgRole};
+use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
+use beater_accounts::{AccountError, AccountStore, OrgMembership, OrgRole, default_session_ttl};
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest};
 use beater_core::{
     ApiKeyId, EnvironmentId, OrganizationId, ProjectId, TenantId, TenantScope, UserId,
 };
 use beater_oauth::{
-    validate_redirect_uri, AuthorizationGrant, ClientAuthMethod, ClientRegistration, GrantType,
-    IssuedTokens, OAuthError, OAuthStore,
+    AuthorizationGrant, ClientAuthMethod, ClientRegistration, GrantType, IssuedTokens, OAuthError,
+    OAuthStore, validate_redirect_uri,
 };
 use beater_security::ApiScope;
 use chrono::Utc;
-use percent_encoding::{utf8_percent_encode, NON_ALPHANUMERIC};
+use percent_encoding::{NON_ALPHANUMERIC, utf8_percent_encode};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::collections::BTreeSet;
@@ -270,7 +270,7 @@ async fn auth_register(
     {
         Ok(user) => user,
         Err(AccountError::EmailTaken) => {
-            return oauth_error(StatusCode::CONFLICT, "email_taken", None)
+            return oauth_error(StatusCode::CONFLICT, "email_taken", None);
         }
         Err(_) => return oauth_error(StatusCode::INTERNAL_SERVER_ERROR, "server_error", None),
     };
@@ -312,10 +312,10 @@ async fn auth_login(
 
 async fn auth_logout(State(state): State<OAuthServerState>, headers: HeaderMap) -> Response {
     // Best-effort: if the cookie maps to a live session, delete it.
-    if let Some(token) = session_cookie(&headers) {
-        if let Ok((_user, session)) = state.accounts.validate_session(&token, Utc::now()).await {
-            let _ = state.accounts.delete_session(&session.session_id).await;
-        }
+    if let Some(token) = session_cookie(&headers)
+        && let Ok((_user, session)) = state.accounts.validate_session(&token, Utc::now()).await
+    {
+        let _ = state.accounts.delete_session(&session.session_id).await;
     }
     let mut resp = StatusCode::NO_CONTENT.into_response();
     if let Ok(value) = clear_session_cookie(&state).parse() {
@@ -444,7 +444,7 @@ async fn register(
                     set.insert(parsed);
                 }
                 None => {
-                    return oauth_error(StatusCode::BAD_REQUEST, "invalid_client_metadata", None)
+                    return oauth_error(StatusCode::BAD_REQUEST, "invalid_client_metadata", None);
                 }
             }
         }
@@ -524,7 +524,7 @@ async fn authorize(
                 StatusCode::BAD_REQUEST,
                 "invalid_request",
                 Some("invalid client_id"),
-            )
+            );
         }
     };
     // Resolve + validate the client and redirect_uri BEFORE we ever redirect, so
@@ -536,7 +536,7 @@ async fn authorize(
                 StatusCode::BAD_REQUEST,
                 "invalid_request",
                 Some("unknown client"),
-            )
+            );
         }
         Err(err) => return oauth_error_from(err),
     };
@@ -613,7 +613,7 @@ async fn authorize(
                 &params.redirect_uri,
                 "invalid_request",
                 params.state.as_deref(),
-            )
+            );
         }
     };
     match state.accounts.get_membership(&org_id, &user_id).await {
@@ -623,7 +623,7 @@ async fn authorize(
                 &params.redirect_uri,
                 "access_denied",
                 params.state.as_deref(),
-            )
+            );
         }
         Err(_) => return oauth_error(StatusCode::INTERNAL_SERVER_ERROR, "server_error", None),
     }
@@ -820,10 +820,10 @@ fn session_cookie(headers: &HeaderMap) -> Option<String> {
     let raw = headers.get(http::header::COOKIE)?.to_str().ok()?;
     for pair in raw.split(';') {
         let pair = pair.trim();
-        if let Some(value) = pair.strip_prefix(&format!("{SESSION_COOKIE}=")) {
-            if !value.is_empty() {
-                return Some(value.to_string());
-            }
+        if let Some(value) = pair.strip_prefix(&format!("{SESSION_COOKIE}="))
+            && !value.is_empty()
+        {
+            return Some(value.to_string());
         }
     }
     None
@@ -1619,14 +1619,18 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
         let body = body_json(resp).await;
         assert_eq!(body["token_type"], "Bearer");
-        assert!(body["access_token"]
-            .as_str()
-            .unwrap_or("")
-            .starts_with("bao_"));
-        assert!(body["refresh_token"]
-            .as_str()
-            .unwrap_or("")
-            .starts_with("bro_"));
+        assert!(
+            body["access_token"]
+                .as_str()
+                .unwrap_or("")
+                .starts_with("bao_")
+        );
+        assert!(
+            body["refresh_token"]
+                .as_str()
+                .unwrap_or("")
+                .starts_with("bro_")
+        );
         assert_eq!(body["scope"], "traces:read");
     }
 

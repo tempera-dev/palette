@@ -3,7 +3,7 @@ mod metrics_http;
 
 use anyhow::Context;
 use beater_accounts::SqliteAccountStore;
-use beater_api::{router, ApiState};
+use beater_api::{ApiState, router};
 use beater_archive::ParquetTraceArchive;
 use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
@@ -19,7 +19,7 @@ use beater_gates::SqliteGateStore;
 use beater_human::SqliteHumanReviewStore;
 use beater_ingest::{
     ImportError, IngestPolicy, IngestService, RawTraceIngestRequest, SourceImporter,
-    TraceCompletionConfig, TRACE_INGESTED_KIND, TRACE_WRITE_BATCH_KIND,
+    TRACE_INGESTED_KIND, TRACE_WRITE_BATCH_KIND, TraceCompletionConfig,
 };
 use beater_judge::{
     HttpRoutingJudgeProvider, JudgeBrokerService, JudgeProvider, KeywordJudgeProvider,
@@ -39,12 +39,12 @@ use beater_secrets::{EncryptedSqliteProviderSecretStore, SecretKeyring};
 use beater_store::{ArtifactStore, StoreError, StoreResult, TraceStore};
 use beater_store_obj::FsArtifactStore;
 use beater_store_sql::{
-    migrate_local_beaterd_sqlite, SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore,
+    SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore, migrate_local_beaterd_sqlite,
 };
 use beater_usage::SqliteUsageLedger;
 use clap::{Parser, Subcommand, ValueEnum};
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use serde_json::json;
 use std::fs;
 use std::net::SocketAddr;
@@ -881,13 +881,13 @@ async fn apply_trace_ingested_test_hooks(hooks: &TraceIngestedWorkerHooks) -> Re
             tokio::time::sleep(Duration::from_millis(25)).await;
         }
     }
-    if let Some(fail_while_path) = &hooks.fail_while_path {
-        if fail_while_path.exists() {
-            return Err(format!(
-                "test trace.ingested failure while {} exists",
-                fail_while_path.display()
-            ));
-        }
+    if let Some(fail_while_path) = &hooks.fail_while_path
+        && fail_while_path.exists()
+    {
+        return Err(format!(
+            "test trace.ingested failure while {} exists",
+            fail_while_path.display()
+        ));
     }
     Ok(())
 }
@@ -1385,19 +1385,25 @@ mod auth_default_tests {
     #[test]
     fn auth_mode_local_allows_loopback_http_bind() {
         let args = Args::parse_from(["beaterd", "--auth-mode", "local"]);
-        validate_auth_mode_bind(&args).expect("default loopback bind is allowed");
+        let result = validate_auth_mode_bind(&args);
+        assert!(
+            result.is_ok(),
+            "default loopback bind is allowed: {result:?}"
+        );
 
         let args = Args::parse_from(["beaterd", "--auth-mode", "local", "--addr", "[::1]:8080"]);
-        validate_auth_mode_bind(&args).expect("IPv6 loopback bind is allowed");
+        let result = validate_auth_mode_bind(&args);
+        assert!(result.is_ok(), "IPv6 loopback bind is allowed: {result:?}");
     }
 
     #[test]
     fn auth_mode_local_rejects_public_http_bind() {
         for addr in ["0.0.0.0:8080", "[::]:8080", "192.0.2.10:8080"] {
             let args = Args::parse_from(["beaterd", "--auth-mode", "local", "--addr", addr]);
-            let err = validate_auth_mode_bind(&args)
-                .expect_err("local auth must not bind HTTP publicly")
-                .to_string();
+            let err = match validate_auth_mode_bind(&args) {
+                Ok(()) => panic!("local auth must not bind HTTP publicly"),
+                Err(err) => err.to_string(),
+            };
             assert!(
                 err.contains("--auth-mode local may only bind HTTP to loopback addresses"),
                 "{err}"
@@ -1413,8 +1419,11 @@ mod auth_default_tests {
                 addr,
                 "--allow-insecure-non-loopback",
             ]);
-            validate_auth_mode_bind(&opted_in)
-                .expect("--allow-insecure-non-loopback opts into a public local bind");
+            let result = validate_auth_mode_bind(&opted_in);
+            assert!(
+                result.is_ok(),
+                "--allow-insecure-non-loopback opts into a public local bind: {result:?}"
+            );
         }
     }
 
@@ -1427,6 +1436,10 @@ mod auth_default_tests {
             "--addr",
             "0.0.0.0:8080",
         ]);
-        validate_auth_mode_bind(&args).expect("required auth may bind publicly");
+        let result = validate_auth_mode_bind(&args);
+        assert!(
+            result.is_ok(),
+            "required auth may bind publicly: {result:?}"
+        );
     }
 }

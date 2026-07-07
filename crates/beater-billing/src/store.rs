@@ -21,7 +21,7 @@ use crate::{
 use async_trait::async_trait;
 use beater_core::OrganizationId;
 use beater_store::{StoreError, StoreResult};
-use rusqlite::{params, Connection, OptionalExtension};
+use rusqlite::{Connection, OptionalExtension, params};
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 

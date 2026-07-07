@@ -1,8 +1,8 @@
 #![cfg(feature = "billing")]
 
-use axum::body::{to_bytes, Body};
 use axum::Router;
-use beater_api::{router, ApiState};
+use axum::body::{Body, to_bytes};
+use beater_api::{ApiState, router};
 use beater_archive::ParquetTraceArchive;
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
 use beater_billing::store::BillingStore;
@@ -13,7 +13,7 @@ use beater_datasets::SqliteDatasetStore;
 use beater_experiments::SqliteExperimentStore;
 use beater_ingest::{IngestPolicy, IngestService};
 use beater_search::TantivySearchIndex;
-use beater_security::{sign_webhook, ApiScope, CreatedApiKey};
+use beater_security::{ApiScope, CreatedApiKey, sign_webhook};
 use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::{
@@ -21,7 +21,7 @@ use beater_usage::{
 };
 use chrono::{Duration, TimeZone, Utc};
 use http::{Method, Request, StatusCode};
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::Arc;
 use tower::ServiceExt;

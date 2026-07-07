@@ -12,9 +12,9 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::Arc;
 
-use axum::body::{to_bytes, Body};
 use axum::Router;
-use beater_api::{router, v1_route_count, ApiState};
+use axum::body::{Body, to_bytes};
+use beater_api::{ApiState, router, v1_route_count};
 use beater_archive::ParquetTraceArchive;
 use beater_audit::SqliteAuditStore;
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
@@ -34,7 +34,7 @@ use beater_store_obj::FsArtifactStore;
 use beater_store_sql::SqliteTraceStore;
 use beater_usage::SqliteUsageLedger;
 use http::{Request, StatusCode};
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 use tower::ServiceExt;
 
 fn unwrap<T, E: std::fmt::Display>(result: Result<T, E>) -> T {

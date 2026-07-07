@@ -4,13 +4,14 @@ use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use axum::{Json, Router};
 use beater_alerts::{
-    decide_trace_sampling, validate_webhook_endpoint_url, AlertDecision, AlertEngine, AlertInput,
-    AlertPolicy, OnlineSamplingPolicy, SamplingDecision,
+    AlertDecision, AlertEngine, AlertInput, AlertPolicy, OnlineSamplingPolicy, SamplingDecision,
+    decide_trace_sampling, validate_webhook_endpoint_url,
 };
 use beater_archive::{ArchiveManifest, ArchiveQuery, ArchivedSpanRow, ParquetTraceArchive};
 use beater_audit::{
-    connector_tool_invoke_event, pii_unmask_event, AuditAction, AuditEvent, AuditEventInsert,
-    AuditOutcome, AuditStore, ConnectorToolInvokeAuditInput, PiiUnmaskAuditInput,
+    AuditAction, AuditEvent, AuditEventInsert, AuditOutcome, AuditStore,
+    ConnectorToolInvokeAuditInput, PiiUnmaskAuditInput, connector_tool_invoke_event,
+    pii_unmask_event,
 };
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest, RevokedApiKey};
 #[cfg(feature = "billing")]
@@ -22,58 +23,57 @@ use beater_billing::{
     Billing, BillingError, Invoice, Plan, PlanChange, PlanId, Subscription, SubscriptionStatus,
 };
 use beater_calibration::{
-    calibrate_eval_report, CalibrationPolicy, CalibrationReport, CalibrationStore,
+    CalibrationPolicy, CalibrationReport, CalibrationStore, calibrate_eval_report,
 };
 use beater_composio::{
-    skill, ComposioClient, ComposioError, ConnectionLink, ConnectionStatus, ConnectorTool,
-    ConnectorToolPolicy, ConnectorToolPolicyDecision, ToolExecution, Toolkit,
+    ComposioClient, ComposioError, ConnectionLink, ConnectionStatus, ConnectorTool,
+    ConnectorToolPolicy, ConnectorToolPolicyDecision, ToolExecution, Toolkit, skill,
 };
 #[cfg(feature = "billing")]
 use beater_core::OrganizationId;
 use beater_core::{
-    sha256_json_hash, AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId,
-    DatasetVersionId, EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page,
-    PageRequest, ProjectId, PromptId, PromptVersionId, ProviderSecretId, ReviewQueueId,
-    ReviewTaskId, Sha256Hash, SpanId, TenantId, TenantScope, TraceId,
+    AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId, DatasetVersionId,
+    EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page, PageRequest, ProjectId,
+    PromptId, PromptVersionId, ProviderSecretId, ReviewQueueId, ReviewTaskId, Sha256Hash, SpanId,
+    TenantId, TenantScope, TraceId, sha256_json_hash,
 };
 use beater_datasets::{
-    evaluate_dataset_version, evaluate_dataset_version_with_judge, promote_trace_span_to_case,
     Dataset, DatasetEvalReport, DatasetEvalSpec, DatasetJudgeEvalSpec, DatasetStore,
-    DatasetVersionSnapshot,
+    DatasetVersionSnapshot, evaluate_dataset_version, evaluate_dataset_version_with_judge,
+    promote_trace_span_to_case,
 };
 use beater_eval::{EvaluationCase, EvaluatorKind, EvaluatorSpec};
 use beater_experiments::{
-    run_deterministic_experiment, run_judge_experiment, CaseOutputOverride, ExperimentRunReport,
-    ExperimentRunSpec, ExperimentStore, JudgeExperimentRunSpec,
+    CaseOutputOverride, ExperimentRunReport, ExperimentRunSpec, ExperimentStore,
+    JudgeExperimentRunSpec, run_deterministic_experiment, run_judge_experiment,
 };
-use beater_gates::{run_gate, GateDefinition, GateRunReport, GateStore, InconclusivePolicy};
+use beater_gates::{GateDefinition, GateRunReport, GateStore, InconclusivePolicy, run_gate};
 use beater_human::{
-    promote_review_annotation_to_dataset_case,
     CreateReviewQueueRequest as CreateReviewQueueStoreRequest, EnqueueReviewTaskRequest,
     HumanReviewStore, ReviewAnnotation, ReviewQueue, ReviewTask, ReviewTaskState, ReviewVerdict,
-    SubmitAnnotationRequest,
+    SubmitAnnotationRequest, promote_review_annotation_to_dataset_case,
 };
 use beater_ingest::{
-    anonymous_auth_context, DeadLetterReplayReport, IngestError, IngestOutcome, IngestQueueStatus,
-    IngestService, NativeIngestRequest, TraceIngestedDrainReport, TraceIngestedReconcileReport,
-    TraceWriteDrainReport,
+    DeadLetterReplayReport, IngestError, IngestOutcome, IngestQueueStatus, IngestService,
+    NativeIngestRequest, TraceIngestedDrainReport, TraceIngestedReconcileReport,
+    TraceWriteDrainReport, anonymous_auth_context,
 };
 use beater_judge::{
     JudgeBroker, JudgeBrokerError, JudgeBrokerOutcome, JudgeBrokerRequest, JudgeLedgerStore,
 };
 use beater_oauth::OAuthStore;
 use beater_otlp::{
-    decode_export_trace_request, decode_export_trace_request_json, export_scope_hints,
-    export_to_raw_trace_ingest_request, export_to_raw_trace_ingest_request_with_mime_type,
-    OtlpScopeHints,
+    OtlpScopeHints, decode_export_trace_request, decode_export_trace_request_json,
+    export_scope_hints, export_to_raw_trace_ingest_request,
+    export_to_raw_trace_ingest_request_with_mime_type,
 };
 use beater_prompts::{
     AddPromptVersion, CreatePrompt, CreatedPrompt, Prompt, PromptRegistry, PromptRegistryError,
     PromptTemplate, PromptVersion, PromptVersionDiff,
 };
 use beater_scenarios::{
-    cluster_failures, FailureMode, PerturbationKnobs, Scenario, ScenarioCluster, ScenarioStore,
-    TraceSummary,
+    FailureMode, PerturbationKnobs, Scenario, ScenarioCluster, ScenarioStore, TraceSummary,
+    cluster_failures,
 };
 use beater_schema::{
     AgentSpanKind, ArtifactRef, AuthContext, CanonicalSpan, RedactionClass, RunFilter, RunSummary,
@@ -86,14 +86,13 @@ use beater_secrets::{
     ProviderSecretMetadata, ProviderSecretStore, PutProviderSecretRequest, RevokedProviderSecret,
 };
 use beater_security::{
-    api_key_id_from_secret, verify_api_key, ApiScope, CreatedApiKey, SecurityError,
+    ApiScope, CreatedApiKey, SecurityError, api_key_id_from_secret, verify_api_key,
 };
 use beater_store::{MetadataStore, StoreError, TraceStore};
 use beater_store_memory::InMemoryMetadataStore;
 use beater_usage::{
-    judge_usage_from_dataset_eval_report, judge_usage_from_experiment_report,
-    judge_usage_from_outcome, record_usage_batch, UsageLedgerStore, UsageRecordInsert,
-    UsageSummary,
+    UsageLedgerStore, UsageRecordInsert, UsageSummary, judge_usage_from_dataset_eval_report,
+    judge_usage_from_experiment_report, judge_usage_from_outcome, record_usage_batch,
 };
 use chrono::Utc;
 use http::header::{HeaderName, HeaderValue, RETRY_AFTER};
@@ -3618,12 +3617,12 @@ async fn run_calibration_route(
         let report = datasets
             .get_eval_report(tenant_id.clone(), project_id.clone(), eval_report_id)
             .await?;
-        if let Some(evaluator_version_id) = &requested_evaluator {
-            if &report.evaluator_version_id != evaluator_version_id {
-                return Err(ApiError::bad_request(
-                    "eval_report_id does not match requested evaluator_version_id".to_string(),
-                ));
-            }
+        if let Some(evaluator_version_id) = &requested_evaluator
+            && &report.evaluator_version_id != evaluator_version_id
+        {
+            return Err(ApiError::bad_request(
+                "eval_report_id does not match requested evaluator_version_id".to_string(),
+            ));
         }
         report
     } else {
@@ -4895,18 +4894,18 @@ async fn authorize(
     // OAuth access tokens (`bao_...`) are accepted when an OAuth store is wired.
     // This is the bridge that lets MCP/HTTP callers authenticate with an OAuth
     // token instead of a raw API key.
-    if secret.starts_with("bao_") {
-        if let Some(oauth) = state.oauth.as_ref() {
-            return authorize_oauth(
-                oauth.as_ref(),
-                secret,
-                tenant_id,
-                project_id,
-                environment_id,
-                required_scope,
-            )
-            .await;
-        }
+    if secret.starts_with("bao_")
+        && let Some(oauth) = state.oauth.as_ref()
+    {
+        return authorize_oauth(
+            oauth.as_ref(),
+            secret,
+            tenant_id,
+            project_id,
+            environment_id,
+            required_scope,
+        )
+        .await;
     }
     let api_keys = state
         .api_keys
@@ -5089,16 +5088,15 @@ fn ensure_trace_auth_scope(trace: &TraceView, auth: &AuthDecision) -> Result<(),
     if let Some(project_id) = &auth.project_id {
         ensure_trace_project(trace, project_id)?;
     }
-    if let Some(environment_id) = &auth.environment_id {
-        if trace
+    if let Some(environment_id) = &auth.environment_id
+        && trace
             .spans
             .iter()
             .any(|span| span.environment_id.as_str() != environment_id.as_str())
-        {
-            return Err(ApiError::forbidden(
-                "trace contains spans outside authenticated environment".to_string(),
-            ));
-        }
+    {
+        return Err(ApiError::forbidden(
+            "trace contains spans outside authenticated environment".to_string(),
+        ));
     }
     Ok(())
 }
@@ -5643,7 +5641,7 @@ impl IntoResponse for ApiError {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use axum::body::{to_bytes, Body};
+    use axum::body::{Body, to_bytes};
     use beater_bus::InMemoryBus;
     use beater_core::sha256_hex;
     use beater_core::{EnvironmentId, IdempotencyKey, ProjectId, SpanId, TenantScope, TraceId};
@@ -5657,11 +5655,11 @@ mod tests {
     use http::{Request, StatusCode};
     use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
     use opentelemetry_proto::tonic::common::v1::{
-        any_value, AnyValue, InstrumentationScope, KeyValue,
+        AnyValue, InstrumentationScope, KeyValue, any_value,
     };
     use opentelemetry_proto::tonic::resource::v1::Resource;
     use opentelemetry_proto::tonic::trace::v1::{
-        span, status, ResourceSpans, ScopeSpans, Span, Status,
+        ResourceSpans, ScopeSpans, Span, Status, span, status,
     };
     use serde_json::json;
     use std::collections::BTreeMap;
@@ -5706,40 +5704,46 @@ mod tests {
 
         // Wrong tenant -> forbidden (token is bound to its tenant scope).
         let other = TenantId::new("evil").unwrap_or_else(|err| panic!("{err}"));
-        assert!(authorize_oauth(
-            &store,
-            &issued.access_token,
-            &other,
-            &project,
-            &environment,
-            ApiScope::TraceRead,
-        )
-        .await
-        .is_err());
+        assert!(
+            authorize_oauth(
+                &store,
+                &issued.access_token,
+                &other,
+                &project,
+                &environment,
+                ApiScope::TraceRead,
+            )
+            .await
+            .is_err()
+        );
 
         // Missing scope -> forbidden.
-        assert!(authorize_oauth(
-            &store,
-            &issued.access_token,
-            &tenant,
-            &project,
-            &environment,
-            ApiScope::TraceWrite,
-        )
-        .await
-        .is_err());
+        assert!(
+            authorize_oauth(
+                &store,
+                &issued.access_token,
+                &tenant,
+                &project,
+                &environment,
+                ApiScope::TraceWrite,
+            )
+            .await
+            .is_err()
+        );
 
         // Garbage token -> rejected.
-        assert!(authorize_oauth(
-            &store,
-            "bao_nope_nope",
-            &tenant,
-            &project,
-            &environment,
-            ApiScope::TraceRead,
-        )
-        .await
-        .is_err());
+        assert!(
+            authorize_oauth(
+                &store,
+                "bao_nope_nope",
+                &tenant,
+                &project,
+                &environment,
+                ApiScope::TraceRead,
+            )
+            .await
+            .is_err()
+        );
     }
 
     #[test]
@@ -5849,18 +5853,24 @@ mod tests {
         let spec: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
         assert!(spec["paths"].get("/v1/traces/{tenant_id}").is_some());
-        assert!(spec["paths"]
-            .get("/v1/spans/{tenant_id}/{trace_id}/{span_id}/io")
-            .is_some());
+        assert!(
+            spec["paths"]
+                .get("/v1/spans/{tenant_id}/{trace_id}/{span_id}/io")
+                .is_some()
+        );
         let trace_params = spec["paths"]["/v1/traces/{tenant_id}"]["get"]["parameters"]
             .as_array()
             .unwrap_or_else(|| panic!("trace list params must be an array"));
-        assert!(trace_params
-            .iter()
-            .any(|param| param["name"] == json!("started_after")));
-        assert!(trace_params
-            .iter()
-            .any(|param| param["name"] == json!("min_cost_micros")));
+        assert!(
+            trace_params
+                .iter()
+                .any(|param| param["name"] == json!("started_after"))
+        );
+        assert!(
+            trace_params
+                .iter()
+                .any(|param| param["name"] == json!("min_cost_micros"))
+        );
     }
 
     #[tokio::test]
@@ -6211,10 +6221,12 @@ mod tests {
         let error: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(error["status"], serde_json::json!(400));
-        assert!(error["error"]
-            .as_str()
-            .unwrap_or_default()
-            .contains("invalid OTLP trace export"));
+        assert!(
+            error["error"]
+                .as_str()
+                .unwrap_or_default()
+                .contains("invalid OTLP trace export")
+        );
     }
 
     #[tokio::test]
@@ -6246,10 +6258,12 @@ mod tests {
         let error: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(error["status"], serde_json::json!(400));
-        assert!(error["error"]
-            .as_str()
-            .unwrap_or_default()
-            .contains("invalid OTLP trace export"));
+        assert!(
+            error["error"]
+                .as_str()
+                .unwrap_or_default()
+                .contains("invalid OTLP trace export")
+        );
     }
 
     fn api_state_fixture() -> (IngestService, Arc<dyn TraceStore>, tempfile::TempDir) {
