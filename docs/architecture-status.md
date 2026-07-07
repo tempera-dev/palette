@@ -116,9 +116,9 @@
 
 | Component | ARCH § | Claimed status | Actual (verified) | Notes / Discrepancy |
 |---|---|---|---|---|
-| `beater-mcp` (spec-driven tool server, composite recipes) | §21 | streamable-HTTP built; stdio planned | **Partial** — `crates/beater-mcp/` in workspace | `POST /mcp` streamable-HTTP + OAuth 2.1 is built; `beaterd mcp --stdio` transport is not |
+| `beater-mcp` (spec-driven tool server, composite recipes) | §21 | streamable-HTTP built; stdio planned | **Partial** — `crates/beater-mcp/` in workspace | `POST /mcp` streamable-HTTP + OAuth 2.1 is built; `beaterd mcp --stdio` is built and tested; RSI composite recipes are not |
 | MCP streamable-HTTP transport (`POST /GET /mcp`) | §21, §21.5b | built | **Built** | OAuth 2.1 authorization server wired |
-| MCP stdio transport (`beaterd mcp --stdio`) | §21, §21.5b | planned | **Planned** | Named gap in §21; required for Claude Code / Cursor local integration |
+| MCP stdio transport (`beaterd mcp --stdio`) | §21, §21.5b | planned | **Built** | `serve_stdio_streams` covers `initialize`, `tools/list`, and `tools/call`; `beaterd mcp --stdio` is wired for local Claude Code / Codex-style integration |
 | RSI improvement tools (`propose`, `simulate`, `accept`, `gate_candidate`) | §21.1 | planned | **Planned** | RSI loop end-to-end is planned; `beater-mcp` crate exists but RSI recipes are not yet built |
 | RSI anti-overfit guardrail (§21.4 signals) | §21.4 | planned | **Planned** | Five signals (OOD probe, smoothness, EvalStop, etc.) all planned |
 | `beater-studio` (Agent Studio visual canvas) | §21.6b | DEFERRED (design-only) | **Deferred** — no directory | Ideas preserved; not a near-term product |
@@ -270,8 +270,9 @@ in a material way:
 6. **Overall readiness ≈ 33%.** ARCH §20.1 states this honestly. The built
    primitives are strong (OTLP, normalizer, WASI sandbox, OAuth 2.1, crypto, 7 SDKs,
    MCP streamable-HTTP, contract-drift CI; `beater-stats` Phase 1 and the
-   `beater-bench` skeleton have since landed). The largest unbuilt pillars are:
-   `beater-stats` wiring into eval/gates plus its sequential/FWER-FDR layers, MCP
-   stdio transport, product UI beyond the waterfall, enforced RBAC, hosted
+   `beater-bench` skeleton, and MCP stdio transport have since landed). The
+   largest unbuilt pillars are:
+   `beater-stats` wiring into eval/gates plus its sequential/FWER-FDR layers,
+   product UI beyond the waterfall, enforced RBAC, hosted
    control-plane (identity/SSO), online eval scoring, alert delivery, the load
    benchmark gates, and the full RSI loop.

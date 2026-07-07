@@ -551,17 +551,28 @@ async fn main() -> anyhow::Result<()> {
     let oauth_metadata_url = format!("{issuer}/.well-known/oauth-protected-resource");
     // Let the HTTP API + MCP accept OAuth access tokens (not just API keys),
     // sharing the same OAuth store the authorization server writes to.
-    state = state.with_oauth(oauth_store.clone(), Some(oauth_metadata_url));
+    state = state.with_oauth(
+        oauth_store.clone(),
+        Some(oauth_metadata_url),
+        issuer.clone(),
+    );
     let oauth_state = OAuthServerState {
         oauth: oauth_store,
         accounts: account_store,
         issuer,
         login_url: args.login_url.clone(),
         scopes_supported: vec![
+            "mcp:invoke".to_string(),
             "trace:read".to_string(),
             "trace:write".to_string(),
-            "mcp:invoke".to_string(),
+            "dataset:write".to_string(),
+            "scenario:read".to_string(),
+            "scenario:write".to_string(),
+            "eval:run".to_string(),
+            "pii:unmask".to_string(),
+            "admin".to_string(),
         ],
+        consents: Default::default(),
         api_keys: api_key_store,
     };
 

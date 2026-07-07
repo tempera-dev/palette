@@ -17,7 +17,8 @@
 //! Login UI is owned by the dashboard: an unauthenticated `/oauth/authorize`
 //! redirects to `login_url` with a `return_to` back to itself.
 
-use std::sync::Arc;
+use std::collections::{BTreeSet, HashMap};
+use std::sync::{Arc, Mutex};
 
 use axum::extract::{Form, OriginalUri, Query, State};
 use axum::http::{HeaderMap, StatusCode};
@@ -29,7 +30,8 @@ use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use beater_accounts::{AccountError, AccountStore, OrgMembership, OrgRole, default_session_ttl};
 use beater_auth::{ApiKeyStore, CreateApiKeyRequest};
 use beater_core::{
-    ApiKeyId, EnvironmentId, OrganizationId, ProjectId, TenantId, TenantScope, UserId,
+    ApiKeyId, EnvironmentId, OAuthClientId, OrganizationId, ProjectId, TenantId, TenantScope,
+    UserId,
 };
 use beater_oauth::{
     AuthorizationGrant, ClientAuthMethod, ClientRegistration, GrantType, IssuedTokens, OAuthError,
@@ -38,9 +40,9 @@ use beater_oauth::{
 use beater_security::ApiScope;
 use chrono::Utc;
 use percent_encoding::{NON_ALPHANUMERIC, utf8_percent_encode};
+use rand_core::{OsRng, RngCore};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use std::collections::BTreeSet;
 
 /// Name of the dashboard session cookie carrying the accounts `bs_<id>_<secret>`
 /// token used to identify the logged-in user at `/oauth/authorize`.
@@ -61,6 +63,15 @@ pub struct OAuthServerState {
     /// so a logged-in user can mint/revoke keys for their own tenant. `None`
     /// when the backend runs without strict auth (no key store).
     pub api_keys: Option<Arc<dyn ApiKeyStore>>,
+    /// One-time consent approvals keyed by a server-generated nonce. This keeps
+    /// a malicious client from skipping the consent screen with `approve=1`.
+    pub consents: Arc<Mutex<HashMap<String, PendingConsent>>>,
+}
+
+#[derive(Clone)]
+pub struct PendingConsent {
+    grant: AuthorizationGrant,
+    state: Option<String>,
 }
 
 impl OAuthServerState {
@@ -450,7 +461,10 @@ async fn register(
         }
         set
     };
-    let scopes = parse_scope(req.scope.as_deref());
+    let mut scopes = parse_scope(req.scope.as_deref());
+    if scopes.is_empty() {
+        scopes = default_oauth_scopes(&state.scopes_supported);
+    }
     if let Some(scope) = unsupported_scope(&scopes, &state.scopes_supported) {
         return oauth_error(StatusCode::BAD_REQUEST, "invalid_scope", Some(scope));
     }
@@ -500,15 +514,28 @@ struct AuthorizeParams {
     #[serde(default)]
     scope: Option<String>,
     #[serde(default)]
+    resource: Option<String>,
+    #[serde(default)]
     state: Option<String>,
     code_challenge: String,
     #[serde(default)]
     code_challenge_method: Option<String>,
     /// Tenant/project/environment the user is authorizing the token for. The
-    /// user must be a member of the tenant's organization.
-    tenant_id: String,
-    project_id: String,
-    environment_id: String,
+    /// user must be a member of the tenant's organization. MCP clients do not
+    /// know these ids on first login, so they default to the user's personal
+    /// tenant and the default project/environment.
+    #[serde(default)]
+    tenant_id: Option<String>,
+    #[serde(default)]
+    project_id: Option<String>,
+    #[serde(default)]
+    environment_id: Option<String>,
+    #[serde(default)]
+    approve: Option<String>,
+    #[serde(default)]
+    deny: Option<String>,
+    #[serde(default)]
+    consent_nonce: Option<String>,
 }
 
 async fn authorize(
@@ -591,14 +618,28 @@ async fn authorize(
         }
     };
 
-    // The user picks the tenant/project/environment to authorize for. Validate
-    // the ids and enforce that the user is a MEMBER of the tenant's org — this
-    // is the privilege-escalation guard: a logged-in user cannot mint a token
-    // for a tenant they don't belong to.
+    // Default to the user's personal tenant and a default project/environment so
+    // MCP OAuth clients can start from only the advertised metadata.
+    let tenant = params
+        .tenant_id
+        .clone()
+        .unwrap_or_else(|| user_id.as_str().to_string());
+    let project = params
+        .project_id
+        .clone()
+        .unwrap_or_else(|| "default".to_string());
+    let environment = params
+        .environment_id
+        .clone()
+        .unwrap_or_else(|| "default".to_string());
+
+    // Validate ids and enforce that the user is a MEMBER of the tenant's org —
+    // this is the privilege-escalation guard: a logged-in user cannot mint a
+    // token for a tenant they don't belong to.
     let (Ok(tenant_id), Ok(project_id), Ok(environment_id)) = (
-        TenantId::new(params.tenant_id.clone()),
-        ProjectId::new(params.project_id.clone()),
-        EnvironmentId::new(params.environment_id.clone()),
+        TenantId::new(tenant.clone()),
+        ProjectId::new(project),
+        EnvironmentId::new(environment),
     ) else {
         return redirect_error(
             &params.redirect_uri,
@@ -606,7 +647,7 @@ async fn authorize(
             params.state.as_deref(),
         );
     };
-    let org_id = match OrganizationId::new(params.tenant_id.clone()) {
+    let org_id = match OrganizationId::new(tenant.clone()) {
         Ok(org) => org,
         Err(_) => {
             return redirect_error(
@@ -632,7 +673,11 @@ async fn authorize(
     // Default the scope to the client's full registered set when omitted.
     let requested = parse_scope(params.scope.as_deref());
     let scope = if requested.is_empty() {
-        client.scopes.clone()
+        if client.scopes.is_empty() {
+            default_oauth_scopes(&state.scopes_supported)
+        } else {
+            client.scopes.clone()
+        }
     } else {
         requested
     };
@@ -643,15 +688,77 @@ async fn authorize(
             params.state.as_deref(),
         );
     }
+    let resource = params
+        .resource
+        .clone()
+        .unwrap_or_else(|| state.issuer.clone());
+    if resource != state.issuer {
+        return redirect_error(
+            &params.redirect_uri,
+            "invalid_target",
+            params.state.as_deref(),
+        );
+    }
 
     let grant = AuthorizationGrant {
         client_id,
         user_id,
         redirect_uri: params.redirect_uri.clone(),
-        scope,
+        scope: scope.clone(),
+        resource: resource.clone(),
         tenant_scope,
         code_challenge: params.code_challenge.clone(),
     };
+
+    if params.deny.as_deref() == Some("1") {
+        let Some(nonce) = params.consent_nonce.as_deref() else {
+            return redirect_error(
+                &params.redirect_uri,
+                "invalid_request",
+                params.state.as_deref(),
+            );
+        };
+        return match take_pending_consent(&state, nonce, &grant.user_id, &grant.client_id) {
+            Ok(pending) => redirect_error(
+                &pending.grant.redirect_uri,
+                "access_denied",
+                pending.state.as_deref(),
+            ),
+            Err(response) => *response,
+        };
+    }
+
+    if params.approve.as_deref() == Some("1") {
+        let Some(nonce) = params.consent_nonce.as_deref() else {
+            return redirect_error(
+                &params.redirect_uri,
+                "invalid_request",
+                params.state.as_deref(),
+            );
+        };
+        return match take_pending_consent(&state, nonce, &grant.user_id, &grant.client_id) {
+            Ok(pending) => issue_authorization_grant(&state, pending.grant, pending.state).await,
+            Err(response) => *response,
+        };
+    }
+
+    let nonce = store_pending_consent(&state, grant, params.state.clone());
+    consent_page(
+        &params,
+        &client.client_name,
+        &scope,
+        &resource,
+        &tenant,
+        &nonce,
+    )
+}
+
+async fn issue_authorization_grant(
+    state: &OAuthServerState,
+    grant: AuthorizationGrant,
+    grant_state: Option<String>,
+) -> Response {
+    let redirect_uri = grant.redirect_uri.clone();
     match state
         .oauth
         .issue_authorization_code(grant, Utc::now())
@@ -660,10 +767,10 @@ async fn authorize(
         Ok(code) => {
             let mut url = format!(
                 "{}?code={}",
-                params.redirect_uri,
+                redirect_uri,
                 utf8_percent_encode(&code, NON_ALPHANUMERIC)
             );
-            if let Some(s) = &params.state {
+            if let Some(s) = &grant_state {
                 url.push_str(&format!(
                     "&state={}",
                     utf8_percent_encode(s, NON_ALPHANUMERIC)
@@ -671,18 +778,72 @@ async fn authorize(
             }
             Redirect::to(&url).into_response()
         }
-        Err(OAuthError::InvalidScope) => redirect_error(
-            &params.redirect_uri,
-            "invalid_scope",
-            params.state.as_deref(),
-        ),
-        Err(OAuthError::InvalidRequest(_)) => redirect_error(
-            &params.redirect_uri,
-            "invalid_request",
-            params.state.as_deref(),
-        ),
+        Err(OAuthError::InvalidScope) => {
+            redirect_error(&redirect_uri, "invalid_scope", grant_state.as_deref())
+        }
+        Err(OAuthError::InvalidRequest(_)) => {
+            redirect_error(&redirect_uri, "invalid_request", grant_state.as_deref())
+        }
         Err(err) => oauth_error_from(err),
     }
+}
+
+fn store_pending_consent(
+    state: &OAuthServerState,
+    grant: AuthorizationGrant,
+    grant_state: Option<String>,
+) -> String {
+    let nonce = new_consent_nonce();
+    let mut consents = state
+        .consents
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner());
+    consents.insert(
+        nonce.clone(),
+        PendingConsent {
+            grant,
+            state: grant_state,
+        },
+    );
+    nonce
+}
+
+fn take_pending_consent(
+    state: &OAuthServerState,
+    nonce: &str,
+    user_id: &UserId,
+    client_id: &OAuthClientId,
+) -> Result<PendingConsent, Box<Response>> {
+    let mut consents = state
+        .consents
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner());
+    let Some(pending) = consents.remove(nonce) else {
+        return Err(Box::new(oauth_error(
+            StatusCode::BAD_REQUEST,
+            "invalid_request",
+            Some("invalid or expired consent nonce"),
+        )));
+    };
+    if &pending.grant.user_id != user_id || &pending.grant.client_id != client_id {
+        return Err(Box::new(redirect_error(
+            &pending.grant.redirect_uri,
+            "access_denied",
+            pending.state.as_deref(),
+        )));
+    }
+    Ok(pending)
+}
+
+fn new_consent_nonce() -> String {
+    let mut bytes = [0u8; 32];
+    OsRng.fill_bytes(&mut bytes);
+    let mut out = String::with_capacity(bytes.len() * 2);
+    for byte in bytes {
+        use std::fmt::Write as _;
+        let _ = write!(&mut out, "{byte:02x}");
+    }
+    out
 }
 
 // ---- token ----
@@ -699,6 +860,8 @@ struct TokenForm {
     #[serde(default)]
     refresh_token: Option<String>,
     #[serde(default)]
+    resource: Option<String>,
+    #[serde(default)]
     client_id: Option<String>,
     #[serde(default)]
     client_secret: Option<String>,
@@ -709,7 +872,8 @@ struct TokenResponse {
     access_token: String,
     token_type: &'static str,
     expires_in: i64,
-    refresh_token: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    refresh_token: Option<String>,
     scope: String,
 }
 
@@ -735,6 +899,17 @@ async fn token(
         Ok(id) => id,
         Err(_) => return oauth_error(StatusCode::UNAUTHORIZED, "invalid_client", None),
     };
+    let resource = form
+        .resource
+        .clone()
+        .unwrap_or_else(|| state.issuer.clone());
+    if resource != state.issuer {
+        return oauth_error(
+            StatusCode::BAD_REQUEST,
+            "invalid_target",
+            Some("resource does not match this MCP server"),
+        );
+    }
     let now = Utc::now();
 
     let result: Result<IssuedTokens, OAuthError> = match form.grant_type.as_str() {
@@ -756,6 +931,7 @@ async fn token(
                     code,
                     redirect_uri,
                     verifier,
+                    &resource,
                     now,
                 )
                 .await
@@ -770,7 +946,13 @@ async fn token(
             };
             state
                 .oauth
-                .refresh(&client_id, client_secret.as_deref(), refresh, now)
+                .refresh(
+                    &client_id,
+                    client_secret.as_deref(),
+                    refresh,
+                    &resource,
+                    now,
+                )
                 .await
         }
         _ => return oauth_error(StatusCode::BAD_REQUEST, "unsupported_grant_type", None),
@@ -846,6 +1028,20 @@ fn parse_scope(scope: Option<&str>) -> BTreeSet<String> {
         .collect()
 }
 
+fn default_oauth_scopes(scopes_supported: &[String]) -> BTreeSet<String> {
+    let mut scopes = BTreeSet::new();
+    if scopes_supported.iter().any(|s| s == "mcp:invoke") {
+        scopes.insert("mcp:invoke".to_string());
+    }
+    for candidate in ["trace:read", "traces:read", "trace_read"] {
+        if scopes_supported.iter().any(|s| s == candidate) {
+            scopes.insert(candidate.to_string());
+            break;
+        }
+    }
+    scopes
+}
+
 fn unsupported_scope<'a>(
     scopes: &'a BTreeSet<String>,
     scopes_supported: &[String],
@@ -855,6 +1051,145 @@ fn unsupported_scope<'a>(
         .iter()
         .find(|scope| !supported.contains(scope.as_str()))
         .map(String::as_str)
+}
+
+fn consent_page(
+    params: &AuthorizeParams,
+    client_name: &str,
+    scopes: &BTreeSet<String>,
+    resource: &str,
+    tenant: &str,
+    nonce: &str,
+) -> Response {
+    let mut fields = vec![
+        ("response_type", params.response_type.as_str()),
+        ("client_id", params.client_id.as_str()),
+        ("redirect_uri", params.redirect_uri.as_str()),
+        ("code_challenge", params.code_challenge.as_str()),
+        (
+            "code_challenge_method",
+            params.code_challenge_method.as_deref().unwrap_or("S256"),
+        ),
+        ("resource", resource),
+        ("tenant_id", tenant),
+        ("consent_nonce", nonce),
+        (
+            "project_id",
+            params.project_id.as_deref().unwrap_or("default"),
+        ),
+        (
+            "environment_id",
+            params.environment_id.as_deref().unwrap_or("default"),
+        ),
+    ];
+    let scope_value = scopes.iter().cloned().collect::<Vec<_>>().join(" ");
+    if !scope_value.is_empty() {
+        fields.push(("scope", scope_value.as_str()));
+    }
+    if let Some(state_value) = params.state.as_deref() {
+        fields.push(("state", state_value));
+    }
+
+    let hidden = fields
+        .iter()
+        .map(|(name, value)| {
+            format!(
+                r#"<input type="hidden" name="{}" value="{}">"#,
+                html_escape(name),
+                html_escape(value)
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+    let scope_items = scopes
+        .iter()
+        .map(|scope| format!("<li>{}</li>", html_escape(&scope_label(scope))))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let body = format!(
+        r#"<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Allow access to Beater</title>
+  <style>
+    body {{ margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f7fa; color: #15191f; }}
+    main {{ min-height: 100vh; display: grid; place-items: center; padding: 24px; }}
+    section {{ width: min(520px, 100%); background: #fff; border: 1px solid #d9e1ea; border-radius: 8px; box-shadow: 0 24px 80px rgba(25, 39, 64, .12); padding: 28px; }}
+    h1 {{ margin: 0 0 8px; font-size: 24px; line-height: 1.2; }}
+    p {{ color: #526173; line-height: 1.55; }}
+    ul {{ margin: 18px 0; padding-left: 20px; }}
+    li {{ margin: 8px 0; }}
+    .meta {{ border: 1px solid #e1e7ef; border-radius: 6px; padding: 12px; background: #f9fbfd; font-size: 14px; color: #526173; }}
+    .actions {{ display: flex; gap: 12px; margin-top: 22px; }}
+    button {{ border: 0; border-radius: 6px; padding: 11px 16px; font-weight: 700; cursor: pointer; }}
+    .allow {{ background: #15191f; color: #fff; }}
+    .deny {{ background: #edf1f5; color: #15191f; }}
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>Allow {} to use Beater?</h1>
+      <p>This gives the app access only to the permissions below. You can disconnect later from your MCP client, and API keys can be revoked from settings.</p>
+      <ul>{}</ul>
+      <div class="meta">Workspace: {}<br>Resource: {}</div>
+      <div class="actions">
+        <form method="get" action="/oauth/authorize">
+          {}
+          <input type="hidden" name="approve" value="1">
+          <button class="allow" type="submit">Allow access</button>
+        </form>
+        <form method="get" action="/oauth/authorize">
+          {}
+          <input type="hidden" name="deny" value="1">
+          <button class="deny" type="submit">Deny</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>"#,
+        html_escape(client_name),
+        scope_items,
+        html_escape(tenant),
+        html_escape(resource),
+        hidden,
+        hidden
+    );
+    (
+        StatusCode::OK,
+        [(http::header::CONTENT_TYPE, "text/html; charset=utf-8")],
+        body,
+    )
+        .into_response()
+}
+
+fn scope_label(scope: &str) -> String {
+    match scope {
+        "mcp:invoke" => "Use the Beater MCP tools".to_string(),
+        "trace:read" | "traces:read" | "trace_read" => {
+            "Read traces and evaluation data".to_string()
+        }
+        "trace:write" | "trace_write" => "Write traces".to_string(),
+        "dataset:write" | "dataset_write" => "Create and update datasets".to_string(),
+        "scenario:read" | "scenario_read" => "Read scenarios".to_string(),
+        "scenario:write" | "scenario_write" => "Create and update scenarios".to_string(),
+        "eval:run" | "eval_run" => "Run evaluations".to_string(),
+        "pii:unmask" | "pii_unmask" => "Unmask sensitive trace data".to_string(),
+        "admin" => "Administer this tenant".to_string(),
+        other => other.to_string(),
+    }
+}
+
+fn html_escape(value: &str) -> String {
+    value
+        .replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+        .replace('\'', "&#39;")
 }
 
 fn parse_grant_type(value: &str) -> Option<GrantType> {
@@ -936,12 +1271,18 @@ mod tests {
             login_url: Some("https://app.example.test/login".to_string()),
             scopes_supported: vec!["traces:read".to_string(), "mcp:invoke".to_string()],
             api_keys: Some(Arc::new(ok(beater_auth::SqliteApiKeyStore::in_memory()))),
+            consents: Default::default(),
         }
     }
 
     async fn body_json(resp: Response) -> serde_json::Value {
         let bytes = ok(axum::body::to_bytes(resp.into_body(), 1 << 20).await);
         ok(serde_json::from_slice(&bytes))
+    }
+
+    async fn body_text(resp: Response) -> String {
+        let bytes = ok(axum::body::to_bytes(resp.into_body(), 1 << 20).await);
+        String::from_utf8(bytes.to_vec()).unwrap_or_else(|err| panic!("{err}"))
     }
 
     // RFC 7636 fixture verifier + its S256 challenge.
@@ -998,6 +1339,18 @@ mod tests {
             .get(SET_COOKIE)
             .and_then(|v| v.to_str().ok())
             .unwrap_or("")
+    }
+
+    fn hidden_value(body: &str, name: &str) -> String {
+        let needle = format!(r#"name="{name}" value=""#);
+        let start = body.find(&needle).unwrap_or_else(|| {
+            panic!("missing hidden input {name:?} in body:\n{body}");
+        }) + needle.len();
+        let rest = &body[start..];
+        let end = rest
+            .find('"')
+            .unwrap_or_else(|| panic!("unterminated hidden input {name:?}"));
+        rest[..end].to_string()
     }
 
     #[tokio::test]
@@ -1254,6 +1607,30 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn register_defaults_to_mcp_client_permissions() {
+        let app = router(test_state());
+        let req_body = json!({
+            "client_name": "Claude Code",
+            "redirect_uris": ["http://127.0.0.1:8765/callback"],
+            "token_endpoint_auth_method": "none"
+        });
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/oauth/register")
+                    .header("content-type", "application/json")
+                    .body(Body::from(req_body.to_string()))
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = body_json(resp).await;
+        assert_eq!(body["scope"], "mcp:invoke traces:read");
+        assert_eq!(body["token_endpoint_auth_method"], "none");
+    }
+
+    #[tokio::test]
     async fn register_rejects_unsupported_scope() {
         let app = router(test_state());
         let req_body = json!({
@@ -1338,7 +1715,7 @@ mod tests {
         let resp = ok(app
             .oneshot(
                 Request::builder()
-                    .uri(uri)
+                    .uri(&uri)
                     .body(Body::empty())
                     .unwrap_or_else(|e| panic!("{e}")),
             )
@@ -1364,7 +1741,7 @@ mod tests {
                     client_name: "mcp".to_string(),
                     redirect_uris: vec!["https://app.example.test/cb".to_string()],
                     grant_types: BTreeSet::from([GrantType::AuthorizationCode]),
-                    scopes: BTreeSet::from(["traces:read".to_string()]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "traces:read".to_string()]),
                     token_endpoint_auth_method: ClientAuthMethod::None,
                 },
                 Utc::now(),
@@ -1380,7 +1757,7 @@ mod tests {
         let resp = ok(app
             .oneshot(
                 Request::builder()
-                    .uri(uri)
+                    .uri(&uri)
                     .body(Body::empty())
                     .unwrap_or_else(|e| panic!("{e}")),
             )
@@ -1418,7 +1795,7 @@ mod tests {
                     client_name: "mcp".to_string(),
                     redirect_uris: vec!["https://app.example.test/cb".to_string()],
                     grant_types: BTreeSet::from([GrantType::AuthorizationCode]),
-                    scopes: BTreeSet::from(["traces:read".to_string()]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "traces:read".to_string()]),
                     token_endpoint_auth_method: ClientAuthMethod::None,
                 },
                 now,
@@ -1520,6 +1897,174 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn authorize_without_scope_ids_shows_human_consent_then_issues_code() {
+        let state = test_state();
+        let now = Utc::now();
+        let user = ok(state
+            .accounts
+            .register("dev@example.test", "supersecret", now)
+            .await);
+        ok(state
+            .accounts
+            .put_membership(beater_accounts::OrgMembership {
+                organization_id: ok(OrganizationId::new(user.user_id.as_str().to_string())),
+                user_id: user.user_id.clone(),
+                role: beater_accounts::OrgRole::Owner,
+                created_at: now,
+            })
+            .await);
+        let session = ok(state
+            .accounts
+            .start_session(user.user_id.clone(), default_session_ttl(), now)
+            .await);
+        let registered = ok(state
+            .oauth
+            .register_client(
+                ClientRegistration {
+                    client_name: "Cursor".to_string(),
+                    redirect_uris: vec!["http://127.0.0.1:9187/callback".to_string()],
+                    grant_types: BTreeSet::from([
+                        GrantType::AuthorizationCode,
+                        GrantType::RefreshToken,
+                    ]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "traces:read".to_string()]),
+                    token_endpoint_auth_method: ClientAuthMethod::None,
+                },
+                now,
+            )
+            .await);
+        let client_id = registered.client.client_id.as_str().to_string();
+        let app = router(state);
+        let base_uri = format!(
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&state=easy&code_challenge={}&code_challenge_method=S256",
+            utf8_percent_encode("http://127.0.0.1:9187/callback", NON_ALPHANUMERIC),
+            challenge()
+        );
+
+        let resp = ok(app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .uri(&base_uri)
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::OK);
+        assert_eq!(
+            resp.headers()
+                .get(http::header::CONTENT_TYPE)
+                .and_then(|v| v.to_str().ok()),
+            Some("text/html; charset=utf-8")
+        );
+        let body = body_text(resp).await;
+        assert!(body.contains("Allow Cursor to use Beater?"));
+        assert!(body.contains("Use the Beater MCP tools"));
+        assert!(body.contains("Read traces and evaluation data"));
+        assert!(body.contains(&format!(
+            r#"name="tenant_id" value="{}""#,
+            user.user_id.as_str()
+        )));
+        assert!(body.contains(r#"name="project_id" value="default""#));
+        assert!(body.contains(r#"name="environment_id" value="default""#));
+        let nonce = hidden_value(&body, "consent_nonce");
+
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .uri(format!(
+                        "{base_uri}&scope=mcp%3Ainvoke%20traces%3Aread&consent_nonce={nonce}&approve=1"
+                    ))
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::SEE_OTHER);
+        let loc = resp
+            .headers()
+            .get(LOCATION)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("");
+        assert!(
+            loc.starts_with("http://127.0.0.1:9187/callback?code="),
+            "got {loc}"
+        );
+        assert!(loc.contains("state=easy"));
+    }
+
+    #[tokio::test]
+    async fn authorize_approval_requires_server_consent_nonce() {
+        let state = test_state();
+        let now = Utc::now();
+        let user = ok(state
+            .accounts
+            .register("dev@example.test", "supersecret", now)
+            .await);
+        ok(state
+            .accounts
+            .put_membership(beater_accounts::OrgMembership {
+                organization_id: ok(OrganizationId::new(user.user_id.as_str().to_string())),
+                user_id: user.user_id.clone(),
+                role: beater_accounts::OrgRole::Owner,
+                created_at: now,
+            })
+            .await);
+        let session = ok(state
+            .accounts
+            .start_session(user.user_id.clone(), default_session_ttl(), now)
+            .await);
+        let registered = ok(state
+            .oauth
+            .register_client(
+                ClientRegistration {
+                    client_name: "Codex".to_string(),
+                    redirect_uris: vec!["http://127.0.0.1:8811/callback".to_string()],
+                    grant_types: BTreeSet::from([GrantType::AuthorizationCode]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "traces:read".to_string()]),
+                    token_endpoint_auth_method: ClientAuthMethod::None,
+                },
+                now,
+            )
+            .await);
+        let client_id = registered.client.client_id.as_str().to_string();
+        let app = router(state);
+        let uri = format!(
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&state=easy&code_challenge={}&code_challenge_method=S256&approve=1",
+            utf8_percent_encode("http://127.0.0.1:8811/callback", NON_ALPHANUMERIC),
+            challenge()
+        );
+
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .uri(uri)
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::SEE_OTHER);
+        let loc = resp
+            .headers()
+            .get(LOCATION)
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("");
+        assert!(loc.contains("error=invalid_request"), "got {loc}");
+        assert!(!loc.contains("code="), "must not issue a code: {loc}");
+    }
+
+    #[tokio::test]
     async fn full_authorize_then_token_flow() {
         let state = test_state();
         // A logged-in user + session.
@@ -1539,7 +2084,7 @@ mod tests {
                 created_at: now,
             })
             .await);
-        // A public client.
+        // A public MCP client.
         let registered = ok(state
             .oauth
             .register_client(
@@ -1550,7 +2095,7 @@ mod tests {
                         GrantType::AuthorizationCode,
                         GrantType::RefreshToken,
                     ]),
-                    scopes: BTreeSet::from(["traces:read".to_string()]),
+                    scopes: BTreeSet::from(["mcp:invoke".to_string(), "traces:read".to_string()]),
                     token_endpoint_auth_method: ClientAuthMethod::None,
                 },
                 now,
@@ -1559,9 +2104,10 @@ mod tests {
         let client_id = registered.client.client_id.as_str().to_string();
         let app = router(state);
 
-        // GET /oauth/authorize with the session cookie -> 303 to redirect_uri?code=...
+        // GET /oauth/authorize shows consent, then approval with the one-time
+        // nonce redirects to redirect_uri?code=...
         let uri = format!(
-            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&scope=traces%3Aread&state=xyz&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
+            "/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={}&scope=mcp%3Ainvoke%20traces%3Aread&state=xyz&tenant_id=demo&project_id=demo&environment_id=local&code_challenge={}&code_challenge_method=S256",
             utf8_percent_encode("https://app.example.test/cb", NON_ALPHANUMERIC),
             challenge()
         );
@@ -1569,7 +2115,24 @@ mod tests {
             .clone()
             .oneshot(
                 Request::builder()
-                    .uri(uri)
+                    .uri(&uri)
+                    .header(
+                        http::header::COOKIE,
+                        format!("{SESSION_COOKIE}={}", session.token),
+                    )
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = body_text(resp).await;
+        let nonce = hidden_value(&body, "consent_nonce");
+        let approve_uri = format!("{uri}&consent_nonce={nonce}&approve=1");
+        let resp = ok(app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .uri(approve_uri)
                     .header(
                         http::header::COOKIE,
                         format!("{SESSION_COOKIE}={}", session.token),
@@ -1631,7 +2194,7 @@ mod tests {
                 .unwrap_or("")
                 .starts_with("bro_")
         );
-        assert_eq!(body["scope"], "traces:read");
+        assert_eq!(body["scope"], "mcp:invoke traces:read");
     }
 
     #[tokio::test]
@@ -1703,6 +2266,7 @@ mod tests {
                     user_id: ok(UserId::new("user-1")),
                     redirect_uri: "https://app.example.test/cb".to_string(),
                     scope: BTreeSet::from(["traces:read".to_string()]),
+                    resource: "https://api.example.test".to_string(),
                     tenant_scope: tenant_scope.clone(),
                     code_challenge: challenge(),
                 },
@@ -1717,6 +2281,7 @@ mod tests {
                     user_id: ok(UserId::new("user-1")),
                     redirect_uri: "https://app.example.test/cb".to_string(),
                     scope: BTreeSet::from(["traces:read".to_string()]),
+                    resource: "https://api.example.test".to_string(),
                     tenant_scope,
                     code_challenge: challenge(),
                 },

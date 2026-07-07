@@ -160,6 +160,8 @@ pub struct ApiState {
     /// URL of the OAuth protected-resource metadata document, surfaced in the
     /// `WWW-Authenticate` challenge on 401 (RFC 9728 / MCP auth discovery).
     oauth_metadata_url: Option<String>,
+    /// OAuth resource indicator / intended audience for accepted access tokens.
+    oauth_resource: Option<String>,
 }
 
 impl ApiState {
@@ -197,15 +199,22 @@ impl ApiState {
             prompts: None,
             oauth: None,
             oauth_metadata_url: None,
+            oauth_resource: None,
         }
     }
 
     /// Wire an OAuth authorization-server store so `authorize()` accepts OAuth
     /// access tokens in addition to API keys. `metadata_url` is advertised in
     /// the `WWW-Authenticate` challenge on auth failures.
-    pub fn with_oauth(mut self, oauth: Arc<dyn OAuthStore>, metadata_url: Option<String>) -> Self {
+    pub fn with_oauth(
+        mut self,
+        oauth: Arc<dyn OAuthStore>,
+        metadata_url: Option<String>,
+        resource: String,
+    ) -> Self {
         self.oauth = Some(oauth);
         self.oauth_metadata_url = metadata_url;
+        self.oauth_resource = Some(resource);
         self
     }
 
@@ -213,6 +222,10 @@ impl ApiState {
     /// resource server's `WWW-Authenticate` discovery header).
     pub fn oauth_metadata_url(&self) -> Option<&str> {
         self.oauth_metadata_url.as_deref()
+    }
+
+    pub fn oauth_resource(&self) -> Option<&str> {
+        self.oauth_resource.as_deref()
     }
 
     pub fn with_search(
@@ -4800,7 +4813,14 @@ async fn authorize_project_route(
     if !state.auth_required() {
         return Ok(AuthDecision::anonymous());
     }
-    let environment_id = environment_id_from_header(headers)?;
+    let token_scope = oauth_tenant_scope_from_headers(state, headers).await?;
+    let environment_id = match optional_environment_id_from_header(headers)? {
+        Some(environment_id) => environment_id,
+        None => match token_scope {
+            Some(scope) => scope.environment_id,
+            None => return Err(missing_strict_auth_header(ENVIRONMENT_ID_HEADER)),
+        },
+    };
     authorize(
         state,
         headers,
@@ -4821,8 +4841,21 @@ async fn authorize_tenant_route(
     if !state.auth_required() {
         return Ok(AuthDecision::anonymous());
     }
-    let project_id = project_id_from_header(headers)?;
-    let environment_id = environment_id_from_header(headers)?;
+    let token_scope = oauth_tenant_scope_from_headers(state, headers).await?;
+    let project_id = match optional_project_id_from_header(headers)? {
+        Some(project_id) => project_id,
+        None => match token_scope.as_ref() {
+            Some(scope) => scope.project_id.clone(),
+            None => return Err(missing_strict_auth_header(PROJECT_ID_HEADER)),
+        },
+    };
+    let environment_id = match optional_environment_id_from_header(headers)? {
+        Some(environment_id) => environment_id,
+        None => match token_scope {
+            Some(scope) => scope.environment_id,
+            None => return Err(missing_strict_auth_header(ENVIRONMENT_ID_HEADER)),
+        },
+    };
     authorize(
         state,
         headers,
@@ -4862,12 +4895,37 @@ async fn authorize_query_scope(
     if !state.auth_required() {
         return Ok(AuthDecision::anonymous());
     }
-    let project_id = project_id.ok_or_else(|| {
-        ApiError::bad_request("strict auth requires project_id query parameter".to_string())
-    })?;
-    let environment_id = environment_id.ok_or_else(|| {
-        ApiError::bad_request("strict auth requires environment_id query parameter".to_string())
-    })?;
+    let token_scope = oauth_tenant_scope_from_headers(state, headers).await?;
+    let token_project_id;
+    let project_id = match project_id {
+        Some(project_id) => project_id,
+        None => match token_scope.as_ref() {
+            Some(scope) => {
+                token_project_id = scope.project_id.clone();
+                &token_project_id
+            }
+            None => {
+                return Err(ApiError::bad_request(
+                    "strict auth requires project_id query parameter".to_string(),
+                ));
+            }
+        },
+    };
+    let token_environment_id;
+    let environment_id = match environment_id {
+        Some(environment_id) => environment_id,
+        None => match token_scope.as_ref() {
+            Some(scope) => {
+                token_environment_id = scope.environment_id.clone();
+                &token_environment_id
+            }
+            None => {
+                return Err(ApiError::bad_request(
+                    "strict auth requires environment_id query parameter".to_string(),
+                ));
+            }
+        },
+    };
     authorize(
         state,
         headers,
@@ -4877,6 +4935,49 @@ async fn authorize_query_scope(
         required_scope,
     )
     .await
+}
+
+async fn oauth_tenant_scope_from_headers(
+    state: &ApiState,
+    headers: &HeaderMap,
+) -> Result<Option<TenantScope>, ApiError> {
+    let Some(secret) = bearer_secret(headers)? else {
+        return Ok(None);
+    };
+    if !secret.starts_with("bao_") {
+        return Ok(None);
+    }
+    let Some(oauth) = state.oauth.as_ref() else {
+        return Ok(None);
+    };
+    let claims = oauth
+        .validate_access_token(secret, Utc::now())
+        .await
+        .map_err(|_| ApiError::unauthorized("invalid or expired access token".to_string()))?;
+    if state
+        .oauth_resource()
+        .is_none_or(|resource| claims.resource != resource)
+    {
+        return Err(ApiError::unauthorized(
+            "access token audience does not match this resource".to_string(),
+        ));
+    }
+    Ok(Some(claims.tenant_scope))
+}
+
+fn bearer_secret(headers: &HeaderMap) -> Result<Option<&str>, ApiError> {
+    let Some(value) = headers
+        .get(http::header::AUTHORIZATION)
+        .and_then(|value| value.to_str().ok())
+    else {
+        return Ok(None);
+    };
+    let Some(secret) = value.strip_prefix("Bearer ") else {
+        return Err(ApiError::unauthorized(
+            "authorization header must use bearer scheme".to_string(),
+        ));
+    };
+    Ok(Some(secret))
 }
 
 async fn authorize(
@@ -4900,6 +5001,7 @@ async fn authorize(
         return authorize_oauth(
             oauth.as_ref(),
             secret,
+            state.oauth_resource(),
             tenant_id,
             project_id,
             environment_id,
@@ -4949,6 +5051,7 @@ async fn authorize(
 async fn authorize_oauth(
     oauth: &dyn OAuthStore,
     secret: &str,
+    expected_resource: Option<&str>,
     tenant_id: &TenantId,
     project_id: &ProjectId,
     environment_id: &EnvironmentId,
@@ -4958,6 +5061,11 @@ async fn authorize_oauth(
         .validate_access_token(secret, Utc::now())
         .await
         .map_err(|_| ApiError::unauthorized("invalid or expired access token".to_string()))?;
+    if expected_resource.is_none_or(|resource| claims.resource != resource) {
+        return Err(ApiError::unauthorized(
+            "access token audience does not match this resource".to_string(),
+        ));
+    }
     if &claims.tenant_scope.tenant_id != tenant_id
         || &claims.tenant_scope.project_id != project_id
         || &claims.tenant_scope.environment_id != environment_id
@@ -4966,8 +5074,13 @@ async fn authorize_oauth(
             "access token is not scoped to this tenant/project/environment".to_string(),
         ));
     }
-    let has_scope = claims.scope.contains(required_scope.as_str())
-        || claims.scope.contains(ApiScope::Admin.as_str());
+    let is_admin = claims.scope.contains(ApiScope::Admin.as_str());
+    if !is_admin && !claims.scope.contains("mcp:invoke") {
+        return Err(ApiError::forbidden(
+            "access token is missing scope mcp:invoke".to_string(),
+        ));
+    }
+    let has_scope = claims.scope.contains(required_scope.as_str()) || is_admin;
     if !has_scope {
         return Err(ApiError::forbidden(format!(
             "access token is missing scope {}",
@@ -5002,26 +5115,26 @@ fn presented_api_key(headers: &HeaderMap) -> Result<&str, ApiError> {
         .ok_or_else(|| ApiError::unauthorized("missing api key".to_string()))
 }
 
-fn environment_id_from_header(headers: &HeaderMap) -> Result<EnvironmentId, ApiError> {
-    let value = headers
+fn optional_environment_id_from_header(
+    headers: &HeaderMap,
+) -> Result<Option<EnvironmentId>, ApiError> {
+    headers
         .get(ENVIRONMENT_ID_HEADER)
         .and_then(|value| value.to_str().ok())
-        .ok_or_else(|| {
-            ApiError::bad_request(format!(
-                "strict auth requires {ENVIRONMENT_ID_HEADER} header"
-            ))
-        })?;
-    Ok(EnvironmentId::new(value.to_string())?)
+        .map(|value| EnvironmentId::new(value.to_string()).map_err(ApiError::from))
+        .transpose()
 }
 
-fn project_id_from_header(headers: &HeaderMap) -> Result<ProjectId, ApiError> {
-    let value = headers
+fn optional_project_id_from_header(headers: &HeaderMap) -> Result<Option<ProjectId>, ApiError> {
+    headers
         .get(PROJECT_ID_HEADER)
         .and_then(|value| value.to_str().ok())
-        .ok_or_else(|| {
-            ApiError::bad_request(format!("strict auth requires {PROJECT_ID_HEADER} header"))
-        })?;
-    Ok(ProjectId::new(value.to_string())?)
+        .map(|value| ProjectId::new(value.to_string()).map_err(ApiError::from))
+        .transpose()
+}
+
+fn missing_strict_auth_header(header: &str) -> ApiError {
+    ApiError::bad_request(format!("strict auth requires {header} header"))
 }
 
 fn ensure_trace_project(trace: &TraceView, project_id: &ProjectId) -> Result<(), ApiError> {
@@ -5676,13 +5789,16 @@ mod tests {
         let tenant = TenantId::new("acme").unwrap_or_else(|err| panic!("{err}"));
         let project = ProjectId::new("proj").unwrap_or_else(|err| panic!("{err}"));
         let environment = EnvironmentId::new("prod").unwrap_or_else(|err| panic!("{err}"));
+        let resource = "https://api.example.com";
         let issued = store
             .issue_token_pair(
                 OAuthClientId::new("client").unwrap_or_else(|err| panic!("{err}")),
                 UserId::new("user").unwrap_or_else(|err| panic!("{err}")),
-                BTreeSet::from(["trace:read".to_string()]),
+                BTreeSet::from(["mcp:invoke".to_string(), "trace:read".to_string()]),
+                resource.to_string(),
                 TenantScope::new(tenant.clone(), project.clone(), environment.clone()),
                 TokenFamilyId::new("fam").unwrap_or_else(|err| panic!("{err}")),
+                true,
                 now,
             )
             .await
@@ -5692,6 +5808,7 @@ mod tests {
         let decision = authorize_oauth(
             &store,
             &issued.access_token,
+            Some(resource),
             &tenant,
             &project,
             &environment,
@@ -5701,6 +5818,35 @@ mod tests {
         .unwrap_or_else(|err| panic!("expected authorized: {err:?}"));
         assert!(decision.context.api_key_id.is_none());
         assert!(decision.context.scopes.contains("trace:read"));
+        assert!(decision.context.scopes.contains("mcp:invoke"));
+
+        let no_mcp = store
+            .issue_token_pair(
+                OAuthClientId::new("client").unwrap_or_else(|err| panic!("{err}")),
+                UserId::new("user").unwrap_or_else(|err| panic!("{err}")),
+                BTreeSet::from(["trace:read".to_string()]),
+                resource.to_string(),
+                TenantScope::new(tenant.clone(), project.clone(), environment.clone()),
+                TokenFamilyId::new("fam-no-mcp").unwrap_or_else(|err| panic!("{err}")),
+                true,
+                now,
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err:?}"));
+        assert!(
+            authorize_oauth(
+                &store,
+                &no_mcp.access_token,
+                Some(resource),
+                &tenant,
+                &project,
+                &environment,
+                ApiScope::TraceRead,
+            )
+            .await
+            .is_err(),
+            "OAuth tokens must carry mcp:invoke before operation scopes matter"
+        );
 
         // Wrong tenant -> forbidden (token is bound to its tenant scope).
         let other = TenantId::new("evil").unwrap_or_else(|err| panic!("{err}"));
@@ -5708,6 +5854,7 @@ mod tests {
             authorize_oauth(
                 &store,
                 &issued.access_token,
+                Some(resource),
                 &other,
                 &project,
                 &environment,
@@ -5722,10 +5869,26 @@ mod tests {
             authorize_oauth(
                 &store,
                 &issued.access_token,
+                Some(resource),
                 &tenant,
                 &project,
                 &environment,
                 ApiScope::TraceWrite,
+            )
+            .await
+            .is_err()
+        );
+
+        // Wrong resource audience -> rejected.
+        assert!(
+            authorize_oauth(
+                &store,
+                &issued.access_token,
+                Some("https://other.example.com"),
+                &tenant,
+                &project,
+                &environment,
+                ApiScope::TraceRead,
             )
             .await
             .is_err()
@@ -5736,6 +5899,7 @@ mod tests {
             authorize_oauth(
                 &store,
                 "bao_nope_nope",
+                Some(resource),
                 &tenant,
                 &project,
                 &environment,
