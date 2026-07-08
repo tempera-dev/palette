@@ -39,7 +39,7 @@ use beater_oauth::{
 };
 use beater_security::ApiScope;
 use chrono::Utc;
-use percent_encoding::{NON_ALPHANUMERIC, utf8_percent_encode};
+use percent_encoding::{AsciiSet, CONTROLS, NON_ALPHANUMERIC, utf8_percent_encode};
 use rand_core::{OsRng, RngCore};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
@@ -47,6 +47,37 @@ use serde_json::json;
 /// Name of the dashboard session cookie carrying the accounts `bs_<id>_<secret>`
 /// token used to identify the logged-in user at `/oauth/authorize`.
 pub const SESSION_COOKIE: &str = "beater_session";
+
+const QUERY_COMPONENT_ENCODE_SET: &AsciiSet = &CONTROLS
+    .add(b' ')
+    .add(b'!')
+    .add(b'"')
+    .add(b'#')
+    .add(b'$')
+    .add(b'%')
+    .add(b'&')
+    .add(b'\'')
+    .add(b'(')
+    .add(b')')
+    .add(b'*')
+    .add(b'+')
+    .add(b',')
+    .add(b'/')
+    .add(b':')
+    .add(b';')
+    .add(b'<')
+    .add(b'=')
+    .add(b'>')
+    .add(b'?')
+    .add(b'@')
+    .add(b'[')
+    .add(b'\\')
+    .add(b']')
+    .add(b'^')
+    .add(b'`')
+    .add(b'{')
+    .add(b'|')
+    .add(b'}');
 
 #[derive(Clone)]
 pub struct OAuthServerState {
@@ -783,17 +814,11 @@ async fn issue_authorization_grant(
         .await
     {
         Ok(code) => {
-            let mut url = format!(
-                "{}?code={}",
-                redirect_uri,
-                utf8_percent_encode(&code, NON_ALPHANUMERIC)
-            );
+            let mut params = vec![("code", code.as_str())];
             if let Some(s) = &grant_state {
-                url.push_str(&format!(
-                    "&state={}",
-                    utf8_percent_encode(s, NON_ALPHANUMERIC)
-                ));
+                params.push(("state", s.as_str()));
             }
+            let url = redirect_url_with_params(&redirect_uri, &params);
             Redirect::to(&url).into_response()
         }
         Err(OAuthError::InvalidScope) => {
@@ -1284,16 +1309,46 @@ fn oauth_error_from(err: OAuthError) -> Response {
 }
 
 fn redirect_error(redirect_uri: &str, error: &str, state: Option<&str>) -> Response {
-    // `error` is always a controlled OAuth error-code constant (safe token), so
-    // it is written verbatim; only the client-supplied `state` is encoded.
-    let mut url = format!("{redirect_uri}?error={error}");
+    let mut params = vec![("error", error)];
     if let Some(s) = state {
-        url.push_str(&format!(
-            "&state={}",
-            utf8_percent_encode(s, NON_ALPHANUMERIC)
-        ));
+        params.push(("state", s));
     }
+    let url = redirect_url_with_params(redirect_uri, &params);
     Redirect::to(&url).into_response()
+}
+
+fn redirect_url_with_params(redirect_uri: &str, params: &[(&str, &str)]) -> String {
+    let (base, fragment) = match redirect_uri.split_once('#') {
+        Some((base, fragment)) => (base, Some(fragment)),
+        None => (redirect_uri, None),
+    };
+
+    let mut url = base.to_string();
+    if !params.is_empty() {
+        let separator = if base.contains('?') {
+            if base.ends_with('?') || base.ends_with('&') {
+                ""
+            } else {
+                "&"
+            }
+        } else {
+            "?"
+        };
+        url.push_str(separator);
+        for (index, (key, value)) in params.iter().enumerate() {
+            if index > 0 {
+                url.push('&');
+            }
+            url.push_str(&utf8_percent_encode(key, QUERY_COMPONENT_ENCODE_SET).to_string());
+            url.push('=');
+            url.push_str(&utf8_percent_encode(value, QUERY_COMPONENT_ENCODE_SET).to_string());
+        }
+    }
+    if let Some(fragment) = fragment {
+        url.push('#');
+        url.push_str(fragment);
+    }
+    url
 }
 
 #[cfg(test)]
@@ -1399,6 +1454,30 @@ mod tests {
             .find('"')
             .unwrap_or_else(|| panic!("unterminated hidden input {name:?}"));
         rest[..end].to_string()
+    }
+
+    #[test]
+    fn oauth_redirect_params_preserve_existing_query_and_fragment() {
+        let url = redirect_url_with_params(
+            "https://app.example.test/cb?connection=claude#done",
+            &[("code", "bac_123"), ("state", "has space")],
+        );
+        assert_eq!(
+            url,
+            "https://app.example.test/cb?connection=claude&code=bac_123&state=has%20space#done"
+        );
+    }
+
+    #[test]
+    fn oauth_error_redirect_params_preserve_existing_query() {
+        let url = redirect_url_with_params(
+            "https://app.example.test/cb?connection=cursor",
+            &[("error", "access_denied"), ("state", "abc/123")],
+        );
+        assert_eq!(
+            url,
+            "https://app.example.test/cb?connection=cursor&error=access_denied&state=abc%2F123"
+        );
     }
 
     #[tokio::test]
