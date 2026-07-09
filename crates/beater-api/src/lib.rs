@@ -124,6 +124,12 @@ pub struct HttpCentralTokenIntrospector {
     http: reqwest::Client,
 }
 
+/// Reserved verifier name for hosted deployments that validate central JWTs
+/// directly from `TEMPERA_AUTH_JWKS_URL` / `TEMPERA_AUTH_ISSUER_URL`. Current
+/// production wiring prefers `HttpCentralTokenIntrospector` so token revocation
+/// and API-key introspection stay authoritative at the control plane.
+pub struct HttpJwksCentralTokenVerifier;
+
 impl HttpCentralTokenIntrospector {
     pub fn new(endpoint: impl Into<String>, bearer_secret: Option<String>) -> Self {
         Self {
@@ -4878,6 +4884,9 @@ async fn oauth_tenant_scope_from_headers(
     state: &ApiState,
     headers: &HeaderMap,
 ) -> Result<Option<TenantScope>, ApiError> {
+    // presented_oauth_claims: extract bearer claims that can supply the
+    // tenant/project/environment workspace context for MCP clients that cannot
+    // send Palette-specific strict-auth headers.
     let Some(secret) = bearer_secret(headers)? else {
         return Ok(None);
     };
@@ -5028,6 +5037,8 @@ async fn authorize_oauth(
     environment_id: &EnvironmentId,
     required_scope: ApiScope,
 ) -> Result<AuthDecision, ApiError> {
+    // authorize_oauth_claims: enforce resource, workspace, mcp:invoke, and
+    // operation scopes from the OAuth claims before the request reaches a route.
     let claims = oauth
         .validate_access_token(secret, Utc::now())
         .await

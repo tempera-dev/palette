@@ -778,6 +778,60 @@ async fn oauth_tools_call_uses_token_scope_without_hidden_headers() {
 }
 
 #[tokio::test]
+async fn tools_call_accepts_oauth_workspace_claims_without_strict_headers() {
+    let (state, _tempdir) = build_state();
+    let api_keys = Arc::new(unwrap(SqliteApiKeyStore::in_memory()));
+    let oauth = Arc::new(unwrap(SqliteOAuthStore::in_memory()));
+    let issued = unwrap(
+        oauth
+            .issue_token_pair(
+                unwrap(OAuthClientId::new("client")),
+                unwrap(UserId::new("user")),
+                BTreeSet::from(["mcp:invoke".to_string(), "trace:read".to_string()]),
+                "palette".to_string(),
+                TenantScope::new(
+                    unwrap(TenantId::new("tenant-1")),
+                    unwrap(ProjectId::new("proj-1")),
+                    unwrap(EnvironmentId::new("env-1")),
+                ),
+                unwrap(TokenFamilyId::new("family-claims")),
+                true,
+                chrono::Utc::now(),
+            )
+            .await,
+    );
+    let state = state.require_auth(api_keys).with_oauth(
+        oauth,
+        Some("https://app.example.test/.well-known/oauth-protected-resource".to_string()),
+        "palette".to_string(),
+    );
+    let app = beater_mcp::router(state);
+    let authorization = format!("Bearer {}", issued.access_token);
+
+    let (status, body) = mcp_call_with_headers(
+        &app,
+        json!({
+            "jsonrpc": "2.0",
+            "id": 15,
+            "method": "tools/call",
+            "params": {
+                "name": "spans.get-span",
+                "arguments": {
+                    "tenant_id": "tenant-1",
+                    "trace_id": "missing-trace",
+                    "span_id": "missing-span"
+                }
+            }
+        }),
+        &[("authorization", &authorization)],
+    )
+    .await;
+
+    assert_eq!(status, StatusCode::OK);
+    assert_eq!(body["result"]["_meta"]["httpStatus"], 404);
+}
+
+#[tokio::test]
 async fn tools_call_accepts_central_token_introspection_claims_without_strict_headers() {
     let (state, _tempdir) = build_state();
     let api_keys = Arc::new(unwrap(SqliteApiKeyStore::in_memory()));
