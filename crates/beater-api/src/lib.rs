@@ -5047,7 +5047,8 @@ async fn authorize(
 /// Authorize via an OAuth 2.1 access token (`bao_...`). Validates the token,
 /// checks it is bound to the requested tenant/project/environment, and maps the
 /// OAuth scopes (which use the same names as [`ApiScope::as_str`]) onto the
-/// required scope. `admin` satisfies any scope.
+/// required scope. Administrative access is not a wildcard; product operations
+/// must carry their explicit product scopes.
 async fn authorize_oauth(
     oauth: &dyn OAuthStore,
     secret: &str,
@@ -5079,9 +5080,7 @@ async fn authorize_oauth(
             "access token is missing scope mcp:invoke".to_string(),
         ));
     }
-    let is_admin = claims.scope.contains(ApiScope::Admin.as_str());
-    let has_scope = claims.scope.contains(required_scope.as_str()) || is_admin;
-    if !has_scope {
+    if !claims.scope.contains(required_scope.as_str()) {
         return Err(ApiError::forbidden(format!(
             "access token is missing scope {}",
             required_scope.as_str()
@@ -5889,6 +5888,20 @@ mod tests {
             )
             .await
             .unwrap_or_else(|err| panic!("{err:?}"));
+        assert!(
+            authorize_oauth(
+                &store,
+                &admin_with_mcp.access_token,
+                Some(resource),
+                &tenant,
+                &project,
+                &environment,
+                ApiScope::TraceWrite,
+            )
+            .await
+            .is_err(),
+            "admin+mcp must not satisfy product operation scopes"
+        );
         authorize_oauth(
             &store,
             &admin_with_mcp.access_token,
@@ -5896,10 +5909,10 @@ mod tests {
             &tenant,
             &project,
             &environment,
-            ApiScope::TraceWrite,
+            ApiScope::Admin,
         )
         .await
-        .unwrap_or_else(|err| panic!("admin+mcp should satisfy operation scope: {err:?}"));
+        .unwrap_or_else(|err| panic!("admin+mcp should satisfy admin scope: {err:?}"));
 
         // Wrong tenant -> forbidden (token is bound to its tenant scope).
         let other = TenantId::new("evil").unwrap_or_else(|err| panic!("{err}"));

@@ -2577,6 +2577,7 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
 
     let mut admin_scopes = BTreeSet::new();
     admin_scopes.insert(ApiScope::Admin);
+    admin_scopes.insert(ApiScope::EvalRun);
     let admin_key = api_keys
         .create_key(CreateApiKeyRequest {
             tenant_id: TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}")),
@@ -2897,6 +2898,27 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .await
         .unwrap_or_else(|err| panic!("{err}"));
     let other_tenant_read_secret = other_tenant_read_key.secret;
+
+    let admin_only_product_route = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/v1/traces/native")
+                .header("authorization", format!("Bearer {}", admin_key.secret))
+                .header("content-type", "application/json")
+                .body(Body::from(
+                    serde_json::to_vec(&native_request()).unwrap_or_else(|err| panic!("{err}")),
+                ))
+                .unwrap_or_else(|err| panic!("{err}")),
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(
+        admin_only_product_route.status(),
+        StatusCode::FORBIDDEN,
+        "admin-only credentials must not satisfy product trace:write routes",
+    );
 
     let response = app
         .clone()

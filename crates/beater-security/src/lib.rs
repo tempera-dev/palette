@@ -160,7 +160,7 @@ pub fn verify_api_key(
     {
         return Err(SecurityError::ScopeMismatch);
     }
-    if !record.scopes.contains(&required_scope) && !record.scopes.contains(&ApiScope::Admin) {
+    if !record.scopes.contains(&required_scope) {
         return Err(SecurityError::MissingScope(
             required_scope.as_str().to_string(),
         ));
@@ -423,7 +423,24 @@ mod tests {
     }
 
     #[test]
-    fn verify_api_key_accepts_admin_for_narrower_required_scope() {
+    fn verify_api_key_rejects_admin_for_product_required_scope() {
+        let created = api_key_with_scopes(&[ApiScope::Admin]);
+
+        assert!(matches!(
+            verify_api_key(
+                &created.record,
+                &created.secret,
+                &tenant_id("tenant"),
+                &project_id("project"),
+                &environment_id("prod"),
+                ApiScope::PiiUnmask,
+            ),
+            Err(SecurityError::MissingScope(scope)) if scope == "pii:unmask"
+        ));
+    }
+
+    #[test]
+    fn verify_api_key_accepts_admin_for_admin_required_scope() {
         let created = api_key_with_scopes(&[ApiScope::Admin]);
 
         verify_api_key(
@@ -432,7 +449,7 @@ mod tests {
             &tenant_id("tenant"),
             &project_id("project"),
             &environment_id("prod"),
-            ApiScope::PiiUnmask,
+            ApiScope::Admin,
         )
         .unwrap_or_else(|err| panic!("{err}"));
     }
