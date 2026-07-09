@@ -3,7 +3,7 @@ mod metrics_http;
 
 use anyhow::Context;
 use beater_accounts::SqliteAccountStore;
-use beater_api::{ApiState, router};
+use beater_api::{ApiState, HttpCentralTokenIntrospector, router};
 use beater_archive::ParquetTraceArchive;
 use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
@@ -79,6 +79,17 @@ struct Args {
     /// with ?return_to=<authorize-url>.
     #[arg(long, env = "BEATER_LOGIN_URL")]
     login_url: Option<String>,
+    /// OAuth resource indicator / protected-resource audience accepted by the API
+    /// and advertised by the local OAuth server. Hosted Tempera uses `palette`.
+    #[arg(long, env = "BEATER_OAUTH_RESOURCE", default_value = "palette")]
+    oauth_resource: String,
+    /// Hosted control-plane token introspection endpoint for bearer tokens minted
+    /// outside the local SQLite OAuth server.
+    #[arg(long, env = "TEMPERA_TOKEN_INTROSPECTION_URL")]
+    token_introspection_url: Option<String>,
+    /// Bearer secret used when Palette calls the hosted token introspection endpoint.
+    #[arg(long, env = "TEMPERA_TOKEN_INTROSPECTION_SECRET")]
+    token_introspection_secret: Option<String>,
     #[arg(long, default_value = ".beater")]
     data_dir: PathBuf,
     /// Maximum bytes accepted for one filesystem artifact write.
@@ -528,12 +539,25 @@ async fn main() -> anyhow::Result<()> {
     state = state.with_oauth(
         oauth_store.clone(),
         Some(oauth_metadata_url),
-        issuer.clone(),
+        args.oauth_resource.clone(),
     );
+    if let Some(endpoint) = args
+        .token_introspection_url
+        .as_deref()
+        .filter(|value| !value.is_empty())
+    {
+        state = state.with_central_token_introspector(Arc::new(HttpCentralTokenIntrospector::new(
+            endpoint,
+            args.token_introspection_secret
+                .clone()
+                .filter(|value| !value.is_empty()),
+        )));
+    }
     let oauth_state = OAuthServerState {
         oauth: oauth_store,
         accounts: account_store,
         issuer,
+        resource: args.oauth_resource.clone(),
         login_url: args.login_url.clone(),
         scopes_supported: vec![
             "mcp:invoke".to_string(),
@@ -1425,6 +1449,31 @@ mod auth_default_tests {
         assert!(
             result.is_ok(),
             "required auth may bind publicly: {result:?}"
+        );
+    }
+
+    #[test]
+    fn hosted_oauth_resource_defaults_to_palette() {
+        let args = Args::parse_from(["beaterd"]);
+        assert_eq!(args.oauth_resource, "palette");
+    }
+
+    #[test]
+    fn hosted_token_introspection_cli_options_parse() {
+        let args = Args::parse_from([
+            "beaterd",
+            "--token-introspection-url",
+            "https://auth.example.test/oauth/introspect",
+            "--token-introspection-secret",
+            "secret-demo",
+        ]);
+        assert_eq!(
+            args.token_introspection_url.as_deref(),
+            Some("https://auth.example.test/oauth/introspect")
+        );
+        assert_eq!(
+            args.token_introspection_secret.as_deref(),
+            Some("secret-demo")
         );
     }
 }

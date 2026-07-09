@@ -820,6 +820,23 @@ async fn tools_call_accepts_central_token_introspection_claims_without_strict_he
         "central token claims should supply project/environment context"
     );
 
+    for fixture in MCP_CLIENT_SHAPES {
+        let mut headers = fixture.headers.to_vec();
+        headers.push(("authorization", "Bearer central.trace.read.jwt"));
+        let (status, authorized) = mcp_call_with_headers(&app, call("tenant-1"), &headers).await;
+        assert_eq!(
+            status,
+            StatusCode::OK,
+            "{} authenticated tools/call status",
+            fixture.name
+        );
+        assert_eq!(
+            authorized["result"]["_meta"]["httpStatus"], 404,
+            "{} authenticated tools/call uses central token tenant scope",
+            fixture.name
+        );
+    }
+
     let (status, headers, missing_scope) = mcp_call_with_headers_and_response_headers(
         &app,
         call("tenant-1"),
