@@ -667,6 +667,7 @@ dependencies = [
  "http 1.4.2",
  "opentelemetry-proto",
  "percent-encoding",
+ "reqwest",
  "serde",
  "serde_json",
  "tempfile",
@@ -1213,6 +1214,7 @@ dependencies = [
 name = "beater-mcp"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "async-trait",
  "axum 0.7.9",
  "beater-alerts",
