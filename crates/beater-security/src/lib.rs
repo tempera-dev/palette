@@ -46,6 +46,8 @@ pub enum ApiScope {
     TraceRead,
     #[serde(rename = "dataset:write")]
     DatasetWrite,
+    #[serde(rename = "dataset:read")]
+    DatasetRead,
     #[serde(rename = "scenario:write")]
     ScenarioWrite,
     #[serde(rename = "scenario:read")]
@@ -64,6 +66,7 @@ impl ApiScope {
             Self::TraceWrite => "trace:write",
             Self::TraceRead => "trace:read",
             Self::DatasetWrite => "dataset:write",
+            Self::DatasetRead => "dataset:read",
             Self::ScenarioWrite => "scenario:write",
             Self::ScenarioRead => "scenario:read",
             Self::EvalRun => "eval:run",

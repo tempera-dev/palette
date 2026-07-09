@@ -3,7 +3,7 @@ mod metrics_http;
 
 use anyhow::Context;
 use beater_accounts::SqliteAccountStore;
-use beater_api::{ApiState, HttpCentralTokenIntrospector, router};
+use beater_api::{ApiState, HttpCentralTokenIntrospector, HttpControlPlaneUsageReporter, router};
 use beater_archive::ParquetTraceArchive;
 use beater_audit::SqliteAuditStore;
 use beater_auth::SqliteApiKeyStore;
@@ -75,6 +75,13 @@ struct Args {
     /// (e.g. https://api.example.com). Falls back to http://<addr> when unset.
     #[arg(long, env = "BEATER_ISSUER_URL")]
     issuer_url: Option<String>,
+    /// Hosted auth issuer URL owned by the Tempera control plane.
+    #[arg(long, env = "TEMPERA_AUTH_ISSUER_URL")]
+    auth_issuer_url: Option<String>,
+    /// Hosted auth JWKS URL. Reserved for the `HttpJwksCentralTokenVerifier`
+    /// path; hosted deployments currently prefer token introspection.
+    #[arg(long, env = "TEMPERA_AUTH_JWKS_URL")]
+    auth_jwks_url: Option<String>,
     /// Dashboard login page; an unauthenticated /oauth/authorize redirects here
     /// with ?return_to=<authorize-url>.
     #[arg(long, env = "BEATER_LOGIN_URL")]
@@ -90,6 +97,12 @@ struct Args {
     /// Bearer secret used when Palette calls the hosted token introspection endpoint.
     #[arg(long, env = "TEMPERA_TOKEN_INTROSPECTION_SECRET")]
     token_introspection_secret: Option<String>,
+    /// Hosted usage-event endpoint for billable Palette meters.
+    #[arg(long, env = "TEMPERA_USAGE_EVENTS_URL")]
+    usage_events_url: Option<String>,
+    /// Bearer secret used when reporting usage events to the control plane.
+    #[arg(long, env = "TEMPERA_USAGE_REPORT_TOKEN")]
+    usage_report_token: Option<String>,
     #[arg(long, default_value = ".beater")]
     data_dir: PathBuf,
     /// Maximum bytes accepted for one filesystem artifact write.
@@ -489,6 +502,21 @@ async fn main() -> anyhow::Result<()> {
                     .with_allowed_tools(args.connector_allow_tools.clone())
                     .with_denied_tools(args.connector_deny_tools.clone()),
             );
+    if let (Some(endpoint), Some(token)) = (
+        args.usage_events_url
+            .as_deref()
+            .filter(|value| !value.is_empty()),
+        args.usage_report_token
+            .as_deref()
+            .filter(|value| !value.is_empty()),
+    ) {
+        state =
+            state.with_control_plane_usage_reporter(Arc::new(HttpControlPlaneUsageReporter::new(
+                endpoint,
+                token,
+                beater_core::EnvironmentId::new(args.default_environment_id.clone())?,
+            )));
+    }
     // Composio-backed connectors are opt-in: only when `COMPOSIO_API_KEY` is set
     // does the `/v1/connectors` surface come online. Unset → the endpoints report
     // 501 and beaterd runs with zero third-party cloud dependency (OSS default).
@@ -532,6 +560,7 @@ async fn main() -> anyhow::Result<()> {
     let issuer = args
         .issuer_url
         .clone()
+        .or_else(|| args.auth_issuer_url.clone())
         .unwrap_or_else(|| format!("http://{}", args.addr));
     let oauth_metadata_url = format!("{issuer}/.well-known/oauth-protected-resource");
     // Let the HTTP API + MCP accept OAuth access tokens (not just API keys),
@@ -1475,5 +1504,33 @@ mod auth_default_tests {
             args.token_introspection_secret.as_deref(),
             Some("secret-demo")
         );
+    }
+
+    #[test]
+    fn hosted_auth_and_usage_cli_options_parse() {
+        let args = Args::parse_from([
+            "beaterd",
+            "--auth-issuer-url",
+            "https://auth.example.test",
+            "--auth-jwks-url",
+            "https://auth.example.test/.well-known/jwks.json",
+            "--usage-events-url",
+            "https://auth.example.test/usage/events",
+            "--usage-report-token",
+            "usage-secret",
+        ]);
+        assert_eq!(
+            args.auth_issuer_url.as_deref(),
+            Some("https://auth.example.test")
+        );
+        assert_eq!(
+            args.auth_jwks_url.as_deref(),
+            Some("https://auth.example.test/.well-known/jwks.json")
+        );
+        assert_eq!(
+            args.usage_events_url.as_deref(),
+            Some("https://auth.example.test/usage/events")
+        );
+        assert_eq!(args.usage_report_token.as_deref(), Some("usage-secret"));
     }
 }
