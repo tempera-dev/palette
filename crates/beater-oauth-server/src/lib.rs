@@ -85,6 +85,8 @@ pub struct OAuthServerState {
     pub accounts: Arc<dyn AccountStore>,
     /// Absolute issuer URL, no trailing slash, e.g. `https://api.example.com`.
     pub issuer: String,
+    /// OAuth resource indicator / protected-resource audience for access tokens.
+    pub resource: String,
     /// Dashboard login page. When set, an unauthenticated `/oauth/authorize`
     /// redirects here with `?return_to=<authorize-url>`.
     pub login_url: Option<String>,
@@ -434,7 +436,7 @@ async fn protected_resource_metadata(
     State(state): State<OAuthServerState>,
 ) -> Json<serde_json::Value> {
     Json(json!({
-        "resource": state.issuer,
+        "resource": state.resource,
         "authorization_servers": [state.issuer],
         "scopes_supported": state.scopes_supported,
         "bearer_methods_supported": ["header"],
@@ -740,8 +742,8 @@ async fn authorize(
     let resource = params
         .resource
         .clone()
-        .unwrap_or_else(|| state.issuer.clone());
-    if resource != state.issuer {
+        .unwrap_or_else(|| state.resource.clone());
+    if resource != state.resource {
         return redirect_error(
             &params.redirect_uri,
             "invalid_target",
@@ -958,8 +960,8 @@ async fn token(
     let resource = form
         .resource
         .clone()
-        .unwrap_or_else(|| state.issuer.clone());
-    if resource != state.issuer {
+        .unwrap_or_else(|| state.resource.clone());
+    if resource != state.resource {
         return oauth_error(
             StatusCode::BAD_REQUEST,
             "invalid_target",
@@ -1366,6 +1368,7 @@ mod tests {
             oauth: Arc::new(ok(SqliteOAuthStore::in_memory())),
             accounts: Arc::new(ok(SqliteAccountStore::in_memory())),
             issuer: "https://api.example.test".to_string(),
+            resource: "palette".to_string(),
             login_url: Some("https://app.example.test/login".to_string()),
             scopes_supported: vec!["trace:read".to_string(), "mcp:invoke".to_string()],
             api_keys: Some(Arc::new(ok(beater_auth::SqliteApiKeyStore::in_memory()))),
@@ -1473,6 +1476,24 @@ mod tests {
             url,
             "https://app.example.test/cb?connection=cursor&error=access_denied&state=abc%2F123"
         );
+    }
+
+    #[tokio::test]
+    async fn protected_resource_metadata_advertises_configured_resource() {
+        let app = router(test_state());
+        let resp = ok(app
+            .oneshot(
+                Request::builder()
+                    .method("GET")
+                    .uri("/.well-known/oauth-protected-resource")
+                    .body(Body::empty())
+                    .unwrap_or_else(|e| panic!("{e}")),
+            )
+            .await);
+        assert_eq!(resp.status(), StatusCode::OK);
+        let body = body_json(resp).await;
+        assert_eq!(body["resource"], "palette");
+        assert_eq!(body["authorization_servers"][0], "https://api.example.test");
     }
 
     #[tokio::test]
@@ -2626,7 +2647,7 @@ mod tests {
                     user_id: ok(UserId::new("user-1")),
                     redirect_uri: "https://app.example.test/cb".to_string(),
                     scope: BTreeSet::from(["trace:read".to_string()]),
-                    resource: "https://api.example.test".to_string(),
+                    resource: "palette".to_string(),
                     tenant_scope: tenant_scope.clone(),
                     code_challenge: challenge(),
                 },
@@ -2641,7 +2662,7 @@ mod tests {
                     user_id: ok(UserId::new("user-1")),
                     redirect_uri: "https://app.example.test/cb".to_string(),
                     scope: BTreeSet::from(["trace:read".to_string()]),
-                    resource: "https://api.example.test".to_string(),
+                    resource: "palette".to_string(),
                     tenant_scope,
                     code_challenge: challenge(),
                 },
