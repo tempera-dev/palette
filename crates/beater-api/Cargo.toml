@@ -6,6 +6,7 @@ license.workspace = true
 
 [dependencies]
 anyhow.workspace = true
+async-trait.workspace = true
 axum.workspace = true
 beater-alerts = { path = "../beater-alerts" }
 beater-archive = { path = "../beater-archive" }
@@ -35,13 +36,13 @@ beater-usage = { path = "../beater-usage" }
 chrono.workspace = true
 http.workspace = true
 percent-encoding.workspace = true
+reqwest.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 utoipa.workspace = true
 uuid.workspace = true
 
 [dev-dependencies]
-async-trait.workspace = true
 beater-bus = { path = "../beater-bus" }
 beater-eval = { path = "../beater-eval" }
 beater-replay = { path = "../beater-replay" }
