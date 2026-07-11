@@ -303,7 +303,7 @@ impl CentralTokenIntrospector for StaticCentralTokenIntrospector {
                 unwrap(ProjectId::new("proj-1")),
                 unwrap(EnvironmentId::new("env-1")),
             ),
-            expires_at: chrono::Utc::now() + chrono::Duration::minutes(10),
+            expires_at: Some(chrono::Utc::now() + chrono::Duration::minutes(10)),
         })
     }
 }

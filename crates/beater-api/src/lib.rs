@@ -110,7 +110,10 @@ pub struct IntrospectedTokenClaims {
     pub token_id: String,
     pub scope: BTreeSet<String>,
     pub tenant_scope: TenantScope,
-    pub expires_at: chrono::DateTime<Utc>,
+    /// Absent only for central API keys (`token_type == "api_key"`), which do
+    /// not expire; the control plane reports revocation via `active: false` on
+    /// the next introspection instead. JWT-shaped responses must carry `exp`.
+    pub expires_at: Option<chrono::DateTime<Utc>>,
 }
 
 #[async_trait::async_trait]
@@ -187,9 +190,18 @@ fn claims_from_introspection_response(
     if audience != "palette" {
         anyhow::bail!("token audience {audience} is not palette");
     }
-    let exp = required_introspection_field(body.exp, "exp")?;
-    let expires_at = chrono::DateTime::from_timestamp(exp, 0)
-        .ok_or_else(|| anyhow::anyhow!("invalid exp timestamp"))?;
+    // Central API keys introspect without `exp` (they do not expire; the
+    // control plane reports revocation as `active: false` on the live
+    // per-request introspection). Every other shape must carry `exp` — the
+    // same rule tempo, cradle, and remi apply.
+    let expires_at = match body.exp {
+        Some(exp) => Some(
+            chrono::DateTime::from_timestamp(exp, 0)
+                .ok_or_else(|| anyhow::anyhow!("invalid exp timestamp"))?,
+        ),
+        None if body.token_type.as_deref() == Some("api_key") => None,
+        None => return Err(anyhow::anyhow!("introspection response missing exp")),
+    };
     // Central API keys (`token_type == "api_key"`) may omit `jti`; their
     // stable identifier is `api_key_id`. JWT-shaped responses must carry
     // `jti` — everything else stays fail-closed.
@@ -5803,6 +5815,8 @@ mod tests {
     }
 
     fn api_key_introspection_json() -> serde_json::Value {
+        // Mirrors the control plane's real API-key introspection response,
+        // which carries no `exp` (API keys do not expire).
         json!({
             "active": true,
             "iss": "https://auth.example.com",
@@ -5813,7 +5827,6 @@ mod tests {
             "project_id": "proj_demo",
             "environment_id": "env_prod",
             "scope": "traces:read",
-            "exp": 4_102_444_800i64,
             "token_type": "api_key",
             "api_key_id": "ak_123",
         })
@@ -5841,6 +5854,28 @@ mod tests {
         assert_eq!(claims.token_id, "ak_123");
         assert_eq!(claims.audience, "palette");
         assert_eq!(claims.tenant_scope.tenant_id.as_str(), "org_demo");
+        // API keys do not expire; the claims record that honestly.
+        assert_eq!(claims.expires_at, None);
+    }
+
+    #[test]
+    fn introspection_accepts_api_key_shape_with_explicit_exp() {
+        let mut body = api_key_introspection_json();
+        body["exp"] = json!(4_102_444_800i64);
+        let claims = claims_from_introspection_response(introspection_body(body))
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(claims.expires_at.is_some());
+    }
+
+    #[test]
+    fn introspection_rejects_jwt_shape_missing_exp() {
+        let mut body = jwt_introspection_json();
+        body.as_object_mut()
+            .unwrap_or_else(|| panic!("object"))
+            .remove("exp");
+        let error = claims_from_introspection_response(introspection_body(body))
+            .expect_err("jwt shape without exp must fail closed");
+        assert!(error.to_string().contains("exp"));
     }
 
     #[test]
@@ -6309,7 +6344,7 @@ mod tests {
             token_id: "jti-demo".to_string(),
             scope: BTreeSet::from(["mcp:invoke".to_string(), "trace:read".to_string()]),
             tenant_scope: TenantScope::new(tenant.clone(), project.clone(), environment.clone()),
-            expires_at: Utc::now() + chrono::Duration::minutes(10),
+            expires_at: Some(Utc::now() + chrono::Duration::minutes(10)),
         };
 
         let decision = authorize_central_claims(
