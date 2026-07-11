@@ -30,6 +30,8 @@ ApiScope::eApiScope toEnum(const EnumUnderlyingType& val)
         return ApiScope::eApiScope::ApiScope_TRACE_READ;
     if (val == utility::conversions::to_string_t(U("dataset:write")))
         return ApiScope::eApiScope::ApiScope_DATASET_WRITE;
+    if (val == utility::conversions::to_string_t(U("dataset:read")))
+        return ApiScope::eApiScope::ApiScope_DATASET_READ;
     if (val == utility::conversions::to_string_t(U("scenario:write")))
         return ApiScope::eApiScope::ApiScope_SCENARIO_WRITE;
     if (val == utility::conversions::to_string_t(U("scenario:read")))
@@ -53,6 +55,8 @@ EnumUnderlyingType fromEnum(ApiScope::eApiScope e)
         return U("trace:read");
     case ApiScope::eApiScope::ApiScope_DATASET_WRITE:
         return U("dataset:write");
+    case ApiScope::eApiScope::ApiScope_DATASET_READ:
+        return U("dataset:read");
     case ApiScope::eApiScope::ApiScope_SCENARIO_WRITE:
         return U("scenario:write");
     case ApiScope::eApiScope::ApiScope_SCENARIO_READ:

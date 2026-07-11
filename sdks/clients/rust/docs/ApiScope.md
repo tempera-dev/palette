@@ -7,6 +7,7 @@
 | TraceColonWrite | trace:write |
 | TraceColonRead | trace:read |
 | DatasetColonWrite | dataset:write |
+| DatasetColonRead | dataset:read |
 | ScenarioColonWrite | scenario:write |
 | ScenarioColonRead | scenario:read |
 | EvalColonRun | eval:run |

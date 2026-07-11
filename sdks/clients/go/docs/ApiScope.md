@@ -9,6 +9,8 @@
 
 * `DATASET_WRITE` (value: `"dataset:write"`)
 
+* `DATASET_READ` (value: `"dataset:read"`)
+
 * `SCENARIO_WRITE` (value: `"scenario:write"`)
 
 * `SCENARIO_READ` (value: `"scenario:read"`)

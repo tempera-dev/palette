@@ -36,6 +36,8 @@ public enum ApiScope {
   
   DATASET_WRITE("dataset:write"),
   
+  DATASET_READ("dataset:read"),
+  
   SCENARIO_WRITE("scenario:write"),
   
   SCENARIO_READ("scenario:read"),

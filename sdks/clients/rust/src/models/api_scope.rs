@@ -20,6 +20,8 @@ pub enum ApiScope {
     TraceColonRead,
     #[serde(rename = "dataset:write")]
     DatasetColonWrite,
+    #[serde(rename = "dataset:read")]
+    DatasetColonRead,
     #[serde(rename = "scenario:write")]
     ScenarioColonWrite,
     #[serde(rename = "scenario:read")]
@@ -39,6 +41,7 @@ impl std::fmt::Display for ApiScope {
             Self::TraceColonWrite => write!(f, "trace:write"),
             Self::TraceColonRead => write!(f, "trace:read"),
             Self::DatasetColonWrite => write!(f, "dataset:write"),
+            Self::DatasetColonRead => write!(f, "dataset:read"),
             Self::ScenarioColonWrite => write!(f, "scenario:write"),
             Self::ScenarioColonRead => write!(f, "scenario:read"),
             Self::EvalColonRun => write!(f, "eval:run"),

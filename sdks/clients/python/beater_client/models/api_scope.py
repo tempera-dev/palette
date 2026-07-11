@@ -29,6 +29,7 @@ class ApiScope(str, Enum):
     TRACE_COLON_WRITE = 'trace:write'
     TRACE_COLON_READ = 'trace:read'
     DATASET_COLON_WRITE = 'dataset:write'
+    DATASET_COLON_READ = 'dataset:read'
     SCENARIO_COLON_WRITE = 'scenario:write'
     SCENARIO_COLON_READ = 'scenario:read'
     EVAL_COLON_RUN = 'eval:run'

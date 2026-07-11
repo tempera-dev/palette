@@ -9,6 +9,8 @@
 
 * `DATASET_COLON_WRITE` (value: `'dataset:write'`)
 
+* `DATASET_COLON_READ` (value: `'dataset:read'`)
+
 * `SCENARIO_COLON_WRITE` (value: `'scenario:write'`)
 
 * `SCENARIO_COLON_READ` (value: `'scenario:read'`)
