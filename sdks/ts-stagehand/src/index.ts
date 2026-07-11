@@ -1,6 +1,6 @@
 import type { Tracer } from "@opentelemetry/api";
 
-import { BeaterStagehandTracer } from "./tracer.js";
+import { PaletteStagehandTracer } from "./tracer.js";
 import type {
   BrowserActionName,
 } from "./semconv.js";
@@ -10,12 +10,12 @@ import type {
   StagehandLike,
 } from "./types.js";
 
-export { BeaterStagehandTracer } from "./tracer.js";
+export { PaletteStagehandTracer } from "./tracer.js";
 export {
   BrowserAttr,
   StepStatus,
   SpanKind,
-  BEATER_SPAN_KIND,
+  PALETTE_SPAN_KIND,
 } from "./semconv.js";
 export type { BrowserActionName } from "./semconv.js";
 export type {
@@ -32,7 +32,7 @@ const PRIMITIVES: BrowserActionName[] = ["act", "observe", "extract"];
 export function resolveEndpoint(opts?: InstrumentOptions): string {
   return (
     opts?.endpoint ??
-    process.env.BEATER_OTLP_ENDPOINT ??
+    process.env.PALETTE_OTLP_ENDPOINT ??
     DEFAULT_ENDPOINT
   );
 }
@@ -42,7 +42,7 @@ export function resolveEndpoint(opts?: InstrumentOptions): string {
  *
  * Imports are dynamic so the heavy `@opentelemetry/sdk-node` /
  * `exporter-trace-otlp-grpc` dependencies are only loaded when an app actually
- * exports to Beater (tests inject their own in-memory tracer and never hit
+ * exports to Palette (tests inject their own in-memory tracer and never hit
  * this path).
  */
 async function bootstrapTracer(opts: InstrumentOptions): Promise<Tracer> {
@@ -67,19 +67,19 @@ async function bootstrapTracer(opts: InstrumentOptions): Promise<Tracer> {
   });
   sdk.start();
 
-  return trace.getTracer("@beater/stagehand-instrumentation", "0.1.0");
+  return trace.getTracer("@palette/stagehand-instrumentation", "0.1.0");
 }
 
 /**
  * Wrap a Stagehand instance (or a bare page) so every `page.act`,
- * `page.observe`, and `page.extract` call emits canonical Beater `browser.*`
+ * `page.observe`, and `page.extract` call emits canonical Palette `browser.*`
  * spans over OTLP.
  *
  * The original methods are replaced in place; the same object is returned for
  * convenience. Re-instrumenting an already-instrumented page is a no-op.
  *
  * When `opts.tracer` is provided it is used directly (e.g. an in-memory
- * exporter in tests). Otherwise an OTLP gRPC pipeline to Beater is bootstrapped
+ * exporter in tests). Otherwise an OTLP gRPC pipeline to Palette is bootstrapped
  * asynchronously and instrumentation begins once it is ready.
  */
 export function instrumentStagehand<T extends StagehandLike | PageLike>(
@@ -96,7 +96,7 @@ export function instrumentStagehand<T extends StagehandLike | PageLike>(
   if (opts.tracer) {
     applyInstrumentation(
       page,
-      new BeaterStagehandTracer({ tracer: opts.tracer, engine: opts.engine }),
+      new PaletteStagehandTracer({ tracer: opts.tracer, engine: opts.engine }),
     );
     return target;
   }
@@ -106,7 +106,7 @@ export function instrumentStagehand<T extends StagehandLike | PageLike>(
   // pipeline finishes starting are buffered behind the promise.
   const pending = bootstrapTracer(opts).then(
     (tracer) =>
-      new BeaterStagehandTracer({ tracer, engine: opts.engine }),
+      new PaletteStagehandTracer({ tracer, engine: opts.engine }),
   );
   applyDeferredInstrumentation(page, pending);
   return target;
@@ -130,11 +130,11 @@ function hasPrimitives(p: PageLike | undefined): p is PageLike {
   );
 }
 
-const INSTRUMENTED = Symbol.for("beater.stagehand.instrumented");
+const INSTRUMENTED = Symbol.for("palette.stagehand.instrumented");
 
 function applyInstrumentation(
   page: PageLike,
-  tracer: BeaterStagehandTracer,
+  tracer: PaletteStagehandTracer,
 ): void {
   if ((page as Record<symbol, unknown>)[INSTRUMENTED]) return;
   (page as Record<symbol, unknown>)[INSTRUMENTED] = true;
@@ -153,7 +153,7 @@ function applyInstrumentation(
 
 function applyDeferredInstrumentation(
   page: PageLike,
-  pending: Promise<BeaterStagehandTracer>,
+  pending: Promise<PaletteStagehandTracer>,
 ): void {
   if ((page as Record<symbol, unknown>)[INSTRUMENTED]) return;
   (page as Record<symbol, unknown>)[INSTRUMENTED] = true;

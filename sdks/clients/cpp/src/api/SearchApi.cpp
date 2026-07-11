@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -10,10 +10,10 @@
  */
 
 
-#include "beater-client/api/SearchApi.h"
-#include "beater-client/IHttpBody.h"
-#include "beater-client/JsonBody.h"
-#include "beater-client/MultipartFormData.h"
+#include "palette-client/api/SearchApi.h"
+#include "palette-client/IHttpBody.h"
+#include "palette-client/JsonBody.h"
+#include "palette-client/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 
@@ -35,7 +35,7 @@ SearchApi::~SearchApi()
 {
 }
 
-pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_searchSpans(utility::string_t tenantId, boost::optional<utility::string_t> q, boost::optional<utility::string_t> projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> spanId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<utility::string_t> model, boost::optional<utility::string_t> tool, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_searchSpans(utility::string_t tenantId, boost::optional<utility::string_t> q, boost::optional<utility::string_t> projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> spanId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<utility::string_t> model, boost::optional<utility::string_t> tool, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -121,17 +121,17 @@ pplx::task<std::shared_ptr<SearchResponse>> SearchApi::search_searchSpans(utilit
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.prompt_version_metadata import PromptVersionMetadata
+from palette_client.models.prompt_version_metadata import PromptVersionMetadata
 
 # TODO update the JSON string below
 json = "{}"

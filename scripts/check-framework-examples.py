@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static drift checks for Beater framework examples.
+"""Static drift checks for Palette framework examples.
 
 This intentionally avoids package installs and live model/network calls. It
 only checks syntax, README registration, and import-shape constraints for
@@ -20,9 +20,9 @@ MODERN_FRAMEWORK_EXAMPLES = {
         "required": (
             'await import("ai")',
             '"agent.framework": "vercel-ai-sdk"',
-            '"beater.span.kind": "agent.run"',
-            '"beater.span.kind": "llm.call"',
-            '"beater.span.kind": "tool.call"',
+            '"palette.span.kind": "agent.run"',
+            '"palette.span.kind": "llm.call"',
+            '"palette.span.kind": "tool.call"',
             '"llm.token_count.prompt"',
             '"llm.token_count.completion"',
         ),

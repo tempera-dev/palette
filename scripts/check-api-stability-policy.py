@@ -15,8 +15,8 @@ POLICY_TOKENS = {
     "stable /v1 contract": [
         "/v1",
         "OpenAPI",
-        "sdks/openapi/beater-api.json",
-        "crates/beater-api",
+        "sdks/openapi/palette-api.json",
+        "crates/palette-api",
         "scripts/check-contract-sync.sh",
         ".github/workflows/sdk-contract.yml",
         "sdk-contract",
@@ -37,8 +37,8 @@ POLICY_TOKENS = {
         "/v2",
     ],
     "self-host parity": [
-        "Self-hosted `beaterd` and Beater Cloud serve the identical contract",
-        "OSS runs without Beater Cloud",
+        "Self-hosted `paletted` and Palette Cloud serve the identical contract",
+        "OSS runs without Palette Cloud",
     ],
 }
 

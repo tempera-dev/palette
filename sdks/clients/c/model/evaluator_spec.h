@@ -23,7 +23,7 @@ typedef struct evaluator_spec_t evaluator_spec_t;
 typedef struct evaluator_spec_t {
     char *id; // string
     struct evaluator_kind_t *kind; //model
-    beater_api_evaluator_lane__e lane; //referenced enum
+    palette_api_evaluator_lane__e lane; //referenced enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } evaluator_spec_t;
@@ -31,7 +31,7 @@ typedef struct evaluator_spec_t {
 __attribute__((deprecated)) evaluator_spec_t *evaluator_spec_create(
     char *id,
     evaluator_kind_t *kind,
-    beater_api_evaluator_lane__e lane
+    palette_api_evaluator_lane__e lane
 );
 
 void evaluator_spec_free(evaluator_spec_t *evaluator_spec);

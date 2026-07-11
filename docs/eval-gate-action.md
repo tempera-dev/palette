@@ -1,7 +1,7 @@
-# Beater Eval Gate — GitHub Action
+# Palette Eval Gate — GitHub Action
 
-The repo-root `action.yml` turns a Beater statistical gate into a CI check
-(#154). It wraps `beaterctl gate-run` and reports a three-valued verdict —
+The repo-root `action.yml` turns a Palette statistical gate into a CI check
+(#154). It wraps `palettectl gate-run` and reports a three-valued verdict —
 **pass / fail / inconclusive** — to the job's step summary and, optionally,
 a sticky pull-request comment.
 
@@ -12,7 +12,7 @@ effect conclusive (`mde` / `required_n` from `ExperimentComparison`), and the
 gate's inconclusive policy decides whether that blocks the merge. An
 underpowered eval is not a pass.
 
-Everything runs against the job-local `--data-dir` SQLite store. No Beater
+Everything runs against the job-local `--data-dir` SQLite store. No Palette
 server, no API keys, no network: the eval steps earlier in the job produce
 `gates.sqlite` / `experiments.sqlite`, and the action reads them.
 
@@ -31,12 +31,12 @@ jobs:
       - name: Install Rust
         run: rustup toolchain install stable --profile minimal && rustup default stable
 
-      # ... your steps that run evals and record an experiment into .beater ...
+      # ... your steps that run evals and record an experiment into .palette ...
 
-      - name: Beater eval gate
-        uses: jadenfix/beater@main
+      - name: Palette eval gate
+        uses: jadenfix/palette@main
         with:
-          data-dir: .beater
+          data-dir: .palette
           tenant-id: my-tenant
           project-id: my-project
           gate-id: main
@@ -47,7 +47,7 @@ Zero-config demo (seeds a deterministic fixture gate whose latest experiment
 is a regression, so you can see the failure rendering without any setup):
 
 ```yaml
-      - uses: jadenfix/beater@main
+      - uses: jadenfix/palette@main
         with:
           demo-fixture: "true"
           fail-on-gate-failure: "false"   # report-only
@@ -57,10 +57,10 @@ is a regression, so you can see the failure rendering without any setup):
 
 | Input | Default | Meaning |
 |---|---|---|
-| `data-dir` | `.beater` | Local store with `gates.sqlite` / `experiments.sqlite`. |
+| `data-dir` | `.palette` | Local store with `gates.sqlite` / `experiments.sqlite`. |
 | `tenant-id` / `project-id` / `gate-id` | `demo` / `demo` / `main` | Which gate to run. |
 | `experiment-run-id` | latest | Gate a specific experiment run. |
-| `beaterctl-path` | build from source | Prebuilt `beaterctl` binary. Without it the action builds `beaterctl` from its own checkout with cargo — correct but slow on a cold runner; prefer a prebuilt binary or a cargo cache. |
+| `palettectl-path` | build from source | Prebuilt `palettectl` binary. Without it the action builds `palettectl` from its own checkout with cargo — correct but slow on a cold runner; prefer a prebuilt binary or a cargo cache. |
 | `demo-fixture` | `false` | Seed the deterministic demo gate first (`gate-run-fixture`). |
 | `fail-on-gate-failure` | `true` | Fail the step when the gate doesn't pass, so the gate can be a required check. `false` = report-only. |
 | `github-token` | none | Enables the sticky PR comment (upserted in place across pushes). |

@@ -4,12 +4,12 @@
 #include "create_api_key_http_request.h"
 
 
-char* create_api_key_http_request_scopes_ToString(beater_api_create_api_key_http_request__e scopes) {
+char* create_api_key_http_request_scopes_ToString(palette_api_create_api_key_http_request__e scopes) {
     char *scopesArray[] =  { "NULL", "trace:write", "trace:read", "dataset:write", "dataset:read", "scenario:write", "scenario:read", "eval:run", "pii:unmask", "admin" };
     return scopesArray[scopes - 1];
 }
 
-beater_api_create_api_key_http_request__e create_api_key_http_request_scopes_FromString(char* scopes) {
+palette_api_create_api_key_http_request__e create_api_key_http_request_scopes_FromString(char* scopes) {
     int stringToReturn = 0;
     char *scopesArray[] =  { "NULL", "trace:write", "trace:read", "dataset:write", "dataset:read", "scenario:write", "scenario:read", "eval:run", "pii:unmask", "admin" };
     size_t sizeofArray = sizeof(scopesArray) / sizeof(scopesArray[0]);
@@ -66,7 +66,7 @@ cJSON *create_api_key_http_request_convertToJSON(create_api_key_http_request_t *
     cJSON *item = cJSON_CreateObject();
 
     // create_api_key_http_request->scopes
-    if (beater_api_list_SCOPES_NULL == create_api_key_http_request->scopes) {
+    if (palette_api_list_SCOPES_NULL == create_api_key_http_request->scopes) {
         goto fail;
     }
     cJSON *scopes = cJSON_AddArrayToObject(item, "scopes");
@@ -77,7 +77,7 @@ cJSON *create_api_key_http_request_convertToJSON(create_api_key_http_request_t *
     listEntry_t *scopesListEntry;
     if (create_api_key_http_request->scopes) {
     list_ForEach(scopesListEntry, create_api_key_http_request->scopes) {
-    cJSON *itemLocal = api_scope_convertToJSON((beater_api_create_api_key_http_request__e)scopesListEntry->data);
+    cJSON *itemLocal = api_scope_convertToJSON((palette_api_create_api_key_http_request__e)scopesListEntry->data);
     if(itemLocal == NULL) {
     goto fail;
     }

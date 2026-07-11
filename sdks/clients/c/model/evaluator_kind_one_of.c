@@ -4,12 +4,12 @@
 #include "evaluator_kind_one_of.h"
 
 
-char* evaluator_kind_one_of_type_ToString(beater_api_evaluator_kind_one_of_TYPE_e type) {
+char* evaluator_kind_one_of_type_ToString(palette_api_evaluator_kind_one_of_TYPE_e type) {
     char* typeArray[] =  { "NULL", "exact_match" };
     return typeArray[type];
 }
 
-beater_api_evaluator_kind_one_of_TYPE_e evaluator_kind_one_of_type_FromString(char* type){
+palette_api_evaluator_kind_one_of_TYPE_e evaluator_kind_one_of_type_FromString(char* type){
     int stringToReturn = 0;
     char *typeArray[] =  { "NULL", "exact_match" };
     size_t sizeofArray = sizeof(typeArray) / sizeof(typeArray[0]);
@@ -23,7 +23,7 @@ beater_api_evaluator_kind_one_of_TYPE_e evaluator_kind_one_of_type_FromString(ch
 }
 
 static evaluator_kind_one_of_t *evaluator_kind_one_of_create_internal(
-    beater_api_evaluator_kind_one_of_TYPE_e type
+    palette_api_evaluator_kind_one_of_TYPE_e type
     ) {
     evaluator_kind_one_of_t *evaluator_kind_one_of_local_var = malloc(sizeof(evaluator_kind_one_of_t));
     if (!evaluator_kind_one_of_local_var) {
@@ -36,7 +36,7 @@ static evaluator_kind_one_of_t *evaluator_kind_one_of_create_internal(
 }
 
 __attribute__((deprecated)) evaluator_kind_one_of_t *evaluator_kind_one_of_create(
-    beater_api_evaluator_kind_one_of_TYPE_e type
+    palette_api_evaluator_kind_one_of_TYPE_e type
     ) {
     return evaluator_kind_one_of_create_internal (
         type
@@ -59,7 +59,7 @@ cJSON *evaluator_kind_one_of_convertToJSON(evaluator_kind_one_of_t *evaluator_ki
     cJSON *item = cJSON_CreateObject();
 
     // evaluator_kind_one_of->type
-    if (beater_api_evaluator_kind_one_of_TYPE_NULL == evaluator_kind_one_of->type) {
+    if (palette_api_evaluator_kind_one_of_TYPE_NULL == evaluator_kind_one_of->type) {
         goto fail;
     }
     if(cJSON_AddStringToObject(item, "type", evaluator_kind_one_of_type_ToString(evaluator_kind_one_of->type)) == NULL)
@@ -88,7 +88,7 @@ evaluator_kind_one_of_t *evaluator_kind_one_of_parseFromJSON(cJSON *evaluator_ki
         goto end;
     }
 
-    beater_api_evaluator_kind_one_of_TYPE_e typeVariable;
+    palette_api_evaluator_kind_one_of_TYPE_e typeVariable;
     
     if(!cJSON_IsString(type))
     {

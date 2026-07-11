@@ -30,7 +30,7 @@ review_annotation_t* instantiate_review_annotation(int include_optional) {
       "0",
       "0",
       "0",
-      beater_api_review_annotation__pass
+      palette_api_review_annotation__pass
     );
   } else {
     review_annotation = review_annotation_create(
@@ -42,7 +42,7 @@ review_annotation_t* instantiate_review_annotation(int include_optional) {
       "0",
       "0",
       "0",
-      beater_api_review_annotation__pass
+      palette_api_review_annotation__pass
     );
   }
 

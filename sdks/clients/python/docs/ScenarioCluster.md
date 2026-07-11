@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.scenario_cluster import ScenarioCluster
+from palette_client.models.scenario_cluster import ScenarioCluster
 
 # TODO update the JSON string below
 json = "{}"

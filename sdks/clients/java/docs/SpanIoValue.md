@@ -11,11 +11,11 @@
 ## Example
 ```java
 // Import classes:
-import ai.beater.client.model.SpanIoValue;
-import ai.beater.client.model.SpanIoValueOneOf;
-import ai.beater.client.model.SpanIoValueOneOf1;
-import ai.beater.client.model.SpanIoValueOneOf2;
-import ai.beater.client.model.SpanIoValueOneOf3;
+import ai.palette.client.model.SpanIoValue;
+import ai.palette.client.model.SpanIoValueOneOf;
+import ai.palette.client.model.SpanIoValueOneOf1;
+import ai.palette.client.model.SpanIoValueOneOf2;
+import ai.palette.client.model.SpanIoValueOneOf3;
 
 public class Example {
     public static void main(String[] args) {

@@ -5,8 +5,8 @@ Companion issues: see "Tracked work" at the bottom.
 
 ## The one defensible thesis
 
-Beater stores each agent run losslessly as a **timed, labeled span forest**
-(`crates/beater-schema` `CanonicalSpan`: 14 `AgentSpanKind`s, each with
+Palette stores each agent run losslessly as a **timed, labeled span forest**
+(`crates/palette-schema` `CanonicalSpan`: 14 `AgentSpanKind`s, each with
 cost/tokens/latency/status/model). So the runs are an *already-observed stochastic
 process*, and the platform's job is inference on it.
 
@@ -31,7 +31,7 @@ was cut*, so it isn't relitigated.
 ## Build now (small, high-value, data already exists)
 
 ### 1. Report required-n instead of a binary "underpowered"
-`beater-eval::compare_paired_scores` returns `EvalError::Underpowered` — all or
+`palette-eval::compare_paired_scores` returns `EvalError::Underpowered` — all or
 nothing. From the observed difference variance `σ̂²` and the
 `max_regression` already in `GatePolicy` as the minimum detectable effect `δ`:
 
@@ -40,11 +40,11 @@ n* ≈ 2 (z_α + z_β)² σ̂² / δ²
 ```
 
 Surface **"need ~24 more cases to detect a 1% regression (95%/80%)"** instead of a
-dead end. ~50 lines in `beater-eval`; no new crate. This is the flagship: cheap,
+dead end. ~50 lines in `palette-eval`; no new crate. This is the flagship: cheap,
 honest, and the thing most eval tools get wrong.
 
 ### 2. Judge trust = agreement + a reliability diagram (display only)
-`beater-calibration` currently reduces judge-vs-human to a scalar
+`palette-calibration` currently reduces judge-vs-human to a scalar
 `pass_threshold`. Add, as *display*, the measurement-error view:
 
 - **Cohen's κ** (agreement beyond chance) between judge and human labels.
@@ -67,7 +67,7 @@ only with real tool fan-out. Build it, but don't oversell it.
 ### 4. Simple regression alerting
 A windowed error-rate / quality monitor with **CUSUM** (not Bayesian online
 changepoint — too heavy for the payoff) → "regression began near commit X," posted
-through `crates/beater-alerts`.
+through `crates/palette-alerts`.
 
 ### 5. Failure grouping without ML
 Group failing traces by **error string / failing tool / status** first. This
@@ -122,11 +122,11 @@ need more data" instead of a false green.
 
 Per `CLAUDE.md`, any `/v1` endpoint auto-projects into MCP tools + 7 SDKs + CLI
 from one OpenAPI artifact. So the build-now items, once they're handlers in
-`crates/beater-api`, become agent-callable MCP tools for free — no separate math
+`crates/palette-api`, become agent-callable MCP tools for free — no separate math
 service, staying offline/self-hostable (R11). Item #1 has since crossed that
-threshold into shared `beater-stats` primitives, wired through `beater-eval`;
+threshold into shared `palette-stats` primitives, wired through `palette-eval`;
 the remaining display-only judge-trust work still belongs near
-`beater-calibration` until it needs extraction.
+`palette-calibration` until it needs extraction.
 
 ---
 
@@ -138,7 +138,7 @@ comparisons return *inconclusive* rather than a false green.
 
 | Work | Status | Notes |
 |---|---|---|
-| #61 / Build now #1 required-n and MDE | Implemented | `beater-stats` owns `required_sample_size`, `minimum_detectable_effect`, and `achieved_power`; `beater-eval` reports `mde` and `required_n` on inconclusive underpowered gates. |
+| #61 / Build now #1 required-n and MDE | Implemented | `palette-stats` owns `required_sample_size`, `minimum_detectable_effect`, and `achieved_power`; `palette-eval` reports `mde` and `required_n` on inconclusive underpowered gates. |
 | #62 / Build now #2 judge trust | Remaining | Add Cohen's kappa plus reliability diagram / ECE display. |
 | #63 / Build soon #3 critical-path latency | Remaining | Add trace-DAG longest-path latency and waterfall highlighting. |
 

@@ -2,9 +2,9 @@
 -- Tenant id leads every ORDER BY key to make tenant-scoped reads the natural
 -- access path and to avoid post-fetch isolation.
 
-CREATE DATABASE IF NOT EXISTS beater;
+CREATE DATABASE IF NOT EXISTS palette;
 
-CREATE TABLE IF NOT EXISTS beater.raw_envelopes
+CREATE TABLE IF NOT EXISTS palette.raw_envelopes
 (
   tenant_id String,
   project_id String,
@@ -22,7 +22,7 @@ ORDER BY (tenant_id, project_id, received_at, idempotency_key)
 TTL toDateTime(received_at) + INTERVAL 180 DAY
 SETTINGS index_granularity = 8192;
 
-CREATE TABLE IF NOT EXISTS beater.spans
+CREATE TABLE IF NOT EXISTS palette.spans
 (
   tenant_id String,
   project_id String,
@@ -58,6 +58,6 @@ SETTINGS index_granularity = 8192;
 -- matching span in process.
 --
 -- Run summaries are still NOT precomputed into a table or materialized view. A
--- `beater.trace_runs` table + `beater.trace_runs_mv` materialized view previously
+-- `palette.trace_runs` table + `palette.trace_runs_mv` materialized view previously
 -- lived here but were removed. Do not reintroduce a run-summary table without a
 -- read path that queries it; the on-demand GROUP BY above is the supported path.

@@ -1,8 +1,8 @@
 [package]
-name = "beater-client"
+name = "palette-client"
 version = "0.1.0"
 authors = ["OpenAPI Generator team and contributors"]
-description = "Agent observability, evaluation, gating, and human-review APIs for Beater"
+description = "Agent observability, evaluation, gating, and human-review APIs for Palette"
 license = "Apache-2.0"
 edition = "2021"
 

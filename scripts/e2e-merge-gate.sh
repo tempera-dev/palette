@@ -32,13 +32,13 @@ record_skipped() {
   skipped+=("$1")
 }
 
-require_docker="${BEATER_DEEP_E2E_REQUIRE_DOCKER:-${CI:-0}}"
+require_docker="${PALETTE_DEEP_E2E_REQUIRE_DOCKER:-${CI:-0}}"
 contract_sdk_regen_available=0
 if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
   contract_sdk_regen_available=1
 fi
 
-if skip_enabled BEATER_DEEP_E2E_SKIP_CONTRACT; then
+if skip_enabled PALETTE_DEEP_E2E_SKIP_CONTRACT; then
   step "SKIP contract/spec/SDK drift chain"
   record_skipped "contract/spec/SDK drift chain"
 else
@@ -53,26 +53,26 @@ else
 fi
 
 step "Build runtime and CLI binaries"
-cargo build -q -p beaterd -p beaterctl
+cargo build -q -p paletted -p palettectl
 record_verified "runtime and CLI binaries build"
 
 step "MCP HTTP route parity and tool catalog"
-cargo test -p beater-mcp --test mcp
+cargo test -p palette-mcp --test mcp
 record_verified "MCP HTTP route parity and tool catalog"
 
 step "MCP stdio tools/list smoke"
-cargo test -p beaterd --test mcp_stdio -- --test-threads=1
+cargo test -p paletted --test mcp_stdio -- --test-threads=1
 record_verified "MCP stdio tools/list smoke"
 
 step "CLI local OTLP smoke"
-cargo test -p beaterctl --test smoke -- --test-threads=1
+cargo test -p palettectl --test smoke -- --test-threads=1
 record_verified "CLI local OTLP smoke"
 
 step "CLI remote HTTP/gRPC smoke and ingest test"
-cargo test -p beaterctl --test remote_smoke -- --test-threads=1
+cargo test -p palettectl --test remote_smoke -- --test-threads=1
 record_verified "CLI remote HTTP/gRPC smoke and ingest test"
 
-if skip_enabled BEATER_DEEP_E2E_SKIP_NATIVE_SDKS; then
+if skip_enabled PALETTE_DEEP_E2E_SKIP_NATIVE_SDKS; then
   step "SKIP native Python/TypeScript SDK live OTLP round trips"
   record_skipped "native Python/TypeScript SDK live OTLP round trips"
 else
@@ -84,26 +84,26 @@ else
   record_verified "native Python/TypeScript SDK live OTLP round trips"
 fi
 
-if skip_enabled BEATER_DEEP_E2E_SKIP_CLIENT_CONFORMANCE; then
+if skip_enabled PALETTE_DEEP_E2E_SKIP_CLIENT_CONFORMANCE; then
   step "SKIP generated-client live conformance"
   record_skipped "generated-client live conformance"
 else
   step "Generated-client live conformance"
-  export BEATER_CONFORMANCE_REQUIRE="${BEATER_CONFORMANCE_REQUIRE:-python,typescript,rust}"
+  export PALETTE_CONFORMANCE_REQUIRE="${PALETTE_CONFORMANCE_REQUIRE:-python,typescript,rust}"
   scripts/e2e-clients-live.sh
   record_verified "generated-client live conformance"
 fi
 
-if skip_enabled BEATER_DEEP_E2E_SKIP_COMPOSE; then
+if skip_enabled PALETTE_DEEP_E2E_SKIP_COMPOSE; then
   step "SKIP compose/dashboard self-host smoke"
   record_skipped "compose/dashboard self-host smoke"
 else
   step "Compose/dashboard self-host smoke"
   if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
-    export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-beater-merge-e2e}"
-    export BEATER_HTTP_PORT="${BEATER_HTTP_PORT:-18082}"
-    export BEATER_OTLP_GRPC_PORT="${BEATER_OTLP_GRPC_PORT:-14347}"
-    export BEATER_DASHBOARD_PORT="${BEATER_DASHBOARD_PORT:-13082}"
+    export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-palette-merge-e2e}"
+    export PALETTE_HTTP_PORT="${PALETTE_HTTP_PORT:-18082}"
+    export PALETTE_OTLP_GRPC_PORT="${PALETTE_OTLP_GRPC_PORT:-14347}"
+    export PALETTE_DASHBOARD_PORT="${PALETTE_DASHBOARD_PORT:-13082}"
     scripts/smoke-compose.sh
     record_verified "compose/dashboard self-host smoke"
   elif [[ "$require_docker" == "1" || "$require_docker" == "true" ]]; then

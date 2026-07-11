@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.review_task import ReviewTask
+from palette_client.models.review_task import ReviewTask
 
 # TODO update the JSON string below
 json = "{}"

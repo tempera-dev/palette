@@ -1,0 +1,59 @@
+[package]
+name = "palette-api"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+async-trait.workspace = true
+axum.workspace = true
+palette-alerts = { path = "../palette-alerts" }
+palette-archive = { path = "../palette-archive" }
+palette-audit = { path = "../palette-audit" }
+palette-auth = { path = "../palette-auth" }
+palette-calibration = { path = "../palette-calibration" }
+palette-composio = { path = "../palette-composio" }
+palette-core = { path = "../palette-core" }
+palette-datasets = { path = "../palette-datasets" }
+palette-eval = { path = "../palette-eval" }
+palette-experiments = { path = "../palette-experiments" }
+palette-gates = { path = "../palette-gates" }
+palette-human = { path = "../palette-human" }
+palette-ingest = { path = "../palette-ingest" }
+palette-judge = { path = "../palette-judge" }
+palette-oauth = { path = "../palette-oauth" }
+palette-otlp = { path = "../palette-otlp" }
+palette-prompts = { path = "../palette-prompts" }
+palette-scenarios = { path = "../palette-scenarios" }
+palette-schema = { path = "../palette-schema" }
+palette-search = { path = "../palette-search" }
+palette-security = { path = "../palette-security" }
+palette-secrets = { path = "../palette-secrets" }
+palette-store = { path = "../palette-store" }
+palette-store-memory = { path = "../palette-store-memory" }
+palette-usage = { path = "../palette-usage" }
+chrono.workspace = true
+http.workspace = true
+percent-encoding.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+utoipa.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+palette-bus = { path = "../palette-bus" }
+palette-eval = { path = "../palette-eval" }
+palette-replay = { path = "../palette-replay" }
+palette-sandbox = { path = "../palette-sandbox" }
+palette-store-obj = { path = "../palette-store-obj" }
+palette-store-sql = { path = "../palette-store-sql" }
+opentelemetry-proto.workspace = true
+tempfile.workspace = true
+tokio.workspace = true
+tower.workspace = true
+wat.workspace = true
+
+[lints]
+workspace = true

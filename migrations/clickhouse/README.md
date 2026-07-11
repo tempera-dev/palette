@@ -6,4 +6,4 @@ into storage instead of enforced after fetch.
 
 The current Rust runtime does not yet include a ClickHouse store. This directory
 is mounted by the optional `clickhouse` compose profile and acts as the checked
-schema contract for the future `beater-store-ch` implementation.
+schema contract for the future `palette-store-ch` implementation.

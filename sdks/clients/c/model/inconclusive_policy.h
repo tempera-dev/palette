@@ -18,15 +18,15 @@ typedef struct inconclusive_policy_t inconclusive_policy_t;
 
 // Enum  for inconclusive_policy
 
-typedef enum { beater_api_inconclusive_policy__NULL = 0, beater_api_inconclusive_policy__pass, beater_api_inconclusive_policy__fail } beater_api_inconclusive_policy__e;
+typedef enum { palette_api_inconclusive_policy__NULL = 0, palette_api_inconclusive_policy__pass, palette_api_inconclusive_policy__fail } palette_api_inconclusive_policy__e;
 
-char* inconclusive_policy_inconclusive_policy_ToString(beater_api_inconclusive_policy__e inconclusive_policy);
+char* inconclusive_policy_inconclusive_policy_ToString(palette_api_inconclusive_policy__e inconclusive_policy);
 
-beater_api_inconclusive_policy__e inconclusive_policy_inconclusive_policy_FromString(char* inconclusive_policy);
+palette_api_inconclusive_policy__e inconclusive_policy_inconclusive_policy_FromString(char* inconclusive_policy);
 
-cJSON *inconclusive_policy_convertToJSON(beater_api_inconclusive_policy__e inconclusive_policy);
+cJSON *inconclusive_policy_convertToJSON(palette_api_inconclusive_policy__e inconclusive_policy);
 
-beater_api_inconclusive_policy__e inconclusive_policy_parseFromJSON(cJSON *inconclusive_policyJSON);
+palette_api_inconclusive_policy__e inconclusive_policy_parseFromJSON(cJSON *inconclusive_policyJSON);
 
 #endif /* _inconclusive_policy_H_ */
 

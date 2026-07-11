@@ -11,13 +11,13 @@ static experiment_comparison_t *experiment_comparison_create_internal(
     double candidate_mean,
     double ci_high,
     double ci_low,
-    beater_api_gate_decision__e decision,
+    palette_api_gate_decision__e decision,
     double delta,
     double mde,
     double p_value,
     int required_n,
     int sample_size,
-    beater_api_statistical_test__e test
+    palette_api_statistical_test__e test
     ) {
     experiment_comparison_t *experiment_comparison_local_var = malloc(sizeof(experiment_comparison_t));
     if (!experiment_comparison_local_var) {
@@ -46,13 +46,13 @@ __attribute__((deprecated)) experiment_comparison_t *experiment_comparison_creat
     double candidate_mean,
     double ci_high,
     double ci_low,
-    beater_api_gate_decision__e decision,
+    palette_api_gate_decision__e decision,
     double delta,
     double mde,
     double p_value,
     int required_n,
     int sample_size,
-    beater_api_statistical_test__e test
+    palette_api_statistical_test__e test
     ) {
     return experiment_comparison_create_internal (
         adjusted_alpha,
@@ -131,7 +131,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
 
 
     // experiment_comparison->decision
-    if (beater_api_gate_decision__NULL == experiment_comparison->decision) {
+    if (palette_api_gate_decision__NULL == experiment_comparison->decision) {
         goto fail;
     }
     cJSON *decision_local_JSON = gate_decision_convertToJSON(experiment_comparison->decision);
@@ -188,7 +188,7 @@ cJSON *experiment_comparison_convertToJSON(experiment_comparison_t *experiment_c
 
 
     // experiment_comparison->test
-    if (beater_api_statistical_test__NULL == experiment_comparison->test) {
+    if (palette_api_statistical_test__NULL == experiment_comparison->test) {
         goto fail;
     }
     cJSON *test_local_JSON = statistical_test_convertToJSON(experiment_comparison->test);
@@ -213,10 +213,10 @@ experiment_comparison_t *experiment_comparison_parseFromJSON(cJSON *experiment_c
     experiment_comparison_t *experiment_comparison_local_var = NULL;
 
     // define the local variable for experiment_comparison->decision
-    beater_api_gate_decision__e decision_local_nonprim = 0;
+    palette_api_gate_decision__e decision_local_nonprim = 0;
 
     // define the local variable for experiment_comparison->test
-    beater_api_statistical_test__e test_local_nonprim = 0;
+    palette_api_statistical_test__e test_local_nonprim = 0;
 
     // experiment_comparison->adjusted_alpha
     cJSON *adjusted_alpha = cJSON_GetObjectItemCaseSensitive(experiment_comparisonJSON, "adjusted_alpha");

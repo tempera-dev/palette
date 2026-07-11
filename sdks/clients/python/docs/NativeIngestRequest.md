@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.native_ingest_request import NativeIngestRequest
+from palette_client.models.native_ingest_request import NativeIngestRequest
 
 # TODO update the JSON string below
 json = "{}"

@@ -291,7 +291,7 @@ def print_prefilled_command(args, stopwatch_path, output_path, stopwatch_text):
         "--runner-name",
         "... runner full name ...",
         "--relationship",
-        "... external relationship to Beater; no project role ...",
+        "... external relationship to Palette; no project role ...",
         "--prior-exposure",
         "none",
         "--machine-os",
@@ -459,7 +459,7 @@ Status: {status}
 
 - Name: {runner_name}
 - Organization or relationship to project: {relationship}
-- Prior Beater repo exposure: {prior_exposure}
+- Prior Palette repo exposure: {prior_exposure}
 - Date: {proof_date}
 - Machine and OS: {machine_os}
 - Docker version: {field_value(stopwatch_text, "Docker", stopwatch_rel)}
@@ -538,7 +538,7 @@ Status: {status}
 - [x] Docker was running before the stopwatch started.
 - [x] curl was available before the stopwatch started.
 - [x] Default ports were used: API `127.0.0.1:8080`, OTLP `127.0.0.1:4317`, dashboard `127.0.0.1:3000`.
-- [x] `BEATER_GATE2_REUSE` was not set.
+- [x] `PALETTE_GATE2_REUSE` was not set.
 - [x] `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, and `COMPOSE_PROFILES` were not set.
 - [x] The script reported `Clean start: yes`.
 - [x] Time-to-first-trace was 300 seconds or less.
@@ -660,8 +660,8 @@ def main():
             temp_proof.write(proof)
         env = dict(os.environ)
         try:
-            env["BEATER_GATE2_OUTSIDE_PROOF"] = str(temp_path)
-            env["BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS"] = "1"
+            env["PALETTE_GATE2_OUTSIDE_PROOF"] = str(temp_path)
+            env["PALETTE_GATE2_ALLOW_UNTRACKED_ARTIFACTS"] = "1"
             validate = ["bash", "scripts/validate-gate2-outside-proof.sh"]
             if args.diagnostic_report:
                 validate.append("--diagnostic")

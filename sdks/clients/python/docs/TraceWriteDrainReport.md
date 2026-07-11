@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.trace_write_drain_report import TraceWriteDrainReport
+from palette_client.models.trace_write_drain_report import TraceWriteDrainReport
 
 # TODO update the JSON string below
 json = "{}"

@@ -3,10 +3,10 @@ set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
-dry_run="${BEATER_GATE2_OUTSIDE_RUN_DRY_RUN:-0}"
-expected_origin="https://github.com/jadenfix/beater.git"
-if [[ "$dry_run" == "1" && -n "${BEATER_GATE2_EXPECTED_ORIGIN:-}" ]]; then
-  expected_origin="$BEATER_GATE2_EXPECTED_ORIGIN"
+dry_run="${PALETTE_GATE2_OUTSIDE_RUN_DRY_RUN:-0}"
+expected_origin="https://github.com/jadenfix/palette.git"
+if [[ "$dry_run" == "1" && -n "${PALETTE_GATE2_EXPECTED_ORIGIN:-}" ]]; then
+  expected_origin="$PALETTE_GATE2_EXPECTED_ORIGIN"
 fi
 
 fail() {
@@ -55,15 +55,15 @@ first_git_reflog_epoch() {
 }
 
 require_clone_timer() {
-  local value="${BEATER_GATE2_CLONE_STARTED_EPOCH:-}"
+  local value="${PALETTE_GATE2_CLONE_STARTED_EPOCH:-}"
   if [[ "$dry_run" == "1" ]]; then
     return 0
   fi
   if [[ -z "$value" ]]; then
-    fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be set before git clone; use the documented clone-to-browser command"
+    fail "PALETTE_GATE2_CLONE_STARTED_EPOCH must be set before git clone; use the documented clone-to-browser command"
   fi
   if [[ ! "$value" =~ ^[0-9]+$ ]]; then
-    fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value"
+    fail "PALETTE_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value"
   fi
   local first_reflog_epoch
   first_reflog_epoch="$(first_git_reflog_epoch)"
@@ -71,7 +71,7 @@ require_clone_timer() {
     fail "could not determine the first local Git reflog timestamp; use a fresh clone from the documented command"
   fi
   if (( 10#$value > 10#$first_reflog_epoch )); then
-    fail "BEATER_GATE2_CLONE_STARTED_EPOCH must be captured before git clone; got $value later than first local Git reflog timestamp $first_reflog_epoch"
+    fail "PALETTE_GATE2_CLONE_STARTED_EPOCH must be captured before git clone; got $value later than first local Git reflog timestamp $first_reflog_epoch"
   fi
 }
 
@@ -127,43 +127,43 @@ require_clone_timer
 require_python3
 require_recording_probe
 require_command tee "outside-run terminal transcript must be saved under docs/demos"
-require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
-require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
-require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"
-require_unset_or_value BEATER_HTTP_PORT 8080 "the default API port is required"
-require_unset_or_value BEATER_OTLP_GRPC_PORT 4317 "the default OTLP gRPC port is required"
-require_unset_or_value BEATER_DASHBOARD_PORT 3000 "the default dashboard port is required"
-require_unset_or_value BEATER_GATE2_WRITE_PROOF 1 "the outside run must write a stopwatch proof"
-require_unset_or_value BEATER_GATE2_BROWSER_PROOF 1 "the outside run must prove the browser flow"
-require_unset_or_value BEATER_GATE2_RECORD_DEMO 1 "the outside run must record the browser flow"
-require_unset_or_value BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS 300 "the outside run must use the documented post-SLO timeout"
-require_unset_or_value KEEP_BEATER_COMPOSE 1 "the dashboard must remain running for outside-person click-through"
-require_unset BEATERD_IMAGE "the wrapper pins beaterd to the checked-out commit SHA"
-require_unset BEATER_DASHBOARD_IMAGE "the wrapper pins dashboard to the checked-out commit SHA"
-require_unset BEATER_DASHBOARD_E2E_IMAGE "the wrapper pins dashboard-e2e to the checked-out commit SHA"
-require_unset BEATER_OTEL_PYTHON_IMAGE "the wrapper pins otel-python to the checked-out commit SHA"
-require_unset BEATER_GATE2_RUN_ID "the stopwatch creates a fresh per-run quickstart release ID"
-require_unset BEATER_GATE2_CONFIRMATION_SALT "the stopwatch creates a fresh per-run browser confirmation salt"
-require_unset BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS "outside evidence must validate against public GHCR"
-require_unset BEATER_GATE2_STOPWATCH_PROOF "the outside run must write docs/demos/gate2-compose-stopwatch.md"
-require_unset BEATER_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
-require_unset BEATER_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
-require_unset BEATER_GATE2_COMPOSE_LOGS "the outside run must write docs/demos/gate2-outside-compose.log"
-require_unset BEATER_GATE2_TERMINAL_LOG "the outside run must write docs/demos/gate2-outside-terminal.log"
+require_unset_or_value PALETTE_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
+require_unset_or_value PALETTE_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
+require_unset_or_value PALETTE_GATE2_PULL_POLICY always "the outside run must pull current images"
+require_unset_or_value PALETTE_HTTP_PORT 8080 "the default API port is required"
+require_unset_or_value PALETTE_OTLP_GRPC_PORT 4317 "the default OTLP gRPC port is required"
+require_unset_or_value PALETTE_DASHBOARD_PORT 3000 "the default dashboard port is required"
+require_unset_or_value PALETTE_GATE2_WRITE_PROOF 1 "the outside run must write a stopwatch proof"
+require_unset_or_value PALETTE_GATE2_BROWSER_PROOF 1 "the outside run must prove the browser flow"
+require_unset_or_value PALETTE_GATE2_RECORD_DEMO 1 "the outside run must record the browser flow"
+require_unset_or_value PALETTE_GATE2_POST_SLO_TIMEOUT_SECONDS 300 "the outside run must use the documented post-SLO timeout"
+require_unset_or_value KEEP_PALETTE_COMPOSE 1 "the dashboard must remain running for outside-person click-through"
+require_unset PALETTED_IMAGE "the wrapper pins paletted to the checked-out commit SHA"
+require_unset PALETTE_DASHBOARD_IMAGE "the wrapper pins dashboard to the checked-out commit SHA"
+require_unset PALETTE_DASHBOARD_E2E_IMAGE "the wrapper pins dashboard-e2e to the checked-out commit SHA"
+require_unset PALETTE_OTEL_PYTHON_IMAGE "the wrapper pins otel-python to the checked-out commit SHA"
+require_unset PALETTE_GATE2_RUN_ID "the stopwatch creates a fresh per-run quickstart release ID"
+require_unset PALETTE_GATE2_CONFIRMATION_SALT "the stopwatch creates a fresh per-run browser confirmation salt"
+require_unset PALETTE_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS "outside evidence must validate against public GHCR"
+require_unset PALETTE_GATE2_STOPWATCH_PROOF "the outside run must write docs/demos/gate2-compose-stopwatch.md"
+require_unset PALETTE_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
+require_unset PALETTE_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
+require_unset PALETTE_GATE2_COMPOSE_LOGS "the outside run must write docs/demos/gate2-outside-compose.log"
+require_unset PALETTE_GATE2_TERMINAL_LOG "the outside run must write docs/demos/gate2-outside-terminal.log"
 require_unset COMPOSE_FILE "the outside run must use the wrapper's prebuilt compose file"
-require_unset COMPOSE_PROJECT_NAME "the outside run must use the default beater-stopwatch Compose project"
+require_unset COMPOSE_PROJECT_NAME "the outside run must use the default palette-stopwatch Compose project"
 require_unset COMPOSE_PROFILES "the outside run must not activate optional Compose profiles"
 
-export BEATER_GATE2_WRITE_PROOF=1
-export BEATER_GATE2_BROWSER_PROOF=1
-export BEATER_GATE2_RECORD_DEMO=1
-export BEATER_GATE2_REUSE="${BEATER_GATE2_REUSE:-0}"
-export BEATER_GATE2_LOCAL_BUILD="${BEATER_GATE2_LOCAL_BUILD:-0}"
-export BEATER_GATE2_PULL_POLICY="${BEATER_GATE2_PULL_POLICY:-always}"
-export BEATER_GATE2_OUTSIDE_WRAPPER=1
-export BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log
-export BEATER_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log
-export KEEP_BEATER_COMPOSE=1
+export PALETTE_GATE2_WRITE_PROOF=1
+export PALETTE_GATE2_BROWSER_PROOF=1
+export PALETTE_GATE2_RECORD_DEMO=1
+export PALETTE_GATE2_REUSE="${PALETTE_GATE2_REUSE:-0}"
+export PALETTE_GATE2_LOCAL_BUILD="${PALETTE_GATE2_LOCAL_BUILD:-0}"
+export PALETTE_GATE2_PULL_POLICY="${PALETTE_GATE2_PULL_POLICY:-always}"
+export PALETTE_GATE2_OUTSIDE_WRAPPER=1
+export PALETTE_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log
+export PALETTE_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log
+export KEEP_PALETTE_COMPOSE=1
 
 cd "$repo_root"
 
@@ -171,14 +171,14 @@ if [[ "$dry_run" == "1" ]]; then
   cat <<EOF
 Gate 2 outside-run wrapper preflight passed.
 Would execute:
-  BEATER_GATE2_CLONE_STARTED_EPOCH="\$BEATER_GATE2_CLONE_STARTED_EPOCH" BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 BEATER_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log BEATER_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log scripts/gate2-compose-stopwatch.sh 2>&1 | tee docs/demos/gate2-outside-terminal.log
+  PALETTE_GATE2_CLONE_STARTED_EPOCH="\$PALETTE_GATE2_CLONE_STARTED_EPOCH" PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 PALETTE_GATE2_COMPOSE_LOGS=docs/demos/gate2-outside-compose.log PALETTE_GATE2_TERMINAL_LOG=docs/demos/gate2-outside-terminal.log scripts/gate2-compose-stopwatch.sh 2>&1 | tee docs/demos/gate2-outside-terminal.log
 EOF
   exit 0
 fi
 
-mkdir -p "$(dirname "$BEATER_GATE2_TERMINAL_LOG")"
+mkdir -p "$(dirname "$PALETTE_GATE2_TERMINAL_LOG")"
 set +e
-scripts/gate2-compose-stopwatch.sh 2>&1 | tee "$BEATER_GATE2_TERMINAL_LOG"
+scripts/gate2-compose-stopwatch.sh 2>&1 | tee "$PALETTE_GATE2_TERMINAL_LOG"
 pipeline_status=("${PIPESTATUS[@]}")
 stopwatch_status=${pipeline_status[0]:-1}
 tee_status=${pipeline_status[1]:-1}

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.webhook_delivery import WebhookDelivery
+from palette_client.models.webhook_delivery import WebhookDelivery
 
 # TODO update the JSON string below
 json = "{}"

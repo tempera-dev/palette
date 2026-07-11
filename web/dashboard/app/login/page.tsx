@@ -15,7 +15,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-import { BrandLockup, BrandVitals } from "../../components/BeaterMark";
+import { BrandLockup, BrandVitals } from "../../components/PaletteMark";
 import { safeOAuthReturnPath } from "../../lib/oauth-routing";
 
 type Mode = "login" | "register";
@@ -32,7 +32,7 @@ function humanize(status: number, code: unknown): string {
   if (code === "email_taken") return "That email is already registered — try signing in.";
   if (code === "invalid_credentials") return "Incorrect email or password.";
   if (status === 400) return "Enter a valid email and a password of at least 8 characters.";
-  if (status === 502) return "Can't reach beaterd — is it running?";
+  if (status === 502) return "Can't reach paletted — is it running?";
   return "Couldn't sign you in. Try again in a moment.";
 }
 
@@ -66,7 +66,7 @@ function LoginForm() {
       }
       window.location.assign(safeOAuthReturnPath(searchParams.get("return_to"), window.location.origin));
     } catch {
-      setError("Can't reach beaterd. Check it's running, then retry.");
+      setError("Can't reach paletted. Check it's running, then retry.");
     } finally {
       setBusy(false);
     }
@@ -107,7 +107,7 @@ function LoginForm() {
           </div>
         </div>
         <p className="auth-foot">
-          Self-hosted by default. Your traces stay in your <code>beaterd</code>.
+          Self-hosted by default. Your traces stay in your <code>paletted</code>.
         </p>
       </aside>
 
@@ -194,7 +194,7 @@ function LoginForm() {
           </form>
 
           <p className="auth-alt">
-            {isRegister ? "Already have an account? " : "New to Beater? "}
+            {isRegister ? "Already have an account? " : "New to Palette? "}
             <button
               type="button"
               className="btn-link"

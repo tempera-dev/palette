@@ -14,7 +14,7 @@ static run_summary_t *run_summary_create_internal(
     list_t *release_ids,
     int span_count,
     char *started_at,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     char *tenant_id,
     money_t *total_cost,
     char *trace_id
@@ -49,7 +49,7 @@ __attribute__((deprecated)) run_summary_t *run_summary_create(
     list_t *release_ids,
     int span_count,
     char *started_at,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     char *tenant_id,
     money_t *total_cost,
     char *trace_id
@@ -219,7 +219,7 @@ cJSON *run_summary_convertToJSON(run_summary_t *run_summary) {
 
 
     // run_summary->status
-    if (beater_api_span_status__NULL == run_summary->status) {
+    if (palette_api_span_status__NULL == run_summary->status) {
         goto fail;
     }
     cJSON *status_local_JSON = span_status_convertToJSON(run_summary->status);
@@ -281,7 +281,7 @@ run_summary_t *run_summary_parseFromJSON(cJSON *run_summaryJSON){
     list_t *release_idsList = NULL;
 
     // define the local variable for run_summary->status
-    beater_api_span_status__e status_local_nonprim = 0;
+    palette_api_span_status__e status_local_nonprim = 0;
 
     // define the local variable for run_summary->total_cost
     money_t *total_cost_local_nonprim = NULL;

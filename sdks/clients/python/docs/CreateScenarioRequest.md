@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.create_scenario_request import CreateScenarioRequest
+from palette_client.models.create_scenario_request import CreateScenarioRequest
 
 # TODO update the JSON string below
 json = "{}"

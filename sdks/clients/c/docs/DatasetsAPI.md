@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 # **DatasetsAPI_datasetsCreateDataset**
 ```c
-dataset_t* DatasetsAPI_datasetsCreateDataset(apiClient_t *apiClient, char *tenant_id, char *project_id, create_dataset_request_t *create_dataset_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+dataset_t* DatasetsAPI_datasetsCreateDataset(apiClient_t *apiClient, char *tenant_id, char *project_id, create_dataset_request_t *create_dataset_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -22,9 +22,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **create_dataset_request** | **[create_dataset_request_t](create_dataset_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -44,7 +44,7 @@ No authorization required
 
 # **DatasetsAPI_datasetsCreateDatasetVersion**
 ```c
-dataset_version_snapshot_t* DatasetsAPI_datasetsCreateDatasetVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, create_dataset_version_request_t *create_dataset_version_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+dataset_version_snapshot_t* DatasetsAPI_datasetsCreateDatasetVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, create_dataset_version_request_t *create_dataset_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -56,9 +56,9 @@ Name | Type | Description  | Notes
 **dataset_id** | **char \*** | dataset_id |
 **create_dataset_version_request** | **[create_dataset_version_request_t](create_dataset_version_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -78,7 +78,7 @@ No authorization required
 
 # **DatasetsAPI_datasetsPromoteDatasetCaseFromTrace**
 ```c
-dataset_case_t* DatasetsAPI_datasetsPromoteDatasetCaseFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, promote_trace_case_request_t *promote_trace_case_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+dataset_case_t* DatasetsAPI_datasetsPromoteDatasetCaseFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, promote_trace_case_request_t *promote_trace_case_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -90,9 +90,9 @@ Name | Type | Description  | Notes
 **dataset_id** | **char \*** | dataset_id |
 **promote_trace_case_request** | **[promote_trace_case_request_t](promote_trace_case_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## ExperimentsRunDeterministicExperiment
 
-> ExperimentRunReport ExperimentsRunDeterministicExperiment(ctx, tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> ExperimentRunReport ExperimentsRunDeterministicExperiment(ctx, tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -24,7 +24,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -34,13 +34,13 @@ func main() {
 	versionId := "versionId_example" // string | version_id
 	runExperimentRequest := *openapiclient.NewRunExperimentRequest([]openapiclient.CaseOutputOverrideRequest{*openapiclient.NewCaseOutputOverrideRequest("CaseId_example", interface{}(123))}, "BaselineReleaseId_example", []openapiclient.CaseOutputOverrideRequest{*openapiclient.NewCaseOutputOverrideRequest("CaseId_example", interface{}(123))}, "CandidateReleaseId_example", "EvaluatorId_example", "EvaluatorVersionId_example", openapiclient.EvaluatorKind{EvaluatorKindOneOf: openapiclient.NewEvaluatorKindOneOf("Type_example")}) // RunExperimentRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunDeterministicExperiment(context.Background(), tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunDeterministicExperiment(context.Background(), tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ExperimentsAPI.ExperimentsRunDeterministicExperiment``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -74,9 +74,9 @@ Name | Type | Description  | Notes
 
  **runExperimentRequest** | [**RunExperimentRequest**](RunExperimentRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -98,7 +98,7 @@ No authorization required
 
 ## ExperimentsRunJudgeExperiment
 
-> ExperimentRunReport ExperimentsRunJudgeExperiment(ctx, tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> ExperimentRunReport ExperimentsRunJudgeExperiment(ctx, tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -111,7 +111,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -121,13 +121,13 @@ func main() {
 	versionId := "versionId_example" // string | version_id
 	runJudgeExperimentRequest := *openapiclient.NewRunJudgeExperimentRequest([]openapiclient.CaseOutputOverrideRequest{*openapiclient.NewCaseOutputOverrideRequest("CaseId_example", interface{}(123))}, "BaselineReleaseId_example", []openapiclient.CaseOutputOverrideRequest{*openapiclient.NewCaseOutputOverrideRequest("CaseId_example", interface{}(123))}, "CandidateReleaseId_example", "EvaluatorId_example", "EvaluatorVersionId_example", openapiclient.EvaluatorKind{EvaluatorKindOneOf: openapiclient.NewEvaluatorKindOneOf("Type_example")}, "ProviderSecretId_example") // RunJudgeExperimentRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunJudgeExperiment(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunJudgeExperiment(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ExperimentsAPI.ExperimentsRunJudgeExperiment``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -161,9 +161,9 @@ Name | Type | Description  | Notes
 
  **runJudgeExperimentRequest** | [**RunJudgeExperimentRequest**](RunJudgeExperimentRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

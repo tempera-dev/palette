@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ai.beater.conformance</groupId>
-  <artifactId>beater-conformance</artifactId>
+  <groupId>ai.palette.conformance</groupId>
+  <artifactId>palette-conformance</artifactId>
   <version>0.1.0</version>
   <packaging>jar</packaging>
 
@@ -16,14 +16,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>ai.beater</groupId>
-      <artifactId>beater-client</artifactId>
+      <groupId>ai.palette</groupId>
+      <artifactId>palette-client</artifactId>
       <version>0.1.0</version>
     </dependency>
   </dependencies>
 
   <build>
-    <finalName>beater-conformance</finalName>
+    <finalName>palette-conformance</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -42,7 +42,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>ai.beater.conformance.Conformance</mainClass>
+                  <mainClass>ai.palette.conformance.Conformance</mainClass>
                 </transformer>
               </transformers>
             </configuration>

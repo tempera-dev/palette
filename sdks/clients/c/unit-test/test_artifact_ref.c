@@ -24,7 +24,7 @@ artifact_ref_t* instantiate_artifact_ref(int include_optional) {
     artifact_ref = artifact_ref_create(
       "0",
       "0",
-      beater_api_artifact_ref__public,
+      palette_api_artifact_ref__public,
       "0",
       0,
       "0"
@@ -33,7 +33,7 @@ artifact_ref_t* instantiate_artifact_ref(int include_optional) {
     artifact_ref = artifact_ref_create(
       "0",
       "0",
-      beater_api_artifact_ref__public,
+      palette_api_artifact_ref__public,
       "0",
       0,
       "0"

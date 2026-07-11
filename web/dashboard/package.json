@@ -1,5 +1,5 @@
 {
-  "name": "@beater/dashboard",
+  "name": "@palette/dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
     "test:e2e": "playwright test",
     "test:e2e:quickstart": "playwright test tests/e2e/quickstart.spec.ts",
     "record:gate2": "node tests/e2e/record-gate2-demo.mjs",
-    "generate:api": "openapi-typescript openapi/beater-read-api.json -o lib/generated/api-types.ts"
+    "generate:api": "openapi-typescript openapi/palette-read-api.json -o lib/generated/api-types.ts"
   },
   "dependencies": {
     "lucide-react": "0.561.0",

@@ -1,4 +1,4 @@
-# beater_client.TracesApi
+# palette_client.TracesApi
 
 All URIs are relative to *http://localhost*
 
@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **traces_get_trace**
-> TraceView traces_get_trace(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> TraceView traces_get_trace(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -17,33 +17,33 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.trace_view import TraceView
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.trace_view import TraceView
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.TracesApi(api_client)
+    api_instance = palette_client.TracesApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     trace_id = 'trace_id_example' # str | trace_id
     unmask = True # bool |  (optional)
     reason = 'reason_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.traces_get_trace(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.traces_get_trace(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of TracesApi->traces_get_trace:\n")
         pprint(api_response)
     except Exception as e:
@@ -62,9 +62,9 @@ Name | Type | Description  | Notes
  **unmask** | **bool**|  | [optional]
  **reason** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -92,7 +92,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **traces_list_traces**
-> PageRunSummary traces_list_traces(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> PageRunSummary traces_list_traces(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -100,22 +100,22 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.page_run_summary import PageRunSummary
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.page_run_summary import PageRunSummary
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.TracesApi(api_client)
+    api_instance = palette_client.TracesApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str |  (optional)
     environment_id = 'environment_id_example' # str |  (optional)
@@ -133,12 +133,12 @@ with beater_client.ApiClient(configuration) as api_client:
     limit = 56 # int |  (optional)
     cursor = 'cursor_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.traces_list_traces(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.traces_list_traces(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of TracesApi->traces_list_traces:\n")
         pprint(api_response)
     except Exception as e:
@@ -169,9 +169,9 @@ Name | Type | Description  | Notes
  **limit** | **int**|  | [optional]
  **cursor** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

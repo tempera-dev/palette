@@ -25,8 +25,8 @@ calibration_item_t* instantiate_calibration_item(int include_optional) {
       1,
       "0",
       null,
-      beater_api_calibration_item__pass,
-      beater_api_calibration_item__pass,
+      palette_api_calibration_item__pass,
+      palette_api_calibration_item__pass,
       "0",
       1.337
     );
@@ -35,8 +35,8 @@ calibration_item_t* instantiate_calibration_item(int include_optional) {
       1,
       "0",
       null,
-      beater_api_calibration_item__pass,
-      beater_api_calibration_item__pass,
+      palette_api_calibration_item__pass,
+      palette_api_calibration_item__pass,
       "0",
       1.337
     );

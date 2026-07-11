@@ -30,7 +30,7 @@ typedef struct gate_run_report_t {
     char *dataset_id; // string
     char *evaluator_version_id; // string
     char *experiment_created_at; //date time
-    beater_api_gate_decision__e experiment_decision; //referenced enum
+    palette_api_gate_decision__e experiment_decision; //referenced enum
     struct gate_policy_t *experiment_gate_policy; //model
     char *experiment_run_id; // string
     char *gate_dataset_id; // string
@@ -38,7 +38,7 @@ typedef struct gate_run_report_t {
     char *gate_id; // string
     char *gate_name; // string
     char *gate_run_id; // string
-    beater_api_inconclusive_policy__e inconclusive_policy; //referenced enum
+    palette_api_inconclusive_policy__e inconclusive_policy; //referenced enum
     int passed; //boolean
     char *project_id; // string
     char *reason; // string
@@ -55,7 +55,7 @@ __attribute__((deprecated)) gate_run_report_t *gate_run_report_create(
     char *dataset_id,
     char *evaluator_version_id,
     char *experiment_created_at,
-    beater_api_gate_decision__e experiment_decision,
+    palette_api_gate_decision__e experiment_decision,
     gate_policy_t *experiment_gate_policy,
     char *experiment_run_id,
     char *gate_dataset_id,
@@ -63,7 +63,7 @@ __attribute__((deprecated)) gate_run_report_t *gate_run_report_create(
     char *gate_id,
     char *gate_name,
     char *gate_run_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     int passed,
     char *project_id,
     char *reason,

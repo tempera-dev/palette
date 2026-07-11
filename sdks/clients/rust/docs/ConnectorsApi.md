@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## connectors_period_connect_connector
 
-> models::ConnectionLink connectors_period_connect_connector(tenant_id, project_id, connect_connector_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ConnectionLink connectors_period_connect_connector(tenant_id, project_id, connect_connector_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -27,9 +27,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **connect_connector_request** | [**ConnectConnectorRequest**](ConnectConnectorRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -49,7 +49,7 @@ No authorization required
 
 ## connectors_period_connector_status
 
-> models::ConnectionStatus connectors_period_connector_status(tenant_id, project_id, toolkit, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ConnectionStatus connectors_period_connector_status(tenant_id, project_id, toolkit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -61,9 +61,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **toolkit** | **String** | Toolkit slug to scope the request to. | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -83,7 +83,7 @@ No authorization required
 
 ## connectors_period_get_connector_skills
 
-> models::ConnectorSkillsResponse connectors_period_get_connector_skills(tenant_id, project_id, toolkit, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ConnectorSkillsResponse connectors_period_get_connector_skills(tenant_id, project_id, toolkit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -95,9 +95,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **toolkit** | **String** | Toolkit slug to scope the request to. | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -117,7 +117,7 @@ No authorization required
 
 ## connectors_period_invoke_connector_tool
 
-> models::ToolExecution connectors_period_invoke_connector_tool(tenant_id, project_id, invoke_connector_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ToolExecution connectors_period_invoke_connector_tool(tenant_id, project_id, invoke_connector_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -129,9 +129,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **invoke_connector_request** | [**InvokeConnectorRequest**](InvokeConnectorRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -151,7 +151,7 @@ No authorization required
 
 ## connectors_period_list_connector_tools
 
-> Vec<models::ConnectorTool> connectors_period_list_connector_tools(tenant_id, project_id, toolkit, limit, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> Vec<models::ConnectorTool> connectors_period_list_connector_tools(tenant_id, project_id, toolkit, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -164,9 +164,9 @@ Name | Type | Description  | Required | Notes
 **toolkit** | **String** | Toolkit slug to list tools for. | [required] |
 **limit** | Option<**i32**> | Maximum number of tools to return (page size). |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -186,7 +186,7 @@ No authorization required
 
 ## connectors_period_list_connectors
 
-> Vec<models::Toolkit> connectors_period_list_connectors(tenant_id, project_id, limit, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> Vec<models::Toolkit> connectors_period_list_connectors(tenant_id, project_id, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -198,9 +198,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **limit** | Option<**i32**> | Maximum number of apps to return (page size). |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

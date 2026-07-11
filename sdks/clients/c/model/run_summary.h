@@ -30,7 +30,7 @@ typedef struct run_summary_t {
     list_t *release_ids; //primitive container
     int span_count; //numeric
     char *started_at; //date time
-    beater_api_span_status__e status; //referenced enum
+    palette_api_span_status__e status; //referenced enum
     char *tenant_id; // string
     struct money_t *total_cost; //model
     char *trace_id; // string
@@ -47,7 +47,7 @@ __attribute__((deprecated)) run_summary_t *run_summary_create(
     list_t *release_ids,
     int span_count,
     char *started_at,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     char *tenant_id,
     money_t *total_cost,
     char *trace_id

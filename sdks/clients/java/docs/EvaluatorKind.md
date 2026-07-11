@@ -18,18 +18,18 @@
 ## Example
 ```java
 // Import classes:
-import ai.beater.client.model.EvaluatorKind;
-import ai.beater.client.model.EvaluatorKindOneOf;
-import ai.beater.client.model.EvaluatorKindOneOf1;
-import ai.beater.client.model.EvaluatorKindOneOf10;
-import ai.beater.client.model.EvaluatorKindOneOf2;
-import ai.beater.client.model.EvaluatorKindOneOf3;
-import ai.beater.client.model.EvaluatorKindOneOf4;
-import ai.beater.client.model.EvaluatorKindOneOf5;
-import ai.beater.client.model.EvaluatorKindOneOf6;
-import ai.beater.client.model.EvaluatorKindOneOf7;
-import ai.beater.client.model.EvaluatorKindOneOf8;
-import ai.beater.client.model.EvaluatorKindOneOf9;
+import ai.palette.client.model.EvaluatorKind;
+import ai.palette.client.model.EvaluatorKindOneOf;
+import ai.palette.client.model.EvaluatorKindOneOf1;
+import ai.palette.client.model.EvaluatorKindOneOf10;
+import ai.palette.client.model.EvaluatorKindOneOf2;
+import ai.palette.client.model.EvaluatorKindOneOf3;
+import ai.palette.client.model.EvaluatorKindOneOf4;
+import ai.palette.client.model.EvaluatorKindOneOf5;
+import ai.palette.client.model.EvaluatorKindOneOf6;
+import ai.palette.client.model.EvaluatorKindOneOf7;
+import ai.palette.client.model.EvaluatorKindOneOf8;
+import ai.palette.client.model.EvaluatorKindOneOf9;
 
 public class Example {
     public static void main(String[] args) {

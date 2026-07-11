@@ -1,8 +1,8 @@
 /**
- * Beater semantic conventions — the single place the TS SDK defines span-kind
+ * Palette semantic conventions — the single place the TS SDK defines span-kind
  * and attribute keys. Every wrapper imports from here so instrumentation cannot
- * drift within the SDK. These mirror the Rust normalizer (`crates/beater-otlp`)
- * and canonical kinds (`crates/beater-schema`); keep them in lockstep.
+ * drift within the SDK. These mirror the Rust normalizer (`crates/palette-otlp`)
+ * and canonical kinds (`crates/palette-schema`); keep them in lockstep.
  */
 
 export const SpanKind = {
@@ -25,7 +25,7 @@ export const SPAN_KINDS: ReadonlySet<string> = new Set(Object.values(SpanKind));
 
 export const Attr = {
   SPAN_KIND: "openinference.span.kind",
-  SEQ: "beater.seq",
+  SEQ: "palette.seq",
   RELEASE_ID: "agent.release_id",
   INPUT_VALUE: "input.value",
   OUTPUT_VALUE: "output.value",
@@ -39,6 +39,6 @@ export const Attr = {
   LLM_COST_CURRENCY: "llm.cost.currency",
 } as const;
 
-export const HEADER_TENANT = "x-beater-tenant-id";
-export const HEADER_PROJECT = "x-beater-project-id";
-export const HEADER_ENVIRONMENT = "x-beater-environment-id";
+export const HEADER_TENANT = "x-palette-tenant-id";
+export const HEADER_PROJECT = "x-palette-project-id";
+export const HEADER_ENVIRONMENT = "x-palette-environment-id";

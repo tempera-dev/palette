@@ -27,7 +27,7 @@ All URIs are relative to *http://localhost*
 
 ## ingestDrainTraceIngested
 
-> TraceIngestedDrainReport ingestDrainTraceIngested(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> TraceIngestedDrainReport ingestDrainTraceIngested(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -35,11 +35,11 @@ All URIs are relative to *http://localhost*
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -51,11 +51,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         Integer limit = 56; // Integer |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            TraceIngestedDrainReport result = apiInstance.ingestDrainTraceIngested(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            TraceIngestedDrainReport result = apiInstance.ingestDrainTraceIngested(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestDrainTraceIngested");
@@ -77,9 +77,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **limit** | **Integer**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -106,7 +106,7 @@ No authorization required
 
 ## ingestDrainTraceIngestedWithHttpInfo
 
-> ApiResponse<TraceIngestedDrainReport> ingestDrainTraceIngested ingestDrainTraceIngestedWithHttpInfo(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<TraceIngestedDrainReport> ingestDrainTraceIngested ingestDrainTraceIngestedWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -114,12 +114,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -131,11 +131,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         Integer limit = 56; // Integer |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<TraceIngestedDrainReport> response = apiInstance.ingestDrainTraceIngestedWithHttpInfo(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<TraceIngestedDrainReport> response = apiInstance.ingestDrainTraceIngestedWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -159,9 +159,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **limit** | **Integer**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -189,7 +189,7 @@ No authorization required
 
 ## ingestDrainTraceWrites
 
-> TraceWriteDrainReport ingestDrainTraceWrites(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> TraceWriteDrainReport ingestDrainTraceWrites(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -197,11 +197,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -213,11 +213,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         Integer limit = 56; // Integer |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            TraceWriteDrainReport result = apiInstance.ingestDrainTraceWrites(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            TraceWriteDrainReport result = apiInstance.ingestDrainTraceWrites(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestDrainTraceWrites");
@@ -239,9 +239,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **limit** | **Integer**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -268,7 +268,7 @@ No authorization required
 
 ## ingestDrainTraceWritesWithHttpInfo
 
-> ApiResponse<TraceWriteDrainReport> ingestDrainTraceWrites ingestDrainTraceWritesWithHttpInfo(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<TraceWriteDrainReport> ingestDrainTraceWrites ingestDrainTraceWritesWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -276,12 +276,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -293,11 +293,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         Integer limit = 56; // Integer |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<TraceWriteDrainReport> response = apiInstance.ingestDrainTraceWritesWithHttpInfo(tenantId, projectId, limit, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<TraceWriteDrainReport> response = apiInstance.ingestDrainTraceWritesWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -321,9 +321,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **limit** | **Integer**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -351,7 +351,7 @@ No authorization required
 
 ## ingestGetIngestQueueStatus
 
-> IngestQueueStatus ingestGetIngestQueueStatus(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> IngestQueueStatus ingestGetIngestQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -359,11 +359,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -374,11 +374,11 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            IngestQueueStatus result = apiInstance.ingestGetIngestQueueStatus(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            IngestQueueStatus result = apiInstance.ingestGetIngestQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestGetIngestQueueStatus");
@@ -399,9 +399,9 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -427,7 +427,7 @@ No authorization required
 
 ## ingestGetIngestQueueStatusWithHttpInfo
 
-> ApiResponse<IngestQueueStatus> ingestGetIngestQueueStatus ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<IngestQueueStatus> ingestGetIngestQueueStatus ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -435,12 +435,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -451,11 +451,11 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<IngestQueueStatus> response = apiInstance.ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<IngestQueueStatus> response = apiInstance.ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -478,9 +478,9 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -507,7 +507,7 @@ No authorization required
 
 ## ingestImportSource
 
-> IngestOutcome ingestImportSource(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xBeaterApiKey)
+> IngestOutcome ingestImportSource(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xPaletteApiKey)
 
 
 
@@ -515,11 +515,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -533,9 +533,9 @@ public class Example {
         ImportSourceHttpRequest importSourceHttpRequest = new ImportSourceHttpRequest(); // ImportSourceHttpRequest |
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         try {
-            IngestOutcome result = apiInstance.ingestImportSource(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xBeaterApiKey);
+            IngestOutcome result = apiInstance.ingestImportSource(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xPaletteApiKey);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestImportSource");
@@ -559,7 +559,7 @@ public class Example {
 | **importSourceHttpRequest** | [**ImportSourceHttpRequest**](ImportSourceHttpRequest.md)|  | |
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 
 ### Return type
 
@@ -587,7 +587,7 @@ No authorization required
 
 ## ingestImportSourceWithHttpInfo
 
-> ApiResponse<IngestOutcome> ingestImportSource ingestImportSourceWithHttpInfo(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xBeaterApiKey)
+> ApiResponse<IngestOutcome> ingestImportSource ingestImportSourceWithHttpInfo(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xPaletteApiKey)
 
 
 
@@ -595,12 +595,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -614,9 +614,9 @@ public class Example {
         ImportSourceHttpRequest importSourceHttpRequest = new ImportSourceHttpRequest(); // ImportSourceHttpRequest |
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         try {
-            ApiResponse<IngestOutcome> response = apiInstance.ingestImportSourceWithHttpInfo(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xBeaterApiKey);
+            ApiResponse<IngestOutcome> response = apiInstance.ingestImportSourceWithHttpInfo(tenantId, projectId, environmentId, importSourceHttpRequest, durability, authorization, xPaletteApiKey);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -642,7 +642,7 @@ public class Example {
 | **importSourceHttpRequest** | [**ImportSourceHttpRequest**](ImportSourceHttpRequest.md)|  | |
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 
 ### Return type
 
@@ -671,7 +671,7 @@ No authorization required
 
 ## ingestIngestNative
 
-> IngestOutcome ingestIngestNative(nativeIngestRequest, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> IngestOutcome ingestIngestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -679,11 +679,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -694,11 +694,11 @@ public class Example {
         NativeIngestRequest nativeIngestRequest = new NativeIngestRequest(); // NativeIngestRequest |
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            IngestOutcome result = apiInstance.ingestIngestNative(nativeIngestRequest, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            IngestOutcome result = apiInstance.ingestIngestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestIngestNative");
@@ -719,9 +719,9 @@ public class Example {
 | **nativeIngestRequest** | [**NativeIngestRequest**](NativeIngestRequest.md)|  | |
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -749,7 +749,7 @@ No authorization required
 
 ## ingestIngestNativeWithHttpInfo
 
-> ApiResponse<IngestOutcome> ingestIngestNative ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<IngestOutcome> ingestIngestNative ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -757,12 +757,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -773,11 +773,11 @@ public class Example {
         NativeIngestRequest nativeIngestRequest = new NativeIngestRequest(); // NativeIngestRequest |
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<IngestOutcome> response = apiInstance.ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<IngestOutcome> response = apiInstance.ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -800,9 +800,9 @@ public class Example {
 | **nativeIngestRequest** | [**NativeIngestRequest**](NativeIngestRequest.md)|  | |
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -831,7 +831,7 @@ No authorization required
 
 ## ingestIngestOtlp
 
-> OtlpIngestOutcome ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> OtlpIngestOutcome ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -839,11 +839,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -856,11 +856,11 @@ public class Example {
         String environmentId = "environmentId_example"; // String | environment_id
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            OtlpIngestOutcome result = apiInstance.ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            OtlpIngestOutcome result = apiInstance.ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestIngestOtlp");
@@ -883,9 +883,9 @@ public class Example {
 | **environmentId** | **String**| environment_id | |
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -913,7 +913,7 @@ No authorization required
 
 ## ingestIngestOtlpWithHttpInfo
 
-> ApiResponse<OtlpIngestOutcome> ingestIngestOtlp ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<OtlpIngestOutcome> ingestIngestOtlp ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -921,12 +921,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -939,11 +939,11 @@ public class Example {
         String environmentId = "environmentId_example"; // String | environment_id
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -968,9 +968,9 @@ public class Example {
 | **environmentId** | **String**| environment_id | |
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -999,7 +999,7 @@ No authorization required
 
 ## ingestIngestOtlpJsonCollector
 
-> OtlpIngestOutcome ingestIngestOtlpJsonCollector(durability, authorization, xBeaterApiKey, xBeaterTenantId, xBeaterProjectId, xBeaterEnvironmentId)
+> OtlpIngestOutcome ingestIngestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1007,11 +1007,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -1021,12 +1021,12 @@ public class Example {
         IngestApi apiInstance = new IngestApi(defaultClient);
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterTenantId = "xBeaterTenantId_example"; // String | Tenant scope override for collector-style OTLP JSON
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Project scope override for collector-style OTLP JSON
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Environment scope override for collector-style OTLP JSON
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteTenantId = "xPaletteTenantId_example"; // String | Tenant scope override for collector-style OTLP JSON
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Project scope override for collector-style OTLP JSON
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Environment scope override for collector-style OTLP JSON
         try {
-            OtlpIngestOutcome result = apiInstance.ingestIngestOtlpJsonCollector(durability, authorization, xBeaterApiKey, xBeaterTenantId, xBeaterProjectId, xBeaterEnvironmentId);
+            OtlpIngestOutcome result = apiInstance.ingestIngestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestIngestOtlpJsonCollector");
@@ -1046,10 +1046,10 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterTenantId** | **String**| Tenant scope override for collector-style OTLP JSON | [optional] |
-| **xBeaterProjectId** | **String**| Project scope override for collector-style OTLP JSON | [optional] |
-| **xBeaterEnvironmentId** | **String**| Environment scope override for collector-style OTLP JSON | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteTenantId** | **String**| Tenant scope override for collector-style OTLP JSON | [optional] |
+| **xPaletteProjectId** | **String**| Project scope override for collector-style OTLP JSON | [optional] |
+| **xPaletteEnvironmentId** | **String**| Environment scope override for collector-style OTLP JSON | [optional] |
 
 ### Return type
 
@@ -1077,7 +1077,7 @@ No authorization required
 
 ## ingestIngestOtlpJsonCollectorWithHttpInfo
 
-> ApiResponse<OtlpIngestOutcome> ingestIngestOtlpJsonCollector ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xBeaterApiKey, xBeaterTenantId, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<OtlpIngestOutcome> ingestIngestOtlpJsonCollector ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1085,12 +1085,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -1100,12 +1100,12 @@ public class Example {
         IngestApi apiInstance = new IngestApi(defaultClient);
         String durability = "durability_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterTenantId = "xBeaterTenantId_example"; // String | Tenant scope override for collector-style OTLP JSON
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Project scope override for collector-style OTLP JSON
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Environment scope override for collector-style OTLP JSON
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteTenantId = "xPaletteTenantId_example"; // String | Tenant scope override for collector-style OTLP JSON
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Project scope override for collector-style OTLP JSON
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Environment scope override for collector-style OTLP JSON
         try {
-            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xBeaterApiKey, xBeaterTenantId, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -1127,10 +1127,10 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **durability** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterTenantId** | **String**| Tenant scope override for collector-style OTLP JSON | [optional] |
-| **xBeaterProjectId** | **String**| Project scope override for collector-style OTLP JSON | [optional] |
-| **xBeaterEnvironmentId** | **String**| Environment scope override for collector-style OTLP JSON | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteTenantId** | **String**| Tenant scope override for collector-style OTLP JSON | [optional] |
+| **xPaletteProjectId** | **String**| Project scope override for collector-style OTLP JSON | [optional] |
+| **xPaletteEnvironmentId** | **String**| Environment scope override for collector-style OTLP JSON | [optional] |
 
 ### Return type
 
@@ -1159,7 +1159,7 @@ No authorization required
 
 ## ingestReconcileTrace
 
-> TraceIngestedReconcileReport ingestReconcileTrace(tenantId, projectId, traceId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> TraceIngestedReconcileReport ingestReconcileTrace(tenantId, projectId, traceId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1167,11 +1167,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -1183,11 +1183,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         String traceId = "traceId_example"; // String | trace_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            TraceIngestedReconcileReport result = apiInstance.ingestReconcileTrace(tenantId, projectId, traceId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            TraceIngestedReconcileReport result = apiInstance.ingestReconcileTrace(tenantId, projectId, traceId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestReconcileTrace");
@@ -1209,9 +1209,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **traceId** | **String**| trace_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -1238,7 +1238,7 @@ No authorization required
 
 ## ingestReconcileTraceWithHttpInfo
 
-> ApiResponse<TraceIngestedReconcileReport> ingestReconcileTrace ingestReconcileTraceWithHttpInfo(tenantId, projectId, traceId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<TraceIngestedReconcileReport> ingestReconcileTrace ingestReconcileTraceWithHttpInfo(tenantId, projectId, traceId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1246,12 +1246,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -1263,11 +1263,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         String traceId = "traceId_example"; // String | trace_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<TraceIngestedReconcileReport> response = apiInstance.ingestReconcileTraceWithHttpInfo(tenantId, projectId, traceId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<TraceIngestedReconcileReport> response = apiInstance.ingestReconcileTraceWithHttpInfo(tenantId, projectId, traceId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -1291,9 +1291,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **traceId** | **String**| trace_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -1321,7 +1321,7 @@ No authorization required
 
 ## ingestReplayDeadLetter
 
-> DeadLetterReplayReport ingestReplayDeadLetter(tenantId, projectId, messageId, resetAttempts, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> DeadLetterReplayReport ingestReplayDeadLetter(tenantId, projectId, messageId, resetAttempts, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1329,11 +1329,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -1346,11 +1346,11 @@ public class Example {
         String messageId = "messageId_example"; // String | message_id
         Boolean resetAttempts = true; // Boolean |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DeadLetterReplayReport result = apiInstance.ingestReplayDeadLetter(tenantId, projectId, messageId, resetAttempts, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            DeadLetterReplayReport result = apiInstance.ingestReplayDeadLetter(tenantId, projectId, messageId, resetAttempts, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling IngestApi#ingestReplayDeadLetter");
@@ -1373,9 +1373,9 @@ public class Example {
 | **messageId** | **String**| message_id | |
 | **resetAttempts** | **Boolean**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -1402,7 +1402,7 @@ No authorization required
 
 ## ingestReplayDeadLetterWithHttpInfo
 
-> ApiResponse<DeadLetterReplayReport> ingestReplayDeadLetter ingestReplayDeadLetterWithHttpInfo(tenantId, projectId, messageId, resetAttempts, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<DeadLetterReplayReport> ingestReplayDeadLetter ingestReplayDeadLetterWithHttpInfo(tenantId, projectId, messageId, resetAttempts, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1410,12 +1410,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.IngestApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.IngestApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -1428,11 +1428,11 @@ public class Example {
         String messageId = "messageId_example"; // String | message_id
         Boolean resetAttempts = true; // Boolean |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DeadLetterReplayReport> response = apiInstance.ingestReplayDeadLetterWithHttpInfo(tenantId, projectId, messageId, resetAttempts, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<DeadLetterReplayReport> response = apiInstance.ingestReplayDeadLetterWithHttpInfo(tenantId, projectId, messageId, resetAttempts, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -1457,9 +1457,9 @@ public class Example {
 | **messageId** | **String**| message_id | |
 | **resetAttempts** | **Boolean**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 

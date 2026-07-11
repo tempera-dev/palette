@@ -16,8 +16,8 @@ def copy_contract_inputs(root: Path) -> None:
         "docs/ecosystem-integration-contract.md",
         "docs/offline-self-host.md",
         "GOVERNANCE.md",
-        "crates/beater-api/src/lib.rs",
-        "bins/beaterd/src/main.rs",
+        "crates/palette-api/src/lib.rs",
+        "bins/paletted/src/main.rs",
     ):
         source = ROOT / rel
         dest = root / rel
@@ -49,14 +49,14 @@ def test_rejects_missing_neighbor_repo_boundary() -> None:
         copy_contract_inputs(root)
         doc = root / "docs" / "ecosystem-integration-contract.md"
         doc.write_text(
-            doc.read_text(encoding="utf-8").replace("beaterOS", "otherOS"),
+            doc.read_text(encoding="utf-8").replace("paletteOS", "otherOS"),
             encoding="utf-8",
         )
 
         result = run(root)
 
         assert result.returncode == 1
-        assert "missing marker 'beaterOS'" in result.stderr
+        assert "missing marker 'paletteOS'" in result.stderr
 
 
 def test_rejects_missing_aether_payment_boundary() -> None:
@@ -79,7 +79,7 @@ def test_rejects_missing_payment_trace_metadata_fixture() -> None:
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
         copy_contract_inputs(root)
-        api = root / "crates" / "beater-api" / "src" / "lib.rs"
+        api = root / "crates" / "palette-api" / "src" / "lib.rs"
         api.write_text(
             api.read_text(encoding="utf-8").replace(
                 "aether.payment_envelope_id",
@@ -98,7 +98,7 @@ def test_rejects_product_billing_route_contract() -> None:
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
         copy_contract_inputs(root)
-        api = root / "crates" / "beater-api" / "src" / "lib.rs"
+        api = root / "crates" / "palette-api" / "src" / "lib.rs"
         api.write_text(
             api.read_text(encoding="utf-8") + '\n.route("/v1/billing/webhooks/stripe")\n',
             encoding="utf-8",
@@ -107,14 +107,14 @@ def test_rejects_product_billing_route_contract() -> None:
         result = run(root)
 
         assert result.returncode == 1
-        assert "crates/beater-api/src/lib.rs must not contain marker" in result.stderr
+        assert "crates/palette-api/src/lib.rs must not contain marker" in result.stderr
 
 
 def test_rejects_daemon_billing_store_contract() -> None:
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
         copy_contract_inputs(root)
-        daemon = root / "bins" / "beaterd" / "src" / "main.rs"
+        daemon = root / "bins" / "paletted" / "src" / "main.rs"
         daemon.write_text(
             daemon.read_text(encoding="utf-8")
             + '\nlet billing_db_path = data_dir.join("billing.sqlite");\n',
@@ -124,14 +124,14 @@ def test_rejects_daemon_billing_store_contract() -> None:
         result = run(root)
 
         assert result.returncode == 1
-        assert "bins/beaterd/src/main.rs must not contain marker" in result.stderr
+        assert "bins/paletted/src/main.rs must not contain marker" in result.stderr
 
 
 def test_rejects_missing_import_ingress_route() -> None:
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
         copy_contract_inputs(root)
-        api = root / "crates" / "beater-api" / "src" / "lib.rs"
+        api = root / "crates" / "palette-api" / "src" / "lib.rs"
         api.write_text(
             api.read_text(encoding="utf-8").replace(
                 '"/v1/import/:tenant_id/:project_id/:environment_id"',

@@ -22,11 +22,11 @@ evaluator_kind_one_of_3_t* instantiate_evaluator_kind_one_of_3(int include_optio
   evaluator_kind_one_of_3_t* evaluator_kind_one_of_3 = NULL;
   if (include_optional) {
     evaluator_kind_one_of_3 = evaluator_kind_one_of_3_create(
-      beater_api_evaluator_kind_one_of_3_TYPE_json_object
+      palette_api_evaluator_kind_one_of_3_TYPE_json_object
     );
   } else {
     evaluator_kind_one_of_3 = evaluator_kind_one_of_3_create(
-      beater_api_evaluator_kind_one_of_3_TYPE_json_object
+      palette_api_evaluator_kind_one_of_3_TYPE_json_object
     );
   }
 

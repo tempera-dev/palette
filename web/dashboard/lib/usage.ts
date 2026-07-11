@@ -8,7 +8,7 @@ export type UsageSummary = components["schemas"]["UsageSummary"];
 export type UsageTotal = components["schemas"]["UsageTotal"];
 
 /**
- * Read the per-project usage summary from beaterd (`GET /v1/usage/{tenant}/{project}`),
+ * Read the per-project usage summary from paletted (`GET /v1/usage/{tenant}/{project}`),
  * forwarding the user's session cookie plus any server-side API credentials.
  * Never throws — returns `{ summary: null, error }` so the page can render a
  * graceful empty/local-mode state instead of crashing.

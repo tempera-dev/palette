@@ -1,4 +1,4 @@
-# beater_client.PromptsApi
+# palette_client.PromptsApi
 
 All URIs are relative to *http://localhost*
 
@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **prompts_add_prompt_version**
-> PromptVersion prompts_add_prompt_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> PromptVersion prompts_add_prompt_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -21,34 +21,34 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.add_prompt_version_request import AddPromptVersionRequest
-from beater_client.models.prompt_version import PromptVersion
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.add_prompt_version_request import AddPromptVersionRequest
+from palette_client.models.prompt_version import PromptVersion
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.PromptsApi(api_client)
+    api_instance = palette_client.PromptsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     prompt_id = 'prompt_id_example' # str | prompt_id
-    add_prompt_version_request = beater_client.AddPromptVersionRequest() # AddPromptVersionRequest |
+    add_prompt_version_request = palette_client.AddPromptVersionRequest() # AddPromptVersionRequest |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_add_prompt_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.prompts_add_prompt_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of PromptsApi->prompts_add_prompt_version:\n")
         pprint(api_response)
     except Exception as e:
@@ -67,9 +67,9 @@ Name | Type | Description  | Notes
  **prompt_id** | **str**| prompt_id |
  **add_prompt_version_request** | [**AddPromptVersionRequest**](AddPromptVersionRequest.md)|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -97,7 +97,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **prompts_create_prompt**
-> CreatedPrompt prompts_create_prompt(tenant_id, project_id, create_prompt_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> CreatedPrompt prompts_create_prompt(tenant_id, project_id, create_prompt_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -105,33 +105,33 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.create_prompt_request import CreatePromptRequest
-from beater_client.models.created_prompt import CreatedPrompt
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.create_prompt_request import CreatePromptRequest
+from palette_client.models.created_prompt import CreatedPrompt
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.PromptsApi(api_client)
+    api_instance = palette_client.PromptsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
-    create_prompt_request = beater_client.CreatePromptRequest() # CreatePromptRequest |
+    create_prompt_request = palette_client.CreatePromptRequest() # CreatePromptRequest |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_create_prompt(tenant_id, project_id, create_prompt_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.prompts_create_prompt(tenant_id, project_id, create_prompt_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of PromptsApi->prompts_create_prompt:\n")
         pprint(api_response)
     except Exception as e:
@@ -149,9 +149,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **create_prompt_request** | [**CreatePromptRequest**](CreatePromptRequest.md)|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -178,7 +178,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **prompts_diff_prompt_versions**
-> PromptVersionDiff prompts_diff_prompt_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> PromptVersionDiff prompts_diff_prompt_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -186,34 +186,34 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.prompt_version_diff import PromptVersionDiff
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.prompt_version_diff import PromptVersionDiff
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.PromptsApi(api_client)
+    api_instance = palette_client.PromptsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     prompt_id = 'prompt_id_example' # str | prompt_id
     var_from = 'var_from_example' # str |
     to = 'to_example' # str |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_diff_prompt_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.prompts_diff_prompt_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of PromptsApi->prompts_diff_prompt_versions:\n")
         pprint(api_response)
     except Exception as e:
@@ -233,9 +233,9 @@ Name | Type | Description  | Notes
  **var_from** | **str**|  |
  **to** | **str**|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -263,7 +263,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **prompts_get_prompt**
-> Prompt prompts_get_prompt(tenant_id, project_id, prompt_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> Prompt prompts_get_prompt(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -271,32 +271,32 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.prompt import Prompt
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.prompt import Prompt
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.PromptsApi(api_client)
+    api_instance = palette_client.PromptsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     prompt_id = 'prompt_id_example' # str | prompt_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_get_prompt(tenant_id, project_id, prompt_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.prompts_get_prompt(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of PromptsApi->prompts_get_prompt:\n")
         pprint(api_response)
     except Exception as e:
@@ -314,9 +314,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **prompt_id** | **str**| prompt_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -344,7 +344,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **prompts_list_prompt_versions**
-> PromptVersionListResponse prompts_list_prompt_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> PromptVersionListResponse prompts_list_prompt_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -352,32 +352,32 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.prompt_version_list_response import PromptVersionListResponse
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.prompt_version_list_response import PromptVersionListResponse
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.PromptsApi(api_client)
+    api_instance = palette_client.PromptsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     prompt_id = 'prompt_id_example' # str | prompt_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_list_prompt_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.prompts_list_prompt_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of PromptsApi->prompts_list_prompt_versions:\n")
         pprint(api_response)
     except Exception as e:
@@ -395,9 +395,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **prompt_id** | **str**| prompt_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -425,7 +425,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **prompts_list_prompts**
-> PromptListResponse prompts_list_prompts(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> PromptListResponse prompts_list_prompts(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -433,31 +433,31 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.prompt_list_response import PromptListResponse
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.prompt_list_response import PromptListResponse
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.PromptsApi(api_client)
+    api_instance = palette_client.PromptsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_list_prompts(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.prompts_list_prompts(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of PromptsApi->prompts_list_prompts:\n")
         pprint(api_response)
     except Exception as e:
@@ -474,9 +474,9 @@ Name | Type | Description  | Notes
  **tenant_id** | **str**| tenant_id |
  **project_id** | **str**| project_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

@@ -7,7 +7,7 @@
 
 static money_t *money_create_internal(
     long amount_micros,
-    beater_api_currency__e currency
+    palette_api_currency__e currency
     ) {
     money_t *money_local_var = malloc(sizeof(money_t));
     if (!money_local_var) {
@@ -22,7 +22,7 @@ static money_t *money_create_internal(
 
 __attribute__((deprecated)) money_t *money_create(
     long amount_micros,
-    beater_api_currency__e currency
+    palette_api_currency__e currency
     ) {
     return money_create_internal (
         amount_micros,
@@ -55,7 +55,7 @@ cJSON *money_convertToJSON(money_t *money) {
 
 
     // money->currency
-    if (beater_api_currency__NULL == money->currency) {
+    if (palette_api_currency__NULL == money->currency) {
         goto fail;
     }
     cJSON *currency_local_JSON = currency_convertToJSON(money->currency);
@@ -80,7 +80,7 @@ money_t *money_parseFromJSON(cJSON *moneyJSON){
     money_t *money_local_var = NULL;
 
     // define the local variable for money->currency
-    beater_api_currency__e currency_local_nonprim = 0;
+    palette_api_currency__e currency_local_nonprim = 0;
 
     // money->amount_micros
     cJSON *amount_micros = cJSON_GetObjectItemCaseSensitive(moneyJSON, "amount_micros");

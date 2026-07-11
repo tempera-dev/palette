@@ -13,7 +13,7 @@ static gate_run_report_t *gate_run_report_create_internal(
     char *dataset_id,
     char *evaluator_version_id,
     char *experiment_created_at,
-    beater_api_gate_decision__e experiment_decision,
+    palette_api_gate_decision__e experiment_decision,
     gate_policy_t *experiment_gate_policy,
     char *experiment_run_id,
     char *gate_dataset_id,
@@ -21,7 +21,7 @@ static gate_run_report_t *gate_run_report_create_internal(
     char *gate_id,
     char *gate_name,
     char *gate_run_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     int passed,
     char *project_id,
     char *reason,
@@ -64,7 +64,7 @@ __attribute__((deprecated)) gate_run_report_t *gate_run_report_create(
     char *dataset_id,
     char *evaluator_version_id,
     char *experiment_created_at,
-    beater_api_gate_decision__e experiment_decision,
+    palette_api_gate_decision__e experiment_decision,
     gate_policy_t *experiment_gate_policy,
     char *experiment_run_id,
     char *gate_dataset_id,
@@ -72,7 +72,7 @@ __attribute__((deprecated)) gate_run_report_t *gate_run_report_create(
     char *gate_id,
     char *gate_name,
     char *gate_run_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     int passed,
     char *project_id,
     char *reason,
@@ -254,7 +254,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
 
 
     // gate_run_report->experiment_decision
-    if (beater_api_gate_decision__NULL == gate_run_report->experiment_decision) {
+    if (palette_api_gate_decision__NULL == gate_run_report->experiment_decision) {
         goto fail;
     }
     cJSON *experiment_decision_local_JSON = gate_decision_convertToJSON(gate_run_report->experiment_decision);
@@ -334,7 +334,7 @@ cJSON *gate_run_report_convertToJSON(gate_run_report_t *gate_run_report) {
 
 
     // gate_run_report->inconclusive_policy
-    if (beater_api_inconclusive_policy__NULL == gate_run_report->inconclusive_policy) {
+    if (palette_api_inconclusive_policy__NULL == gate_run_report->inconclusive_policy) {
         goto fail;
     }
     cJSON *inconclusive_policy_local_JSON = inconclusive_policy_convertToJSON(gate_run_report->inconclusive_policy);
@@ -398,13 +398,13 @@ gate_run_report_t *gate_run_report_parseFromJSON(cJSON *gate_run_reportJSON){
     experiment_comparison_t *comparison_local_nonprim = NULL;
 
     // define the local variable for gate_run_report->experiment_decision
-    beater_api_gate_decision__e experiment_decision_local_nonprim = 0;
+    palette_api_gate_decision__e experiment_decision_local_nonprim = 0;
 
     // define the local variable for gate_run_report->experiment_gate_policy
     gate_policy_t *experiment_gate_policy_local_nonprim = NULL;
 
     // define the local variable for gate_run_report->inconclusive_policy
-    beater_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
+    palette_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
 
     // gate_run_report->baseline_release_id
     cJSON *baseline_release_id = cJSON_GetObjectItemCaseSensitive(gate_run_reportJSON, "baseline_release_id");

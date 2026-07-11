@@ -9,7 +9,7 @@ static create_gate_request_t *create_gate_request_create_internal(
     char *dataset_id,
     char *evaluator_version_id,
     char *gate_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     char *name
     ) {
     create_gate_request_t *create_gate_request_local_var = malloc(sizeof(create_gate_request_t));
@@ -30,7 +30,7 @@ __attribute__((deprecated)) create_gate_request_t *create_gate_request_create(
     char *dataset_id,
     char *evaluator_version_id,
     char *gate_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     char *name
     ) {
     return create_gate_request_create_internal (
@@ -99,7 +99,7 @@ cJSON *create_gate_request_convertToJSON(create_gate_request_t *create_gate_requ
 
 
     // create_gate_request->inconclusive_policy
-    if(create_gate_request->inconclusive_policy != beater_api_inconclusive_policy__NULL) {
+    if(create_gate_request->inconclusive_policy != palette_api_inconclusive_policy__NULL) {
     cJSON *inconclusive_policy_local_JSON = inconclusive_policy_convertToJSON(create_gate_request->inconclusive_policy);
     if(inconclusive_policy_local_JSON == NULL) {
         goto fail; // custom
@@ -132,7 +132,7 @@ create_gate_request_t *create_gate_request_parseFromJSON(cJSON *create_gate_requ
     create_gate_request_t *create_gate_request_local_var = NULL;
 
     // define the local variable for create_gate_request->inconclusive_policy
-    beater_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
+    palette_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
 
     // create_gate_request->dataset_id
     cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(create_gate_requestJSON, "dataset_id");

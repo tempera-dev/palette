@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.page_run_summary_items_inner import PageRunSummaryItemsInner
+from palette_client.models.page_run_summary_items_inner import PageRunSummaryItemsInner
 
 # TODO update the JSON string below
 json = "{}"

@@ -1,7 +1,7 @@
-# Beater governance and the no-rug-pull promise
+# Palette governance and the no-rug-pull promise
 
-This document states how Beater is governed and, most importantly, the
-durability commitments we make to people who self-host or build on Beater. It
+This document states how Palette is governed and, most importantly, the
+durability commitments we make to people who self-host or build on Palette. It
 satisfies requirement **R12.2** (no-rug-pull promise is documented) and pairs
 with the root [`LICENSE`](LICENSE) and [`docs/feature-matrix.md`](docs/feature-matrix.md)
 (the open-core boundary, R12.1).
@@ -9,10 +9,10 @@ with the root [`LICENSE`](LICENSE) and [`docs/feature-matrix.md`](docs/feature-m
 ## The no-rug-pull promise
 
 We have all watched open-source infrastructure get relicensed out from under the
-people who depend on it. Beater commits, in public and before launch, that this
+people who depend on it. Palette commits, in public and before launch, that this
 will not happen here:
 
-1. **The license will not be revoked.** The `beaterd` server, all 7 SDK clients,
+1. **The license will not be revoked.** The `paletted` server, all 7 SDK clients,
    the MCP tools, the CLI, the canonical schema, and the dashboard are licensed
    under **Apache-2.0** and will remain under an OSI-approved permissive license.
    We will not move the open core to BSL, SSPL, Elastic License, or any
@@ -24,14 +24,14 @@ will not happen here:
    last permissively licensed commit.
 
 3. **The contract stays open.** The OpenAPI `/v1` contract
-   (`sdks/openapi/beater-api.json`), the semantic conventions
-   (`crates/beater-schema` / `sdks/semconv`), and the data model are part of the
+   (`sdks/openapi/palette-api.json`), the semantic conventions
+   (`crates/palette-schema` / `sdks/semconv`), and the data model are part of the
    open core. We will not paywall the protocol your agents emit to or the schema
    your traces are stored in. See `docs/sdk-platform-architecture.md` for the
    stability/deprecation policy of `/v1`.
 
-4. **Self-host stays first-class and standalone.** OSS runs without Beater Cloud
-   (R1.3). The all-in-one `beaterd` is the only mandatory deployment (R1.2), and
+4. **Self-host stays first-class and standalone.** OSS runs without Palette Cloud
+   (R1.3). The all-in-one `paletted` is the only mandatory deployment (R1.2), and
    self-host telemetry is opt-out and off by default (R12.5). We will not
    introduce a mandatory phone-home, a license-key check, or a "community edition
    that can't actually run in production" gate.
@@ -55,7 +55,7 @@ will not happen here:
 
 ## Trademark
 
-The Apache-2.0 license covers the code, not the "Beater" name and logo. You may
+The Apache-2.0 license covers the code, not the "Palette" name and logo. You may
 fork and redistribute the code; please do not imply official endorsement.
 
 ## Questions

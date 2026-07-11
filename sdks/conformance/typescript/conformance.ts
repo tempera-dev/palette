@@ -1,10 +1,10 @@
 // Live conformance: drive the generated TypeScript control-plane client against
-// a running beaterd and verify typed request/response shapes. Proves API==SDK for TS.
+// a running paletted and verify typed request/response shapes. Proves API==SDK for TS.
 
 import { Configuration, DatasetsApi, HealthApi, TracesApi } from "../../clients/typescript/src";
 
 async function main(): Promise<number> {
-  const base = process.env.BEATER_BASE_URL!;
+  const base = process.env.PALETTE_BASE_URL!;
   const config = new Configuration({ basePath: base });
   const tenantId = "demo";
   const projectId = "demo";

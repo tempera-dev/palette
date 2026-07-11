@@ -18,15 +18,15 @@ typedef struct failure_mode_t failure_mode_t;
 
 // Enum  for failure_mode
 
-typedef enum { beater_api_failure_mode__NULL = 0, beater_api_failure_mode__tool_error, beater_api_failure_mode__timeout, beater_api_failure_mode__guardrail_block, beater_api_failure_mode__wrong_output, beater_api_failure_mode__retrieval_miss, beater_api_failure_mode__other } beater_api_failure_mode__e;
+typedef enum { palette_api_failure_mode__NULL = 0, palette_api_failure_mode__tool_error, palette_api_failure_mode__timeout, palette_api_failure_mode__guardrail_block, palette_api_failure_mode__wrong_output, palette_api_failure_mode__retrieval_miss, palette_api_failure_mode__other } palette_api_failure_mode__e;
 
-char* failure_mode_failure_mode_ToString(beater_api_failure_mode__e failure_mode);
+char* failure_mode_failure_mode_ToString(palette_api_failure_mode__e failure_mode);
 
-beater_api_failure_mode__e failure_mode_failure_mode_FromString(char* failure_mode);
+palette_api_failure_mode__e failure_mode_failure_mode_FromString(char* failure_mode);
 
-cJSON *failure_mode_convertToJSON(beater_api_failure_mode__e failure_mode);
+cJSON *failure_mode_convertToJSON(palette_api_failure_mode__e failure_mode);
 
-beater_api_failure_mode__e failure_mode_parseFromJSON(cJSON *failure_modeJSON);
+palette_api_failure_mode__e failure_mode_parseFromJSON(cJSON *failure_modeJSON);
 
 #endif /* _failure_mode_H_ */
 

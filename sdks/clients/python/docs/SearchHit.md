@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.search_hit import SearchHit
+from palette_client.models.search_hit import SearchHit
 
 # TODO update the JSON string below
 json = "{}"

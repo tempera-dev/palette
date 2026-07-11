@@ -4,12 +4,12 @@
 #include "span_io_value_one_of_3.h"
 
 
-char* span_io_value_one_of_3_kind_ToString(beater_api_span_io_value_one_of_3_KIND_e kind) {
+char* span_io_value_one_of_3_kind_ToString(palette_api_span_io_value_one_of_3_KIND_e kind) {
     char* kindArray[] =  { "NULL", "missing" };
     return kindArray[kind];
 }
 
-beater_api_span_io_value_one_of_3_KIND_e span_io_value_one_of_3_kind_FromString(char* kind){
+palette_api_span_io_value_one_of_3_KIND_e span_io_value_one_of_3_kind_FromString(char* kind){
     int stringToReturn = 0;
     char *kindArray[] =  { "NULL", "missing" };
     size_t sizeofArray = sizeof(kindArray) / sizeof(kindArray[0]);
@@ -23,7 +23,7 @@ beater_api_span_io_value_one_of_3_KIND_e span_io_value_one_of_3_kind_FromString(
 }
 
 static span_io_value_one_of_3_t *span_io_value_one_of_3_create_internal(
-    beater_api_span_io_value_one_of_3_KIND_e kind
+    palette_api_span_io_value_one_of_3_KIND_e kind
     ) {
     span_io_value_one_of_3_t *span_io_value_one_of_3_local_var = malloc(sizeof(span_io_value_one_of_3_t));
     if (!span_io_value_one_of_3_local_var) {
@@ -36,7 +36,7 @@ static span_io_value_one_of_3_t *span_io_value_one_of_3_create_internal(
 }
 
 __attribute__((deprecated)) span_io_value_one_of_3_t *span_io_value_one_of_3_create(
-    beater_api_span_io_value_one_of_3_KIND_e kind
+    palette_api_span_io_value_one_of_3_KIND_e kind
     ) {
     return span_io_value_one_of_3_create_internal (
         kind
@@ -59,7 +59,7 @@ cJSON *span_io_value_one_of_3_convertToJSON(span_io_value_one_of_3_t *span_io_va
     cJSON *item = cJSON_CreateObject();
 
     // span_io_value_one_of_3->kind
-    if (beater_api_span_io_value_one_of_3_KIND_NULL == span_io_value_one_of_3->kind) {
+    if (palette_api_span_io_value_one_of_3_KIND_NULL == span_io_value_one_of_3->kind) {
         goto fail;
     }
     if(cJSON_AddStringToObject(item, "kind", span_io_value_one_of_3_kind_ToString(span_io_value_one_of_3->kind)) == NULL)
@@ -88,7 +88,7 @@ span_io_value_one_of_3_t *span_io_value_one_of_3_parseFromJSON(cJSON *span_io_va
         goto end;
     }
 
-    beater_api_span_io_value_one_of_3_KIND_e kindVariable;
+    palette_api_span_io_value_one_of_3_KIND_e kindVariable;
     
     if(!cJSON_IsString(kind))
     {

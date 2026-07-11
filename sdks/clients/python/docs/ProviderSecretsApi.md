@@ -1,4 +1,4 @@
-# beater_client.ProviderSecretsApi
+# palette_client.ProviderSecretsApi
 
 All URIs are relative to *http://localhost*
 
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **provider_secrets_create_provider_secret**
-> ProviderSecretMetadata provider_secrets_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> ProviderSecretMetadata provider_secrets_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -18,33 +18,33 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.create_provider_secret_http_request import CreateProviderSecretHttpRequest
-from beater_client.models.provider_secret_metadata import ProviderSecretMetadata
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.create_provider_secret_http_request import CreateProviderSecretHttpRequest
+from palette_client.models.provider_secret_metadata import ProviderSecretMetadata
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.ProviderSecretsApi(api_client)
+    api_instance = palette_client.ProviderSecretsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
-    create_provider_secret_http_request = beater_client.CreateProviderSecretHttpRequest() # CreateProviderSecretHttpRequest |
+    create_provider_secret_http_request = palette_client.CreateProviderSecretHttpRequest() # CreateProviderSecretHttpRequest |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.provider_secrets_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.provider_secrets_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ProviderSecretsApi->provider_secrets_create_provider_secret:\n")
         pprint(api_response)
     except Exception as e:
@@ -62,9 +62,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **create_provider_secret_http_request** | [**CreateProviderSecretHttpRequest**](CreateProviderSecretHttpRequest.md)|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -91,7 +91,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **provider_secrets_list_provider_secrets**
-> List[ProviderSecretMetadata] provider_secrets_list_provider_secrets(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> List[ProviderSecretMetadata] provider_secrets_list_provider_secrets(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -99,31 +99,31 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.provider_secret_metadata import ProviderSecretMetadata
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.provider_secret_metadata import ProviderSecretMetadata
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.ProviderSecretsApi(api_client)
+    api_instance = palette_client.ProviderSecretsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.provider_secrets_list_provider_secrets(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.provider_secrets_list_provider_secrets(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ProviderSecretsApi->provider_secrets_list_provider_secrets:\n")
         pprint(api_response)
     except Exception as e:
@@ -140,9 +140,9 @@ Name | Type | Description  | Notes
  **tenant_id** | **str**| tenant_id |
  **project_id** | **str**| project_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -169,7 +169,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **provider_secrets_revoke_provider_secret**
-> RevokedProviderSecret provider_secrets_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> RevokedProviderSecret provider_secrets_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -177,32 +177,32 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.revoked_provider_secret import RevokedProviderSecret
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.revoked_provider_secret import RevokedProviderSecret
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.ProviderSecretsApi(api_client)
+    api_instance = palette_client.ProviderSecretsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     provider_secret_id = 'provider_secret_id_example' # str | provider_secret_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.provider_secrets_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.provider_secrets_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ProviderSecretsApi->provider_secrets_revoke_provider_secret:\n")
         pprint(api_response)
     except Exception as e:
@@ -220,9 +220,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **provider_secret_id** | **str**| provider_secret_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

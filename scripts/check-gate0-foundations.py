@@ -10,23 +10,23 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 TRAIT_SCAN_CRATES = [
-    "crates/beater-alerts",
-    "crates/beater-auth",
-    "crates/beater-audit",
-    "crates/beater-bus",
-    "crates/beater-calibration",
-    "crates/beater-datasets",
-    "crates/beater-eval",
-    "crates/beater-experiments",
-    "crates/beater-gates",
-    "crates/beater-human",
-    "crates/beater-judge",
-    "crates/beater-replay",
-    "crates/beater-search",
-    "crates/beater-secrets",
-    "crates/beater-store",
-    "crates/beater-temporal",
-    "crates/beater-usage",
+    "crates/palette-alerts",
+    "crates/palette-auth",
+    "crates/palette-audit",
+    "crates/palette-bus",
+    "crates/palette-calibration",
+    "crates/palette-datasets",
+    "crates/palette-eval",
+    "crates/palette-experiments",
+    "crates/palette-gates",
+    "crates/palette-human",
+    "crates/palette-judge",
+    "crates/palette-replay",
+    "crates/palette-search",
+    "crates/palette-secrets",
+    "crates/palette-store",
+    "crates/palette-temporal",
+    "crates/palette-usage",
 ]
 
 
@@ -189,23 +189,23 @@ def direct_dependencies(package_name: str) -> list[dict[str, object]]:
 
 
 def check_store_crate_has_no_sqlite_dependency() -> None:
-    tree = run(["cargo", "tree", "-p", "beater-store", "--format", "{p}"])
+    tree = run(["cargo", "tree", "-p", "palette-store", "--format", "{p}"])
     package_hits = sorted(
         name
         for name in cargo_package_names(tree)
         if name == "rusqlite"
         or name == "sqlite"
         or name == "libsqlite3-sys"
-        or name == "beater-store-sql"
+        or name == "palette-store-sql"
         or "sqlite" in name
     )
 
     dep_hits: list[str] = []
-    for dependency in direct_dependencies("beater-store"):
+    for dependency in direct_dependencies("palette-store"):
         name = str(dependency.get("name", "")).lower()
         features = [str(feature).lower() for feature in dependency.get("features", [])]
         if (
-            name in {"rusqlite", "sqlite", "libsqlite3-sys", "sqlx", "beater-store-sql"}
+            name in {"rusqlite", "sqlite", "libsqlite3-sys", "sqlx", "palette-store-sql"}
             or "sqlite" in name
             or any("sqlite" in feature for feature in features)
         ):
@@ -213,31 +213,31 @@ def check_store_crate_has_no_sqlite_dependency() -> None:
 
     hits = package_hits + dep_hits
     if hits:
-        fail("beater-store must stay trait/types-only; found SQLite/backend dependency: " + ", ".join(hits))
+        fail("palette-store must stay trait/types-only; found SQLite/backend dependency: " + ", ".join(hits))
 
 
 def check_trace_store_conformance_runs_on_two_backends() -> None:
-    conformance = read("crates/beater-store-conformance/src/lib.rs")
+    conformance = read("crates/palette-store-conformance/src/lib.rs")
     for symbol in [
         "assert_trace_store_conformance",
         "assert_metadata_store_conformance",
         "assert_quota_limiter_conformance",
     ]:
         if symbol not in conformance:
-            fail(f"beater-store-conformance must define {symbol}")
+            fail(f"palette-store-conformance must define {symbol}")
 
-    sql = read("crates/beater-store-sql/src/lib.rs")
-    memory = read("crates/beater-store-memory/src/lib.rs")
-    artifact = read("crates/beater-store-obj/src/lib.rs")
+    sql = read("crates/palette-store-sql/src/lib.rs")
+    memory = read("crates/palette-store-memory/src/lib.rs")
+    artifact = read("crates/palette-store-obj/src/lib.rs")
     for symbol in [
         "assert_trace_store_conformance",
         "assert_metadata_store_conformance",
         "assert_quota_limiter_conformance",
     ]:
         if symbol not in sql:
-            fail(f"beater-store-sql tests must call {symbol}")
+            fail(f"palette-store-sql tests must call {symbol}")
         if symbol not in memory:
-            fail(f"beater-store-memory tests must call {symbol}")
+            fail(f"palette-store-memory tests must call {symbol}")
 
     for symbol in [
         "impl ArtifactStore for FsArtifactStore",
@@ -248,34 +248,34 @@ def check_trace_store_conformance_runs_on_two_backends() -> None:
         "StoreError::Integrity",
     ]:
         if symbol not in artifact:
-            fail(f"beater-store-obj must preserve artifact store proof: {symbol}")
+            fail(f"palette-store-obj must preserve artifact store proof: {symbol}")
 
     run(
         [
             "cargo",
             "test",
             "-p",
-            "beater-store-conformance",
+            "palette-store-conformance",
             "-p",
-            "beater-store-memory",
+            "palette-store-memory",
             "-p",
-            "beater-store-sql",
+            "palette-store-sql",
             "-p",
-            "beater-store-obj",
+            "palette-store-obj",
         ]
     )
 
 
 def check_metadata_store_boundary() -> None:
-    store = read("crates/beater-store/src/lib.rs")
+    store = read("crates/palette-store/src/lib.rs")
     if "pub trait MetadataStore" not in store:
-        fail("beater-store must define MetadataStore")
+        fail("palette-store must define MetadataStore")
 
-    api = read("crates/beater-api/src/lib.rs")
+    api = read("crates/palette-api/src/lib.rs")
     if "metadata: Arc<dyn MetadataStore>" not in api:
-        fail("beater-api must store metadata behind Arc<dyn MetadataStore>")
+        fail("palette-api must store metadata behind Arc<dyn MetadataStore>")
     if "with_metadata(mut self, metadata: Arc<dyn MetadataStore>)" not in api:
-        fail("beater-api must expose MetadataStore injection for consumers")
+        fail("palette-api must expose MetadataStore injection for consumers")
 
 
 def check_no_anyhow_in_public_traits() -> None:
@@ -328,7 +328,7 @@ def check_no_anyhow_in_public_traits() -> None:
 
 
 def check_core_schema_clock_boundary() -> None:
-    core = read("crates/beater-core/src/lib.rs")
+    core = read("crates/palette-core/src/lib.rs")
     for symbol in [
         "pub trait Clock",
         "pub struct SystemClock",
@@ -344,10 +344,10 @@ def check_core_schema_clock_boundary() -> None:
         "Overflow",
     ]:
         if symbol not in core:
-            fail(f"beater-core must preserve foundational primitive: {symbol}")
+            fail(f"palette-core must preserve foundational primitive: {symbol}")
 
     failures = []
-    for crate in ["crates/beater-core", "crates/beater-schema"]:
+    for crate in ["crates/palette-core", "crates/palette-schema"]:
         for path in sorted((REPO / crate).glob("src/**/*.rs")):
             system_clock_block = rust_block(path.read_text(), r"^\s*impl\s+Clock\s+for\s+SystemClock\s*\{")
             for line_no, line in enumerate(path.read_text().splitlines(), start=1):
@@ -363,11 +363,11 @@ def check_core_schema_clock_boundary() -> None:
             + "\n  ".join(failures)
         )
 
-    run(["cargo", "test", "-p", "beater-core", "-p", "beater-schema"])
+    run(["cargo", "test", "-p", "palette-core", "-p", "palette-schema"])
 
 
 def check_schema_owns_rollups_and_mappings() -> None:
-    schema = read("crates/beater-schema/src/lib.rs")
+    schema = read("crates/palette-schema/src/lib.rs")
     for symbol in [
         "pub fn span_matches",
         "pub fn span_summary",
@@ -375,26 +375,26 @@ def check_schema_owns_rollups_and_mappings() -> None:
         "pub fn filter_run_summaries",
     ]:
         if symbol not in schema:
-            fail(f"beater-schema must own {symbol}")
+            fail(f"palette-schema must own {symbol}")
 
     for type_name in ["AgentSpanKind", "SpanStatus"]:
         block = rust_block(schema, rf"^\s*impl\s+{type_name}\s*\{{")
         if block is None:
-            fail(f"beater-schema must own impl {type_name}")
+            fail(f"palette-schema must own impl {type_name}")
         for symbol in ["pub fn as_str(&self)", "pub fn parse(value: &str)"]:
             if symbol not in block:
-                fail(f"beater-schema impl {type_name} must own {symbol}")
+                fail(f"palette-schema impl {type_name} must own {symbol}")
 
-    store = read("crates/beater-store/src/lib.rs")
+    store = read("crates/palette-store/src/lib.rs")
     for symbol in [
         "pub async fn query_runs_by_materializing_spans",
         "roll_up_runs",
         "filter_run_summaries",
     ]:
         if symbol not in store:
-            fail(f"beater-store must own materialized run-query fallback via {symbol}")
+            fail(f"palette-store must own materialized run-query fallback via {symbol}")
 
-    for path in ["crates/beater-store-memory/src/lib.rs", "crates/beater-store-sql/src/lib.rs"]:
+    for path in ["crates/palette-store-memory/src/lib.rs", "crates/palette-store-sql/src/lib.rs"]:
         text = read(path)
         # Span mapping must always go through the shared schema helper.
         if "span_summary" not in text:
@@ -414,20 +414,20 @@ def check_schema_owns_rollups_and_mappings() -> None:
             if forbidden in text:
                 fail(f"{path} must not define backend-local {forbidden}")
 
-    search = read("crates/beater-search/src/lib.rs")
+    search = read("crates/palette-search/src/lib.rs")
     for symbol in ["span.kind.as_str()", "span.status.as_str()"]:
         if symbol not in search:
-            fail(f"beater-search must use schema span mapping via {symbol}")
+            fail(f"palette-search must use schema span mapping via {symbol}")
 
-    archive = read("crates/beater-archive/src/lib.rs")
+    archive = read("crates/palette-archive/src/lib.rs")
     for symbol in ["span.kind.as_str()", "span.status.as_str()", "kind.as_str()", "status.as_str()"]:
         if symbol not in archive:
-            fail(f"beater-archive must use schema span mapping via {symbol}")
+            fail(f"palette-archive must use schema span mapping via {symbol}")
 
-    api = read("crates/beater-api/src/lib.rs")
+    api = read("crates/palette-api/src/lib.rs")
     for symbol in ["AgentSpanKind::parse(&value)", "SpanStatus::parse(&value)"]:
         if symbol not in api:
-            fail(f"beater-api must delegate span filter parsing to schema via {symbol}")
+            fail(f"palette-api must delegate span filter parsing to schema via {symbol}")
 
 
 def check_temporal_contract() -> None:
@@ -438,10 +438,10 @@ def check_temporal_contract() -> None:
     ``Unknown`` branch), keep its exhaustiveness test wired, and ship golden fixtures.
     Any divergence here is a hard build failure rather than silent data loss.
     """
-    crate = REPO / "crates/beater-temporal"
+    crate = REPO / "crates/palette-temporal"
     lib = crate / "src/lib.rs"
     if not lib.exists():
-        fail("beater-temporal crate is missing src/lib.rs")
+        fail("palette-temporal crate is missing src/lib.rs")
     text = lib.read_text(encoding="utf-8")
 
     required_symbols = [
@@ -453,7 +453,7 @@ def check_temporal_contract() -> None:
     missing = [symbol for symbol in required_symbols if symbol not in text]
     if missing:
         fail(
-            "beater-temporal must keep its anti-drift contract; missing: "
+            "palette-temporal must keep its anti-drift contract; missing: "
             + ", ".join(missing)
         )
 
@@ -461,13 +461,13 @@ def check_temporal_contract() -> None:
     # never silently absorb them into a mapped class.
     if "_ => Unknown" not in text:
         fail(
-            "beater-temporal classify() must end with `_ => Unknown` so new Temporal "
+            "palette-temporal classify() must end with `_ => Unknown` so new Temporal "
             "event types are counted as unmapped, not silently dropped"
         )
 
     fixtures = crate / "tests/fixtures"
     if not fixtures.is_dir() or not any(fixtures.iterdir()):
-        fail("beater-temporal must ship golden Temporal history fixtures under tests/fixtures")
+        fail("palette-temporal must ship golden Temporal history fixtures under tests/fixtures")
 
 
 def main() -> None:

@@ -1,14 +1,14 @@
-// Express + OTLP -> Beater example app (R11.4).
+// Express + OTLP -> Palette example app (R11.4).
 //
 // A minimal Express service whose request handler emits an agent trace to
-// beaterd over stock OpenTelemetry OTLP/HTTP. Demonstrates the TypeScript/JS
-// framework adoption path through standards (no Beater SDK required).
+// paletted over stock OpenTelemetry OTLP/HTTP. Demonstrates the TypeScript/JS
+// framework adoption path through standards (no Palette SDK required).
 //
-// This uses the OTLP/HTTP-protobuf exporter, so it targets beaterd's HTTP API
+// This uses the OTLP/HTTP-protobuf exporter, so it targets paletted's HTTP API
 // (:8080) at the tenant-scoped OTLP path, NOT the OTLP/gRPC port (:4317). The
-// scope is carried in the URL path, so no x-beater-* headers are needed.
+// scope is carried in the URL path, so no x-palette-* headers are needed.
 //
-// Run a local beaterd (`docker compose up`) and then:
+// Run a local paletted (`docker compose up`) and then:
 //
 //   npm install express @opentelemetry/api @opentelemetry/sdk-trace-node \
 //     @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources
@@ -24,9 +24,9 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 
 const apiBase =
   process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? "http://127.0.0.1:8080";
-const tenant = process.env.BEATER_TENANT_ID ?? "demo";
-const project = process.env.BEATER_PROJECT_ID ?? "demo";
-const environment = process.env.BEATER_ENVIRONMENT_ID ?? "local";
+const tenant = process.env.PALETTE_TENANT_ID ?? "demo";
+const project = process.env.PALETTE_PROJECT_ID ?? "demo";
+const environment = process.env.PALETTE_ENVIRONMENT_ID ?? "local";
 const url = `${apiBase}/v1/otlp/${tenant}/${project}/${environment}/v1/traces`;
 
 const provider = new NodeTracerProvider();
@@ -34,8 +34,8 @@ provider.addSpanProcessor(
   new BatchSpanProcessor(new OTLPTraceExporter({ url })),
 );
 provider.register();
-const tracer = trace.getTracer("beater.example.express");
-const release = process.env.BEATER_RELEASE_ID ?? "express-example";
+const tracer = trace.getTracer("palette.example.express");
+const release = process.env.PALETTE_RELEASE_ID ?? "express-example";
 
 const app = express();
 app.use(express.json());
@@ -44,16 +44,16 @@ app.post("/agent", (req, res) => {
   const prompt = req.body?.prompt ?? "";
   tracer.startActiveSpan(
     "handle_request",
-    { attributes: { "beater.span.kind": "agent.run", "beater.release_id": release, "input.value": prompt } },
+    { attributes: { "palette.span.kind": "agent.run", "palette.release_id": release, "input.value": prompt } },
     (root) => {
       tracer.startActiveSpan(
         "call_model",
         {
           attributes: {
-            "beater.span.kind": "llm.call",
+            "palette.span.kind": "llm.call",
             "llm.provider": "openai",
             "llm.model_name": "gpt-4o-mini",
-            "beater.release_id": release,
+            "palette.release_id": release,
             "input.value": prompt,
             "output.value": "ok",
           },
@@ -70,4 +70,4 @@ app.post("/agent", (req, res) => {
 });
 
 const port = Number(process.env.PORT ?? 8002);
-app.listen(port, () => console.log(`beater express example on :${port}`));
+app.listen(port, () => console.log(`palette express example on :${port}`));

@@ -32,7 +32,7 @@ experiment_run_report_t* instantiate_experiment_run_report(int include_optional)
       "2013-10-20T19:20:30+01:00",
       "0",
       "0",
-      beater_api_experiment_run_report__pass,
+      palette_api_experiment_run_report__pass,
       "0",
       "0",
        // false, not to have infinite recursion
@@ -49,7 +49,7 @@ experiment_run_report_t* instantiate_experiment_run_report(int include_optional)
       "2013-10-20T19:20:30+01:00",
       "0",
       "0",
-      beater_api_experiment_run_report__pass,
+      palette_api_experiment_run_report__pass,
       "0",
       "0",
       NULL,

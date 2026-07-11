@@ -18,24 +18,24 @@ typedef struct evaluator_kind_one_of_9_t evaluator_kind_one_of_9_t;
 
 // Enum TYPE for evaluator_kind_one_of_9
 
-typedef enum  { beater_api_evaluator_kind_one_of_9_TYPE_NULL = 0, beater_api_evaluator_kind_one_of_9_TYPE_browser_grounding } beater_api_evaluator_kind_one_of_9_TYPE_e;
+typedef enum  { palette_api_evaluator_kind_one_of_9_TYPE_NULL = 0, palette_api_evaluator_kind_one_of_9_TYPE_browser_grounding } palette_api_evaluator_kind_one_of_9_TYPE_e;
 
-char* evaluator_kind_one_of_9_type_ToString(beater_api_evaluator_kind_one_of_9_TYPE_e type);
+char* evaluator_kind_one_of_9_type_ToString(palette_api_evaluator_kind_one_of_9_TYPE_e type);
 
-beater_api_evaluator_kind_one_of_9_TYPE_e evaluator_kind_one_of_9_type_FromString(char* type);
+palette_api_evaluator_kind_one_of_9_TYPE_e evaluator_kind_one_of_9_type_FromString(char* type);
 
 
 
 typedef struct evaluator_kind_one_of_9_t {
     double min_ratio; //numeric
-    beater_api_evaluator_kind_one_of_9_TYPE_e type; //enum
+    palette_api_evaluator_kind_one_of_9_TYPE_e type; //enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } evaluator_kind_one_of_9_t;
 
 __attribute__((deprecated)) evaluator_kind_one_of_9_t *evaluator_kind_one_of_9_create(
     double min_ratio,
-    beater_api_evaluator_kind_one_of_9_TYPE_e type
+    palette_api_evaluator_kind_one_of_9_TYPE_e type
 );
 
 void evaluator_kind_one_of_9_free(evaluator_kind_one_of_9_t *evaluator_kind_one_of_9);

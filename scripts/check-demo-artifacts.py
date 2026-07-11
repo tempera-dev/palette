@@ -20,14 +20,14 @@ REQUIRED_TEXT = {
         "stock OpenTelemetry Python trace",
         "Recording mode: all-kind",
         "run -> turn -> step -> tool -> MCP",
-        "BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh",
+        "PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh",
     ],
     "gate2-compose-browser-demo.md": [
         "Docker Compose stopwatch path",
         "Recording mode: compose",
         "default dashboard URL `http://127.0.0.1:3000`",
         "docs/demos/gate2-outside-person-proof.md",
-        "BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1",
+        "PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1",
     ],
 }
 

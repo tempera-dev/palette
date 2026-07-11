@@ -27,7 +27,7 @@ typedef struct review_task_t {
     char *project_id; // string
     char *queue_id; // string
     char *span_id; // string
-    beater_api_review_task_state__e state; //referenced enum
+    palette_api_review_task_state__e state; //referenced enum
     char *task_id; // string
     char *tenant_id; // string
     char *trace_id; // string
@@ -44,7 +44,7 @@ __attribute__((deprecated)) review_task_t *review_task_create(
     char *project_id,
     char *queue_id,
     char *span_id,
-    beater_api_review_task_state__e state,
+    palette_api_review_task_state__e state,
     char *task_id,
     char *tenant_id,
     char *trace_id,

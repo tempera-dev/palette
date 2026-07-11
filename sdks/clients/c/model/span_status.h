@@ -18,15 +18,15 @@ typedef struct span_status_t span_status_t;
 
 // Enum  for span_status
 
-typedef enum { beater_api_span_status__NULL = 0, beater_api_span_status__ok, beater_api_span_status__error, beater_api_span_status__unset } beater_api_span_status__e;
+typedef enum { palette_api_span_status__NULL = 0, palette_api_span_status__ok, palette_api_span_status__error, palette_api_span_status__unset } palette_api_span_status__e;
 
-char* span_status_span_status_ToString(beater_api_span_status__e span_status);
+char* span_status_span_status_ToString(palette_api_span_status__e span_status);
 
-beater_api_span_status__e span_status_span_status_FromString(char* span_status);
+palette_api_span_status__e span_status_span_status_FromString(char* span_status);
 
-cJSON *span_status_convertToJSON(beater_api_span_status__e span_status);
+cJSON *span_status_convertToJSON(palette_api_span_status__e span_status);
 
-beater_api_span_status__e span_status_parseFromJSON(cJSON *span_statusJSON);
+palette_api_span_status__e span_status_parseFromJSON(cJSON *span_statusJSON);
 
 #endif /* _span_status_H_ */
 

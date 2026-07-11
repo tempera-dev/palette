@@ -4,12 +4,12 @@
 #include "span_io_value_one_of_2.h"
 
 
-char* span_io_value_one_of_2_kind_ToString(beater_api_span_io_value_one_of_2_KIND_e kind) {
+char* span_io_value_one_of_2_kind_ToString(palette_api_span_io_value_one_of_2_KIND_e kind) {
     char* kindArray[] =  { "NULL", "redacted" };
     return kindArray[kind];
 }
 
-beater_api_span_io_value_one_of_2_KIND_e span_io_value_one_of_2_kind_FromString(char* kind){
+palette_api_span_io_value_one_of_2_KIND_e span_io_value_one_of_2_kind_FromString(char* kind){
     int stringToReturn = 0;
     char *kindArray[] =  { "NULL", "redacted" };
     size_t sizeofArray = sizeof(kindArray) / sizeof(kindArray[0]);
@@ -23,7 +23,7 @@ beater_api_span_io_value_one_of_2_KIND_e span_io_value_one_of_2_kind_FromString(
 }
 
 static span_io_value_one_of_2_t *span_io_value_one_of_2_create_internal(
-    beater_api_span_io_value_one_of_2_KIND_e kind,
+    palette_api_span_io_value_one_of_2_KIND_e kind,
     char *reason
     ) {
     span_io_value_one_of_2_t *span_io_value_one_of_2_local_var = malloc(sizeof(span_io_value_one_of_2_t));
@@ -38,7 +38,7 @@ static span_io_value_one_of_2_t *span_io_value_one_of_2_create_internal(
 }
 
 __attribute__((deprecated)) span_io_value_one_of_2_t *span_io_value_one_of_2_create(
-    beater_api_span_io_value_one_of_2_KIND_e kind,
+    palette_api_span_io_value_one_of_2_KIND_e kind,
     char *reason
     ) {
     return span_io_value_one_of_2_create_internal (
@@ -67,7 +67,7 @@ cJSON *span_io_value_one_of_2_convertToJSON(span_io_value_one_of_2_t *span_io_va
     cJSON *item = cJSON_CreateObject();
 
     // span_io_value_one_of_2->kind
-    if (beater_api_span_io_value_one_of_2_KIND_NULL == span_io_value_one_of_2->kind) {
+    if (palette_api_span_io_value_one_of_2_KIND_NULL == span_io_value_one_of_2->kind) {
         goto fail;
     }
     if(cJSON_AddStringToObject(item, "kind", span_io_value_one_of_2_kind_ToString(span_io_value_one_of_2->kind)) == NULL)
@@ -105,7 +105,7 @@ span_io_value_one_of_2_t *span_io_value_one_of_2_parseFromJSON(cJSON *span_io_va
         goto end;
     }
 
-    beater_api_span_io_value_one_of_2_KIND_e kindVariable;
+    palette_api_span_io_value_one_of_2_KIND_e kindVariable;
     
     if(!cJSON_IsString(kind))
     {

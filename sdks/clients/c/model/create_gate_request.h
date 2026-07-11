@@ -23,7 +23,7 @@ typedef struct create_gate_request_t {
     char *dataset_id; // string
     char *evaluator_version_id; // string
     char *gate_id; // string
-    beater_api_inconclusive_policy__e inconclusive_policy; //referenced enum
+    palette_api_inconclusive_policy__e inconclusive_policy; //referenced enum
     char *name; // string
 
     int _library_owned; // Is the library responsible for freeing this object?
@@ -33,7 +33,7 @@ __attribute__((deprecated)) create_gate_request_t *create_gate_request_create(
     char *dataset_id,
     char *evaluator_version_id,
     char *gate_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     char *name
 );
 

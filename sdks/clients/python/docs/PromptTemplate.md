@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.prompt_template import PromptTemplate
+from palette_client.models.prompt_template import PromptTemplate
 
 # TODO update the JSON string below
 json = "{}"

@@ -1,0 +1,25 @@
+[package]
+name = "palette-langfuse"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+palette-core = { path = "../palette-core" }
+palette-schema = { path = "../palette-schema" }
+palette-ingest = { path = "../palette-ingest" }
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+palette-store = { path = "../palette-store" }
+palette-store-memory = { path = "../palette-store-memory" }
+palette-store-obj = { path = "../palette-store-obj" }
+palette-bus = { path = "../palette-bus" }
+tempfile.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

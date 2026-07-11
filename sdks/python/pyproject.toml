@@ -3,13 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "beater-sdk"
+name = "palette-sdk"
 version = "0.1.0"
-description = "Ergonomic agent observability SDK for Beater (OpenTelemetry-native)"
+description = "Ergonomic agent observability SDK for Palette (OpenTelemetry-native)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
-authors = [{ name = "Beater" }]
+authors = [{ name = "Palette" }]
 keywords = ["observability", "llm", "agents", "opentelemetry", "tracing"]
 dependencies = [
     "opentelemetry-api>=1.20.0",
@@ -28,11 +28,11 @@ llamaindex = ["llama-index-core>=0.10.0"]
 dev = ["pytest>=7.0.0"]
 
 [project.urls]
-Homepage = "https://github.com/beater/beater"
-Documentation = "https://github.com/beater/beater/tree/main/sdks/python"
+Homepage = "https://github.com/palette/palette"
+Documentation = "https://github.com/palette/palette/tree/main/sdks/python"
 
 [project.entry-points.opentelemetry_configurator]
-beater = "beater.bootstrap:BeaterConfigurator"
+palette = "palette.bootstrap:PaletteConfigurator"
 
 [tool.hatch.build.targets.wheel]
-packages = ["beater"]
+packages = ["palette"]

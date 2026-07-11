@@ -23,7 +23,7 @@ if (OPENSSL_FOUND)
     endif()
 endif()
 
-set(pkgName "beater_api")
+set(pkgName "palette_api")
 
 # this default version can be overridden in PreTarget.cmake
 set(PROJECT_VERSION_MAJOR 0)

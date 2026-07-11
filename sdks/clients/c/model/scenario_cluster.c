@@ -6,7 +6,7 @@
 
 
 static scenario_cluster_t *scenario_cluster_create_internal(
-    beater_api_failure_mode__e dominant_failure_mode,
+    palette_api_failure_mode__e dominant_failure_mode,
     char *exemplar_trace_id,
     list_t *member_trace_ids,
     signature_t *signature,
@@ -27,7 +27,7 @@ static scenario_cluster_t *scenario_cluster_create_internal(
 }
 
 __attribute__((deprecated)) scenario_cluster_t *scenario_cluster_create(
-    beater_api_failure_mode__e dominant_failure_mode,
+    palette_api_failure_mode__e dominant_failure_mode,
     char *exemplar_trace_id,
     list_t *member_trace_ids,
     signature_t *signature,
@@ -73,7 +73,7 @@ cJSON *scenario_cluster_convertToJSON(scenario_cluster_t *scenario_cluster) {
     cJSON *item = cJSON_CreateObject();
 
     // scenario_cluster->dominant_failure_mode
-    if (beater_api_failure_mode__NULL == scenario_cluster->dominant_failure_mode) {
+    if (palette_api_failure_mode__NULL == scenario_cluster->dominant_failure_mode) {
         goto fail;
     }
     cJSON *dominant_failure_mode_local_JSON = failure_mode_convertToJSON(scenario_cluster->dominant_failure_mode);
@@ -148,7 +148,7 @@ scenario_cluster_t *scenario_cluster_parseFromJSON(cJSON *scenario_clusterJSON){
     scenario_cluster_t *scenario_cluster_local_var = NULL;
 
     // define the local variable for scenario_cluster->dominant_failure_mode
-    beater_api_failure_mode__e dominant_failure_mode_local_nonprim = 0;
+    palette_api_failure_mode__e dominant_failure_mode_local_nonprim = 0;
 
     // define the local list for scenario_cluster->member_trace_ids
     list_t *member_trace_idsList = NULL;

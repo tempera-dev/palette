@@ -2,5 +2,5 @@
 # cpp-restsdk produces a Casablanca/cpprestsdk-based client.
 generatorName: cpp-restsdk
 additionalProperties:
-  packageName: beater-client
+  packageName: palette-client
   packageVersion: 0.1.0

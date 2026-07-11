@@ -9,22 +9,22 @@ import { gate2ConfirmationCode } from "./gate2-confirmation-code.mjs";
 const dashboardRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const repoRoot = resolve(dashboardRoot, "../..");
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
-const publicDashboardBase = process.env.BEATER_GATE2_PUBLIC_DASHBOARD_BASE ?? baseUrl;
-const mode = process.env.BEATER_GATE2_RECORD_MODE ?? "all-kind";
-const outsideWrapper = process.env.BEATER_GATE2_OUTSIDE_WRAPPER === "1";
+const publicDashboardBase = process.env.PALETTE_GATE2_PUBLIC_DASHBOARD_BASE ?? baseUrl;
+const mode = process.env.PALETTE_GATE2_RECORD_MODE ?? "all-kind";
+const outsideWrapper = process.env.PALETTE_GATE2_OUTSIDE_WRAPPER === "1";
 const allKindTraceId =
-  process.env.BEATER_E2E_ALL_KIND_TRACE_ID ??
-  (mode === "all-kind" ? process.env.BEATER_E2E_TRACE_ID : undefined);
+  process.env.PALETTE_E2E_ALL_KIND_TRACE_ID ??
+  (mode === "all-kind" ? process.env.PALETTE_E2E_TRACE_ID : undefined);
 const quickstartTraceId =
-  process.env.BEATER_E2E_QUICKSTART_TRACE_ID ??
-  (mode === "quickstart" ? process.env.BEATER_E2E_TRACE_ID : undefined);
-const quickstartRelease = process.env.BEATER_E2E_QUICKSTART_RELEASE;
+  process.env.PALETTE_E2E_QUICKSTART_TRACE_ID ??
+  (mode === "quickstart" ? process.env.PALETTE_E2E_TRACE_ID : undefined);
+const quickstartRelease = process.env.PALETTE_E2E_QUICKSTART_RELEASE;
 const redactionTraceId =
-  process.env.BEATER_E2E_REDACTION_TRACE_ID ??
-  (mode === "redaction" ? process.env.BEATER_E2E_TRACE_ID : undefined);
-const redactionSpanId = process.env.BEATER_E2E_REDACTION_SPAN_ID;
-const redactionRelease = process.env.BEATER_E2E_REDACTION_RELEASE;
-const gate2ConfirmationSalt = process.env.BEATER_GATE2_CONFIRMATION_SALT ?? "";
+  process.env.PALETTE_E2E_REDACTION_TRACE_ID ??
+  (mode === "redaction" ? process.env.PALETTE_E2E_TRACE_ID : undefined);
+const redactionSpanId = process.env.PALETTE_E2E_REDACTION_SPAN_ID;
+const redactionRelease = process.env.PALETTE_E2E_REDACTION_RELEASE;
+const gate2ConfirmationSalt = process.env.PALETTE_GATE2_CONFIRMATION_SALT ?? "";
 const demoDir = resolve(repoRoot, "docs/demos");
 const scratchDir = resolve(dashboardRoot, "test-results/gate2-demo-video");
 const minimumRecordingMs = 9000;
@@ -33,11 +33,11 @@ const toolReviewDwellMs = 2500;
 const redactionReviewDwellMs = 3000;
 const redactionUnmaskReason = "gate2-redaction-review";
 const videoPath = outputPath(
-  process.env.BEATER_GATE2_RECORD_VIDEO,
+  process.env.PALETTE_GATE2_RECORD_VIDEO,
   mode === "compose" ? "gate2-compose-browser-demo.webm" : "gate2-browser-demo.webm"
 );
 const notesPath = outputPath(
-  process.env.BEATER_GATE2_RECORD_NOTES,
+  process.env.PALETTE_GATE2_RECORD_NOTES,
   mode === "compose" ? "gate2-compose-browser-demo.md" : "gate2-browser-demo.md"
 );
 const allAgentKinds = [
@@ -83,7 +83,7 @@ if (mode === "compose") {
 } else if (mode === "all-kind") {
   await recordAllKindFlow(page);
 } else {
-  throw new Error(`unknown BEATER_GATE2_RECORD_MODE '${mode}'`);
+  throw new Error(`unknown PALETTE_GATE2_RECORD_MODE '${mode}'`);
 }
 await waitForReviewableRecording(page, recordingStartedAt);
 
@@ -183,7 +183,7 @@ async function recordQuickstartFlow(page) {
   await detail
     .locator(".io")
     .filter({ hasText: "Completion" })
-    .getByText("hello from Beater")
+    .getByText("hello from Palette")
     .waitFor();
   await page.waitForTimeout(llmReviewDwellMs);
 }
@@ -347,17 +347,17 @@ Recorded from the stock OpenTelemetry Python trace produced by \`examples/python
 Regenerate with:
 
 \`\`\`bash
-BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
+PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
 \`\`\`
 
 For the Docker Compose stopwatch proof that uses the literal five-line snippet,
 run the prebuilt-image path:
 
 \`\`\`bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 \`\`\`
 
-For a local source build measurement, add \`BEATER_GATE2_LOCAL_BUILD=1\`.
+For a local source build measurement, add \`PALETTE_GATE2_LOCAL_BUILD=1\`.
 `;
 }
 
@@ -379,14 +379,14 @@ Recorded from the literal five-line stock OpenTelemetry quickstart trace.
 Regenerate with:
 
 \`\`\`bash
-BEATER_E2E_QUICKSTART_TRACE_ID=<quickstart-trace-id> BEATER_GATE2_RECORD_MODE=quickstart npm run record:gate2
+PALETTE_E2E_QUICKSTART_TRACE_ID=<quickstart-trace-id> PALETTE_GATE2_RECORD_MODE=quickstart npm run record:gate2
 \`\`\`
 
 For the Docker Compose stopwatch proof that records the full quickstart plus
 all-kind waterfall flow, run the prebuilt-image path:
 
 \`\`\`bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 \`\`\`
 `;
 }
@@ -410,7 +410,7 @@ Recorded from the Gate 2 sensitive native trace used to prove redacted I/O contr
 Regenerate with:
 
 \`\`\`bash
-BEATER_E2E_REDACTION_TRACE_ID=<redaction-trace-id> BEATER_GATE2_RECORD_MODE=redaction npm run record:gate2
+PALETTE_E2E_REDACTION_TRACE_ID=<redaction-trace-id> PALETTE_GATE2_RECORD_MODE=redaction npm run record:gate2
 \`\`\`
 `;
 }
@@ -453,7 +453,7 @@ ${closureNote}
 Regenerate with:
 
 \`\`\`bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 \`\`\`
 `;
 }

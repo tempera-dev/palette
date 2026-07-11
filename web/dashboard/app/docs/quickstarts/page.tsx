@@ -1,46 +1,46 @@
 // Per-language SDK quickstarts + MCP + CLI usage. Static content kept in lockstep
 // with the SDK READMEs; the API reference at /docs renders live from the spec.
 
-const PY = `pip install beater-sdk
+const PY = `pip install palette-sdk
 
-import beater
-beater.init(tenant_id="acme", project_id="bot", environment_id="prod")
+import palette
+palette.init(tenant_id="acme", project_id="bot", environment_id="prod")
 
-@beater.observe(kind=beater.SpanKind.AGENT_RUN)
+@palette.observe(kind=palette.SpanKind.AGENT_RUN)
 def handle(q): ...
 
 # drop-in provider:
 from openai import OpenAI
-client = beater.wrap_openai(OpenAI())`;
+client = palette.wrap_openai(OpenAI())`;
 
-const TS = `npm i @beater/sdk
+const TS = `npm i @palette/sdk
 
-import * as beater from "@beater/sdk";
-beater.init({ tenantId: "acme", projectId: "bot", environmentId: "prod" });
-const handle = beater.observe(rawHandle, { kind: beater.SpanKind.AGENT_RUN });
+import * as palette from "@palette/sdk";
+palette.init({ tenantId: "acme", projectId: "bot", environmentId: "prod" });
+const handle = palette.observe(rawHandle, { kind: palette.SpanKind.AGENT_RUN });
 
 // drop-in provider:
-const client = beater.wrapOpenAI(new OpenAI());`;
+const client = palette.wrapOpenAI(new OpenAI());`;
 
-const RUST = `# Cargo.toml: beater = "0.1"
+const RUST = `# Cargo.toml: palette = "0.1"
 
-beater::init(beater::BeaterConfig::from_env());
-beater::observe("handle", beater::span_kind::AGENT_RUN, || { /* ... */ });`;
+palette::init(palette::PaletteConfig::from_env());
+palette::observe("handle", palette::span_kind::AGENT_RUN, || { /* ... */ });`;
 
 const CLIENTS = `# Generated control-plane clients (datasets, experiments, gates, evals, ...)
-pip install beater-client        # Python
-npm i @beater/client             # TypeScript
-# Rust: beater-client (path/git)   Go: go get .../beaterclient
-# Java: ai.beater:beater-client    C / C++: source + CMake`;
+pip install palette-client        # Python
+npm i @palette/client             # TypeScript
+# Rust: palette-client (path/git)   Go: go get .../paletteclient
+# Java: ai.palette:palette-client    C / C++: source + CMake`;
 
-const MCP = `# Every API operation is an MCP tool, served at /mcp on beaterd.
+const MCP = `# Every API operation is an MCP tool, served at /mcp on paletted.
 # Point any MCP client at http://127.0.0.1:8080/mcp
 { "jsonrpc": "2.0", "id": 1, "method": "tools/list" }
 # -> one tool per operationId (datasets.create-dataset, traces.list-traces, judge.evaluate-judge, ...)`;
 
 const CLI = `# The CLI reaches any endpoint via the same contract:
-beater api traces.list-traces --param tenant_id=acme --api-key bt_...
-beater api datasets.create-dataset --param tenant_id=acme --param project_id=bot \\
+palette api traces.list-traces --param tenant_id=acme --api-key bt_...
+palette api datasets.create-dataset --param tenant_id=acme --param project_id=bot \\
   --body '{"name":"regressions"}'`;
 
 function Block({ title, code }: { title: string; code: string }) {
@@ -57,7 +57,7 @@ function Block({ title, code }: { title: string; code: string }) {
 export default function Quickstarts() {
   return (
     <main style={{ maxWidth: 880, margin: "0 auto", padding: 32, fontFamily: "system-ui, sans-serif" }}>
-      <h1 style={{ fontSize: 26, marginBottom: 6 }}>Beater quickstarts</h1>
+      <h1 style={{ fontSize: 26, marginBottom: 6 }}>Palette quickstarts</h1>
       <p style={{ color: "#57606a", marginBottom: 24 }}>
         Two layers: ergonomic SDKs (trace your agent) and generated control-plane
         clients (datasets / experiments / gates / evals). Everything is generated

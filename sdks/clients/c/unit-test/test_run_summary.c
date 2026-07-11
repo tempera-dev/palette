@@ -31,7 +31,7 @@ run_summary_t* instantiate_run_summary(int include_optional) {
       list_createList(),
       0,
       "2013-10-20T19:20:30+01:00",
-      beater_api_run_summary__ok,
+      palette_api_run_summary__ok,
       "0",
        // false, not to have infinite recursion
       instantiate_money(0),
@@ -47,7 +47,7 @@ run_summary_t* instantiate_run_summary(int include_optional) {
       list_createList(),
       0,
       "2013-10-20T19:20:30+01:00",
-      beater_api_run_summary__ok,
+      palette_api_run_summary__ok,
       "0",
       NULL,
       "0"

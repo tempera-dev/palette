@@ -48,19 +48,19 @@ def test_gate2_image_helpers_keep_public_ghcr_contract() -> None:
 
     for image_name in module.GATE2_IMAGE_NAMES:
         image = module.gate2_image(image_name)
-        assert image.env_var.startswith("BEATER_") or image.env_var == "BEATERD_IMAGE"
-        assert module.gate2_image_repo(image_name) == f"ghcr.io/jadenfix/beater/{image_name}"
+        assert image.env_var.startswith("PALETTE_") or image.env_var == "PALETTED_IMAGE"
+        assert module.gate2_image_repo(image_name) == f"ghcr.io/jadenfix/palette/{image_name}"
         assert (
             module.gate2_registry_repository(image_name)
-            == f"jadenfix/beater/{image_name}"
+            == f"jadenfix/palette/{image_name}"
         )
         assert (
             module.gate2_image_ref(image_name, "abc123")
-            == f"ghcr.io/jadenfix/beater/{image_name}:abc123"
+            == f"ghcr.io/jadenfix/palette/{image_name}:abc123"
         )
         assert (
             module.gate2_image_digest_prefix(image_name)
-            == f"ghcr.io/jadenfix/beater/{image_name}@sha256:"
+            == f"ghcr.io/jadenfix/palette/{image_name}@sha256:"
         )
         assert image.proof_ref_field
         assert image.proof_digest_field
@@ -71,24 +71,24 @@ def test_raw_public_preflight_command_pins_expected_commit() -> None:
     command = module.raw_public_preflight_command_for_sha("0123456789abcdef")
 
     assert (
-        "https://raw.githubusercontent.com/jadenfix/beater/0123456789abcdef/"
+        "https://raw.githubusercontent.com/jadenfix/palette/0123456789abcdef/"
         "scripts/gate2-outside-local-preflight.sh"
     ) in command
-    assert 'BEATER_GATE2_EXPECTED_COMMIT="0123456789abcdef"' in command
+    assert 'PALETTE_GATE2_EXPECTED_COMMIT="0123456789abcdef"' in command
     assert "/$sha/" not in command
 
 
 def test_immutable_log_url_requires_actions_run_or_job() -> None:
     module = load_module()
 
-    assert module.is_immutable_log_url("https://github.com/jadenfix/beater/actions/runs/123")
+    assert module.is_immutable_log_url("https://github.com/jadenfix/palette/actions/runs/123")
     assert module.is_immutable_log_url(
-        "https://github.com/jadenfix/beater/actions/runs/123/job/456"
+        "https://github.com/jadenfix/palette/actions/runs/123/job/456"
     )
     assert not module.is_immutable_log_url(
-        "https://github.com/jadenfix/beater/actions/workflows/gate2-proof-contract.yml"
+        "https://github.com/jadenfix/palette/actions/workflows/gate2-proof-contract.yml"
     )
-    assert not module.is_immutable_log_url("https://github.com/jadenfix/beater/pull/123")
+    assert not module.is_immutable_log_url("https://github.com/jadenfix/palette/pull/123")
 
 
 def test_unresolved_argument_rejects_placeholders() -> None:

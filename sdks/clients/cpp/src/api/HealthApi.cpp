@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -10,10 +10,10 @@
  */
 
 
-#include "beater-client/api/HealthApi.h"
-#include "beater-client/IHttpBody.h"
-#include "beater-client/JsonBody.h"
-#include "beater-client/MultipartFormData.h"
+#include "palette-client/api/HealthApi.h"
+#include "palette-client/IHttpBody.h"
+#include "palette-client/JsonBody.h"
+#include "palette-client/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 

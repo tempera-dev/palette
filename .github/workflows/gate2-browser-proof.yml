@@ -69,5 +69,5 @@ jobs:
 
       - name: Run Gate 2 live browser proof
         env:
-          BEATER_GATE2_SKIP_PLAYWRIGHT_INSTALL: "1"
+          PALETTE_GATE2_SKIP_PLAYWRIGHT_INSTALL: "1"
         run: scripts/gate2-proof.sh

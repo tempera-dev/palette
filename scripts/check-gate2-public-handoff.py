@@ -39,7 +39,7 @@ STOPWATCH_COMPOSE_DOWN = [
     "-f",
     "docker-compose.prebuilt.yml",
     "-p",
-    "beater-stopwatch",
+    "palette-stopwatch",
     "down",
     "-v",
     "--remove-orphans",
@@ -59,7 +59,7 @@ MANUAL_CHECKPOINT_MARKER = "Manual outside-run checkpoint:"
 def manual_confirmation_code_from_output(
     output: bytes, *, cwd: Path, expected_commit: str
 ) -> bytes:
-    if os.environ.get("BEATER_GATE2_FIXTURE_FULL_RUN") == "1":
+    if os.environ.get("PALETTE_GATE2_FIXTURE_FULL_RUN") == "1":
         return b"682ABA78\n"
     decoded = output.decode(errors="replace")
     matches = re.findall(
@@ -80,13 +80,13 @@ def quickstart_confirmation_code_from_browser(
 ) -> str:
     internal_url = re.sub(r"^http://127\.0\.0\.1:3000", "http://dashboard:3000", url)
     env = clean_outside_env()
-    env["BEATER_DASHBOARD_E2E_IMAGE"] = gate2_image_ref("dashboard-e2e", expected_commit)
-    env["BEATER_GATE2_DIAGNOSTIC_QUICKSTART_URL"] = internal_url
+    env["PALETTE_DASHBOARD_E2E_IMAGE"] = gate2_image_ref("dashboard-e2e", expected_commit)
+    env["PALETTE_GATE2_DIAGNOSTIC_QUICKSTART_URL"] = internal_url
     script = r"""
 const { chromium } = require("playwright");
 
 (async () => {
-  const quickstartUrl = process.env.BEATER_GATE2_DIAGNOSTIC_QUICKSTART_URL;
+  const quickstartUrl = process.env.PALETTE_GATE2_DIAGNOSTIC_QUICKSTART_URL;
   if (!quickstartUrl) throw new Error("missing quickstart URL");
   const browser = await chromium.launch();
   const page = await browser.newPage();
@@ -122,12 +122,12 @@ const { chromium } = require("playwright");
             "-f",
             "docker-compose.prebuilt.yml",
             "-p",
-            "beater-stopwatch",
+            "palette-stopwatch",
             "run",
             "--rm",
             "--no-deps",
             "-e",
-            "BEATER_GATE2_DIAGNOSTIC_QUICKSTART_URL",
+            "PALETTE_GATE2_DIAGNOSTIC_QUICKSTART_URL",
             "dashboard-e2e",
             "node",
             "-e",
@@ -413,7 +413,7 @@ def occupied_port_message(port: int, label: str, env_name: str) -> str:
 def fixture_full_run_enabled(args: argparse.Namespace) -> bool:
     return (
         args.full_run
-        and os.environ.get("BEATER_GATE2_FIXTURE_FULL_RUN") == "1"
+        and os.environ.get("PALETTE_GATE2_FIXTURE_FULL_RUN") == "1"
         and args.source_url == REMOTE_URL
         and bool(args.registry_fixture)
         and args.skip_local_readiness
@@ -513,12 +513,12 @@ def cleanup_stopwatch_compose(cwd: Path, *, fatal: bool) -> None:
         return
     if fatal:
         raise SystemExit(
-            "Gate 2 full-run preflight could not clean the beater-stopwatch "
+            "Gate 2 full-run preflight could not clean the palette-stopwatch "
             f"Compose project before checking ports:\n{result.stdout}"
         )
     print(
         "warning: Gate 2 full-run cleanup failed; clean the "
-        "beater-stopwatch Compose project manually if needed"
+        "palette-stopwatch Compose project manually if needed"
     )
     if result.stdout:
         print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
@@ -564,7 +564,7 @@ def preflight_full_run_runtime(args: argparse.Namespace) -> None:
     if occupied:
         raise SystemExit(
             "--full-run requires the outside-person default ports to be free after "
-            "cleaning the beater-stopwatch Compose project:\n  "
+            "cleaning the palette-stopwatch Compose project:\n  "
             + "\n  ".join(occupied)
         )
 
@@ -574,9 +574,9 @@ def run_raw_public_preflight(args: argparse.Namespace, expected_commit: str) -> 
         return
     require_full_run_source(args)
     env = dict(os.environ)
-    env["BEATER_GATE2_RAW_PREFLIGHT_PATH"] = env.get("PATH", "")
+    env["PALETTE_GATE2_RAW_PREFLIGHT_PATH"] = env.get("PATH", "")
     shell_command = (
-        'PATH="$BEATER_GATE2_RAW_PREFLIGHT_PATH"; '
+        'PATH="$PALETTE_GATE2_RAW_PREFLIGHT_PATH"; '
         f"{raw_public_preflight_command_for_sha(expected_commit)}"
     )
     try:
@@ -634,13 +634,13 @@ def make_clone_parent(args: argparse.Namespace) -> tuple[Path, tempfile.Temporar
         parent.mkdir(parents=True, exist_ok=True)
         return parent, None
     if args.keep_clone:
-        return Path(tempfile.mkdtemp(prefix="beater-gate2-public-handoff-")), None
-    temp_dir = tempfile.TemporaryDirectory(prefix="beater-gate2-public-handoff-")
+        return Path(tempfile.mkdtemp(prefix="palette-gate2-public-handoff-")), None
+    temp_dir = tempfile.TemporaryDirectory(prefix="palette-gate2-public-handoff-")
     return Path(temp_dir.name), temp_dir
 
 
 def clone_repo(
-    args: argparse.Namespace, expected_commit: str, clone_name: str = "beater"
+    args: argparse.Namespace, expected_commit: str, clone_name: str = "palette"
 ) -> tuple[Path, tempfile.TemporaryDirectory | None, int]:
     parent, temp_owner = make_clone_parent(args)
     clone_dir = parent / clone_name
@@ -759,14 +759,14 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "`Confirm` code",
             "cleanup hint printed by",
             "GIT_CONFIG_GLOBAL=/dev/null",
-            "BEATER_GATE2_EXPECTED_COMMIT",
-            "run `cd ./beater`",
+            "PALETTE_GATE2_EXPECTED_COMMIT",
+            "run `cd ./palette`",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
             "--terminal-transcript-saved",
             "docs/demos/gate2-outside-terminal.log",
-            "cd ./beater",
-            "from the same `beater/` clone",
+            "cd ./palette",
+            "from the same `palette/` clone",
             "git add docs/demos/gate2-outside-person-proof.md",
             'git commit -m "add gate2 outside proof"',
         ],
@@ -784,16 +784,16 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "`Confirm` code shown in the selected detail",
             "cleanup hint printed",
             "stop that app and rerun",
-            "do not set alternate Beater ports",
+            "do not set alternate Palette ports",
             "GIT_CONFIG_GLOBAL=/dev/null",
-            "BEATER_GATE2_EXPECTED_COMMIT",
-            "Run `cd ./beater`",
+            "PALETTE_GATE2_EXPECTED_COMMIT",
+            "Run `cd ./palette`",
             "scripts/generate-gate2-outside-proof.py --print-command",
             "ready-to-edit command",
             "--terminal-transcript-saved",
             "docs/demos/gate2-outside-terminal.log",
-            "cd ./beater",
-            "stay in the `beater/` clone",
+            "cd ./palette",
+            "stay in the `palette/` clone",
             "git add docs/demos/gate2-outside-person-proof.md",
             'git commit -m "add gate2 outside proof"',
         ],
@@ -809,10 +809,10 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "`ffprobe` (installed by common `ffmpeg` packages)",
             "a local graphical browser that can reach `http://127.0.0.1:3000`",
             "local ports `8080`, `4317`, and `3000` free",
-            "Run from an empty parent directory that does not already contain `beater/`",
-            "clean stale Beater containers",
-            "reported non-Beater app listening on the port",
-            "Do not set alternate Beater ports",
+            "Run from an empty parent directory that does not already contain `palette/`",
+            "clean stale Palette containers",
+            "reported non-Palette app listening on the port",
+            "Do not set alternate Palette ports",
             OUTSIDE_RUNNER_COMMAND,
             PUBLIC_SHA_RESOLUTION_COMMAND,
             RAW_PUBLIC_PREFLIGHT_COMMAND,
@@ -836,12 +836,12 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "docs/demos/gate2-outside-terminal.log",
             "run -> turn -> step -> tool -> MCP",
             "scripts/generate-gate2-outside-proof.py --print-command",
-            "Run `cd ./beater`",
+            "Run `cd ./palette`",
             "Replace every `...` field",
             "fresh quickstart release ID",
             "manual confirmation source",
             "redaction unmask reason",
-            "From the same `beater/` clone",
+            "From the same `palette/` clone",
             "git add docs/demos/gate2-outside-person-proof.md",
             'git commit -m "add gate2 outside proof"',
             "scripts/validate-gate2-outside-proof.sh",
@@ -859,7 +859,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         require_file_lacks(
             clone_dir,
             rel,
-            ["cd ./beater\ngit add docs/demos/gate2-outside-person-proof.md"],
+            ["cd ./palette\ngit add docs/demos/gate2-outside-person-proof.md"],
             contract="a repeated cd before the evidence commit snippet",
         )
     require_file_contains(
@@ -878,7 +878,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             'quickstart_list_url="$dashboard_base_url/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"',
             'quickstart_span_id="$(curl -fsS "$api_url/v1/traces/demo/$trace_id" | first_llm_span_id)"',
             'quickstart_confirmation_code="$(quickstart_confirmation_code_for_span "$trace_id" "$quickstart_span_id")"',
-            'BEATER_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"',
+            'PALETTE_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"',
             "open $quickstart_list_url in a normal browser for the quickstart trace list",
             r"Quickstart span: \`",
             "Manual confirmation source: $manual_confirmation_source",
@@ -895,7 +895,7 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
             "Outside-run terminal transcript:",
             "python3 scripts/generate-gate2-outside-proof.py --stopwatch-proof",
             "--print-command",
-            "After the one-liner exits, run 'cd ./beater'",
+            "After the one-liner exits, run 'cd ./palette'",
             "Generate the completed proof from this prefilled command",
             "Commit the evidence before closure validation",
             "git add docs/demos/gate2-outside-person-proof.md",
@@ -908,10 +908,10 @@ def require_public_handoff_timing_guard(clone_dir: Path) -> None:
         clone_dir,
         "scripts/gate2-outside-local-preflight.sh",
         [
-            "If this is a stale Beater Gate 2 run",
-            "cd ./beater",
-            "docker-compose.prebuilt.yml -p beater-stopwatch down -v --remove-orphans",
-            "label=com.docker.compose.project=beater-stopwatch",
+            "If this is a stale Palette Gate 2 run",
+            "cd ./palette",
+            "docker-compose.prebuilt.yml -p palette-stopwatch down -v --remove-orphans",
+            "label=com.docker.compose.project=palette-stopwatch",
         ],
         contract="outside preflight stale-run cleanup guidance",
     )
@@ -950,8 +950,8 @@ def run_cloned_checks(args: argparse.Namespace, clone_dir: Path) -> None:
     run(readiness, cwd=clone_dir)
 
     env = clean_outside_env()
-    env["BEATER_GATE2_OUTSIDE_RUN_DRY_RUN"] = "1"
-    env["BEATER_GATE2_EXPECTED_ORIGIN"] = args.source_url
+    env["PALETTE_GATE2_OUTSIDE_RUN_DRY_RUN"] = "1"
+    env["PALETTE_GATE2_EXPECTED_ORIGIN"] = args.source_url
     run(["scripts/gate2-outside-run.sh"], cwd=clone_dir, env=env)
 
 
@@ -1010,8 +1010,8 @@ def run_generated_proof_check(clone_dir: Path, compose_logs_path: Path) -> None:
         cwd=clone_dir,
     )
     env = clean_outside_env()
-    env["BEATER_GATE2_OUTSIDE_PROOF"] = proof_path
-    env["BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS"] = "1"
+    env["PALETTE_GATE2_OUTSIDE_PROOF"] = proof_path
+    env["PALETTE_GATE2_ALLOW_UNTRACKED_ARTIFACTS"] = "1"
     run(["scripts/validate-gate2-outside-proof.sh", "--diagnostic"], cwd=clone_dir, env=env)
     print("Gate 2 generated proof diagnostic passed.")
 
@@ -1026,7 +1026,7 @@ def run_cloned_full_run(
         return
 
     env = clean_outside_env()
-    env["BEATER_GATE2_CLONE_STARTED_EPOCH"] = str(clone_started_epoch)
+    env["PALETTE_GATE2_CLONE_STARTED_EPOCH"] = str(clone_started_epoch)
     if not fixture_full_run_enabled(args):
         apply_public_git_env(env)
     try:
@@ -1073,7 +1073,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--clone-parent",
         help=(
-            "Directory where the verifier should create a beater/ clone. "
+            "Directory where the verifier should create a palette/ clone. "
             "Defaults to a temporary directory."
         ),
     )
@@ -1109,7 +1109,7 @@ def main() -> None:
     run_raw_public_preflight(args, expected_commit)
     run_local_readiness(args)
     prepull_full_run_browser_image(args, expected_commit)
-    checks_clone_name = "beater-checks" if args.full_run else "beater"
+    checks_clone_name = "palette-checks" if args.full_run else "palette"
     clone_dir, temp_owner, clone_started_epoch = clone_repo(
         args, expected_commit, checks_clone_name
     )
@@ -1125,7 +1125,7 @@ def main() -> None:
             mode = "clone"
         if args.full_run:
             full_clone_dir, full_temp_owner, full_clone_started_epoch = clone_repo(
-                args, expected_commit, "beater"
+                args, expected_commit, "palette"
             )
             temp_owners.append(full_temp_owner)
             reported_clone_dir = full_clone_dir

@@ -1,4 +1,4 @@
-# beater_client.DatasetsApi
+# palette_client.DatasetsApi
 
 All URIs are relative to *http://localhost*
 
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **datasets_create_dataset**
-> Dataset datasets_create_dataset(tenant_id, project_id, create_dataset_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> Dataset datasets_create_dataset(tenant_id, project_id, create_dataset_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -18,33 +18,33 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.create_dataset_request import CreateDatasetRequest
-from beater_client.models.dataset import Dataset
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.create_dataset_request import CreateDatasetRequest
+from palette_client.models.dataset import Dataset
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.DatasetsApi(api_client)
+    api_instance = palette_client.DatasetsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
-    create_dataset_request = beater_client.CreateDatasetRequest() # CreateDatasetRequest |
+    create_dataset_request = palette_client.CreateDatasetRequest() # CreateDatasetRequest |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.datasets_create_dataset(tenant_id, project_id, create_dataset_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.datasets_create_dataset(tenant_id, project_id, create_dataset_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of DatasetsApi->datasets_create_dataset:\n")
         pprint(api_response)
     except Exception as e:
@@ -62,9 +62,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **create_dataset_request** | [**CreateDatasetRequest**](CreateDatasetRequest.md)|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -91,7 +91,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **datasets_create_dataset_version**
-> DatasetVersionSnapshot datasets_create_dataset_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> DatasetVersionSnapshot datasets_create_dataset_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -99,34 +99,34 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.create_dataset_version_request import CreateDatasetVersionRequest
-from beater_client.models.dataset_version_snapshot import DatasetVersionSnapshot
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.create_dataset_version_request import CreateDatasetVersionRequest
+from palette_client.models.dataset_version_snapshot import DatasetVersionSnapshot
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.DatasetsApi(api_client)
+    api_instance = palette_client.DatasetsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     dataset_id = 'dataset_id_example' # str | dataset_id
-    create_dataset_version_request = beater_client.CreateDatasetVersionRequest() # CreateDatasetVersionRequest |
+    create_dataset_version_request = palette_client.CreateDatasetVersionRequest() # CreateDatasetVersionRequest |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.datasets_create_dataset_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.datasets_create_dataset_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of DatasetsApi->datasets_create_dataset_version:\n")
         pprint(api_response)
     except Exception as e:
@@ -145,9 +145,9 @@ Name | Type | Description  | Notes
  **dataset_id** | **str**| dataset_id |
  **create_dataset_version_request** | [**CreateDatasetVersionRequest**](CreateDatasetVersionRequest.md)|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -175,7 +175,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **datasets_promote_dataset_case_from_trace**
-> DatasetCase datasets_promote_dataset_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> DatasetCase datasets_promote_dataset_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -183,34 +183,34 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.dataset_case import DatasetCase
-from beater_client.models.promote_trace_case_request import PromoteTraceCaseRequest
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.dataset_case import DatasetCase
+from palette_client.models.promote_trace_case_request import PromoteTraceCaseRequest
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.DatasetsApi(api_client)
+    api_instance = palette_client.DatasetsApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     dataset_id = 'dataset_id_example' # str | dataset_id
-    promote_trace_case_request = beater_client.PromoteTraceCaseRequest() # PromoteTraceCaseRequest |
+    promote_trace_case_request = palette_client.PromoteTraceCaseRequest() # PromoteTraceCaseRequest |
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.datasets_promote_dataset_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.datasets_promote_dataset_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of DatasetsApi->datasets_promote_dataset_case_from_trace:\n")
         pprint(api_response)
     except Exception as e:
@@ -229,9 +229,9 @@ Name | Type | Description  | Notes
  **dataset_id** | **str**| dataset_id |
  **promote_trace_case_request** | [**PromoteTraceCaseRequest**](PromoteTraceCaseRequest.md)|  |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

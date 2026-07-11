@@ -8,7 +8,7 @@ const ALLOWED = new Set(["login", "register", "logout"]);
 
 /**
  * Proxy the dashboard's `/api/auth/{login,register,logout}` to the backend's
- * root `/auth/*` endpoints, relaying the `Set-Cookie` so the `beater_session`
+ * root `/auth/*` endpoints, relaying the `Set-Cookie` so the `palette_session`
  * cookie is set on the dashboard origin. Keeps the backend URL server-side.
  */
 export async function POST(

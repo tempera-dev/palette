@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **beater_api_evaluator_kind_TYPE_e** |  |
+**type** | **palette_api_evaluator_kind_TYPE_e** |  |
 **pattern** | **char \*** |  |
 **abs** | **double** |  |
 **rel** | **double** |  |

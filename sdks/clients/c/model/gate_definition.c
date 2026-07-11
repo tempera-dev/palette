@@ -10,7 +10,7 @@ static gate_definition_t *gate_definition_create_internal(
     char *dataset_id,
     char *evaluator_version_id,
     char *gate_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     char *name,
     char *project_id,
     char *tenant_id
@@ -37,7 +37,7 @@ __attribute__((deprecated)) gate_definition_t *gate_definition_create(
     char *dataset_id,
     char *evaluator_version_id,
     char *gate_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     char *name,
     char *project_id,
     char *tenant_id
@@ -132,7 +132,7 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
 
 
     // gate_definition->inconclusive_policy
-    if(gate_definition->inconclusive_policy != beater_api_inconclusive_policy__NULL) {
+    if(gate_definition->inconclusive_policy != palette_api_inconclusive_policy__NULL) {
     cJSON *inconclusive_policy_local_JSON = inconclusive_policy_convertToJSON(gate_definition->inconclusive_policy);
     if(inconclusive_policy_local_JSON == NULL) {
         goto fail; // custom
@@ -183,7 +183,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     gate_definition_t *gate_definition_local_var = NULL;
 
     // define the local variable for gate_definition->inconclusive_policy
-    beater_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
+    palette_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
 
     // gate_definition->created_at
     cJSON *created_at = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "created_at");

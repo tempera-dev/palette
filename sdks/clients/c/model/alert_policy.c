@@ -11,7 +11,7 @@ static alert_policy_t *alert_policy_create_internal(
     double fire_when_score_at_or_below,
     list_t *maintenance_windows,
     char *policy_id,
-    beater_api_alert_severity__e severity,
+    palette_api_alert_severity__e severity,
     char *signing_secret
     ) {
     alert_policy_t *alert_policy_local_var = malloc(sizeof(alert_policy_t));
@@ -36,7 +36,7 @@ __attribute__((deprecated)) alert_policy_t *alert_policy_create(
     double fire_when_score_at_or_below,
     list_t *maintenance_windows,
     char *policy_id,
-    beater_api_alert_severity__e severity,
+    palette_api_alert_severity__e severity,
     char *signing_secret
     ) {
     return alert_policy_create_internal (
@@ -142,7 +142,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
 
 
     // alert_policy->severity
-    if (beater_api_alert_severity__NULL == alert_policy->severity) {
+    if (palette_api_alert_severity__NULL == alert_policy->severity) {
         goto fail;
     }
     cJSON *severity_local_JSON = alert_severity_convertToJSON(alert_policy->severity);
@@ -179,7 +179,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     list_t *maintenance_windowsList = NULL;
 
     // define the local variable for alert_policy->severity
-    beater_api_alert_severity__e severity_local_nonprim = 0;
+    palette_api_alert_severity__e severity_local_nonprim = 0;
 
     // alert_policy->dedupe_window_seconds
     cJSON *dedupe_window_seconds = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "dedupe_window_seconds");

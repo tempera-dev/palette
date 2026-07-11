@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## experiments_period_run_deterministic_experiment
 
-> models::ExperimentRunReport experiments_period_run_deterministic_experiment(tenant_id, project_id, dataset_id, version_id, run_experiment_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ExperimentRunReport experiments_period_run_deterministic_experiment(tenant_id, project_id, dataset_id, version_id, run_experiment_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -25,9 +25,9 @@ Name | Type | Description  | Required | Notes
 **version_id** | **String** | version_id | [required] |
 **run_experiment_request** | [**RunExperimentRequest**](RunExperimentRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -47,7 +47,7 @@ No authorization required
 
 ## experiments_period_run_judge_experiment
 
-> models::ExperimentRunReport experiments_period_run_judge_experiment(tenant_id, project_id, dataset_id, version_id, run_judge_experiment_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ExperimentRunReport experiments_period_run_judge_experiment(tenant_id, project_id, dataset_id, version_id, run_judge_experiment_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -61,9 +61,9 @@ Name | Type | Description  | Required | Notes
 **version_id** | **String** | version_id | [required] |
 **run_judge_experiment_request** | [**RunJudgeExperimentRequest**](RunJudgeExperimentRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

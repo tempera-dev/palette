@@ -29,7 +29,7 @@ typedef struct review_annotation_t {
     char *reviewer_id; // string
     char *task_id; // string
     char *tenant_id; // string
-    beater_api_review_verdict__e verdict; //referenced enum
+    palette_api_review_verdict__e verdict; //referenced enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } review_annotation_t;
@@ -43,7 +43,7 @@ __attribute__((deprecated)) review_annotation_t *review_annotation_create(
     char *reviewer_id,
     char *task_id,
     char *tenant_id,
-    beater_api_review_verdict__e verdict
+    palette_api_review_verdict__e verdict
 );
 
 void review_annotation_free(review_annotation_t *review_annotation);

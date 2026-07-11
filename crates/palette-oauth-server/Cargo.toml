@@ -1,0 +1,28 @@
+[package]
+name = "palette-oauth-server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+axum.workspace = true
+base64.workspace = true
+palette-accounts = { path = "../palette-accounts" }
+palette-auth = { path = "../palette-auth" }
+palette-core = { path = "../palette-core" }
+palette-oauth = { path = "../palette-oauth" }
+palette-security = { path = "../palette-security" }
+chrono.workspace = true
+http.workspace = true
+percent-encoding.workspace = true
+rand_core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+sha2.workspace = true
+tokio.workspace = true
+tower.workspace = true
+
+[lints]
+workspace = true

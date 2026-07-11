@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.tool_execution import ToolExecution
+from palette_client.models.tool_execution import ToolExecution
 
 # TODO update the JSON string below
 json = "{}"

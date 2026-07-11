@@ -27,7 +27,7 @@ alert_policy_t* instantiate_alert_policy(int include_optional) {
       1.337,
       list_createList(),
       "0",
-      beater_api_alert_policy__info,
+      palette_api_alert_policy__info,
       "0"
     );
   } else {
@@ -37,7 +37,7 @@ alert_policy_t* instantiate_alert_policy(int include_optional) {
       1.337,
       list_createList(),
       "0",
-      beater_api_alert_policy__info,
+      palette_api_alert_policy__info,
       "0"
     );
   }

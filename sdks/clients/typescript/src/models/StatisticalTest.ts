@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -19,7 +19,7 @@
  * t-test result from an exact McNemar, Wilcoxon, bootstrap, cluster-robust, or
  * anytime-valid sequential one. The old single `PairedNormalApproximation`
  * (a hard-coded-z normal approximation with no p-value) is gone — see
- * `beater-stats`.
+ * `palette-stats`.
  * @export
  */
 export const StatisticalTest = {

@@ -3,7 +3,7 @@ set -euo pipefail
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 repo_root="$(cd -- "$script_dir/.." && pwd -P)"
-proof_path="${BEATER_GATE2_OUTSIDE_PROOF:-docs/demos/gate2-outside-person-proof.md}"
+proof_path="${PALETTE_GATE2_OUTSIDE_PROOF:-docs/demos/gate2-outside-person-proof.md}"
 allow_pending=0
 diagnostic=0
 
@@ -91,10 +91,10 @@ FORBIDDEN_EVIDENCE = [
     "http://127.0.0.1:13008",
     "http://127.0.0.1:13080",
     "http://127.0.0.1:14317",
-    "BEATER_DASHBOARD_PORT=",
-    "BEATER_HTTP_PORT=",
-    "BEATER_OTLP_GRPC_PORT=",
-    "BEATER_GATE2_REUSE=1",
+    "PALETTE_DASHBOARD_PORT=",
+    "PALETTE_HTTP_PORT=",
+    "PALETTE_OTLP_GRPC_PORT=",
+    "PALETTE_GATE2_REUSE=1",
     "COMPOSE_FILE=",
     "COMPOSE_PROJECT_NAME=",
     "COMPOSE_PROFILES=",
@@ -102,10 +102,10 @@ FORBIDDEN_EVIDENCE = [
 proof_abs = proof_path
 default_proof_abs = repo / "docs/demos/gate2-outside-person-proof.md"
 ALLOW_UNTRACKED_ARTIFACTS = (
-    os.environ.get("BEATER_GATE2_ALLOW_UNTRACKED_ARTIFACTS") == "1"
+    os.environ.get("PALETTE_GATE2_ALLOW_UNTRACKED_ARTIFACTS") == "1"
     and proof_abs.resolve() != default_proof_abs.resolve()
 )
-REGISTRY_FIXTURE_ENV = "BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS"
+REGISTRY_FIXTURE_ENV = "PALETTE_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS"
 REGISTRY_FIXTURE_TEST_MARKER = ".gate2-registry-fixture-ok-for-tests"
 registry_digest_cache: dict[tuple[str, str], set[str]] = {}
 
@@ -505,7 +505,7 @@ def require_compose_logs_saved(value: str) -> None:
         log_text = read_validated_text(log_path, "`docker compose` logs saved")
         for snippet, description in [
             ("# Gate 2 Compose Logs", "compose log header"),
-            ("Compose project: beater-stopwatch", "canonical Compose project"),
+            ("Compose project: palette-stopwatch", "canonical Compose project"),
             ("Startup mode: prebuilt-image", "prebuilt startup mode"),
             ("Command: docker compose", "compose logs command"),
             ("logs --no-color --timestamps", "timestamped compose logs command"),
@@ -546,7 +546,7 @@ def require_compose_images_excerpt(
         service = image.service
         expected_ref = gate2_image_ref(image.image_name, commit_sha)
         expected_digest = expected_digests[image.image_name]
-        if service in {"beaterd", "dashboard"} and not any(
+        if service in {"paletted", "dashboard"} and not any(
             repo in segment and commit_sha in segment for segment in service_segments
         ):
             fail(
@@ -1065,7 +1065,7 @@ def forbid_alternate_evidence(source_text: str, source_name: str) -> None:
 REQUIRED_PROOF_FIELDS = [
     "Name",
     "Organization or relationship to project",
-    "Prior Beater repo exposure",
+    "Prior Palette repo exposure",
     "Date",
     "Machine and OS",
     "Docker version",
@@ -1079,11 +1079,11 @@ REQUIRED_PROOF_FIELDS = [
     "Branch",
     "Worktree clean",
     "OS/arch",
-    "Beater image reference",
+    "Palette image reference",
     "Dashboard image reference",
     "Dashboard e2e image reference",
     "OTEL Python image reference",
-    "Beater image digest",
+    "Palette image digest",
     "Dashboard image digest",
     "Dashboard e2e image digest",
     "OTEL Python image digest",
@@ -1154,7 +1154,7 @@ if diagnostic_mode and status != "diagnostic.":
 required_snippets = [
     (EXPECTED_OUTSIDE_COMMAND, "fail-fast clone-to-browser command"),
     ("scripts/gate2-outside-run.sh", "canonical outside-run command"),
-    ("BEATER_GATE2_CLONE_STARTED_EPOCH", "clone-to-browser stopwatch command"),
+    ("PALETTE_GATE2_CLONE_STARTED_EPOCH", "clone-to-browser stopwatch command"),
     ("http://127.0.0.1:3000", "default dashboard URL"),
     ("Time-to-first-trace was 300 seconds or less", "first-trace checklist item"),
     ("Time-to-first-trace includes clone time", "clone-inclusive timing checklist item"),
@@ -1188,7 +1188,7 @@ if proof_abs.resolve() == default_proof_abs.resolve():
 CONCRETE_REQUIRED_FIELDS = {
     "Name",
     "Organization or relationship to project",
-    "Prior Beater repo exposure",
+    "Prior Palette repo exposure",
     "Machine and OS",
     "Browser",
     "Network notes",
@@ -1209,13 +1209,13 @@ def require_date_field(name: str, value: str, source_name: str) -> Optional[dt.d
 def contradiction_text(value: str) -> str:
     cleaned = value.lower()
     negated_patterns = [
-        r"\bnot\s+(?:a\s+|an\s+)?(?:beater\s+project\s+)?maintainer\b",
-        r"\bno\s+(?:beater\s+)?maintainer\s+role\b",
+        r"\bnot\s+(?:a\s+|an\s+)?(?:palette\s+project\s+)?maintainer\b",
+        r"\bno\s+(?:palette\s+)?maintainer\s+role\b",
         r"\bnot\s+(?:an\s+)?internal\b",
         r"\bnot\s+(?:an\s+)?employee\b",
         r"\bnot\s+(?:a\s+)?founder\b",
-        r"\bno\s+(?:beater\s+team|project\s+team)\s+role\b",
-        r"\bnot\s+(?:on|part\s+of)\s+(?:the\s+)?(?:beater\s+team|project\s+team)\b",
+        r"\bno\s+(?:palette\s+team|project\s+team)\s+role\b",
+        r"\bnot\s+(?:on|part\s+of)\s+(?:the\s+)?(?:palette\s+team|project\s+team)\b",
     ]
     for pattern in negated_patterns:
         cleaned = re.sub(pattern, "", cleaned)
@@ -1236,7 +1236,7 @@ for field in REQUIRED_PROOF_FIELDS:
     if (
         field in CONCRETE_REQUIRED_FIELDS
         and normalized_value == "none"
-        and field != "Prior Beater repo exposure"
+        and field != "Prior Palette repo exposure"
     ):
         unresolved_fields.append(field)
 if unresolved_fields:
@@ -1255,14 +1255,14 @@ if preflight_status != "passed":
     fail("Preflight status must be passed")
 
 relationship = contradiction_text(field_value("Organization or relationship to project"))
-prior_exposure = contradiction_text(field_value("Prior Beater repo exposure"))
+prior_exposure = contradiction_text(field_value("Prior Palette repo exposure"))
 if not diagnostic_mode:
     for outside_contradiction in [
         "maintainer",
         "internal",
         "employee",
         "founder",
-        "beater team",
+        "palette team",
         "project team",
     ]:
         if outside_contradiction in relationship or outside_contradiction in prior_exposure:
@@ -1581,14 +1581,14 @@ if stopwatch_text:
     for field, expected in [
         ("Clean start", "yes"),
         ("Startup mode", "prebuilt-image"),
-        ("Reuse override", "BEATER_GATE2_REUSE=0"),
+        ("Reuse override", "PALETTE_GATE2_REUSE=0"),
         ("Outside-run wrapper", "yes"),
         ("Timing start source", "external-clone"),
         ("Git branch", "main"),
         ("Git origin", EXPECTED_CLONE_URL),
         ("Git worktree clean", "yes"),
         ("Prebuilt pull policy", "always"),
-        ("Compose project", "beater-stopwatch"),
+        ("Compose project", "palette-stopwatch"),
         ("Quickstart browser proof", "passed"),
         ("All-kind waterfall browser proof", "passed"),
         ("Redaction browser proof", "passed"),

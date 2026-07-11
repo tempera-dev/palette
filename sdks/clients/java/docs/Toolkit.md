@@ -2,7 +2,7 @@
 
 # Toolkit
 
-A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Beater exposes.
+A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Palette exposes.
 
 ## Properties
 

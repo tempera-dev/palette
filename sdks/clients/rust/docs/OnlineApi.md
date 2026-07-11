@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## online_period_decide_online_sampling
 
-> models::SamplingDecision online_period_decide_online_sampling(tenant_id, project_id, trace_id, online_sampling_policy, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::SamplingDecision online_period_decide_online_sampling(tenant_id, project_id, trace_id, online_sampling_policy, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -23,9 +23,9 @@ Name | Type | Description  | Required | Notes
 **trace_id** | **String** | trace_id | [required] |
 **online_sampling_policy** | [**OnlineSamplingPolicy**](OnlineSamplingPolicy.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

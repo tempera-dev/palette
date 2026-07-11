@@ -1,0 +1,29 @@
+[package]
+name = "palette-judge"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+async-trait.workspace = true
+palette-core = { path = "../palette-core" }
+palette-eval = { path = "../palette-eval" }
+palette-schema = { path = "../palette-schema" }
+palette-secrets = { path = "../palette-secrets" }
+palette-store = { path = "../palette-store" }
+chrono.workspace = true
+rusqlite.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+axum.workspace = true
+
+[lints]
+workspace = true

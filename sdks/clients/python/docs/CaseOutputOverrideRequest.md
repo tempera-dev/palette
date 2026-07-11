@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.case_output_override_request import CaseOutputOverrideRequest
+from palette_client.models.case_output_override_request import CaseOutputOverrideRequest
 
 # TODO update the JSON string below
 json = "{}"

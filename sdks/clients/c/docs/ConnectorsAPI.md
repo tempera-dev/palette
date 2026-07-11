@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **ConnectorsAPI_connectorsConnectConnector**
 ```c
-connection_link_t* ConnectorsAPI_connectorsConnectConnector(apiClient_t *apiClient, char *tenant_id, char *project_id, connect_connector_request_t *connect_connector_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+connection_link_t* ConnectorsAPI_connectorsConnectConnector(apiClient_t *apiClient, char *tenant_id, char *project_id, connect_connector_request_t *connect_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -25,9 +25,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **connect_connector_request** | **[connect_connector_request_t](connect_connector_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -47,7 +47,7 @@ No authorization required
 
 # **ConnectorsAPI_connectorsConnectorStatus**
 ```c
-connection_status_t* ConnectorsAPI_connectorsConnectorStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+connection_status_t* ConnectorsAPI_connectorsConnectorStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -58,9 +58,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **toolkit** | **char \*** | Toolkit slug to scope the request to. |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -80,7 +80,7 @@ No authorization required
 
 # **ConnectorsAPI_connectorsGetConnectorSkills**
 ```c
-connector_skills_response_t* ConnectorsAPI_connectorsGetConnectorSkills(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+connector_skills_response_t* ConnectorsAPI_connectorsGetConnectorSkills(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -91,9 +91,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **toolkit** | **char \*** | Toolkit slug to scope the request to. |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -113,7 +113,7 @@ No authorization required
 
 # **ConnectorsAPI_connectorsInvokeConnectorTool**
 ```c
-tool_execution_t* ConnectorsAPI_connectorsInvokeConnectorTool(apiClient_t *apiClient, char *tenant_id, char *project_id, invoke_connector_request_t *invoke_connector_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+tool_execution_t* ConnectorsAPI_connectorsInvokeConnectorTool(apiClient_t *apiClient, char *tenant_id, char *project_id, invoke_connector_request_t *invoke_connector_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -124,9 +124,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **invoke_connector_request** | **[invoke_connector_request_t](invoke_connector_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -146,7 +146,7 @@ No authorization required
 
 # **ConnectorsAPI_connectorsListConnectorTools**
 ```c
-list_t* ConnectorsAPI_connectorsListConnectorTools(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, int *limit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+list_t* ConnectorsAPI_connectorsListConnectorTools(apiClient_t *apiClient, char *tenant_id, char *project_id, char *toolkit, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -158,9 +158,9 @@ Name | Type | Description  | Notes
 **toolkit** | **char \*** | Toolkit slug to list tools for. |
 **limit** | **int \*** | Maximum number of tools to return (page size). | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -180,7 +180,7 @@ No authorization required
 
 # **ConnectorsAPI_connectorsListConnectors**
 ```c
-list_t* ConnectorsAPI_connectorsListConnectors(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+list_t* ConnectorsAPI_connectorsListConnectors(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -191,9 +191,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **limit** | **int \*** | Maximum number of apps to return (page size). | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 

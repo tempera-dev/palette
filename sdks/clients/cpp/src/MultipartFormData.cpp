@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -9,8 +9,8 @@
  * Do not edit the class manually.
  */
 
-#include "beater-client/MultipartFormData.h"
-#include "beater-client/ModelBase.h"
+#include "palette-client/MultipartFormData.h"
+#include "palette-client/ModelBase.h"
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>

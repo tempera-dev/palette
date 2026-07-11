@@ -18,22 +18,22 @@ typedef struct span_io_value_one_of_3_t span_io_value_one_of_3_t;
 
 // Enum KIND for span_io_value_one_of_3
 
-typedef enum  { beater_api_span_io_value_one_of_3_KIND_NULL = 0, beater_api_span_io_value_one_of_3_KIND_missing } beater_api_span_io_value_one_of_3_KIND_e;
+typedef enum  { palette_api_span_io_value_one_of_3_KIND_NULL = 0, palette_api_span_io_value_one_of_3_KIND_missing } palette_api_span_io_value_one_of_3_KIND_e;
 
-char* span_io_value_one_of_3_kind_ToString(beater_api_span_io_value_one_of_3_KIND_e kind);
+char* span_io_value_one_of_3_kind_ToString(palette_api_span_io_value_one_of_3_KIND_e kind);
 
-beater_api_span_io_value_one_of_3_KIND_e span_io_value_one_of_3_kind_FromString(char* kind);
+palette_api_span_io_value_one_of_3_KIND_e span_io_value_one_of_3_kind_FromString(char* kind);
 
 
 
 typedef struct span_io_value_one_of_3_t {
-    beater_api_span_io_value_one_of_3_KIND_e kind; //enum
+    palette_api_span_io_value_one_of_3_KIND_e kind; //enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } span_io_value_one_of_3_t;
 
 __attribute__((deprecated)) span_io_value_one_of_3_t *span_io_value_one_of_3_create(
-    beater_api_span_io_value_one_of_3_KIND_e kind
+    palette_api_span_io_value_one_of_3_KIND_e kind
 );
 
 void span_io_value_one_of_3_free(span_io_value_one_of_3_t *span_io_value_one_of_3);

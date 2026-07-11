@@ -25,14 +25,14 @@ submit_review_annotation_http_request_t* instantiate_submit_review_annotation_ht
       "0",
       null,
       "0",
-      beater_api_submit_review_annotation_http_request__pass
+      palette_api_submit_review_annotation_http_request__pass
     );
   } else {
     submit_review_annotation_http_request = submit_review_annotation_http_request_create(
       "0",
       null,
       "0",
-      beater_api_submit_review_annotation_http_request__pass
+      palette_api_submit_review_annotation_http_request__pass
     );
   }
 

@@ -1,0 +1,23 @@
+[package]
+name = "palette-auth"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+async-trait.workspace = true
+palette-core = { path = "../palette-core" }
+palette-security = { path = "../palette-security" }
+palette-store = { path = "../palette-store" }
+chrono.workspace = true
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+
+[lints]
+workspace = true

@@ -3,14 +3,14 @@ import { test } from "node:test";
 
 import { InMemorySpanExporter } from "@opentelemetry/sdk-trace-base";
 
-import * as beater from "../src/index";
+import * as palette from "../src/index";
 import { Attr, SpanKind, SPAN_KINDS } from "../src/semconv";
 import { wrapOpenAI } from "../src/providers/openai";
 import { wrapAnthropic } from "../src/providers/anthropic";
 
 // OTel's global registration is process-wide, so init() once and reset between tests.
 const exporter = new InMemorySpanExporter();
-beater.init({ tenantId: "t", projectId: "p", environmentId: "e", releaseId: "rel-1", exporter });
+palette.init({ tenantId: "t", projectId: "p", environmentId: "e", releaseId: "rel-1", exporter });
 
 function setup(): InMemorySpanExporter {
   exporter.reset();
@@ -25,13 +25,13 @@ function byName(spans: ReturnType<InMemorySpanExporter["getFinishedSpans"]>, nam
 
 test("observe records kind, release, and output", async () => {
   const exporter = setup();
-  const call = beater.observe(async (prompt: string) => `answer:${prompt}`, {
+  const call = palette.observe(async (prompt: string) => `answer:${prompt}`, {
     kind: SpanKind.LLM_CALL,
     name: "call",
   });
   const result = await call("hi");
   assert.equal(result, "answer:hi");
-  await beater.flush();
+  await palette.flush();
 
   const span = byName(exporter.getFinishedSpans(), "call");
   assert.equal(span.attributes[Attr.SPAN_KIND], SpanKind.LLM_CALL);
@@ -41,14 +41,14 @@ test("observe records kind, release, and output", async () => {
 
 test("observe records errors", async () => {
   const exporter = setup();
-  const boom = beater.observe(
+  const boom = palette.observe(
     async () => {
       throw new Error("nope");
     },
     { name: "boom" },
   );
   await assert.rejects(boom());
-  await beater.flush();
+  await palette.flush();
   const span = byName(exporter.getFinishedSpans(), "boom");
   assert.equal(span.status.code, 2 /* ERROR */);
 });
@@ -68,7 +68,7 @@ test("wrapOpenAI emits llm.call span with tokens", async () => {
   } as any);
 
   await client.chat.completions.create({ model: "gpt-4.1", messages: [{ role: "user", content: "hi" }] });
-  await beater.flush();
+  await palette.flush();
 
   const span = byName(exporter.getFinishedSpans(), "openai.chat.completions.create");
   assert.equal(span.attributes[Attr.LLM_PROVIDER], "openai");
@@ -79,7 +79,7 @@ test("wrapOpenAI emits llm.call span with tokens", async () => {
 });
 
 test("instrument reports missing optional provider modules", () => {
-  const result = beater.instrument({
+  const result = palette.instrument({
     providers: ["openai", "anthropic"],
     modules: { openai: null, anthropic: null },
   });
@@ -119,7 +119,7 @@ test("instrument monkeypatches OpenAI constructors", async () => {
   }
 
   const providerModule: any = { default: MockOpenAI, OpenAI: MockOpenAI };
-  const result = beater.instrument({ providers: ["openai"], modules: { openai: providerModule } });
+  const result = palette.instrument({ providers: ["openai"], modules: { openai: providerModule } });
 
   assert.deepEqual(result.providers, ["openai"]);
   assert.equal(result.skipped.length, 0);
@@ -128,7 +128,7 @@ test("instrument monkeypatches OpenAI constructors", async () => {
   assert.ok(client instanceof MockOpenAI);
   await client.chat.completions.create({ model: "gpt-4.1", messages: [{ role: "user", content: "hi" }] });
   await client.responses.create({ model: "gpt-4.1", input: "hi" });
-  await beater.flush();
+  await palette.flush();
 
   const spans = exporter.getFinishedSpans();
   const span = byName(spans, "openai.chat.completions.create");
@@ -153,7 +153,7 @@ test("instrument monkeypatches Anthropic constructors", async () => {
   }
 
   const providerModule: any = { default: MockAnthropic, Anthropic: MockAnthropic };
-  const result = beater.instrument({ providers: ["anthropic"], modules: { anthropic: providerModule } });
+  const result = palette.instrument({ providers: ["anthropic"], modules: { anthropic: providerModule } });
 
   assert.deepEqual(result.providers, ["anthropic"]);
   assert.equal(result.skipped.length, 0);
@@ -161,7 +161,7 @@ test("instrument monkeypatches Anthropic constructors", async () => {
   const client = new providerModule.default();
   assert.ok(client instanceof MockAnthropic);
   await client.messages.create({ model: "claude-3-5-sonnet", messages: [{ role: "user", content: "hi" }] });
-  await beater.flush();
+  await palette.flush();
 
   const span = byName(exporter.getFinishedSpans(), "anthropic.messages.create");
   assert.equal(span.attributes[Attr.LLM_PROVIDER], "anthropic");
@@ -204,7 +204,7 @@ test("wrapOpenAI keeps streaming span open until chunks are consumed", async () 
   for await (const _chunk of response) {
     // consume the stream
   }
-  await beater.flush();
+  await palette.flush();
 
   const span = byName(exporter.getFinishedSpans(), "openai.chat.completions.create");
   assert.equal(span.attributes[Attr.LLM_TOKEN_PROMPT], 3);
@@ -238,7 +238,7 @@ test("wrapAnthropic captures streaming text and tool use", async () => {
   for await (const _event of response) {
     // consume the stream
   }
-  await beater.flush();
+  await palette.flush();
 
   const span = byName(exporter.getFinishedSpans(), "anthropic.messages.create");
   assert.equal(span.attributes[Attr.LLM_PROVIDER], "anthropic");

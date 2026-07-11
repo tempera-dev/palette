@@ -46,7 +46,7 @@ export default async function SearchPage({
           </div>
           <div className="product-copy">
             <p className="eyebrow">
-              Beater
+              Palette
               <span>Crate Dig</span>
             </p>
             <h1>Span Search</h1>

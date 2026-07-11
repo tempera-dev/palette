@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.archive_query_response import ArchiveQueryResponse
+from palette_client.models.archive_query_response import ArchiveQueryResponse
 
 # TODO update the JSON string below
 json = "{}"

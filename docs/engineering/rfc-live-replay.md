@@ -8,10 +8,10 @@ Companion issues: #216, #236, #239, #240, #243, #244, #245
 Live replay should be an append-only, durable event log first and a browser stream
 second. The stream is only a delivery adapter over persisted run/session events.
 That keeps replay honest: a client that disconnects, opens late, or watches after
-`beaterd` restarts gets the same ordered history instead of whatever happened to
+`paletted` restarts gets the same ordered history instead of whatever happened to
 be in memory.
 
-This matches Beater's core constraints:
+This matches Palette's core constraints:
 
 - one Rust binary first
 - no cloud dependency in OSS
@@ -25,7 +25,7 @@ This matches Beater's core constraints:
   `text/event-stream`, with event fields such as `event`, `data`, `id`, and
   reconnection behavior: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
 - axum exposes SSE through `axum::response::sse::{Sse, Event, KeepAlive}`, which
-  fits Beater's existing axum API stack: https://docs.rs/axum/latest/axum/response/sse/index.html
+  fits Palette's existing axum API stack: https://docs.rs/axum/latest/axum/response/sse/index.html
 - Tokio's broadcast channel is useful for best-effort fanout to current
   subscribers, but it is not a durable log and must not be the source of truth:
   https://docs.rs/tokio/latest/tokio/sync/broadcast/index.html
@@ -37,7 +37,7 @@ This matches Beater's core constraints:
   proxy auth-sensitive stream requests if needed:
   https://nextjs.org/docs/app/api-reference/directives/use-client and
   https://nextjs.org/docs/app/api-reference/file-conventions/route
-- AG-UI is converging on event-shaped agent UI integration. Beater should keep a
+- AG-UI is converging on event-shaped agent UI integration. Palette should keep a
   native event model and map to AG-UI later instead of making AG-UI a storage
   dependency: https://github.com/ag-ui-protocol/ag-ui
 
@@ -45,10 +45,10 @@ This matches Beater's core constraints:
 
 Built:
 
-- `beaterd` already serves the API with axum.
-- `crates/beater-replay` has persisted replay events, cassette construction, and
+- `paletted` already serves the API with axum.
+- `crates/palette-replay` has persisted replay events, cassette construction, and
   deterministic/forked replay planning primitives.
-- `crates/beater-api` exposes trace list/get/span read APIs and auth/redaction
+- `crates/palette-api` exposes trace list/get/span read APIs and auth/redaction
   flows for static reads.
 - The dashboard renders a trace waterfall and already has redaction-oriented
   tests.
@@ -130,7 +130,7 @@ lr_<trace_id>_<zero_padded_seq>_<content_hash_prefix>
 
 ## Storage and fanout
 
-Add a small `beater-live` crate or a `beater-replay::live` module. Prefer a crate
+Add a small `palette-live` crate or a `palette-replay::live` module. Prefer a crate
 once the API, CLI, and dashboard all depend on the type.
 
 Core trait:
@@ -178,7 +178,7 @@ Runtime fanout:
 - A bounded Tokio broadcast channel per active trace/session can wake subscribers.
 - If a receiver lags, it must reconnect/backfill from `LiveReplayStore`.
 - Ingest and replay code must not block on a subscriber.
-- `beaterd` restart loses only in-memory fanout, not stream history.
+- `paletted` restart loses only in-memory fanout, not stream history.
 
 ## API contract
 
@@ -246,8 +246,8 @@ should use virtualized rows before the UI claims readiness for production.
 Add:
 
 ```bash
-beaterctl trace tail --tenant demo --project demo --trace <id>
-beaterctl session watch --tenant demo --project demo --session <id>
+palettectl trace tail --tenant demo --project demo --trace <id>
+palettectl session watch --tenant demo --project demo --session <id>
 ```
 
 CLI behavior:
@@ -278,11 +278,11 @@ API tests:
 
 Runtime smoke:
 
-- start `beaterd`
+- start `paletted`
 - emit a delayed multi-span run
 - subscribe before completion
 - prove the stream receives intermediate events before `run.completed`
-- kill/restart `beaterd`
+- kill/restart `paletted`
 - reconnect from last id and receive the missing suffix
 
 Dashboard E2E:
@@ -295,7 +295,7 @@ Dashboard E2E:
 
 CLI E2E:
 
-- `beaterctl trace tail` prints event order
+- `palettectl trace tail` prints event order
 - reconnect resumes without duplicates
 - `--follow=false` exits after backfill
 
@@ -329,7 +329,7 @@ CLI E2E:
 ## Non-goals for the first implementation
 
 - WebSockets. SSE fits current Vercel/Rust-cell constraints and browser needs.
-- Cross-region fanout. The first OSS implementation is single `beaterd`.
+- Cross-region fanout. The first OSS implementation is single `paletted`.
 - Making AG-UI a storage dependency.
 - Re-executing live tools during replay without the side-effect safety contract
   tracked in #141.

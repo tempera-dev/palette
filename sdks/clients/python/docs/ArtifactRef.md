@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.artifact_ref import ArtifactRef
+from palette_client.models.artifact_ref import ArtifactRef
 
 # TODO update the JSON string below
 json = "{}"

@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.evaluation_case import EvaluationCase
+from palette_client.models.evaluation_case import EvaluationCase
 
 # TODO update the JSON string below
 json = "{}"

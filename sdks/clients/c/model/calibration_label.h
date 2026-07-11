@@ -18,15 +18,15 @@ typedef struct calibration_label_t calibration_label_t;
 
 // Enum  for calibration_label
 
-typedef enum { beater_api_calibration_label__NULL = 0, beater_api_calibration_label__pass, beater_api_calibration_label__fail } beater_api_calibration_label__e;
+typedef enum { palette_api_calibration_label__NULL = 0, palette_api_calibration_label__pass, palette_api_calibration_label__fail } palette_api_calibration_label__e;
 
-char* calibration_label_calibration_label_ToString(beater_api_calibration_label__e calibration_label);
+char* calibration_label_calibration_label_ToString(palette_api_calibration_label__e calibration_label);
 
-beater_api_calibration_label__e calibration_label_calibration_label_FromString(char* calibration_label);
+palette_api_calibration_label__e calibration_label_calibration_label_FromString(char* calibration_label);
 
-cJSON *calibration_label_convertToJSON(beater_api_calibration_label__e calibration_label);
+cJSON *calibration_label_convertToJSON(palette_api_calibration_label__e calibration_label);
 
-beater_api_calibration_label__e calibration_label_parseFromJSON(cJSON *calibration_labelJSON);
+palette_api_calibration_label__e calibration_label_parseFromJSON(cJSON *calibration_labelJSON);
 
 #endif /* _calibration_label_H_ */
 

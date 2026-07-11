@@ -1,7 +1,7 @@
 {
-  "name": "@beater/sdk",
+  "name": "@palette/sdk",
   "version": "0.1.0",
-  "description": "Ergonomic agent observability SDK for Beater (OpenTelemetry-native)",
+  "description": "Ergonomic agent observability SDK for Palette (OpenTelemetry-native)",
   "license": "Apache-2.0",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -27,6 +27,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/beater/beater"
+    "url": "https://github.com/palette/palette"
   }
 }

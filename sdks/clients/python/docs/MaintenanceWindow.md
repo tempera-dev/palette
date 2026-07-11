@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.maintenance_window import MaintenanceWindow
+from palette_client.models.maintenance_window import MaintenanceWindow
 
 # TODO update the JSON string below
 json = "{}"

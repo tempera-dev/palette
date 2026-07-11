@@ -11,9 +11,9 @@ const FORWARD_REQUEST_HEADERS = [
   "last-event-id",
   "mcp-protocol-version",
   "mcp-session-id",
-  "x-beater-api-key",
-  "x-beater-environment-id",
-  "x-beater-project-id",
+  "x-palette-api-key",
+  "x-palette-environment-id",
+  "x-palette-project-id",
 ];
 
 const FORWARD_RESPONSE_HEADERS = [

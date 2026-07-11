@@ -44,7 +44,7 @@ type Constructor = new (...args: any[]) => any;
 type ClientWrapper = <T extends Record<string, any>>(client: T) => T;
 
 const DEFAULT_PROVIDERS: InstrumentProvider[] = ["openai", "anthropic"];
-const CONSTRUCTOR_MARK = Symbol.for("@beater/sdk.auto.constructor");
+const CONSTRUCTOR_MARK = Symbol.for("@palette/sdk.auto.constructor");
 
 const MODULE_IDS: Record<InstrumentProvider, string[]> = {
   openai: ["openai"],
@@ -111,7 +111,7 @@ function wrapConstructor(original: Constructor, wrapClient: ClientWrapper): Cons
   const existing = (original as any)[CONSTRUCTOR_MARK];
   if (existing) return existing;
 
-  const wrapped = function BeaterInstrumentedProvider(this: unknown, ...args: any[]) {
+  const wrapped = function PaletteInstrumentedProvider(this: unknown, ...args: any[]) {
     const instance = Reflect.construct(original, args, new.target ?? wrapped);
     return wrapClient(instance);
   } as unknown as Constructor;
@@ -170,7 +170,7 @@ function patchProviderExports(provider: InstrumentProvider, loaded: LoadedModule
 
 /**
  * Patch installed provider SDK constructors so clients created after this call
- * are wrapped with Beater spans. Missing optional dependencies are skipped.
+ * are wrapped with Palette spans. Missing optional dependencies are skipped.
  */
 export function instrument(options: InstrumentOptions = {}): InstrumentResult {
   const providers = options.providers ?? DEFAULT_PROVIDERS;

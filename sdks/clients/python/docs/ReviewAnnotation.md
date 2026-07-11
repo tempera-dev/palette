@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.review_annotation import ReviewAnnotation
+from palette_client.models.review_annotation import ReviewAnnotation
 
 # TODO update the JSON string below
 json = "{}"

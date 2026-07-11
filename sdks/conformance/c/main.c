@@ -2,7 +2,7 @@
  * Live conformance for the GENERATED C control-plane client.
  *
  * This links the generated client sources directly (HealthAPI + apiClient +
- * cJSON + health_response model) and drives them against a live beaterd:
+ * cJSON + health_response model) and drives them against a live paletted:
  *   - GET /health via the generated HealthAPI_health() -> typed health_response_t
  *
  * createDataset/listTraces are exercised over raw libcurl below (clearly
@@ -66,10 +66,10 @@ static long http_get(const char *url, struct buf *out) {
 }
 
 int main(void) {
-    const char *base = getenv("BEATER_BASE_URL");
-    if (!base) { fprintf(stderr, "FAIL: BEATER_BASE_URL unset\n"); return 1; }
-    const char *tenant = getenv("BEATER_TENANT");  if (!tenant)  tenant = "demo";
-    const char *project = getenv("BEATER_PROJECT"); if (!project) project = "demo";
+    const char *base = getenv("PALETTE_BASE_URL");
+    if (!base) { fprintf(stderr, "FAIL: PALETTE_BASE_URL unset\n"); return 1; }
+    const char *tenant = getenv("PALETTE_TENANT");  if (!tenant)  tenant = "demo";
+    const char *project = getenv("PALETTE_PROJECT"); if (!project) project = "demo";
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
 

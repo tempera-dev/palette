@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_calibration_http_request import RunCalibrationHttpRequest
+from palette_client.models.run_calibration_http_request import RunCalibrationHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

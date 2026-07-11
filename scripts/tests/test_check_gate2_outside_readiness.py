@@ -54,19 +54,19 @@ def test_current_compose_files_pass() -> None:
     with_temp_contract(lambda module, _: module.require_compose_default_path_contract())
 
 
-def test_dashboard_api_must_stay_on_beaterd() -> None:
+def test_dashboard_api_must_stay_on_paletted() -> None:
     def run(module, temp_root: Path) -> None:
         compose = temp_root / "docker-compose.yml"
         compose.write_text(
             compose.read_text().replace(
-                "BEATER_API_BASE_URL: http://beaterd:8080",
-                "BEATER_API_BASE_URL: https://api.beater.cloud",
+                "PALETTE_API_BASE_URL: http://paletted:8080",
+                "PALETTE_API_BASE_URL: https://api.palette.cloud",
             )
         )
         expect_failure(
             "dashboard backend URL",
             module.require_compose_default_path_contract,
-            "BEATER_API_BASE_URL=http://beaterd:8080",
+            "PALETTE_API_BASE_URL=http://paletted:8080",
         )
 
     with_temp_contract(run)
@@ -77,32 +77,32 @@ def test_browser_api_must_stay_localhost() -> None:
         compose = temp_root / "docker-compose.prebuilt.yml"
         compose.write_text(
             compose.read_text().replace(
-                "NEXT_PUBLIC_BEATER_API_BASE_URL: http://localhost:${BEATER_HTTP_PORT:-8080}",
-                "NEXT_PUBLIC_BEATER_API_BASE_URL: https://beater.vercel.app",
+                "NEXT_PUBLIC_PALETTE_API_BASE_URL: http://localhost:${PALETTE_HTTP_PORT:-8080}",
+                "NEXT_PUBLIC_PALETTE_API_BASE_URL: https://palette.vercel.app",
             )
         )
         expect_failure(
             "browser URL",
             module.require_compose_default_path_contract,
-            "NEXT_PUBLIC_BEATER_API_BASE_URL=http://localhost",
+            "NEXT_PUBLIC_PALETTE_API_BASE_URL=http://localhost",
         )
 
     with_temp_contract(run)
 
 
-def test_beaterctl_must_use_local_http_and_otlp() -> None:
+def test_palettectl_must_use_local_http_and_otlp() -> None:
     def run(module, temp_root: Path) -> None:
         compose = temp_root / "docker-compose.yml"
         compose.write_text(
             compose.read_text().replace(
-                '"http://beaterd:4317"',
-                '"https://otel.beater.cloud"',
+                '"http://paletted:4317"',
+                '"https://otel.palette.cloud"',
             )
         )
         expect_failure(
-            "beaterctl OTLP URL",
+            "palettectl OTLP URL",
             module.require_compose_default_path_contract,
-            "http://beaterd:4317",
+            "http://paletted:4317",
         )
 
     with_temp_contract(run)
@@ -111,9 +111,9 @@ def test_beaterctl_must_use_local_http_and_otlp() -> None:
 def main() -> None:
     for test in (
         test_current_compose_files_pass,
-        test_dashboard_api_must_stay_on_beaterd,
+        test_dashboard_api_must_stay_on_paletted,
         test_browser_api_must_stay_localhost,
-        test_beaterctl_must_use_local_http_and_otlp,
+        test_palettectl_must_use_local_http_and_otlp,
     ):
         test()
     print("check-gate2-outside-readiness compose endpoint tests passed.")

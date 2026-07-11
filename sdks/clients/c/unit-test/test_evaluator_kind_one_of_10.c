@@ -22,11 +22,11 @@ evaluator_kind_one_of_10_t* instantiate_evaluator_kind_one_of_10(int include_opt
   evaluator_kind_one_of_10_t* evaluator_kind_one_of_10 = NULL;
   if (include_optional) {
     evaluator_kind_one_of_10 = evaluator_kind_one_of_10_create(
-      beater_api_evaluator_kind_one_of_10_TYPE_browser_recovery
+      palette_api_evaluator_kind_one_of_10_TYPE_browser_recovery
     );
   } else {
     evaluator_kind_one_of_10 = evaluator_kind_one_of_10_create(
-      beater_api_evaluator_kind_one_of_10_TYPE_browser_recovery
+      palette_api_evaluator_kind_one_of_10_TYPE_browser_recovery
     );
   }
 

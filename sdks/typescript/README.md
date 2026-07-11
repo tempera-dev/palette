@@ -1,24 +1,24 @@
-# Beater TypeScript SDK
+# Palette TypeScript SDK
 
-Ergonomic OpenTelemetry-native instrumentation for Beater.
+Ergonomic OpenTelemetry-native instrumentation for Palette.
 
 ```ts
-import * as beater from "@beater/sdk";
+import * as palette from "@palette/sdk";
 
-beater.init({
+palette.init({
   tenantId: "acme",
   projectId: "support-bot",
   environmentId: "prod",
 });
 
-beater.instrument({ providers: ["openai", "anthropic"] });
+palette.instrument({ providers: ["openai", "anthropic"] });
 ```
 
 `instrument()` monkeypatches installed provider SDK constructors so clients
 created after the call are wrapped automatically:
 
 ```ts
-beater.instrument({ providers: ["openai"] });
+palette.instrument({ providers: ["openai"] });
 
 const OpenAI = require("openai");
 const openai = new OpenAI();
@@ -41,7 +41,7 @@ throwing. The direct wrappers remain available when you already have a client
 instance:
 
 ```ts
-const wrapped = beater.wrapOpenAI(existingOpenAIClient);
+const wrapped = palette.wrapOpenAI(existingOpenAIClient);
 ```
 
 Call `instrument()` before constructing provider clients. For the broadest
@@ -49,13 +49,13 @@ CommonJS monkeypatch coverage, call it before importing provider SDKs.
 
 ## Vercel AI SDK
 
-The AI SDK emits OpenTelemetry spans when telemetry is enabled on a request. Beater
+The AI SDK emits OpenTelemetry spans when telemetry is enabled on a request. Palette
 can ingest those spans through the same OTLP pipeline as the rest of the SDK.
 
 ```ts
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { withVercelAiTelemetry } from "@beater/sdk";
+import { withVercelAiTelemetry } from "@palette/sdk";
 
 const result = await generateText(
   withVercelAiTelemetry(
@@ -77,7 +77,7 @@ withVercelAiTelemetry(request, { optionName: "telemetry" });
 ## Integration Registry
 
 ```ts
-import { availableIntegrations, plannedIntegrations } from "@beater/sdk";
+import { availableIntegrations, plannedIntegrations } from "@palette/sdk";
 
 availableIntegrations().map((spec) => spec.slug);
 plannedIntegrations().map((spec) => spec.slug);

@@ -4,8 +4,8 @@ import { gate2ConfirmationCode } from "../../lib/gate2-confirmation";
 import { expectTokenBreakdown } from "./token-breakdown";
 
 test("renders the five-line stock OTLP quickstart trace in a browser", async ({ page }) => {
-  const traceId = process.env.BEATER_E2E_QUICKSTART_TRACE_ID;
-  const release = process.env.BEATER_E2E_QUICKSTART_RELEASE;
+  const traceId = process.env.PALETTE_E2E_QUICKSTART_TRACE_ID;
+  const release = process.env.PALETTE_E2E_QUICKSTART_RELEASE;
   const releaseParam = release ? `&release=${encodeURIComponent(release)}` : "";
   await page.goto(
     `/?tenant=demo&project=demo&environment=local&kind=llm.call&model=gpt-quickstart${releaseParam}`
@@ -98,5 +98,5 @@ test("renders the five-line stock OTLP quickstart trace in a browser", async ({ 
     "redacted by policy"
   );
   await expect(detail).not.toContainText("hello from stock OpenTelemetry");
-  await expect(detail).not.toContainText("hello from Beater");
+  await expect(detail).not.toContainText("hello from Palette");
 });

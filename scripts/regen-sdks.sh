@@ -2,7 +2,7 @@
 # Regenerate the OpenAPI spec and every control-plane SDK from it.
 #
 # This is the heart of the zero-drift guarantee: ONE spec
-# (sdks/openapi/beater-api.json) is generated from the Rust handlers, and every
+# (sdks/openapi/palette-api.json) is generated from the Rust handlers, and every
 # Layer-1 client is generated from that spec. Run after any API change, then
 # commit the result. CI runs `--check` to fail on drift.
 #
@@ -23,8 +23,8 @@ trap cleanup EXIT
 
 # Pin the generator for reproducible output.
 GENERATOR_IMAGE="openapitools/openapi-generator-cli:v7.11.0"
-GENERATOR_JAR="${BEATER_OPENAPI_GENERATOR_JAR:-}"
-SPEC="sdks/openapi/beater-api.json"
+GENERATOR_JAR="${PALETTE_OPENAPI_GENERATOR_JAR:-}"
+SPEC="sdks/openapi/palette-api.json"
 LANGS=(rust python typescript go java c cpp)
 
 CHECK_MODE=0
@@ -52,10 +52,10 @@ check_target_drifted() {
 
 check_snapshot=""
 if [[ "$CHECK_MODE" == "1" ]]; then
-  check_snapshot="$(mktemp -d "${TMPDIR:-/tmp}/beater-sdk-check-before.XXXXXX")"
+  check_snapshot="$(mktemp -d "${TMPDIR:-/tmp}/palette-sdk-check-before.XXXXXX")"
   cleanup_paths+=("$check_snapshot")
   snapshot_check_target "$SPEC"
-  snapshot_check_target "web/dashboard/openapi/beater-read-api.json"
+  snapshot_check_target "web/dashboard/openapi/palette-read-api.json"
   snapshot_check_target "sdks/clients"
 fi
 
@@ -85,19 +85,19 @@ normalize_generated_markdown_files() {
 }
 
 # Optional release version for the generated clients (default keeps configs' 0.1.0).
-VERSION="${BEATER_SDK_VERSION:-}"
+VERSION="${PALETTE_SDK_VERSION:-}"
 version_props=()
 if [[ -n "$VERSION" ]]; then
   version_props=(--additional-properties "packageVersion=$VERSION,artifactVersion=$VERSION,npmVersion=$VERSION")
 fi
 
-echo "==> Regenerating OpenAPI spec from beater-api handlers"
-tmp_spec="$(mktemp "${TMPDIR:-/tmp}/beater-openapi.XXXXXX")"
+echo "==> Regenerating OpenAPI spec from palette-api handlers"
+tmp_spec="$(mktemp "${TMPDIR:-/tmp}/palette-openapi.XXXXXX")"
 cleanup_paths+=("$tmp_spec")
-cargo run -q -p beater-api --example dump_openapi > "$tmp_spec"
+cargo run -q -p palette-api --example dump_openapi > "$tmp_spec"
 mv "$tmp_spec" "$SPEC"
 # Keep the dashboard snapshot identical to the canonical spec.
-cp "$SPEC" web/dashboard/openapi/beater-read-api.json
+cp "$SPEC" web/dashboard/openapi/palette-read-api.json
 
 if [[ -n "$GENERATOR_JAR" ]]; then
   echo "==> Using generator jar ($GENERATOR_JAR)"
@@ -163,7 +163,7 @@ for lang in "${LANGS[@]}"; do
     cpp)
       normalize_generated_text_files "$out" \
         src/model/ErrorResponse.cpp \
-        include/beater-client/api/IngestApi.h
+        include/palette-client/api/IngestApi.h
       ;;
     go)
       normalize_generated_text_files "$out" \
@@ -174,14 +174,14 @@ for lang in "${LANGS[@]}"; do
       normalize_generated_text_files "$out" \
         README.md \
         docs/IngestApi.md \
-        src/main/java/ai/beater/client/api/IngestApi.java \
-        src/main/java/ai/beater/client/model/AuditAction.java \
-        src/test/java/ai/beater/client/api/IngestApiTest.java
+        src/main/java/ai/palette/client/api/IngestApi.java \
+        src/main/java/ai/palette/client/model/AuditAction.java \
+        src/test/java/ai/palette/client/api/IngestApiTest.java
       ;;
     python)
       normalize_generated_text_files "$out" \
         README.md \
-        beater_client/api/ingest_api.py \
+        palette_client/api/ingest_api.py \
         docs/IngestApi.md
       ;;
     rust)
@@ -195,7 +195,7 @@ done
 if [[ "$CHECK_MODE" == "1" ]]; then
   echo "==> Checking for drift"
   drifted=0
-  for target in "$SPEC" "web/dashboard/openapi/beater-read-api.json" "sdks/clients"; do
+  for target in "$SPEC" "web/dashboard/openapi/palette-read-api.json" "sdks/clients"; do
     if check_target_drifted "$target"; then
       drifted=1
     fi
@@ -205,8 +205,8 @@ if [[ "$CHECK_MODE" == "1" ]]; then
     echo "Differences from the pre-check generated tree:" >&2
     diff -qr "$check_snapshot/$SPEC" "$SPEC" >&2 || true
     diff -qr \
-      "$check_snapshot/web/dashboard/openapi/beater-read-api.json" \
-      "web/dashboard/openapi/beater-read-api.json" >&2 || true
+      "$check_snapshot/web/dashboard/openapi/palette-read-api.json" \
+      "web/dashboard/openapi/palette-read-api.json" >&2 || true
     diff -qr "$check_snapshot/sdks/clients" "sdks/clients" >&2 || true
     exit 1
   fi

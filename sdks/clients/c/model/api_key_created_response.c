@@ -4,12 +4,12 @@
 #include "api_key_created_response.h"
 
 
-char* api_key_created_response_scopes_ToString(beater_api_api_key_created_response__e scopes) {
+char* api_key_created_response_scopes_ToString(palette_api_api_key_created_response__e scopes) {
     char *scopesArray[] =  { "NULL", "trace:write", "trace:read", "dataset:write", "dataset:read", "scenario:write", "scenario:read", "eval:run", "pii:unmask", "admin" };
     return scopesArray[scopes - 1];
 }
 
-beater_api_api_key_created_response__e api_key_created_response_scopes_FromString(char* scopes) {
+palette_api_api_key_created_response__e api_key_created_response_scopes_FromString(char* scopes) {
     int stringToReturn = 0;
     char *scopesArray[] =  { "NULL", "trace:write", "trace:read", "dataset:write", "dataset:read", "scenario:write", "scenario:read", "eval:run", "pii:unmask", "admin" };
     size_t sizeofArray = sizeof(scopesArray) / sizeof(scopesArray[0]);
@@ -163,7 +163,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
 
 
     // api_key_created_response->scopes
-    if (beater_api_list_SCOPES_NULL == api_key_created_response->scopes) {
+    if (palette_api_list_SCOPES_NULL == api_key_created_response->scopes) {
         goto fail;
     }
     cJSON *scopes = cJSON_AddArrayToObject(item, "scopes");
@@ -174,7 +174,7 @@ cJSON *api_key_created_response_convertToJSON(api_key_created_response_t *api_ke
     listEntry_t *scopesListEntry;
     if (api_key_created_response->scopes) {
     list_ForEach(scopesListEntry, api_key_created_response->scopes) {
-    cJSON *itemLocal = api_scope_convertToJSON((beater_api_api_key_created_response__e)scopesListEntry->data);
+    cJSON *itemLocal = api_scope_convertToJSON((palette_api_api_key_created_response__e)scopesListEntry->data);
     if(itemLocal == NULL) {
     goto fail;
     }

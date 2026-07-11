@@ -85,9 +85,9 @@ def run_gate(
 def test_skip_flags_are_reported_without_full_proof_claim() -> None:
     result = run_gate(
         env={
-            "BEATER_DEEP_E2E_SKIP_NATIVE_SDKS": "1",
-            "BEATER_DEEP_E2E_SKIP_CLIENT_CONFORMANCE": "1",
-            "BEATER_DEEP_E2E_SKIP_COMPOSE": "1",
+            "PALETTE_DEEP_E2E_SKIP_NATIVE_SDKS": "1",
+            "PALETTE_DEEP_E2E_SKIP_CLIENT_CONFORMANCE": "1",
+            "PALETTE_DEEP_E2E_SKIP_COMPOSE": "1",
         }
     )
 

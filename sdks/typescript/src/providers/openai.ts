@@ -10,8 +10,8 @@ const { toValue, applyCommon } = _internal;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const OPENAI_CLIENT_MARK = Symbol.for("@beater/sdk.openai.client");
-const OPENAI_METHOD_MARK = Symbol.for("@beater/sdk.openai.method");
+const OPENAI_CLIENT_MARK = Symbol.for("@palette/sdk.openai.client");
+const OPENAI_METHOD_MARK = Symbol.for("@palette/sdk.openai.method");
 
 function recordUsage(span: any, response: any): void {
   const usage = response?.usage;

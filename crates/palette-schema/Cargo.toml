@@ -1,0 +1,15 @@
+[package]
+name = "palette-schema"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+palette-core = { path = "../palette-core" }
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

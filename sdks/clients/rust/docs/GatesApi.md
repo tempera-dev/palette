@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## gates_period_create_gate
 
-> models::GateDefinition gates_period_create_gate(tenant_id, project_id, create_gate_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::GateDefinition gates_period_create_gate(tenant_id, project_id, create_gate_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -23,9 +23,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **create_gate_request** | [**CreateGateRequest**](CreateGateRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -45,7 +45,7 @@ No authorization required
 
 ## gates_period_run_gate
 
-> models::GateRunReport gates_period_run_gate(tenant_id, project_id, gate_id, run_gate_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::GateRunReport gates_period_run_gate(tenant_id, project_id, gate_id, run_gate_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -58,9 +58,9 @@ Name | Type | Description  | Required | Notes
 **gate_id** | **String** | gate_id | [required] |
 **run_gate_request** | [**RunGateRequest**](RunGateRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

@@ -1,4 +1,4 @@
--- Beater self-host schema contract.
+-- Palette self-host schema contract.
 -- The current all-in-one binary uses SQLite under --data-dir; this migration
 -- is the Postgres contract for the hosted/control-plane path and future
 -- Postgres-backed stores.
@@ -88,7 +88,7 @@ SET
   ),
   release_id = COALESCE(
     release_id,
-    span_json #>> '{attributes,beater.release_id}',
+    span_json #>> '{attributes,palette.release_id}',
     span_json #>> '{attributes,agent.release_id}',
     span_json #>> '{attributes,deployment.release_id}',
     span_json #>> '{attributes,release.id}',

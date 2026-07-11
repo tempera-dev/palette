@@ -7,7 +7,7 @@ import {
 } from "@opentelemetry/api";
 
 import {
-  BEATER_SPAN_KIND,
+  PALETTE_SPAN_KIND,
   BrowserAttr,
   SpanKind,
   StepStatus,
@@ -15,7 +15,7 @@ import {
 } from "./semconv.js";
 import type { ModelDecision, PageLike } from "./types.js";
 
-const TRACER_NAME = "@beater/stagehand-instrumentation";
+const TRACER_NAME = "@palette/stagehand-instrumentation";
 const TRACER_VERSION = "0.1.0";
 
 /** Best-effort read of a possibly-async page getter, swallowing errors. */
@@ -68,13 +68,13 @@ function pickString(
 }
 
 /**
- * Emits canonical Beater `browser.*` spans for Stagehand AI primitives.
+ * Emits canonical Palette `browser.*` spans for Stagehand AI primitives.
  *
  * Each wrapped `act`/`observe`/`extract` call produces a `tool.call` span. When
  * the call (or its result) carries a model decision, an `llm.call` child span
  * carrying `browser.reasoning` is also emitted.
  */
-export class BeaterStagehandTracer {
+export class PaletteStagehandTracer {
   private readonly tracer: Tracer;
   private readonly engine: string;
   private seq = 0;
@@ -109,7 +109,7 @@ export class BeaterStagehandTracer {
 
     const span = this.tracer.startSpan(`browser.${action}`, {
       attributes: {
-        [BEATER_SPAN_KIND]: SpanKind.TOOL_CALL,
+        [PALETTE_SPAN_KIND]: SpanKind.TOOL_CALL,
         [BrowserAttr.ENGINE]: this.engine,
         [BrowserAttr.ACTION]: action,
         [BrowserAttr.STEP_SEQ]: seq,
@@ -167,7 +167,7 @@ export class BeaterStagehandTracer {
       `browser.${action}.decision`,
       {
         attributes: {
-          [BEATER_SPAN_KIND]: SpanKind.LLM_CALL,
+          [PALETTE_SPAN_KIND]: SpanKind.LLM_CALL,
           [BrowserAttr.ENGINE]: this.engine,
           [BrowserAttr.ACTION]: action,
           [BrowserAttr.STEP_SEQ]: seq,

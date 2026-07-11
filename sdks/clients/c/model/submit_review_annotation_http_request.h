@@ -24,7 +24,7 @@ typedef struct submit_review_annotation_http_request_t {
     char *annotation_id; // string
     any_type_t *payload; // custom
     char *reviewer_id; // string
-    beater_api_review_verdict__e verdict; //referenced enum
+    palette_api_review_verdict__e verdict; //referenced enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } submit_review_annotation_http_request_t;
@@ -33,7 +33,7 @@ __attribute__((deprecated)) submit_review_annotation_http_request_t *submit_revi
     char *annotation_id,
     any_type_t *payload,
     char *reviewer_id,
-    beater_api_review_verdict__e verdict
+    palette_api_review_verdict__e verdict
 );
 
 void submit_review_annotation_http_request_free(submit_review_annotation_http_request_t *submit_review_annotation_http_request);

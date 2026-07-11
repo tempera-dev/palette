@@ -1,6 +1,6 @@
 name: deploy-backend
 
-# Deploy the Beater backend (beaterd) to Fly.io on push to main.
+# Deploy the Palette backend (paletted) to Fly.io on push to main.
 #
 # Secret-clean: the deploy needs a single repo secret, FLY_API_TOKEN
 # (Settings -> Secrets and variables -> Actions). The job no-ops with a clear

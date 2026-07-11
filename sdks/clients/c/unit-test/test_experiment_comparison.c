@@ -27,13 +27,13 @@ experiment_comparison_t* instantiate_experiment_comparison(int include_optional)
       1.337,
       1.337,
       1.337,
-      beater_api_experiment_comparison__pass,
+      palette_api_experiment_comparison__pass,
       1.337,
       1.337,
       1.337,
       0,
       0,
-      beater_api_experiment_comparison__paired_t
+      palette_api_experiment_comparison__paired_t
     );
   } else {
     experiment_comparison = experiment_comparison_create(
@@ -42,13 +42,13 @@ experiment_comparison_t* instantiate_experiment_comparison(int include_optional)
       1.337,
       1.337,
       1.337,
-      beater_api_experiment_comparison__pass,
+      palette_api_experiment_comparison__pass,
       1.337,
       1.337,
       1.337,
       0,
       0,
-      beater_api_experiment_comparison__paired_t
+      palette_api_experiment_comparison__paired_t
     );
   }
 

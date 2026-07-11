@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -10,10 +10,10 @@
  */
 
 
-#include "beater-client/api/IngestApi.h"
-#include "beater-client/IHttpBody.h"
-#include "beater-client/JsonBody.h"
-#include "beater-client/MultipartFormData.h"
+#include "palette-client/api/IngestApi.h"
+#include "palette-client/IHttpBody.h"
+#include "palette-client/JsonBody.h"
+#include "palette-client/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 
@@ -35,7 +35,7 @@ IngestApi::~IngestApi()
 {
 }
 
-pplx::task<std::shared_ptr<TraceIngestedDrainReport>> IngestApi::ingest_drainTraceIngested(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<TraceIngestedDrainReport>> IngestApi::ingest_drainTraceIngested(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -86,17 +86,17 @@ pplx::task<std::shared_ptr<TraceIngestedDrainReport>> IngestApi::ingest_drainTra
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -179,7 +179,7 @@ pplx::task<std::shared_ptr<TraceIngestedDrainReport>> IngestApi::ingest_drainTra
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<TraceWriteDrainReport>> IngestApi::ingest_drainTraceWrites(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<TraceWriteDrainReport>> IngestApi::ingest_drainTraceWrites(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -230,17 +230,17 @@ pplx::task<std::shared_ptr<TraceWriteDrainReport>> IngestApi::ingest_drainTraceW
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -323,7 +323,7 @@ pplx::task<std::shared_ptr<TraceWriteDrainReport>> IngestApi::ingest_drainTraceW
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<IngestQueueStatus>> IngestApi::ingest_getIngestQueueStatus(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<IngestQueueStatus>> IngestApi::ingest_getIngestQueueStatus(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -370,17 +370,17 @@ pplx::task<std::shared_ptr<IngestQueueStatus>> IngestApi::ingest_getIngestQueueS
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -463,7 +463,7 @@ pplx::task<std::shared_ptr<IngestQueueStatus>> IngestApi::ingest_getIngestQueueS
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_importSource(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, std::shared_ptr<ImportSourceHttpRequest> importSourceHttpRequest, boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey) const
+pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_importSource(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, std::shared_ptr<ImportSourceHttpRequest> importSourceHttpRequest, boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey) const
 {
 
     // verify the required parameter 'importSourceHttpRequest' is set
@@ -522,9 +522,9 @@ pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_importSource(utilit
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -623,7 +623,7 @@ pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_importSource(utilit
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_ingestNative(std::shared_ptr<NativeIngestRequest> nativeIngestRequest, boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_ingestNative(std::shared_ptr<NativeIngestRequest> nativeIngestRequest, boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'nativeIngestRequest' is set
@@ -679,17 +679,17 @@ pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_ingestNative(std::s
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -788,7 +788,7 @@ pplx::task<std::shared_ptr<IngestOutcome>> IngestApi::ingest_ingestNative(std::s
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlp(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlp(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -840,17 +840,17 @@ pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlp(util
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -933,7 +933,7 @@ pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlp(util
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlpJsonCollector(boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterTenantId, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlpJsonCollector(boost::optional<utility::string_t> durability, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteTenantId, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -982,21 +982,21 @@ pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlpJsonC
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterTenantId)
+    if (xPaletteTenantId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-tenant-id")] = ApiClient::parameterToString(*xBeaterTenantId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-tenant-id")] = ApiClient::parameterToString(*xPaletteTenantId);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -1079,7 +1079,7 @@ pplx::task<std::shared_ptr<OtlpIngestOutcome>> IngestApi::ingest_ingestOtlpJsonC
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<TraceIngestedReconcileReport>> IngestApi::ingest_reconcileTrace(utility::string_t tenantId, utility::string_t projectId, utility::string_t traceId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<TraceIngestedReconcileReport>> IngestApi::ingest_reconcileTrace(utility::string_t tenantId, utility::string_t projectId, utility::string_t traceId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -1127,17 +1127,17 @@ pplx::task<std::shared_ptr<TraceIngestedReconcileReport>> IngestApi::ingest_reco
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -1220,7 +1220,7 @@ pplx::task<std::shared_ptr<TraceIngestedReconcileReport>> IngestApi::ingest_reco
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<DeadLetterReplayReport>> IngestApi::ingest_replayDeadLetter(utility::string_t tenantId, utility::string_t projectId, utility::string_t messageId, boost::optional<bool> resetAttempts, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<DeadLetterReplayReport>> IngestApi::ingest_replayDeadLetter(utility::string_t tenantId, utility::string_t projectId, utility::string_t messageId, boost::optional<bool> resetAttempts, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -1272,17 +1272,17 @@ pplx::task<std::shared_ptr<DeadLetterReplayReport>> IngestApi::ingest_replayDead
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;

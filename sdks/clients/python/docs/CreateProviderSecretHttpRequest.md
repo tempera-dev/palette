@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.create_provider_secret_http_request import CreateProviderSecretHttpRequest
+from palette_client.models.create_provider_secret_http_request import CreateProviderSecretHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

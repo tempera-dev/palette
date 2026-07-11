@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## AlertsEvaluateAlert
 
-> AlertDecision AlertsEvaluateAlert(ctx, tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> AlertDecision AlertsEvaluateAlert(ctx, tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -33,13 +33,13 @@ func main() {
 	traceId := "traceId_example" // string | trace_id
 	evaluateAlertRequest := *openapiclient.NewEvaluateAlertRequest(*openapiclient.NewAlertInput("GroupKey_example", *openapiclient.NewAlertLinks("TraceUrl_example"), time.Now(), "ProjectId_example", float64(123), "TenantId_example", "Title_example", "TraceId_example"), *openapiclient.NewAlertPolicy(int64(123), "EndpointUrl_example", float64(123), []openapiclient.MaintenanceWindow{*openapiclient.NewMaintenanceWindow(time.Now(), time.Now())}, "PolicyId_example", openapiclient.AlertSeverity("info"), "SigningSecret_example")) // EvaluateAlertRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AlertsAPI.AlertsEvaluateAlert(context.Background(), tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.AlertsAPI.AlertsEvaluateAlert(context.Background(), tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AlertsAPI.AlertsEvaluateAlert``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -71,9 +71,9 @@ Name | Type | Description  | Notes
 
  **evaluateAlertRequest** | [**EvaluateAlertRequest**](EvaluateAlertRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

@@ -1,0 +1,26 @@
+[package]
+name = "palette-gates"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+async-trait.workspace = true
+palette-core = { path = "../palette-core" }
+palette-eval = { path = "../palette-eval" }
+palette-experiments = { path = "../palette-experiments" }
+palette-store = { path = "../palette-store" }
+chrono.workspace = true
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+
+[lints]
+workspace = true

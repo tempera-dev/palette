@@ -18,15 +18,15 @@ typedef struct redaction_class_t redaction_class_t;
 
 // Enum  for redaction_class
 
-typedef enum { beater_api_redaction_class__NULL = 0, beater_api_redaction_class___public, beater_api_redaction_class__internal, beater_api_redaction_class__sensitive, beater_api_redaction_class__secret } beater_api_redaction_class__e;
+typedef enum { palette_api_redaction_class__NULL = 0, palette_api_redaction_class___public, palette_api_redaction_class__internal, palette_api_redaction_class__sensitive, palette_api_redaction_class__secret } palette_api_redaction_class__e;
 
-char* redaction_class_redaction_class_ToString(beater_api_redaction_class__e redaction_class);
+char* redaction_class_redaction_class_ToString(palette_api_redaction_class__e redaction_class);
 
-beater_api_redaction_class__e redaction_class_redaction_class_FromString(char* redaction_class);
+palette_api_redaction_class__e redaction_class_redaction_class_FromString(char* redaction_class);
 
-cJSON *redaction_class_convertToJSON(beater_api_redaction_class__e redaction_class);
+cJSON *redaction_class_convertToJSON(palette_api_redaction_class__e redaction_class);
 
-beater_api_redaction_class__e redaction_class_parseFromJSON(cJSON *redaction_classJSON);
+palette_api_redaction_class__e redaction_class_parseFromJSON(cJSON *redaction_classJSON);
 
 #endif /* _redaction_class_H_ */
 

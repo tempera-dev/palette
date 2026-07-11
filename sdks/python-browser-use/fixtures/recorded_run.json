@@ -1,5 +1,5 @@
 {
-  "schema": "beater.browser_steps.v1",
+  "schema": "palette.browser_steps.v1",
   "engine": "chromium",
   "task": "Subscribe to the newsletter on example.com",
   "browser_steps": [

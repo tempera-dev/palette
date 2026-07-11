@@ -8,8 +8,8 @@ import {
 } from "@opentelemetry/sdk-trace-base";
 
 import { instrumentStagehand, resolveEndpoint, resolvePage } from "../src/index.js";
-import { BeaterStagehandTracer } from "../src/tracer.js";
-import { BrowserAttr, SpanKind, BEATER_SPAN_KIND } from "../src/semconv.js";
+import { PaletteStagehandTracer } from "../src/tracer.js";
+import { BrowserAttr, SpanKind, PALETTE_SPAN_KIND } from "../src/semconv.js";
 
 /** A duck-typed Stagehand page that needs no real browser. */
 function makeMockPage(opts: {
@@ -72,7 +72,7 @@ describe("instrumentStagehand span mapping", () => {
     const spans = spansByName("browser.act");
     expect(spans).toHaveLength(1);
     const attrs = spans[0]!.attributes;
-    expect(attrs[BEATER_SPAN_KIND]).toBe(SpanKind.TOOL_CALL);
+    expect(attrs[PALETTE_SPAN_KIND]).toBe(SpanKind.TOOL_CALL);
     expect(attrs[BrowserAttr.ACTION]).toBe("act");
     expect(attrs[BrowserAttr.URL]).toBe("https://shop.test/cart");
     expect(attrs[BrowserAttr.TITLE]).toBe("Example Page");
@@ -110,7 +110,7 @@ describe("instrumentStagehand span mapping", () => {
 
     const toolCalls = exporter
       .getFinishedSpans()
-      .filter((s) => s.attributes[BEATER_SPAN_KIND] === SpanKind.TOOL_CALL)
+      .filter((s) => s.attributes[PALETTE_SPAN_KIND] === SpanKind.TOOL_CALL)
       .sort(
         (x, y) =>
           (x.attributes[BrowserAttr.STEP_SEQ] as number) -
@@ -134,7 +134,7 @@ describe("instrumentStagehand span mapping", () => {
 
     const decisions = exporter
       .getFinishedSpans()
-      .filter((s) => s.attributes[BEATER_SPAN_KIND] === SpanKind.LLM_CALL);
+      .filter((s) => s.attributes[PALETTE_SPAN_KIND] === SpanKind.LLM_CALL);
     expect(decisions).toHaveLength(1);
     const attrs = decisions[0]!.attributes;
     expect(attrs[BrowserAttr.REASONING]).toBe(
@@ -159,7 +159,7 @@ describe("instrumentStagehand span mapping", () => {
 
     const decisions = exporter
       .getFinishedSpans()
-      .filter((s) => s.attributes[BEATER_SPAN_KIND] === SpanKind.LLM_CALL);
+      .filter((s) => s.attributes[PALETTE_SPAN_KIND] === SpanKind.LLM_CALL);
     expect(decisions).toHaveLength(0);
   });
 
@@ -214,12 +214,12 @@ describe("instrumentStagehand span mapping", () => {
 describe("helpers", () => {
   it("resolveEndpoint prefers explicit opts, then env, then default", () => {
     expect(resolveEndpoint({ endpoint: "http://h:1" })).toBe("http://h:1");
-    const prev = process.env.BEATER_OTLP_ENDPOINT;
-    process.env.BEATER_OTLP_ENDPOINT = "http://env:2";
+    const prev = process.env.PALETTE_OTLP_ENDPOINT;
+    process.env.PALETTE_OTLP_ENDPOINT = "http://env:2";
     expect(resolveEndpoint()).toBe("http://env:2");
-    delete process.env.BEATER_OTLP_ENDPOINT;
+    delete process.env.PALETTE_OTLP_ENDPOINT;
     expect(resolveEndpoint()).toBe("http://localhost:4317");
-    if (prev !== undefined) process.env.BEATER_OTLP_ENDPOINT = prev;
+    if (prev !== undefined) process.env.PALETTE_OTLP_ENDPOINT = prev;
   });
 
   it("resolvePage finds primitives on a bare page or via .page", () => {
@@ -236,9 +236,9 @@ describe("helpers", () => {
   });
 });
 
-describe("BeaterStagehandTracer direct usage", () => {
+describe("PaletteStagehandTracer direct usage", () => {
   it("can be constructed with an injected tracer and traces a call", async () => {
-    const bt = new BeaterStagehandTracer({ tracer });
+    const bt = new PaletteStagehandTracer({ tracer });
     const result = await bt.traceCall(
       "act",
       { url: () => "https://x.test", title: () => "X" },

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.prompt_version_diff import PromptVersionDiff
+from palette_client.models.prompt_version_diff import PromptVersionDiff
 
 # TODO update the JSON string below
 json = "{}"

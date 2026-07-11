@@ -24,7 +24,7 @@ typedef struct gate_definition_t {
     char *dataset_id; // string
     char *evaluator_version_id; // string
     char *gate_id; // string
-    beater_api_inconclusive_policy__e inconclusive_policy; //referenced enum
+    palette_api_inconclusive_policy__e inconclusive_policy; //referenced enum
     char *name; // string
     char *project_id; // string
     char *tenant_id; // string
@@ -37,7 +37,7 @@ __attribute__((deprecated)) gate_definition_t *gate_definition_create(
     char *dataset_id,
     char *evaluator_version_id,
     char *gate_id,
-    beater_api_inconclusive_policy__e inconclusive_policy,
+    palette_api_inconclusive_policy__e inconclusive_policy,
     char *name,
     char *project_id,
     char *tenant_id

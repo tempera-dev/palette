@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "beater_client"
+name = "palette_client"
 version = "0.1.0"
-description = "Beater API"
+description = "Palette API"
 authors = ["OpenAPI Generator Community <team@openapitools.org>"]
 license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
-keywords = ["OpenAPI", "OpenAPI-Generator", "Beater API"]
-include = ["beater_client/py.typed"]
+keywords = ["OpenAPI", "OpenAPI-Generator", "Palette API"]
+include = ["palette_client/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -35,7 +35,7 @@ extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
 files = [
-  "beater_client",
+  "palette_client",
   #"test",  # auto-generated tests
   "tests", # hand-written tests
 ]
@@ -73,7 +73,7 @@ disallow_any_generics = true
 
 [[tool.mypy.overrides]]
 module = [
-  "beater_client.configuration",
+  "palette_client.configuration",
 ]
 warn_unused_ignores = true
 strict_equality = true

@@ -102,19 +102,19 @@ print_port_owner_details() {
   done < <(lsof -nP -t -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk '!seen[$0]++' || true)
 }
 
-print_stale_beater_cleanup_hint() {
+print_stale_palette_cleanup_hint() {
   cat >&2 <<'EOF'
-If this is a stale Beater Gate 2 run, clean the old Compose project before
+If this is a stale Palette Gate 2 run, clean the old Compose project before
 rerunning the timed command:
-  if [ -d beater ]; then (cd ./beater && docker compose -f docker-compose.prebuilt.yml -p beater-stopwatch down -v --remove-orphans); fi
-  docker ps -aq --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker rm -f "$id"; done
-  docker volume ls -q --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker volume rm "$id"; done
-  docker network ls -q --filter label=com.docker.compose.project=beater-stopwatch | while read -r id; do [ -z "$id" ] || docker network rm "$id"; done
+  if [ -d palette ]; then (cd ./palette && docker compose -f docker-compose.prebuilt.yml -p palette-stopwatch down -v --remove-orphans); fi
+  docker ps -aq --filter label=com.docker.compose.project=palette-stopwatch | while read -r id; do [ -z "$id" ] || docker rm -f "$id"; done
+  docker volume ls -q --filter label=com.docker.compose.project=palette-stopwatch | while read -r id; do [ -z "$id" ] || docker volume rm "$id"; done
+  docker network ls -q --filter label=com.docker.compose.project=palette-stopwatch | while read -r id; do [ -z "$id" ] || docker network rm "$id"; done
 EOF
 }
 
 require_public_images_for_expected_commit() {
-  local expected_commit="${BEATER_GATE2_EXPECTED_COMMIT:-}"
+  local expected_commit="${PALETTE_GATE2_EXPECTED_COMMIT:-}"
   if [[ -z "$expected_commit" ]]; then
     return 0
   fi
@@ -126,8 +126,8 @@ import urllib.parse
 import urllib.request
 
 expected_commit = sys.argv[1]
-owner_repo = "jadenfix/beater"
-images = ("beaterd", "dashboard", "dashboard-e2e", "otel-python")
+owner_repo = "jadenfix/palette"
+images = ("paletted", "dashboard", "dashboard-e2e", "otel-python")
 expected_platforms = {("linux", "amd64"), ("linux", "arm64")}
 accept = ", ".join(
     (
@@ -189,42 +189,42 @@ print(f"Gate 2 public images are available for {expected_commit}.")
 PY
 }
 
-require_command git "the timed run clones the public Beater repo"
+require_command git "the timed run clones the public Palette repo"
 require_command docker "the timed run starts the public Docker Compose topology"
-require_command curl "the timed run checks the local Beater API"
+require_command curl "the timed run checks the local Palette API"
 require_command ffprobe "completed proof validation verifies the WebM recording"
 require_python3
 
-require_unset_or_value BEATER_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
-require_unset_or_value BEATER_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
-require_unset_or_value BEATER_GATE2_PULL_POLICY always "the outside run must pull current images"
-require_unset_or_value BEATER_HTTP_PORT 8080 "the default API port is required"
-require_unset_or_value BEATER_OTLP_GRPC_PORT 4317 "the default OTLP gRPC port is required"
-require_unset_or_value BEATER_DASHBOARD_PORT 3000 "the default dashboard port is required"
-require_unset_or_value BEATER_GATE2_WRITE_PROOF 1 "the outside run must write a stopwatch proof"
-require_unset_or_value BEATER_GATE2_BROWSER_PROOF 1 "the outside run must prove the browser flow"
-require_unset_or_value BEATER_GATE2_RECORD_DEMO 1 "the outside run must record the browser flow"
-require_unset_or_value BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS 300 "the outside run must use the documented post-SLO timeout"
-require_unset_or_value KEEP_BEATER_COMPOSE 1 "the dashboard must remain running for outside-person click-through"
-require_unset BEATER_GATE2_OUTSIDE_RUN_DRY_RUN "dry-run mode is not outside-person evidence"
-require_unset BEATERD_IMAGE "the wrapper pins beaterd to the checked-out commit SHA"
-require_unset BEATER_DASHBOARD_IMAGE "the wrapper pins dashboard to the checked-out commit SHA"
-require_unset BEATER_DASHBOARD_E2E_IMAGE "the wrapper pins dashboard-e2e to the checked-out commit SHA"
-require_unset BEATER_OTEL_PYTHON_IMAGE "the wrapper pins otel-python to the checked-out commit SHA"
-require_unset BEATER_GATE2_RUN_ID "the stopwatch creates a fresh per-run quickstart release ID"
-require_unset BEATER_GATE2_CONFIRMATION_SALT "the stopwatch creates a fresh per-run browser confirmation salt"
-require_unset BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS "outside evidence must validate against public GHCR"
-require_unset BEATER_GATE2_STOPWATCH_PROOF "the outside run must write docs/demos/gate2-compose-stopwatch.md"
-require_unset BEATER_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
-require_unset BEATER_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
-require_unset BEATER_GATE2_COMPOSE_LOGS "the outside run must write docs/demos/gate2-outside-compose.log"
-require_unset BEATER_GATE2_TERMINAL_LOG "the outside run must write docs/demos/gate2-outside-terminal.log"
+require_unset_or_value PALETTE_GATE2_REUSE 0 "warm-loop reuse is not valid evidence"
+require_unset_or_value PALETTE_GATE2_LOCAL_BUILD 0 "the outside run must use prebuilt SHA-pinned images"
+require_unset_or_value PALETTE_GATE2_PULL_POLICY always "the outside run must pull current images"
+require_unset_or_value PALETTE_HTTP_PORT 8080 "the default API port is required"
+require_unset_or_value PALETTE_OTLP_GRPC_PORT 4317 "the default OTLP gRPC port is required"
+require_unset_or_value PALETTE_DASHBOARD_PORT 3000 "the default dashboard port is required"
+require_unset_or_value PALETTE_GATE2_WRITE_PROOF 1 "the outside run must write a stopwatch proof"
+require_unset_or_value PALETTE_GATE2_BROWSER_PROOF 1 "the outside run must prove the browser flow"
+require_unset_or_value PALETTE_GATE2_RECORD_DEMO 1 "the outside run must record the browser flow"
+require_unset_or_value PALETTE_GATE2_POST_SLO_TIMEOUT_SECONDS 300 "the outside run must use the documented post-SLO timeout"
+require_unset_or_value KEEP_PALETTE_COMPOSE 1 "the dashboard must remain running for outside-person click-through"
+require_unset PALETTE_GATE2_OUTSIDE_RUN_DRY_RUN "dry-run mode is not outside-person evidence"
+require_unset PALETTED_IMAGE "the wrapper pins paletted to the checked-out commit SHA"
+require_unset PALETTE_DASHBOARD_IMAGE "the wrapper pins dashboard to the checked-out commit SHA"
+require_unset PALETTE_DASHBOARD_E2E_IMAGE "the wrapper pins dashboard-e2e to the checked-out commit SHA"
+require_unset PALETTE_OTEL_PYTHON_IMAGE "the wrapper pins otel-python to the checked-out commit SHA"
+require_unset PALETTE_GATE2_RUN_ID "the stopwatch creates a fresh per-run quickstart release ID"
+require_unset PALETTE_GATE2_CONFIRMATION_SALT "the stopwatch creates a fresh per-run browser confirmation salt"
+require_unset PALETTE_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS "outside evidence must validate against public GHCR"
+require_unset PALETTE_GATE2_STOPWATCH_PROOF "the outside run must write docs/demos/gate2-compose-stopwatch.md"
+require_unset PALETTE_GATE2_RECORD_VIDEO "the outside run must write docs/demos/gate2-compose-browser-demo.webm"
+require_unset PALETTE_GATE2_RECORD_NOTES "the outside run must write docs/demos/gate2-compose-browser-demo.md"
+require_unset PALETTE_GATE2_COMPOSE_LOGS "the outside run must write docs/demos/gate2-outside-compose.log"
+require_unset PALETTE_GATE2_TERMINAL_LOG "the outside run must write docs/demos/gate2-outside-terminal.log"
 require_unset COMPOSE_FILE "the public command controls the Compose topology"
 require_unset COMPOSE_PROJECT_NAME "the public command controls the Compose topology"
 require_unset COMPOSE_PROFILES "the public command controls the Compose topology"
 
-if [[ -e beater ]]; then
-  fail "current directory already contains ./beater; run from a new or empty parent directory before cloning"
+if [[ -e palette ]]; then
+  fail "current directory already contains ./palette; run from a new or empty parent directory before cloning"
 fi
 
 if ! command -v shasum >/dev/null 2>&1 && ! command -v sha256sum >/dev/null 2>&1; then
@@ -250,7 +250,7 @@ for port in 8080 4317 3000; do
   if ! port_is_free "$port"; then
     echo "TCP $port is already in use before the timed Gate 2 run." >&2
     print_port_owner "$port"
-    print_stale_beater_cleanup_hint
+    print_stale_palette_cleanup_hint
     fail "free TCP $port before starting the stopwatch; do not use alternate ports for outside-person evidence"
   fi
 done

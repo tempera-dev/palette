@@ -7,8 +7,8 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 
-import beater
-from beater.semconv import Attr
+import palette
+from palette.semconv import Attr
 
 
 @pytest.fixture
@@ -16,9 +16,9 @@ def exporter(monkeypatch):
     provider = TracerProvider(resource=Resource.create({"service.name": "test"}))
     mem = InMemorySpanExporter()
     provider.add_span_processor(SimpleSpanProcessor(mem))
-    monkeypatch.setattr(beater.tracing, "_config", beater.BeaterConfig.resolve(release_id="rel-1"))
-    monkeypatch.setattr(beater.tracing, "_provider", provider)
-    monkeypatch.setattr(beater.tracing.trace, "get_tracer", lambda name: provider.get_tracer(name))
+    monkeypatch.setattr(palette.tracing, "_config", palette.PaletteConfig.resolve(release_id="rel-1"))
+    monkeypatch.setattr(palette.tracing, "_provider", provider)
+    monkeypatch.setattr(palette.tracing.trace, "get_tracer", lambda name: provider.get_tracer(name))
     yield mem
     mem.clear()
 
@@ -94,13 +94,13 @@ def test_instrument_openai_patches_new_clients(monkeypatch, exporter):
     module = _fake_openai_module()
     monkeypatch.setitem(sys.modules, "openai", module)
 
-    result = beater.instrument(providers=["openai"])
+    result = palette.instrument(providers=["openai"])
 
     assert result[0].provider == "openai"
     assert result[0].instrumented is True
     assert result[0].status == "patched openai.OpenAI"
     client = module.OpenAI()
-    assert client._beater_wrapped is True
+    assert client._palette_wrapped is True
 
     client.chat.completions.create(model="gpt-auto", messages=[{"role": "user", "content": "hi"}])
 
@@ -116,13 +116,13 @@ def test_instrument_anthropic_patches_new_clients(monkeypatch, exporter):
     module = _fake_anthropic_module()
     monkeypatch.setitem(sys.modules, "anthropic", module)
 
-    result = beater.instrument(providers=["anthropic"])
+    result = palette.instrument(providers=["anthropic"])
 
     assert result[0].provider == "anthropic"
     assert result[0].instrumented is True
     assert result[0].status == "patched anthropic.Anthropic"
     client = module.Anthropic()
-    assert client._beater_wrapped is True
+    assert client._palette_wrapped is True
 
     client.messages.create(model="claude-auto", messages=[{"role": "user", "content": "hi"}])
 
@@ -138,8 +138,8 @@ def test_instrument_is_idempotent(monkeypatch):
     module = _fake_openai_module()
     monkeypatch.setitem(sys.modules, "openai", module)
 
-    first = beater.instrument(providers="openai")
-    second = beater.instrument(providers=["openai"])
+    first = palette.instrument(providers="openai")
+    second = palette.instrument(providers=["openai"])
 
     assert first[0].status == "patched openai.OpenAI"
     assert second[0].instrumented is True
@@ -148,4 +148,4 @@ def test_instrument_is_idempotent(monkeypatch):
 
 def test_instrument_rejects_unknown_provider():
     with pytest.raises(ValueError, match="unsupported provider"):
-        beater.instrument(providers=["not-a-provider"])
+        palette.instrument(providers=["not-a-provider"])

@@ -31,7 +31,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.canonical_span import CanonicalSpan
+from palette_client.models.canonical_span import CanonicalSpan
 
 # TODO update the JSON string below
 json = "{}"

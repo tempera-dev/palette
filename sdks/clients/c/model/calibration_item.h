@@ -24,8 +24,8 @@ typedef struct calibration_item_t {
     int agreed; //boolean
     char *dataset_case_id; // string
     any_type_t *evidence; // custom
-    beater_api_calibration_label__e human_label; //referenced enum
-    beater_api_calibration_label__e judge_label; //referenced enum
+    palette_api_calibration_label__e human_label; //referenced enum
+    palette_api_calibration_label__e judge_label; //referenced enum
     char *judge_result_label; // string
     double judge_score; //numeric
 
@@ -36,8 +36,8 @@ __attribute__((deprecated)) calibration_item_t *calibration_item_create(
     int agreed,
     char *dataset_case_id,
     any_type_t *evidence,
-    beater_api_calibration_label__e human_label,
-    beater_api_calibration_label__e judge_label,
+    palette_api_calibration_label__e human_label,
+    palette_api_calibration_label__e judge_label,
     char *judge_result_label,
     double judge_score
 );

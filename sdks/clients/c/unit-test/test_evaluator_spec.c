@@ -25,13 +25,13 @@ evaluator_spec_t* instantiate_evaluator_spec(int include_optional) {
     evaluator_spec = evaluator_spec_create(
       "0",
       null,
-      beater_api_evaluator_spec__deterministic_wasi
+      palette_api_evaluator_spec__deterministic_wasi
     );
   } else {
     evaluator_spec = evaluator_spec_create(
       "0",
       null,
-      beater_api_evaluator_spec__deterministic_wasi
+      palette_api_evaluator_spec__deterministic_wasi
     );
   }
 

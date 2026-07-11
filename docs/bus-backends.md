@@ -1,7 +1,7 @@
 # Bus Backend Adapter Contract
 
 > **Status:** `DurableBus` trait is built and both `InMemoryBus` and
-> `SqliteDurableBus` implement it (see `crates/beater-bus/src/lib.rs`).
+> `SqliteDurableBus` implement it (see `crates/palette-bus/src/lib.rs`).
 > NATS JetStream and Kafka adapters are **[planned]** — no client deps are
 > in-tree yet.  This document is the design reference for those adapters and
 > for anyone adding a new backend.
@@ -72,11 +72,11 @@ All callers hold `Arc<dyn DurableBus>`.
 
 | Backend | Crate | Status | Use case |
 |---|---|---|---|
-| `InMemoryBus` | `beater-bus` | Built | Tests, ephemeral dev, conformance harness |
-| `SqliteDurableBus` | `beater-bus` | Built — runtime default | OSS all-in-one, local dev, CI |
+| `InMemoryBus` | `palette-bus` | Built | Tests, ephemeral dev, conformance harness |
+| `SqliteDurableBus` | `palette-bus` | Built — runtime default | OSS all-in-one, local dev, CI |
 
 Both are validated by the generic `trait_round_trip` helper in
-`crates/beater-bus/src/lib.rs` (tests `backend_pluggability_in_memory_bus` and
+`crates/palette-bus/src/lib.rs` (tests `backend_pluggability_in_memory_bus` and
 `backend_pluggability_sqlite_durable_bus`).
 
 ---
@@ -85,13 +85,13 @@ Both are validated by the generic `trait_round_trip` helper in
 
 ### 4.1 NATS JetStream adapter (`NatsJetStreamBus`)
 
-**Target crate:** `beater-bus-nats` (new, no client deps in-tree yet).
+**Target crate:** `palette-bus-nats` (new, no client deps in-tree yet).
 
 **Mapping:**
 
 | `DurableBus` operation | NATS JetStream primitive |
 |---|---|
-| `publish` | `js.publish(subject, payload)` with `Nats-Msg-Id` header set to the idempotency key for server-side dedup via the JetStream dedup window. **Limitation:** the JetStream dedup window is time-bounded (configurable, default 2 minutes); it does NOT provide permanent idempotency. Messages published beyond the dedup window with the same `Nats-Msg-Id` will be accepted again. The adapter must either use a sufficiently long dedup window or maintain its own persistent idempotency table keyed on `(tenant_id, project_id, kind, idempotency_key)` to satisfy Beater's application-level contract. |
+| `publish` | `js.publish(subject, payload)` with `Nats-Msg-Id` header set to the idempotency key for server-side dedup via the JetStream dedup window. **Limitation:** the JetStream dedup window is time-bounded (configurable, default 2 minutes); it does NOT provide permanent idempotency. Messages published beyond the dedup window with the same `Nats-Msg-Id` will be accepted again. The adapter must either use a sufficiently long dedup window or maintain its own persistent idempotency table keyed on `(tenant_id, project_id, kind, idempotency_key)` to satisfy Palette's application-level contract. |
 | `consume_batch` | `Consumer::fetch(limit)` from a durable pull consumer on the stream. |
 | `consume_kind_batch` | A per-kind subject filter; one consumer per kind subject prefix. |
 | `consume_scoped_kind_batch` | Subject hierarchy `bus.{tenant}.{project}.{kind}` with a per-tenant-project consumer. |
@@ -105,8 +105,8 @@ Both are validated by the generic `trait_round_trip` helper in
 automatically re-delivered by JetStream after the consumer's `ack_wait` expires.
 `SqliteDurableBus`'s explicit `recover_inflight` step is not needed.
 
-**No client deps yet:** add `async-nats = "0.34"` to `beater-bus-nats/Cargo.toml`
-only when wiring begins; do not add it to `beater-bus` (keeps the core crate
+**No client deps yet:** add `async-nats = "0.34"` to `palette-bus-nats/Cargo.toml`
+only when wiring begins; do not add it to `palette-bus` (keeps the core crate
 dependency-free of network clients).
 
 **NATS JetStream idempotency note (important):**
@@ -114,7 +114,7 @@ dependency-free of network clients).
 JetStream's `Nats-Msg-Id` dedup window is time-bounded (configurable via
 `stream.Duplicates`, default 2 minutes).  Messages published with the same
 `Nats-Msg-Id` beyond that window will be accepted as new messages.  This means
-JetStream server-side dedup alone does NOT satisfy Beater's permanent
+JetStream server-side dedup alone does NOT satisfy Palette's permanent
 application-level idempotency contract.
 
 The `NatsJetStreamBus` adapter must either:
@@ -130,25 +130,25 @@ The `NatsJetStreamBus` adapter must either:
 **Acceptance criteria:**
 
 1. `NatsJetStreamBus` passes the `bus_conformance_suite` helper (copy to a
-   conformance module or re-export and call from `beater-bus-nats/tests/`).
+   conformance module or re-export and call from `palette-bus-nats/tests/`).
    The idempotent-publish section must pass with the dedup strategy chosen.
 2. A container test (`testcontainers-modules::nats`) runs the full round-trip
    including crash recovery (kill consumer, restart, re-deliver inflight).
 3. `depth` matches `stream.info().state.num_pending + num_pending_pull_consumers`
    within ±1 across all test scenarios.
-4. The `beater-ingest` and `beater-api` crates compile and pass their existing
+4. The `palette-ingest` and `palette-api` crates compile and pass their existing
    tests with `NatsJetStreamBus` wired via `Arc<dyn DurableBus>` — zero
    product-code changes.
 
 ### 4.2 Kafka adapter (`KafkaBus`)
 
-**Target crate:** `beater-bus-kafka` (new, no client deps in-tree yet).
+**Target crate:** `palette-bus-kafka` (new, no client deps in-tree yet).
 
 **Mapping:**
 
 | `DurableBus` operation | Kafka primitive |
 |---|---|
-| `publish` | `producer.send(record)` with the idempotency key stored in a record header. **Important:** Kafka's `enable.idempotence=true` setting only deduplicates producer retries within a single producer session on a single partition (it prevents duplicate records from network retries). It does NOT provide application-level idempotency-key dedup. The adapter must implement Beater's `(tenant_id, project_id, kind, idempotency_key)` dedup contract itself — for example: a log-compacted keyed topic where the idempotency key is the Kafka message key (last-write-wins compaction), a consumer-side idempotency table (e.g. Redis/Postgres lookup before processing), or a dedup-store checked before producing. |
+| `publish` | `producer.send(record)` with the idempotency key stored in a record header. **Important:** Kafka's `enable.idempotence=true` setting only deduplicates producer retries within a single producer session on a single partition (it prevents duplicate records from network retries). It does NOT provide application-level idempotency-key dedup. The adapter must implement Palette's `(tenant_id, project_id, kind, idempotency_key)` dedup contract itself — for example: a log-compacted keyed topic where the idempotency key is the Kafka message key (last-write-wins compaction), a consumer-side idempotency table (e.g. Redis/Postgres lookup before processing), or a dedup-store checked before producing. |
 | `consume_batch` | `consumer.poll(timeout)` up to `limit` records from a consumer group. Store offset advance only after ack. |
 | `consume_kind_batch` | Each `kind` is a dedicated topic; assign only the matching topic partition. |
 | `consume_scoped_kind_batch` | Topic-per-kind with a partition key of `{tenant_id}/{project_id}`; consumer group per-tenant if strict isolation needed. |
@@ -162,18 +162,18 @@ The `NatsJetStreamBus` adapter must either:
 `consume_scoped_kind_batch` relies on a stable partition key; consumers must not
 reassign partitions mid-batch.
 
-**No client deps yet:** add `rdkafka` or `rskafka` to `beater-bus-kafka/Cargo.toml`
-only when wiring begins; keep out of `beater-bus` core.
+**No client deps yet:** add `rdkafka` or `rskafka` to `palette-bus-kafka/Cargo.toml`
+only when wiring begins; keep out of `palette-bus` core.
 
 **Kafka idempotency note (important):**
 
 Kafka's `enable.idempotence=true` at the producer level only prevents duplicate
 records caused by *producer retries within a session* (sequence-number-based
 dedup per partition-producer pair).  It does NOT deduplicate records based on
-Beater's `(tenant_id, project_id, kind, idempotency_key)` tuple across
+Palette's `(tenant_id, project_id, kind, idempotency_key)` tuple across
 independent producer calls or across producer restarts.
 
-The `KafkaBus` adapter must implement Beater's application-level idempotency
+The `KafkaBus` adapter must implement Palette's application-level idempotency
 contract independently.  Recommended approaches (choose one):
 
 - **Log-compacted keyed topic:** use the idempotency key as the Kafka message
@@ -195,7 +195,7 @@ contract independently.  Recommended approaches (choose one):
    including DLQ and replay paths.
 3. `depth` is computed from consumer lag, not from a broker-side count, so it
    reflects unprocessed messages only.
-4. The `beater-ingest` and `beater-api` crates compile and pass their tests with
+4. The `palette-ingest` and `palette-api` crates compile and pass their tests with
    `KafkaBus` wired — zero product-code changes required.
 
 ---
@@ -204,26 +204,26 @@ contract independently.  Recommended approaches (choose one):
 
 ### Phase 0 — Trait seam (done, on `main`)
 
-- `DurableBus` trait in `beater-bus` with `InMemoryBus` and `SqliteDurableBus`
+- `DurableBus` trait in `palette-bus` with `InMemoryBus` and `SqliteDurableBus`
   implementations.
 - Pluggability proof tests: `backend_pluggability_in_memory_bus` and
   `backend_pluggability_sqlite_durable_bus`.
-- All callers (`beater-api`, `beater-ingest`, `beater-mcp`, `beater-otlp`) hold
+- All callers (`palette-api`, `palette-ingest`, `palette-mcp`, `palette-otlp`) hold
   `Arc<dyn DurableBus>`.
 
 ### Phase 1 — NATS JetStream adapter (OSS/hosted parity)
 
-- Prerequisite: §20.2 #0.1 backend selector in `beaterd` (runtime
+- Prerequisite: §20.2 #0.1 backend selector in `paletted` (runtime
   `BUS_BACKEND` env var).
-- New crate `beater-bus-nats`; no changes to `beater-bus` or callers.
+- New crate `palette-bus-nats`; no changes to `palette-bus` or callers.
 - Container test suite gating CI merge.
-- Ship when NATS is added to the `beaterd` deployment manifest.
+- Ship when NATS is added to the `paletted` deployment manifest.
 
 ### Phase 2 — Kafka adapter (enterprise)
 
 - Prerequisite: Phase 1 complete and at least one NATS-backed deployment
   running in production for 30 days.
-- New crate `beater-bus-kafka`; no changes to `beater-bus` or callers.
+- New crate `palette-bus-kafka`; no changes to `palette-bus` or callers.
 - Acceptance tested against Redpanda in CI.
 - Ship as an enterprise add-on behind a `BUS_BACKEND=kafka` flag.
 
@@ -239,11 +239,11 @@ contract independently.  Recommended approaches (choose one):
 
 ## 6. Adding a new backend — checklist
 
-1. Create `crates/beater-bus-{name}/` with `Cargo.toml` depending on
-   `beater-bus = { path = "../beater-bus" }` and your broker client crate.
-   Do **not** add broker deps to `beater-bus` itself.
+1. Create `crates/palette-bus-{name}/` with `Cargo.toml` depending on
+   `palette-bus = { path = "../palette-bus" }` and your broker client crate.
+   Do **not** add broker deps to `palette-bus` itself.
 2. Implement `DurableBus` for your type.
-3. Call the shared `bus_conformance_suite` helper (re-export from `beater-bus`
+3. Call the shared `bus_conformance_suite` helper (re-export from `palette-bus`
    tests or replicate it in an integration test) to prove the full contract:
    idempotent publish, tenant-scoped consumption, retry/DLQ routing, depth
    accounting, and backpressure.  Pass only after reading §4.1/4.2 idempotency
@@ -251,7 +251,7 @@ contract independently.  Recommended approaches (choose one):
    absent or time-bounded without a sufficiently long window.
 4. Add a crash-recovery test (kill and restart your backend mid-inflight; verify
    unacked messages re-deliver).
-5. Wire via `Arc<dyn DurableBus>` in `beaterd`'s startup block behind an env
+5. Wire via `Arc<dyn DurableBus>` in `paletted`'s startup block behind an env
    var — no product-code changes should be required.
 6. Update the §8.2 data-planes table in `ARCHITECTURE.md` status column from
    `[planned]` to `[built]` or `[built, unwired]` as appropriate.

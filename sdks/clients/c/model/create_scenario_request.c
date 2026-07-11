@@ -8,7 +8,7 @@
 static create_scenario_request_t *create_scenario_request_create_internal(
     char *exemplar_trace_id,
     char *expected_outcome,
-    beater_api_failure_mode__e failure_mode,
+    palette_api_failure_mode__e failure_mode,
     list_t *source_trace_ids,
     char *title
     ) {
@@ -29,7 +29,7 @@ static create_scenario_request_t *create_scenario_request_create_internal(
 __attribute__((deprecated)) create_scenario_request_t *create_scenario_request_create(
     char *exemplar_trace_id,
     char *expected_outcome,
-    beater_api_failure_mode__e failure_mode,
+    palette_api_failure_mode__e failure_mode,
     list_t *source_trace_ids,
     char *title
     ) {
@@ -93,7 +93,7 @@ cJSON *create_scenario_request_convertToJSON(create_scenario_request_t *create_s
 
 
     // create_scenario_request->failure_mode
-    if(create_scenario_request->failure_mode != beater_api_failure_mode__NULL) {
+    if(create_scenario_request->failure_mode != palette_api_failure_mode__NULL) {
     cJSON *failure_mode_local_JSON = failure_mode_convertToJSON(create_scenario_request->failure_mode);
     if(failure_mode_local_JSON == NULL) {
         goto fail; // custom
@@ -144,7 +144,7 @@ create_scenario_request_t *create_scenario_request_parseFromJSON(cJSON *create_s
     create_scenario_request_t *create_scenario_request_local_var = NULL;
 
     // define the local variable for create_scenario_request->failure_mode
-    beater_api_failure_mode__e failure_mode_local_nonprim = 0;
+    palette_api_failure_mode__e failure_mode_local_nonprim = 0;
 
     // define the local list for create_scenario_request->source_trace_ids
     list_t *source_trace_idsList = NULL;

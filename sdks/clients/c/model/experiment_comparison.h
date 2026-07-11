@@ -26,13 +26,13 @@ typedef struct experiment_comparison_t {
     double candidate_mean; //numeric
     double ci_high; //numeric
     double ci_low; //numeric
-    beater_api_gate_decision__e decision; //referenced enum
+    palette_api_gate_decision__e decision; //referenced enum
     double delta; //numeric
     double mde; //numeric
     double p_value; //numeric
     int required_n; //numeric
     int sample_size; //numeric
-    beater_api_statistical_test__e test; //referenced enum
+    palette_api_statistical_test__e test; //referenced enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } experiment_comparison_t;
@@ -43,13 +43,13 @@ __attribute__((deprecated)) experiment_comparison_t *experiment_comparison_creat
     double candidate_mean,
     double ci_high,
     double ci_low,
-    beater_api_gate_decision__e decision,
+    palette_api_gate_decision__e decision,
     double delta,
     double mde,
     double p_value,
     int required_n,
     int sample_size,
-    beater_api_statistical_test__e test
+    palette_api_statistical_test__e test
 );
 
 void experiment_comparison_free(experiment_comparison_t *experiment_comparison);

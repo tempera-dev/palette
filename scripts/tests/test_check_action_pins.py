@@ -29,7 +29,7 @@ def run(root: Path) -> subprocess.CompletedProcess[str]:
 
 def run_with_env_root(root: Path) -> subprocess.CompletedProcess[str]:
     env = os.environ.copy()
-    env["BEATER_ACTION_PINS_ROOT"] = str(root)
+    env["PALETTE_ACTION_PINS_ROOT"] = str(root)
     return subprocess.run(
         [str(SCRIPT)],
         cwd=REPO,
@@ -74,7 +74,7 @@ jobs:
   ok:
     steps:
       - uses: ../shared/actions/build
-      - uses: docker://ghcr.io/jadenfix/beater/demo-runner:latest
+      - uses: docker://ghcr.io/jadenfix/palette/demo-runner:latest
       - uses: vendor/tool@{PIN.upper()} # v1
 """,
         )

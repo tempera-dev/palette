@@ -302,7 +302,7 @@ test("OAuth proxy forwards Authorization and preserves auth headers", async () =
       get(name) {
         return {
           authorization: "Basic client-secret",
-          cookie: "beater_session=s",
+          cookie: "palette_session=s",
           "content-type": "application/x-www-form-urlencoded"
         }[name.toLowerCase()] ?? null;
       }
@@ -321,7 +321,7 @@ test("OAuth proxy forwards Authorization and preserves auth headers", async () =
   );
   assert.equal(captured.init.body, "grant_type=authorization_code&resource=https%3A%2F%2Fapi.palette.dev");
   assert.equal(captured.init.headers.authorization, "Basic client-secret");
-  assert.equal(captured.init.headers.cookie, "beater_session=s");
+  assert.equal(captured.init.headers.cookie, "palette_session=s");
   assert.equal(captured.init.headers["content-type"], "application/x-www-form-urlencoded");
   assert.equal(res.status, 200);
   assert.equal(res.headers.get("cache-control"), "no-store");
@@ -371,7 +371,7 @@ test("MCP proxy forwards auth and MCP headers while preserving challenges", asyn
           "last-event-id": "event-1",
           "mcp-protocol-version": "2025-06-18",
           "mcp-session-id": "session-0",
-          "x-beater-project-id": "proj"
+          "x-palette-project-id": "proj"
         }[name.toLowerCase()] ?? null;
       }
     },
@@ -387,7 +387,7 @@ test("MCP proxy forwards auth and MCP headers while preserving challenges", asyn
   assert.equal(captured.init.headers["mcp-protocol-version"], "2025-06-18");
   assert.equal(captured.init.headers["mcp-session-id"], "session-0");
   assert.equal(captured.init.headers["last-event-id"], "event-1");
-  assert.equal(captured.init.headers["x-beater-project-id"], "proj");
+  assert.equal(captured.init.headers["x-palette-project-id"], "proj");
   assert.equal(res.status, 401);
   assert.equal(res.headers.get("mcp-session-id"), "session-1");
   assert.equal(
@@ -545,7 +545,7 @@ test("dashboard page exposes the trace inspection surface", () => {
   assert.match(page, /showConfirmationSlot/);
   assert.match(page, /data-gate2-confirm-span/);
   assert.doesNotMatch(page, /spanConfirmationCode/);
-  assert.doesNotMatch(page, /BEATER_GATE2_CONFIRMATION_SALT/);
+  assert.doesNotMatch(page, /PALETTE_GATE2_CONFIRMATION_SALT/);
   assert.doesNotMatch(page, /createHash/);
   assert.match(page, /"span-proof-strip with-confirmation"/);
   assert.match(page, /aria-label="Span metrics"/);
@@ -675,10 +675,10 @@ test("local Gate 2 proof serves standalone CSS assets", () => {
   assert.ok(proof.includes("cp -R .next/static .next/standalone/.next/static"));
   assert.match(proof, /seed-gate2-redaction-trace\.py/);
   assert.match(proof, /tests\/e2e\/redaction\.spec\.ts/);
-  assert.match(proof, /BEATER_E2E_REDACTION_TRACE_ID/);
+  assert.match(proof, /PALETTE_E2E_REDACTION_TRACE_ID/);
 });
 
-test("dashboard client uses public beater read endpoints", () => {
+test("dashboard client uses public palette read endpoints", () => {
   const api = readFileSync(join(root, "lib/api.ts"), "utf8");
   assert.match(api, /generated\/api-types/);
   assert.match(api, /TraceListPathParams/);
@@ -706,9 +706,9 @@ test("dashboard client uses public beater read endpoints", () => {
   assert.match(api, /spanPath\(traceQuery, trace\.trace_id, activeSpanId\)/);
   assert.match(api, /query,\n\s+runs,/);
   assert.doesNotMatch(api, /query: \{ \.\.\.query, traceId: activeTraceId/);
-  assert.match(api, /BEATER_API_TOKEN/);
-  assert.match(api, /x-beater-project-id/);
-  assert.match(api, /x-beater-environment-id/);
+  assert.match(api, /PALETTE_API_TOKEN/);
+  assert.match(api, /x-palette-project-id/);
+  assert.match(api, /x-palette-environment-id/);
   assert.match(api, /formatApiError\(response\.status, response\.statusText/);
   assert.match(api, /let runs: RunSummaryPage;/);
   assert.match(api, /selectedSpan = selectedSpanFromTrace;/);
@@ -1081,7 +1081,7 @@ test("dashboard loader scopes tenant-wide trace details to the selected run proj
   assert.equal(detailRequests.length, 3);
   assert.ok(
     detailRequests.every(
-      ({ headers }) => headers["x-beater-project-id"] === "project-b"
+      ({ headers }) => headers["x-palette-project-id"] === "project-b"
     )
   );
 });
@@ -1128,7 +1128,7 @@ test("dashboard loader does not scope explicit trace details to an unrelated fal
   assert.equal(detailRequests.length, 3);
   assert.ok(
     detailRequests.every(
-      ({ headers }) => headers["x-beater-project-id"] === undefined
+      ({ headers }) => headers["x-palette-project-id"] === undefined
     )
   );
 });
@@ -1181,7 +1181,7 @@ function spanFixture(spanId, parentSpanId, startTime, seq) {
 }
 
 test("generated api client is produced from the checked-in openapi snapshot", () => {
-  const spec = readFileSync(join(root, "openapi/beater-read-api.json"), "utf8");
+  const spec = readFileSync(join(root, "openapi/palette-read-api.json"), "utf8");
   const generated = readFileSync(join(root, "lib/generated/api-types.ts"), "utf8");
   assert.match(spec, /"\/v1\/traces\/\{tenant_id\}"/);
   assert.match(spec, /"started_after"/);
@@ -1192,7 +1192,7 @@ test("generated api client is produced from the checked-in openapi snapshot", ()
 });
 
 test("in-app docs runtime surfaces are generated from the openapi contract", () => {
-  const spec = JSON.parse(readFileSync(join(root, "openapi/beater-read-api.json"), "utf8"));
+  const spec = JSON.parse(readFileSync(join(root, "openapi/palette-read-api.json"), "utf8"));
   const operationIds = Object.values(spec.paths)
     .flatMap((methods) => Object.values(methods))
     .map((operation) => operation.operationId)
@@ -1202,14 +1202,14 @@ test("in-app docs runtime surfaces are generated from the openapi contract", () 
   assert.ok(operationIds.includes("datasets.create-dataset"));
 
   const openapiRoute = readFileSync(join(root, "app/api/openapi/route.ts"), "utf8");
-  assert.match(openapiRoute, /openapi", "beater-read-api\.json"/);
+  assert.match(openapiRoute, /openapi", "palette-read-api\.json"/);
   assert.match(openapiRoute, /readFile\(specPath, "utf8"\)/);
   assert.match(openapiRoute, /"content-type": "application\/json"/);
 
   const docsPage = readFileSync(join(root, "app/docs/page.tsx"), "utf8");
   assert.match(docsPage, /setAttribute\("data-url", "\/api\/openapi"\)/);
   assert.match(docsPage, /@scalar\/api-reference/);
-  assert.doesNotMatch(docsPage, /beater-read-api\.json/);
+  assert.doesNotMatch(docsPage, /palette-read-api\.json/);
 
   const mcpPage = readFileSync(join(root, "app/docs/mcp/page.tsx"), "utf8");
   assert.match(mcpPage, /fetch\("\/api\/openapi"\)/);
@@ -1268,12 +1268,12 @@ test("connect page gives hosted MCP clients OAuth-first setup and scoped fallbac
   assert.match(client, /eval:run/);
   assert.match(client, /admin/);
   assert.match(client, /API-key fallback/);
-  assert.match(client, /BEATER_API_KEY="bt_\.\.\."/);
-  assert.doesNotMatch(client, /BEATER_API_KEY="bao_\.\.\."/);
+  assert.match(client, /PALETTE_API_KEY="bt_\.\.\."/);
+  assert.doesNotMatch(client, /PALETTE_API_KEY="bao_\.\.\."/);
   assert.match(client, /tools\/call/);
   assert.match(client, /traces\.list-traces/);
-  assert.match(client, /x-beater-project-id/);
-  assert.match(client, /x-beater-environment-id/);
+  assert.match(client, /x-palette-project-id/);
+  assert.match(client, /x-palette-environment-id/);
   assert.match(client, /CopyField/);
   assert.match(client, /CopyButton/);
 
@@ -1312,12 +1312,12 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   const recorder = readFileSync(join(root, "tests/e2e/record-gate2-demo.mjs"), "utf8");
   assert.match(recorder, /recordVideo/);
   assert.match(recorder, /requireAttribute/);
-  assert.match(recorder, /BEATER_GATE2_RECORD_MODE/);
-  assert.match(recorder, /BEATER_E2E_QUICKSTART_RELEASE/);
+  assert.match(recorder, /PALETTE_GATE2_RECORD_MODE/);
+  assert.match(recorder, /PALETTE_E2E_QUICKSTART_RELEASE/);
   assert.match(recorder, /recordQuickstartFlow/);
   assert.match(recorder, /recordAllKindFlow/);
   assert.match(recorder, /recordRedactionFlow/);
-  assert.match(recorder, /BEATER_E2E_REDACTION_TRACE_ID/);
+  assert.match(recorder, /PALETTE_E2E_REDACTION_TRACE_ID/);
   assert.match(recorder, /redactionUnmaskReason = "gate2-redaction-review"/);
   assert.match(recorder, /quickstartNotes/);
   assert.match(recorder, /Quickstart release ID/);
@@ -1348,18 +1348,18 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(recorder, /Redacted view/);
   assert.match(recorder, /gate2-browser-demo\.webm/);
   const redaction = readFileSync(join(root, "tests/e2e/redaction.spec.ts"), "utf8");
-  assert.match(redaction, /BEATER_E2E_REDACTION_TRACE_ID/);
-  assert.match(redaction, /BEATER_E2E_REDACTION_SPAN_ID/);
+  assert.match(redaction, /PALETTE_E2E_REDACTION_TRACE_ID/);
+  assert.match(redaction, /PALETTE_E2E_REDACTION_SPAN_ID/);
   assert.match(redaction, /gpt-redaction/);
   assert.match(redaction, /gate2-redaction-review/);
   assert.match(redaction, /not\.toContainText\(rawCard\)/);
   assert.match(redaction, /Redacted view/);
   const quickstart = readFileSync(join(root, "tests/e2e/quickstart.spec.ts"), "utf8");
-  assert.match(quickstart, /BEATER_E2E_QUICKSTART_TRACE_ID/);
+  assert.match(quickstart, /PALETTE_E2E_QUICKSTART_TRACE_ID/);
   assert.match(quickstart, /import \{ expectTokenBreakdown \} from "\.\/token-breakdown"/);
   assert.doesNotMatch(quickstart, /async function expectTokenBreakdown/);
-  assert.match(quickstart, /BEATER_E2E_QUICKSTART_RELEASE/);
-  assert.doesNotMatch(quickstart, /BEATER_E2E_TRACE_ID/);
+  assert.match(quickstart, /PALETTE_E2E_QUICKSTART_RELEASE/);
+  assert.doesNotMatch(quickstart, /PALETTE_E2E_TRACE_ID/);
   assert.match(quickstart, /five-line-llm-call/);
   assert.match(quickstart, /gpt-quickstart/);
   assert.match(quickstart, /releaseParam/);
@@ -1372,7 +1372,7 @@ test("browser proof covers all canonical span kinds and can record a demo", () =
   assert.match(quickstart, /traceRow\.click\(\)/);
   assert.match(quickstart, /toHaveURL/);
   assert.match(quickstart, /hello from stock OpenTelemetry/);
-  assert.match(quickstart, /hello from Beater/);
+  assert.match(quickstart, /hello from Palette/);
   assert.match(quickstart, /data-icon/);
   assert.match(quickstart, /Selected span path/);
   assert.match(quickstart, /12 total, 5 prompt, 7 completion/);
@@ -1425,11 +1425,11 @@ test("gate2 confirmation code is fetched only after a browser span click", () =>
   assert.match(confirmationRequest, /isBrowserClickProof\(record\.click\)/);
   assert.match(confirmationRequest, /GATE2_TRACE_ID = \/\^\[0-9a-f\]\{32\}\$\//);
   assert.match(confirmationRequest, /GATE2_SPAN_ID = \/\^\[0-9a-f\]\{16\}\$\//);
-  assert.match(confirmationContract, /GATE2_CONFIRMATION_SALT_ENV = "BEATER_GATE2_CONFIRMATION_SALT"/);
+  assert.match(confirmationContract, /GATE2_CONFIRMATION_SALT_ENV = "PALETTE_GATE2_CONFIRMATION_SALT"/);
   assert.match(confirmationContract, /GATE2_CONFIRMATION_HASH_PREFIX = "gate2"/);
   assert.match(confirmationContract, /GATE2_CONFIRMATION_CODE = \/\^\[0-9A-F\]\{8\}\$\//);
   assert.match(confirmation, /gate2ConfirmationCode/);
-  assert.match(session, /GATE2_SESSION_COOKIE = "beater_gate2_session"/);
+  assert.match(session, /GATE2_SESSION_COOKIE = "palette_gate2_session"/);
   assert.match(session, /GATE2_SESSION_MAX_AGE_SECONDS = 60 \* 60/);
   assert.match(session, /isGate2SessionId/);
   const css = readFileSync(join(root, "app/globals.css"), "utf8");
@@ -1445,8 +1445,8 @@ test("gate2 confirmation code is fetched only after a browser span click", () =>
 });
 
 test("gate2 confirmation route rejects non-browser requests and nonce replay", async () => {
-  const previousSalt = process.env.BEATER_GATE2_CONFIRMATION_SALT;
-  process.env.BEATER_GATE2_CONFIRMATION_SALT = "unit-salt";
+  const previousSalt = process.env.PALETTE_GATE2_CONFIRMATION_SALT;
+  process.env.PALETTE_GATE2_CONFIRMATION_SALT = "unit-salt";
   try {
     const { POST } = loadGate2ConfirmRouteModule();
 
@@ -1505,9 +1505,9 @@ test("gate2 confirmation route rejects non-browser requests and nonce replay", a
     );
   } finally {
     if (previousSalt === undefined) {
-      delete process.env.BEATER_GATE2_CONFIRMATION_SALT;
+      delete process.env.PALETTE_GATE2_CONFIRMATION_SALT;
     } else {
-      process.env.BEATER_GATE2_CONFIRMATION_SALT = previousSalt;
+      process.env.PALETTE_GATE2_CONFIRMATION_SALT = previousSalt;
     }
   }
 });

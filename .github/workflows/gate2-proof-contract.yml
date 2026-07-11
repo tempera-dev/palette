@@ -83,6 +83,6 @@ jobs:
 
       - name: Gate 2 self-host contract tests
         run: |
-          cargo test -p beaterd --test offline_compose
-          cargo test -p beaterd --test self_host_contract
-          cargo test -p beaterd --test gate2_outside_validator
+          cargo test -p paletted --test offline_compose
+          cargo test -p paletted --test self_host_contract
+          cargo test -p paletted --test gate2_outside_validator

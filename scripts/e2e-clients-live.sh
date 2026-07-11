@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Per-language LIVE conformance: launch beaterd, then for each language whose
+# Per-language LIVE conformance: launch paletted, then for each language whose
 # toolchain is present, run a program written IN THAT LANGUAGE that drives the
 # generated control-plane client against the live API and verifies the typed
 # request/response shapes match. Proves API-shape == SDK-shape, per language.
@@ -11,25 +11,25 @@ set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 
-PORT="${BEATER_E2E_PORT:-18100}"
-GRPC_PORT="${BEATER_E2E_GRPC_PORT:-14337}"
+PORT="${PALETTE_E2E_PORT:-18100}"
+GRPC_PORT="${PALETTE_E2E_GRPC_PORT:-14337}"
 data_dir="$(mktemp -d)"
 log="$(mktemp)"
-export BEATER_BASE_URL="http://127.0.0.1:$PORT"
-export BEATER_TENANT="demo"
-export BEATER_PROJECT="demo"
+export PALETTE_BASE_URL="http://127.0.0.1:$PORT"
+export PALETTE_TENANT="demo"
+export PALETTE_PROJECT="demo"
 
 cleanup() { [ -n "${pid:-}" ] && kill "$pid" 2>/dev/null || true; rm -rf "$data_dir"; }
 trap cleanup EXIT
 
-echo "==> Building + launching beaterd"
-cargo build -q -p beaterd
-./target/debug/beaterd --addr "127.0.0.1:$PORT" --otlp-grpc-addr "127.0.0.1:$GRPC_PORT" \
+echo "==> Building + launching paletted"
+cargo build -q -p paletted
+./target/debug/paletted --addr "127.0.0.1:$PORT" --otlp-grpc-addr "127.0.0.1:$GRPC_PORT" \
   --data-dir "$data_dir" --auth-mode local >"$log" 2>&1 &
 pid=$!
-for _ in $(seq 1 60); do curl -fsS "$BEATER_BASE_URL/health" >/dev/null 2>&1 && { ready=1; break; }; sleep 0.5; done
-[ -n "${ready:-}" ] || { echo "beaterd not healthy"; cat "$log"; exit 1; }
-echo "    beaterd live on $BEATER_BASE_URL"
+for _ in $(seq 1 60); do curl -fsS "$PALETTE_BASE_URL/health" >/dev/null 2>&1 && { ready=1; break; }; sleep 0.5; done
+[ -n "${ready:-}" ] || { echo "paletted not healthy"; cat "$log"; exit 1; }
+echo "    paletted live on $PALETTE_BASE_URL"
 
 declare -a PASS=() SKIP=() FAIL=()
 
@@ -88,9 +88,9 @@ fi
 # have PASSed (a required language that FAILed is not in PASS, so this catches
 # it). Optional languages whose full toolchain happened to be present but failed
 # are reported above but are best-effort, not gating -- this mirrors the SKIP
-# policy and is why BEATER_CONFORMANCE_REQUIRE exists as an allowlist.
-if [ -n "${BEATER_CONFORMANCE_REQUIRE:-}" ]; then
-  for need in ${BEATER_CONFORMANCE_REQUIRE//,/ }; do
+# policy and is why PALETTE_CONFORMANCE_REQUIRE exists as an allowlist.
+if [ -n "${PALETTE_CONFORMANCE_REQUIRE:-}" ]; then
+  for need in ${PALETTE_CONFORMANCE_REQUIRE//,/ }; do
     printf '%s\n' "${PASS[@]}" | grep -qx "$need" || { echo "ERROR: required language '$need' did not PASS" >&2; exit 1; }
   done
   exit 0

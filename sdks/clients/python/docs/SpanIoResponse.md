@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.span_io_response import SpanIoResponse
+from palette_client.models.span_io_response import SpanIoResponse
 
 # TODO update the JSON string below
 json = "{}"

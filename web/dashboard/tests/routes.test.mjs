@@ -1,5 +1,5 @@
 /**
- * Static route smoke manifest for the Beater dashboard (Soundstage, §25).
+ * Static route smoke manifest for the Palette dashboard (Soundstage, §25).
  *
  * What this file checks (all statically — no server, no build):
  *   1. Every leaf directory under app/ (excluding app/api/) has a page.tsx —
@@ -90,7 +90,7 @@ const PENDING_ROUTES = [
   {
     route: "/experiments/[id]",
     file: "experiments/[id]/page.tsx",
-    note: "Beatboxing A/B — §25.4 [needs read-API: §20.4 #2.3]",
+    note: "Palette Experiments A/B — §25.4 [needs read-API: §20.4 #2.3]",
   },
   {
     route: "/evals/[id]",
@@ -125,7 +125,7 @@ const PENDING_ROUTES = [
   {
     route: "/evolution",
     file: "evolution/page.tsx",
-    note: "Beatboxing RSI — §25.4 [planned; depends on §21 RSI]",
+    note: "Palette Experiments RSI — §25.4 [planned; depends on §21 RSI]",
   },
 ];
 

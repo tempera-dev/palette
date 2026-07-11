@@ -23,13 +23,13 @@ evaluator_kind_one_of_7_t* instantiate_evaluator_kind_one_of_7(int include_optio
   if (include_optional) {
     evaluator_kind_one_of_7 = evaluator_kind_one_of_7_create(
       "0",
-      beater_api_evaluator_kind_one_of_7_TYPE_browser_task_success,
+      palette_api_evaluator_kind_one_of_7_TYPE_browser_task_success,
       "0"
     );
   } else {
     evaluator_kind_one_of_7 = evaluator_kind_one_of_7_create(
       "0",
-      beater_api_evaluator_kind_one_of_7_TYPE_browser_task_success,
+      palette_api_evaluator_kind_one_of_7_TYPE_browser_task_success,
       "0"
     );
   }

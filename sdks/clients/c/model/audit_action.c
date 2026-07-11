@@ -4,12 +4,12 @@
 #include "audit_action.h"
 
 
-char* audit_action_audit_action_ToString(beater_api_audit_action__e audit_action) {
+char* audit_action_audit_action_ToString(palette_api_audit_action__e audit_action) {
     char *audit_actionArray[] =  { "NULL", "pii_unmask", "api_key_create", "api_key_revoke", "provider_secret_create", "provider_secret_revoke", "connector_tool_invoke" };
     return audit_actionArray[audit_action];
 }
 
-beater_api_audit_action__e audit_action_audit_action_FromString(char* audit_action) {
+palette_api_audit_action__e audit_action_audit_action_FromString(char* audit_action) {
     int stringToReturn = 0;
     char *audit_actionArray[] =  { "NULL", "pii_unmask", "api_key_create", "api_key_revoke", "provider_secret_create", "provider_secret_revoke", "connector_tool_invoke" };
     size_t sizeofArray = sizeof(audit_actionArray) / sizeof(audit_actionArray[0]);
@@ -22,7 +22,7 @@ beater_api_audit_action__e audit_action_audit_action_FromString(char* audit_acti
     return 0;
 }
 
-cJSON *audit_action_convertToJSON(beater_api_audit_action__e audit_action) {
+cJSON *audit_action_convertToJSON(palette_api_audit_action__e audit_action) {
     cJSON *item = cJSON_CreateObject();
     if(cJSON_AddStringToObject(item, "audit_action", audit_action_audit_action_ToString(audit_action)) == NULL) {
         goto fail;
@@ -33,7 +33,7 @@ fail:
     return NULL;
 }
 
-beater_api_audit_action__e audit_action_parseFromJSON(cJSON *audit_actionJSON) {
+palette_api_audit_action__e audit_action_parseFromJSON(cJSON *audit_actionJSON) {
     if(!cJSON_IsString(audit_actionJSON) || (audit_actionJSON->valuestring == NULL)) {
         return 0;
     }

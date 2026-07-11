@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -25,11 +25,11 @@ pub struct DatasetsPeriodCreateDatasetParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`datasets_period_create_dataset_version`]
@@ -45,11 +45,11 @@ pub struct DatasetsPeriodCreateDatasetVersionParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`datasets_period_promote_dataset_case_from_trace`]
@@ -65,11 +65,11 @@ pub struct DatasetsPeriodPromoteDatasetCaseFromTraceParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 
@@ -117,14 +117,14 @@ pub async fn datasets_period_create_dataset(configuration: &configuration::Confi
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.create_dataset_request);
 
@@ -154,14 +154,14 @@ pub async fn datasets_period_create_dataset_version(configuration: &configuratio
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.create_dataset_version_request);
 
@@ -191,14 +191,14 @@ pub async fn datasets_period_promote_dataset_case_from_trace(configuration: &con
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.promote_trace_case_request);
 

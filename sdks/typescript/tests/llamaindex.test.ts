@@ -3,12 +3,12 @@ import { test } from "node:test";
 
 import { InMemorySpanExporter } from "@opentelemetry/sdk-trace-base";
 
-import * as beater from "../src/index";
+import * as palette from "../src/index";
 import { Attr, SpanKind } from "../src/semconv";
 import type { LlamaIndexEventHandler, LlamaIndexEventName } from "../src/integrations/llamaindex";
 
 const exporter = new InMemorySpanExporter();
-beater.init({ tenantId: "t", projectId: "p", environmentId: "e", exporter });
+palette.init({ tenantId: "t", projectId: "p", environmentId: "e", exporter });
 
 class FakeCallbackManager {
   private handlers = new Map<LlamaIndexEventName, Set<LlamaIndexEventHandler>>();
@@ -51,13 +51,13 @@ function parentSpanId(span: unknown): string | undefined {
 test("instrumentLlamaIndex records a query, synthesis, and LLM span tree", async () => {
   const exporter = setup();
   const manager = new FakeCallbackManager();
-  beater.instrumentLlamaIndex(manager);
+  palette.instrumentLlamaIndex(manager);
 
-  manager.emit("query-start", { id: "query-1", query: "What is Beater?" });
-  manager.emit("synthesize-start", { id: "synth-1", query: { query: "What is Beater?", nodes: [] } });
+  manager.emit("query-start", { id: "query-1", query: "What is Palette?" });
+  manager.emit("synthesize-start", { id: "synth-1", query: { query: "What is Palette?", nodes: [] } });
   manager.emit("llm-start", {
     id: "llm-1",
-    messages: [{ role: "user", content: "What is Beater?" }],
+    messages: [{ role: "user", content: "What is Palette?" }],
   });
   manager.emit("llm-end", {
     id: "llm-1",
@@ -71,7 +71,7 @@ test("instrumentLlamaIndex records a query, synthesis, and LLM span tree", async
   });
   manager.emit("synthesize-end", { id: "synth-1", response: { response: "An agent observability platform." } });
   manager.emit("query-end", { id: "query-1", response: { response: "An agent observability platform." } });
-  await beater.flush();
+  await palette.flush();
 
   const spans = exporter.getFinishedSpans();
   const query = byName(spans, "llamaindex.query");
@@ -92,7 +92,7 @@ test("instrumentLlamaIndex records a query, synthesis, and LLM span tree", async
 test("instrumentLlamaIndex records retrieval and tool spans", async () => {
   const exporter = setup();
   const manager = new FakeCallbackManager();
-  beater.instrumentLlamaIndex(manager);
+  palette.instrumentLlamaIndex(manager);
 
   manager.emit("query-start", { id: "query-2", query: "Find policy" });
   manager.emit("retrieve-start", { id: "retrieve-1", query: { query: "Find policy" } });
@@ -106,7 +106,7 @@ test("instrumentLlamaIndex records retrieval and tool spans", async () => {
     toolResult: { output: "30 days", isError: false },
   });
   manager.emit("query-end", { id: "query-2", response: { response: "30 days" } });
-  await beater.flush();
+  await palette.flush();
 
   const spans = exporter.getFinishedSpans();
   const retrieve = byName(spans, "llamaindex.retrieve");
@@ -121,12 +121,12 @@ test("instrumentLlamaIndex records retrieval and tool spans", async () => {
 test("instrumentLlamaIndex unregisters callback handlers", async () => {
   const exporter = setup();
   const manager = new FakeCallbackManager();
-  const instrumentation = beater.instrumentLlamaIndex(manager);
+  const instrumentation = palette.instrumentLlamaIndex(manager);
   instrumentation.uninstall();
 
   manager.emit("query-start", { id: "query-3", query: "ignored" });
   manager.emit("query-end", { id: "query-3", response: "ignored" });
-  await beater.flush();
+  await palette.flush();
 
   assert.equal(exporter.getFinishedSpans().length, 0);
 });

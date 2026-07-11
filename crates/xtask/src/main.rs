@@ -3,9 +3,9 @@
 //! The project standard is `cargo xtask` over ad-hoc shell scripts. This crate
 //! owns the OpenAPI spec / SDK regeneration pipeline:
 //!
-//! * `regen-spec`: regenerate `sdks/openapi/beater-api.json`, the dashboard
+//! * `regen-spec`: regenerate `sdks/openapi/palette-api.json`, the dashboard
 //!   snapshot, AND the dashboard's typed client
-//!   (`web/dashboard/lib/generated/api-types.ts`) directly from the `beater-api`
+//!   (`web/dashboard/lib/generated/api-types.ts`) directly from the `palette-api`
 //!   handlers — every spec-derived artifact in one step, so nothing the CI drift
 //!   checks enforce is left stale. The dashboard client step needs Node/npx.
 //! * `regen-sdks`: regenerate the spec *and* every language client by shelling
@@ -22,14 +22,14 @@ use anyhow::{Context, bail};
 use clap::{Parser, Subcommand};
 
 /// Canonical spec location, relative to the workspace root.
-const SPEC_PATH: &str = "sdks/openapi/beater-api.json";
-/// Cross-language semantic-conventions contract, regenerated from beater-schema.
+const SPEC_PATH: &str = "sdks/openapi/palette-api.json";
+/// Cross-language semantic-conventions contract, regenerated from palette-schema.
 const SEMCONV_PATH: &str = "sdks/semconv/conventions.json";
 /// Dashboard snapshot that must stay byte-identical to the canonical spec.
-const DASHBOARD_SPEC_PATH: &str = "web/dashboard/openapi/beater-read-api.json";
+const DASHBOARD_SPEC_PATH: &str = "web/dashboard/openapi/palette-read-api.json";
 
 #[derive(Debug, Parser)]
-#[command(name = "xtask", about = "Beater workspace automation tasks")]
+#[command(name = "xtask", about = "Palette workspace automation tasks")]
 struct Args {
     #[command(subcommand)]
     command: Cmd,
@@ -37,13 +37,13 @@ struct Args {
 
 #[derive(Debug, Subcommand)]
 enum Cmd {
-    /// Regenerate the OpenAPI spec from the beater-api handlers (no Docker).
+    /// Regenerate the OpenAPI spec from the palette-api handlers (no Docker).
     RegenSpec,
     /// Regenerate the spec and every language SDK client (requires Docker).
     RegenSdks,
     /// Fail if the committed spec is stale versus the handlers (no Docker).
     CheckDrift,
-    /// Regenerate the cross-language semconv contract from beater-schema.
+    /// Regenerate the cross-language semconv contract from palette-schema.
     RegenSemconv,
 }
 
@@ -57,7 +57,7 @@ fn main() -> anyhow::Result<()> {
     }
 }
 
-/// Write `sdks/semconv/conventions.json` from `beater_schema::conventions`, the
+/// Write `sdks/semconv/conventions.json` from `palette_schema::conventions`, the
 /// single source of truth for span kinds + attribute keys. CI regenerates this
 /// and fails on `git diff`, so the server contract can't drift from the file the
 /// SDK drift checker validates against.
@@ -68,7 +68,7 @@ fn regen_semconv() -> anyhow::Result<()> {
         std::fs::create_dir_all(parent)
             .with_context(|| format!("create semconv dir {}", parent.display()))?;
     }
-    std::fs::write(&path, beater_schema::conventions::conventions_json())
+    std::fs::write(&path, palette_schema::conventions::conventions_json())
         .with_context(|| format!("write semconv {}", path.display()))?;
     println!("wrote {}", path.display());
     Ok(())
@@ -89,7 +89,7 @@ fn workspace_root() -> anyhow::Result<PathBuf> {
 /// Render the canonical OpenAPI document directly from the handlers.
 fn render_spec() -> anyhow::Result<String> {
     let mut json =
-        beater_api::openapi::openapi_json_pretty().context("render OpenAPI spec to JSON")?;
+        palette_api::openapi::openapi_json_pretty().context("render OpenAPI spec to JSON")?;
     // Match the trailing newline that shell redirection (`> file`) produced for
     // the committed artifact so drift checks compare equal.
     json.push('\n');
@@ -139,7 +139,7 @@ fn regen_dashboard_client(root: &Path) -> anyhow::Result<()> {
         .args([
             "--yes",
             &format!("openapi-typescript@{version}"),
-            "openapi/beater-read-api.json",
+            "openapi/palette-read-api.json",
             "-o",
             out_rel,
         ])
@@ -207,7 +207,7 @@ fn check_drift() -> anyhow::Result<()> {
     // (and a clean non-zero exit) regardless of whether the on-disk file is
     // tracked, staged, or untracked -- we only care that the *content* the
     // handlers produce matches what is checked in.
-    let dir = std::env::temp_dir().join(format!("beater-xtask-drift-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("palette-xtask-drift-{}", std::process::id()));
     std::fs::create_dir_all(&dir)
         .with_context(|| format!("create temp drift dir {}", dir.display()))?;
     let result = check_drift_inner(&root, &fresh, &dir);
@@ -217,7 +217,7 @@ fn check_drift() -> anyhow::Result<()> {
 }
 
 fn check_drift_inner(root: &Path, fresh: &str, dir: &Path) -> anyhow::Result<()> {
-    let temp_spec = dir.join("beater-api.json");
+    let temp_spec = dir.join("palette-api.json");
     std::fs::write(&temp_spec, fresh)
         .with_context(|| format!("write temp spec {}", temp_spec.display()))?;
 
@@ -233,7 +233,7 @@ fn check_drift_inner(root: &Path, fresh: &str, dir: &Path) -> anyhow::Result<()>
             .with_context(|| format!("run git diff for {relative}"))?;
         if !status.success() {
             bail!(
-                "OpenAPI spec drift: {relative} is stale versus the beater-api handlers.\n\
+                "OpenAPI spec drift: {relative} is stale versus the palette-api handlers.\n\
                  Run `cargo xtask regen-spec` (and `cargo xtask regen-sdks` for the language \
                  clients) and commit. The full check is `cargo xtask regen-sdks` followed by \
                  `git diff` over sdks/clients."

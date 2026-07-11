@@ -1,7 +1,7 @@
 {
-  "name": "@beater/client",
+  "name": "@palette/client",
   "version": "0.1.0",
-  "description": "OpenAPI client for @beater/client",
+  "description": "OpenAPI client for @palette/client",
   "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",

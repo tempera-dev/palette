@@ -13,7 +13,7 @@ static experiment_run_report_t *experiment_run_report_create_internal(
     char *created_at,
     char *dataset_id,
     char *dataset_version_id,
-    beater_api_gate_decision__e decision,
+    palette_api_gate_decision__e decision,
     char *evaluator_version_id,
     char *experiment_run_id,
     gate_policy_t *gate_policy,
@@ -50,7 +50,7 @@ __attribute__((deprecated)) experiment_run_report_t *experiment_run_report_creat
     char *created_at,
     char *dataset_id,
     char *dataset_version_id,
-    beater_api_gate_decision__e decision,
+    palette_api_gate_decision__e decision,
     char *evaluator_version_id,
     char *experiment_run_id,
     gate_policy_t *gate_policy,
@@ -221,7 +221,7 @@ cJSON *experiment_run_report_convertToJSON(experiment_run_report_t *experiment_r
 
 
     // experiment_run_report->decision
-    if (beater_api_gate_decision__NULL == experiment_run_report->decision) {
+    if (palette_api_gate_decision__NULL == experiment_run_report->decision) {
         goto fail;
     }
     cJSON *decision_local_JSON = gate_decision_convertToJSON(experiment_run_report->decision);
@@ -301,7 +301,7 @@ experiment_run_report_t *experiment_run_report_parseFromJSON(cJSON *experiment_r
     experiment_comparison_t *comparison_local_nonprim = NULL;
 
     // define the local variable for experiment_run_report->decision
-    beater_api_gate_decision__e decision_local_nonprim = 0;
+    palette_api_gate_decision__e decision_local_nonprim = 0;
 
     // define the local variable for experiment_run_report->gate_policy
     gate_policy_t *gate_policy_local_nonprim = NULL;

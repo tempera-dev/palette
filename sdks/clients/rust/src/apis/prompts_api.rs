@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -27,11 +27,11 @@ pub struct PromptsPeriodAddPromptVersionParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`prompts_period_create_prompt`]
@@ -45,11 +45,11 @@ pub struct PromptsPeriodCreatePromptParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`prompts_period_diff_prompt_versions`]
@@ -66,11 +66,11 @@ pub struct PromptsPeriodDiffPromptVersionsParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`prompts_period_get_prompt`]
@@ -85,11 +85,11 @@ pub struct PromptsPeriodGetPromptParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`prompts_period_list_prompt_versions`]
@@ -104,11 +104,11 @@ pub struct PromptsPeriodListPromptVersionsParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`prompts_period_list_prompts`]
@@ -121,11 +121,11 @@ pub struct PromptsPeriodListPromptsParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 
@@ -205,14 +205,14 @@ pub async fn prompts_period_add_prompt_version(configuration: &configuration::Co
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.add_prompt_version_request);
 
@@ -242,14 +242,14 @@ pub async fn prompts_period_create_prompt(configuration: &configuration::Configu
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.create_prompt_request);
 
@@ -281,14 +281,14 @@ pub async fn prompts_period_diff_prompt_versions(configuration: &configuration::
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -317,14 +317,14 @@ pub async fn prompts_period_get_prompt(configuration: &configuration::Configurat
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -353,14 +353,14 @@ pub async fn prompts_period_list_prompt_versions(configuration: &configuration::
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -389,14 +389,14 @@ pub async fn prompts_period_list_prompts(configuration: &configuration::Configur
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;

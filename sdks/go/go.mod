@@ -1,4 +1,4 @@
-module github.com/jadenfix/beater/sdks/go
+module github.com/jadenfix/palette/sdks/go
 
 go 1.26.4
 

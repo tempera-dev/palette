@@ -1,10 +1,10 @@
-// Package beater provides ergonomic OpenTelemetry tracing helpers that emit
-// spans Beater understands, mirroring the Python and TypeScript SDKs.
-package beater
+// Package palette provides ergonomic OpenTelemetry tracing helpers that emit
+// spans Palette understands, mirroring the Python and TypeScript SDKs.
+package palette
 
 // Span kinds. These are the openinference.span.kind values accepted by the
-// beaterd OTLP normalizer. They mirror sdks/python/beater/semconv.py and the
-// Rust normalizer in crates/beater-otlp -- keep them in lockstep with the
+// paletted OTLP normalizer. They mirror sdks/python/palette/semconv.py and the
+// Rust normalizer in crates/palette-otlp -- keep them in lockstep with the
 // server. This file is the single source of truth for the Go SDK.
 const (
 	KindAgentRun       = "agent.run"
@@ -38,7 +38,7 @@ var SpanKinds = map[string]struct{}{
 // Canonical span attribute keys.
 const (
 	AttrSpanKind  = "openinference.span.kind"
-	AttrSeq       = "beater.seq"
+	AttrSeq       = "palette.seq"
 	AttrReleaseID = "agent.release_id"
 
 	AttrInputValue  = "input.value"
@@ -56,7 +56,7 @@ const (
 
 // OTLP scope headers used when exporting over gRPC (HTTP carries these in the URL path).
 const (
-	HeaderTenant      = "x-beater-tenant-id"
-	HeaderProject     = "x-beater-project-id"
-	HeaderEnvironment = "x-beater-environment-id"
+	HeaderTenant      = "x-palette-tenant-id"
+	HeaderProject     = "x-palette-project-id"
+	HeaderEnvironment = "x-palette-environment-id"
 )

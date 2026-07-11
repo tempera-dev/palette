@@ -18,15 +18,15 @@ typedef struct audit_action_t audit_action_t;
 
 // Enum  for audit_action
 
-typedef enum { beater_api_audit_action__NULL = 0, beater_api_audit_action__pii_unmask, beater_api_audit_action__api_key_create, beater_api_audit_action__api_key_revoke, beater_api_audit_action__provider_secret_create, beater_api_audit_action__provider_secret_revoke, beater_api_audit_action__connector_tool_invoke } beater_api_audit_action__e;
+typedef enum { palette_api_audit_action__NULL = 0, palette_api_audit_action__pii_unmask, palette_api_audit_action__api_key_create, palette_api_audit_action__api_key_revoke, palette_api_audit_action__provider_secret_create, palette_api_audit_action__provider_secret_revoke, palette_api_audit_action__connector_tool_invoke } palette_api_audit_action__e;
 
-char* audit_action_audit_action_ToString(beater_api_audit_action__e audit_action);
+char* audit_action_audit_action_ToString(palette_api_audit_action__e audit_action);
 
-beater_api_audit_action__e audit_action_audit_action_FromString(char* audit_action);
+palette_api_audit_action__e audit_action_audit_action_FromString(char* audit_action);
 
-cJSON *audit_action_convertToJSON(beater_api_audit_action__e audit_action);
+cJSON *audit_action_convertToJSON(palette_api_audit_action__e audit_action);
 
-beater_api_audit_action__e audit_action_parseFromJSON(cJSON *audit_actionJSON);
+palette_api_audit_action__e audit_action_parseFromJSON(cJSON *audit_actionJSON);
 
 #endif /* _audit_action_H_ */
 

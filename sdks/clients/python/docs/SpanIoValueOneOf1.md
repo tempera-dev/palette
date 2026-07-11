@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.span_io_value_one_of1 import SpanIoValueOneOf1
+from palette_client.models.span_io_value_one_of1 import SpanIoValueOneOf1
 
 # TODO update the JSON string below
 json = "{}"

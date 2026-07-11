@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.gate_policy import GatePolicy
+from palette_client.models.gate_policy import GatePolicy
 
 # TODO update the JSON string below
 json = "{}"

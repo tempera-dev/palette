@@ -4,8 +4,8 @@ import { expectTokenBreakdown } from "./token-breakdown";
 test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", async ({
   page
 }) => {
-  const traceParam = process.env.BEATER_E2E_TRACE_ID
-    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+  const traceParam = process.env.PALETTE_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.PALETTE_E2E_TRACE_ID)}`
     : "&kind=llm.call&model=gpt-demo&release=compose-demo";
   await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);
 
@@ -200,9 +200,9 @@ test("renders a stock OTLP llm span through table, waterfall, detail, and I/O", 
 test("keeps an explicitly opened trace coherent when secondary filters exclude it", async ({
   page
 }) => {
-  test.skip(!process.env.BEATER_E2E_TRACE_ID, "requires the seeded all-kind trace id");
+  test.skip(!process.env.PALETTE_E2E_TRACE_ID, "requires the seeded all-kind trace id");
 
-  const traceId = process.env.BEATER_E2E_TRACE_ID!;
+  const traceId = process.env.PALETTE_E2E_TRACE_ID!;
   await page.goto(
     `/?tenant=demo&project=demo&environment=local&trace=${encodeURIComponent(traceId)}&status=error`
   );
@@ -235,8 +235,8 @@ test("keeps an explicitly opened trace coherent when secondary filters exclude i
 });
 
 test("does not fake-select the first span for a stale span query param", async ({ page }) => {
-  const traceParam = process.env.BEATER_E2E_TRACE_ID
-    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+  const traceParam = process.env.PALETTE_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.PALETTE_E2E_TRACE_ID)}`
     : "&kind=llm.call&model=gpt-demo&release=compose-demo";
 
   await page.goto(
@@ -258,8 +258,8 @@ test("does not fake-select the first span for a stale span query param", async (
 });
 
 test("keeps the trace console inside the viewport on desktop and mobile", async ({ page }) => {
-  const traceParam = process.env.BEATER_E2E_TRACE_ID
-    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+  const traceParam = process.env.PALETTE_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.PALETTE_E2E_TRACE_ID)}`
     : "&kind=llm.call&model=gpt-demo&release=compose-demo";
 
   for (const viewport of [
@@ -319,8 +319,8 @@ test("keeps the trace console inside the viewport on desktop and mobile", async 
 });
 
 test("keeps odd metric grids visually closed", async ({ page }) => {
-  const traceParam = process.env.BEATER_E2E_TRACE_ID
-    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+  const traceParam = process.env.PALETTE_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.PALETTE_E2E_TRACE_ID)}`
     : "&kind=llm.call&model=gpt-demo&release=compose-demo";
 
   await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);
@@ -361,8 +361,8 @@ test("keeps odd metric grids visually closed", async ({ page }) => {
 test("supports keyboard focus across filters, traces, spans, and unmask controls", async ({
   page
 }) => {
-  const traceParam = process.env.BEATER_E2E_TRACE_ID
-    ? `&trace=${encodeURIComponent(process.env.BEATER_E2E_TRACE_ID)}`
+  const traceParam = process.env.PALETTE_E2E_TRACE_ID
+    ? `&trace=${encodeURIComponent(process.env.PALETTE_E2E_TRACE_ID)}`
     : "&kind=llm.call&model=gpt-demo&release=compose-demo";
 
   await page.goto(`/?tenant=demo&project=demo&environment=local${traceParam}`);

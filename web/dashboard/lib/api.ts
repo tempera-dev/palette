@@ -79,8 +79,8 @@ export type SearchData = {
 
 export function dashboardApiBaseUrl(): string {
   return (
-    process.env.BEATER_API_BASE_URL ??
-    process.env.NEXT_PUBLIC_BEATER_API_BASE_URL ??
+    process.env.PALETTE_API_BASE_URL ??
+    process.env.NEXT_PUBLIC_PALETTE_API_BASE_URL ??
     "http://127.0.0.1:8080"
   ).replace(/\/$/, "");
 }
@@ -89,17 +89,17 @@ export function dashboardApiHeaders(
   query: Pick<DashboardQuery, "projectId" | "environmentId">
 ): HeadersInit {
   const headers: Record<string, string> = {};
-  const bearerToken = process.env.BEATER_API_TOKEN ?? process.env.BEATER_API_BEARER_TOKEN;
-  const apiKey = process.env.BEATER_API_KEY;
+  const bearerToken = process.env.PALETTE_API_TOKEN ?? process.env.PALETTE_API_BEARER_TOKEN;
+  const apiKey = process.env.PALETTE_API_KEY;
   if (bearerToken) {
     headers.authorization = bearerToken.startsWith("Bearer ")
       ? bearerToken
       : `Bearer ${bearerToken}`;
   } else if (apiKey) {
-    headers["x-beater-api-key"] = apiKey;
+    headers["x-palette-api-key"] = apiKey;
   }
-  if (query.projectId) headers["x-beater-project-id"] = query.projectId;
-  if (query.environmentId) headers["x-beater-environment-id"] = query.environmentId;
+  if (query.projectId) headers["x-palette-project-id"] = query.projectId;
+  if (query.environmentId) headers["x-palette-environment-id"] = query.environmentId;
   return headers;
 }
 

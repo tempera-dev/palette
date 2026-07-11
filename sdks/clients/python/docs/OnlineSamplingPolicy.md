@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.online_sampling_policy import OnlineSamplingPolicy
+from palette_client.models.online_sampling_policy import OnlineSamplingPolicy
 
 # TODO update the JSON string below
 json = "{}"

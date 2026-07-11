@@ -3,53 +3,53 @@ import re
 from dataclasses import dataclass
 
 
-REMOTE_URL = "https://github.com/jadenfix/beater.git"
+REMOTE_URL = "https://github.com/jadenfix/palette.git"
 REMOTE_MAIN_REF = "refs/heads/main"
 RAW_PREFLIGHT_PATH = "scripts/gate2-outside-local-preflight.sh"
-RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/beater"
-GATE2_GHCR_OWNER_REPO = "jadenfix/beater"
+RAW_PREFLIGHT_URL_PREFIX = "https://raw.githubusercontent.com/jadenfix/palette"
+GATE2_GHCR_OWNER_REPO = "jadenfix/palette"
 GATE2_GHCR_PREFIX = f"ghcr.io/{GATE2_GHCR_OWNER_REPO}"
 GATE2_EXPECTED_PLATFORMS = ["linux/amd64", "linux/arm64"]
 DEFAULT_API_ENDPOINT = "http://127.0.0.1:8080"
 DEFAULT_DASHBOARD_BASE = "http://127.0.0.1:3000"
 DEFAULT_OTLP_ENDPOINT = "http://127.0.0.1:4317"
 GATE2_FULL_RUN_PORTS = [
-    (8080, "beaterd HTTP", "BEATER_HTTP_PORT"),
-    (4317, "OTLP gRPC", "BEATER_OTLP_GRPC_PORT"),
-    (3000, "dashboard", "BEATER_DASHBOARD_PORT"),
+    (8080, "paletted HTTP", "PALETTE_HTTP_PORT"),
+    (4317, "OTLP gRPC", "PALETTE_OTLP_GRPC_PORT"),
+    (3000, "dashboard", "PALETTE_DASHBOARD_PORT"),
 ]
 GATE2_OUTSIDE_ENV_NAMES = [
-    "BEATER_GATE2_OUTSIDE_RUN_DRY_RUN",
-    "BEATER_GATE2_EXPECTED_ORIGIN",
-    "BEATER_GATE2_OUTSIDE_WRAPPER",
-    "BEATER_GATE2_CLONE_STARTED_EPOCH",
-    "BEATER_DASHBOARD_PORT",
-    "BEATER_HTTP_PORT",
-    "BEATER_OTLP_GRPC_PORT",
-    "BEATER_GATE2_REUSE",
-    "BEATER_GATE2_LOCAL_BUILD",
-    "BEATER_GATE2_PULL_POLICY",
-    "BEATER_GATE2_WRITE_PROOF",
-    "BEATER_GATE2_BROWSER_PROOF",
-    "BEATER_GATE2_RECORD_DEMO",
-    "BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS",
-    "BEATER_GATE2_RUN_ID",
-    "BEATER_GATE2_CONFIRMATION_SALT",
-    "BEATER_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS",
-    "BEATERD_IMAGE",
-    "BEATER_DASHBOARD_IMAGE",
-    "BEATER_DASHBOARD_E2E_IMAGE",
-    "BEATER_OTEL_PYTHON_IMAGE",
-    "BEATER_GATE2_STOPWATCH_PROOF",
-    "BEATER_GATE2_RECORD_VIDEO",
-    "BEATER_GATE2_RECORD_NOTES",
-    "BEATER_GATE2_COMPOSE_LOGS",
-    "BEATER_GATE2_TERMINAL_LOG",
-    "KEEP_BEATER_COMPOSE",
+    "PALETTE_GATE2_OUTSIDE_RUN_DRY_RUN",
+    "PALETTE_GATE2_EXPECTED_ORIGIN",
+    "PALETTE_GATE2_OUTSIDE_WRAPPER",
+    "PALETTE_GATE2_CLONE_STARTED_EPOCH",
+    "PALETTE_DASHBOARD_PORT",
+    "PALETTE_HTTP_PORT",
+    "PALETTE_OTLP_GRPC_PORT",
+    "PALETTE_GATE2_REUSE",
+    "PALETTE_GATE2_LOCAL_BUILD",
+    "PALETTE_GATE2_PULL_POLICY",
+    "PALETTE_GATE2_WRITE_PROOF",
+    "PALETTE_GATE2_BROWSER_PROOF",
+    "PALETTE_GATE2_RECORD_DEMO",
+    "PALETTE_GATE2_POST_SLO_TIMEOUT_SECONDS",
+    "PALETTE_GATE2_RUN_ID",
+    "PALETTE_GATE2_CONFIRMATION_SALT",
+    "PALETTE_GATE2_REGISTRY_FIXTURE_UNSAFE_FOR_TESTS",
+    "PALETTED_IMAGE",
+    "PALETTE_DASHBOARD_IMAGE",
+    "PALETTE_DASHBOARD_E2E_IMAGE",
+    "PALETTE_OTEL_PYTHON_IMAGE",
+    "PALETTE_GATE2_STOPWATCH_PROOF",
+    "PALETTE_GATE2_RECORD_VIDEO",
+    "PALETTE_GATE2_RECORD_NOTES",
+    "PALETTE_GATE2_COMPOSE_LOGS",
+    "PALETTE_GATE2_TERMINAL_LOG",
+    "KEEP_PALETTE_COMPOSE",
     "COMPOSE_FILE",
     "COMPOSE_PROJECT_NAME",
     "COMPOSE_PROFILES",
-    "BEATER_GATE2_FIXTURE_FULL_RUN",
+    "PALETTE_GATE2_FIXTURE_FULL_RUN",
 ]
 GATE2_OUTSIDE_ENV_PREFIXES = ["GIT_CONFIG_"]
 GATE2_CONFIRMATION_HASH_PREFIX = "gate2"
@@ -84,30 +84,30 @@ class Gate2Image:
 
 GATE2_IMAGES = [
     Gate2Image(
-        image_name="beaterd",
-        service="beaterd",
-        env_var="BEATERD_IMAGE",
-        proof_ref_field="Beater image reference",
-        proof_digest_field="Beater image digest",
+        image_name="paletted",
+        service="paletted",
+        env_var="PALETTED_IMAGE",
+        proof_ref_field="Palette image reference",
+        proof_digest_field="Palette image digest",
     ),
     Gate2Image(
         image_name="dashboard",
         service="dashboard",
-        env_var="BEATER_DASHBOARD_IMAGE",
+        env_var="PALETTE_DASHBOARD_IMAGE",
         proof_ref_field="Dashboard image reference",
         proof_digest_field="Dashboard image digest",
     ),
     Gate2Image(
         image_name="dashboard-e2e",
         service="dashboard-e2e",
-        env_var="BEATER_DASHBOARD_E2E_IMAGE",
+        env_var="PALETTE_DASHBOARD_E2E_IMAGE",
         proof_ref_field="Dashboard e2e image reference",
         proof_digest_field="Dashboard e2e image digest",
     ),
     Gate2Image(
         image_name="otel-python",
         service="otel-python",
-        env_var="BEATER_OTEL_PYTHON_IMAGE",
+        env_var="PALETTE_OTEL_PYTHON_IMAGE",
         proof_ref_field="OTEL Python image reference",
         proof_digest_field="OTEL Python image digest",
     ),
@@ -157,14 +157,14 @@ PUBLIC_SHA_RESOLUTION_COMMAND = (
     'sha="${sha_line%%[[:space:]]*}" && test -n "$sha"'
 )
 RAW_PUBLIC_PREFLIGHT_COMMAND = (
-    'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
+    'preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && '
     f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/$sha/{RAW_PREFLIGHT_PATH}" '
-    '-o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight"'
+    '-o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight"'
 )
 CLONE_VERIFICATION_COMMAND = (
-    f"{PUBLIC_GIT_ENV} git clone {REMOTE_URL} && cd ./beater && "
+    f"{PUBLIC_GIT_ENV} git clone {REMOTE_URL} && cd ./palette && "
     f'test "$({PUBLIC_GIT_ENV} git rev-parse HEAD)" = "$sha" && '
-    f'BEATER_GATE2_CLONE_STARTED_EPOCH="$t" {PUBLIC_GIT_ENV} '
+    f'PALETTE_GATE2_CLONE_STARTED_EPOCH="$t" {PUBLIC_GIT_ENV} '
     "scripts/gate2-outside-run.sh"
 )
 OUTSIDE_RUNNER_COMMAND = (
@@ -173,7 +173,7 @@ OUTSIDE_RUNNER_COMMAND = (
     f"{CLONE_VERIFICATION_COMMAND}'"
 )
 OUTSIDE_RUN_ATTESTATION = (
-    "I attest that I am not a Beater project maintainer, I received no "
+    "I attest that I am not a Palette project maintainer, I received no "
     "step-by-step help beyond public repository instructions, I used a fresh "
     "clone, and I completed the Gate 2 flow unaided."
 )
@@ -182,15 +182,15 @@ DIAGNOSTIC_ATTESTATION = (
     "this is not outside-person evidence and cannot close Gate 2."
 )
 IMMUTABLE_LOG_URL = re.compile(
-    r"https://github\.com/jadenfix/beater/actions/runs/[0-9]+(?:/job/[0-9]+)?"
+    r"https://github\.com/jadenfix/palette/actions/runs/[0-9]+(?:/job/[0-9]+)?"
 )
 
 
 def raw_public_preflight_command_for_sha(expected_commit):
     return (
-        'preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && '
+        'preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && '
         f'curl -fsSL "{RAW_PREFLIGHT_URL_PREFIX}/{expected_commit}/{RAW_PREFLIGHT_PATH}" '
-        f'-o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="{expected_commit}" bash "$preflight"'
+        f'-o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="{expected_commit}" bash "$preflight"'
     )
 
 

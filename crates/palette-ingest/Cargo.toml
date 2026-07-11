@@ -1,0 +1,28 @@
+[package]
+name = "palette-ingest"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+palette-bus = { path = "../palette-bus" }
+palette-core = { path = "../palette-core" }
+palette-schema = { path = "../palette-schema" }
+palette-store = { path = "../palette-store" }
+palette-store-memory = { path = "../palette-store-memory" }
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+async-trait.workspace = true
+palette-store-obj = { path = "../palette-store-obj" }
+palette-store-sql = { path = "../palette-store-sql" }
+tempfile.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

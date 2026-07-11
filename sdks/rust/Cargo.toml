@@ -1,10 +1,10 @@
 [package]
-name = "beater"
+name = "palette"
 version = "0.1.0"
 edition = "2021"
-description = "Ergonomic, OpenTelemetry-native agent observability SDK for Beater"
+description = "Ergonomic, OpenTelemetry-native agent observability SDK for Palette"
 license = "Apache-2.0"
-repository = "https://github.com/beater/beater"
+repository = "https://github.com/palette/palette"
 readme = "README.md"
 
 # This crate lives under `sdks/` which the root workspace excludes, so it owns

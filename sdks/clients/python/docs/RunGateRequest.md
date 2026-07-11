@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_gate_request import RunGateRequest
+from palette_client.models.run_gate_request import RunGateRequest
 
 # TODO update the JSON string below
 json = "{}"

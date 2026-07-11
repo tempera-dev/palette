@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## provider_secrets_period_create_provider_secret
 
-> models::ProviderSecretMetadata provider_secrets_period_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ProviderSecretMetadata provider_secrets_period_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -24,9 +24,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **create_provider_secret_http_request** | [**CreateProviderSecretHttpRequest**](CreateProviderSecretHttpRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -46,7 +46,7 @@ No authorization required
 
 ## provider_secrets_period_list_provider_secrets
 
-> Vec<models::ProviderSecretMetadata> provider_secrets_period_list_provider_secrets(tenant_id, project_id, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> Vec<models::ProviderSecretMetadata> provider_secrets_period_list_provider_secrets(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -57,9 +57,9 @@ Name | Type | Description  | Required | Notes
 **tenant_id** | **String** | tenant_id | [required] |
 **project_id** | **String** | project_id | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -79,7 +79,7 @@ No authorization required
 
 ## provider_secrets_period_revoke_provider_secret
 
-> models::RevokedProviderSecret provider_secrets_period_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::RevokedProviderSecret provider_secrets_period_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -91,9 +91,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **provider_secret_id** | **String** | provider_secret_id | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

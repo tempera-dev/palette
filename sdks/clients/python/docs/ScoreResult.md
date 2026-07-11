@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.score_result import ScoreResult
+from palette_client.models.score_result import ScoreResult
 
 # TODO update the JSON string below
 json = "{}"

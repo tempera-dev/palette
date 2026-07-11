@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Gate: every SDK's semconv + config must match the single source
-(sdks/semconv/conventions.json, generated from beater-schema). Prevents the
+(sdks/semconv/conventions.json, generated from palette-schema). Prevents the
 hand-written SDK files from drifting from the server's span kinds, attribute
 keys, defaults, and env var names.
 
@@ -15,17 +15,17 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SEMCONV_WIRE_RE = re.compile(r"^(?:[a-z][a-z0-9_]*(?:\.[a-z0-9_]+)+|x-beater-[a-z0-9-]+)$")
+SEMCONV_WIRE_RE = re.compile(r"^(?:[a-z][a-z0-9_]*(?:\.[a-z0-9_]+)+|x-palette-[a-z0-9-]+)$")
 
 # (semconv file, config file, line-comment marker) per SDK.
 SDKS = {
-    "python": ("sdks/python/beater/semconv.py", "sdks/python/beater/config.py", "#"),
+    "python": ("sdks/python/palette/semconv.py", "sdks/python/palette/config.py", "#"),
     "typescript": ("sdks/typescript/src/semconv.ts", "sdks/typescript/src/config.ts", "//"),
     "rust": ("sdks/rust/src/semconv.rs", "sdks/rust/src/config.rs", "//"),
     "go": ("sdks/go/semconv.go", "sdks/go/config.go", "//"),
     "java": (
-        "sdks/java/src/main/java/ai/beater/sdk/SemConv.java",
-        "sdks/java/src/main/java/ai/beater/sdk/BeaterConfig.java",
+        "sdks/java/src/main/java/ai/palette/sdk/SemConv.java",
+        "sdks/java/src/main/java/ai/palette/sdk/PaletteConfig.java",
         "//",
     ),
 }

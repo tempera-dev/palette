@@ -23,7 +23,7 @@ scenario_cluster_t* instantiate_scenario_cluster(int include_optional) {
   scenario_cluster_t* scenario_cluster = NULL;
   if (include_optional) {
     scenario_cluster = scenario_cluster_create(
-      beater_api_scenario_cluster__tool_error,
+      palette_api_scenario_cluster__tool_error,
       "0",
       list_createList(),
        // false, not to have infinite recursion
@@ -32,7 +32,7 @@ scenario_cluster_t* instantiate_scenario_cluster(int include_optional) {
     );
   } else {
     scenario_cluster = scenario_cluster_create(
-      beater_api_scenario_cluster__tool_error,
+      palette_api_scenario_cluster__tool_error,
       "0",
       list_createList(),
       NULL,

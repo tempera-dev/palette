@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.connect_connector_request import ConnectConnectorRequest
+from palette_client.models.connect_connector_request import ConnectConnectorRequest
 
 # TODO update the JSON string below
 json = "{}"

@@ -1,6 +1,6 @@
-"""Offline tests: verify wrappers emit spans with the correct Beater attributes.
+"""Offline tests: verify wrappers emit spans with the correct Palette attributes.
 
-Uses an in-memory exporter so no live beaterd is needed.
+Uses an in-memory exporter so no live paletted is needed.
 """
 
 import asyncio
@@ -12,9 +12,9 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 
-import beater
-from beater import SpanKind
-from beater.semconv import Attr
+import palette
+from palette import SpanKind
+from palette.semconv import Attr
 
 
 @pytest.fixture
@@ -24,8 +24,8 @@ def exporter(monkeypatch):
     provider.add_span_processor(SimpleSpanProcessor(mem))
     trace.set_tracer_provider(provider)
     # Point the SDK at this provider without building a real exporter.
-    monkeypatch.setattr(beater.tracing, "_config", beater.BeaterConfig.resolve(release_id="rel-1"))
-    monkeypatch.setattr(beater.tracing.trace, "get_tracer", lambda name: provider.get_tracer(name))
+    monkeypatch.setattr(palette.tracing, "_config", palette.PaletteConfig.resolve(release_id="rel-1"))
+    monkeypatch.setattr(palette.tracing.trace, "get_tracer", lambda name: provider.get_tracer(name))
     yield mem
     mem.clear()
 
@@ -35,7 +35,7 @@ def _by_name(spans, name):
 
 
 def test_observe_sync_records_kind_and_io(exporter):
-    @beater.observe(kind=SpanKind.LLM_CALL, name="call")
+    @palette.observe(kind=SpanKind.LLM_CALL, name="call")
     def call(prompt):
         return "answer"
 
@@ -48,7 +48,7 @@ def test_observe_sync_records_kind_and_io(exporter):
 
 
 def test_observe_async(exporter):
-    @beater.observe(kind=SpanKind.AGENT_RUN, name="arun")
+    @palette.observe(kind=SpanKind.AGENT_RUN, name="arun")
     async def arun(x):
         return x * 2
 
@@ -58,7 +58,7 @@ def test_observe_async(exporter):
 
 
 def test_observe_records_error(exporter):
-    @beater.observe(name="boom")
+    @palette.observe(name="boom")
     def boom():
         raise ValueError("nope")
 
@@ -95,7 +95,7 @@ def test_wrap_openai_emits_llm_span(exporter):
     class _Client:
         chat = _Chat()
 
-    client = beater.wrap_openai(_Client())
+    client = palette.wrap_openai(_Client())
     client.chat.completions.create(model="gpt-4.1", messages=[{"role": "user", "content": "hi"}])
 
     span = _by_name(exporter.get_finished_spans(), "openai.chat.completions.create")
@@ -121,7 +121,7 @@ def test_wrap_groq_emits_openai_compatible_llm_span(exporter):
     class _Client:
         chat = _Chat()
 
-    client = beater.wrap_groq(_Client())
+    client = palette.wrap_groq(_Client())
     client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": "hi"}],
@@ -161,7 +161,7 @@ def test_wrap_mistral_emits_openai_compatible_llm_span(exporter):
     class _Client:
         chat = _Chat()
 
-    client = beater.wrap_mistral(_Client())
+    client = palette.wrap_mistral(_Client())
     client.chat.completions.create(
         {
             "model": "mistral-large-latest",
@@ -184,6 +184,6 @@ def test_semconv_kinds_match_normalizer():
         "tool.call", "mcp.request", "retrieval.query", "memory.read",
         "memory.write", "guardrail.check",
     }
-    from beater.semconv import SPAN_KINDS
+    from palette.semconv import SPAN_KINDS
 
     assert set(SPAN_KINDS) == expected

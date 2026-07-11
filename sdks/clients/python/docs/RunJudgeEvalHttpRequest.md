@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_judge_eval_http_request import RunJudgeEvalHttpRequest
+from palette_client.models.run_judge_eval_http_request import RunJudgeEvalHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

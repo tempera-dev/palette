@@ -4,12 +4,12 @@
 #include "evaluator_kind_one_of_7.h"
 
 
-char* evaluator_kind_one_of_7_type_ToString(beater_api_evaluator_kind_one_of_7_TYPE_e type) {
+char* evaluator_kind_one_of_7_type_ToString(palette_api_evaluator_kind_one_of_7_TYPE_e type) {
     char* typeArray[] =  { "NULL", "browser_task_success" };
     return typeArray[type];
 }
 
-beater_api_evaluator_kind_one_of_7_TYPE_e evaluator_kind_one_of_7_type_FromString(char* type){
+palette_api_evaluator_kind_one_of_7_TYPE_e evaluator_kind_one_of_7_type_FromString(char* type){
     int stringToReturn = 0;
     char *typeArray[] =  { "NULL", "browser_task_success" };
     size_t sizeofArray = sizeof(typeArray) / sizeof(typeArray[0]);
@@ -24,7 +24,7 @@ beater_api_evaluator_kind_one_of_7_TYPE_e evaluator_kind_one_of_7_type_FromStrin
 
 static evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_create_internal(
     char *dom_contains,
-    beater_api_evaluator_kind_one_of_7_TYPE_e type,
+    palette_api_evaluator_kind_one_of_7_TYPE_e type,
     char *url_contains
     ) {
     evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_local_var = malloc(sizeof(evaluator_kind_one_of_7_t));
@@ -41,7 +41,7 @@ static evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_create_internal(
 
 __attribute__((deprecated)) evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_create(
     char *dom_contains,
-    beater_api_evaluator_kind_one_of_7_TYPE_e type,
+    palette_api_evaluator_kind_one_of_7_TYPE_e type,
     char *url_contains
     ) {
     return evaluator_kind_one_of_7_create_internal (
@@ -83,7 +83,7 @@ cJSON *evaluator_kind_one_of_7_convertToJSON(evaluator_kind_one_of_7_t *evaluato
 
 
     // evaluator_kind_one_of_7->type
-    if (beater_api_evaluator_kind_one_of_7_TYPE_NULL == evaluator_kind_one_of_7->type) {
+    if (palette_api_evaluator_kind_one_of_7_TYPE_NULL == evaluator_kind_one_of_7->type) {
         goto fail;
     }
     if(cJSON_AddStringToObject(item, "type", evaluator_kind_one_of_7_type_ToString(evaluator_kind_one_of_7->type)) == NULL)
@@ -132,7 +132,7 @@ evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_parseFromJSON(cJSON *evaluato
         goto end;
     }
 
-    beater_api_evaluator_kind_one_of_7_TYPE_e typeVariable;
+    palette_api_evaluator_kind_one_of_7_TYPE_e typeVariable;
     
     if(!cJSON_IsString(type))
     {

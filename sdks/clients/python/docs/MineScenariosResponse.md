@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.mine_scenarios_response import MineScenariosResponse
+from palette_client.models.mine_scenarios_response import MineScenariosResponse
 
 # TODO update the JSON string below
 json = "{}"

@@ -38,7 +38,7 @@ export default function McpCatalog() {
     <main style={{ maxWidth: 900, margin: "0 auto", padding: 32, fontFamily: "system-ui, sans-serif" }}>
       <h1 style={{ fontSize: 26 }}>MCP tool catalog</h1>
       <p style={{ color: "#57606a" }}>
-        Every API operation is exposed as an MCP tool at <code>/mcp</code> on beaterd
+        Every API operation is exposed as an MCP tool at <code>/mcp</code> on paletted
         (tool name = operationId). Point any MCP client at it. {tools.length} tools.
       </p>
       {err && <p style={{ color: "#cf222e" }}>Failed to load spec: {err}</p>}

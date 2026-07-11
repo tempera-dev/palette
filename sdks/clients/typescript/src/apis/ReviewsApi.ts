@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -54,9 +54,9 @@ export interface ReviewsCreateReviewQueueRequest {
     projectId: string;
     createReviewQueueHttpRequest: CreateReviewQueueHttpRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 export interface ReviewsEnqueueReviewTaskFromTraceRequest {
@@ -65,9 +65,9 @@ export interface ReviewsEnqueueReviewTaskFromTraceRequest {
     queueId: string;
     enqueueReviewTaskFromTraceHttpRequest: EnqueueReviewTaskFromTraceHttpRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 export interface ReviewsListReviewTasksRequest {
@@ -76,9 +76,9 @@ export interface ReviewsListReviewTasksRequest {
     queueId: string;
     state?: ReviewTaskState;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 export interface ReviewsPromoteReviewAnnotationRequest {
@@ -89,9 +89,9 @@ export interface ReviewsPromoteReviewAnnotationRequest {
     annotationId: string;
     promoteReviewAnnotationHttpRequest: PromoteReviewAnnotationHttpRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 export interface ReviewsSubmitReviewAnnotationRequest {
@@ -101,9 +101,9 @@ export interface ReviewsSubmitReviewAnnotationRequest {
     taskId: string;
     submitReviewAnnotationHttpRequest: SubmitReviewAnnotationHttpRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 /**
@@ -145,16 +145,16 @@ export class ReviewsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({
@@ -216,16 +216,16 @@ export class ReviewsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({
@@ -282,16 +282,16 @@ export class ReviewsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({
@@ -366,16 +366,16 @@ export class ReviewsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({
@@ -444,16 +444,16 @@ export class ReviewsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({

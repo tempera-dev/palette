@@ -6,13 +6,13 @@
 
 
 static audit_event_t *audit_event_create_internal(
-    beater_api_audit_action__e action,
+    palette_api_audit_action__e action,
     char *actor_api_key_id,
     any_type_t *attributes,
     char *audit_event_id,
     char *created_at,
     char *environment_id,
-    beater_api_audit_outcome__e outcome,
+    palette_api_audit_outcome__e outcome,
     char *project_id,
     char *reason,
     char *resource_id,
@@ -41,13 +41,13 @@ static audit_event_t *audit_event_create_internal(
 }
 
 __attribute__((deprecated)) audit_event_t *audit_event_create(
-    beater_api_audit_action__e action,
+    palette_api_audit_action__e action,
     char *actor_api_key_id,
     any_type_t *attributes,
     char *audit_event_id,
     char *created_at,
     char *environment_id,
-    beater_api_audit_outcome__e outcome,
+    palette_api_audit_outcome__e outcome,
     char *project_id,
     char *reason,
     char *resource_id,
@@ -126,7 +126,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
     cJSON *item = cJSON_CreateObject();
 
     // audit_event->action
-    if (beater_api_audit_action__NULL == audit_event->action) {
+    if (palette_api_audit_action__NULL == audit_event->action) {
         goto fail;
     }
     cJSON *action_local_JSON = audit_action_convertToJSON(audit_event->action);
@@ -188,7 +188,7 @@ cJSON *audit_event_convertToJSON(audit_event_t *audit_event) {
 
 
     // audit_event->outcome
-    if (beater_api_audit_outcome__NULL == audit_event->outcome) {
+    if (palette_api_audit_outcome__NULL == audit_event->outcome) {
         goto fail;
     }
     cJSON *outcome_local_JSON = audit_outcome_convertToJSON(audit_event->outcome);
@@ -257,13 +257,13 @@ audit_event_t *audit_event_parseFromJSON(cJSON *audit_eventJSON){
     audit_event_t *audit_event_local_var = NULL;
 
     // define the local variable for audit_event->action
-    beater_api_audit_action__e action_local_nonprim = 0;
+    palette_api_audit_action__e action_local_nonprim = 0;
 
     // define the local variable for audit_event->attributes
     _t *attributes_local_nonprim = NULL;
 
     // define the local variable for audit_event->outcome
-    beater_api_audit_outcome__e outcome_local_nonprim = 0;
+    palette_api_audit_outcome__e outcome_local_nonprim = 0;
 
     // audit_event->action
     cJSON *action = cJSON_GetObjectItemCaseSensitive(audit_eventJSON, "action");

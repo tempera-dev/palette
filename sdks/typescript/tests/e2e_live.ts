@@ -1,13 +1,13 @@
-// Live E2E: TS SDK -> beaterd OTLP/HTTP -> read API. Run by scripts/e2e-sdk-live-ts.sh
-// against a running beaterd. Exit 0 = pass.
+// Live E2E: TS SDK -> paletted OTLP/HTTP -> read API. Run by scripts/e2e-sdk-live-ts.sh
+// against a running paletted. Exit 0 = pass.
 
 import { trace } from "@opentelemetry/api";
 
-import * as beater from "../src/index";
+import * as palette from "../src/index";
 import { SpanKind } from "../src/semconv";
 
-const BASE_URL = (process.env.BEATER_BASE_URL ?? "http://127.0.0.1:18080").replace(/\/+$/, "");
-const TENANT = process.env.BEATER_TENANT_ID ?? "demo";
+const BASE_URL = (process.env.PALETTE_BASE_URL ?? "http://127.0.0.1:18080").replace(/\/+$/, "");
+const TENANT = process.env.PALETTE_TENANT_ID ?? "demo";
 
 async function getJson(path: string): Promise<any> {
   const res = await fetch(`${BASE_URL}${path}`);
@@ -16,25 +16,25 @@ async function getJson(path: string): Promise<any> {
 }
 
 async function main(): Promise<number> {
-  beater.init({ serviceName: "beater-e2e-ts", releaseId: "e2e-ts" });
+  palette.init({ serviceName: "palette-e2e-ts", releaseId: "e2e-ts" });
 
   let traceId = "";
-  const run = beater.observe(
+  const run = palette.observe(
     async () => {
       traceId = trace.getActiveSpan()!.spanContext().traceId;
-      const plan = beater.observe(async () => beater.setOutput("plan"), {
+      const plan = palette.observe(async () => palette.setOutput("plan"), {
         kind: SpanKind.AGENT_PLAN,
         name: "ts-plan",
       });
       await plan();
-      const llm = beater.observe(
+      const llm = palette.observe(
         async () => {
           const s = trace.getActiveSpan()!;
           s.setAttribute("llm.provider", "anthropic");
           s.setAttribute("llm.model_name", "claude-e2e");
           s.setAttribute("llm.token_count.prompt", 9);
           s.setAttribute("llm.token_count.completion", 4);
-          beater.setOutput("done");
+          palette.setOutput("done");
         },
         { kind: SpanKind.LLM_CALL, name: "ts-llm" },
       );
@@ -44,7 +44,7 @@ async function main(): Promise<number> {
   );
 
   await run();
-  await beater.flush();
+  await palette.flush();
   console.log(`emitted trace_id=${traceId}`);
 
   const deadline = Date.now() + 30_000;
@@ -71,7 +71,7 @@ async function main(): Promise<number> {
       return 1;
     }
   }
-  console.log("PASS: TS SDK -> beaterd -> read API round-trip verified");
+  console.log("PASS: TS SDK -> paletted -> read API round-trip verified");
   return 0;
 }
 

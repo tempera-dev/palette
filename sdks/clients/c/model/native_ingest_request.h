@@ -38,12 +38,12 @@ typedef struct native_ingest_request_t {
     char *name; // string
     any_type_t *output; // custom
     char *parent_span_id; // string
-    beater_api_redaction_class__e redaction_class; //referenced enum
+    palette_api_redaction_class__e redaction_class; //referenced enum
     struct tenant_scope_t *scope; //model
     long seq; //numeric
     char *span_id; // string
     char *start_time; //date time
-    beater_api_span_status__e status; //referenced enum
+    palette_api_span_status__e status; //referenced enum
     struct token_counts_t *tokens; //model
     char *trace_id; // string
 
@@ -62,12 +62,12 @@ __attribute__((deprecated)) native_ingest_request_t *native_ingest_request_creat
     char *name,
     any_type_t *output,
     char *parent_span_id,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     tenant_scope_t *scope,
     long seq,
     char *span_id,
     char *start_time,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     token_counts_t *tokens,
     char *trace_id
 );

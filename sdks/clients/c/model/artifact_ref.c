@@ -8,7 +8,7 @@
 static artifact_ref_t *artifact_ref_create_internal(
     char *artifact_id,
     char *mime_type,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     char *sha256,
     long size_bytes,
     char *uri
@@ -31,7 +31,7 @@ static artifact_ref_t *artifact_ref_create_internal(
 __attribute__((deprecated)) artifact_ref_t *artifact_ref_create(
     char *artifact_id,
     char *mime_type,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     char *sha256,
     long size_bytes,
     char *uri
@@ -96,7 +96,7 @@ cJSON *artifact_ref_convertToJSON(artifact_ref_t *artifact_ref) {
 
 
     // artifact_ref->redaction_class
-    if (beater_api_redaction_class__NULL == artifact_ref->redaction_class) {
+    if (palette_api_redaction_class__NULL == artifact_ref->redaction_class) {
         goto fail;
     }
     cJSON *redaction_class_local_JSON = redaction_class_convertToJSON(artifact_ref->redaction_class);
@@ -148,7 +148,7 @@ artifact_ref_t *artifact_ref_parseFromJSON(cJSON *artifact_refJSON){
     artifact_ref_t *artifact_ref_local_var = NULL;
 
     // define the local variable for artifact_ref->redaction_class
-    beater_api_redaction_class__e redaction_class_local_nonprim = 0;
+    palette_api_redaction_class__e redaction_class_local_nonprim = 0;
 
     // artifact_ref->artifact_id
     cJSON *artifact_id = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "artifact_id");

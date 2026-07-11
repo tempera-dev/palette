@@ -4,12 +4,12 @@
 #include "span_io_value_one_of.h"
 
 
-char* span_io_value_one_of_kind_ToString(beater_api_span_io_value_one_of_KIND_e kind) {
+char* span_io_value_one_of_kind_ToString(palette_api_span_io_value_one_of_KIND_e kind) {
     char* kindArray[] =  { "NULL", "inline" };
     return kindArray[kind];
 }
 
-beater_api_span_io_value_one_of_KIND_e span_io_value_one_of_kind_FromString(char* kind){
+palette_api_span_io_value_one_of_KIND_e span_io_value_one_of_kind_FromString(char* kind){
     int stringToReturn = 0;
     char *kindArray[] =  { "NULL", "inline" };
     size_t sizeofArray = sizeof(kindArray) / sizeof(kindArray[0]);
@@ -23,7 +23,7 @@ beater_api_span_io_value_one_of_KIND_e span_io_value_one_of_kind_FromString(char
 }
 
 static span_io_value_one_of_t *span_io_value_one_of_create_internal(
-    beater_api_span_io_value_one_of_KIND_e kind,
+    palette_api_span_io_value_one_of_KIND_e kind,
     any_type_t *value
     ) {
     span_io_value_one_of_t *span_io_value_one_of_local_var = malloc(sizeof(span_io_value_one_of_t));
@@ -38,7 +38,7 @@ static span_io_value_one_of_t *span_io_value_one_of_create_internal(
 }
 
 __attribute__((deprecated)) span_io_value_one_of_t *span_io_value_one_of_create(
-    beater_api_span_io_value_one_of_KIND_e kind,
+    palette_api_span_io_value_one_of_KIND_e kind,
     any_type_t *value
     ) {
     return span_io_value_one_of_create_internal (
@@ -67,7 +67,7 @@ cJSON *span_io_value_one_of_convertToJSON(span_io_value_one_of_t *span_io_value_
     cJSON *item = cJSON_CreateObject();
 
     // span_io_value_one_of->kind
-    if (beater_api_span_io_value_one_of_KIND_NULL == span_io_value_one_of->kind) {
+    if (palette_api_span_io_value_one_of_KIND_NULL == span_io_value_one_of->kind) {
         goto fail;
     }
     if(cJSON_AddStringToObject(item, "kind", span_io_value_one_of_kind_ToString(span_io_value_one_of->kind)) == NULL)
@@ -113,7 +113,7 @@ span_io_value_one_of_t *span_io_value_one_of_parseFromJSON(cJSON *span_io_value_
         goto end;
     }
 
-    beater_api_span_io_value_one_of_KIND_e kindVariable;
+    palette_api_span_io_value_one_of_KIND_e kindVariable;
     
     if(!cJSON_IsString(kind))
     {

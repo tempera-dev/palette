@@ -1,9 +1,9 @@
 /**
  * Example: instrument a real Stagehand instance and drive a browser step.
  *
- * Run Beater locally (OTLP gRPC on :4317), then:
+ * Run Palette locally (OTLP gRPC on :4317), then:
  *
- *   export BEATER_OTLP_ENDPOINT=http://localhost:4317
+ *   export PALETTE_OTLP_ENDPOINT=http://localhost:4317
  *   npm run example
  *
  * Requires `@browserbasehq/stagehand` installed (it is an optional peer dep,
@@ -35,7 +35,7 @@ async function main() {
 
   // One call: every act/observe/extract now emits canonical browser.* spans.
   instrumentStagehand(stagehand, {
-    endpoint: process.env.BEATER_OTLP_ENDPOINT ?? "http://localhost:4317",
+    endpoint: process.env.PALETTE_OTLP_ENDPOINT ?? "http://localhost:4317",
     serviceName: "stagehand-example",
   });
 

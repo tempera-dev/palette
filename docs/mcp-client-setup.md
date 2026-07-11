@@ -1,12 +1,12 @@
-# Beater in Claude Code and Codex
+# Palette in Claude Code and Codex
 
-Beater exposes the same MCP tool set over two transports:
+Palette exposes the same MCP tool set over two transports:
 
-- Local stdio: `beaterd mcp --stdio`
+- Local stdio: `paletted mcp --stdio`
 - Hosted streamable HTTP: `POST /mcp` with OAuth 2.1 bearer tokens
 
 Use stdio for local Claude Code or Codex sessions running on the same machine as
-`beaterd`. Use hosted HTTP when the MCP client connects to a deployed Beater API.
+`paletted`. Use hosted HTTP when the MCP client connects to a deployed Palette API.
 
 ## Local stdio
 
@@ -14,7 +14,7 @@ Start from a local data directory. The command below is intentionally explicit s
 the MCP process has the same storage every time the client launches it:
 
 ```sh
-beaterd --data-dir ~/.local/share/beater mcp --stdio
+paletted --data-dir ~/.local/share/palette mcp --stdio
 ```
 
 Smoke the local transport before wiring a client:
@@ -24,7 +24,7 @@ printf '%s\n' \
   '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
   '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' \
   '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"help","arguments":{}}}' \
-  | beaterd --data-dir ~/.local/share/beater mcp --stdio
+  | paletted --data-dir ~/.local/share/palette mcp --stdio
 ```
 
 Expected result: one JSON-RPC response per input line. `tools/list` returns the
@@ -33,10 +33,10 @@ tool usage text without calling a hosted service.
 
 ## Claude Code
 
-Add Beater as a local stdio MCP server:
+Add Palette as a local stdio MCP server:
 
 ```sh
-claude mcp add beater -- beaterd --data-dir ~/.local/share/beater mcp --stdio
+claude mcp add palette -- paletted --data-dir ~/.local/share/palette mcp --stdio
 ```
 
 Then restart or reload Claude Code's MCP servers and run a quick tool inventory
@@ -45,12 +45,12 @@ read-only `tools/call` for `help`.
 
 ## Codex
 
-Add Beater to Codex's MCP configuration as a stdio server:
+Add Palette to Codex's MCP configuration as a stdio server:
 
 ```toml
-[mcp_servers.beater]
-command = "beaterd"
-args = ["--data-dir", "~/.local/share/beater", "mcp", "--stdio"]
+[mcp_servers.palette]
+command = "paletted"
+args = ["--data-dir", "~/.local/share/palette", "mcp", "--stdio"]
 ```
 
 Reload Codex's MCP configuration and verify the server with `tools/list`, then a
@@ -61,13 +61,13 @@ read-only `tools/call` for `help`.
 For hosted or remote clients, point the MCP client at:
 
 ```text
-https://<beater-api-host>/mcp
+https://<palette-api-host>/mcp
 ```
 
 The client discovers OAuth metadata from:
 
 ```text
-https://<beater-api-host>/.well-known/oauth-authorization-server
+https://<palette-api-host>/.well-known/oauth-authorization-server
 ```
 
 The authorization flow uses:
@@ -82,18 +82,18 @@ GET  /mcp
 After the client has a bearer token, smoke the hosted transport:
 
 ```sh
-curl -fsS -X POST "https://<beater-api-host>/mcp" \
-  -H "authorization: Bearer $BEATER_MCP_TOKEN" \
+curl -fsS -X POST "https://<palette-api-host>/mcp" \
+  -H "authorization: Bearer $PALETTE_MCP_TOKEN" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 
-curl -fsS -X POST "https://<beater-api-host>/mcp" \
-  -H "authorization: Bearer $BEATER_MCP_TOKEN" \
+curl -fsS -X POST "https://<palette-api-host>/mcp" \
+  -H "authorization: Bearer $PALETTE_MCP_TOKEN" \
   -H "content-type: application/json" \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"help","arguments":{}}}'
 ```
 
-Keep hosted runtime secrets in the deployed Beater environment. Do not put API
+Keep hosted runtime secrets in the deployed Palette environment. Do not put API
 keys, provider secrets, or OAuth client secrets into the MCP client config file.
 
 OAuth is the preferred hosted MCP login path. If a client only supports static
@@ -103,12 +103,12 @@ headers with every request:
 ```json
 {
   "mcpServers": {
-    "beater": {
-      "url": "https://<beater-api-host>/mcp",
+    "palette": {
+      "url": "https://<palette-api-host>/mcp",
       "headers": {
-        "x-beater-api-key": "${env:BEATER_API_KEY}",
-        "x-beater-project-id": "${env:BEATER_PROJECT}",
-        "x-beater-environment-id": "${env:BEATER_ENVIRONMENT}"
+        "x-palette-api-key": "${env:PALETTE_API_KEY}",
+        "x-palette-project-id": "${env:PALETTE_PROJECT}",
+        "x-palette-environment-id": "${env:PALETTE_ENVIRONMENT}"
       }
     }
   }

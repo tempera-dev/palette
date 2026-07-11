@@ -22,11 +22,11 @@ span_io_value_one_of_3_t* instantiate_span_io_value_one_of_3(int include_optiona
   span_io_value_one_of_3_t* span_io_value_one_of_3 = NULL;
   if (include_optional) {
     span_io_value_one_of_3 = span_io_value_one_of_3_create(
-      beater_api_span_io_value_one_of_3_KIND_missing
+      palette_api_span_io_value_one_of_3_KIND_missing
     );
   } else {
     span_io_value_one_of_3 = span_io_value_one_of_3_create(
-      beater_api_span_io_value_one_of_3_KIND_missing
+      palette_api_span_io_value_one_of_3_KIND_missing
     );
   }
 

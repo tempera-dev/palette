@@ -6,9 +6,9 @@ const rawCompletion = "route the sensitive customer account to privacy review";
 const unmaskReason = "gate2-redaction-review";
 
 test("proves redacted I/O hides by default and unmask is reasoned", async ({ page }) => {
-  const traceId = process.env.BEATER_E2E_REDACTION_TRACE_ID;
-  const spanId = process.env.BEATER_E2E_REDACTION_SPAN_ID;
-  const release = process.env.BEATER_E2E_REDACTION_RELEASE;
+  const traceId = process.env.PALETTE_E2E_REDACTION_TRACE_ID;
+  const spanId = process.env.PALETTE_E2E_REDACTION_SPAN_ID;
+  const release = process.env.PALETTE_E2E_REDACTION_RELEASE;
   const traceParam = traceId
     ? `&trace=${encodeURIComponent(traceId)}`
     : `&kind=llm.call&model=gpt-redaction${

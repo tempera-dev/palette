@@ -1,11 +1,11 @@
-"""OpenInference -> Beater fixture app (R11.2).
+"""OpenInference -> Palette fixture app (R11.2).
 
 Emits a small agent trace using the **OpenInference** semantic-convention
 attributes (the convention used by Arize Phoenix and friends) over stock
-OpenTelemetry OTLP/gRPC. Beater ingests OpenInference attributes natively, so no
-Beater SDK is required -- this is the zero-SDK onboarding path.
+OpenTelemetry OTLP/gRPC. Palette ingests OpenInference attributes natively, so no
+Palette SDK is required -- this is the zero-SDK onboarding path.
 
-Run a local beaterd (`docker compose up`) and then:
+Run a local paletted (`docker compose up`) and then:
 
     pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc
     python examples/python/instrumentations/openinference_app.py
@@ -30,28 +30,28 @@ def build_tracer() -> trace.Tracer:
                 endpoint=os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://127.0.0.1:4317"),
                 insecure=True,
                 headers=(
-                    ("x-beater-tenant-id", os.getenv("BEATER_TENANT_ID", "demo")),
-                    ("x-beater-project-id", os.getenv("BEATER_PROJECT_ID", "demo")),
-                    ("x-beater-environment-id", os.getenv("BEATER_ENVIRONMENT_ID", "local")),
+                    ("x-palette-tenant-id", os.getenv("PALETTE_TENANT_ID", "demo")),
+                    ("x-palette-project-id", os.getenv("PALETTE_PROJECT_ID", "demo")),
+                    ("x-palette-environment-id", os.getenv("PALETTE_ENVIRONMENT_ID", "local")),
                 ),
             )
         )
     )
     trace.set_tracer_provider(provider)
-    return trace.get_tracer("beater.example.openinference")
+    return trace.get_tracer("palette.example.openinference")
 
 
 def main() -> None:
     tracer = build_tracer()
-    release = os.getenv("BEATER_RELEASE_ID", "openinference-example")
+    release = os.getenv("PALETTE_RELEASE_ID", "openinference-example")
 
     # OpenInference uses `openinference.span.kind` to mark agent/LLM/tool spans.
     with tracer.start_as_current_span(
         "handle_refund",
         attributes={
             "openinference.span.kind": "AGENT",
-            "beater.span.kind": "agent.run",
-            "beater.release_id": release,
+            "palette.span.kind": "agent.run",
+            "palette.release_id": release,
             "input.value": "late delivery refund after 31 days",
         },
     ):
@@ -59,7 +59,7 @@ def main() -> None:
             "call_model",
             attributes={
                 "openinference.span.kind": "LLM",
-                "beater.span.kind": "llm.call",
+                "palette.span.kind": "llm.call",
                 "llm.provider": "openai",
                 "llm.model_name": "gpt-4o-mini",
                 "llm.token_count.prompt": 42,
@@ -68,7 +68,7 @@ def main() -> None:
                 "llm.cost.currency": "USD",
                 "input.value": "look up refund policy and decide",
                 "output.value": "Escalate: order is outside the standard refund window.",
-                "beater.release_id": release,
+                "palette.release_id": release,
             },
         ):
             pass

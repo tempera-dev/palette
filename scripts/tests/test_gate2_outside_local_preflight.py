@@ -26,8 +26,8 @@ def seed_fake_bin(bin_dir: Path) -> None:
         write_executable(
             bin_dir / name,
             f"""#!/usr/bin/env bash
-if [ -n "${{BEATER_TEST_LOG:-}}" ]; then
-  printf '{name}:%s\\n' "$*" >> "$BEATER_TEST_LOG"
+if [ -n "${{PALETTE_TEST_LOG:-}}" ]; then
+  printf '{name}:%s\\n' "$*" >> "$PALETTE_TEST_LOG"
 fi
 exit 0
 """,
@@ -36,27 +36,27 @@ exit 0
     write_executable(
         bin_dir / "python3",
         """#!/usr/bin/env bash
-if [ -n "${BEATER_TEST_LOG:-}" ]; then
-  printf 'python3:%s\\n' "$*" >> "$BEATER_TEST_LOG"
+if [ -n "${PALETTE_TEST_LOG:-}" ]; then
+  printf 'python3:%s\\n' "$*" >> "$PALETTE_TEST_LOG"
 fi
 cat >/dev/null || true
-exit "${BEATER_TEST_PYTHON_RC:-0}"
+exit "${PALETTE_TEST_PYTHON_RC:-0}"
 """,
     )
     write_executable(
         bin_dir / "docker",
         """#!/usr/bin/env bash
-if [ -n "${BEATER_TEST_LOG:-}" ]; then
-  printf 'docker:%s\\n' "$*" >> "$BEATER_TEST_LOG"
+if [ -n "${PALETTE_TEST_LOG:-}" ]; then
+  printf 'docker:%s\\n' "$*" >> "$PALETTE_TEST_LOG"
 fi
 if [ "${1:-}" = "info" ]; then
-  exit "${BEATER_TEST_DOCKER_INFO_RC:-0}"
+  exit "${PALETTE_TEST_DOCKER_INFO_RC:-0}"
 fi
 if [ "${1:-}" = "compose" ] && [ "${2:-}" = "version" ]; then
-  exit "${BEATER_TEST_DOCKER_COMPOSE_RC:-0}"
+  exit "${PALETTE_TEST_DOCKER_COMPOSE_RC:-0}"
 fi
 if [ "${1:-}" = "context" ] && [ "${2:-}" = "inspect" ]; then
-  printf '%s\\n' "${BEATER_TEST_DOCKER_CONTEXT_HOST:-unix:///var/run/docker.sock}"
+  printf '%s\\n' "${PALETTE_TEST_DOCKER_CONTEXT_HOST:-unix:///var/run/docker.sock}"
   exit 0
 fi
 exit 0
@@ -83,7 +83,7 @@ def run_preflight(
         run_dir = temp_dir / "outside-run-parent"
         run_dir.mkdir()
         if create_existing_clone:
-            (run_dir / "beater").mkdir()
+            (run_dir / "palette").mkdir()
         script = temp_dir / "gate2-outside-local-preflight.sh"
         shutil.copy2(SCRIPT, script)
 
@@ -95,8 +95,8 @@ def run_preflight(
         merged_env.update(
             {
                 "PATH": f"{bin_dir}{os.pathsep}{merged_env['PATH']}",
-                "BEATER_TEST_LOG": str(log),
-                "BEATER_GATE2_EXPECTED_COMMIT": "",
+                "PALETTE_TEST_LOG": str(log),
+                "PALETTE_GATE2_EXPECTED_COMMIT": "",
                 "DOCKER_HOST": "",
             }
         )
@@ -140,19 +140,19 @@ def test_preflight_rejects_remote_docker_host_before_runtime_checks() -> None:
     assert "docker:info" not in calls
 
 
-def test_preflight_rejects_existing_beater_directory_before_clone() -> None:
+def test_preflight_rejects_existing_palette_directory_before_clone() -> None:
     result, calls = run_preflight(create_existing_clone=True)
 
     assert result.returncode == 1
-    assert "current directory already contains ./beater" in result.stderr
+    assert "current directory already contains ./palette" in result.stderr
     assert "docker:info" not in calls
 
 
 def test_preflight_rejects_preconfigured_proof_artifact_paths() -> None:
-    result, calls = run_preflight({"BEATER_GATE2_STOPWATCH_PROOF": "custom.md"})
+    result, calls = run_preflight({"PALETTE_GATE2_STOPWATCH_PROOF": "custom.md"})
 
     assert result.returncode == 1
-    assert "BEATER_GATE2_STOPWATCH_PROOF must be unset" in result.stderr
+    assert "PALETTE_GATE2_STOPWATCH_PROOF must be unset" in result.stderr
     assert "docker:info" not in calls
 
 
@@ -160,7 +160,7 @@ def main() -> None:
     for test in (
         test_preflight_passes_with_local_runtime_and_clean_environment,
         test_preflight_rejects_remote_docker_host_before_runtime_checks,
-        test_preflight_rejects_existing_beater_directory_before_clone,
+        test_preflight_rejects_existing_palette_directory_before_clone,
         test_preflight_rejects_preconfigured_proof_artifact_paths,
     ):
         test()

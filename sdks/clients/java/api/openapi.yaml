@@ -1,10 +1,10 @@
 openapi: 3.1.0
 info:
   description: "Agent observability, evaluation, gating, and human-review APIs for\
-    \ Beater"
+    \ Palette"
   license:
     name: Apache-2.0
-  title: Beater API
+  title: Palette API
   version: 0.1.0
 servers:
 - url: /
@@ -110,7 +110,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -119,7 +119,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -128,7 +128,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -210,7 +210,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -219,7 +219,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -228,7 +228,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -318,7 +318,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -327,7 +327,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -336,7 +336,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -452,7 +452,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -461,7 +461,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -470,7 +470,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -545,7 +545,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -554,7 +554,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -563,7 +563,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -636,7 +636,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -645,7 +645,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -654,7 +654,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -739,7 +739,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -748,7 +748,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -757,7 +757,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -837,7 +837,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -846,7 +846,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -855,7 +855,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -932,7 +932,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -941,7 +941,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -950,7 +950,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1025,7 +1025,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1034,7 +1034,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1043,7 +1043,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1123,7 +1123,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1132,7 +1132,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1141,7 +1141,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1229,7 +1229,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1238,7 +1238,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1247,7 +1247,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1328,7 +1328,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1337,7 +1337,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1346,7 +1346,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1437,7 +1437,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1446,7 +1446,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1455,7 +1455,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1530,7 +1530,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1539,7 +1539,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1548,7 +1548,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1630,7 +1630,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1639,7 +1639,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1648,7 +1648,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1736,7 +1736,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1745,7 +1745,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1754,7 +1754,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1850,7 +1850,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1859,7 +1859,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1868,7 +1868,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -1964,7 +1964,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -1973,7 +1973,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -1982,7 +1982,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2078,7 +2078,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2087,7 +2087,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2096,7 +2096,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2192,7 +2192,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2201,7 +2201,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2210,7 +2210,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2290,7 +2290,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2299,7 +2299,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2308,7 +2308,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2390,7 +2390,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2399,7 +2399,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2408,7 +2408,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2503,7 +2503,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2604,7 +2604,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2613,7 +2613,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2622,7 +2622,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2695,7 +2695,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2704,7 +2704,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2713,7 +2713,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2788,7 +2788,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2797,7 +2797,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2806,7 +2806,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2887,7 +2887,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2896,7 +2896,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -2905,7 +2905,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -2986,7 +2986,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -2995,7 +2995,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3004,7 +3004,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3077,7 +3077,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3086,7 +3086,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3095,7 +3095,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3169,7 +3169,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3178,7 +3178,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3187,7 +3187,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3264,7 +3264,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3273,7 +3273,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3282,7 +3282,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3371,7 +3371,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3380,7 +3380,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3389,7 +3389,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3468,7 +3468,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3477,7 +3477,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3486,7 +3486,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3552,7 +3552,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3561,7 +3561,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3570,7 +3570,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3652,7 +3652,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3661,7 +3661,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3670,7 +3670,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3765,7 +3765,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3774,7 +3774,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3783,7 +3783,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3864,7 +3864,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3873,7 +3873,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3882,7 +3882,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -3962,7 +3962,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -3971,7 +3971,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -3980,7 +3980,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4060,7 +4060,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4069,7 +4069,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4078,7 +4078,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4146,7 +4146,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4155,7 +4155,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4164,7 +4164,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4246,7 +4246,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4255,7 +4255,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4264,7 +4264,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4337,7 +4337,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4346,7 +4346,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4355,7 +4355,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4444,7 +4444,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4453,7 +4453,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4462,7 +4462,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4545,7 +4545,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4554,7 +4554,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4563,7 +4563,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4659,7 +4659,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4668,7 +4668,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4677,7 +4677,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4781,7 +4781,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4790,7 +4790,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4799,7 +4799,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4895,7 +4895,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4904,7 +4904,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4913,7 +4913,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -4979,7 +4979,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -4988,7 +4988,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -4997,7 +4997,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5071,7 +5071,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5080,7 +5080,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5089,7 +5089,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5177,7 +5177,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5186,7 +5186,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5195,7 +5195,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5332,7 +5332,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5341,7 +5341,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5350,7 +5350,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5439,7 +5439,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5448,7 +5448,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5457,7 +5457,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5552,7 +5552,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5561,7 +5561,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5570,7 +5570,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5634,7 +5634,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5643,7 +5643,7 @@ paths:
       - description: Tenant scope override for collector-style OTLP JSON
         explode: false
         in: header
-        name: x-beater-tenant-id
+        name: x-palette-tenant-id
         required: false
         schema:
           nullable: true
@@ -5652,7 +5652,7 @@ paths:
       - description: Project scope override for collector-style OTLP JSON
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5661,7 +5661,7 @@ paths:
       - description: Environment scope override for collector-style OTLP JSON
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5731,7 +5731,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5740,7 +5740,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5749,7 +5749,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -5938,7 +5938,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -5947,7 +5947,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -5956,7 +5956,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -6037,7 +6037,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -6046,7 +6046,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -6055,7 +6055,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -6128,7 +6128,7 @@ paths:
       - description: API key alternative for strict auth
         explode: false
         in: header
-        name: x-beater-api-key
+        name: x-palette-api-key
         required: false
         schema:
           nullable: true
@@ -6137,7 +6137,7 @@ paths:
       - description: Strict-auth project scope
         explode: false
         in: header
-        name: x-beater-project-id
+        name: x-palette-project-id
         required: false
         schema:
           nullable: true
@@ -6146,7 +6146,7 @@ paths:
       - description: Strict-auth environment scope
         explode: false
         in: header
-        name: x-beater-environment-id
+        name: x-palette-environment-id
         required: false
         schema:
           nullable: true
@@ -8562,7 +8562,7 @@ components:
     ImportSourceHttpRequest:
       description: |-
         Request body for the unified import endpoint. The `source` field selects a
-        registered [`beater_ingest::SourceImporter`] (e.g. `temporal_history`, `native`);
+        registered [`palette_ingest::SourceImporter`] (e.g. `temporal_history`, `native`);
         `payload` is that source's document (Temporal `History` JSON, a native span list,
         …). Everything flows through the same downstream ingest pipeline as OTLP — there are
         no source-specific routes.
@@ -10361,7 +10361,7 @@ components:
         t-test result from an exact McNemar, Wilcoxon, bootstrap, cluster-robust, or
         anytime-valid sequential one. The old single `PairedNormalApproximation`
         (a hard-coded-z normal approximation with no p-value) is gone — see
-        `beater-stats`.
+        `palette-stats`.
       enum:
       - paired_t
       - mcnemar_exact
@@ -10463,7 +10463,7 @@ components:
     Toolkit:
       description: |-
         A connectable third-party app (Composio "toolkit"), flattened from the v3
-        `GET /toolkits` shape into the fields Beater exposes.
+        `GET /toolkits` shape into the fields Palette exposes.
       example:
         name: name
         auth_schemes:

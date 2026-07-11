@@ -1,0 +1,28 @@
+[package]
+name = "palette-billing"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+async-trait.workspace = true
+palette-core = { path = "../palette-core" }
+palette-security = { path = "../palette-security" }
+palette-store = { path = "../palette-store" }
+palette-usage = { path = "../palette-usage" }
+chrono.workspace = true
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

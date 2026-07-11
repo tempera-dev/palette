@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.submit_review_annotation_http_request import SubmitReviewAnnotationHttpRequest
+from palette_client.models.submit_review_annotation_http_request import SubmitReviewAnnotationHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

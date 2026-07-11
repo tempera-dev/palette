@@ -41,7 +41,7 @@ export interface SpanOptions {
   attributes?: Record<string, string | number | boolean>;
 }
 
-/** Run `fn` inside a Beater span, recording status and re-raising errors. */
+/** Run `fn` inside a Palette span, recording status and re-raising errors. */
 export async function span<T>(
   name: string,
   options: SpanOptions,
@@ -76,7 +76,7 @@ export interface ObserveOptions {
 }
 
 /**
- * Wrap a function so each call becomes a Beater span. Works for sync and async
+ * Wrap a function so each call becomes a Palette span. Works for sync and async
  * functions (the returned function is always async-safe).
  *
  *   const call = observe(rawCall, { kind: SpanKind.LLM_CALL });

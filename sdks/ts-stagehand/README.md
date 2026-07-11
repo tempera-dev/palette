@@ -1,19 +1,19 @@
-# @beater/stagehand-instrumentation
+# @palette/stagehand-instrumentation
 
 Instrumentation SDK that wraps the [Stagehand](https://github.com/browserbase/stagehand)
 browser-automation SDK (`page.act` / `page.observe` / `page.extract`, built on
-Playwright) and emits canonical Beater `browser.*` spans over OTLP gRPC.
+Playwright) and emits canonical Palette `browser.*` spans over OTLP gRPC.
 
 One `instrumentStagehand(stagehand)` call turns every AI primitive into a
 `tool.call` span, and surfaces any model decision as a child `llm.call` span
-carrying `browser.reasoning`. Spans are exported to Beater's OTLP gRPC ingest on
+carrying `browser.reasoning`. Spans are exported to Palette's OTLP gRPC ingest on
 `localhost:4317` (configurable).
 
 ## Architecture fit
 
-Generic OTLP/OpenInference/OpenLLMetry ingest remains Beater's zero-code floor:
-any already-instrumented app should export to Beater without this package. Use
-`@beater/stagehand-instrumentation` when you need the first-class Stagehand
+Generic OTLP/OpenInference/OpenLLMetry ingest remains Palette's zero-code floor:
+any already-instrumented app should export to Palette without this package. Use
+`@palette/stagehand-instrumentation` when you need the first-class Stagehand
 vertical from `ARCHITECTURE.md` §28.1: Playwright-backed browser action hooks,
 grounded action metadata, and canonical `browser.*` spans that generic LLM-only
 exporters usually cannot see.
@@ -21,7 +21,7 @@ exporters usually cannot see.
 ## Install
 
 ```bash
-npm install @beater/stagehand-instrumentation @browserbasehq/stagehand
+npm install @palette/stagehand-instrumentation @browserbasehq/stagehand
 ```
 
 `@browserbasehq/stagehand` is an optional peer dependency — the SDK and its
@@ -31,14 +31,14 @@ tests do not require a live browser.
 
 ```ts
 import { Stagehand } from "@browserbasehq/stagehand";
-import { instrumentStagehand } from "@beater/stagehand-instrumentation";
+import { instrumentStagehand } from "@palette/stagehand-instrumentation";
 
 const stagehand = new Stagehand({ env: "LOCAL" });
 await stagehand.init();
 
-// Wrap act/observe/extract. Spans go to Beater over OTLP gRPC.
+// Wrap act/observe/extract. Spans go to Palette over OTLP gRPC.
 instrumentStagehand(stagehand, {
-  endpoint: process.env.BEATER_OTLP_ENDPOINT ?? "http://localhost:4317",
+  endpoint: process.env.PALETTE_OTLP_ENDPOINT ?? "http://localhost:4317",
   serviceName: "my-browser-agent",
 });
 
@@ -52,7 +52,7 @@ await stagehand.page.extract({ instruction: "the article title" });
 
 | Option        | Env var                | Default                  |
 | ------------- | ---------------------- | ------------------------ |
-| `endpoint`    | `BEATER_OTLP_ENDPOINT` | `http://localhost:4317`  |
+| `endpoint`    | `PALETTE_OTLP_ENDPOINT` | `http://localhost:4317`  |
 | `serviceName` | —                      | `stagehand-browser-agent`|
 | `engine`      | —                      | `chromium`               |
 | `tracer`      | —                      | OTLP gRPC pipeline       |
@@ -62,7 +62,7 @@ Pass your own `tracer` to reuse an existing OpenTelemetry pipeline (or an
 
 ## Emitted spans
 
-Each wrapped call emits a `tool.call` span (`beater.span.kind = tool.call`):
+Each wrapped call emits a `tool.call` span (`palette.span.kind = tool.call`):
 
 | Attribute                  | Value                                   |
 | -------------------------- | --------------------------------------- |
@@ -77,10 +77,10 @@ Each wrapped call emits a `tool.call` span (`beater.span.kind = tool.call`):
 | `browser.matched_element`  | `true` when the model grounded a target |
 
 When a call (or its result) carries a model decision, a child `llm.call` span
-(`beater.span.kind = llm.call`) is emitted with `browser.reasoning` and, when
+(`palette.span.kind = llm.call`) is emitted with `browser.reasoning` and, when
 available, `browser.selector`.
 
-These keys match `crates/beater-browser/src/semconv.rs` exactly so Beater's OTLP
+These keys match `crates/palette-browser/src/semconv.rs` exactly so Palette's OTLP
 ingest normalizes them identically to the native capture layer and the other
 instrumentation SDKs.
 
@@ -97,5 +97,5 @@ npm test
 
 ```bash
 npm run build   # tsc -> dist/
-npm run example # requires @browserbasehq/stagehand + a running Beater
+npm run example # requires @browserbasehq/stagehand + a running Palette
 ```

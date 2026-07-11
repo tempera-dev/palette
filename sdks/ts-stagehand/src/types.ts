@@ -24,7 +24,7 @@ export interface StagehandLike {
 
 export interface InstrumentOptions {
   /**
-   * OTLP gRPC endpoint. Defaults to `BEATER_OTLP_ENDPOINT` env var, then
+   * OTLP gRPC endpoint. Defaults to `PALETTE_OTLP_ENDPOINT` env var, then
    * `http://localhost:4317`.
    */
   endpoint?: string;

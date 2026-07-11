@@ -12,7 +12,7 @@ ROOT_README = MIGRATIONS / "README.md"
 BACKENDS = {
     "sqlite": {
         "root": ["local OSS runtime", "--data-dir", "schema-migration metadata"],
-        "readme": ["SQLite", "`beaterd`", "_beater_schema_migrations"],
+        "readme": ["SQLite", "`paletted`", "_palette_schema_migrations"],
     },
     "postgres": {
         "root": ["transactional metadata", "trace hot-store schema"],

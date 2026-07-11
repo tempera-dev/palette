@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.alert_input import AlertInput
+from palette_client.models.alert_input import AlertInput
 
 # TODO update the JSON string below
 json = "{}"

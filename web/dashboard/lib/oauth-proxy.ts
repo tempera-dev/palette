@@ -30,7 +30,7 @@ const RESPONSE_HEADERS = [
  * Hosted dashboard OAuth proxy.
  *
  * In a split deployment the browser session cookie is scoped to the dashboard
- * origin, while beaterd is often on a private/API origin. Proxying OAuth through
+ * origin, while paletted is often on a private/API origin. Proxying OAuth through
  * the dashboard keeps `/oauth/authorize` on the same origin as `/login`, so the
  * session cookie reaches the backend authorization server.
  */

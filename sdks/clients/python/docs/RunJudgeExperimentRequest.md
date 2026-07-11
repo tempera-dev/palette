@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_judge_experiment_request import RunJudgeExperimentRequest
+from palette_client.models.run_judge_experiment_request import RunJudgeExperimentRequest
 
 # TODO update the JSON string below
 json = "{}"

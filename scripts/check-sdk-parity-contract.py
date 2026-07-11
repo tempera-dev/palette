@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Static contract check for the SDK parity gate.
 
-The live conformance runner proves generated clients can talk to beaterd. This
+The live conformance runner proves generated clients can talk to paletted. This
 check covers the static half of ARCHITECTURE.md Section 20.8 #6.5: every SDK
 participant is declared, every conformance program is wired into the runner, and
 the hand-written ergonomic SDKs expose the same logical surface from the shared

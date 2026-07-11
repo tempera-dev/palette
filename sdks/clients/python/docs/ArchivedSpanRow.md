@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.archived_span_row import ArchivedSpanRow
+from palette_client.models.archived_span_row import ArchivedSpanRow
 
 # TODO update the JSON string below
 json = "{}"

@@ -9,10 +9,10 @@ static scenario_t *scenario_create_internal(
     char *created_at,
     char *exemplar_trace_id,
     char *expected_outcome,
-    beater_api_failure_mode__e failure_mode,
+    palette_api_failure_mode__e failure_mode,
     perturbation_knobs_t *perturbation_knobs,
     int recurrence_count,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     char *scenario_id,
     tenant_scope_t *scope,
     list_t *source_trace_ids,
@@ -42,10 +42,10 @@ __attribute__((deprecated)) scenario_t *scenario_create(
     char *created_at,
     char *exemplar_trace_id,
     char *expected_outcome,
-    beater_api_failure_mode__e failure_mode,
+    palette_api_failure_mode__e failure_mode,
     perturbation_knobs_t *perturbation_knobs,
     int recurrence_count,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     char *scenario_id,
     tenant_scope_t *scope,
     list_t *source_trace_ids,
@@ -143,7 +143,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
 
 
     // scenario->failure_mode
-    if (beater_api_failure_mode__NULL == scenario->failure_mode) {
+    if (palette_api_failure_mode__NULL == scenario->failure_mode) {
         goto fail;
     }
     cJSON *failure_mode_local_JSON = failure_mode_convertToJSON(scenario->failure_mode);
@@ -180,7 +180,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
 
 
     // scenario->redaction_class
-    if (beater_api_redaction_class__NULL == scenario->redaction_class) {
+    if (palette_api_redaction_class__NULL == scenario->redaction_class) {
         goto fail;
     }
     cJSON *redaction_class_local_JSON = redaction_class_convertToJSON(scenario->redaction_class);
@@ -255,13 +255,13 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     scenario_t *scenario_local_var = NULL;
 
     // define the local variable for scenario->failure_mode
-    beater_api_failure_mode__e failure_mode_local_nonprim = 0;
+    palette_api_failure_mode__e failure_mode_local_nonprim = 0;
 
     // define the local variable for scenario->perturbation_knobs
     perturbation_knobs_t *perturbation_knobs_local_nonprim = NULL;
 
     // define the local variable for scenario->redaction_class
-    beater_api_redaction_class__e redaction_class_local_nonprim = 0;
+    palette_api_redaction_class__e redaction_class_local_nonprim = 0;
 
     // define the local variable for scenario->scope
     tenant_scope_t *scope_local_nonprim = NULL;

@@ -18,22 +18,22 @@ typedef struct evaluator_kind_one_of_t evaluator_kind_one_of_t;
 
 // Enum TYPE for evaluator_kind_one_of
 
-typedef enum  { beater_api_evaluator_kind_one_of_TYPE_NULL = 0, beater_api_evaluator_kind_one_of_TYPE_exact_match } beater_api_evaluator_kind_one_of_TYPE_e;
+typedef enum  { palette_api_evaluator_kind_one_of_TYPE_NULL = 0, palette_api_evaluator_kind_one_of_TYPE_exact_match } palette_api_evaluator_kind_one_of_TYPE_e;
 
-char* evaluator_kind_one_of_type_ToString(beater_api_evaluator_kind_one_of_TYPE_e type);
+char* evaluator_kind_one_of_type_ToString(palette_api_evaluator_kind_one_of_TYPE_e type);
 
-beater_api_evaluator_kind_one_of_TYPE_e evaluator_kind_one_of_type_FromString(char* type);
+palette_api_evaluator_kind_one_of_TYPE_e evaluator_kind_one_of_type_FromString(char* type);
 
 
 
 typedef struct evaluator_kind_one_of_t {
-    beater_api_evaluator_kind_one_of_TYPE_e type; //enum
+    palette_api_evaluator_kind_one_of_TYPE_e type; //enum
 
     int _library_owned; // Is the library responsible for freeing this object?
 } evaluator_kind_one_of_t;
 
 __attribute__((deprecated)) evaluator_kind_one_of_t *evaluator_kind_one_of_create(
-    beater_api_evaluator_kind_one_of_TYPE_e type
+    palette_api_evaluator_kind_one_of_TYPE_e type
 );
 
 void evaluator_kind_one_of_free(evaluator_kind_one_of_t *evaluator_kind_one_of);

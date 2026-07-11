@@ -110,7 +110,7 @@ def test_vercel_scope_rejects_broad_root_vercel_deploy_config() -> None:
 def test_vercel_scope_rejects_backend_work_in_dashboard_deploy() -> None:
     def add_backend_deploy_path(repo: Path) -> None:
         workflow = repo / ".github" / "workflows" / "deploy-dashboard.yml"
-        workflow.write_text(workflow.read_text() + "      - run: cargo build -p beaterd\n")
+        workflow.write_text(workflow.read_text() + "      - run: cargo build -p paletted\n")
 
     result = run_check(add_backend_deploy_path)
 

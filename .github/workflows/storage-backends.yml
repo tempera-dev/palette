@@ -9,7 +9,7 @@ concurrency:
 
 # Real (non-#[ignore]d) coverage for the scale TraceStore backends.
 #
-# The Pg/ClickHouse conformance tests in `beater-store-sql` are gated behind
+# The Pg/ClickHouse conformance tests in `palette-store-sql` are gated behind
 # `#[ignore]` so a Docker-less `cargo test` still passes locally. They boot
 # throwaway `postgres:16-alpine` / `clickhouse/clickhouse-server:24-alpine`
 # containers themselves via the `testcontainers` crate (which talks directly to
@@ -21,10 +21,10 @@ concurrency:
 on:
   pull_request:
     paths:
-      - "crates/beater-store-sql/**"
-      - "crates/beater-store-conformance/**"
-      - "crates/beater-store/**"
-      - "crates/beater-schema/**"
+      - "crates/palette-store-sql/**"
+      - "crates/palette-store-conformance/**"
+      - "crates/palette-store/**"
+      - "crates/palette-schema/**"
       - "migrations/checksums.json"
       - "migrations/sqlite/**"
       - "migrations/postgres/**"
@@ -53,4 +53,4 @@ jobs:
           docker pull postgres:16-alpine
           docker pull clickhouse/clickhouse-server:24-alpine
       - name: Run Pg + ClickHouse TraceStore conformance (Docker-gated, --ignored)
-        run: cargo test -p beater-store-sql -- --ignored
+        run: cargo test -p palette-store-sql -- --ignored

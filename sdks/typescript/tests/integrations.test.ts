@@ -1,20 +1,20 @@
 import assert from "node:assert";
 import { test } from "node:test";
 
-import * as beater from "../src/index";
+import * as palette from "../src/index";
 
 test("TypeScript integration registry exposes current SDK support", () => {
-  const available = Object.fromEntries(beater.availableIntegrations().map((spec) => [spec.slug, spec]));
+  const available = Object.fromEntries(palette.availableIntegrations().map((spec) => [spec.slug, spec]));
 
-  assert.equal(available.openai.module, "@beater/sdk");
-  assert.equal(available.anthropic.module, "@beater/sdk");
-  assert.equal(available.langchain.status, beater.INTEGRATION_AVAILABLE);
+  assert.equal(available.openai.module, "@palette/sdk");
+  assert.equal(available.anthropic.module, "@palette/sdk");
+  assert.equal(available.langchain.status, palette.INTEGRATION_AVAILABLE);
   assert.match(available["vercel-ai-sdk"].notes, /OpenTelemetry/);
-  assert.ok(beater.availableIntegrations().every((spec) => spec.status === beater.INTEGRATION_AVAILABLE));
+  assert.ok(palette.availableIntegrations().every((spec) => spec.status === palette.INTEGRATION_AVAILABLE));
 });
 
 test("TypeScript integration registry tracks architecture backlog candidates", () => {
-  const planned = new Set(beater.plannedIntegrations().map((spec) => spec.slug));
+  const planned = new Set(palette.plannedIntegrations().map((spec) => spec.slug));
 
   for (const slug of [
     "llamaindex",
@@ -35,17 +35,17 @@ test("TypeScript integration registry tracks architecture backlog candidates", (
 });
 
 test("TypeScript integration registry is stable and searchable", () => {
-  const catalog = beater.integrationCatalog();
+  const catalog = palette.integrationCatalog();
   const slugs = catalog.map((spec) => spec.slug);
 
   assert.equal(slugs.length, new Set(slugs).size);
   assert.deepEqual(slugs, [...slugs].sort());
-  assert.equal(beater.findIntegration("  Vercel-AI-SDK  ")?.status, beater.INTEGRATION_AVAILABLE);
-  assert.equal(beater.findIntegration("missing"), undefined);
+  assert.equal(palette.findIntegration("  Vercel-AI-SDK  ")?.status, palette.INTEGRATION_AVAILABLE);
+  assert.equal(palette.findIntegration("missing"), undefined);
 });
 
 test("Vercel AI SDK telemetry helper builds supported telemetry option shapes", () => {
-  const telemetry = beater.vercelAiTelemetry({
+  const telemetry = palette.vercelAiTelemetry({
     functionId: "support-reply",
     recordInputs: false,
     recordOutputs: false,
@@ -61,8 +61,8 @@ test("Vercel AI SDK telemetry helper builds supported telemetry option shapes", 
   });
 
   const request = { prompt: "Write a short reply" };
-  const current = beater.withVercelAiTelemetry(request, { functionId: "current" });
-  const stable = beater.withVercelAiTelemetry(request, {
+  const current = palette.withVercelAiTelemetry(request, { functionId: "current" });
+  const stable = palette.withVercelAiTelemetry(request, {
     optionName: "telemetry",
     enabled: false,
   });

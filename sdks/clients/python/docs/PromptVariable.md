@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.prompt_variable import PromptVariable
+from palette_client.models.prompt_variable import PromptVariable
 
 # TODO update the JSON string below
 json = "{}"

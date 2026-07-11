@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.perturbation_knobs import PerturbationKnobs
+from palette_client.models.perturbation_knobs import PerturbationKnobs
 
 # TODO update the JSON string below
 json = "{}"

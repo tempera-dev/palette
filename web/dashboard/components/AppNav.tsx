@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Activity, KeyRound, Gauge, CreditCard, BookOpen, PlugZap } from "lucide-react";
 
-import { BrandLockup } from "./BeaterMark";
+import { BrandLockup } from "./PaletteMark";
 import { AccountMenu } from "./AccountMenu";
 
 type Account = { email: string; tenant_id: string };
@@ -48,7 +48,7 @@ export function AppNav({ account }: { account: Account | null }) {
 
   return (
     <header className="app-nav">
-      <Link href="/" aria-label="Beater home">
+      <Link href="/" aria-label="Palette home">
         <BrandLockup />
       </Link>
       <nav className="nav-links" aria-label="Primary">

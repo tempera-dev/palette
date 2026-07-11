@@ -24,7 +24,7 @@ create_scenario_request_t* instantiate_create_scenario_request(int include_optio
     create_scenario_request = create_scenario_request_create(
       "0",
       "0",
-      beater_api_create_scenario_request__tool_error,
+      palette_api_create_scenario_request__tool_error,
       list_createList(),
       "0"
     );
@@ -32,7 +32,7 @@ create_scenario_request_t* instantiate_create_scenario_request(int include_optio
     create_scenario_request = create_scenario_request_create(
       "0",
       "0",
-      beater_api_create_scenario_request__tool_error,
+      palette_api_create_scenario_request__tool_error,
       list_createList(),
       "0"
     );
