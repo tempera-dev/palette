@@ -110,9 +110,11 @@ pub struct IntrospectedTokenClaims {
     pub token_id: String,
     pub scope: BTreeSet<String>,
     pub tenant_scope: TenantScope,
-    /// Absent only for central API keys (`token_type == "api_key"`), which do
-    /// not expire; the control plane reports revocation via `active: false` on
-    /// the next introspection instead. JWT-shaped responses must carry `exp`.
+    /// Absent only for central API keys (`token_type == "api_key"`), whose
+    /// introspection response carries no `exp` claim; the control plane
+    /// enforces any per-key expiry itself and reports it (like revocation) as
+    /// `active: false` on the next introspection. JWT-shaped responses must
+    /// carry `exp`.
     pub expires_at: Option<chrono::DateTime<Utc>>,
 }
 
@@ -190,10 +192,10 @@ fn claims_from_introspection_response(
     if audience != "palette" {
         anyhow::bail!("token audience {audience} is not palette");
     }
-    // Central API keys introspect without `exp` (they do not expire; the
-    // control plane reports revocation as `active: false` on the live
-    // per-request introspection). Every other shape must carry `exp` — the
-    // same rule tempo, cradle, and remi apply.
+    // Central API keys introspect without an `exp` claim; the control plane
+    // enforces any per-key expiry itself and reports it (like revocation) as
+    // `active: false` on the live per-request introspection. Every other
+    // shape must carry `exp` — the same rule tempo, cradle, and remi apply.
     let expires_at = match body.exp {
         Some(exp) => Some(
             chrono::DateTime::from_timestamp(exp, 0)
@@ -5854,7 +5856,7 @@ mod tests {
         assert_eq!(claims.token_id, "ak_123");
         assert_eq!(claims.audience, "palette");
         assert_eq!(claims.tenant_scope.tenant_id.as_str(), "org_demo");
-        // API keys do not expire; the claims record that honestly.
+        // No exp claim on the wire; the claims record that honestly.
         assert_eq!(claims.expires_at, None);
     }
 
