@@ -23,6 +23,7 @@ const (
 	APISCOPE_TRACE_WRITE ApiScope = "trace:write"
 	APISCOPE_TRACE_READ ApiScope = "trace:read"
 	APISCOPE_DATASET_WRITE ApiScope = "dataset:write"
+	APISCOPE_DATASET_READ ApiScope = "dataset:read"
 	APISCOPE_SCENARIO_WRITE ApiScope = "scenario:write"
 	APISCOPE_SCENARIO_READ ApiScope = "scenario:read"
 	APISCOPE_EVAL_RUN ApiScope = "eval:run"
@@ -35,6 +36,7 @@ var AllowedApiScopeEnumValues = []ApiScope{
 	"trace:write",
 	"trace:read",
 	"dataset:write",
+	"dataset:read",
 	"scenario:write",
 	"scenario:read",
 	"eval:run",

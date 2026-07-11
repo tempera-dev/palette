@@ -21,6 +21,7 @@ export const ApiScope = {
     TraceWrite: 'trace:write',
     TraceRead: 'trace:read',
     DatasetWrite: 'dataset:write',
+    DatasetRead: 'dataset:read',
     ScenarioWrite: 'scenario:write',
     ScenarioRead: 'scenario:read',
     EvalRun: 'eval:run',
