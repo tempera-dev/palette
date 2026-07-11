@@ -12,7 +12,7 @@
 set -euo pipefail
 
 default_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-root="${1:-${BEATER_ACTION_PINS_ROOT:-$default_root}}"
+root="${1:-${PALETTE_ACTION_PINS_ROOT:-$default_root}}"
 violations=0
 
 check_uses_ref() {

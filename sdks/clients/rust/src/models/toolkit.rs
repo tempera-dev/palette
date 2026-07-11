@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// Toolkit : A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Beater exposes.
+/// Toolkit : A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Palette exposes.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Toolkit {
     /// Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`).
@@ -35,7 +35,7 @@ pub struct Toolkit {
 }
 
 impl Toolkit {
-    /// A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Beater exposes.
+    /// A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Palette exposes.
     pub fn new(name: String, slug: String) -> Toolkit {
         Toolkit {
             auth_schemes: None,

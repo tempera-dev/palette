@@ -19,7 +19,7 @@ All URIs are relative to *http://localhost*
 
 ## reviewsCreateReviewQueue
 
-> ReviewQueue reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ReviewQueue reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -27,11 +27,11 @@ All URIs are relative to *http://localhost*
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -43,11 +43,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         CreateReviewQueueHttpRequest createReviewQueueHttpRequest = new CreateReviewQueueHttpRequest(); // CreateReviewQueueHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ReviewQueue result = apiInstance.reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ReviewQueue result = apiInstance.reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ReviewsApi#reviewsCreateReviewQueue");
@@ -69,9 +69,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **createReviewQueueHttpRequest** | [**CreateReviewQueueHttpRequest**](CreateReviewQueueHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -97,7 +97,7 @@ No authorization required
 
 ## reviewsCreateReviewQueueWithHttpInfo
 
-> ApiResponse<ReviewQueue> reviewsCreateReviewQueue reviewsCreateReviewQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<ReviewQueue> reviewsCreateReviewQueue reviewsCreateReviewQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -105,12 +105,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -122,11 +122,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         CreateReviewQueueHttpRequest createReviewQueueHttpRequest = new CreateReviewQueueHttpRequest(); // CreateReviewQueueHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ReviewQueue> response = apiInstance.reviewsCreateReviewQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<ReviewQueue> response = apiInstance.reviewsCreateReviewQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -150,9 +150,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **createReviewQueueHttpRequest** | [**CreateReviewQueueHttpRequest**](CreateReviewQueueHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -179,7 +179,7 @@ No authorization required
 
 ## reviewsEnqueueReviewTaskFromTrace
 
-> ReviewTask reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ReviewTask reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -187,11 +187,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -204,11 +204,11 @@ public class Example {
         String queueId = "queueId_example"; // String | queue_id
         EnqueueReviewTaskFromTraceHttpRequest enqueueReviewTaskFromTraceHttpRequest = new EnqueueReviewTaskFromTraceHttpRequest(); // EnqueueReviewTaskFromTraceHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ReviewTask result = apiInstance.reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ReviewTask result = apiInstance.reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ReviewsApi#reviewsEnqueueReviewTaskFromTrace");
@@ -231,9 +231,9 @@ public class Example {
 | **queueId** | **String**| queue_id | |
 | **enqueueReviewTaskFromTraceHttpRequest** | [**EnqueueReviewTaskFromTraceHttpRequest**](EnqueueReviewTaskFromTraceHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -260,7 +260,7 @@ No authorization required
 
 ## reviewsEnqueueReviewTaskFromTraceWithHttpInfo
 
-> ApiResponse<ReviewTask> reviewsEnqueueReviewTaskFromTrace reviewsEnqueueReviewTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<ReviewTask> reviewsEnqueueReviewTaskFromTrace reviewsEnqueueReviewTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -268,12 +268,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -286,11 +286,11 @@ public class Example {
         String queueId = "queueId_example"; // String | queue_id
         EnqueueReviewTaskFromTraceHttpRequest enqueueReviewTaskFromTraceHttpRequest = new EnqueueReviewTaskFromTraceHttpRequest(); // EnqueueReviewTaskFromTraceHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ReviewTask> response = apiInstance.reviewsEnqueueReviewTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<ReviewTask> response = apiInstance.reviewsEnqueueReviewTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -315,9 +315,9 @@ public class Example {
 | **queueId** | **String**| queue_id | |
 | **enqueueReviewTaskFromTraceHttpRequest** | [**EnqueueReviewTaskFromTraceHttpRequest**](EnqueueReviewTaskFromTraceHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -345,7 +345,7 @@ No authorization required
 
 ## reviewsListReviewTasks
 
-> List<ReviewTask> reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> List<ReviewTask> reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -353,11 +353,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -370,11 +370,11 @@ public class Example {
         String queueId = "queueId_example"; // String | queue_id
         ReviewTaskState state = ReviewTaskState.fromValue("open"); // ReviewTaskState |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ReviewTask> result = apiInstance.reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            List<ReviewTask> result = apiInstance.reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ReviewsApi#reviewsListReviewTasks");
@@ -397,9 +397,9 @@ public class Example {
 | **queueId** | **String**| queue_id | |
 | **state** | [**ReviewTaskState**](.md)|  | [optional] [enum: open, submitted, cancelled] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -426,7 +426,7 @@ No authorization required
 
 ## reviewsListReviewTasksWithHttpInfo
 
-> ApiResponse<List<ReviewTask>> reviewsListReviewTasks reviewsListReviewTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<List<ReviewTask>> reviewsListReviewTasks reviewsListReviewTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -434,12 +434,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -452,11 +452,11 @@ public class Example {
         String queueId = "queueId_example"; // String | queue_id
         ReviewTaskState state = ReviewTaskState.fromValue("open"); // ReviewTaskState |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ReviewTask>> response = apiInstance.reviewsListReviewTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<List<ReviewTask>> response = apiInstance.reviewsListReviewTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -481,9 +481,9 @@ public class Example {
 | **queueId** | **String**| queue_id | |
 | **state** | [**ReviewTaskState**](.md)|  | [optional] [enum: open, submitted, cancelled] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -511,7 +511,7 @@ No authorization required
 
 ## reviewsPromoteReviewAnnotation
 
-> DatasetCase reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> DatasetCase reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -519,11 +519,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -538,11 +538,11 @@ public class Example {
         String annotationId = "annotationId_example"; // String | annotation_id
         PromoteReviewAnnotationHttpRequest promoteReviewAnnotationHttpRequest = new PromoteReviewAnnotationHttpRequest(); // PromoteReviewAnnotationHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetCase result = apiInstance.reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            DatasetCase result = apiInstance.reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ReviewsApi#reviewsPromoteReviewAnnotation");
@@ -567,9 +567,9 @@ public class Example {
 | **annotationId** | **String**| annotation_id | |
 | **promoteReviewAnnotationHttpRequest** | [**PromoteReviewAnnotationHttpRequest**](PromoteReviewAnnotationHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -596,7 +596,7 @@ No authorization required
 
 ## reviewsPromoteReviewAnnotationWithHttpInfo
 
-> ApiResponse<DatasetCase> reviewsPromoteReviewAnnotation reviewsPromoteReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<DatasetCase> reviewsPromoteReviewAnnotation reviewsPromoteReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -604,12 +604,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -624,11 +624,11 @@ public class Example {
         String annotationId = "annotationId_example"; // String | annotation_id
         PromoteReviewAnnotationHttpRequest promoteReviewAnnotationHttpRequest = new PromoteReviewAnnotationHttpRequest(); // PromoteReviewAnnotationHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetCase> response = apiInstance.reviewsPromoteReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<DatasetCase> response = apiInstance.reviewsPromoteReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -655,9 +655,9 @@ public class Example {
 | **annotationId** | **String**| annotation_id | |
 | **promoteReviewAnnotationHttpRequest** | [**PromoteReviewAnnotationHttpRequest**](PromoteReviewAnnotationHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -685,7 +685,7 @@ No authorization required
 
 ## reviewsSubmitReviewAnnotation
 
-> ReviewAnnotation reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ReviewAnnotation reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -693,11 +693,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -711,11 +711,11 @@ public class Example {
         String taskId = "taskId_example"; // String | task_id
         SubmitReviewAnnotationHttpRequest submitReviewAnnotationHttpRequest = new SubmitReviewAnnotationHttpRequest(); // SubmitReviewAnnotationHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ReviewAnnotation result = apiInstance.reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ReviewAnnotation result = apiInstance.reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ReviewsApi#reviewsSubmitReviewAnnotation");
@@ -739,9 +739,9 @@ public class Example {
 | **taskId** | **String**| task_id | |
 | **submitReviewAnnotationHttpRequest** | [**SubmitReviewAnnotationHttpRequest**](SubmitReviewAnnotationHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -768,7 +768,7 @@ No authorization required
 
 ## reviewsSubmitReviewAnnotationWithHttpInfo
 
-> ApiResponse<ReviewAnnotation> reviewsSubmitReviewAnnotation reviewsSubmitReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<ReviewAnnotation> reviewsSubmitReviewAnnotation reviewsSubmitReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -776,12 +776,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ReviewsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ReviewsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -795,11 +795,11 @@ public class Example {
         String taskId = "taskId_example"; // String | task_id
         SubmitReviewAnnotationHttpRequest submitReviewAnnotationHttpRequest = new SubmitReviewAnnotationHttpRequest(); // SubmitReviewAnnotationHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ReviewAnnotation> response = apiInstance.reviewsSubmitReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<ReviewAnnotation> response = apiInstance.reviewsSubmitReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -825,9 +825,9 @@ public class Example {
 | **taskId** | **String**| task_id | |
 | **submitReviewAnnotationHttpRequest** | [**SubmitReviewAnnotationHttpRequest**](SubmitReviewAnnotationHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 

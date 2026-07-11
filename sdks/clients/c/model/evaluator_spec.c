@@ -8,7 +8,7 @@
 static evaluator_spec_t *evaluator_spec_create_internal(
     char *id,
     evaluator_kind_t *kind,
-    beater_api_evaluator_lane__e lane
+    palette_api_evaluator_lane__e lane
     ) {
     evaluator_spec_t *evaluator_spec_local_var = malloc(sizeof(evaluator_spec_t));
     if (!evaluator_spec_local_var) {
@@ -25,7 +25,7 @@ static evaluator_spec_t *evaluator_spec_create_internal(
 __attribute__((deprecated)) evaluator_spec_t *evaluator_spec_create(
     char *id,
     evaluator_kind_t *kind,
-    beater_api_evaluator_lane__e lane
+    palette_api_evaluator_lane__e lane
     ) {
     return evaluator_spec_create_internal (
         id,
@@ -81,7 +81,7 @@ cJSON *evaluator_spec_convertToJSON(evaluator_spec_t *evaluator_spec) {
 
 
     // evaluator_spec->lane
-    if (beater_api_evaluator_lane__NULL == evaluator_spec->lane) {
+    if (palette_api_evaluator_lane__NULL == evaluator_spec->lane) {
         goto fail;
     }
     cJSON *lane_local_JSON = evaluator_lane_convertToJSON(evaluator_spec->lane);
@@ -109,7 +109,7 @@ evaluator_spec_t *evaluator_spec_parseFromJSON(cJSON *evaluator_specJSON){
     evaluator_kind_t *kind_local_nonprim = NULL;
 
     // define the local variable for evaluator_spec->lane
-    beater_api_evaluator_lane__e lane_local_nonprim = 0;
+    palette_api_evaluator_lane__e lane_local_nonprim = 0;
 
     // evaluator_spec->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(evaluator_specJSON, "id");

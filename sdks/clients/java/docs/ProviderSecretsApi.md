@@ -15,7 +15,7 @@ All URIs are relative to *http://localhost*
 
 ## providerSecretsCreateProviderSecret
 
-> ProviderSecretMetadata providerSecretsCreateProviderSecret(tenantId, projectId, createProviderSecretHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ProviderSecretMetadata providerSecretsCreateProviderSecret(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -23,11 +23,11 @@ All URIs are relative to *http://localhost*
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ProviderSecretsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ProviderSecretsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -39,11 +39,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         CreateProviderSecretHttpRequest createProviderSecretHttpRequest = new CreateProviderSecretHttpRequest(); // CreateProviderSecretHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ProviderSecretMetadata result = apiInstance.providerSecretsCreateProviderSecret(tenantId, projectId, createProviderSecretHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ProviderSecretMetadata result = apiInstance.providerSecretsCreateProviderSecret(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProviderSecretsApi#providerSecretsCreateProviderSecret");
@@ -65,9 +65,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **createProviderSecretHttpRequest** | [**CreateProviderSecretHttpRequest**](CreateProviderSecretHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -93,7 +93,7 @@ No authorization required
 
 ## providerSecretsCreateProviderSecretWithHttpInfo
 
-> ApiResponse<ProviderSecretMetadata> providerSecretsCreateProviderSecret providerSecretsCreateProviderSecretWithHttpInfo(tenantId, projectId, createProviderSecretHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<ProviderSecretMetadata> providerSecretsCreateProviderSecret providerSecretsCreateProviderSecretWithHttpInfo(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -101,12 +101,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ProviderSecretsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ProviderSecretsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -118,11 +118,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         CreateProviderSecretHttpRequest createProviderSecretHttpRequest = new CreateProviderSecretHttpRequest(); // CreateProviderSecretHttpRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ProviderSecretMetadata> response = apiInstance.providerSecretsCreateProviderSecretWithHttpInfo(tenantId, projectId, createProviderSecretHttpRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<ProviderSecretMetadata> response = apiInstance.providerSecretsCreateProviderSecretWithHttpInfo(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -146,9 +146,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **createProviderSecretHttpRequest** | [**CreateProviderSecretHttpRequest**](CreateProviderSecretHttpRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -175,7 +175,7 @@ No authorization required
 
 ## providerSecretsListProviderSecrets
 
-> List<ProviderSecretMetadata> providerSecretsListProviderSecrets(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> List<ProviderSecretMetadata> providerSecretsListProviderSecrets(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -183,11 +183,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ProviderSecretsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ProviderSecretsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -198,11 +198,11 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ProviderSecretMetadata> result = apiInstance.providerSecretsListProviderSecrets(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            List<ProviderSecretMetadata> result = apiInstance.providerSecretsListProviderSecrets(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProviderSecretsApi#providerSecretsListProviderSecrets");
@@ -223,9 +223,9 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -251,7 +251,7 @@ No authorization required
 
 ## providerSecretsListProviderSecretsWithHttpInfo
 
-> ApiResponse<List<ProviderSecretMetadata>> providerSecretsListProviderSecrets providerSecretsListProviderSecretsWithHttpInfo(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<List<ProviderSecretMetadata>> providerSecretsListProviderSecrets providerSecretsListProviderSecretsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -259,12 +259,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ProviderSecretsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ProviderSecretsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -275,11 +275,11 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ProviderSecretMetadata>> response = apiInstance.providerSecretsListProviderSecretsWithHttpInfo(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<List<ProviderSecretMetadata>> response = apiInstance.providerSecretsListProviderSecretsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -302,9 +302,9 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -331,7 +331,7 @@ No authorization required
 
 ## providerSecretsRevokeProviderSecret
 
-> RevokedProviderSecret providerSecretsRevokeProviderSecret(tenantId, projectId, providerSecretId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> RevokedProviderSecret providerSecretsRevokeProviderSecret(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -339,11 +339,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ProviderSecretsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ProviderSecretsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -355,11 +355,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         String providerSecretId = "providerSecretId_example"; // String | provider_secret_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            RevokedProviderSecret result = apiInstance.providerSecretsRevokeProviderSecret(tenantId, projectId, providerSecretId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            RevokedProviderSecret result = apiInstance.providerSecretsRevokeProviderSecret(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProviderSecretsApi#providerSecretsRevokeProviderSecret");
@@ -381,9 +381,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **providerSecretId** | **String**| provider_secret_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -410,7 +410,7 @@ No authorization required
 
 ## providerSecretsRevokeProviderSecretWithHttpInfo
 
-> ApiResponse<RevokedProviderSecret> providerSecretsRevokeProviderSecret providerSecretsRevokeProviderSecretWithHttpInfo(tenantId, projectId, providerSecretId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<RevokedProviderSecret> providerSecretsRevokeProviderSecret providerSecretsRevokeProviderSecretWithHttpInfo(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -418,12 +418,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.ProviderSecretsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ProviderSecretsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -435,11 +435,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         String providerSecretId = "providerSecretId_example"; // String | provider_secret_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<RevokedProviderSecret> response = apiInstance.providerSecretsRevokeProviderSecretWithHttpInfo(tenantId, projectId, providerSecretId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<RevokedProviderSecret> response = apiInstance.providerSecretsRevokeProviderSecretWithHttpInfo(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -463,9 +463,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **providerSecretId** | **String**| provider_secret_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 

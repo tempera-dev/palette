@@ -1,13 +1,13 @@
-//! Configuration for the Beater SDK, resolved from explicit args then env vars.
+//! Configuration for the Palette SDK, resolved from explicit args then env vars.
 
 use std::env;
 
 /// Connection + scope settings shared by every span the SDK emits.
 ///
 /// Defaults mirror the Python and TypeScript SDKs so the three behave
-/// identically against a local `beaterd`.
+/// identically against a local `paletted`.
 #[derive(Debug, Clone)]
-pub struct BeaterConfig {
+pub struct PaletteConfig {
     pub base_url: String,
     pub tenant_id: String,
     pub project_id: String,
@@ -17,15 +17,15 @@ pub struct BeaterConfig {
     pub release_id: Option<String>,
 }
 
-impl Default for BeaterConfig {
+impl Default for PaletteConfig {
     fn default() -> Self {
-        BeaterConfig {
+        PaletteConfig {
             base_url: "http://127.0.0.1:8080".to_string(),
             tenant_id: "demo".to_string(),
             project_id: "demo".to_string(),
             environment_id: "local".to_string(),
             api_key: None,
-            service_name: "beater-rust".to_string(),
+            service_name: "palette-rust".to_string(),
             release_id: None,
         }
     }
@@ -45,20 +45,20 @@ fn env_opt(name: &str) -> Option<String> {
     }
 }
 
-impl BeaterConfig {
-    /// Resolve config from `BEATER_*` environment variables, falling back to the
+impl PaletteConfig {
+    /// Resolve config from `PALETTE_*` environment variables, falling back to the
     /// same local defaults as the Python SDK (`http://127.0.0.1:8080`,
     /// `demo`/`demo`/`local`).
     pub fn from_env() -> Self {
-        let defaults = BeaterConfig::default();
-        BeaterConfig {
-            base_url: env_or("BEATER_BASE_URL", &defaults.base_url),
-            tenant_id: env_or("BEATER_TENANT_ID", &defaults.tenant_id),
-            project_id: env_or("BEATER_PROJECT_ID", &defaults.project_id),
-            environment_id: env_or("BEATER_ENVIRONMENT_ID", &defaults.environment_id),
-            api_key: env_opt("BEATER_API_KEY"),
-            service_name: env_or("BEATER_SERVICE_NAME", &defaults.service_name),
-            release_id: env_opt("BEATER_RELEASE_ID"),
+        let defaults = PaletteConfig::default();
+        PaletteConfig {
+            base_url: env_or("PALETTE_BASE_URL", &defaults.base_url),
+            tenant_id: env_or("PALETTE_TENANT_ID", &defaults.tenant_id),
+            project_id: env_or("PALETTE_PROJECT_ID", &defaults.project_id),
+            environment_id: env_or("PALETTE_ENVIRONMENT_ID", &defaults.environment_id),
+            api_key: env_opt("PALETTE_API_KEY"),
+            service_name: env_or("PALETTE_SERVICE_NAME", &defaults.service_name),
+            release_id: env_opt("PALETTE_RELEASE_ID"),
         }
     }
 

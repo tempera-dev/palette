@@ -25,7 +25,7 @@ create_gate_request_t* instantiate_create_gate_request(int include_optional) {
       "0",
       "0",
       "0",
-      beater_api_create_gate_request__pass,
+      palette_api_create_gate_request__pass,
       "0"
     );
   } else {
@@ -33,7 +33,7 @@ create_gate_request_t* instantiate_create_gate_request(int include_optional) {
       "0",
       "0",
       "0",
-      beater_api_create_gate_request__pass,
+      palette_api_create_gate_request__pass,
       "0"
     );
   }

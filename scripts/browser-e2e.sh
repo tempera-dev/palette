@@ -8,7 +8,7 @@
 #
 # The deterministic Rust tests (driver conformance, capture, the
 # capture->evaluate->gate harness loop) run in the `browser-tests` check
-# (`cargo test -p beater-browser-*`), so they are NOT repeated here — this
+# (`cargo test -p palette-browser-*`), so they are NOT repeated here — this
 # script is purely the live/real-runtime layer:
 #   1. Real-browser conformance per native backend (Playwright / WebDriver / CDP).
 #   2. Instrumentation SDK span mapping (browser-use Python, Stagehand TS).
@@ -26,8 +26,8 @@ echo "== 1. Real-browser conformance per backend =="
 
 # 1a. Playwright (Chromium/Chrome/Edge/Firefox/WebKit) — needs Node + the runner deps.
 if have node && have npm; then
-  ( cd crates/beater-browser-playwright/runner && npm install >/tmp/bt-e2e-pw-npm.log 2>&1 )
-  if cargo test -p beater-browser-playwright --test conformance -- --ignored \
+  ( cd crates/palette-browser-playwright/runner && npm install >/tmp/bt-e2e-pw-npm.log 2>&1 )
+  if cargo test -p palette-browser-playwright --test conformance -- --ignored \
          >/tmp/bt-e2e-pw.log 2>&1; then
     pass "Playwright backend live conformance (real browser)"
   else
@@ -44,7 +44,7 @@ if have safaridriver; then
   SAFARI_PID=$!
   sleep 2
   if WEBDRIVER_URL="http://localhost:4444" WEBDRIVER_ENGINE="safari" \
-       cargo test -p beater-browser-webdriver -- --ignored \
+       cargo test -p palette-browser-webdriver -- --ignored \
        >/tmp/bt-e2e-wd.log 2>&1; then
     pass "WebDriver backend live conformance (native Safari)"
   else
@@ -62,7 +62,7 @@ for c in chrome google-chrome google-chrome-stable chromium chromium-browser \
   if have "$c" || [ -x "$c" ]; then CHROME="$c"; break; fi
 done
 if [ -n "$CHROME" ]; then
-  if BEATER_CDP_CHROME="$CHROME" cargo test -p beater-browser-cdp -- --ignored \
+  if PALETTE_CDP_CHROME="$CHROME" cargo test -p palette-browser-cdp -- --ignored \
        >/tmp/bt-e2e-cdp.log 2>&1; then
     pass "CDP backend live conformance (real Chrome)"
   else

@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -15,7 +15,7 @@
 import { mapValues } from '../runtime';
 /**
  * Request body for the unified import endpoint. The `source` field selects a
- * registered [`beater_ingest::SourceImporter`] (e.g. `temporal_history`, `native`);
+ * registered [`palette_ingest::SourceImporter`] (e.g. `temporal_history`, `native`);
  * `payload` is that source's document (Temporal `History` JSON, a native span list,
  * …). Everything flows through the same downstream ingest pipeline as OTLP — there are
  * no source-specific routes.

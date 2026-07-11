@@ -1,6 +1,6 @@
 # Issue-Backlog Signal Audit — 2026-07-01
 
-A full-corpus review of all 194 issues in `jadenfix/beater` (numbers #61–#529;
+A full-corpus review of all 194 issues in `jadenfix/palette` (numbers #61–#529;
 153 open, 41 closed as of 2026-07-01), cross-verified against the codebase at
 commit `ae7a209`. Seven parallel analyses covered the corpus by theme (RSI
 program, eval statistics, agent-eval packs, strategy/moats, incremental-sync,
@@ -60,14 +60,14 @@ separate signal from noise across all seven clusters:
    lifecycle (#162), multi-agent handoffs (#159) need evidence classes (audio,
    store snapshots, agent-channel attributes) that don't exist → premature.
 
-2. **Consumer test.** Code with no consumer is landed paper. `beater-knowledge`
+2. **Consumer test.** Code with no consumer is landed paper. `palette-knowledge`
    shipped well-tested and is imported by nothing — and forked the Merkle
-   implementation in the process. Conversely `beater-core/src/merkle.rs` is 150
+   implementation in the process. Conversely `palette-core/src/merkle.rs` is 150
    honest lines whose docstring explicitly rejects the SOTA recommendations of
-   #317–#325 because "Beater has none of those consumers today." That docstring
+   #317–#325 because "Palette has none of those consumers today." That docstring
    is the best triage artifact in the repo.
 
-3. **Loop test.** Beater's differentiation is instrument → trace → promote
+3. **Loop test.** Palette's differentiation is instrument → trace → promote
    failure to dataset → eval → gate → monitor. Ideas that compound that loop
    (capture more evidence in, act on gate output) are signal; ideas that are
    separate products in disguise (ROI dashboards #222, vendor-comparison
@@ -82,7 +82,7 @@ separate signal from noise across all seven clusters:
    criteria, if anywhere.
 
 5. **Execution-path test.** Observability reads; control planes execute.
-   Ideas that put Beater in the agent's execution path (MCP gateway #232, live
+   Ideas that put Palette in the agent's execution path (MCP gateway #232, live
    approval cockpits #204/#206) are strategic pivots with real blast radius,
    not features — they need a deliberate decision, not a backlog slot.
 
@@ -92,8 +92,8 @@ separate signal from noise across all seven clusters:
 
 1. **Code outran the tracker — badly.** At least ten open issues are
    substantially done: #62 (Brier/ECE/reliability bins shipped in
-   `beater-calibration`), #72 (overfit-rejection test exists in `rsi.rs`),
-   #109 (`beater-design` implements the manifest, load-bearing since PR #456),
+   `palette-calibration`), #72 (overfit-rejection test exists in `rsi.rs`),
+   #109 (`palette-design` implements the manifest, load-bearing since PR #456),
    #111 (~90% of the stats checklist), #112 (`MonotoneBisect` landed), #142
    (`split.rs` implements exactly the fix), #147 (its "no mSPRT exists" premise
    is false since `sequential.rs`), #153 (onboarding is now
@@ -106,7 +106,7 @@ separate signal from noise across all seven clusters:
 2. **"Merged but unwired" is the house failure mode.** SSRF guard merged but
    only wired into `MockDriver` (#113), artifact cap merged but inert (#116),
    gateway spans → `NoopSpanSink` (#164/#182), ClickHouse store implemented but
-   never selectable in `beaterd` (#74), six governance crates scaffolded in one
+   never selectable in `paletted` (#74), six governance crates scaffolded in one
    commit (`7bee84c`) with zero API routes. Features pass review; production
    wiring is the systematically missed step. Any "done" claim in this repo
    needs a wiring check, and acceptance criteria should demand an end-to-end
@@ -128,7 +128,7 @@ separate signal from noise across all seven clusters:
    preserving as house style.
 
 5. **Honesty is the only uncopyable moat.** "Never pass inconclusive" (tested
-   at `beater-gates/src/lib.rs:673`), replay modes that confess cassette
+   at `palette-gates/src/lib.rs:673`), replay modes that confess cassette
    incompleteness, family-wise withdrawal of borderline wins, refusal-based
    estimators (`EvalDesign::permit_pass`). Incumbents' demo/growth motions
    depend on green checkmarks; a product that prints "inconclusive — you don't
@@ -137,7 +137,7 @@ separate signal from noise across all seven clusters:
    customer-visible surface.
 
 6. **Engine surplus, distribution deficit.** The hard, hard-to-copy machinery
-   exists: 13-module `beater-stats` (~5.4k LOC), cassette replay with honest
+   exists: 13-module `palette-stats` (~5.4k LOC), cassette replay with honest
    completeness, WASI-deterministic scorer sandbox, judge request-hash cache,
    scenario mining, pre-registration gate design. What does not exist is every
    thin adoption surface: no GitHub Action (`action.yml` absent), no
@@ -161,7 +161,7 @@ separate signal from noise across all seven clusters:
 
 1. **Eval-CI GitHub Action with a statistical verdict (#154, first slice of
    #152/#92).** A composite action wrapping the already-existing
-   `beaterctl gate-run` / `gate-run-fixture`, printing pass / fail /
+   `palettectl gate-run` / `gate-run-fixture`, printing pass / fail /
    **inconclusive** with CI/power in the PR comment, with $0 keyless reruns via
    the judge request-hash cache + cassettes. Everything hard exists; this is
    an action.yml plus a Markdown formatter, and it is the distribution vehicle
@@ -180,11 +180,11 @@ separate signal from noise across all seven clusters:
    decision + stats CIs + cassette-completeness + redaction status into a
    customer/security-reviewer-shareable artifact that refuses to overclaim.
    All inputs exist as typed data; the honesty rules are a pure projection of
-   invariants already enforced in `beater-gates`/`beater-replay`/`beater-stats`.
+   invariants already enforced in `palette-gates`/`palette-replay`/`palette-stats`.
    Completes #320's wedge ("customer-shareable report") and pairs naturally
    with #234 (reviewer handoff packets on agent-authored PRs).
 
-4. **Terminal-agent transcript import (#227, with #225 `beaterctl agent init`
+4. **Terminal-agent transcript import (#227, with #225 `palettectl agent init`
    as front door).** The largest untapped evidence corpus — Claude
    Code/Codex/Cursor session JSONL — already sits on users' disks. A parser +
    span normalizer + fixtures (exactly the deterministic-crate shape the owner
@@ -214,14 +214,14 @@ separate signal from noise across all seven clusters:
   average.
 - **#529 unify content-fingerprint vocabulary** — three incompatible hash/
   Merkle notions in-tree (`split.rs`, `datasets::case_content_hash`,
-  `beater-knowledge`), under a gate that now depends on `corpus_root`; do it
+  `palette-knowledge`), under a gate that now depends on `corpus_root`; do it
   before roots are load-bearing externally.
 - **#165 tool-contract conformance scorers (+#163 abstention rider)** —
   deterministic WASI-lane scorers over existing span kinds; catches
   hallucinated tools structurally where competitors reach for a judge.
 - **#260 end-user feedback → dataset evidence** — thumbs/escalations as
   trace-linked, promotable evidence; mostly one record type over the existing
-  `beater-human` promotion path.
+  `palette-human` promotion path.
 
 ### Tier 3 — platform bets (each needs one deliberate decision, then pays)
 

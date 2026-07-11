@@ -1,0 +1,1074 @@
+use anyhow::{Context, anyhow};
+use async_trait::async_trait;
+use palette_core::{
+    CalibrationReportId, DatasetCaseId, DatasetId, DatasetVersionId, EvaluatorVersionId, ProjectId,
+    TenantId, Timestamp,
+};
+use palette_datasets::{DatasetEvalReport, DatasetVersionSnapshot};
+use palette_schema::EvalResult;
+use palette_store::{IntoStoreResult, StoreError, StoreResult};
+use chrono::Utc;
+use rusqlite::{Connection, OptionalExtension, params};
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use std::collections::BTreeMap;
+use std::fs;
+use std::path::Path;
+use std::sync::{Arc, Mutex};
+use uuid::Uuid;
+
+#[derive(
+    Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, utoipa::ToSchema,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum CalibrationLabel {
+    Pass,
+    Fail,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct CalibrationPolicy {
+    pub pass_threshold: f64,
+}
+
+impl Default for CalibrationPolicy {
+    fn default() -> Self {
+        Self {
+            pass_threshold: 0.5,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct CalibrationConfusion {
+    pub human_pass_judge_pass: usize,
+    pub human_pass_judge_fail: usize,
+    pub human_fail_judge_pass: usize,
+    pub human_fail_judge_fail: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct ReliabilityBin {
+    pub bin_index: usize,
+    pub lower_bound: f64,
+    pub upper_bound: f64,
+    pub sample_count: usize,
+    pub mean_confidence: Option<f64>,
+    pub accuracy: Option<f64>,
+    pub calibration_gap: Option<f64>,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct CalibrationItem {
+    pub dataset_case_id: DatasetCaseId,
+    pub human_label: CalibrationLabel,
+    pub judge_label: CalibrationLabel,
+    pub judge_score: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub judge_result_label: Option<String>,
+    pub agreed: bool,
+    #[schema(value_type = serde_json::Value)]
+    pub evidence: Value,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct CalibrationReport {
+    pub calibration_report_id: CalibrationReportId,
+    pub tenant_id: TenantId,
+    pub project_id: ProjectId,
+    pub dataset_id: DatasetId,
+    pub dataset_version_id: DatasetVersionId,
+    pub evaluator_version_id: EvaluatorVersionId,
+    pub eval_report_id: String,
+    pub policy: CalibrationPolicy,
+    pub sample_count: usize,
+    pub observed_agreement: f64,
+    /// Wilson 95% confidence interval for `observed_agreement` — the honest
+    /// width of an agreement estimate over a (typically small) human-labelled
+    /// sample. Absent on reports persisted before uncertainty was reported.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observed_agreement_ci_low: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observed_agreement_ci_high: Option<f64>,
+    pub expected_agreement: f64,
+    pub cohen_kappa: f64,
+    /// Percentile-bootstrap 95% confidence interval for `cohen_kappa`
+    /// (multinomial resampling of the confusion table, deterministic seed).
+    /// Kappa over small calibration samples is high-variance; a bare point
+    /// estimate invites over-reading. Absent on pre-uncertainty reports.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cohen_kappa_ci_low: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cohen_kappa_ci_high: Option<f64>,
+    pub brier_score: f64,
+    pub expected_calibration_error: f64,
+    pub reliability_bins: Vec<ReliabilityBin>,
+    pub confusion: CalibrationConfusion,
+    pub items: Vec<CalibrationItem>,
+    #[schema(value_type = String, format = DateTime)]
+    pub created_at: Timestamp,
+}
+
+const RELIABILITY_BIN_COUNT: usize = 10;
+
+#[async_trait]
+pub trait CalibrationStore: Send + Sync {
+    async fn write_report(&self, report: CalibrationReport) -> StoreResult<CalibrationReport>;
+
+    async fn get_report(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        calibration_report_id: CalibrationReportId,
+    ) -> StoreResult<CalibrationReport>;
+
+    async fn latest_report(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        dataset_id: DatasetId,
+        dataset_version_id: DatasetVersionId,
+        evaluator_version_id: Option<EvaluatorVersionId>,
+    ) -> StoreResult<Option<CalibrationReport>>;
+}
+
+#[derive(Clone)]
+pub struct SqliteCalibrationStore {
+    connection: Arc<Mutex<Connection>>,
+}
+
+impl SqliteCalibrationStore {
+    pub fn in_memory() -> anyhow::Result<Self> {
+        let connection =
+            Connection::open_in_memory().context("open in-memory calibration sqlite")?;
+        let store = Self {
+            connection: Arc::new(Mutex::new(connection)),
+        };
+        store.init()?;
+        Ok(store)
+    }
+
+    pub fn open(path: impl AsRef<Path>) -> anyhow::Result<Self> {
+        let path = path.as_ref();
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent)
+                .with_context(|| format!("create calibration sqlite dir {}", parent.display()))?;
+        }
+        let connection = Connection::open(path)
+            .with_context(|| format!("open sqlite calibration store {}", path.display()))?;
+        let store = Self {
+            connection: Arc::new(Mutex::new(connection)),
+        };
+        store.init()?;
+        Ok(store)
+    }
+
+    fn init(&self) -> anyhow::Result<()> {
+        let connection = self.lock()?;
+        connection
+            .execute_batch(
+                r#"
+                PRAGMA journal_mode = WAL;
+                PRAGMA foreign_keys = ON;
+
+                CREATE TABLE IF NOT EXISTS calibration_reports (
+                    tenant_id TEXT NOT NULL,
+                    project_id TEXT NOT NULL,
+                    calibration_report_id TEXT NOT NULL,
+                    dataset_id TEXT NOT NULL,
+                    dataset_version_id TEXT NOT NULL,
+                    evaluator_version_id TEXT NOT NULL,
+                    eval_report_id TEXT NOT NULL,
+                    cohen_kappa REAL NOT NULL,
+                    observed_agreement REAL NOT NULL,
+                    sample_count INTEGER NOT NULL,
+                    created_at TEXT NOT NULL,
+                    report_json TEXT NOT NULL,
+                    PRIMARY KEY (tenant_id, project_id, calibration_report_id)
+                );
+
+                CREATE INDEX IF NOT EXISTS idx_calibration_reports_latest
+                  ON calibration_reports (
+                    tenant_id, project_id, dataset_id, dataset_version_id,
+                    evaluator_version_id, created_at DESC, calibration_report_id DESC
+                  );
+                "#,
+            )
+            .context("initialize sqlite calibration store")?;
+        Ok(())
+    }
+
+    fn lock(&self) -> anyhow::Result<std::sync::MutexGuard<'_, Connection>> {
+        self.connection
+            .lock()
+            .map_err(|err| anyhow!("sqlite calibration connection mutex poisoned: {err}"))
+    }
+}
+
+#[async_trait]
+impl CalibrationStore for SqliteCalibrationStore {
+    async fn write_report(&self, report: CalibrationReport) -> StoreResult<CalibrationReport> {
+        let report_json = serde_json::to_string(&report)
+            .context("serialize calibration report")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
+        connection
+            .execute(
+                r#"
+                INSERT INTO calibration_reports
+                  (tenant_id, project_id, calibration_report_id, dataset_id,
+                   dataset_version_id, evaluator_version_id, eval_report_id, cohen_kappa,
+                   observed_agreement, sample_count, created_at, report_json)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)
+                "#,
+                params![
+                    report.tenant_id.as_str(),
+                    report.project_id.as_str(),
+                    report.calibration_report_id.as_str(),
+                    report.dataset_id.as_str(),
+                    report.dataset_version_id.as_str(),
+                    report.evaluator_version_id.as_str(),
+                    report.eval_report_id.as_str(),
+                    report.cohen_kappa,
+                    report.observed_agreement,
+                    report.sample_count as i64,
+                    report.created_at.to_rfc3339(),
+                    report_json
+                ],
+            )
+            .context("insert calibration report")
+            .into_store()?;
+        Ok(report)
+    }
+
+    async fn get_report(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        calibration_report_id: CalibrationReportId,
+    ) -> StoreResult<CalibrationReport> {
+        let connection = self.lock().into_store()?;
+        let report_json = connection
+            .query_row(
+                r#"
+                SELECT report_json
+                FROM calibration_reports
+                WHERE tenant_id = ?1 AND project_id = ?2 AND calibration_report_id = ?3
+                "#,
+                params![
+                    tenant_id.as_str(),
+                    project_id.as_str(),
+                    calibration_report_id.as_str()
+                ],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .context("query calibration report")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(format!(
+                    "calibration report {} not found",
+                    calibration_report_id.as_str()
+                ))
+            })?;
+        serde_json::from_str(&report_json)
+            .context("decode calibration report")
+            .into_store()
+    }
+
+    async fn latest_report(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        dataset_id: DatasetId,
+        dataset_version_id: DatasetVersionId,
+        evaluator_version_id: Option<EvaluatorVersionId>,
+    ) -> StoreResult<Option<CalibrationReport>> {
+        let evaluator_version_id = evaluator_version_id.as_ref().map(|id| id.as_str());
+        let connection = self.lock().into_store()?;
+        let report_json = connection
+            .query_row(
+                r#"
+                SELECT report_json
+                FROM calibration_reports
+                WHERE tenant_id = ?1
+                  AND project_id = ?2
+                  AND dataset_id = ?3
+                  AND dataset_version_id = ?4
+                  AND (?5 IS NULL OR evaluator_version_id = ?5)
+                ORDER BY created_at DESC, calibration_report_id DESC
+                LIMIT 1
+                "#,
+                params![
+                    tenant_id.as_str(),
+                    project_id.as_str(),
+                    dataset_id.as_str(),
+                    dataset_version_id.as_str(),
+                    evaluator_version_id
+                ],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .context("query latest calibration report")
+            .into_store()?;
+        report_json
+            .map(|report_json| {
+                serde_json::from_str(&report_json).context("decode calibration report")
+            })
+            .transpose()
+            .into_store()
+    }
+}
+
+pub fn calibrate_eval_report(
+    snapshot: &DatasetVersionSnapshot,
+    eval_report: &DatasetEvalReport,
+    policy: CalibrationPolicy,
+) -> anyhow::Result<CalibrationReport> {
+    ensure_report_matches_snapshot(snapshot, eval_report)?;
+    let results = results_by_case(eval_report)?;
+    let mut items = Vec::with_capacity(snapshot.cases.len());
+    let mut confusion = CalibrationConfusion::default();
+
+    for case in &snapshot.cases {
+        let result = results
+            .get(&case.case_id)
+            .ok_or_else(|| anyhow!("eval report missing case {}", case.case_id.as_str()))?;
+        let human_label = human_label_for_case(case)?;
+        let judge_label = judge_label_for_result(result, policy.pass_threshold);
+        let agreed = human_label == judge_label;
+        add_confusion(&mut confusion, &human_label, &judge_label);
+        items.push(CalibrationItem {
+            dataset_case_id: case.case_id.clone(),
+            human_label,
+            judge_label,
+            judge_score: result.score,
+            judge_result_label: result.label.clone(),
+            agreed,
+            evidence: result.evidence.clone(),
+        });
+    }
+
+    let sample_count = items.len();
+    if sample_count == 0 {
+        return Err(anyhow!("cannot calibrate an empty report"));
+    }
+    let agreed_count = items.iter().filter(|item| item.agreed).count();
+    let observed_agreement = agreed_count as f64 / sample_count as f64;
+    let expected_agreement = expected_agreement(&confusion, sample_count);
+    let cohen_kappa = palette_stats::cohen_kappa_binary(agreement_counts(&confusion))
+        .map_err(|err| anyhow!("cohen kappa: {err}"))?;
+    let brier_score = brier_score(&items)?;
+    let reliability_bins = reliability_bins(&items, RELIABILITY_BIN_COUNT)?;
+    let expected_calibration_error = expected_calibration_error(&reliability_bins, sample_count);
+
+    // Uncertainty for the two headline agreement numbers (palette-stats): a
+    // Wilson interval for the observed agreement and a deterministic-seed
+    // bootstrap interval for kappa. A calibration verdict over a small
+    // human-labelled sample without a width is exactly the kind of
+    // point-estimate over-reading the report exists to prevent.
+    let agreement_ci =
+        palette_stats::wilson_interval(agreed_count as u64, sample_count as u64, palette_stats::Z_95)
+            .map_err(|err| anyhow!("agreement interval: {err}"))?;
+    let kappa_ci = palette_stats::cohen_kappa_ci(
+        agreement_counts(&confusion),
+        0.05,
+        KAPPA_BOOTSTRAP_RESAMPLES,
+        KAPPA_BOOTSTRAP_SEED,
+    )
+    .map_err(|err| anyhow!("kappa interval: {err}"))?;
+
+    Ok(CalibrationReport {
+        calibration_report_id: CalibrationReportId::new(Uuid::new_v4().to_string())?,
+        tenant_id: snapshot.tenant_id.clone(),
+        project_id: snapshot.project_id.clone(),
+        dataset_id: snapshot.dataset_id.clone(),
+        dataset_version_id: snapshot.version_id.clone(),
+        evaluator_version_id: eval_report.evaluator_version_id.clone(),
+        eval_report_id: eval_report.report_id.clone(),
+        policy,
+        sample_count,
+        observed_agreement,
+        observed_agreement_ci_low: Some(agreement_ci.lower),
+        observed_agreement_ci_high: Some(agreement_ci.upper),
+        expected_agreement,
+        cohen_kappa,
+        cohen_kappa_ci_low: Some(kappa_ci.low),
+        cohen_kappa_ci_high: Some(kappa_ci.high),
+        brier_score,
+        expected_calibration_error,
+        reliability_bins,
+        confusion,
+        items,
+        created_at: Utc::now(),
+    })
+}
+
+/// Deterministic seed for the kappa bootstrap interval: calibration reports
+/// must be reproducible from the labelled items alone.
+const KAPPA_BOOTSTRAP_SEED: u64 = 0xCA11_B12A_7E5E_ED00;
+
+/// Bootstrap resamples for the kappa interval.
+const KAPPA_BOOTSTRAP_RESAMPLES: usize = 10_000;
+
+/// The human-vs-judge confusion table as a `palette-stats` agreement table
+/// (rater A = human, rater B = judge).
+fn agreement_counts(confusion: &CalibrationConfusion) -> palette_stats::AgreementCounts {
+    palette_stats::AgreementCounts {
+        both_pass: confusion.human_pass_judge_pass as u64,
+        a_pass_b_fail: confusion.human_pass_judge_fail as u64,
+        a_fail_b_pass: confusion.human_fail_judge_pass as u64,
+        both_fail: confusion.human_fail_judge_fail as u64,
+    }
+}
+
+fn ensure_report_matches_snapshot(
+    snapshot: &DatasetVersionSnapshot,
+    eval_report: &DatasetEvalReport,
+) -> anyhow::Result<()> {
+    if snapshot.tenant_id != eval_report.tenant_id
+        || snapshot.project_id != eval_report.project_id
+        || snapshot.dataset_id != eval_report.dataset_id
+        || snapshot.version_id != eval_report.dataset_version_id
+    {
+        return Err(anyhow!(
+            "eval report {} does not match dataset version {}",
+            eval_report.report_id,
+            snapshot.version_id.as_str()
+        ));
+    }
+    Ok(())
+}
+
+fn results_by_case(
+    eval_report: &DatasetEvalReport,
+) -> anyhow::Result<BTreeMap<DatasetCaseId, &EvalResult>> {
+    let mut results = BTreeMap::new();
+    for result in &eval_report.results {
+        let case_id = result.reproducibility.dataset_case_id.clone();
+        if results.insert(case_id.clone(), result).is_some() {
+            return Err(anyhow!(
+                "eval report {} has duplicate result for case {}",
+                eval_report.report_id,
+                case_id.as_str()
+            ));
+        }
+    }
+    Ok(results)
+}
+
+fn human_label_for_case(case: &palette_datasets::DatasetCase) -> anyhow::Result<CalibrationLabel> {
+    let reference = case.reference.as_ref().ok_or_else(|| {
+        anyhow!(
+            "dataset case {} has no human reference",
+            case.case_id.as_str()
+        )
+    })?;
+    Ok(if reference == &case.output {
+        CalibrationLabel::Pass
+    } else {
+        CalibrationLabel::Fail
+    })
+}
+
+fn judge_label_for_result(result: &EvalResult, pass_threshold: f64) -> CalibrationLabel {
+    match result.label.as_deref() {
+        Some("pass") => CalibrationLabel::Pass,
+        Some("fail") => CalibrationLabel::Fail,
+        _ if result.score >= pass_threshold => CalibrationLabel::Pass,
+        _ => CalibrationLabel::Fail,
+    }
+}
+
+fn add_confusion(
+    confusion: &mut CalibrationConfusion,
+    human: &CalibrationLabel,
+    judge: &CalibrationLabel,
+) {
+    match (human, judge) {
+        (CalibrationLabel::Pass, CalibrationLabel::Pass) => {
+            confusion.human_pass_judge_pass += 1;
+        }
+        (CalibrationLabel::Pass, CalibrationLabel::Fail) => {
+            confusion.human_pass_judge_fail += 1;
+        }
+        (CalibrationLabel::Fail, CalibrationLabel::Pass) => {
+            confusion.human_fail_judge_pass += 1;
+        }
+        (CalibrationLabel::Fail, CalibrationLabel::Fail) => {
+            confusion.human_fail_judge_fail += 1;
+        }
+    }
+}
+
+fn expected_agreement(confusion: &CalibrationConfusion, sample_count: usize) -> f64 {
+    let n = sample_count as f64;
+    let human_pass = (confusion.human_pass_judge_pass + confusion.human_pass_judge_fail) as f64 / n;
+    let human_fail = (confusion.human_fail_judge_pass + confusion.human_fail_judge_fail) as f64 / n;
+    let judge_pass = (confusion.human_pass_judge_pass + confusion.human_fail_judge_pass) as f64 / n;
+    let judge_fail = (confusion.human_pass_judge_fail + confusion.human_fail_judge_fail) as f64 / n;
+    human_pass * judge_pass + human_fail * judge_fail
+}
+
+pub fn brier_score(items: &[CalibrationItem]) -> anyhow::Result<f64> {
+    if items.is_empty() {
+        return Err(anyhow!("cannot compute Brier score for an empty sample"));
+    }
+    let mut total = 0.0;
+    for item in items {
+        let probability = probability(item)?;
+        let outcome = outcome(item);
+        total += (probability - outcome).powi(2);
+    }
+    Ok(total / items.len() as f64)
+}
+
+pub fn reliability_bins(
+    items: &[CalibrationItem],
+    bin_count: usize,
+) -> anyhow::Result<Vec<ReliabilityBin>> {
+    if items.is_empty() {
+        return Err(anyhow!(
+            "cannot compute reliability bins for an empty sample"
+        ));
+    }
+    if bin_count == 0 {
+        return Err(anyhow!("reliability bin count must be greater than zero"));
+    }
+
+    let width = 1.0 / bin_count as f64;
+    let mut sums = vec![0.0; bin_count];
+    let mut correct = vec![0.0; bin_count];
+    let mut counts = vec![0usize; bin_count];
+
+    for item in items {
+        let probability = probability(item)?;
+        let index = probability_bin(probability, bin_count);
+        sums[index] += probability;
+        correct[index] += outcome(item);
+        counts[index] += 1;
+    }
+
+    Ok((0..bin_count)
+        .map(|index| {
+            let lower_bound = index as f64 * width;
+            let upper_bound = if index + 1 == bin_count {
+                1.0
+            } else {
+                (index + 1) as f64 * width
+            };
+            let sample_count = counts[index];
+            if sample_count == 0 {
+                return ReliabilityBin {
+                    bin_index: index,
+                    lower_bound,
+                    upper_bound,
+                    sample_count,
+                    mean_confidence: None,
+                    accuracy: None,
+                    calibration_gap: None,
+                };
+            }
+            let mean_confidence = sums[index] / sample_count as f64;
+            let accuracy = correct[index] / sample_count as f64;
+            ReliabilityBin {
+                bin_index: index,
+                lower_bound,
+                upper_bound,
+                sample_count,
+                mean_confidence: Some(mean_confidence),
+                accuracy: Some(accuracy),
+                calibration_gap: Some((accuracy - mean_confidence).abs()),
+            }
+        })
+        .collect())
+}
+
+pub fn expected_calibration_error(bins: &[ReliabilityBin], sample_count: usize) -> f64 {
+    if sample_count == 0 {
+        return 0.0;
+    }
+    bins.iter()
+        .filter_map(|bin| {
+            bin.calibration_gap
+                .map(|gap| bin.sample_count as f64 / sample_count as f64 * gap)
+        })
+        .sum()
+}
+
+fn probability(item: &CalibrationItem) -> anyhow::Result<f64> {
+    if !item.judge_score.is_finite() {
+        return Err(anyhow!(
+            "calibration score for case {} is not finite",
+            item.dataset_case_id.as_str()
+        ));
+    }
+    if !(0.0..=1.0).contains(&item.judge_score) {
+        return Err(anyhow!(
+            "calibration score for case {} must be between 0 and 1, got {}",
+            item.dataset_case_id.as_str(),
+            item.judge_score
+        ));
+    }
+    Ok(item.judge_score)
+}
+
+fn outcome(item: &CalibrationItem) -> f64 {
+    match item.human_label {
+        CalibrationLabel::Pass => 1.0,
+        CalibrationLabel::Fail => 0.0,
+    }
+}
+
+fn probability_bin(probability: f64, bin_count: usize) -> usize {
+    if probability >= 1.0 {
+        return bin_count - 1;
+    }
+    (probability * bin_count as f64).floor() as usize
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use palette_core::{AgentReleaseId, EnvironmentId, EvalResultId, SpanId, TraceId};
+    use palette_datasets::DatasetCase;
+    use palette_schema::EvalReproducibility;
+    use serde_json::json;
+
+    #[tokio::test]
+    async fn calibration_computes_kappa_and_persists_report() -> anyhow::Result<()> {
+        let tenant = TenantId::new("tenant")?;
+        let project = ProjectId::new("project")?;
+        let dataset = DatasetId::new("dataset")?;
+        let version = DatasetVersionId::new("version")?;
+        let evaluator = EvaluatorVersionId::new("judge-v1")?;
+        let snapshot = DatasetVersionSnapshot::try_new(
+            tenant.clone(),
+            project.clone(),
+            dataset.clone(),
+            version.clone(),
+            vec![
+                fixture_case(
+                    &tenant,
+                    &project,
+                    &dataset,
+                    "case-1",
+                    json!("a"),
+                    json!("a"),
+                )?,
+                fixture_case(
+                    &tenant,
+                    &project,
+                    &dataset,
+                    "case-2",
+                    json!("b"),
+                    json!("c"),
+                )?,
+                fixture_case(
+                    &tenant,
+                    &project,
+                    &dataset,
+                    "case-3",
+                    json!("d"),
+                    json!("d"),
+                )?,
+                fixture_case(
+                    &tenant,
+                    &project,
+                    &dataset,
+                    "case-4",
+                    json!("e"),
+                    json!("f"),
+                )?,
+            ],
+            Utc::now(),
+        )?;
+        let eval_report = DatasetEvalReport {
+            report_id: "eval-report".to_string(),
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            dataset_id: dataset.clone(),
+            dataset_version_id: version.clone(),
+            evaluator_version_id: evaluator.clone(),
+            result_count: 4,
+            aggregate_score: 0.5,
+            results: vec![
+                fixture_result(&snapshot, "case-1", evaluator.clone(), 1.0, "pass")?,
+                fixture_result(&snapshot, "case-2", evaluator.clone(), 1.0, "pass")?,
+                fixture_result(&snapshot, "case-3", evaluator.clone(), 0.0, "fail")?,
+                fixture_result(&snapshot, "case-4", evaluator.clone(), 0.0, "fail")?,
+            ],
+            created_at: Utc::now(),
+        };
+
+        let report = calibrate_eval_report(&snapshot, &eval_report, CalibrationPolicy::default())?;
+
+        assert_eq!(report.sample_count, 4);
+        assert_eq!(report.observed_agreement, 0.5);
+        assert_eq!(report.expected_agreement, 0.5);
+        assert_eq!(report.cohen_kappa, 0.0);
+        // Uncertainty is reported alongside the point estimates: a Wilson
+        // interval for the agreement and a bootstrap interval for kappa, both
+        // honestly wide at n = 4.
+        let agree_lo = report
+            .observed_agreement_ci_low
+            .ok_or_else(|| anyhow!("missing agreement CI low"))?;
+        let agree_hi = report
+            .observed_agreement_ci_high
+            .ok_or_else(|| anyhow!("missing agreement CI high"))?;
+        assert!(agree_lo <= 0.5 && 0.5 <= agree_hi);
+        assert!(
+            agree_hi - agree_lo > 0.4,
+            "n=4 must be wide: [{agree_lo}, {agree_hi}]"
+        );
+        let kappa_lo = report
+            .cohen_kappa_ci_low
+            .ok_or_else(|| anyhow!("missing kappa CI low"))?;
+        let kappa_hi = report
+            .cohen_kappa_ci_high
+            .ok_or_else(|| anyhow!("missing kappa CI high"))?;
+        assert!(kappa_lo <= 0.0 && 0.0 <= kappa_hi);
+        assert!((-1.0..=1.0).contains(&kappa_lo) && (-1.0..=1.0).contains(&kappa_hi));
+        assert_eq!(report.confusion.human_pass_judge_pass, 1);
+        assert_eq!(report.confusion.human_pass_judge_fail, 1);
+        assert_eq!(report.confusion.human_fail_judge_pass, 1);
+        assert_eq!(report.confusion.human_fail_judge_fail, 1);
+        assert_eq!(report.brier_score, 0.5);
+        assert_eq!(report.expected_calibration_error, 0.5);
+        assert_eq!(report.reliability_bins.len(), RELIABILITY_BIN_COUNT);
+        assert_eq!(report.reliability_bins[0].sample_count, 2);
+        assert_eq!(report.reliability_bins[0].mean_confidence, Some(0.0));
+        assert_eq!(report.reliability_bins[0].accuracy, Some(0.5));
+        assert_eq!(report.reliability_bins[0].calibration_gap, Some(0.5));
+        assert_eq!(report.reliability_bins[9].sample_count, 2);
+        assert_eq!(report.reliability_bins[9].mean_confidence, Some(1.0));
+        assert_eq!(report.reliability_bins[9].accuracy, Some(0.5));
+        assert_eq!(report.reliability_bins[9].calibration_gap, Some(0.5));
+
+        let store = SqliteCalibrationStore::in_memory()?;
+        let stored = store.write_report(report.clone()).await?;
+        let loaded = store
+            .get_report(
+                tenant.clone(),
+                project.clone(),
+                stored.calibration_report_id.clone(),
+            )
+            .await?;
+        assert_eq!(loaded.confusion, report.confusion);
+        let latest = store
+            .latest_report(tenant, project, dataset, version, Some(evaluator))
+            .await?
+            .ok_or_else(|| anyhow!("missing latest report"))?;
+        assert_eq!(latest.calibration_report_id, stored.calibration_report_id);
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn calibration_report_store_scopes_reads_by_tenant_and_project() -> anyhow::Result<()> {
+        let store = SqliteCalibrationStore::in_memory()?;
+        let tenant = TenantId::new("tenant-a")?;
+        let other_tenant = TenantId::new("tenant-b")?;
+        let project = ProjectId::new("project-a")?;
+        let other_project = ProjectId::new("project-b")?;
+        let dataset = DatasetId::new("dataset")?;
+        let version = DatasetVersionId::new("version")?;
+        let evaluator = EvaluatorVersionId::new("judge-v1")?;
+        let now = Utc::now();
+
+        let target = calibration_report(CalibrationReportFixture {
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            dataset_id: dataset.clone(),
+            dataset_version_id: version.clone(),
+            evaluator_version_id: evaluator.clone(),
+            calibration_report_id: "shared-report",
+            eval_report_id: "target-eval",
+            created_at: now,
+        })?;
+        let other_tenant_report = calibration_report(CalibrationReportFixture {
+            tenant_id: other_tenant.clone(),
+            project_id: project.clone(),
+            dataset_id: dataset.clone(),
+            dataset_version_id: version.clone(),
+            evaluator_version_id: evaluator.clone(),
+            calibration_report_id: "shared-report",
+            eval_report_id: "other-tenant-eval",
+            created_at: now + chrono::Duration::seconds(60),
+        })?;
+        let other_project_report = calibration_report(CalibrationReportFixture {
+            tenant_id: tenant.clone(),
+            project_id: other_project.clone(),
+            dataset_id: dataset.clone(),
+            dataset_version_id: version.clone(),
+            evaluator_version_id: evaluator.clone(),
+            calibration_report_id: "shared-report",
+            eval_report_id: "other-project-eval",
+            created_at: now + chrono::Duration::seconds(120),
+        })?;
+
+        store.write_report(target.clone()).await?;
+        store.write_report(other_tenant_report.clone()).await?;
+        store.write_report(other_project_report.clone()).await?;
+
+        let loaded = store
+            .get_report(
+                tenant.clone(),
+                project.clone(),
+                target.calibration_report_id.clone(),
+            )
+            .await?;
+        assert_eq!(loaded.eval_report_id, "target-eval");
+        assert_eq!(loaded.tenant_id, tenant);
+        assert_eq!(loaded.project_id, project);
+
+        let latest = store
+            .latest_report(
+                loaded.tenant_id.clone(),
+                loaded.project_id.clone(),
+                dataset.clone(),
+                version.clone(),
+                Some(evaluator.clone()),
+            )
+            .await?
+            .ok_or_else(|| anyhow!("missing target latest report"))?;
+        assert_eq!(latest.eval_report_id, "target-eval");
+
+        let latest_without_evaluator = store
+            .latest_report(
+                loaded.tenant_id.clone(),
+                loaded.project_id.clone(),
+                dataset,
+                version,
+                None,
+            )
+            .await?
+            .ok_or_else(|| anyhow!("missing target latest report without evaluator filter"))?;
+        assert_eq!(latest_without_evaluator.eval_report_id, "target-eval");
+
+        let missing_scope = store
+            .get_report(
+                other_tenant,
+                other_project,
+                target.calibration_report_id.clone(),
+            )
+            .await;
+        assert!(matches!(missing_scope, Err(StoreError::NotFound(_))));
+        Ok(())
+    }
+
+    #[test]
+    fn proper_scoring_metrics_handle_calibrated_probabilities() -> anyhow::Result<()> {
+        let items = vec![
+            calibration_item("case-1", CalibrationLabel::Fail, 0.0)?,
+            calibration_item("case-2", CalibrationLabel::Pass, 1.0)?,
+            calibration_item("case-3", CalibrationLabel::Fail, 0.25)?,
+            calibration_item("case-4", CalibrationLabel::Pass, 0.75)?,
+        ];
+
+        let brier = brier_score(&items)?;
+        assert!((brier - 0.03125).abs() < 1e-12);
+
+        let bins = reliability_bins(&items, 4)?;
+        assert_eq!(bins.len(), 4);
+        assert_eq!(bins[0].sample_count, 1);
+        assert_eq!(bins[0].mean_confidence, Some(0.0));
+        assert_eq!(bins[0].accuracy, Some(0.0));
+        assert_eq!(bins[0].calibration_gap, Some(0.0));
+        assert_eq!(bins[1].sample_count, 1);
+        assert_eq!(bins[1].mean_confidence, Some(0.25));
+        assert_eq!(bins[1].accuracy, Some(0.0));
+        assert_eq!(bins[2].sample_count, 0);
+        assert_eq!(bins[2].mean_confidence, None);
+        assert_eq!(bins[3].sample_count, 2);
+        assert_eq!(bins[3].mean_confidence, Some(0.875));
+        assert_eq!(bins[3].accuracy, Some(1.0));
+
+        let ece = expected_calibration_error(&bins, items.len());
+        assert!((ece - 0.125).abs() < 1e-12);
+        Ok(())
+    }
+
+    /// The crate's item-shaped Brier/ECE must agree exactly with the shared
+    /// `palette-stats` primitives on the same data — one implementation of the
+    /// math, two views of it.
+    #[test]
+    fn proper_scoring_metrics_match_palette_stats() -> anyhow::Result<()> {
+        let items = vec![
+            calibration_item("case-1", CalibrationLabel::Fail, 0.0)?,
+            calibration_item("case-2", CalibrationLabel::Pass, 1.0)?,
+            calibration_item("case-3", CalibrationLabel::Fail, 0.25)?,
+            calibration_item("case-4", CalibrationLabel::Pass, 0.75)?,
+            calibration_item("case-5", CalibrationLabel::Pass, 0.55)?,
+            calibration_item("case-6", CalibrationLabel::Fail, 0.45)?,
+        ];
+        let predictions: Vec<f64> = items.iter().map(|i| i.judge_score).collect();
+        let outcomes: Vec<f64> = items
+            .iter()
+            .map(|i| match i.human_label {
+                CalibrationLabel::Pass => 1.0,
+                CalibrationLabel::Fail => 0.0,
+            })
+            .collect();
+
+        let local_brier = brier_score(&items)?;
+        let stats_brier =
+            palette_stats::brier_score(&predictions, &outcomes).map_err(|err| anyhow!("{err}"))?;
+        assert!((local_brier - stats_brier).abs() < 1e-15);
+
+        for bin_count in [2usize, 4, 10] {
+            let bins = reliability_bins(&items, bin_count)?;
+            let local_ece = expected_calibration_error(&bins, items.len());
+            let stats_ece =
+                palette_stats::expected_calibration_error(&predictions, &outcomes, bin_count)
+                    .map_err(|err| anyhow!("{err}"))?;
+            assert!(
+                (local_ece - stats_ece).abs() < 1e-15,
+                "bin_count={bin_count}: {local_ece} vs {stats_ece}"
+            );
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn proper_scoring_rejects_invalid_probability_scores() -> anyhow::Result<()> {
+        let items = vec![calibration_item("case-1", CalibrationLabel::Pass, 1.2)?];
+
+        let Err(error) = brier_score(&items) else {
+            panic!("expected brier_score to reject out-of-range probability");
+        };
+        assert!(error.to_string().contains("must be between 0 and 1"));
+        Ok(())
+    }
+
+    fn calibration_item(
+        case_id: &str,
+        human_label: CalibrationLabel,
+        judge_score: f64,
+    ) -> anyhow::Result<CalibrationItem> {
+        let judge_label = if judge_score >= 0.5 {
+            CalibrationLabel::Pass
+        } else {
+            CalibrationLabel::Fail
+        };
+        Ok(CalibrationItem {
+            dataset_case_id: DatasetCaseId::new(case_id)?,
+            agreed: human_label == judge_label,
+            human_label,
+            judge_label,
+            judge_score,
+            judge_result_label: None,
+            evidence: json!({}),
+        })
+    }
+
+    struct CalibrationReportFixture {
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        dataset_id: DatasetId,
+        dataset_version_id: DatasetVersionId,
+        evaluator_version_id: EvaluatorVersionId,
+        calibration_report_id: &'static str,
+        eval_report_id: &'static str,
+        created_at: Timestamp,
+    }
+
+    fn calibration_report(fixture: CalibrationReportFixture) -> anyhow::Result<CalibrationReport> {
+        Ok(CalibrationReport {
+            calibration_report_id: CalibrationReportId::new(fixture.calibration_report_id)?,
+            tenant_id: fixture.tenant_id,
+            project_id: fixture.project_id,
+            dataset_id: fixture.dataset_id,
+            dataset_version_id: fixture.dataset_version_id,
+            evaluator_version_id: fixture.evaluator_version_id,
+            eval_report_id: fixture.eval_report_id.to_string(),
+            policy: CalibrationPolicy::default(),
+            sample_count: 1,
+            observed_agreement: 1.0,
+            observed_agreement_ci_low: None,
+            observed_agreement_ci_high: None,
+            expected_agreement: 1.0,
+            cohen_kappa: 1.0,
+            cohen_kappa_ci_low: None,
+            cohen_kappa_ci_high: None,
+            brier_score: 0.0,
+            expected_calibration_error: 0.0,
+            reliability_bins: Vec::new(),
+            confusion: CalibrationConfusion {
+                human_pass_judge_pass: 1,
+                human_pass_judge_fail: 0,
+                human_fail_judge_pass: 0,
+                human_fail_judge_fail: 0,
+            },
+            items: vec![calibration_item("case-1", CalibrationLabel::Pass, 1.0)?],
+            created_at: fixture.created_at,
+        })
+    }
+
+    fn fixture_case(
+        tenant: &TenantId,
+        project: &ProjectId,
+        dataset: &DatasetId,
+        case_id: &str,
+        output: Value,
+        reference: Value,
+    ) -> anyhow::Result<DatasetCase> {
+        Ok(DatasetCase {
+            tenant_id: tenant.clone(),
+            project_id: project.clone(),
+            dataset_id: dataset.clone(),
+            case_id: DatasetCaseId::new(case_id)?,
+            source_trace_id: TraceId::new(format!("trace-{case_id}"))?,
+            source_span_id: SpanId::new(format!("span-{case_id}"))?,
+            source_environment_id: EnvironmentId::new("prod")?,
+            input: json!("question"),
+            output,
+            reference: Some(reference),
+            trace: json!({}),
+            normalizer_version: "test".to_string(),
+            trace_schema_version: 1,
+            input_artifact_hashes: Vec::new(),
+            created_at: Utc::now(),
+        })
+    }
+
+    fn fixture_result(
+        snapshot: &DatasetVersionSnapshot,
+        case_id: &str,
+        evaluator_version_id: EvaluatorVersionId,
+        score: f64,
+        label: &str,
+    ) -> anyhow::Result<EvalResult> {
+        Ok(EvalResult {
+            eval_result_id: EvalResultId::new(Uuid::new_v4().to_string())?,
+            tenant_id: snapshot.tenant_id.clone(),
+            project_id: snapshot.project_id.clone(),
+            trace_id: TraceId::new(format!("trace-{case_id}"))?,
+            span_id: Some(SpanId::new(format!("span-{case_id}"))?),
+            score,
+            label: Some(label.to_string()),
+            evidence: json!({ "label": label }),
+            reproducibility: EvalReproducibility {
+                dataset_version_id: snapshot.version_id.clone(),
+                dataset_case_id: DatasetCaseId::new(case_id)?,
+                agent_release_id: AgentReleaseId::new("agent")?,
+                prompt_version_id: None,
+                evaluator_version_id,
+                code_hash: None,
+                wasm_hash: None,
+                wasi_abi_version: None,
+                judge_model_id: Some("judge-model".to_string()),
+                judge_provider: Some("openai".to_string()),
+                judge_parameters: json!({}),
+                judge_seed: None,
+                judge_rubric_version: Some("judge-v1".to_string()),
+                normalizer_version: "test".to_string(),
+                trace_schema_version: 1,
+                input_artifact_hashes: Vec::new(),
+            },
+            cost: None,
+            tokens: None,
+            created_at: Utc::now(),
+            non_reproducible_reason: None,
+        })
+    }
+}

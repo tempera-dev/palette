@@ -1,8 +1,8 @@
 {
   "attributes": {
-    "HEADER_ENVIRONMENT": "x-beater-environment-id",
-    "HEADER_PROJECT": "x-beater-project-id",
-    "HEADER_TENANT": "x-beater-tenant-id",
+    "HEADER_ENVIRONMENT": "x-palette-environment-id",
+    "HEADER_PROJECT": "x-palette-project-id",
+    "HEADER_TENANT": "x-palette-tenant-id",
     "INPUT_VALUE": "input.value",
     "LLM_COST_CURRENCY": "llm.cost.currency",
     "LLM_COST_MICROS": "llm.cost.amount_micros",
@@ -14,7 +14,7 @@
     "LLM_TOKEN_REASONING": "llm.token_count.reasoning",
     "OUTPUT_VALUE": "output.value",
     "RELEASE_ID": "agent.release_id",
-    "SEQ": "beater.seq",
+    "SEQ": "palette.seq",
     "SPAN_KIND": "openinference.span.kind"
   },
   "defaults": {
@@ -24,10 +24,10 @@
     "TENANT": "demo"
   },
   "env": {
-    "BASE_URL": "BEATER_BASE_URL",
-    "ENVIRONMENT_ID": "BEATER_ENVIRONMENT_ID",
-    "PROJECT_ID": "BEATER_PROJECT_ID",
-    "TENANT_ID": "BEATER_TENANT_ID"
+    "BASE_URL": "PALETTE_BASE_URL",
+    "ENVIRONMENT_ID": "PALETTE_ENVIRONMENT_ID",
+    "PROJECT_ID": "PALETTE_PROJECT_ID",
+    "TENANT_ID": "PALETTE_TENANT_ID"
   },
   "span_kinds": [
     "agent.run",

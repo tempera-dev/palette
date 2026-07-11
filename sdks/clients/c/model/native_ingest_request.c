@@ -17,12 +17,12 @@ static native_ingest_request_t *native_ingest_request_create_internal(
     char *name,
     any_type_t *output,
     char *parent_span_id,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     tenant_scope_t *scope,
     long seq,
     char *span_id,
     char *start_time,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     token_counts_t *tokens,
     char *trace_id
     ) {
@@ -66,12 +66,12 @@ __attribute__((deprecated)) native_ingest_request_t *native_ingest_request_creat
     char *name,
     any_type_t *output,
     char *parent_span_id,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     tenant_scope_t *scope,
     long seq,
     char *span_id,
     char *start_time,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     token_counts_t *tokens,
     char *trace_id
     ) {
@@ -308,7 +308,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
 
     // native_ingest_request->redaction_class
-    if (beater_api_redaction_class__NULL == native_ingest_request->redaction_class) {
+    if (palette_api_redaction_class__NULL == native_ingest_request->redaction_class) {
         goto fail;
     }
     cJSON *redaction_class_local_JSON = redaction_class_convertToJSON(native_ingest_request->redaction_class);
@@ -362,7 +362,7 @@ cJSON *native_ingest_request_convertToJSON(native_ingest_request_t *native_inges
 
 
     // native_ingest_request->status
-    if (beater_api_span_status__NULL == native_ingest_request->status) {
+    if (palette_api_span_status__NULL == native_ingest_request->status) {
         goto fail;
     }
     cJSON *status_local_JSON = span_status_convertToJSON(native_ingest_request->status);
@@ -427,13 +427,13 @@ native_ingest_request_t *native_ingest_request_parseFromJSON(cJSON *native_inges
     _t *output_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->redaction_class
-    beater_api_redaction_class__e redaction_class_local_nonprim = 0;
+    palette_api_redaction_class__e redaction_class_local_nonprim = 0;
 
     // define the local variable for native_ingest_request->scope
     tenant_scope_t *scope_local_nonprim = NULL;
 
     // define the local variable for native_ingest_request->status
-    beater_api_span_status__e status_local_nonprim = 0;
+    palette_api_span_status__e status_local_nonprim = 0;
 
     // define the local variable for native_ingest_request->tokens
     token_counts_t *tokens_local_nonprim = NULL;

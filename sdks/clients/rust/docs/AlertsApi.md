@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## alerts_period_evaluate_alert
 
-> models::AlertDecision alerts_period_evaluate_alert(tenant_id, project_id, trace_id, evaluate_alert_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::AlertDecision alerts_period_evaluate_alert(tenant_id, project_id, trace_id, evaluate_alert_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -23,9 +23,9 @@ Name | Type | Description  | Required | Notes
 **trace_id** | **String** | trace_id | [required] |
 **evaluate_alert_request** | [**EvaluateAlertRequest**](EvaluateAlertRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

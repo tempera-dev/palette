@@ -25,12 +25,12 @@ span_io_value_one_of_1_t* instantiate_span_io_value_one_of_1(int include_optiona
     span_io_value_one_of_1 = span_io_value_one_of_1_create(
        // false, not to have infinite recursion
       instantiate_artifact_ref(0),
-      beater_api_span_io_value_one_of_1_KIND_artifact
+      palette_api_span_io_value_one_of_1_KIND_artifact
     );
   } else {
     span_io_value_one_of_1 = span_io_value_one_of_1_create(
       NULL,
-      beater_api_span_io_value_one_of_1_KIND_artifact
+      palette_api_span_io_value_one_of_1_KIND_artifact
     );
   }
 

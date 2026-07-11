@@ -37,7 +37,7 @@
       "conformance_script": "sdks/conformance/java/run.sh",
       "required_files": [
         "sdks/conformance/java/pom.xml",
-        "sdks/conformance/java/src/main/java/ai/beater/conformance/Conformance.java"
+        "sdks/conformance/java/src/main/java/ai/palette/conformance/Conformance.java"
       ]
     },
     {
@@ -72,7 +72,7 @@
       "package_path": "sdks/go",
       "semconv_file": "sdks/go/semconv.go",
       "source_files": [
-        "sdks/go/beater.go",
+        "sdks/go/palette.go",
         "sdks/go/config.go",
         "sdks/go/semconv.go"
       ],
@@ -115,15 +115,15 @@
     {
       "language": "java",
       "package_path": "sdks/java",
-      "semconv_file": "sdks/java/src/main/java/ai/beater/sdk/SemConv.java",
+      "semconv_file": "sdks/java/src/main/java/ai/palette/sdk/SemConv.java",
       "source_files": [
-        "sdks/java/src/main/java/ai/beater/sdk/Beater.java",
-        "sdks/java/src/main/java/ai/beater/sdk/BeaterConfig.java",
-        "sdks/java/src/main/java/ai/beater/sdk/SemConv.java"
+        "sdks/java/src/main/java/ai/palette/sdk/Palette.java",
+        "sdks/java/src/main/java/ai/palette/sdk/PaletteConfig.java",
+        "sdks/java/src/main/java/ai/palette/sdk/SemConv.java"
       ],
       "capability_tokens": {
         "init": [
-          "void init(BeaterConfig"
+          "void init(PaletteConfig"
         ],
         "config_from_env": [
           "fromEnv()"
@@ -160,13 +160,13 @@
     {
       "language": "python",
       "package_path": "sdks/python",
-      "semconv_file": "sdks/python/beater/semconv.py",
+      "semconv_file": "sdks/python/palette/semconv.py",
       "source_files": [
-        "sdks/python/beater/__init__.py",
-        "sdks/python/beater/config.py",
-        "sdks/python/beater/observe.py",
-        "sdks/python/beater/tracing.py",
-        "sdks/python/beater/semconv.py"
+        "sdks/python/palette/__init__.py",
+        "sdks/python/palette/config.py",
+        "sdks/python/palette/observe.py",
+        "sdks/python/palette/tracing.py",
+        "sdks/python/palette/semconv.py"
       ],
       "capability_tokens": {
         "init": [
@@ -309,13 +309,13 @@
     }
   ],
   "required_env_vars": [
-    "BEATER_BASE_URL",
-    "BEATER_TENANT_ID",
-    "BEATER_PROJECT_ID",
-    "BEATER_ENVIRONMENT_ID",
-    "BEATER_API_KEY",
-    "BEATER_SERVICE_NAME",
-    "BEATER_RELEASE_ID"
+    "PALETTE_BASE_URL",
+    "PALETTE_TENANT_ID",
+    "PALETTE_PROJECT_ID",
+    "PALETTE_ENVIRONMENT_ID",
+    "PALETTE_API_KEY",
+    "PALETTE_SERVICE_NAME",
+    "PALETTE_RELEASE_ID"
   ],
   "required_span_kind_values": [
     "agent.run",
@@ -332,7 +332,7 @@
   ],
   "required_attribute_values": [
     "openinference.span.kind",
-    "beater.seq",
+    "palette.seq",
     "agent.release_id",
     "input.value",
     "output.value",
@@ -346,8 +346,8 @@
     "llm.cost.currency"
   ],
   "required_ingest_header_values": [
-    "x-beater-tenant-id",
-    "x-beater-project-id",
-    "x-beater-environment-id"
+    "x-palette-tenant-id",
+    "x-palette-project-id",
+    "x-palette-environment-id"
   ]
 }

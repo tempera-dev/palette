@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.create_review_queue_http_request import CreateReviewQueueHttpRequest
+from palette_client.models.create_review_queue_http_request import CreateReviewQueueHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

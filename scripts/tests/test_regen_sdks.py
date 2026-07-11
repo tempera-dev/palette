@@ -26,8 +26,8 @@ def seed_temp_repo(repo: Path, generated: str) -> Path:
     shutil.copy2(SCRIPT, script)
     script.chmod(0o755)
 
-    spec = repo / "sdks" / "openapi" / "beater-api.json"
-    dashboard = repo / "web" / "dashboard" / "openapi" / "beater-read-api.json"
+    spec = repo / "sdks" / "openapi" / "palette-api.json"
+    dashboard = repo / "web" / "dashboard" / "openapi" / "palette-read-api.json"
     spec.parent.mkdir(parents=True)
     dashboard.parent.mkdir(parents=True)
     spec.write_text(SPEC)
@@ -44,7 +44,7 @@ def seed_fake_bin(bin_dir: Path) -> None:
     write_executable(
         bin_dir / "cargo",
         f"""#!/usr/bin/env bash
-if [ "$*" = "run -q -p beater-api --example dump_openapi" ]; then
+if [ "$*" = "run -q -p palette-api --example dump_openapi" ]; then
   printf '{SPEC}'
   exit 0
 fi
@@ -69,7 +69,7 @@ case "${1:-}" in
     done
     out="${out#/local/}"
     mkdir -p "$PWD/$out"
-    printf '%s' "${BEATER_TEST_GENERATED:-generated-v1}" > "$PWD/$out/generated.txt"
+    printf '%s' "${PALETTE_TEST_GENERATED:-generated-v1}" > "$PWD/$out/generated.txt"
     exit 0
     ;;
 esac
@@ -90,7 +90,7 @@ def run_regen_check(
 
         env = os.environ.copy()
         env["PATH"] = f"{bin_dir}{os.pathsep}{env['PATH']}"
-        env["BEATER_TEST_GENERATED"] = generated
+        env["PALETTE_TEST_GENERATED"] = generated
 
         return subprocess.run(
             ["bash", str(script), "--check"],

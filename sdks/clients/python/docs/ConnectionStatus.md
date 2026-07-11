@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.connection_status import ConnectionStatus
+from palette_client.models.connection_status import ConnectionStatus
 
 # TODO update the JSON string below
 json = "{}"

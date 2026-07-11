@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_deterministic_eval_request import RunDeterministicEvalRequest
+from palette_client.models.run_deterministic_eval_request import RunDeterministicEvalRequest
 
 # TODO update the JSON string below
 json = "{}"

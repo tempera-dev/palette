@@ -50,7 +50,7 @@ canonical_span_t* instantiate_canonical_span(int include_optional) {
       0,
       "0",
       "2013-10-20T19:20:30+01:00",
-      beater_api_canonical_span__ok,
+      palette_api_canonical_span__ok,
       "0",
        // false, not to have infinite recursion
       instantiate_token_counts(0),
@@ -76,7 +76,7 @@ canonical_span_t* instantiate_canonical_span(int include_optional) {
       0,
       "0",
       "2013-10-20T19:20:30+01:00",
-      beater_api_canonical_span__ok,
+      palette_api_canonical_span__ok,
       "0",
       NULL,
       "0",

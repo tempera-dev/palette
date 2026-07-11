@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.diff_line import DiffLine
+from palette_client.models.diff_line import DiffLine
 
 # TODO update the JSON string below
 json = "{}"

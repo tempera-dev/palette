@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## EvalsRunDeterministicEval
 
-> DatasetEvalReport EvalsRunDeterministicEval(ctx, tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> DatasetEvalReport EvalsRunDeterministicEval(ctx, tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -24,7 +24,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -34,13 +34,13 @@ func main() {
 	versionId := "versionId_example" // string | version_id
 	runDeterministicEvalRequest := *openapiclient.NewRunDeterministicEvalRequest("AgentReleaseId_example", "EvaluatorId_example", "EvaluatorVersionId_example", openapiclient.EvaluatorKind{EvaluatorKindOneOf: openapiclient.NewEvaluatorKindOneOf("Type_example")}) // RunDeterministicEvalRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.EvalsAPI.EvalsRunDeterministicEval(context.Background(), tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.EvalsAPI.EvalsRunDeterministicEval(context.Background(), tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `EvalsAPI.EvalsRunDeterministicEval``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -74,9 +74,9 @@ Name | Type | Description  | Notes
 
  **runDeterministicEvalRequest** | [**RunDeterministicEvalRequest**](RunDeterministicEvalRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -98,7 +98,7 @@ No authorization required
 
 ## EvalsRunJudgeEval
 
-> DatasetEvalReport EvalsRunJudgeEval(ctx, tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> DatasetEvalReport EvalsRunJudgeEval(ctx, tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -111,7 +111,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -121,13 +121,13 @@ func main() {
 	versionId := "versionId_example" // string | version_id
 	runJudgeDatasetEvalRequest := *openapiclient.NewRunJudgeDatasetEvalRequest("AgentReleaseId_example", "EvaluatorId_example", "EvaluatorVersionId_example", openapiclient.EvaluatorKind{EvaluatorKindOneOf: openapiclient.NewEvaluatorKindOneOf("Type_example")}, "ProviderSecretId_example") // RunJudgeDatasetEvalRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.EvalsAPI.EvalsRunJudgeEval(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.EvalsAPI.EvalsRunJudgeEval(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `EvalsAPI.EvalsRunJudgeEval``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -161,9 +161,9 @@ Name | Type | Description  | Notes
 
  **runJudgeDatasetEvalRequest** | [**RunJudgeDatasetEvalRequest**](RunJudgeDatasetEvalRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

@@ -22,12 +22,12 @@ span_io_value_one_of_2_t* instantiate_span_io_value_one_of_2(int include_optiona
   span_io_value_one_of_2_t* span_io_value_one_of_2 = NULL;
   if (include_optional) {
     span_io_value_one_of_2 = span_io_value_one_of_2_create(
-      beater_api_span_io_value_one_of_2_KIND_redacted,
+      palette_api_span_io_value_one_of_2_KIND_redacted,
       "0"
     );
   } else {
     span_io_value_one_of_2 = span_io_value_one_of_2_create(
-      beater_api_span_io_value_one_of_2_KIND_redacted,
+      palette_api_span_io_value_one_of_2_KIND_redacted,
       "0"
     );
   }

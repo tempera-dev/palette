@@ -13,19 +13,19 @@ sdk_regen_skipped=0
 step() { echo; echo "==> $1"; }
 
 step "1/6 spec == served routes (openapi_coverage)"
-cargo test -q -p beater-api --test openapi_coverage || fail=1
+cargo test -q -p palette-api --test openapi_coverage || fail=1
 
 step "2/6 generated OpenAPI snapshots are current"
-tmp_spec="$(mktemp "${TMPDIR:-/tmp}/beater-openapi-check.XXXXXX")"
+tmp_spec="$(mktemp "${TMPDIR:-/tmp}/palette-openapi-check.XXXXXX")"
 trap 'rm -f "$tmp_spec"' EXIT
-cargo run -q -p beater-api --example dump_openapi > "$tmp_spec" || fail=1
+cargo run -q -p palette-api --example dump_openapi > "$tmp_spec" || fail=1
 if [ "$fail" -eq 0 ]; then
-  if ! cmp -s "$tmp_spec" sdks/openapi/beater-api.json; then
-    echo "sdks/openapi/beater-api.json is stale; run scripts/regen-sdks.sh" >&2
+  if ! cmp -s "$tmp_spec" sdks/openapi/palette-api.json; then
+    echo "sdks/openapi/palette-api.json is stale; run scripts/regen-sdks.sh" >&2
     fail=1
   fi
-  if ! cmp -s "$tmp_spec" web/dashboard/openapi/beater-read-api.json; then
-    echo "web/dashboard/openapi/beater-read-api.json is stale; run scripts/regen-sdks.sh" >&2
+  if ! cmp -s "$tmp_spec" web/dashboard/openapi/palette-read-api.json; then
+    echo "web/dashboard/openapi/palette-read-api.json is stale; run scripts/regen-sdks.sh" >&2
     fail=1
   fi
 fi

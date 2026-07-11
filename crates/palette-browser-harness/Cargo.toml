@@ -1,0 +1,25 @@
+[package]
+name = "palette-browser-harness"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+palette-browser = { path = "../palette-browser" }
+palette-browser-capture = { path = "../palette-browser-capture" }
+palette-eval = { path = "../palette-eval" }
+palette-schema = { path = "../palette-schema" }
+palette-experiments = { path = "../palette-experiments" }
+palette-datasets = { path = "../palette-datasets" }
+async-trait.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+palette-core = { path = "../palette-core" }
+chrono.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

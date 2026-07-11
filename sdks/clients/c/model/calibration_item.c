@@ -9,8 +9,8 @@ static calibration_item_t *calibration_item_create_internal(
     int agreed,
     char *dataset_case_id,
     any_type_t *evidence,
-    beater_api_calibration_label__e human_label,
-    beater_api_calibration_label__e judge_label,
+    palette_api_calibration_label__e human_label,
+    palette_api_calibration_label__e judge_label,
     char *judge_result_label,
     double judge_score
     ) {
@@ -34,8 +34,8 @@ __attribute__((deprecated)) calibration_item_t *calibration_item_create(
     int agreed,
     char *dataset_case_id,
     any_type_t *evidence,
-    beater_api_calibration_label__e human_label,
-    beater_api_calibration_label__e judge_label,
+    palette_api_calibration_label__e human_label,
+    palette_api_calibration_label__e judge_label,
     char *judge_result_label,
     double judge_score
     ) {
@@ -110,7 +110,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
 
 
     // calibration_item->human_label
-    if (beater_api_calibration_label__NULL == calibration_item->human_label) {
+    if (palette_api_calibration_label__NULL == calibration_item->human_label) {
         goto fail;
     }
     cJSON *human_label_local_JSON = calibration_label_convertToJSON(calibration_item->human_label);
@@ -124,7 +124,7 @@ cJSON *calibration_item_convertToJSON(calibration_item_t *calibration_item) {
 
 
     // calibration_item->judge_label
-    if (beater_api_calibration_label__NULL == calibration_item->judge_label) {
+    if (palette_api_calibration_label__NULL == calibration_item->judge_label) {
         goto fail;
     }
     cJSON *judge_label_local_JSON = calibration_label_convertToJSON(calibration_item->judge_label);
@@ -169,10 +169,10 @@ calibration_item_t *calibration_item_parseFromJSON(cJSON *calibration_itemJSON){
     _t *evidence_local_nonprim = NULL;
 
     // define the local variable for calibration_item->human_label
-    beater_api_calibration_label__e human_label_local_nonprim = 0;
+    palette_api_calibration_label__e human_label_local_nonprim = 0;
 
     // define the local variable for calibration_item->judge_label
-    beater_api_calibration_label__e judge_label_local_nonprim = 0;
+    palette_api_calibration_label__e judge_label_local_nonprim = 0;
 
     // calibration_item->agreed
     cJSON *agreed = cJSON_GetObjectItemCaseSensitive(calibration_itemJSON, "agreed");

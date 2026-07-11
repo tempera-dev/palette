@@ -6,7 +6,7 @@
 
 
 static diff_line_t *diff_line_create_internal(
-    beater_api_diff_line_kind__e kind,
+    palette_api_diff_line_kind__e kind,
     int new_line,
     int old_line,
     char *text
@@ -25,7 +25,7 @@ static diff_line_t *diff_line_create_internal(
 }
 
 __attribute__((deprecated)) diff_line_t *diff_line_create(
-    beater_api_diff_line_kind__e kind,
+    palette_api_diff_line_kind__e kind,
     int new_line,
     int old_line,
     char *text
@@ -58,7 +58,7 @@ cJSON *diff_line_convertToJSON(diff_line_t *diff_line) {
     cJSON *item = cJSON_CreateObject();
 
     // diff_line->kind
-    if (beater_api_diff_line_kind__NULL == diff_line->kind) {
+    if (palette_api_diff_line_kind__NULL == diff_line->kind) {
         goto fail;
     }
     cJSON *kind_local_JSON = diff_line_kind_convertToJSON(diff_line->kind);
@@ -108,7 +108,7 @@ diff_line_t *diff_line_parseFromJSON(cJSON *diff_lineJSON){
     diff_line_t *diff_line_local_var = NULL;
 
     // define the local variable for diff_line->kind
-    beater_api_diff_line_kind__e kind_local_nonprim = 0;
+    palette_api_diff_line_kind__e kind_local_nonprim = 0;
 
     // diff_line->kind
     cJSON *kind = cJSON_GetObjectItemCaseSensitive(diff_lineJSON, "kind");

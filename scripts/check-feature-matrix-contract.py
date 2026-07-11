@@ -21,14 +21,14 @@ DOC_TOKENS = {
     ],
     "contract and engine stay open": [
         "The **contract and the engine are open.**",
-        "sdks/openapi/beater-api.json",
-        "crates/beater-schema",
+        "sdks/openapi/palette-api.json",
+        "crates/palette-schema",
         "sdks/semconv",
-        "self-hostable `beaterd` server",
+        "self-hostable `paletted` server",
         "never a fork of the data model or a paywall on the SDK protocol",
     ],
     "required OSS capabilities": [
-        "| All-in-one `beaterd` server | Yes | Yes (managed) |",
+        "| All-in-one `paletted` server | Yes | Yes (managed) |",
         "| OpenAPI `/v1` contract + 7 SDK clients | Yes | Yes (identical contract) |",
         "| Zero-SDK OTLP ingest (HTTP + gRPC) | Yes | Yes |",
         "| Eval / judge / gates / calibration | Yes | Yes |",
@@ -43,8 +43,8 @@ DOC_TOKENS = {
     ],
     "enforcement hooks": [
         "CONTRIBUTING.md",
-        "BEATER_SELF_HOST_TELEMETRY",
-        "beater_core::SelfHostTelemetryConfig",
+        "PALETTE_SELF_HOST_TELEMETRY",
+        "palette_core::SelfHostTelemetryConfig",
         "`thin-bins` cargo feature",
     ],
 }

@@ -1,21 +1,21 @@
-# Beater examples
+# Palette examples
 
-Runnable example apps showing how to get traces into Beater. The fastest path is
-**zero-SDK OTLP**: point any OpenTelemetry exporter at `beaterd:4317` and you are
+Runnable example apps showing how to get traces into Palette. The fastest path is
+**zero-SDK OTLP**: point any OpenTelemetry exporter at `paletted:4317` and you are
 done. The ergonomic SDKs (`sdks/rust`, `sdks/python`, `sdks/typescript`) add
 convenience on top of the same standard.
 
-Start a local server first: `docker compose up beaterd dashboard` (or
-`cargo run -p beaterd`). All examples default to the `demo/demo/local`
+Start a local server first: `docker compose up paletted dashboard` (or
+`cargo run -p paletted`). All examples default to the `demo/demo/local`
 tenant/project/environment. The OTLP/gRPC examples (the Python apps) target
 `http://127.0.0.1:4317`; the OTLP/HTTP-protobuf examples (the TypeScript apps)
 target the HTTP API at `http://127.0.0.1:8080` on the tenant-scoped
-`/v1/otlp/<tenant>/<project>/<environment>/v1/traces` path. beaterd does not
+`/v1/otlp/<tenant>/<project>/<environment>/v1/traces` path. paletted does not
 expose a separate 4318 collector port — HTTP/proto OTLP rides the 8080 API.
 
 ## Zero-SDK instrumentation fixtures (R11.2)
 
-Stock OpenTelemetry with different LLM semantic conventions; Beater ingests them
+Stock OpenTelemetry with different LLM semantic conventions; Palette ingests them
 all natively:
 
 | File | Convention |
@@ -27,7 +27,7 @@ all natively:
 
 ## Python / TypeScript framework apps (R11.4)
 
-OTLP from common web frameworks, no Beater SDK required:
+OTLP from common web frameworks, no Palette SDK required:
 
 | File | Framework |
 | --- | --- |
@@ -39,8 +39,8 @@ OTLP from common web frameworks, no Beater SDK required:
 
 ## Workflow import examples (Temporal)
 
-Temporal users have two no-Beater-SDK paths in `temporal/README.md`: live
-capture through Temporal's OpenTelemetry tracing interceptor pointed at Beater's
+Temporal users have two no-Palette-SDK paths in `temporal/README.md`: live
+capture through Temporal's OpenTelemetry tracing interceptor pointed at Palette's
 OTLP endpoint, and history import through `/v1/import/...` with
 `source: temporal_history`. Both project into canonical spans: workflow run ->
 `agent.run`, activity -> `tool.call`, child workflow -> nested `agent.run`, and
@@ -48,7 +48,7 @@ timer/signal -> `agent.step`.
 
 ## Rust SDK examples (R11.3)
 
-First-class Rust adoption via the `beater` SDK (`sdks/rust`):
+First-class Rust adoption via the `palette` SDK (`sdks/rust`):
 
 | File | Integration |
 | --- | --- |
@@ -60,7 +60,7 @@ First-class Rust adoption via the `beater` SDK (`sdks/rust`):
 
 The Rust SDK also ships a runnable `cargo run --example quickstart` under
 `sdks/rust/examples/`. The files in `examples/rust/` are app templates: copy one
-into a binary crate that depends on `beater = { path = ... }` and run it against
-a local `beaterd`. They are registered as `[[example]]` targets of the `beater`
+into a binary crate that depends on `palette = { path = ... }` and run it against
+a local `paletted`. They are registered as `[[example]]` targets of the `palette`
 SDK crate, so `cargo build --examples` (in `sdks/rust/`) compiles them in CI and
 they cannot silently drift from the SDK API.

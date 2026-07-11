@@ -6,7 +6,7 @@
 
 
 static sampling_decision_t *sampling_decision_create_internal(
-    beater_api_sampling_reason__e reason,
+    palette_api_sampling_reason__e reason,
     int selected,
     int stable_score_per_mille
     ) {
@@ -23,7 +23,7 @@ static sampling_decision_t *sampling_decision_create_internal(
 }
 
 __attribute__((deprecated)) sampling_decision_t *sampling_decision_create(
-    beater_api_sampling_reason__e reason,
+    palette_api_sampling_reason__e reason,
     int selected,
     int stable_score_per_mille
     ) {
@@ -50,7 +50,7 @@ cJSON *sampling_decision_convertToJSON(sampling_decision_t *sampling_decision) {
     cJSON *item = cJSON_CreateObject();
 
     // sampling_decision->reason
-    if (beater_api_sampling_reason__NULL == sampling_decision->reason) {
+    if (palette_api_sampling_reason__NULL == sampling_decision->reason) {
         goto fail;
     }
     cJSON *reason_local_JSON = sampling_reason_convertToJSON(sampling_decision->reason);
@@ -93,7 +93,7 @@ sampling_decision_t *sampling_decision_parseFromJSON(cJSON *sampling_decisionJSO
     sampling_decision_t *sampling_decision_local_var = NULL;
 
     // define the local variable for sampling_decision->reason
-    beater_api_sampling_reason__e reason_local_nonprim = 0;
+    palette_api_sampling_reason__e reason_local_nonprim = 0;
 
     // sampling_decision->reason
     cJSON *reason = cJSON_GetObjectItemCaseSensitive(sampling_decisionJSON, "reason");

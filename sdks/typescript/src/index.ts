@@ -1,12 +1,12 @@
 /**
- * Beater TypeScript SDK — ergonomic agent observability (OpenTelemetry-native).
+ * Palette TypeScript SDK — ergonomic agent observability (OpenTelemetry-native).
  *
- *   import * as beater from "@beater/sdk";
- *   beater.init({ tenantId: "acme", projectId: "support-bot", environmentId: "prod" });
- *   const handle = beater.observe(rawHandle, { kind: beater.SpanKind.AGENT_RUN });
+ *   import * as palette from "@palette/sdk";
+ *   palette.init({ tenantId: "acme", projectId: "support-bot", environmentId: "prod" });
+ *   const handle = palette.observe(rawHandle, { kind: palette.SpanKind.AGENT_RUN });
  *
  * This is the hand-written ergonomic (Layer 2) SDK. The generated control-plane
- * client (Layer 1) ships separately as `@beater/client`, generated from the
+ * client (Layer 1) ships separately as `@palette/client`, generated from the
  * OpenAPI contract so it never drifts from the API.
  */
 
@@ -18,8 +18,8 @@ export { wrapOpenAI } from "./providers/openai";
 export { wrapAnthropic } from "./providers/anthropic";
 export { SpanKind, Attr, SPAN_KINDS } from "./semconv";
 export type { SpanKindValue } from "./semconv";
-export type { BeaterConfig, BeaterOptions } from "./config";
-export { BeaterCallbackHandler } from "./integrations/langchain";
+export type { PaletteConfig, PaletteOptions } from "./config";
+export { PaletteCallbackHandler } from "./integrations/langchain";
 export { instrumentLlamaIndex } from "./integrations/llamaindex";
 export type {
   LlamaIndexCallbackManager,
@@ -38,7 +38,7 @@ export {
 export type { IntegrationKind, IntegrationSpec, IntegrationStatus } from "./integrations/registry";
 export { vercelAiTelemetry, withVercelAiTelemetry } from "./integrations/vercel-ai";
 export type {
-  BeaterVercelAiTelemetryOptions,
+  PaletteVercelAiTelemetryOptions,
   VercelAiTelemetryConfig,
   VercelAiTelemetryOptionName,
   WithVercelAiTelemetryOptions,

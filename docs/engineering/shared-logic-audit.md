@@ -1,6 +1,6 @@
 # Shared Logic Audit
 
-Status: active audit for keeping Beater's Gate 2, dashboard, and Rust service
+Status: active audit for keeping Palette's Gate 2, dashboard, and Rust service
 contracts narrow, shared, and testable.
 
 ## Audit Method
@@ -24,7 +24,7 @@ contracts narrow, shared, and testable.
 - Gate 2 readiness, public handoff, proof generation, and proof validation now
   consume that shared contract instead of each owning independent image/platform
   constants.
-- `bins/beaterd/tests/self_host_contract.rs` now asserts that scripts use the
+- `bins/paletted/tests/self_host_contract.rs` now asserts that scripts use the
   shared contract while still keeping independent black-box sentinel coverage for
   public handoff behavior.
 - `web/dashboard/lib/gate2-confirmation-request.ts` owns the browser
@@ -35,27 +35,27 @@ contracts narrow, shared, and testable.
   TypeScript app helper.
 - `web/dashboard/lib/api.ts` now uses the generated OpenAPI
   `PageRunSummaryDoc` shape instead of a hand-rolled generic page wrapper.
-- Rust JSON/content hashes now use `beater_core::sha256_hex` in judge,
+- Rust JSON/content hashes now use `palette_core::sha256_hex` in judge,
   dataset, replay, store, and ingest code instead of local implementations.
-- `beater_core::sha256_json_hash` now owns the serde-json-bytes-to-SHA-256
+- `palette_core::sha256_json_hash` now owns the serde-json-bytes-to-SHA-256
   policy for dataset evaluator specs, judge request/response cache keys, and
   replay cassette request/response hashes, with a core golden test pinning the
   byte serialization contract.
-- `beater_core::lower_hex` owns generic lowercase byte-to-hex formatting for
+- `palette_core::lower_hex` owns generic lowercase byte-to-hex formatting for
   OTLP id normalization, CLI smoke fixtures, and live-smoke tests.
 - Gate 2 self-host contract tests now assert the shared dashboard confirmation
   helper directly, rather than the removed quickstart-local wrapper.
-- `beater-search::index_project_trace` owns trace-ingested readback plus search
-  indexing, so API drain and `beaterd` background workers share the same
+- `palette-search::index_project_trace` owns trace-ingested readback plus search
+  indexing, so API drain and `paletted` background workers share the same
   downstream processing path.
-- `beater-search::TraceIngestedSearchProcessor` now wraps that readback/index
-  helper for trace-ingested queue callbacks, so API manual drains and `beaterd`
+- `palette-search::TraceIngestedSearchProcessor` now wraps that readback/index
+  helper for trace-ingested queue callbacks, so API manual drains and `paletted`
   workers share the same downstream callback and retry/DLQ reason conversion.
 - `ApiState` now has one private base constructor plus explicit opt-in setters
   for search, archive, dataset, and experiment integrations. The public
   constructors delegate through that path, and a regression test pins default
   optional-service behavior.
-- `beater_store::query_runs_by_materializing_spans` now owns the local
+- `palette_store::query_runs_by_materializing_spans` now owns the local
   SQLite/memory run-summary fallback and names it as materialized-span behavior,
   so future ClickHouse work has a clear backend-aggregation boundary instead of
   inheriting duplicated dev-store rollup logic.
@@ -74,7 +74,7 @@ contracts narrow, shared, and testable.
 
 ## Audit Findings
 
-- SQLite schema ownership is the largest remaining duplication. `beaterd`
+- SQLite schema ownership is the largest remaining duplication. `paletted`
   applies one local all-tables migration across several store databases while
   individual store crates also own `CREATE TABLE` blocks. The safe direction is
   either one local SQLite database with one migration manager, or per-store
@@ -83,7 +83,7 @@ contracts narrow, shared, and testable.
   replay, search, secrets, usage, experiments, and calibration. A small SQLite
   support module should own connection setup, the repeated `IntoStoreResult`
   adapter, JSON column helpers, and timestamp/id decoding without becoming an
-  ORM. Candidate owner: `beater-store-sql::support`; keep `beater-store`
+  ORM. Candidate owner: `palette-store-sql::support`; keep `palette-store`
   trait-only so persistence mechanics do not leak into domain contracts.
 - Ingest preparation still has parallel native/raw/OTLP paths. The right shared
   contract is one internal canonical span input plus shared artifact hashing,
@@ -92,14 +92,14 @@ contracts narrow, shared, and testable.
   queue-callback processor, but higher-level queue draining, retry reporting,
   and worker hooks still live at their API/runtime boundaries.
 - JSON value hashing now shares the serialization and SHA-256 policy through
-  `beater_core::sha256_json_hash`. Dataset, judge, and replay keep only local
+  `palette_core::sha256_json_hash`. Dataset, judge, and replay keep only local
   boundary wrappers for domain-specific error text and return types.
 - OpenAPI doc schemas mirror real API and schema DTOs. Prefer deriving or
   sharing public response DTOs rather than maintaining doc-only copies for
   canonical spans, run summaries, money, artifact refs, and query params.
 - API handlers repeat route id parsing for tenant, project, environment,
   dataset, version, trace, span, queue, task, annotation, gate, and experiment
-  ids. Introduce typed path structs in a new `crates/beater-api/src/path.rs` or
+  ids. Introduce typed path structs in a new `crates/palette-api/src/path.rs` or
   `routes/support.rs` module before splitting handlers, so auth checks and
   domain calls receive validated ids consistently. Start with common shapes
   such as `ProjectPath`, `EnvironmentPath`, `TracePath`, `TraceSpanPath`,
@@ -108,23 +108,23 @@ contracts narrow, shared, and testable.
   specs. Keep HTTP request structs local, but centralize conversion into domain
   specs after route-id parsing is shared; otherwise the conversion helpers will
   still own too much HTTP-specific error mapping.
-- `bins/beaterctl/src/main.rs` repeats the smoke-to-dataset-to-experiment flow
+- `bins/palettectl/src/main.rs` repeats the smoke-to-dataset-to-experiment flow
   across deterministic, judge, and agent experiment commands. A
-  `bins/beaterctl/src/fixtures.rs` module or narrow domain test-support helpers
+  `bins/palettectl/src/fixtures.rs` module or narrow domain test-support helpers
   should own "smoke dataset version" construction without hiding command I/O.
 - Dashboard query state is mapped across `web/dashboard/lib/api.ts`,
   `web/dashboard/app/page.tsx`, hidden form controls, filter chips, links, and
   E2E tests. A table-driven `web/dashboard/lib/dashboard-query.ts` helper should
   own field names, defaults, URL serialization, and link preservation.
 - Local runtime wiring is concentrated in large first-party files:
-  `bins/beaterctl/src/main.rs`, `bins/beaterd/src/main.rs`,
-  `crates/beater-api/tests/full_stack.rs`, and the Gate 2 validator/proof
+  `bins/palettectl/src/main.rs`, `bins/paletted/src/main.rs`,
+  `crates/palette-api/tests/full_stack.rs`, and the Gate 2 validator/proof
   scripts. `LocalStorePaths`, `LocalStackBuilder`, `demo_scope()`, smoke trace
   builders, and fixture setup helpers would reduce main/test file size while
   preserving all-in-one operational simplicity.
-- OTLP smoke export fixture assembly is repeated in `beaterctl`, `beaterd`
+- OTLP smoke export fixture assembly is repeated in `palettectl`, `paletted`
   live-smoke tests, and API tests. Move only the stable test-support pieces
-  (`smoke_ids`, metadata values, smoke export construction) into `beater-otlp`;
+  (`smoke_ids`, metadata values, smoke export construction) into `palette-otlp`;
   keep endpoint assertions local to each runtime.
 - `TraceStore::query_runs` is still only proven through the SQLite/memory
   materialized-span fallback. A ClickHouse-scale implementation must aggregate
@@ -140,7 +140,7 @@ contracts narrow, shared, and testable.
 - Runtime preflight: extract common Docker endpoint checks, default port checks,
   cleanup command constants, and process-owner hints into a small shell helper
   plus matching Python constants.
-- Span taxonomy: add `AgentSpanKind::all()` in `beater-schema`, then validate or
+- Span taxonomy: add `AgentSpanKind::all()` in `palette-schema`, then validate or
   generate dashboard, migration, shell, and E2E span-kind lists from that source.
 - OTLP normalization: keep dialect aliases local, but normalize aliases through
   `AgentSpanKind::parse` so canonical span-kind strings are not re-listed.
@@ -173,13 +173,13 @@ contracts narrow, shared, and testable.
 - Dashboard timeline/view helpers: extract pure timeline bounds, axis, run
   summary, artifact formatting, and query helpers before splitting components.
 - Rust store result helpers: evaluate whether repeated `IntoStoreResult`
-  adapter traits should move into `beater-store` or a small persistence helper.
+  adapter traits should move into `palette-store` or a small persistence helper.
   Move that trait before attempting timestamp/id decode helpers, so local
   rusqlite row-shape errors stay explicit and readable.
 - SQLite timestamp decoding: centralize repeated RFC3339 decode/error mapping
   once the store crates settle on a common error helper.
-- CLI/runtime main files: move `beaterctl` command handlers and repeated
+- CLI/runtime main files: move `palettectl` command handlers and repeated
   full-stack test setup into focused modules or per-crate test-support helpers.
-- OTLP test support: share smoke export construction from `beater-otlp` test
+- OTLP test support: share smoke export construction from `palette-otlp` test
   support once the API, CLI, and runtime tests agree on which fields are
   contractually stable.

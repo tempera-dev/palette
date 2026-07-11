@@ -42,7 +42,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push beaterd
+      - name: Build and push paletted
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
         with:
           context: .
@@ -50,23 +50,23 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/beaterd:${{ github.sha }}-${{ matrix.suffix }}
-            ghcr.io/${{ github.repository }}/beaterd:main-${{ matrix.suffix }}
-          cache-from: type=gha,scope=beaterd-${{ matrix.suffix }}
-          cache-to: type=gha,mode=max,scope=beaterd-${{ matrix.suffix }}
+            ghcr.io/${{ github.repository }}/paletted:${{ github.sha }}-${{ matrix.suffix }}
+            ghcr.io/${{ github.repository }}/paletted:main-${{ matrix.suffix }}
+          cache-from: type=gha,scope=paletted-${{ matrix.suffix }}
+          cache-to: type=gha,mode=max,scope=paletted-${{ matrix.suffix }}
 
-      - name: Build beaterctl tools target
+      - name: Build palettectl tools target
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
         with:
           context: .
           target: tools
           platforms: ${{ matrix.platform }}
           push: false
-          tags: ghcr.io/${{ github.repository }}/beaterctl-tools:ci-${{ matrix.suffix }}
+          tags: ghcr.io/${{ github.repository }}/palettectl-tools:ci-${{ matrix.suffix }}
           cache-from: |
-            type=gha,scope=beaterd-${{ matrix.suffix }}
-            type=gha,scope=beaterctl-tools-${{ matrix.suffix }}
-          cache-to: type=gha,mode=max,scope=beaterctl-tools-${{ matrix.suffix }}
+            type=gha,scope=paletted-${{ matrix.suffix }}
+            type=gha,scope=palettectl-tools-${{ matrix.suffix }}
+          cache-to: type=gha,mode=max,scope=palettectl-tools-${{ matrix.suffix }}
 
       - name: Build and push dashboard
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
@@ -121,13 +121,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish beaterd manifest
+      - name: Publish paletted manifest
         run: |
           docker buildx imagetools create \
-            -t ghcr.io/${{ github.repository }}/beaterd:main \
-            -t ghcr.io/${{ github.repository }}/beaterd:${{ github.sha }} \
-            ghcr.io/${{ github.repository }}/beaterd:${{ github.sha }}-amd64 \
-            ghcr.io/${{ github.repository }}/beaterd:${{ github.sha }}-arm64
+            -t ghcr.io/${{ github.repository }}/paletted:main \
+            -t ghcr.io/${{ github.repository }}/paletted:${{ github.sha }} \
+            ghcr.io/${{ github.repository }}/paletted:${{ github.sha }}-amd64 \
+            ghcr.io/${{ github.repository }}/paletted:${{ github.sha }}-arm64
 
       - name: Publish dashboard manifest
         run: |

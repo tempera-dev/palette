@@ -1,11 +1,11 @@
-"""Plain OpenTelemetry GenAI -> Beater fixture app (R11.2).
+"""Plain OpenTelemetry GenAI -> Palette fixture app (R11.2).
 
 The most vendor-neutral path: stock OpenTelemetry with the official OTel
 `gen_ai.*` semantic conventions and no LLM-vendor instrumentation library at all.
 This is the "zero-SDK OTLP onboarding" baseline -- if you already export OTel
-spans, you point the exporter at beaterd and you are done.
+spans, you point the exporter at paletted and you are done.
 
-Run a local beaterd (`docker compose up`) and then:
+Run a local paletted (`docker compose up`) and then:
 
     pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc
     python examples/python/instrumentations/otel_genai_app.py
@@ -27,24 +27,24 @@ def build_tracer() -> trace.Tracer:
                 endpoint=os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://127.0.0.1:4317"),
                 insecure=True,
                 headers=(
-                    ("x-beater-tenant-id", os.getenv("BEATER_TENANT_ID", "demo")),
-                    ("x-beater-project-id", os.getenv("BEATER_PROJECT_ID", "demo")),
-                    ("x-beater-environment-id", os.getenv("BEATER_ENVIRONMENT_ID", "local")),
+                    ("x-palette-tenant-id", os.getenv("PALETTE_TENANT_ID", "demo")),
+                    ("x-palette-project-id", os.getenv("PALETTE_PROJECT_ID", "demo")),
+                    ("x-palette-environment-id", os.getenv("PALETTE_ENVIRONMENT_ID", "local")),
                 ),
             )
         )
     )
     trace.set_tracer_provider(provider)
-    return trace.get_tracer("beater.example.otel-genai")
+    return trace.get_tracer("palette.example.otel-genai")
 
 
 def main() -> None:
     tracer = build_tracer()
-    release = os.getenv("BEATER_RELEASE_ID", "otel-genai-example")
+    release = os.getenv("PALETTE_RELEASE_ID", "otel-genai-example")
 
     with tracer.start_as_current_span(
         "agent.run",
-        attributes={"beater.span.kind": "agent.run", "beater.release_id": release},
+        attributes={"palette.span.kind": "agent.run", "palette.release_id": release},
     ):
         with tracer.start_as_current_span(
             "chat gpt-4o-mini",
@@ -55,8 +55,8 @@ def main() -> None:
                 "gen_ai.request.model": "gpt-4o-mini",
                 "gen_ai.usage.input_tokens": 30,
                 "gen_ai.usage.output_tokens": 12,
-                "beater.span.kind": "llm.call",
-                "beater.release_id": release,
+                "palette.span.kind": "llm.call",
+                "palette.release_id": release,
             },
         ):
             pass

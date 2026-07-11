@@ -1,12 +1,12 @@
 # Security Policy
 
-Beater handles agent traces that can contain prompts, completions, tool I/O, and
+Palette handles agent traces that can contain prompts, completions, tool I/O, and
 PII. We take vulnerabilities — in the platform, the SDKs, the MCP server, and the
 hosted edition — seriously.
 
 ## Supported versions
 
-Beater is **pre-1.0**. Security fixes land on `main` and the latest tagged
+Palette is **pre-1.0**. Security fixes land on `main` and the latest tagged
 release. There is no long-term-support branch yet; once 1.0 ships this section
 will pin a support window.
 
@@ -41,8 +41,8 @@ Please include:
 ## Scope
 
 In scope: the Rust workspace (`crates/*`, `bins/*`), the 7 generated SDK clients
-and the native Rust SDK (`sdks/*`), the MCP server (`beater-mcp`), the CLI
-(`beaterctl`), the dashboard (`web/dashboard`), the OpenAPI/semconv contract
+and the native Rust SDK (`sdks/*`), the MCP server (`palette-mcp`), the CLI
+(`palettectl`), the dashboard (`web/dashboard`), the OpenAPI/semconv contract
 artifacts, and the hosted edition.
 
 Particularly sensitive areas — please prioritize these in any review:
@@ -51,7 +51,7 @@ Particularly sensitive areas — please prioritize these in any review:
 - **PII unmask & audit** — bypassing the unmask RBAC scope or its audit trail
   (§14).
 - **BYOK / provider secrets** — leakage of encrypted-at-rest judge/model
-  credentials (§14, `beater-secrets`/`beater-security`).
+  credentials (§14, `palette-secrets`/`palette-security`).
 - **WASI evaluator sandbox** — any escape, host-import access, or network egress
   from a user-supplied deterministic scorer (§10.1).
 - **OAuth 2.1 / MCP auth** — token, PKCE, or scope handling on `/oauth/*` and
@@ -65,10 +65,10 @@ upstream, but tell us so we can pin/patch).
 
 ## Self-host hardening notes
 
-- `beaterd` defaults to `--auth-mode required`. Use `--auth-mode local` only for
+- `paletted` defaults to `--auth-mode required`. Use `--auth-mode local` only for
   explicit local development; it prints a startup warning because mutating and
   sensitive routes are anonymous in that mode (§20.7 #5.4).
-- Set `BEATER_PROVIDER_SECRET_KEY` (base64 32-byte key) so provider secrets are
+- Set `PALETTE_PROVIDER_SECRET_KEY` (base64 32-byte key) so provider secrets are
   encrypted with a key you control rather than an on-disk generated key.
 - Keep the dashboard and OTLP ports off the public internet unless fronted by
   your own auth/proxy.
@@ -76,7 +76,7 @@ upstream, but tell us so we can pin/patch).
 ## Data lifecycle and access-control scope
 
 Treat trace payloads, artifacts, cassettes, provider credentials, and PII unmask
-events as security-sensitive even in OSS self-host installs. Beater's
+events as security-sensitive even in OSS self-host installs. Palette's
 architecture requires scoped keys, audited sensitive-data access, retention,
 crypto-shred, artifact encryption, and regional pinning (§1 #4, §14, §20.7).
 

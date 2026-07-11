@@ -23,7 +23,7 @@ static canonical_span_t *canonical_span_create_internal(
     long seq,
     char *span_id,
     char *start_time,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     char *tenant_id,
     token_counts_t *tokens,
     char *trace_id,
@@ -78,7 +78,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     long seq,
     char *span_id,
     char *start_time,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     char *tenant_id,
     token_counts_t *tokens,
     char *trace_id,
@@ -388,7 +388,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
 
 
     // canonical_span->status
-    if (beater_api_span_status__NULL == canonical_span->status) {
+    if (palette_api_span_status__NULL == canonical_span->status) {
         goto fail;
     }
     cJSON *status_local_JSON = span_status_convertToJSON(canonical_span->status);
@@ -476,7 +476,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     artifact_ref_t *raw_ref_local_nonprim = NULL;
 
     // define the local variable for canonical_span->status
-    beater_api_span_status__e status_local_nonprim = 0;
+    palette_api_span_status__e status_local_nonprim = 0;
 
     // define the local variable for canonical_span->tokens
     token_counts_t *tokens_local_nonprim = NULL;

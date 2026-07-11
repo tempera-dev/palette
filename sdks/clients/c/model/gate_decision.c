@@ -4,12 +4,12 @@
 #include "gate_decision.h"
 
 
-char* gate_decision_gate_decision_ToString(beater_api_gate_decision__e gate_decision) {
+char* gate_decision_gate_decision_ToString(palette_api_gate_decision__e gate_decision) {
     char *gate_decisionArray[] =  { "NULL", "pass", "fail_regression", "inconclusive" };
     return gate_decisionArray[gate_decision];
 }
 
-beater_api_gate_decision__e gate_decision_gate_decision_FromString(char* gate_decision) {
+palette_api_gate_decision__e gate_decision_gate_decision_FromString(char* gate_decision) {
     int stringToReturn = 0;
     char *gate_decisionArray[] =  { "NULL", "pass", "fail_regression", "inconclusive" };
     size_t sizeofArray = sizeof(gate_decisionArray) / sizeof(gate_decisionArray[0]);
@@ -22,7 +22,7 @@ beater_api_gate_decision__e gate_decision_gate_decision_FromString(char* gate_de
     return 0;
 }
 
-cJSON *gate_decision_convertToJSON(beater_api_gate_decision__e gate_decision) {
+cJSON *gate_decision_convertToJSON(palette_api_gate_decision__e gate_decision) {
     cJSON *item = cJSON_CreateObject();
     if(cJSON_AddStringToObject(item, "gate_decision", gate_decision_gate_decision_ToString(gate_decision)) == NULL) {
         goto fail;
@@ -33,7 +33,7 @@ fail:
     return NULL;
 }
 
-beater_api_gate_decision__e gate_decision_parseFromJSON(cJSON *gate_decisionJSON) {
+palette_api_gate_decision__e gate_decision_parseFromJSON(cJSON *gate_decisionJSON) {
     if(!cJSON_IsString(gate_decisionJSON) || (gate_decisionJSON->valuestring == NULL)) {
         return 0;
     }

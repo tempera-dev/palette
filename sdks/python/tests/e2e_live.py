@@ -1,7 +1,7 @@
-"""Live end-to-end test: Python SDK -> beaterd OTLP -> read API.
+"""Live end-to-end test: Python SDK -> paletted OTLP -> read API.
 
 Emits a real agent trace through the ergonomic SDK, then queries the running
-beaterd HTTP API to prove the trace landed and the span kinds/attributes
+paletted HTTP API to prove the trace landed and the span kinds/attributes
 normalized correctly. Driven by scripts/e2e-sdk-live.sh against a live server.
 
 Exit code 0 = pass.
@@ -15,11 +15,11 @@ import urllib.request
 
 from opentelemetry import trace as otel_trace
 
-import beater
-from beater import SpanKind
+import palette
+from palette import SpanKind
 
-BASE_URL = os.environ["BEATER_BASE_URL"].rstrip("/")
-TENANT = os.environ.get("BEATER_TENANT_ID", "demo")
+BASE_URL = os.environ["PALETTE_BASE_URL"].rstrip("/")
+TENANT = os.environ.get("PALETTE_TENANT_ID", "demo")
 
 
 def get_json(path: str):
@@ -28,10 +28,10 @@ def get_json(path: str):
 
 
 def emit_trace() -> str:
-    beater.init(service_name="beater-e2e", release_id="e2e")
+    palette.init(service_name="palette-e2e", release_id="e2e")
     captured = {}
 
-    @beater.observe(kind=SpanKind.AGENT_RUN, name="e2e-run")
+    @palette.observe(kind=SpanKind.AGENT_RUN, name="e2e-run")
     def run():
         captured["trace_id"] = format(
             otel_trace.get_current_span().get_span_context().trace_id, "032x"
@@ -39,21 +39,21 @@ def emit_trace() -> str:
         plan()
         call_model()
 
-    @beater.observe(kind=SpanKind.AGENT_PLAN, name="e2e-plan")
+    @palette.observe(kind=SpanKind.AGENT_PLAN, name="e2e-plan")
     def plan():
-        beater.set_output("plan: look up policy")
+        palette.set_output("plan: look up policy")
 
-    @beater.observe(kind=SpanKind.LLM_CALL, name="e2e-llm")
+    @palette.observe(kind=SpanKind.LLM_CALL, name="e2e-llm")
     def call_model():
         span = otel_trace.get_current_span()
         span.set_attribute("llm.provider", "openai")
         span.set_attribute("llm.model_name", "gpt-e2e")
         span.set_attribute("llm.token_count.prompt", 12)
         span.set_attribute("llm.token_count.completion", 5)
-        beater.set_output("escalate")
+        palette.set_output("escalate")
 
     run()
-    beater.flush()
+    palette.flush()
     return captured["trace_id"]
 
 
@@ -91,7 +91,7 @@ def main() -> int:
         print(f"FAIL: llm span missing model/tokens: {llm}", file=sys.stderr)
         return 1
 
-    print("PASS: SDK -> beaterd -> read API round-trip verified")
+    print("PASS: SDK -> paletted -> read API round-trip verified")
     print(f"  llm model={llm['model']} tokens={llm['tokens']}")
     return 0
 

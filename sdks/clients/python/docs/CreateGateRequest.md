@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.create_gate_request import CreateGateRequest
+from palette_client.models.create_gate_request import CreateGateRequest
 
 # TODO update the JSON string below
 json = "{}"

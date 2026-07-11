@@ -111,7 +111,7 @@ export default async function DashboardPage({
           </div>
           <div className="product-copy">
             <p className="eyebrow">
-              Beater
+              Palette
               <span>Trace console</span>
             </p>
             <h1>Agent Trace Debugger</h1>
@@ -967,7 +967,7 @@ function uniqueReleaseIds(spans: CanonicalSpan[]): string[] {
   for (const span of spans) {
     const releaseId = stringAttribute(span.attributes, [
       "agent.release_id",
-      "beater.release_id",
+      "palette.release_id",
       "release_id"
     ]);
     if (releaseId && !releaseIds.includes(releaseId)) releaseIds.push(releaseId);

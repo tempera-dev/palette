@@ -8,14 +8,14 @@ only for stateless / control-plane work) and the status of Rust function config.
 
 - The Next.js UI (`framework: nextjs`, `buildCommand: npm run build`). It is
   stateless: it renders the committed OpenAPI spec and proxies read/control
-  requests to a `beaterd` it points at via `BEATER_API_BASE_URL` /
-  `NEXT_PUBLIC_BEATER_API_BASE_URL`.
+  requests to a `paletted` it points at via `PALETTE_API_BASE_URL` /
+  `NEXT_PUBLIC_PALETTE_API_BASE_URL`.
 
 ## What does NOT run on Vercel
 
 - Stateful workers (ingest drain, trace-write/queue workers, search indexing,
-  archive) run inside `beaterd`, never as Vercel functions. The all-in-one
-  `beaterd` is the only mandatory deployment (R1.2).
+  archive) run inside `paletted`, never as Vercel functions. The all-in-one
+  `paletted` is the only mandatory deployment (R1.2).
 
 ## Rust function config — deferral note
 
@@ -28,7 +28,7 @@ This is a deliberate deferral: a Rust control-plane function (e.g. via the
 `vercel-rust` runtime, `api/*.rs` with `runtime: vercel-rust`) will be added to
 `vercel.json` only when the **hosted** control plane introduces a Rust serverless
 endpoint that must run on Vercel. Until then, control-plane logic lives in
-`beaterd`, keeping the Vercel deployment strictly stateless and avoiding an empty
+`paletted`, keeping the Vercel deployment strictly stateless and avoiding an empty
 or speculative function config that could not be deployed or tested.
 
 When that endpoint lands, the config block will look like:

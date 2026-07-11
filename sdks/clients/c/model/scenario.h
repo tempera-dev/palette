@@ -26,10 +26,10 @@ typedef struct scenario_t {
     char *created_at; //date time
     char *exemplar_trace_id; // string
     char *expected_outcome; // string
-    beater_api_failure_mode__e failure_mode; //referenced enum
+    palette_api_failure_mode__e failure_mode; //referenced enum
     struct perturbation_knobs_t *perturbation_knobs; //model
     int recurrence_count; //numeric
-    beater_api_redaction_class__e redaction_class; //referenced enum
+    palette_api_redaction_class__e redaction_class; //referenced enum
     char *scenario_id; // string
     struct tenant_scope_t *scope; //model
     list_t *source_trace_ids; //primitive container
@@ -42,10 +42,10 @@ __attribute__((deprecated)) scenario_t *scenario_create(
     char *created_at,
     char *exemplar_trace_id,
     char *expected_outcome,
-    beater_api_failure_mode__e failure_mode,
+    palette_api_failure_mode__e failure_mode,
     perturbation_knobs_t *perturbation_knobs,
     int recurrence_count,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     char *scenario_id,
     tenant_scope_t *scope,
     list_t *source_trace_ids,

@@ -23,7 +23,7 @@ span_io_value_t* instantiate_span_io_value(int include_optional) {
   span_io_value_t* span_io_value = NULL;
   if (include_optional) {
     span_io_value = span_io_value_create(
-      beater_api_span_io_value_KIND_missing,
+      palette_api_span_io_value_KIND_missing,
       null,
        // false, not to have infinite recursion
       instantiate_artifact_ref(0),
@@ -31,7 +31,7 @@ span_io_value_t* instantiate_span_io_value(int include_optional) {
     );
   } else {
     span_io_value = span_io_value_create(
-      beater_api_span_io_value_KIND_missing,
+      palette_api_span_io_value_KIND_missing,
       null,
       NULL,
       "0"

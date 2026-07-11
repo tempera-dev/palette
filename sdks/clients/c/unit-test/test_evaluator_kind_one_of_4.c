@@ -23,12 +23,12 @@ evaluator_kind_one_of_4_t* instantiate_evaluator_kind_one_of_4(int include_optio
   if (include_optional) {
     evaluator_kind_one_of_4 = evaluator_kind_one_of_4_create(
       56,
-      beater_api_evaluator_kind_one_of_4_TYPE_cost_budget
+      palette_api_evaluator_kind_one_of_4_TYPE_cost_budget
     );
   } else {
     evaluator_kind_one_of_4 = evaluator_kind_one_of_4_create(
       56,
-      beater_api_evaluator_kind_one_of_4_TYPE_cost_budget
+      palette_api_evaluator_kind_one_of_4_TYPE_cost_budget
     );
   }
 

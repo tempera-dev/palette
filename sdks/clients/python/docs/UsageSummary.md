@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.usage_summary import UsageSummary
+from palette_client.models.usage_summary import UsageSummary
 
 # TODO update the JSON string below
 json = "{}"

@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.connector_tool import ConnectorTool
+from palette_client.models.connector_tool import ConnectorTool
 
 # TODO update the JSON string below
 json = "{}"

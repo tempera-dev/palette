@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_summary import RunSummary
+from palette_client.models.run_summary import RunSummary
 
 # TODO update the JSON string below
 json = "{}"

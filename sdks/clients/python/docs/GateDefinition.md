@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.gate_definition import GateDefinition
+from palette_client.models.gate_definition import GateDefinition
 
 # TODO update the JSON string below
 json = "{}"

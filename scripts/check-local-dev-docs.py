@@ -26,20 +26,20 @@ DOC_TOKENS = {
         "Python 3.12+",
     ],
     "bootstrap commands": [
-        "git clone https://github.com/jadenfix/beater.git",
+        "git clone https://github.com/jadenfix/palette.git",
         "cargo build --workspace",
         "cargo test --workspace",
         "cd web/dashboard && npm ci",
     ],
     "local runtime": [
-        "single `beaterd` binary",
-        "cargo run -p beaterd -- --auth-mode local",
-        "docker compose up beaterd dashboard",
+        "single `paletted` binary",
+        "cargo run -p paletted -- --auth-mode local",
+        "docker compose up paletted dashboard",
         ":8080",
         ":4317",
         ":4318",
         "SQLite + filesystem",
-        "default `beaterd` mode requires API-key auth",
+        "default `paletted` mode requires API-key auth",
     ],
     "first trace": [
         "zero SDK",
@@ -48,7 +48,7 @@ DOC_TOKENS = {
         "http://localhost:3000",
     ],
     "contract regeneration": [
-        "sdks/openapi/beater-api.json",
+        "sdks/openapi/palette-api.json",
         "cargo xtask regen-spec",
         "scripts/regen-sdks.sh",
         "cargo xtask regen-semconv",
@@ -58,7 +58,7 @@ DOC_TOKENS = {
         "cargo fmt --all",
         "cargo clippy --workspace --all-targets",
         "Self-host telemetry is **opt-out**",
-        "BEATER_SELF_HOST_TELEMETRY=1",
+        "PALETTE_SELF_HOST_TELEMETRY=1",
         "docs/offline-self-host.md",
     ],
     "pr gate": [

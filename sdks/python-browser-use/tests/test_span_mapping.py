@@ -3,7 +3,7 @@
 These tests require ONLY ``opentelemetry-sdk`` (+ ``pytest``). ``browser-use`` is
 never imported; instead we feed fake, duck-typed agent/history objects into the
 mapping and assert the emitted spans carry the correct ``browser.*`` attributes.
-Spans are captured with an ``InMemorySpanExporter`` so no live Beater or browser
+Spans are captured with an ``InMemorySpanExporter`` so no live Palette or browser
 is needed.
 """
 
@@ -21,13 +21,13 @@ from opentelemetry.sdk.trace.export.in_memory_span_exporter import (
 )
 from opentelemetry.trace import StatusCode
 
-from beater_browser_use import (
-    BeaterBrowserUseTracer,
+from palette_browser_use import (
+    PaletteBrowserUseTracer,
     StepRecord,
     instrument,
     make_hooks,
 )
-from beater_browser_use.semconv import Attr, Browser, SpanKind
+from palette_browser_use.semconv import Attr, Browser, SpanKind
 
 FIXTURE = (
     pathlib.Path(__file__).resolve().parent.parent / "fixtures" / "recorded_run.json"
@@ -48,7 +48,7 @@ def exporter():
 def tracer(exporter):
     provider = TracerProvider()
     provider.add_span_processor(SimpleSpanProcessor(exporter))
-    t = BeaterBrowserUseTracer(tracer_provider=provider)
+    t = PaletteBrowserUseTracer(tracer_provider=provider)
     yield t
     exporter.clear()
 

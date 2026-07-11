@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## scenarios_period_create_scenario
 
-> models::Scenario scenarios_period_create_scenario(tenant_id, project_id, create_scenario_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::Scenario scenarios_period_create_scenario(tenant_id, project_id, create_scenario_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -25,9 +25,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **create_scenario_request** | [**CreateScenarioRequest**](CreateScenarioRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -47,7 +47,7 @@ No authorization required
 
 ## scenarios_period_get_scenario
 
-> models::Scenario scenarios_period_get_scenario(tenant_id, project_id, scenario_id, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::Scenario scenarios_period_get_scenario(tenant_id, project_id, scenario_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -59,9 +59,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **scenario_id** | **String** | scenario_id | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -81,7 +81,7 @@ No authorization required
 
 ## scenarios_period_list_scenarios
 
-> models::ListScenariosResponse scenarios_period_list_scenarios(tenant_id, project_id, limit, cursor, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::ListScenariosResponse scenarios_period_list_scenarios(tenant_id, project_id, limit, cursor, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -94,9 +94,9 @@ Name | Type | Description  | Required | Notes
 **limit** | Option<**i32**> |  |  |
 **cursor** | Option<**String**> |  |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 
@@ -116,7 +116,7 @@ No authorization required
 
 ## scenarios_period_mine_scenarios
 
-> models::MineScenariosResponse scenarios_period_mine_scenarios(tenant_id, project_id, mine_scenarios_request, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::MineScenariosResponse scenarios_period_mine_scenarios(tenant_id, project_id, mine_scenarios_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -128,9 +128,9 @@ Name | Type | Description  | Required | Notes
 **project_id** | **String** | project_id | [required] |
 **mine_scenarios_request** | [**MineScenariosRequest**](MineScenariosRequest.md) |  | [required] |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

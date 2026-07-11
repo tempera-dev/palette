@@ -1,18 +1,18 @@
-name: beater
+name: palette
 
 services:
   postgres:
     image: postgres:17-alpine@sha256:dc17045ccfd343b49600570ea734b9c4991cf1c3f3302e67df51e3b402dd55c4
     profiles: ["deps"]
     environment:
-      POSTGRES_DB: beater
-      POSTGRES_USER: beater
-      POSTGRES_PASSWORD: beater
+      POSTGRES_DB: palette
+      POSTGRES_USER: palette
+      POSTGRES_PASSWORD: palette
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./migrations/postgres:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U beater -d beater"]
+      test: ["CMD-SHELL", "pg_isready -U palette -d palette"]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -44,13 +44,13 @@ services:
       timeout: 3s
       retries: 20
 
-  beaterd:
-    image: ${BEATERD_IMAGE:-ghcr.io/jadenfix/beater/beaterd:main}
+  paletted:
+    image: ${PALETTED_IMAGE:-ghcr.io/jadenfix/palette/paletted:main}
     # The image default (auth-mode required, #127) refuses anonymous access.
     # This dev stack opts INTO the insecure local mode explicitly. We must
     # repeat the image CMD args because compose `command` overrides them.
     # `--allow-insecure-non-loopback` is required: local mode disables API-key
-    # auth and beaterd otherwise refuses a non-loopback (0.0.0.0) bind; here the
+    # auth and paletted otherwise refuses a non-loopback (0.0.0.0) bind; here the
     # container is reachable only on the trusted compose network.
     command:
       [
@@ -65,13 +65,13 @@ services:
         "--allow-insecure-non-loopback",
       ]
     environment:
-      BEATER_TRACE_WRITE_DRAIN_INTERVAL_MS: "250"
-      BEATER_TRACE_INGESTED_DRAIN_INTERVAL_MS: "250"
+      PALETTE_TRACE_WRITE_DRAIN_INTERVAL_MS: "250"
+      PALETTE_TRACE_INGESTED_DRAIN_INTERVAL_MS: "250"
     ports:
-      - "${BEATER_HTTP_PORT:-8080}:8080"
-      - "${BEATER_OTLP_GRPC_PORT:-4317}:4317"
+      - "${PALETTE_HTTP_PORT:-8080}:8080"
+      - "${PALETTE_OTLP_GRPC_PORT:-4317}:4317"
     volumes:
-      - beater-data:/data
+      - palette-data:/data
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/health"]
       interval: 5s
@@ -79,18 +79,18 @@ services:
       retries: 30
 
   dashboard:
-    image: ${BEATER_DASHBOARD_IMAGE:-ghcr.io/jadenfix/beater/dashboard:main}
+    image: ${PALETTE_DASHBOARD_IMAGE:-ghcr.io/jadenfix/palette/dashboard:main}
     depends_on:
-      beaterd:
+      paletted:
         condition: service_healthy
     environment:
-      BEATER_API_BASE_URL: http://beaterd:8080
-      NEXT_PUBLIC_BEATER_API_BASE_URL: http://localhost:${BEATER_HTTP_PORT:-8080}
-      BEATER_GATE2_CONFIRMATION_SALT: ${BEATER_GATE2_CONFIRMATION_SALT:-}
+      PALETTE_API_BASE_URL: http://paletted:8080
+      NEXT_PUBLIC_PALETTE_API_BASE_URL: http://localhost:${PALETTE_HTTP_PORT:-8080}
+      PALETTE_GATE2_CONFIRMATION_SALT: ${PALETTE_GATE2_CONFIRMATION_SALT:-}
       HOSTNAME: 0.0.0.0
       PORT: "3000"
     ports:
-      - "${BEATER_DASHBOARD_PORT:-3000}:3000"
+      - "${PALETTE_DASHBOARD_PORT:-3000}:3000"
     healthcheck:
       test:
         [
@@ -104,42 +104,42 @@ services:
       retries: 30
 
   dashboard-e2e:
-    image: ${BEATER_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/beater/dashboard-e2e:main}
+    image: ${PALETTE_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/palette/dashboard-e2e:main}
     profiles: ["proof"]
     depends_on:
       dashboard:
         condition: service_healthy
     environment:
       PLAYWRIGHT_BASE_URL: http://dashboard:3000
-      BEATER_GATE2_CONFIRMATION_SALT: ${BEATER_GATE2_CONFIRMATION_SALT:-}
+      PALETTE_GATE2_CONFIRMATION_SALT: ${PALETTE_GATE2_CONFIRMATION_SALT:-}
     volumes:
       - ./docs/demos:/workspace/docs/demos
 
   otel-python-smoke:
-    image: ${BEATER_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/beater/otel-python:main}
+    image: ${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/palette/otel-python:main}
     profiles: ["tools"]
     depends_on:
-      beaterd:
+      paletted:
         condition: service_healthy
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://beaterd:4317
-      BEATER_TENANT_ID: demo
-      BEATER_PROJECT_ID: demo
-      BEATER_ENVIRONMENT_ID: local
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://paletted:4317
+      PALETTE_TENANT_ID: demo
+      PALETTE_PROJECT_ID: demo
+      PALETTE_ENVIRONMENT_ID: local
     command: ["python", "/examples/otel_smoke.py"]
 
   otel-python-quickstart:
-    image: ${BEATER_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/beater/otel-python:main}
+    image: ${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/palette/otel-python:main}
     profiles: ["tools"]
     depends_on:
-      beaterd:
+      paletted:
         condition: service_healthy
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://beaterd:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://paletted:4317
     command: ["python", "/examples/five_line_otel.py"]
 
 volumes:
   postgres-data:
   nats-data:
   minio-data:
-  beater-data:
+  palette-data:

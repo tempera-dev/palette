@@ -26,7 +26,7 @@ typedef struct alert_policy_t {
     double fire_when_score_at_or_below; //numeric
     list_t *maintenance_windows; //nonprimitive container
     char *policy_id; // string
-    beater_api_alert_severity__e severity; //referenced enum
+    palette_api_alert_severity__e severity; //referenced enum
     char *signing_secret; // string
 
     int _library_owned; // Is the library responsible for freeing this object?
@@ -38,7 +38,7 @@ __attribute__((deprecated)) alert_policy_t *alert_policy_create(
     double fire_when_score_at_or_below,
     list_t *maintenance_windows,
     char *policy_id,
-    beater_api_alert_severity__e severity,
+    palette_api_alert_severity__e severity,
     char *signing_secret
 );
 

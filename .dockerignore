@@ -3,7 +3,7 @@
 .next
 .turbo
 .vercel
-.beater
+.palette
 target
 **/target
 node_modules

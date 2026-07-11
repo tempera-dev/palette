@@ -10,7 +10,7 @@ static palette_connect_status_response_t *palette_connect_status_response_create
     int first_trace_received,
     int ok,
     char *project_id,
-    beater_api_palette_connect_status__e status,
+    palette_api_palette_connect_status__e status,
     char *tenant_id,
     list_t* totals,
     int usage_configured
@@ -37,7 +37,7 @@ __attribute__((deprecated)) palette_connect_status_response_t *palette_connect_s
     int first_trace_received,
     int ok,
     char *project_id,
-    beater_api_palette_connect_status__e status,
+    palette_api_palette_connect_status__e status,
     char *tenant_id,
     list_t* totals,
     int usage_configured
@@ -124,7 +124,7 @@ cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_resp
 
 
     // palette_connect_status_response->status
-    if (beater_api_palette_connect_status__NULL == palette_connect_status_response->status) {
+    if (palette_api_palette_connect_status__NULL == palette_connect_status_response->status) {
         goto fail;
     }
     cJSON *status_local_JSON = palette_connect_status_convertToJSON(palette_connect_status_response->status);
@@ -184,7 +184,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
     palette_connect_status_response_t *palette_connect_status_response_local_var = NULL;
 
     // define the local variable for palette_connect_status_response->status
-    beater_api_palette_connect_status__e status_local_nonprim = 0;
+    palette_api_palette_connect_status__e status_local_nonprim = 0;
 
     // define the local map for palette_connect_status_response->totals
     list_t *totalsList = NULL;

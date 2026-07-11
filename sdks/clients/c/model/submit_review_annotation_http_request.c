@@ -9,7 +9,7 @@ static submit_review_annotation_http_request_t *submit_review_annotation_http_re
     char *annotation_id,
     any_type_t *payload,
     char *reviewer_id,
-    beater_api_review_verdict__e verdict
+    palette_api_review_verdict__e verdict
     ) {
     submit_review_annotation_http_request_t *submit_review_annotation_http_request_local_var = malloc(sizeof(submit_review_annotation_http_request_t));
     if (!submit_review_annotation_http_request_local_var) {
@@ -28,7 +28,7 @@ __attribute__((deprecated)) submit_review_annotation_http_request_t *submit_revi
     char *annotation_id,
     any_type_t *payload,
     char *reviewer_id,
-    beater_api_review_verdict__e verdict
+    palette_api_review_verdict__e verdict
     ) {
     return submit_review_annotation_http_request_create_internal (
         annotation_id,
@@ -97,7 +97,7 @@ cJSON *submit_review_annotation_http_request_convertToJSON(submit_review_annotat
 
 
     // submit_review_annotation_http_request->verdict
-    if (beater_api_review_verdict__NULL == submit_review_annotation_http_request->verdict) {
+    if (palette_api_review_verdict__NULL == submit_review_annotation_http_request->verdict) {
         goto fail;
     }
     cJSON *verdict_local_JSON = review_verdict_convertToJSON(submit_review_annotation_http_request->verdict);
@@ -125,7 +125,7 @@ submit_review_annotation_http_request_t *submit_review_annotation_http_request_p
     _t *payload_local_nonprim = NULL;
 
     // define the local variable for submit_review_annotation_http_request->verdict
-    beater_api_review_verdict__e verdict_local_nonprim = 0;
+    palette_api_review_verdict__e verdict_local_nonprim = 0;
 
     // submit_review_annotation_http_request->annotation_id
     cJSON *annotation_id = cJSON_GetObjectItemCaseSensitive(submit_review_annotation_http_requestJSON, "annotation_id");

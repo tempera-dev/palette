@@ -11,7 +11,7 @@ All URIs are relative to *http://localhost*
 
 ## auditListAuditEvents
 
-> List<AuditEvent> auditListAuditEvents(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> List<AuditEvent> auditListAuditEvents(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -19,11 +19,11 @@ All URIs are relative to *http://localhost*
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.AuditApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.AuditApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -34,11 +34,11 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<AuditEvent> result = apiInstance.auditListAuditEvents(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            List<AuditEvent> result = apiInstance.auditListAuditEvents(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AuditApi#auditListAuditEvents");
@@ -59,9 +59,9 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -87,7 +87,7 @@ No authorization required
 
 ## auditListAuditEventsWithHttpInfo
 
-> ApiResponse<List<AuditEvent>> auditListAuditEvents auditListAuditEventsWithHttpInfo(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<List<AuditEvent>> auditListAuditEvents auditListAuditEventsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -95,12 +95,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.AuditApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.AuditApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -111,11 +111,11 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<AuditEvent>> response = apiInstance.auditListAuditEventsWithHttpInfo(tenantId, projectId, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<List<AuditEvent>> response = apiInstance.auditListAuditEventsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -138,9 +138,9 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 

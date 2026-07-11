@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**kind** | **beater_api_span_io_value_KIND_e** |  |
+**kind** | **palette_api_span_io_value_KIND_e** |  |
 **value** | **any_type_t \*** |  |
 **artifact_ref** | [**artifact_ref_t**](artifact_ref.md) \* |  |
 **reason** | **char \*** |  |

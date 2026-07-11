@@ -23,12 +23,12 @@ evaluator_kind_one_of_9_t* instantiate_evaluator_kind_one_of_9(int include_optio
   if (include_optional) {
     evaluator_kind_one_of_9 = evaluator_kind_one_of_9_create(
       1.337,
-      beater_api_evaluator_kind_one_of_9_TYPE_browser_grounding
+      palette_api_evaluator_kind_one_of_9_TYPE_browser_grounding
     );
   } else {
     evaluator_kind_one_of_9 = evaluator_kind_one_of_9_create(
       1.337,
-      beater_api_evaluator_kind_one_of_9_TYPE_browser_grounding
+      palette_api_evaluator_kind_one_of_9_TYPE_browser_grounding
     );
   }
 

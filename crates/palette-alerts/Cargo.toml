@@ -1,0 +1,24 @@
+[package]
+name = "palette-alerts"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+palette-core = { path = "../palette-core" }
+palette-schema = { path = "../palette-schema" }
+palette-security = { path = "../palette-security" }
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

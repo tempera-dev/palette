@@ -1,6 +1,6 @@
 #
-# Beater API
-# Agent observability, evaluation, gating, and human-review APIs for Beater
+# Palette API
+# Agent observability, evaluation, gating, and human-review APIs for Palette
 #
 # The version of the OpenAPI document: 1.0.0
 #
@@ -10,7 +10,7 @@
 
 cmake_minimum_required (VERSION 3.5)
 
-project(beater-client CXX)
+project(palette-client CXX)
 
 # Force -fPIC even if the project is configured for building a static library.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)

@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.calibration_item import CalibrationItem
+from palette_client.models.calibration_item import CalibrationItem
 
 # TODO update the JSON string below
 json = "{}"

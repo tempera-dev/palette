@@ -29,16 +29,16 @@ typedef struct evaluator_kind_t evaluator_kind_t;
 
 // Enum TYPE for evaluator_kind
 
-typedef enum  { beater_api_evaluator_kind_TYPE_NULL = 0, beater_api_evaluator_kind_TYPE_exact_match, beater_api_evaluator_kind_TYPE_regex_match, beater_api_evaluator_kind_TYPE_numeric_tolerance, beater_api_evaluator_kind_TYPE_json_object, beater_api_evaluator_kind_TYPE_cost_budget, beater_api_evaluator_kind_TYPE_latency_budget_ms, beater_api_evaluator_kind_TYPE_llm_judge, beater_api_evaluator_kind_TYPE_browser_task_success, beater_api_evaluator_kind_TYPE_browser_step_efficiency, beater_api_evaluator_kind_TYPE_browser_grounding, beater_api_evaluator_kind_TYPE_browser_recovery } beater_api_evaluator_kind_TYPE_e;
+typedef enum  { palette_api_evaluator_kind_TYPE_NULL = 0, palette_api_evaluator_kind_TYPE_exact_match, palette_api_evaluator_kind_TYPE_regex_match, palette_api_evaluator_kind_TYPE_numeric_tolerance, palette_api_evaluator_kind_TYPE_json_object, palette_api_evaluator_kind_TYPE_cost_budget, palette_api_evaluator_kind_TYPE_latency_budget_ms, palette_api_evaluator_kind_TYPE_llm_judge, palette_api_evaluator_kind_TYPE_browser_task_success, palette_api_evaluator_kind_TYPE_browser_step_efficiency, palette_api_evaluator_kind_TYPE_browser_grounding, palette_api_evaluator_kind_TYPE_browser_recovery } palette_api_evaluator_kind_TYPE_e;
 
-char* evaluator_kind_type_ToString(beater_api_evaluator_kind_TYPE_e type);
+char* evaluator_kind_type_ToString(palette_api_evaluator_kind_TYPE_e type);
 
-beater_api_evaluator_kind_TYPE_e evaluator_kind_type_FromString(char* type);
+palette_api_evaluator_kind_TYPE_e evaluator_kind_type_FromString(char* type);
 
 
 
 typedef struct evaluator_kind_t {
-    beater_api_evaluator_kind_TYPE_e type; //enum
+    palette_api_evaluator_kind_TYPE_e type; //enum
     char *pattern; // string
     double abs; //numeric
     double rel; //numeric
@@ -55,7 +55,7 @@ typedef struct evaluator_kind_t {
 } evaluator_kind_t;
 
 __attribute__((deprecated)) evaluator_kind_t *evaluator_kind_create(
-    beater_api_evaluator_kind_TYPE_e type,
+    palette_api_evaluator_kind_TYPE_e type,
     char *pattern,
     double abs,
     double rel,

@@ -23,12 +23,12 @@ money_t* instantiate_money(int include_optional) {
   if (include_optional) {
     money = money_create(
       56,
-      beater_api_money__USD
+      palette_api_money__USD
     );
   } else {
     money = money_create(
       56,
-      beater_api_money__USD
+      palette_api_money__USD
     );
   }
 

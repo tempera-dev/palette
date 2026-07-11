@@ -1,12 +1,12 @@
-"""Run a ``browser-use`` Agent with Beater instrumentation.
+"""Run a ``browser-use`` Agent with Palette instrumentation.
 
 This emits an ``llm.call`` + ``tool.call`` span pair per browser step over
-OTLP/gRPC to Beater (defaults to ``localhost:4317``; override with
-``$BEATER_OTLP_ENDPOINT``).
+OTLP/gRPC to Palette (defaults to ``localhost:4317``; override with
+``$PALETTE_OTLP_ENDPOINT``).
 
 Prereqs::
 
-    pip install beater-browser-use[browser-use]
+    pip install palette-browser-use[browser-use]
     # plus an LLM provider key for browser-use, e.g. OPENAI_API_KEY
 
 Run::
@@ -19,7 +19,7 @@ from __future__ import annotations
 import asyncio
 import os
 
-from beater_browser_use import instrument
+from palette_browser_use import instrument
 
 
 async def main() -> None:
@@ -33,15 +33,15 @@ async def main() -> None:
         llm=ChatOpenAI(model="gpt-4o"),
     )
 
-    # Wire Beater instrumentation. `endpoint` is optional; defaults to
-    # $BEATER_OTLP_ENDPOINT or localhost:4317.
-    inst = instrument(agent, endpoint=os.environ.get("BEATER_OTLP_ENDPOINT"))
+    # Wire Palette instrumentation. `endpoint` is optional; defaults to
+    # $PALETTE_OTLP_ENDPOINT or localhost:4317.
+    inst = instrument(agent, endpoint=os.environ.get("PALETTE_OTLP_ENDPOINT"))
 
     try:
         # Splat the on_step_start / on_step_end hooks into the run.
         await agent.run(**inst.run_kwargs())
     finally:
-        # Flush pending spans to Beater before exiting.
+        # Flush pending spans to Palette before exiting.
         inst.tracer.shutdown()
 
 

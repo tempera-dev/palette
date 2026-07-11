@@ -4,13 +4,13 @@
 #      set (the full lib has pre-existing openapi-generator array-of-enum codegen
 #      bugs in unrelated models; see main.c for detail).
 #   2. Live: compile a C program that links the GENERATED HealthAPI + apiClient
-#      and round-trips GET /health against beaterd, then exercises
+#      and round-trips GET /health against paletted, then exercises
 #      createDataset + listTraces over raw libcurl from the same program.
 set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 client="$(cd "$here/../../clients/c" && pwd)"
 
-: "${BEATER_BASE_URL:?BEATER_BASE_URL must be set (live beaterd)}"
+: "${PALETTE_BASE_URL:?PALETTE_BASE_URL must be set (live paletted)}"
 
 cc=${CC:-cc}
 build="$here/build"
@@ -35,6 +35,6 @@ $cc -std=c11 -O0 -g \
   $curl_cflags \
   "$here/main.c" "${gen_srcs[@]}" \
   $curl_libs \
-  -o "$build/beater_c_conformance"
+  -o "$build/palette_c_conformance"
 
-"$build/beater_c_conformance"
+"$build/palette_c_conformance"

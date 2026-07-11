@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.revoked_api_key import RevokedApiKey
+from palette_client.models.revoked_api_key import RevokedApiKey
 
 # TODO update the JSON string below
 json = "{}"

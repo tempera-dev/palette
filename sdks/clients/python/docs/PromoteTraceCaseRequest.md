@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.promote_trace_case_request import PromoteTraceCaseRequest
+from palette_client.models.promote_trace_case_request import PromoteTraceCaseRequest
 
 # TODO update the JSON string below
 json = "{}"

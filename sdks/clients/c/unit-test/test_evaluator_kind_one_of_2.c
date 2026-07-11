@@ -24,13 +24,13 @@ evaluator_kind_one_of_2_t* instantiate_evaluator_kind_one_of_2(int include_optio
     evaluator_kind_one_of_2 = evaluator_kind_one_of_2_create(
       1.337,
       1.337,
-      beater_api_evaluator_kind_one_of_2_TYPE_numeric_tolerance
+      palette_api_evaluator_kind_one_of_2_TYPE_numeric_tolerance
     );
   } else {
     evaluator_kind_one_of_2 = evaluator_kind_one_of_2_create(
       1.337,
       1.337,
-      beater_api_evaluator_kind_one_of_2_TYPE_numeric_tolerance
+      palette_api_evaluator_kind_one_of_2_TYPE_numeric_tolerance
     );
   }
 

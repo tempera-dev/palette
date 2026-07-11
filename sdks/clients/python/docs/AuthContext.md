@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.auth_context import AuthContext
+from palette_client.models.auth_context import AuthContext
 
 # TODO update the JSON string below
 json = "{}"

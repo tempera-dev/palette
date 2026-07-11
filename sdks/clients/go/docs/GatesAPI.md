@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## GatesCreateGate
 
-> GateDefinition GatesCreateGate(ctx, tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> GateDefinition GatesCreateGate(ctx, tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -24,7 +24,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -32,13 +32,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	createGateRequest := *openapiclient.NewCreateGateRequest("GateId_example", "Name_example") // CreateGateRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.GatesAPI.GatesCreateGate(context.Background(), tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.GatesAPI.GatesCreateGate(context.Background(), tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `GatesAPI.GatesCreateGate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -68,9 +68,9 @@ Name | Type | Description  | Notes
 
  **createGateRequest** | [**CreateGateRequest**](CreateGateRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -92,7 +92,7 @@ No authorization required
 
 ## GatesRunGate
 
-> GateRunReport GatesRunGate(ctx, tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> GateRunReport GatesRunGate(ctx, tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -105,7 +105,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -114,13 +114,13 @@ func main() {
 	gateId := "gateId_example" // string | gate_id
 	runGateRequest := *openapiclient.NewRunGateRequest() // RunGateRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.GatesAPI.GatesRunGate(context.Background(), tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.GatesAPI.GatesRunGate(context.Background(), tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `GatesAPI.GatesRunGate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -152,9 +152,9 @@ Name | Type | Description  | Notes
 
  **runGateRequest** | [**RunGateRequest**](RunGateRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

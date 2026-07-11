@@ -1,6 +1,6 @@
-# Beater Copilot Instructions
+# Palette Copilot Instructions
 
-Use `AGENTS.md` as the canonical compact repo context. It explains what Beater is,
+Use `AGENTS.md` as the canonical compact repo context. It explains what Palette is,
 the Rust workspace shape, contract artifacts, dashboard, migrations, CI gates,
 common commands, and guardrails.
 

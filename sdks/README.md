@@ -1,17 +1,17 @@
-# Beater SDKs
+# Palette SDKs
 
 Every SDK, the MCP server, the CLI, and the docs derive from **one** artifact:
-[`sdks/openapi/beater-api.json`](openapi/beater-api.json), generated from the
+[`sdks/openapi/palette-api.json`](openapi/palette-api.json), generated from the
 Rust API handlers. This is what makes drift structurally impossible.
 
 ```
-crates/beater-api handlers  (#[utoipa::path] + ToSchema on the real types)
+crates/palette-api handlers  (#[utoipa::path] + ToSchema on the real types)
             │  cargo run --example dump_openapi
             ▼
-   sdks/openapi/beater-api.json   ← THE single source of truth
+   sdks/openapi/palette-api.json   ← THE single source of truth
    ├── sdks/clients/<lang>/   7 generated control-plane clients (Layer 1)
    ├── /mcp tools             one tool per operationId
-   ├── beater api <op>        CLI generic invoker
+   ├── palette api <op>        CLI generic invoker
    └── web/dashboard /docs    rendered API reference + tool catalog
 ```
 
@@ -28,13 +28,13 @@ methods — e.g. `datasets_create` → `DatasetsApi.create()`.
 `init()`, the `@observe`/`observe()` decorators, drop-in `wrap_openai()` /
 `wrap_anthropic()`, and LangChain/LlamaIndex callbacks. Built on OpenTelemetry
 (ingest is OTLP). Span kinds and attribute keys live in one `semconv` module per
-language that mirrors the server normalizer (`crates/beater-otlp`).
+language that mirrors the server normalizer (`crates/palette-otlp`).
 
 | Language | Layer 1 (generated) | Layer 2 (ergonomic) |
 | --- | --- | --- |
-| Python | `sdks/clients/python` (`beater_client`) | `sdks/python` (`beater-sdk`) ✅ |
-| TypeScript | `sdks/clients/typescript` (`@beater/client`) | `sdks/typescript` (`@beater/sdk`) ✅ |
-| Rust | `sdks/clients/rust` (`beater-client`) | (uses Layer 1 + tracing) |
+| Python | `sdks/clients/python` (`palette_client`) | `sdks/python` (`palette-sdk`) ✅ |
+| TypeScript | `sdks/clients/typescript` (`@palette/client`) | `sdks/typescript` (`@palette/sdk`) ✅ |
+| Rust | `sdks/clients/rust` (`palette-client`) | (uses Layer 1 + tracing) |
 | Go / Java / C / C++ | `sdks/clients/{go,java,c,cpp}` | tracing helpers (planned) |
 
 ## Generation status

@@ -1,17 +1,17 @@
 // Live conformance: drive the GENERATED C++ (cpp-restsdk) control-plane client
-// against a running beaterd and verify typed request/response shapes.
+// against a running paletted and verify typed request/response shapes.
 // Proves API==SDK for C++.
 #include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <string>
 
-#include "beater-client/ApiClient.h"
-#include "beater-client/ApiConfiguration.h"
-#include "beater-client/api/HealthApi.h"
-#include "beater-client/api/DatasetsApi.h"
-#include "beater-client/api/TracesApi.h"
-#include "beater-client/model/CreateDatasetRequest.h"
+#include "palette-client/ApiClient.h"
+#include "palette-client/ApiConfiguration.h"
+#include "palette-client/api/HealthApi.h"
+#include "palette-client/api/DatasetsApi.h"
+#include "palette-client/api/TracesApi.h"
+#include "palette-client/model/CreateDatasetRequest.h"
 
 using namespace org::openapitools::client;
 
@@ -21,13 +21,13 @@ static std::string env_or(const char* key, const char* def) {
 }
 
 int main() {
-    const char* base = std::getenv("BEATER_BASE_URL");
+    const char* base = std::getenv("PALETTE_BASE_URL");
     if (!base || !*base) {
-        std::cerr << "FAIL: BEATER_BASE_URL unset\n";
+        std::cerr << "FAIL: PALETTE_BASE_URL unset\n";
         return 1;
     }
-    std::string tenant = env_or("BEATER_TENANT", "demo");
-    std::string project = env_or("BEATER_PROJECT", "demo");
+    std::string tenant = env_or("PALETTE_TENANT", "demo");
+    std::string project = env_or("PALETTE_PROJECT", "demo");
 
     auto config = std::make_shared<api::ApiConfiguration>();
     config->setBaseUrl(utility::conversions::to_string_t(std::string(base)));

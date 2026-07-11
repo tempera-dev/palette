@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.reliability_bin import ReliabilityBin
+from palette_client.models.reliability_bin import ReliabilityBin
 
 # TODO update the JSON string below
 json = "{}"

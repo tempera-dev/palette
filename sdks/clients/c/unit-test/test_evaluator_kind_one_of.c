@@ -22,11 +22,11 @@ evaluator_kind_one_of_t* instantiate_evaluator_kind_one_of(int include_optional)
   evaluator_kind_one_of_t* evaluator_kind_one_of = NULL;
   if (include_optional) {
     evaluator_kind_one_of = evaluator_kind_one_of_create(
-      beater_api_evaluator_kind_one_of_TYPE_exact_match
+      palette_api_evaluator_kind_one_of_TYPE_exact_match
     );
   } else {
     evaluator_kind_one_of = evaluator_kind_one_of_create(
-      beater_api_evaluator_kind_one_of_TYPE_exact_match
+      palette_api_evaluator_kind_one_of_TYPE_exact_match
     );
   }
 

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.money import Money
+from palette_client.models.money import Money
 
 # TODO update the JSON string below
 json = "{}"

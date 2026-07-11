@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.provider_secret_metadata import ProviderSecretMetadata
+from palette_client.models.provider_secret_metadata import ProviderSecretMetadata
 
 # TODO update the JSON string below
 json = "{}"

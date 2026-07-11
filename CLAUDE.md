@@ -1,4 +1,4 @@
-# Beater — working rules
+# Palette — working rules
 
 Start with `AGENTS.md` for the compact repo map and cross-agent context. This
 file keeps the non-negotiable contract-generation rule close to Claude Code.
@@ -6,10 +6,10 @@ file keeps the non-negotiable contract-generation rule close to Claude Code.
 ## The contract is the single source of truth (do not break this)
 
 The HTTP API, the 7 SDK clients (`sdks/clients/*`), the MCP tools (`/mcp`), the
-CLI (`beater api`), and the docs are ALL generated from one artifact —
-`sdks/openapi/beater-api.json`, generated from the Rust handlers in
-`crates/beater-api`. Span kinds + attribute keys come from one source too
-(`crates/beater-schema` `conventions` module → `sdks/semconv/conventions.json`).
+CLI (`palette api`), and the docs are ALL generated from one artifact —
+`sdks/openapi/palette-api.json`, generated from the Rust handlers in
+`crates/palette-api`. Span kinds + attribute keys come from one source too
+(`crates/palette-schema` `conventions` module → `sdks/semconv/conventions.json`).
 
 **When you add or change a `/v1` endpoint** (or a request/response type, or a
 span kind/attribute), you MUST regenerate everything in the same change:

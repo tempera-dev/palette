@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -15,7 +15,7 @@
 import { mapValues } from '../runtime';
 /**
  * A connectable third-party app (Composio "toolkit"), flattened from the v3
- * `GET /toolkits` shape into the fields Beater exposes.
+ * `GET /toolkits` shape into the fields Palette exposes.
  * @export
  * @interface Toolkit
  */

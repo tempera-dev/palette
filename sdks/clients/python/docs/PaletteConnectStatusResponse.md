@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.palette_connect_status_response import PaletteConnectStatusResponse
+from palette_client.models.palette_connect_status_response import PaletteConnectStatusResponse
 
 # TODO update the JSON string below
 json = "{}"

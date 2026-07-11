@@ -1627,7 +1627,7 @@ export interface components {
         IdempotencyKey: string;
         /**
          * @description Request body for the unified import endpoint. The `source` field selects a
-         *     registered [`beater_ingest::SourceImporter`] (e.g. `temporal_history`, `native`);
+         *     registered [`palette_ingest::SourceImporter`] (e.g. `temporal_history`, `native`);
          *     `payload` is that source's document (Temporal `History` JSON, a native span list,
          *     …). Everything flows through the same downstream ingest pipeline as OTLP — there are
          *     no source-specific routes.
@@ -2148,7 +2148,7 @@ export interface components {
          *     t-test result from an exact McNemar, Wilcoxon, bootstrap, cluster-robust, or
          *     anytime-valid sequential one. The old single `PairedNormalApproximation`
          *     (a hard-coded-z normal approximation with no p-value) is gone — see
-         *     `beater-stats`.
+         *     `palette-stats`.
          * @enum {string}
          */
         StatisticalTest: "paired_t" | "mcnemar_exact" | "wilcoxon_signed_rank" | "paired_bootstrap" | "clustered_paired_t" | "sequential_e_value";
@@ -2187,7 +2187,7 @@ export interface components {
         };
         /**
          * @description A connectable third-party app (Composio "toolkit"), flattened from the v3
-         *     `GET /toolkits` shape into the fields Beater exposes.
+         *     `GET /toolkits` shape into the fields Palette exposes.
          */
         Toolkit: {
             /** @description Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`). */
@@ -2306,11 +2306,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2373,11 +2373,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2440,11 +2440,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2521,11 +2521,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2582,11 +2582,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2654,11 +2654,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2715,11 +2715,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2793,11 +2793,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2857,11 +2857,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -2927,11 +2927,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3001,11 +3001,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3078,11 +3078,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3151,11 +3151,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3226,11 +3226,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3296,11 +3296,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3361,11 +3361,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3437,11 +3437,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3513,11 +3513,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3591,11 +3591,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3669,11 +3669,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3747,11 +3747,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3825,11 +3825,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3890,11 +3890,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -3968,7 +3968,7 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4051,11 +4051,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4123,11 +4123,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4186,11 +4186,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4258,11 +4258,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4328,11 +4328,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4400,11 +4400,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4465,11 +4465,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4526,11 +4526,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4595,11 +4595,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4676,11 +4676,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4737,11 +4737,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4802,11 +4802,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4877,11 +4877,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -4949,11 +4949,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5021,11 +5021,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5097,11 +5097,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5158,11 +5158,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5223,11 +5223,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5295,11 +5295,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5362,11 +5362,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5434,11 +5434,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5510,11 +5510,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5588,11 +5588,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5671,11 +5671,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5732,11 +5732,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5797,11 +5797,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5871,11 +5871,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -5954,11 +5954,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -6016,11 +6016,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -6091,11 +6091,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -6165,13 +6165,13 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Tenant scope override for collector-style OTLP JSON */
-                "x-beater-tenant-id"?: string | null;
+                "x-palette-tenant-id"?: string | null;
                 /** @description Project scope override for collector-style OTLP JSON */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Environment scope override for collector-style OTLP JSON */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path?: never;
             cookie?: never;
@@ -6243,11 +6243,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path?: never;
             cookie?: never;
@@ -6337,11 +6337,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -6399,11 +6399,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */
@@ -6469,11 +6469,11 @@ export interface operations {
                 /** @description Bearer API token for strict auth */
                 authorization?: string | null;
                 /** @description API key alternative for strict auth */
-                "x-beater-api-key"?: string | null;
+                "x-palette-api-key"?: string | null;
                 /** @description Strict-auth project scope */
-                "x-beater-project-id"?: string | null;
+                "x-palette-project-id"?: string | null;
                 /** @description Strict-auth environment scope */
-                "x-beater-environment-id"?: string | null;
+                "x-palette-environment-id"?: string | null;
             };
             path: {
                 /** @description tenant_id */

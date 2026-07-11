@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.promote_review_annotation_http_request import PromoteReviewAnnotationHttpRequest
+from palette_client.models.promote_review_annotation_http_request import PromoteReviewAnnotationHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

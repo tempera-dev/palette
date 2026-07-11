@@ -1,13 +1,13 @@
 /**
- * LlamaIndex.TS integration: register Beater spans on a CallbackManager.
+ * LlamaIndex.TS integration: register Palette spans on a CallbackManager.
  *
  *   import { CallbackManager, Settings } from "llamaindex";
- *   import { instrumentLlamaIndex } from "@beater/sdk";
+ *   import { instrumentLlamaIndex } from "@palette/sdk";
  *
  *   const callbackManager = instrumentLlamaIndex(new CallbackManager()).callbackManager;
  *   Settings.callbackManager = callbackManager;
  *
- * Implemented structurally so `@beater/sdk` does not hard-depend on `llamaindex`.
+ * Implemented structurally so `@palette/sdk` does not hard-depend on `llamaindex`.
  */
 
 import { context, Span, SpanStatusCode, trace } from "@opentelemetry/api";
@@ -58,7 +58,7 @@ const pairedEvents = [
 ] as const;
 
 /**
- * Register Beater handlers on a LlamaIndex.TS `CallbackManager`.
+ * Register Palette handlers on a LlamaIndex.TS `CallbackManager`.
  *
  * Returns an object with `uninstall()` for tests, hot reloads, and apps that
  * swap callback managers. The manager itself is returned for one-line setup.

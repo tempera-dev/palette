@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 

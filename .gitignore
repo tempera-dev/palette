@@ -1,6 +1,6 @@
 .vercel
 target/
-.beater/
+.palette/
 node_modules/
 .next/
 test-results/

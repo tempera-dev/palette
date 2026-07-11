@@ -22,14 +22,14 @@ diff_line_t* instantiate_diff_line(int include_optional) {
   diff_line_t* diff_line = NULL;
   if (include_optional) {
     diff_line = diff_line_create(
-      beater_api_diff_line__unchanged,
+      palette_api_diff_line__unchanged,
       0,
       0,
       "0"
     );
   } else {
     diff_line = diff_line_create(
-      beater_api_diff_line__unchanged,
+      palette_api_diff_line__unchanged,
       0,
       0,
       "0"

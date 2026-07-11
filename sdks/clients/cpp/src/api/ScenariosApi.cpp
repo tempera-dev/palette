@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -10,10 +10,10 @@
  */
 
 
-#include "beater-client/api/ScenariosApi.h"
-#include "beater-client/IHttpBody.h"
-#include "beater-client/JsonBody.h"
-#include "beater-client/MultipartFormData.h"
+#include "palette-client/api/ScenariosApi.h"
+#include "palette-client/IHttpBody.h"
+#include "palette-client/JsonBody.h"
+#include "palette-client/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 
@@ -35,7 +35,7 @@ ScenariosApi::~ScenariosApi()
 {
 }
 
-pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateScenarioRequest> createScenarioRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateScenarioRequest> createScenarioRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createScenarioRequest' is set
@@ -89,17 +89,17 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -198,7 +198,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utility::string_t tenantId, utility::string_t projectId, utility::string_t scenarioId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utility::string_t tenantId, utility::string_t projectId, utility::string_t scenarioId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -246,17 +246,17 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -339,7 +339,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listScenarios(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> cursor, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listScenarios(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> cursor, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -394,17 +394,17 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -487,7 +487,7 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineScenarios(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<MineScenariosRequest> mineScenariosRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineScenarios(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<MineScenariosRequest> mineScenariosRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'mineScenariosRequest' is set
@@ -541,17 +541,17 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineS
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;

@@ -22,7 +22,7 @@ typedef struct artifact_ref_t artifact_ref_t;
 typedef struct artifact_ref_t {
     char *artifact_id; // string
     char *mime_type; // string
-    beater_api_redaction_class__e redaction_class; //referenced enum
+    palette_api_redaction_class__e redaction_class; //referenced enum
     char *sha256; // string
     long size_bytes; //numeric
     char *uri; // string
@@ -33,7 +33,7 @@ typedef struct artifact_ref_t {
 __attribute__((deprecated)) artifact_ref_t *artifact_ref_create(
     char *artifact_id,
     char *mime_type,
-    beater_api_redaction_class__e redaction_class,
+    palette_api_redaction_class__e redaction_class,
     char *sha256,
     long size_bytes,
     char *uri

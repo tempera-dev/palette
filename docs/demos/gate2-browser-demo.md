@@ -11,14 +11,14 @@ Recorded from the stock OpenTelemetry Python trace produced by `examples/python/
 Regenerate with:
 
 ```bash
-BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
+PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
 ```
 
 For the Docker Compose stopwatch proof that uses the literal five-line snippet,
 run the prebuilt-image path:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```
 
-For a local source build measurement, add `BEATER_GATE2_LOCAL_BUILD=1`.
+For a local source build measurement, add `PALETTE_GATE2_LOCAL_BUILD=1`.

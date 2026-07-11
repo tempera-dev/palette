@@ -5,8 +5,8 @@ name: deploy-dashboard
 # Secret-clean: needs three repo secrets — VERCEL_TOKEN, VERCEL_ORG_ID,
 # VERCEL_PROJECT_ID (Settings -> Secrets and variables -> Actions). The job
 # no-ops with a clear message when VERCEL_TOKEN is absent, so forks stay green.
-# All dashboard runtime config (BEATER_API_BASE_URL, BEATER_API_TOKEN /
-# BEATER_API_KEY, BEATER_GATE2_CONFIRMATION_SALT) lives in Vercel's encrypted
+# All dashboard runtime config (PALETTE_API_BASE_URL, PALETTE_API_TOKEN /
+# PALETTE_API_KEY, PALETTE_GATE2_CONFIRMATION_SALT) lives in Vercel's encrypted
 # env, never here. See docs/hosting.md.
 #
 # The dashboard lives in a subdirectory of a Rust workspace, so the Vercel

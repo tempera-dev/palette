@@ -1,7 +1,7 @@
 name: release
 
 # Tag-triggered lockstep release: verify the contract, run conformance against a
-# live beaterd as a release candidate, then publish every SDK at the SAME version
+# live paletted as a release candidate, then publish every SDK at the SAME version
 # to its registry. Publishing requires registry secrets (see below); jobs no-op
 # with a clear message if the corresponding secret is absent.
 on:
@@ -25,7 +25,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
         with:
           toolchain: stable
-      - run: cargo test -p beater-api --test openapi_coverage
+      - run: cargo test -p palette-api --test openapi_coverage
       - run: scripts/regen-sdks.sh --check
 
   conformance:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Start beaterd and run live SDK conformance smoke
+      - name: Start paletted and run live SDK conformance smoke
         run: |
           docker compose up -d
           # Per-SDK smoke against a representative endpoint per resource group.
@@ -62,7 +62,7 @@ jobs:
       - name: Validate release version
         run: scripts/publish-sdk.sh --validate-version "$RELEASE_VERSION"
       - name: Regenerate SDKs at release version
-        run: BEATER_SDK_VERSION="$RELEASE_VERSION" scripts/regen-sdks.sh
+        run: PALETTE_SDK_VERSION="$RELEASE_VERSION" scripts/regen-sdks.sh
       - name: Publish ${{ matrix.target }}
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -84,9 +84,9 @@ jobs:
       - name: Generate contract changelog (oasdiff vs previous tag)
         run: |
           prev="$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || echo '')"
-          cargo run -q -p beater-api --example dump_openapi > /tmp/new.json
+          cargo run -q -p palette-api --example dump_openapi > /tmp/new.json
           if [ -n "$prev" ]; then
-            git show "$prev:sdks/openapi/beater-api.json" > /tmp/old.json || echo '{}' > /tmp/old.json
+            git show "$prev:sdks/openapi/palette-api.json" > /tmp/old.json || echo '{}' > /tmp/old.json
             docker run --rm -v /tmp:/s tufin/oasdiff changelog /s/old.json /s/new.json > /tmp/changelog.md || true
           fi
           gh release create "${GITHUB_REF_NAME}" --notes-file /tmp/changelog.md --title "${GITHUB_REF_NAME}" || \

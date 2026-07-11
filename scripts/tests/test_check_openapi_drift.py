@@ -43,7 +43,7 @@ def install_stubs(bin_dir: Path, log_path: Path) -> None:
             with log_path.open("a") as log:
                 log.write(json.dumps({{"cmd": "cargo", "cwd": os.getcwd(), "args": args}}) + "\\n")
 
-            expected = ["run", "-q", "-p", "beater-api", "--example", "dump_openapi"]
+            expected = ["run", "-q", "-p", "palette-api", "--example", "dump_openapi"]
             if args != expected:
                 sys.stderr.write(f"unexpected cargo args: {{args!r}}\\n")
                 sys.exit(2)
@@ -142,7 +142,7 @@ def prepare_repo(
     shutil.copy2(SCRIPT, script)
     script.chmod(0o755)
 
-    write(root / "web/dashboard/openapi/beater-read-api.json", openapi_snapshot)
+    write(root / "web/dashboard/openapi/palette-read-api.json", openapi_snapshot)
     write(root / "web/dashboard/lib/generated/api-types.ts", types_snapshot)
 
     bin_dir = root / "fake-bin"
@@ -186,14 +186,14 @@ def test_generates_temp_openapi_runs_dashboard_codegen_and_diffs_artifacts() -> 
 
         cargo = records[0]
         assert cargo["cwd"] == str(root)
-        assert cargo["args"] == ["run", "-q", "-p", "beater-api", "--example", "dump_openapi"]
+        assert cargo["args"] == ["run", "-q", "-p", "palette-api", "--example", "dump_openapi"]
 
         npx = records[1]
         npx_args = npx["args"]
         assert npx["cwd"] == str(root / "web/dashboard")
         assert npx_args[0] == "openapi-typescript"
-        assert Path(npx_args[1]).name == "beater-read-api.json"
-        assert npx_args[1] != str(root / "web/dashboard/openapi/beater-read-api.json")
+        assert Path(npx_args[1]).name == "palette-read-api.json"
+        assert npx_args[1] != str(root / "web/dashboard/openapi/palette-read-api.json")
         assert npx_args[2] == "-o"
         assert Path(npx_args[3]).name == "api-types.ts"
         assert npx["input_text"] == GENERATED_OPENAPI
@@ -201,8 +201,8 @@ def test_generates_temp_openapi_runs_dashboard_codegen_and_diffs_artifacts() -> 
         openapi_diff = records[2]
         assert openapi_diff["cwd"] == str(root)
         assert openapi_diff["args"][0] == "-u"
-        assert openapi_diff["args"][1] == str(root / "web/dashboard/openapi/beater-read-api.json")
-        assert Path(openapi_diff["args"][2]).name == "beater-read-api.json"
+        assert openapi_diff["args"][1] == str(root / "web/dashboard/openapi/palette-read-api.json")
+        assert Path(openapi_diff["args"][2]).name == "palette-read-api.json"
         assert openapi_diff["left_text"] == GENERATED_OPENAPI
         assert openapi_diff["right_text"] == GENERATED_OPENAPI
 
@@ -228,7 +228,7 @@ def test_fails_when_openapi_snapshot_diff_reports_drift() -> None:
 
         records = read_log(log_path)
         assert [record["cmd"] for record in records] == ["cargo", "npx", "diff"]
-        assert records[-1]["args"][1] == str(root / "web/dashboard/openapi/beater-read-api.json")
+        assert records[-1]["args"][1] == str(root / "web/dashboard/openapi/palette-read-api.json")
 
 
 def test_fails_when_generated_dashboard_client_diff_reports_drift() -> None:

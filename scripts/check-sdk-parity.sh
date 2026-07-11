@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Local equivalent for the sdk-parity gate. The static manifest check is fast
 # and always-on; pass --live to also run the existing language-toolchain live
-# conformance suite against a local beaterd.
+# conformance suite against a local paletted.
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

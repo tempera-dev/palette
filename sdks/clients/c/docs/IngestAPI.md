@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 # **IngestAPI_ingestDrainTraceIngested**
 ```c
-trace_ingested_drain_report_t* IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+trace_ingested_drain_report_t* IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -28,9 +28,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **limit** | **int \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -50,7 +50,7 @@ No authorization required
 
 # **IngestAPI_ingestDrainTraceWrites**
 ```c
-trace_write_drain_report_t* IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+trace_write_drain_report_t* IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -61,9 +61,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **limit** | **int \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -83,7 +83,7 @@ No authorization required
 
 # **IngestAPI_ingestGetIngestQueueStatus**
 ```c
-ingest_queue_status_t* IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+ingest_queue_status_t* IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -93,9 +93,9 @@ Name | Type | Description  | Notes
 **tenant_id** | **char \*** | tenant_id |
 **project_id** | **char \*** | project_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -115,7 +115,7 @@ No authorization required
 
 # **IngestAPI_ingestImportSource**
 ```c
-ingest_outcome_t* IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_beater_api_key);
+ingest_outcome_t* IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key);
 ```
 
 ### Parameters
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 **import_source_http_request** | **[import_source_http_request_t](import_source_http_request.md) \*** |  |
 **durability** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 
 ### Return type
 
@@ -148,7 +148,7 @@ No authorization required
 
 # **IngestAPI_ingestIngestNative**
 ```c
-ingest_outcome_t* IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+ingest_outcome_t* IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -158,9 +158,9 @@ Name | Type | Description  | Notes
 **native_ingest_request** | **[native_ingest_request_t](native_ingest_request.md) \*** |  |
 **durability** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -180,7 +180,7 @@ No authorization required
 
 # **IngestAPI_ingestIngestOtlp**
 ```c
-otlp_ingest_outcome_t* IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+otlp_ingest_outcome_t* IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -192,9 +192,9 @@ Name | Type | Description  | Notes
 **environment_id** | **char \*** | environment_id |
 **durability** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -214,7 +214,7 @@ No authorization required
 
 # **IngestAPI_ingestIngestOtlpJsonCollector**
 ```c
-otlp_ingest_outcome_t* IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_beater_api_key, char *x_beater_tenant_id, char *x_beater_project_id, char *x_beater_environment_id);
+otlp_ingest_outcome_t* IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_tenant_id, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -223,10 +223,10 @@ Name | Type | Description  | Notes
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
 **durability** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_tenant_id** | **char \*** | Tenant scope override for collector-style OTLP JSON | [optional]
-**x_beater_project_id** | **char \*** | Project scope override for collector-style OTLP JSON | [optional]
-**x_beater_environment_id** | **char \*** | Environment scope override for collector-style OTLP JSON | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_tenant_id** | **char \*** | Tenant scope override for collector-style OTLP JSON | [optional]
+**x_palette_project_id** | **char \*** | Project scope override for collector-style OTLP JSON | [optional]
+**x_palette_environment_id** | **char \*** | Environment scope override for collector-style OTLP JSON | [optional]
 
 ### Return type
 
@@ -246,7 +246,7 @@ No authorization required
 
 # **IngestAPI_ingestReconcileTrace**
 ```c
-trace_ingested_reconcile_report_t* IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+trace_ingested_reconcile_report_t* IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -257,9 +257,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **trace_id** | **char \*** | trace_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -279,7 +279,7 @@ No authorization required
 
 # **IngestAPI_ingestReplayDeadLetter**
 ```c
-dead_letter_replay_report_t* IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+dead_letter_replay_report_t* IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -291,9 +291,9 @@ Name | Type | Description  | Notes
 **message_id** | **char \*** | message_id |
 **reset_attempts** | **int \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 

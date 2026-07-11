@@ -1,4 +1,4 @@
-# beater_client.SearchApi
+# palette_client.SearchApi
 
 All URIs are relative to *http://localhost*
 
@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **search_search_spans**
-> SearchResponse search_search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> SearchResponse search_search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -16,22 +16,22 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.search_response import SearchResponse
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.search_response import SearchResponse
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.SearchApi(api_client)
+    api_instance = palette_client.SearchApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     q = 'q_example' # str |  (optional)
     project_id = 'project_id_example' # str |  (optional)
@@ -44,12 +44,12 @@ with beater_client.ApiClient(configuration) as api_client:
     tool = 'tool_example' # str |  (optional)
     limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.search_search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.search_search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of SearchApi->search_search_spans:\n")
         pprint(api_response)
     except Exception as e:
@@ -75,9 +75,9 @@ Name | Type | Description  | Notes
  **tool** | **str**|  | [optional]
  **limit** | **int**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

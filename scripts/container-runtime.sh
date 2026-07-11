@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Container runtime abstraction: run Beater on Docker OR Apple `container`.
+# Container runtime abstraction: run Palette on Docker OR Apple `container`.
 #
 # Apple `container` (https://github.com/apple/container) is Apple's native
 # container runtime for Apple silicon (macOS 26+). Its CLI mirrors Docker for the
@@ -8,13 +8,13 @@
 # container its own IP rather than publishing ports to localhost.
 #
 # Source this file, then call crt_* helpers. Select the runtime with
-# BEATER_CONTAINER_RUNTIME=docker|container (default: auto-detect, preferring
+# PALETTE_CONTAINER_RUNTIME=docker|container (default: auto-detect, preferring
 # docker when both are present for least surprise).
 set -euo pipefail
 
 crt_detect() {
-  if [ -n "${BEATER_CONTAINER_RUNTIME:-}" ]; then
-    echo "$BEATER_CONTAINER_RUNTIME"; return
+  if [ -n "${PALETTE_CONTAINER_RUNTIME:-}" ]; then
+    echo "$PALETTE_CONTAINER_RUNTIME"; return
   fi
   if command -v docker >/dev/null 2>&1; then echo docker; return; fi
   if command -v container >/dev/null 2>&1; then echo container; return; fi

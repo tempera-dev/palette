@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.judge_audit_record import JudgeAuditRecord
+from palette_client.models.judge_audit_record import JudgeAuditRecord
 
 # TODO update the JSON string below
 json = "{}"

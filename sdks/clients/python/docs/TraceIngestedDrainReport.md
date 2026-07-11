@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.trace_ingested_drain_report import TraceIngestedDrainReport
+from palette_client.models.trace_ingested_drain_report import TraceIngestedDrainReport
 
 # TODO update the JSON string below
 json = "{}"

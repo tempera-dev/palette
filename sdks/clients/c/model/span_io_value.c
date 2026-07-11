@@ -4,12 +4,12 @@
 #include "span_io_value.h"
 
 
-char* span_io_value_kind_ToString(beater_api_span_io_value_KIND_e kind) {
+char* span_io_value_kind_ToString(palette_api_span_io_value_KIND_e kind) {
     char* kindArray[] =  { "NULL", "missing" };
     return kindArray[kind];
 }
 
-beater_api_span_io_value_KIND_e span_io_value_kind_FromString(char* kind){
+palette_api_span_io_value_KIND_e span_io_value_kind_FromString(char* kind){
     int stringToReturn = 0;
     char *kindArray[] =  { "NULL", "missing" };
     size_t sizeofArray = sizeof(kindArray) / sizeof(kindArray[0]);
@@ -23,7 +23,7 @@ beater_api_span_io_value_KIND_e span_io_value_kind_FromString(char* kind){
 }
 
 static span_io_value_t *span_io_value_create_internal(
-    beater_api_span_io_value_KIND_e kind,
+    palette_api_span_io_value_KIND_e kind,
     any_type_t *value,
     artifact_ref_t *artifact_ref,
     char *reason
@@ -42,7 +42,7 @@ static span_io_value_t *span_io_value_create_internal(
 }
 
 __attribute__((deprecated)) span_io_value_t *span_io_value_create(
-    beater_api_span_io_value_KIND_e kind,
+    palette_api_span_io_value_KIND_e kind,
     any_type_t *value,
     artifact_ref_t *artifact_ref,
     char *reason
@@ -83,7 +83,7 @@ cJSON *span_io_value_convertToJSON(span_io_value_t *span_io_value) {
     cJSON *item = cJSON_CreateObject();
 
     // span_io_value->kind
-    if (beater_api_span_io_value_KIND_NULL == span_io_value->kind) {
+    if (palette_api_span_io_value_KIND_NULL == span_io_value->kind) {
         goto fail;
     }
     if(cJSON_AddStringToObject(item, "kind", span_io_value_kind_ToString(span_io_value->kind)) == NULL)
@@ -155,7 +155,7 @@ span_io_value_t *span_io_value_parseFromJSON(cJSON *span_io_valueJSON){
         goto end;
     }
 
-    beater_api_span_io_value_KIND_e kindVariable;
+    palette_api_span_io_value_KIND_e kindVariable;
     
     if(!cJSON_IsString(kind))
     {

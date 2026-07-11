@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## ScenariosCreateScenario
 
-> Scenario ScenariosCreateScenario(ctx, tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> Scenario ScenariosCreateScenario(ctx, tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -26,7 +26,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -34,13 +34,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	createScenarioRequest := *openapiclient.NewCreateScenarioRequest([]string{"SourceTraceIds_example"}, "Title_example") // CreateScenarioRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosCreateScenario(context.Background(), tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosCreateScenario(context.Background(), tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosCreateScenario``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -70,9 +70,9 @@ Name | Type | Description  | Notes
 
  **createScenarioRequest** | [**CreateScenarioRequest**](CreateScenarioRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -94,7 +94,7 @@ No authorization required
 
 ## ScenariosGetScenario
 
-> Scenario ScenariosGetScenario(ctx, tenantId, projectId, scenarioId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> Scenario ScenariosGetScenario(ctx, tenantId, projectId, scenarioId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -107,7 +107,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -115,13 +115,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	scenarioId := "scenarioId_example" // string | scenario_id
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosGetScenario(context.Background(), tenantId, projectId, scenarioId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosGetScenario(context.Background(), tenantId, projectId, scenarioId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosGetScenario``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -152,9 +152,9 @@ Name | Type | Description  | Notes
 
 
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -176,7 +176,7 @@ No authorization required
 
 ## ScenariosListScenarios
 
-> ListScenariosResponse ScenariosListScenarios(ctx, tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> ListScenariosResponse ScenariosListScenarios(ctx, tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -189,7 +189,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -198,13 +198,13 @@ func main() {
 	limit := int32(56) // int32 |  (optional)
 	cursor := "cursor_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosListScenarios(context.Background(), tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosListScenarios(context.Background(), tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosListScenarios``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -235,9 +235,9 @@ Name | Type | Description  | Notes
  **limit** | **int32** |  |
  **cursor** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -259,7 +259,7 @@ No authorization required
 
 ## ScenariosMineScenarios
 
-> MineScenariosResponse ScenariosMineScenarios(ctx, tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> MineScenariosResponse ScenariosMineScenarios(ctx, tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -272,7 +272,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -280,13 +280,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	mineScenariosRequest := *openapiclient.NewMineScenariosRequest([]string{"TraceIds_example"}) // MineScenariosRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosMineScenarios(context.Background(), tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosMineScenarios(context.Background(), tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosMineScenarios``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -316,9 +316,9 @@ Name | Type | Description  | Notes
 
  **mineScenariosRequest** | [**MineScenariosRequest**](MineScenariosRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

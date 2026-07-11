@@ -20,5 +20,5 @@ The mandate still requires the outside-person run recorded in
 Regenerate with:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```

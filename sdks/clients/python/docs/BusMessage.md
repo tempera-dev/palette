@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.bus_message import BusMessage
+from palette_client.models.bus_message import BusMessage
 
 # TODO update the JSON string below
 json = "{}"

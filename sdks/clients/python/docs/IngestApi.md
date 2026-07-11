@@ -1,4 +1,4 @@
-# beater_client.IngestApi
+# palette_client.IngestApi
 
 All URIs are relative to *http://localhost*
 
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **ingest_drain_trace_ingested**
-> TraceIngestedDrainReport ingest_drain_trace_ingested(tenant_id, project_id, limit=limit, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> TraceIngestedDrainReport ingest_drain_trace_ingested(tenant_id, project_id, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -24,32 +24,32 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.trace_ingested_drain_report import TraceIngestedDrainReport
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.trace_ingested_drain_report import TraceIngestedDrainReport
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_drain_trace_ingested(tenant_id, project_id, limit=limit, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_drain_trace_ingested(tenant_id, project_id, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_drain_trace_ingested:\n")
         pprint(api_response)
     except Exception as e:
@@ -67,9 +67,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **limit** | **int**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -97,7 +97,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_drain_trace_writes**
-> TraceWriteDrainReport ingest_drain_trace_writes(tenant_id, project_id, limit=limit, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> TraceWriteDrainReport ingest_drain_trace_writes(tenant_id, project_id, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -105,32 +105,32 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.trace_write_drain_report import TraceWriteDrainReport
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.trace_write_drain_report import TraceWriteDrainReport
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_drain_trace_writes(tenant_id, project_id, limit=limit, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_drain_trace_writes(tenant_id, project_id, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_drain_trace_writes:\n")
         pprint(api_response)
     except Exception as e:
@@ -148,9 +148,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **limit** | **int**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -178,7 +178,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_get_ingest_queue_status**
-> IngestQueueStatus ingest_get_ingest_queue_status(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> IngestQueueStatus ingest_get_ingest_queue_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -186,31 +186,31 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.ingest_queue_status import IngestQueueStatus
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.ingest_queue_status import IngestQueueStatus
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_get_ingest_queue_status(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_get_ingest_queue_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_get_ingest_queue_status:\n")
         pprint(api_response)
     except Exception as e:
@@ -227,9 +227,9 @@ Name | Type | Description  | Notes
  **tenant_id** | **str**| tenant_id |
  **project_id** | **str**| project_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -256,7 +256,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_import_source**
-> IngestOutcome ingest_import_source(tenant_id, project_id, environment_id, import_source_http_request, durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key)
+> IngestOutcome ingest_import_source(tenant_id, project_id, environment_id, import_source_http_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key)
 
 
 
@@ -264,33 +264,33 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.import_source_http_request import ImportSourceHttpRequest
-from beater_client.models.ingest_outcome import IngestOutcome
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.import_source_http_request import ImportSourceHttpRequest
+from palette_client.models.ingest_outcome import IngestOutcome
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     environment_id = 'environment_id_example' # str | environment_id
-    import_source_http_request = beater_client.ImportSourceHttpRequest() # ImportSourceHttpRequest |
+    import_source_http_request = palette_client.ImportSourceHttpRequest() # ImportSourceHttpRequest |
     durability = 'durability_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
 
     try:
-        api_response = api_instance.ingest_import_source(tenant_id, project_id, environment_id, import_source_http_request, durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key)
+        api_response = api_instance.ingest_import_source(tenant_id, project_id, environment_id, import_source_http_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key)
         print("The response of IngestApi->ingest_import_source:\n")
         pprint(api_response)
     except Exception as e:
@@ -310,7 +310,7 @@ Name | Type | Description  | Notes
  **import_source_http_request** | [**ImportSourceHttpRequest**](ImportSourceHttpRequest.md)|  |
  **durability** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
 
 ### Return type
 
@@ -339,7 +339,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_ingest_native**
-> IngestOutcome ingest_ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> IngestOutcome ingest_ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -347,32 +347,32 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.ingest_outcome import IngestOutcome
-from beater_client.models.native_ingest_request import NativeIngestRequest
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.ingest_outcome import IngestOutcome
+from palette_client.models.native_ingest_request import NativeIngestRequest
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
-    native_ingest_request = beater_client.NativeIngestRequest() # NativeIngestRequest |
+    api_instance = palette_client.IngestApi(api_client)
+    native_ingest_request = palette_client.NativeIngestRequest() # NativeIngestRequest |
     durability = 'durability_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_ingest_native:\n")
         pprint(api_response)
     except Exception as e:
@@ -389,9 +389,9 @@ Name | Type | Description  | Notes
  **native_ingest_request** | [**NativeIngestRequest**](NativeIngestRequest.md)|  |
  **durability** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -420,7 +420,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_ingest_otlp**
-> OtlpIngestOutcome ingest_ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> OtlpIngestOutcome ingest_ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -428,33 +428,33 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.otlp_ingest_outcome import OtlpIngestOutcome
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.otlp_ingest_outcome import OtlpIngestOutcome
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     environment_id = 'environment_id_example' # str | environment_id
     durability = 'durability_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_ingest_otlp:\n")
         pprint(api_response)
     except Exception as e:
@@ -473,9 +473,9 @@ Name | Type | Description  | Notes
  **environment_id** | **str**| environment_id |
  **durability** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -504,7 +504,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_ingest_otlp_json_collector**
-> OtlpIngestOutcome ingest_ingest_otlp_json_collector(durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_tenant_id=x_beater_tenant_id, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> OtlpIngestOutcome ingest_ingest_otlp_json_collector(durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_tenant_id=x_palette_tenant_id, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -512,31 +512,31 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.otlp_ingest_outcome import OtlpIngestOutcome
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.otlp_ingest_outcome import OtlpIngestOutcome
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     durability = 'durability_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_tenant_id = 'x_beater_tenant_id_example' # str | Tenant scope override for collector-style OTLP JSON (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Project scope override for collector-style OTLP JSON (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Environment scope override for collector-style OTLP JSON (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_tenant_id = 'x_palette_tenant_id_example' # str | Tenant scope override for collector-style OTLP JSON (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Project scope override for collector-style OTLP JSON (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Environment scope override for collector-style OTLP JSON (optional)
 
     try:
-        api_response = api_instance.ingest_ingest_otlp_json_collector(durability=durability, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_tenant_id=x_beater_tenant_id, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_ingest_otlp_json_collector(durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_tenant_id=x_palette_tenant_id, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_ingest_otlp_json_collector:\n")
         pprint(api_response)
     except Exception as e:
@@ -552,10 +552,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **durability** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_tenant_id** | **str**| Tenant scope override for collector-style OTLP JSON | [optional]
- **x_beater_project_id** | **str**| Project scope override for collector-style OTLP JSON | [optional]
- **x_beater_environment_id** | **str**| Environment scope override for collector-style OTLP JSON | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_tenant_id** | **str**| Tenant scope override for collector-style OTLP JSON | [optional]
+ **x_palette_project_id** | **str**| Project scope override for collector-style OTLP JSON | [optional]
+ **x_palette_environment_id** | **str**| Environment scope override for collector-style OTLP JSON | [optional]
 
 ### Return type
 
@@ -584,7 +584,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_reconcile_trace**
-> TraceIngestedReconcileReport ingest_reconcile_trace(tenant_id, project_id, trace_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> TraceIngestedReconcileReport ingest_reconcile_trace(tenant_id, project_id, trace_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -592,32 +592,32 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.trace_ingested_reconcile_report import TraceIngestedReconcileReport
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.trace_ingested_reconcile_report import TraceIngestedReconcileReport
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     trace_id = 'trace_id_example' # str | trace_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_reconcile_trace(tenant_id, project_id, trace_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_reconcile_trace(tenant_id, project_id, trace_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_reconcile_trace:\n")
         pprint(api_response)
     except Exception as e:
@@ -635,9 +635,9 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **trace_id** | **str**| trace_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -665,7 +665,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ingest_replay_dead_letter**
-> DeadLetterReplayReport ingest_replay_dead_letter(tenant_id, project_id, message_id, reset_attempts=reset_attempts, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> DeadLetterReplayReport ingest_replay_dead_letter(tenant_id, project_id, message_id, reset_attempts=reset_attempts, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -673,33 +673,33 @@ No authorization required
 
 
 ```python
-import beater_client
-from beater_client.models.dead_letter_replay_report import DeadLetterReplayReport
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.dead_letter_replay_report import DeadLetterReplayReport
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.IngestApi(api_client)
+    api_instance = palette_client.IngestApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     message_id = 'message_id_example' # str | message_id
     reset_attempts = True # bool |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_replay_dead_letter(tenant_id, project_id, message_id, reset_attempts=reset_attempts, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.ingest_replay_dead_letter(tenant_id, project_id, message_id, reset_attempts=reset_attempts, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of IngestApi->ingest_replay_dead_letter:\n")
         pprint(api_response)
     except Exception as e:
@@ -718,9 +718,9 @@ Name | Type | Description  | Notes
  **message_id** | **str**| message_id |
  **reset_attempts** | **bool**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

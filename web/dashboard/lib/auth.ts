@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 import { dashboardApiBaseUrl } from "./api";
 
 /** Session cookie set by the backend `/auth/*` endpoints (mirror of the Rust
- * `beater_oauth_server::SESSION_COOKIE`). */
-export const SESSION_COOKIE = "beater_session";
+ * `palette_oauth_server::SESSION_COOKIE`). */
+export const SESSION_COOKIE = "palette_session";
 
 export type Account = {
   user_id: string;

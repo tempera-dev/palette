@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## IngestDrainTraceIngested
 
-> TraceIngestedDrainReport IngestDrainTraceIngested(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> TraceIngestedDrainReport IngestDrainTraceIngested(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -31,7 +31,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -39,13 +39,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestDrainTraceIngested(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestDrainTraceIngested(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestDrainTraceIngested``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -75,9 +75,9 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -99,7 +99,7 @@ No authorization required
 
 ## IngestDrainTraceWrites
 
-> TraceWriteDrainReport IngestDrainTraceWrites(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> TraceWriteDrainReport IngestDrainTraceWrites(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -112,7 +112,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -120,13 +120,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestDrainTraceWrites(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestDrainTraceWrites(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestDrainTraceWrites``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -156,9 +156,9 @@ Name | Type | Description  | Notes
 
  **limit** | **int32** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -180,7 +180,7 @@ No authorization required
 
 ## IngestGetIngestQueueStatus
 
-> IngestQueueStatus IngestGetIngestQueueStatus(ctx, tenantId, projectId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> IngestQueueStatus IngestGetIngestQueueStatus(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -193,20 +193,20 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestGetIngestQueueStatus(context.Background(), tenantId, projectId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestGetIngestQueueStatus(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestGetIngestQueueStatus``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -235,9 +235,9 @@ Name | Type | Description  | Notes
 
 
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -259,7 +259,7 @@ No authorization required
 
 ## IngestImportSource
 
-> IngestOutcome IngestImportSource(ctx, tenantId, projectId, environmentId).ImportSourceHttpRequest(importSourceHttpRequest).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).Execute()
+> IngestOutcome IngestImportSource(ctx, tenantId, projectId, environmentId).ImportSourceHttpRequest(importSourceHttpRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).Execute()
 
 
 
@@ -272,7 +272,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -282,11 +282,11 @@ func main() {
 	importSourceHttpRequest := *openapiclient.NewImportSourceHttpRequest("Source_example") // ImportSourceHttpRequest |
 	durability := "durability_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestImportSource(context.Background(), tenantId, projectId, environmentId).ImportSourceHttpRequest(importSourceHttpRequest).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestImportSource(context.Background(), tenantId, projectId, environmentId).ImportSourceHttpRequest(importSourceHttpRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestImportSource``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -319,7 +319,7 @@ Name | Type | Description  | Notes
  **importSourceHttpRequest** | [**ImportSourceHttpRequest**](ImportSourceHttpRequest.md) |  |
  **durability** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
 
 ### Return type
 
@@ -341,7 +341,7 @@ No authorization required
 
 ## IngestIngestNative
 
-> IngestOutcome IngestIngestNative(ctx).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> IngestOutcome IngestIngestNative(ctx).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -354,20 +354,20 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
 	nativeIngestRequest := *openapiclient.NewNativeIngestRequest(map[string]interface{}{"key": interface{}(123)}, "Kind_example", "Name_example", openapiclient.RedactionClass("public"), *openapiclient.NewTenantScope("EnvironmentId_example", "ProjectId_example", "TenantId_example"), int64(123), "SpanId_example", openapiclient.SpanStatus("ok"), "TraceId_example") // NativeIngestRequest |
 	durability := "durability_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestIngestNative(context.Background()).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestIngestNative(context.Background()).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestIngestNative``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -391,9 +391,9 @@ Name | Type | Description  | Notes
  **nativeIngestRequest** | [**NativeIngestRequest**](NativeIngestRequest.md) |  |
  **durability** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -415,7 +415,7 @@ No authorization required
 
 ## IngestIngestOtlp
 
-> OtlpIngestOutcome IngestIngestOtlp(ctx, tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> OtlpIngestOutcome IngestIngestOtlp(ctx, tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -428,7 +428,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -437,13 +437,13 @@ func main() {
 	environmentId := "environmentId_example" // string | environment_id
 	durability := "durability_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestIngestOtlp(context.Background(), tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestIngestOtlp(context.Background(), tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestIngestOtlp``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -475,9 +475,9 @@ Name | Type | Description  | Notes
 
  **durability** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -499,7 +499,7 @@ No authorization required
 
 ## IngestIngestOtlpJsonCollector
 
-> OtlpIngestOutcome IngestIngestOtlpJsonCollector(ctx).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterTenantId(xBeaterTenantId).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> OtlpIngestOutcome IngestIngestOtlpJsonCollector(ctx).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteTenantId(xPaletteTenantId).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -512,20 +512,20 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
 	durability := "durability_example" // string |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterTenantId := "xBeaterTenantId_example" // string | Tenant scope override for collector-style OTLP JSON (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Project scope override for collector-style OTLP JSON (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Environment scope override for collector-style OTLP JSON (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteTenantId := "xPaletteTenantId_example" // string | Tenant scope override for collector-style OTLP JSON (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Project scope override for collector-style OTLP JSON (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Environment scope override for collector-style OTLP JSON (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestIngestOtlpJsonCollector(context.Background()).Durability(durability).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterTenantId(xBeaterTenantId).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestIngestOtlpJsonCollector(context.Background()).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteTenantId(xPaletteTenantId).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestIngestOtlpJsonCollector``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -548,10 +548,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **durability** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterTenantId** | **string** | Tenant scope override for collector-style OTLP JSON |
- **xBeaterProjectId** | **string** | Project scope override for collector-style OTLP JSON |
- **xBeaterEnvironmentId** | **string** | Environment scope override for collector-style OTLP JSON |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteTenantId** | **string** | Tenant scope override for collector-style OTLP JSON |
+ **xPaletteProjectId** | **string** | Project scope override for collector-style OTLP JSON |
+ **xPaletteEnvironmentId** | **string** | Environment scope override for collector-style OTLP JSON |
 
 ### Return type
 
@@ -573,7 +573,7 @@ No authorization required
 
 ## IngestReconcileTrace
 
-> TraceIngestedReconcileReport IngestReconcileTrace(ctx, tenantId, projectId, traceId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> TraceIngestedReconcileReport IngestReconcileTrace(ctx, tenantId, projectId, traceId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -586,7 +586,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -594,13 +594,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	traceId := "traceId_example" // string | trace_id
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestReconcileTrace(context.Background(), tenantId, projectId, traceId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestReconcileTrace(context.Background(), tenantId, projectId, traceId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestReconcileTrace``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -631,9 +631,9 @@ Name | Type | Description  | Notes
 
 
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -655,7 +655,7 @@ No authorization required
 
 ## IngestReplayDeadLetter
 
-> DeadLetterReplayReport IngestReplayDeadLetter(ctx, tenantId, projectId, messageId).ResetAttempts(resetAttempts).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> DeadLetterReplayReport IngestReplayDeadLetter(ctx, tenantId, projectId, messageId).ResetAttempts(resetAttempts).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -668,7 +668,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -677,13 +677,13 @@ func main() {
 	messageId := "messageId_example" // string | message_id
 	resetAttempts := true // bool |  (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestReplayDeadLetter(context.Background(), tenantId, projectId, messageId).ResetAttempts(resetAttempts).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestReplayDeadLetter(context.Background(), tenantId, projectId, messageId).ResetAttempts(resetAttempts).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestReplayDeadLetter``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -715,9 +715,9 @@ Name | Type | Description  | Notes
 
  **resetAttempts** | **bool** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

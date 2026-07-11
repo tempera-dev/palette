@@ -1,13 +1,13 @@
-# Beater Agent Context
+# Palette Agent Context
 
 Use this file as startup context for Codex, Claude Code, Cursor, Copilot, and
 other coding agents. It is intentionally compact. For the full plan, read
 `ARCHITECTURE.md`; for contribution rules and CI gates, read `CONTRIBUTING.md`;
 for the hard contract-regeneration rule, read `CLAUDE.md`.
 
-## What Beater Is
+## What Palette Is
 
-Beater is a Rust-first open-source agent observability, replay, eval, and
+Palette is a Rust-first open-source agent observability, replay, eval, and
 recursive-improvement platform with an optional hosted edition. The product loop
 is:
 
@@ -16,20 +16,20 @@ instrument agent -> inspect trace/span tree -> promote failure to dataset
 -> run evals -> compare candidate -> gate CI -> monitor production
 ```
 
-The OSS edition must run locally without Beater Cloud. Hosted scale, billing,
+The OSS edition must run locally without Palette Cloud. Hosted scale, billing,
 SSO, managed cells, and enterprise governance sit outside the Apache-2.0 core.
 
 ## Repo Shape
 
-- `Cargo.toml` is a Rust workspace. The main runtime is one `beaterd` binary in
-  `bins/beaterd`; `bins/beaterctl` is the CLI and smoke/fixture entrypoint.
+- `Cargo.toml` is a Rust workspace. The main runtime is one `paletted` binary in
+  `bins/paletted`; `bins/palettectl` is the CLI and smoke/fixture entrypoint.
 - `crates/*` are modular Rust libraries for schema, ingest, OTLP, storage,
   durable bus, API, MCP, evals, replay, auth/security, datasets, experiments,
   gates, human review, alerts, usage, audit, browser capture, and `xtask`.
 - `web/dashboard` is the Next.js dashboard. It consumes generated OpenAPI types
-  from `web/dashboard/openapi/beater-read-api.json` and
+  from `web/dashboard/openapi/palette-read-api.json` and
   `web/dashboard/lib/generated/api-types.ts`.
-- `sdks/openapi/beater-api.json`, `sdks/clients/*`, `sdks/{python,typescript,rust}`,
+- `sdks/openapi/palette-api.json`, `sdks/clients/*`, `sdks/{python,typescript,rust}`,
   and `sdks/semconv` are the API/SDK contract surface. Generated client output is
   intentionally committed when the contract changes.
 - `migrations/{sqlite,postgres,clickhouse}` are durable schema contracts. The
@@ -52,8 +52,8 @@ SSO, managed cells, and enterprise governance sit outside the Apache-2.0 core.
   artifact encryption matter even in OSS.
 - Scope Vercel correctly. Vercel hosts the dashboard and hosted stateless
   control-plane/edge surfaces only; long-running ingest, eval, replay, queue
-  consumers, and stateful workers run in `beaterd` or hosted Rust cells.
-- The contract is the source of truth. `/v1` handlers in `crates/beater-api`
+  consumers, and stateful workers run in `paletted` or hosted Rust cells.
+- The contract is the source of truth. `/v1` handlers in `crates/palette-api`
   generate the OpenAPI spec; the spec feeds SDKs, MCP, CLI, dashboard/docs, and
   drift checks. Do not hand-edit generated clients/spec snapshots.
 
@@ -62,10 +62,10 @@ SSO, managed cells, and enterprise governance sit outside the Apache-2.0 core.
 ```bash
 # Rust formatting and focused tests
 cargo fmt --all
-cargo test -p beater-api
-cargo test -p beater-api --test openapi_coverage
-cargo test -p beater-store-conformance
-cargo run -q -p beaterctl -- smoke --data-dir /tmp/beater-smoke
+cargo test -p palette-api
+cargo test -p palette-api --test openapi_coverage
+cargo test -p palette-store-conformance
+cargo run -q -p palettectl -- smoke --data-dir /tmp/palette-smoke
 
 # Contract regeneration and drift checks
 cargo xtask regen-spec
@@ -82,8 +82,8 @@ npm run build
 ```
 
 For Vercel-specific dashboard behavior, run from `web/dashboard` and keep
-`BEATER_API_BASE_URL` pointed at a running `beaterd`. Vercel is not the backend
-runtime for `beaterd`.
+`PALETTE_API_BASE_URL` pointed at a running `paletted`. Vercel is not the backend
+runtime for `paletted`.
 
 ## Guardrails
 

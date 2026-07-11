@@ -18,11 +18,11 @@ Use a machine with:
 - a local graphical browser that can reach `http://127.0.0.1:3000`
 - local ports `8080`, `4317`, and `3000` free
 
-Run from an empty parent directory that does not already contain `beater/`.
-Do not set Beater, Docker Compose, or alternate port environment variables.
-If preflight reports stale `beater-stopwatch` containers or occupied default
-ports, follow the hint it prints: clean stale Beater containers, or stop/move
-the reported non-Beater app listening on the port. Do not set alternate Beater
+Run from an empty parent directory that does not already contain `palette/`.
+Do not set Palette, Docker Compose, or alternate port environment variables.
+If preflight reports stale `palette-stopwatch` containers or occupied default
+ports, follow the hint it prints: clean stale Palette containers, or stop/move
+the reported non-Palette app listening on the port. Do not set alternate Palette
 ports. Then rerun this card from a new or empty parent directory.
 
 ## Timed Command
@@ -30,7 +30,7 @@ ports. Then rerun this card from a new or empty parent directory.
 Run this exact command from Bash, zsh, Git Bash, or WSL2:
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd ./beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/palette.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/palette/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/palette.git && cd ./palette && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && PALETTE_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
 ```
 
 The command runs public Git operations with global/system config disabled,
@@ -71,7 +71,7 @@ submitted, unmasked I/O appears, and Redacted view is restored.
 ## Proof Handoff
 
 After the command exits, your shell prompt returns to the parent directory where
-you launched the one-liner. Run `cd ./beater`, then use the printed
+you launched the one-liner. Run `cd ./palette`, then use the printed
 `scripts/generate-gate2-outside-proof.py --print-command` output. Replace every
 `...` field with real runner values, then run it.
 The generated proof must keep the stopwatch's fresh quickstart release ID,
@@ -80,7 +80,7 @@ validation rejects stale or mismatched values.
 The wrapper-saved terminal transcript must also be committed; it captures the
 manual checkpoint prompt, printed dashboard URLs, and final proof command.
 
-From the same `beater/` clone, commit the evidence before validation:
+From the same `palette/` clone, commit the evidence before validation:
 
 ```bash
 git add docs/demos/gate2-outside-person-proof.md \

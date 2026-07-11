@@ -22,13 +22,13 @@ sampling_decision_t* instantiate_sampling_decision(int include_optional) {
   sampling_decision_t* sampling_decision = NULL;
   if (include_optional) {
     sampling_decision = sampling_decision_create(
-      beater_api_sampling_decision__error_trace,
+      palette_api_sampling_decision__error_trace,
       1,
       0
     );
   } else {
     sampling_decision = sampling_decision_create(
-      beater_api_sampling_decision__error_trace,
+      palette_api_sampling_decision__error_trace,
       1,
       0
     );

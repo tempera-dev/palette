@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -27,11 +27,11 @@ pub struct ApiKeysPeriodCreateApiKeyParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`api_keys_period_revoke_api_key`]
@@ -48,11 +48,11 @@ pub struct ApiKeysPeriodRevokeApiKeyParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 
@@ -89,14 +89,14 @@ pub async fn api_keys_period_create_api_key(configuration: &configuration::Confi
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.create_api_key_http_request);
 
@@ -126,14 +126,14 @@ pub async fn api_keys_period_revoke_api_key(configuration: &configuration::Confi
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;

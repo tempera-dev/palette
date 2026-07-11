@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## search_period_search_spans
 
-> models::SearchResponse search_period_search_spans(tenant_id, q, project_id, environment_id, trace_id, span_id, kind, status, model, tool, limit, authorization, x_beater_api_key, x_beater_project_id, x_beater_environment_id)
+> models::SearchResponse search_period_search_spans(tenant_id, q, project_id, environment_id, trace_id, span_id, kind, status, model, tool, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -30,9 +30,9 @@ Name | Type | Description  | Required | Notes
 **tool** | Option<**String**> |  |  |
 **limit** | Option<**i32**> |  |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
-**x_beater_api_key** | Option<**String**> | API key alternative for strict auth |  |
-**x_beater_project_id** | Option<**String**> | Strict-auth project scope |  |
-**x_beater_environment_id** | Option<**String**> | Strict-auth environment scope |  |
+**x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
+**x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
+**x_palette_environment_id** | Option<**String**> | Strict-auth environment scope |  |
 
 ### Return type
 

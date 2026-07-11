@@ -4,12 +4,12 @@
 #include "inconclusive_policy.h"
 
 
-char* inconclusive_policy_inconclusive_policy_ToString(beater_api_inconclusive_policy__e inconclusive_policy) {
+char* inconclusive_policy_inconclusive_policy_ToString(palette_api_inconclusive_policy__e inconclusive_policy) {
     char *inconclusive_policyArray[] =  { "NULL", "pass", "fail" };
     return inconclusive_policyArray[inconclusive_policy];
 }
 
-beater_api_inconclusive_policy__e inconclusive_policy_inconclusive_policy_FromString(char* inconclusive_policy) {
+palette_api_inconclusive_policy__e inconclusive_policy_inconclusive_policy_FromString(char* inconclusive_policy) {
     int stringToReturn = 0;
     char *inconclusive_policyArray[] =  { "NULL", "pass", "fail" };
     size_t sizeofArray = sizeof(inconclusive_policyArray) / sizeof(inconclusive_policyArray[0]);
@@ -22,7 +22,7 @@ beater_api_inconclusive_policy__e inconclusive_policy_inconclusive_policy_FromSt
     return 0;
 }
 
-cJSON *inconclusive_policy_convertToJSON(beater_api_inconclusive_policy__e inconclusive_policy) {
+cJSON *inconclusive_policy_convertToJSON(palette_api_inconclusive_policy__e inconclusive_policy) {
     cJSON *item = cJSON_CreateObject();
     if(cJSON_AddStringToObject(item, "inconclusive_policy", inconclusive_policy_inconclusive_policy_ToString(inconclusive_policy)) == NULL) {
         goto fail;
@@ -33,7 +33,7 @@ fail:
     return NULL;
 }
 
-beater_api_inconclusive_policy__e inconclusive_policy_parseFromJSON(cJSON *inconclusive_policyJSON) {
+palette_api_inconclusive_policy__e inconclusive_policy_parseFromJSON(cJSON *inconclusive_policyJSON) {
     if(!cJSON_IsString(inconclusive_policyJSON) || (inconclusive_policyJSON->valuestring == NULL)) {
         return 0;
     }

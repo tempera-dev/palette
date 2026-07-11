@@ -589,1092 +589,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2af50177e190e07a26ab74f8b1efbfe2ef87da2116221318cb1c2e82baf7de06"
 
 [[package]]
-name = "beater-accounts"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "argon2",
- "async-trait",
- "beater-core",
- "beater-store",
- "chrono",
- "rand_core 0.6.4",
- "rusqlite",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "subtle",
- "thiserror 1.0.69",
- "tokio",
- "uuid",
-]
-
-[[package]]
-name = "beater-alerts"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "beater-security",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
-]
-
-[[package]]
-name = "beater-api"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum 0.7.9",
- "beater-alerts",
- "beater-archive",
- "beater-audit",
- "beater-auth",
- "beater-bus",
- "beater-calibration",
- "beater-composio",
- "beater-core",
- "beater-datasets",
- "beater-eval",
- "beater-experiments",
- "beater-gates",
- "beater-human",
- "beater-ingest",
- "beater-judge",
- "beater-oauth",
- "beater-otlp",
- "beater-prompts",
- "beater-replay",
- "beater-sandbox",
- "beater-scenarios",
- "beater-schema",
- "beater-search",
- "beater-secrets",
- "beater-security",
- "beater-store",
- "beater-store-memory",
- "beater-store-obj",
- "beater-store-sql",
- "beater-usage",
- "chrono",
- "http 1.4.2",
- "opentelemetry-proto",
- "percent-encoding",
- "reqwest",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tower",
- "utoipa",
- "uuid",
- "wat",
-]
-
-[[package]]
-name = "beater-archive"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "arrow-array",
- "arrow-schema",
- "async-trait",
- "beater-core",
- "beater-schema",
- "beater-store",
- "beater-store-obj",
- "beater-store-sql",
- "chrono",
- "datafusion",
- "parquet",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-audit"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-auth"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-security",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
-]
-
-[[package]]
-name = "beater-autonomy"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-bench"
-version = "0.1.0"
-dependencies = [
- "beater-core",
- "beater-schema",
- "beater-store",
- "beater-store-memory",
- "chrono",
- "criterion",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "beater-billing"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-security",
- "beater-store",
- "beater-usage",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-browser"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-browser-capture"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-browser",
- "beater-core",
- "beater-replay",
- "beater-schema",
- "beater-store",
- "beater-store-obj",
- "chrono",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-browser-cdp"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-browser",
- "chromiumoxide",
- "futures",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-browser-harness"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-browser",
- "beater-browser-capture",
- "beater-core",
- "beater-datasets",
- "beater-eval",
- "beater-experiments",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-browser-playwright"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-browser",
- "futures",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-browser-triage"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-browser-webdriver"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-browser",
- "fantoccini",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-bus"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-calibration"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-datasets",
- "beater-schema",
- "beater-stats",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-composio"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "reqwest",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
-]
-
-[[package]]
-name = "beater-core"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "thiserror 1.0.69",
- "utoipa",
-]
-
-[[package]]
-name = "beater-datasets"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-eval",
- "beater-judge",
- "beater-schema",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-delegation"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-design"
-version = "0.1.0"
-dependencies = [
- "beater-core",
- "serde",
- "thiserror 1.0.69",
- "utoipa",
-]
-
-[[package]]
-name = "beater-eval"
-version = "0.1.0"
-dependencies = [
- "beater-core",
- "beater-design",
- "beater-schema",
- "beater-stats",
- "regex",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "utoipa",
-]
-
-[[package]]
-name = "beater-experiments"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum 0.7.9",
- "beater-core",
- "beater-datasets",
- "beater-eval",
- "beater-judge",
- "beater-schema",
- "beater-stats",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-gates"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-eval",
- "beater-experiments",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-guardrails"
-version = "0.1.0"
-dependencies = [
- "regex",
- "serde",
- "thiserror 1.0.69",
- "utoipa",
-]
-
-[[package]]
-name = "beater-human"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-datasets",
- "beater-schema",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-identity"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-incidents"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-ingest"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-bus",
- "beater-core",
- "beater-schema",
- "beater-store",
- "beater-store-memory",
- "beater-store-obj",
- "beater-store-sql",
- "chrono",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
-]
-
-[[package]]
-name = "beater-judge"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum 0.7.9",
- "beater-core",
- "beater-eval",
- "beater-schema",
- "beater-secrets",
- "beater-store",
- "chrono",
- "reqwest",
- "rusqlite",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-knowledge"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-langfuse"
-version = "0.1.0"
-dependencies = [
- "beater-bus",
- "beater-core",
- "beater-ingest",
- "beater-schema",
- "beater-store",
- "beater-store-memory",
- "beater-store-obj",
- "chrono",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-mcp"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum 0.7.9",
- "beater-alerts",
- "beater-api",
- "beater-archive",
- "beater-audit",
- "beater-auth",
- "beater-bus",
- "beater-calibration",
- "beater-core",
- "beater-datasets",
- "beater-experiments",
- "beater-gates",
- "beater-human",
- "beater-ingest",
- "beater-judge",
- "beater-oauth",
- "beater-search",
- "beater-secrets",
- "beater-security",
- "beater-store-obj",
- "beater-store-sql",
- "beater-usage",
- "chrono",
- "http 1.4.2",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tower",
-]
-
-[[package]]
-name = "beater-oauth"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "argon2",
- "async-trait",
- "base64 0.22.1",
- "beater-core",
- "beater-store",
- "chrono",
- "http 1.4.2",
- "rand_core 0.6.4",
- "rusqlite",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "subtle",
- "thiserror 1.0.69",
- "tokio",
- "uuid",
-]
-
-[[package]]
-name = "beater-oauth-server"
-version = "0.1.0"
-dependencies = [
- "axum 0.7.9",
- "base64 0.22.1",
- "beater-accounts",
- "beater-auth",
- "beater-core",
- "beater-oauth",
- "beater-security",
- "chrono",
- "http 1.4.2",
- "percent-encoding",
- "rand_core 0.6.4",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tokio",
- "tower",
-]
-
-[[package]]
-name = "beater-otlp"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-bus",
- "beater-core",
- "beater-ingest",
- "beater-schema",
- "beater-store",
- "beater-store-obj",
- "beater-store-sql",
- "chrono",
- "opentelemetry-proto",
- "prost",
- "serde_json",
- "tempfile",
- "tokio",
- "tonic",
-]
-
-[[package]]
-name = "beater-prompts"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-receipts"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "beater-core",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-replay"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-ingest",
- "beater-schema",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "uuid",
-]
-
-[[package]]
-name = "beater-sandbox"
-version = "0.1.0"
-dependencies = [
- "beater-eval",
- "beater-schema",
- "serde_json",
- "thiserror 1.0.69",
- "wasmtime",
- "wat",
-]
-
-[[package]]
-name = "beater-scenarios"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-schema",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "sha2 0.10.9",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-schema"
-version = "0.1.0"
-dependencies = [
- "beater-core",
- "chrono",
- "serde",
- "serde_json",
- "utoipa",
-]
-
-[[package]]
-name = "beater-search"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-schema",
- "beater-store",
- "beater-store-memory",
- "chrono",
- "serde",
- "serde_json",
- "tantivy",
- "tempfile",
- "tokio",
- "utoipa",
-]
-
-[[package]]
-name = "beater-secrets"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "base64 0.22.1",
- "beater-core",
- "beater-store",
- "chacha20poly1305",
- "chrono",
- "rand_core 0.6.4",
- "rusqlite",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-security"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "argon2",
- "base64 0.22.1",
- "beater-core",
- "chrono",
- "hmac 0.12.1",
- "rand_core 0.6.4",
- "serde",
- "sha2 0.10.9",
- "subtle",
- "thiserror 1.0.69",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beater-stats"
-version = "0.1.0"
-dependencies = [
- "rayon",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "beater-store"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-schema",
- "chrono",
- "thiserror 1.0.69",
- "tokio",
-]
-
-[[package]]
-name = "beater-store-conformance"
-version = "0.1.0"
-dependencies = [
- "beater-core",
- "beater-schema",
- "beater-store",
- "chrono",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "beater-store-memory"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-core",
- "beater-schema",
- "beater-store",
- "beater-store-conformance",
- "tokio",
-]
-
-[[package]]
-name = "beater-store-obj"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "beater-core",
- "beater-schema",
- "beater-store",
- "blake3",
- "tempfile",
- "tokio",
- "uuid",
-]
-
-[[package]]
-name = "beater-store-sql"
-version = "0.1.0"
-dependencies = [
- "async-trait",
- "base64 0.22.1",
- "beater-core",
- "beater-schema",
- "beater-store",
- "beater-store-conformance",
- "beater-store-memory",
- "beater-store-obj",
- "chrono",
- "reqwest",
- "rusqlite",
- "serde_json",
- "tempfile",
- "testcontainers",
- "tokio",
- "tokio-postgres",
-]
-
-[[package]]
-name = "beater-temporal"
-version = "0.1.0"
-dependencies = [
- "beater-core",
- "beater-ingest",
- "beater-schema",
- "chrono",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "beater-usage"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "beater-core",
- "beater-datasets",
- "beater-eval",
- "beater-experiments",
- "beater-judge",
- "beater-store",
- "chrono",
- "rusqlite",
- "serde",
- "serde_json",
- "tokio",
- "utoipa",
- "uuid",
-]
-
-[[package]]
-name = "beaterctl"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum 0.7.9",
- "beater-alerts",
- "beater-api",
- "beater-audit",
- "beater-auth",
- "beater-bus",
- "beater-calibration",
- "beater-core",
- "beater-datasets",
- "beater-eval",
- "beater-experiments",
- "beater-gates",
- "beater-human",
- "beater-ingest",
- "beater-judge",
- "beater-otlp",
- "beater-replay",
- "beater-schema",
- "beater-secrets",
- "beater-security",
- "beater-store",
- "beater-store-obj",
- "beater-store-sql",
- "beater-usage",
- "chrono",
- "clap",
- "opentelemetry-proto",
- "reqwest",
- "serde_json",
- "tempfile",
- "tokio",
- "tonic",
-]
-
-[[package]]
-name = "beaterd"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "axum 0.7.9",
- "beater-accounts",
- "beater-api",
- "beater-archive",
- "beater-audit",
- "beater-auth",
- "beater-bus",
- "beater-calibration",
- "beater-composio",
- "beater-core",
- "beater-datasets",
- "beater-experiments",
- "beater-gates",
- "beater-human",
- "beater-ingest",
- "beater-judge",
- "beater-langfuse",
- "beater-mcp",
- "beater-oauth",
- "beater-oauth-server",
- "beater-otlp",
- "beater-prompts",
- "beater-replay",
- "beater-scenarios",
- "beater-schema",
- "beater-search",
- "beater-secrets",
- "beater-store",
- "beater-store-obj",
- "beater-store-sql",
- "beater-temporal",
- "beater-usage",
- "chrono",
- "clap",
- "opentelemetry-proto",
- "reqwest",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
- "tonic",
- "tower",
-]
-
-[[package]]
 name = "bigdecimal"
 version = "0.4.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4967,6 +3881,1092 @@ dependencies = [
 ]
 
 [[package]]
+name = "palette-accounts"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "argon2",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-store",
+ "rand_core 0.6.4",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "subtle",
+ "thiserror 1.0.69",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "palette-alerts"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "palette-security",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-api"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "chrono",
+ "http 1.4.2",
+ "opentelemetry-proto",
+ "palette-alerts",
+ "palette-archive",
+ "palette-audit",
+ "palette-auth",
+ "palette-bus",
+ "palette-calibration",
+ "palette-composio",
+ "palette-core",
+ "palette-datasets",
+ "palette-eval",
+ "palette-experiments",
+ "palette-gates",
+ "palette-human",
+ "palette-ingest",
+ "palette-judge",
+ "palette-oauth",
+ "palette-otlp",
+ "palette-prompts",
+ "palette-replay",
+ "palette-sandbox",
+ "palette-scenarios",
+ "palette-schema",
+ "palette-search",
+ "palette-secrets",
+ "palette-security",
+ "palette-store",
+ "palette-store-memory",
+ "palette-store-obj",
+ "palette-store-sql",
+ "palette-usage",
+ "percent-encoding",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tower",
+ "utoipa",
+ "uuid",
+ "wat",
+]
+
+[[package]]
+name = "palette-archive"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "arrow-array",
+ "arrow-schema",
+ "async-trait",
+ "chrono",
+ "datafusion",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "palette-store-obj",
+ "palette-store-sql",
+ "parquet",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-audit"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-auth"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-security",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-autonomy"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-bench"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "criterion",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "palette-store-memory",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "palette-billing"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-security",
+ "palette-store",
+ "palette-usage",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-browser"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-browser-capture"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "palette-browser",
+ "palette-core",
+ "palette-replay",
+ "palette-schema",
+ "palette-store",
+ "palette-store-obj",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-browser-cdp"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chromiumoxide",
+ "futures",
+ "palette-browser",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-browser-harness"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "palette-browser",
+ "palette-browser-capture",
+ "palette-core",
+ "palette-datasets",
+ "palette-eval",
+ "palette-experiments",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-browser-playwright"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "futures",
+ "palette-browser",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-browser-triage"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-browser-webdriver"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "fantoccini",
+ "palette-browser",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-bus"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-calibration"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-datasets",
+ "palette-schema",
+ "palette-stats",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-composio"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-core"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "thiserror 1.0.69",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-datasets"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-eval",
+ "palette-judge",
+ "palette-schema",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-delegation"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-design"
+version = "0.1.0"
+dependencies = [
+ "palette-core",
+ "serde",
+ "thiserror 1.0.69",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-eval"
+version = "0.1.0"
+dependencies = [
+ "palette-core",
+ "palette-design",
+ "palette-schema",
+ "palette-stats",
+ "regex",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-experiments"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "chrono",
+ "palette-core",
+ "palette-datasets",
+ "palette-eval",
+ "palette-judge",
+ "palette-schema",
+ "palette-stats",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-gates"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-eval",
+ "palette-experiments",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-guardrails"
+version = "0.1.0"
+dependencies = [
+ "regex",
+ "serde",
+ "thiserror 1.0.69",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-human"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-datasets",
+ "palette-schema",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-identity"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-incidents"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-ingest"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-bus",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "palette-store-memory",
+ "palette-store-obj",
+ "palette-store-sql",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-judge"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "chrono",
+ "palette-core",
+ "palette-eval",
+ "palette-schema",
+ "palette-secrets",
+ "palette-store",
+ "reqwest",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-knowledge"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-langfuse"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "palette-bus",
+ "palette-core",
+ "palette-ingest",
+ "palette-schema",
+ "palette-store",
+ "palette-store-memory",
+ "palette-store-obj",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-mcp"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "chrono",
+ "http 1.4.2",
+ "palette-alerts",
+ "palette-api",
+ "palette-archive",
+ "palette-audit",
+ "palette-auth",
+ "palette-bus",
+ "palette-calibration",
+ "palette-core",
+ "palette-datasets",
+ "palette-experiments",
+ "palette-gates",
+ "palette-human",
+ "palette-ingest",
+ "palette-judge",
+ "palette-oauth",
+ "palette-search",
+ "palette-secrets",
+ "palette-security",
+ "palette-store-obj",
+ "palette-store-sql",
+ "palette-usage",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tower",
+]
+
+[[package]]
+name = "palette-oauth"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "argon2",
+ "async-trait",
+ "base64 0.22.1",
+ "chrono",
+ "http 1.4.2",
+ "palette-core",
+ "palette-store",
+ "rand_core 0.6.4",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "subtle",
+ "thiserror 1.0.69",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "palette-oauth-server"
+version = "0.1.0"
+dependencies = [
+ "axum 0.7.9",
+ "base64 0.22.1",
+ "chrono",
+ "http 1.4.2",
+ "palette-accounts",
+ "palette-auth",
+ "palette-core",
+ "palette-oauth",
+ "palette-security",
+ "percent-encoding",
+ "rand_core 0.6.4",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tokio",
+ "tower",
+]
+
+[[package]]
+name = "palette-otlp"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "opentelemetry-proto",
+ "palette-bus",
+ "palette-core",
+ "palette-ingest",
+ "palette-schema",
+ "palette-store",
+ "palette-store-obj",
+ "palette-store-sql",
+ "prost",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tonic",
+]
+
+[[package]]
+name = "palette-prompts"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-receipts"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-replay"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-ingest",
+ "palette-schema",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "palette-sandbox"
+version = "0.1.0"
+dependencies = [
+ "palette-eval",
+ "palette-schema",
+ "serde_json",
+ "thiserror 1.0.69",
+ "wasmtime",
+ "wat",
+]
+
+[[package]]
+name = "palette-scenarios"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-schema"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "palette-core",
+ "serde",
+ "serde_json",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-search"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "palette-store-memory",
+ "serde",
+ "serde_json",
+ "tantivy",
+ "tempfile",
+ "tokio",
+ "utoipa",
+]
+
+[[package]]
+name = "palette-secrets"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "base64 0.22.1",
+ "chacha20poly1305",
+ "chrono",
+ "palette-core",
+ "palette-store",
+ "rand_core 0.6.4",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-security"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "argon2",
+ "base64 0.22.1",
+ "chrono",
+ "hmac 0.12.1",
+ "palette-core",
+ "rand_core 0.6.4",
+ "serde",
+ "sha2 0.10.9",
+ "subtle",
+ "thiserror 1.0.69",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palette-stats"
+version = "0.1.0"
+dependencies = [
+ "rayon",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "palette-store"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "thiserror 1.0.69",
+ "tokio",
+]
+
+[[package]]
+name = "palette-store-conformance"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "palette-store-memory"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "palette-store-conformance",
+ "tokio",
+]
+
+[[package]]
+name = "palette-store-obj"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "blake3",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "tempfile",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "palette-store-sql"
+version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "base64 0.22.1",
+ "chrono",
+ "palette-core",
+ "palette-schema",
+ "palette-store",
+ "palette-store-conformance",
+ "palette-store-memory",
+ "palette-store-obj",
+ "reqwest",
+ "rusqlite",
+ "serde_json",
+ "tempfile",
+ "testcontainers",
+ "tokio",
+ "tokio-postgres",
+]
+
+[[package]]
+name = "palette-temporal"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "palette-core",
+ "palette-ingest",
+ "palette-schema",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+]
+
+[[package]]
+name = "palette-usage"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "palette-core",
+ "palette-datasets",
+ "palette-eval",
+ "palette-experiments",
+ "palette-judge",
+ "palette-store",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "tokio",
+ "utoipa",
+ "uuid",
+]
+
+[[package]]
+name = "palettectl"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "chrono",
+ "clap",
+ "opentelemetry-proto",
+ "palette-alerts",
+ "palette-api",
+ "palette-audit",
+ "palette-auth",
+ "palette-bus",
+ "palette-calibration",
+ "palette-core",
+ "palette-datasets",
+ "palette-eval",
+ "palette-experiments",
+ "palette-gates",
+ "palette-human",
+ "palette-ingest",
+ "palette-judge",
+ "palette-otlp",
+ "palette-replay",
+ "palette-schema",
+ "palette-secrets",
+ "palette-security",
+ "palette-store",
+ "palette-store-obj",
+ "palette-store-sql",
+ "palette-usage",
+ "reqwest",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tonic",
+]
+
+[[package]]
+name = "paletted"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "axum 0.7.9",
+ "chrono",
+ "clap",
+ "opentelemetry-proto",
+ "palette-accounts",
+ "palette-api",
+ "palette-archive",
+ "palette-audit",
+ "palette-auth",
+ "palette-bus",
+ "palette-calibration",
+ "palette-composio",
+ "palette-core",
+ "palette-datasets",
+ "palette-experiments",
+ "palette-gates",
+ "palette-human",
+ "palette-ingest",
+ "palette-judge",
+ "palette-langfuse",
+ "palette-mcp",
+ "palette-oauth",
+ "palette-oauth-server",
+ "palette-otlp",
+ "palette-prompts",
+ "palette-replay",
+ "palette-scenarios",
+ "palette-schema",
+ "palette-search",
+ "palette-secrets",
+ "palette-store",
+ "palette-store-obj",
+ "palette-store-sql",
+ "palette-temporal",
+ "palette-usage",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tonic",
+ "tower",
+]
+
+[[package]]
 name = "parking_lot"
 version = "0.12.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7847,9 +7847,9 @@ name = "xtask"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "beater-api",
- "beater-schema",
  "clap",
+ "palette-api",
+ "palette-schema",
 ]
 
 [[package]]

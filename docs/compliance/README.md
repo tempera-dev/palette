@@ -1,6 +1,6 @@
 # Compliance Evidence Index
 
-This directory is the planned home for Beater compliance evidence. It is not a
+This directory is the planned home for Palette compliance evidence. It is not a
 SOC 2, HIPAA, GDPR, or enterprise-readiness claim.
 
 `ARCHITECTURE.md` §20.7 #5.11 names the expected compliance surface:

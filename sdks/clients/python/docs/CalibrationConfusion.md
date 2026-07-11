@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.calibration_confusion import CalibrationConfusion
+from palette_client.models.calibration_confusion import CalibrationConfusion
 
 # TODO update the JSON string below
 json = "{}"

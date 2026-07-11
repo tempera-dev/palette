@@ -84,8 +84,8 @@ fn generated_and_native_sdks_stay_out_of_core_workspace() -> Result<(), Box<dyn 
         "sdks/* must not become core workspace members: {members:?}"
     );
     assert!(
-        members.iter().all(|path| !path.ends_with("beater-sdk")),
-        "the native Rust SDK belongs under sdks/rust, not as a beater-sdk workspace crate: {members:?}"
+        members.iter().all(|path| !path.ends_with("palette-sdk")),
+        "the native Rust SDK belongs under sdks/rust, not as a palette-sdk workspace crate: {members:?}"
     );
 
     Ok(())

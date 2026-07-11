@@ -15,7 +15,7 @@ All URIs are relative to *http://localhost*
 
 ## datasetsCreateDataset
 
-> Dataset datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> Dataset datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -23,11 +23,11 @@ All URIs are relative to *http://localhost*
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.DatasetsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.DatasetsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -39,11 +39,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         CreateDatasetRequest createDatasetRequest = new CreateDatasetRequest(); // CreateDatasetRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            Dataset result = apiInstance.datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            Dataset result = apiInstance.datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DatasetsApi#datasetsCreateDataset");
@@ -65,9 +65,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **createDatasetRequest** | [**CreateDatasetRequest**](CreateDatasetRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -93,7 +93,7 @@ No authorization required
 
 ## datasetsCreateDatasetWithHttpInfo
 
-> ApiResponse<Dataset> datasetsCreateDataset datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<Dataset> datasetsCreateDataset datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -101,12 +101,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.DatasetsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.DatasetsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -118,11 +118,11 @@ public class Example {
         String projectId = "projectId_example"; // String | project_id
         CreateDatasetRequest createDatasetRequest = new CreateDatasetRequest(); // CreateDatasetRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<Dataset> response = apiInstance.datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<Dataset> response = apiInstance.datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -146,9 +146,9 @@ public class Example {
 | **projectId** | **String**| project_id | |
 | **createDatasetRequest** | [**CreateDatasetRequest**](CreateDatasetRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -175,7 +175,7 @@ No authorization required
 
 ## datasetsCreateDatasetVersion
 
-> DatasetVersionSnapshot datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> DatasetVersionSnapshot datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -183,11 +183,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.DatasetsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.DatasetsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -200,11 +200,11 @@ public class Example {
         String datasetId = "datasetId_example"; // String | dataset_id
         CreateDatasetVersionRequest createDatasetVersionRequest = new CreateDatasetVersionRequest(); // CreateDatasetVersionRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetVersionSnapshot result = apiInstance.datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            DatasetVersionSnapshot result = apiInstance.datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DatasetsApi#datasetsCreateDatasetVersion");
@@ -227,9 +227,9 @@ public class Example {
 | **datasetId** | **String**| dataset_id | |
 | **createDatasetVersionRequest** | [**CreateDatasetVersionRequest**](CreateDatasetVersionRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -256,7 +256,7 @@ No authorization required
 
 ## datasetsCreateDatasetVersionWithHttpInfo
 
-> ApiResponse<DatasetVersionSnapshot> datasetsCreateDatasetVersion datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<DatasetVersionSnapshot> datasetsCreateDatasetVersion datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -264,12 +264,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.DatasetsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.DatasetsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -282,11 +282,11 @@ public class Example {
         String datasetId = "datasetId_example"; // String | dataset_id
         CreateDatasetVersionRequest createDatasetVersionRequest = new CreateDatasetVersionRequest(); // CreateDatasetVersionRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetVersionSnapshot> response = apiInstance.datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<DatasetVersionSnapshot> response = apiInstance.datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -311,9 +311,9 @@ public class Example {
 | **datasetId** | **String**| dataset_id | |
 | **createDatasetVersionRequest** | [**CreateDatasetVersionRequest**](CreateDatasetVersionRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -341,7 +341,7 @@ No authorization required
 
 ## datasetsPromoteDatasetCaseFromTrace
 
-> DatasetCase datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> DatasetCase datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -349,11 +349,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.DatasetsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.DatasetsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -366,11 +366,11 @@ public class Example {
         String datasetId = "datasetId_example"; // String | dataset_id
         PromoteTraceCaseRequest promoteTraceCaseRequest = new PromoteTraceCaseRequest(); // PromoteTraceCaseRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetCase result = apiInstance.datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            DatasetCase result = apiInstance.datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling DatasetsApi#datasetsPromoteDatasetCaseFromTrace");
@@ -393,9 +393,9 @@ public class Example {
 | **datasetId** | **String**| dataset_id | |
 | **promoteTraceCaseRequest** | [**PromoteTraceCaseRequest**](PromoteTraceCaseRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -422,7 +422,7 @@ No authorization required
 
 ## datasetsPromoteDatasetCaseFromTraceWithHttpInfo
 
-> ApiResponse<DatasetCase> datasetsPromoteDatasetCaseFromTrace datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<DatasetCase> datasetsPromoteDatasetCaseFromTrace datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -430,12 +430,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.DatasetsApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.DatasetsApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -448,11 +448,11 @@ public class Example {
         String datasetId = "datasetId_example"; // String | dataset_id
         PromoteTraceCaseRequest promoteTraceCaseRequest = new PromoteTraceCaseRequest(); // PromoteTraceCaseRequest |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetCase> response = apiInstance.datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<DatasetCase> response = apiInstance.datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -477,9 +477,9 @@ public class Example {
 | **datasetId** | **String**| dataset_id | |
 | **promoteTraceCaseRequest** | [**PromoteTraceCaseRequest**](PromoteTraceCaseRequest.md)|  | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 

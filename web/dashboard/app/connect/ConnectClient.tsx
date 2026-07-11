@@ -44,7 +44,7 @@ const CLIENTS: ClientTarget[] = [
     id: "cursor",
     name: "Cursor",
     icon: MonitorCog,
-    note: "Add Beater as a remote HTTP MCP server. Cursor should discover OAuth from the endpoint.",
+    note: "Add Palette as a remote HTTP MCP server. Cursor should discover OAuth from the endpoint.",
   },
   {
     id: "chatgpt",
@@ -56,7 +56,7 @@ const CLIENTS: ClientTarget[] = [
     id: "openai",
     name: "OpenAI API / Agents",
     icon: TerminalSquare,
-    note: "Attach Beater as a hosted MCP tool with server_url and per-call approvals.",
+    note: "Attach Palette as a hosted MCP tool with server_url and per-call approvals.",
   },
 ];
 
@@ -113,7 +113,7 @@ function claudeConfig(mcpUrl: string) {
   return JSON.stringify(
     {
       mcpServers: {
-        beater: {
+        palette: {
           type: "http",
           url: mcpUrl,
         },
@@ -128,7 +128,7 @@ function cursorConfig(mcpUrl: string) {
   return JSON.stringify(
     {
       mcpServers: {
-        beater: {
+        palette: {
           url: mcpUrl,
           transport: "http",
         },
@@ -143,7 +143,7 @@ function openAiToolConfig(mcpUrl: string) {
   return JSON.stringify(
     {
       type: "mcp",
-      server_label: "beater",
+      server_label: "palette",
       server_url: mcpUrl,
       require_approval: "always",
     },
@@ -154,18 +154,18 @@ function openAiToolConfig(mcpUrl: string) {
 
 function apiKeyFallback(origin: string) {
   return [
-    `export BEATER_API_BASE_URL="${origin}"`,
-    `export BEATER_API_KEY="bt_..."`,
-    `export BEATER_TENANT="your-tenant-id"`,
-    `export BEATER_PROJECT="default"`,
-    `export BEATER_ENVIRONMENT="default"`,
+    `export PALETTE_API_BASE_URL="${origin}"`,
+    `export PALETTE_API_KEY="bt_..."`,
+    `export PALETTE_TENANT="your-tenant-id"`,
+    `export PALETTE_PROJECT="default"`,
+    `export PALETTE_ENVIRONMENT="default"`,
     ``,
-    `curl -X POST "$BEATER_API_BASE_URL/mcp" \\`,
+    `curl -X POST "$PALETTE_API_BASE_URL/mcp" \\`,
     `  -H "content-type: application/json" \\`,
-    `  -H "x-beater-api-key: $BEATER_API_KEY" \\`,
-    `  -H "x-beater-project-id: $BEATER_PROJECT" \\`,
-    `  -H "x-beater-environment-id: $BEATER_ENVIRONMENT" \\`,
-    `  --data "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":1,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"traces.list-traces\\",\\"arguments\\":{\\"tenant_id\\":\\"$BEATER_TENANT\\"}}}"`,
+    `  -H "x-palette-api-key: $PALETTE_API_KEY" \\`,
+    `  -H "x-palette-project-id: $PALETTE_PROJECT" \\`,
+    `  -H "x-palette-environment-id: $PALETTE_ENVIRONMENT" \\`,
+    `  --data "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":1,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"traces.list-traces\\",\\"arguments\\":{\\"tenant_id\\":\\"$PALETTE_TENANT\\"}}}"`,
   ].join("\n");
 }
 
@@ -445,7 +445,7 @@ export function ConnectClient({ signedIn }: { signedIn: boolean }) {
         </div>
         <div className="panel-foot">
           <span>
-            A warning usually means the dashboard is deployed but beaterd or its OAuth proxy is not reachable.
+            A warning usually means the dashboard is deployed but paletted or its OAuth proxy is not reachable.
           </span>
         </div>
       </section>
@@ -502,7 +502,7 @@ export function ConnectClient({ signedIn }: { signedIn: boolean }) {
         <div className="panel-head">
           <div className="panel-titles">
             <h2 id="permissions-title">Delegated permissions</h2>
-            <p>Start narrow. The client asks for scopes, and Beater enforces them on every MCP call.</p>
+            <p>Start narrow. The client asks for scopes, and Palette enforces them on every MCP call.</p>
           </div>
           <span className="tag tag-accent">
             <ShieldCheck aria-hidden="true" width={13} height={13} /> Least privilege

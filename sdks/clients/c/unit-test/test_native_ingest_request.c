@@ -41,13 +41,13 @@ native_ingest_request_t* instantiate_native_ingest_request(int include_optional)
       "0",
       null,
       "0",
-      beater_api_native_ingest_request__public,
+      palette_api_native_ingest_request__public,
        // false, not to have infinite recursion
       instantiate_tenant_scope(0),
       0,
       "0",
       "2013-10-20T19:20:30+01:00",
-      beater_api_native_ingest_request__ok,
+      palette_api_native_ingest_request__ok,
        // false, not to have infinite recursion
       instantiate_token_counts(0),
       "0"
@@ -65,12 +65,12 @@ native_ingest_request_t* instantiate_native_ingest_request(int include_optional)
       "0",
       null,
       "0",
-      beater_api_native_ingest_request__public,
+      palette_api_native_ingest_request__public,
       NULL,
       0,
       "0",
       "2013-10-20T19:20:30+01:00",
-      beater_api_native_ingest_request__ok,
+      palette_api_native_ingest_request__ok,
       NULL,
       "0"
     );

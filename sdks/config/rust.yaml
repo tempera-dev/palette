@@ -1,8 +1,8 @@
 # openapi-generator config: Rust control-plane client (Layer 1).
-# Consumed by the Rust SDK and the beaterctl CLI so all three share one contract.
+# Consumed by the Rust SDK and the palettectl CLI so all three share one contract.
 generatorName: rust
 additionalProperties:
-  packageName: beater-client
+  packageName: palette-client
   packageVersion: 0.1.0
   library: reqwest
   supportAsync: true

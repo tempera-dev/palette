@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    name: Build Beater API
+    name: Build Palette API
     runs-on: ubuntu-latest
     strategy:
       matrix:

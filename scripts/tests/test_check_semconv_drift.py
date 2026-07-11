@@ -42,7 +42,7 @@ def write_fixture(root: Path, *, include_env: bool = True, extra_semconv: str = 
                 "span_kinds": ["agent.run"],
                 "attributes": {"model": "llm.model"},
                 "defaults": {"base_url": "http://127.0.0.1:8080"},
-                "env": {"api_key": "BEATER_API_KEY"},
+                "env": {"api_key": "PALETTE_API_KEY"},
             }
         ),
     )
@@ -55,7 +55,7 @@ const DOC = "http://127.0.0.1:8080/path"; // URL with // inside a string
 {extra_semconv}
 ''',
     )
-    env_line = 'const KEY = "BEATER_API_KEY";' if include_env else ""
+    env_line = 'const KEY = "PALETTE_API_KEY";' if include_env else ""
     write(
         root / "sdk/config.txt",
         f'''
@@ -89,9 +89,9 @@ const endpoint = "http://127.0.0.1:8080/v1";
 def test_semconv_wire_values_filter_config_and_urls() -> None:
     module = load_module()
     values = module.semconv_wire_values(
-        {"agent.run", "llm.model", "x-beater-project-id", "http://127.0.0.1:8080", "BEATER_API_KEY"}
+        {"agent.run", "llm.model", "x-palette-project-id", "http://127.0.0.1:8080", "PALETTE_API_KEY"}
     )
-    assert values == {"agent.run", "llm.model", "x-beater-project-id"}
+    assert values == {"agent.run", "llm.model", "x-palette-project-id"}
 
 
 def test_fixture_passes_when_semconv_and_config_match() -> None:
@@ -113,7 +113,7 @@ def test_missing_config_value_is_reported() -> None:
     assert failed
     output = "\n".join(lines)
     assert "missing defaults/env values" in output
-    assert "BEATER_API_KEY" in output
+    assert "PALETTE_API_KEY" in output
 
 
 def test_extra_semconv_wire_value_is_reported() -> None:

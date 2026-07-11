@@ -58,14 +58,14 @@ def main() -> int:
     passing = base_report("pass", True)
     assert verdict_of(passing) == "pass"
     md = render_markdown(passing, comment_tag="demo")
-    expect(md, "✅ Beater eval gate: PASS", "pass")
-    expect(md, "<!-- beater-eval-gate:demo -->", "pass")
+    expect(md, "✅ Palette eval gate: PASS", "pass")
+    expect(md, "<!-- palette-eval-gate:demo -->", "pass")
     expect(md, "| 40 | 0.7 | 0.775 | 0.075 | [0.012, 0.138] | 0.0213 | paired_t |", "pass")
 
     failing = base_report("fail_regression", False, delta=-0.25, ci_low=-0.31, ci_high=-0.19)
     assert verdict_of(failing) == "fail"
     md = render_markdown(failing, comment_tag=None)
-    expect(md, "❌ Beater eval gate: FAIL", "fail")
+    expect(md, "❌ Palette eval gate: FAIL", "fail")
     expect(md, "Baseline `rel-base` → candidate `rel-cand`", "fail")
 
     inconclusive = base_report(
@@ -78,7 +78,7 @@ def main() -> int:
     )
     assert verdict_of(inconclusive) == "inconclusive"
     md = render_markdown(inconclusive, comment_tag=None)
-    expect(md, "⚪ Beater eval gate: INCONCLUSIVE", "inconclusive")
+    expect(md, "⚪ Palette eval gate: INCONCLUSIVE", "inconclusive")
     expect(md, "Effects smaller than **0.083**", "inconclusive")
     expect(md, "About **214 paired cases**", "inconclusive")
     expect(md, "an underpowered comparison is not a pass", "inconclusive")

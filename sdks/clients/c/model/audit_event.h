@@ -22,13 +22,13 @@ typedef struct audit_event_t audit_event_t;
 
 
 typedef struct audit_event_t {
-    beater_api_audit_action__e action; //referenced enum
+    palette_api_audit_action__e action; //referenced enum
     char *actor_api_key_id; // string
     any_type_t *attributes; // custom
     char *audit_event_id; // string
     char *created_at; //date time
     char *environment_id; // string
-    beater_api_audit_outcome__e outcome; //referenced enum
+    palette_api_audit_outcome__e outcome; //referenced enum
     char *project_id; // string
     char *reason; // string
     char *resource_id; // string
@@ -39,13 +39,13 @@ typedef struct audit_event_t {
 } audit_event_t;
 
 __attribute__((deprecated)) audit_event_t *audit_event_create(
-    beater_api_audit_action__e action,
+    palette_api_audit_action__e action,
     char *actor_api_key_id,
     any_type_t *attributes,
     char *audit_event_id,
     char *created_at,
     char *environment_id,
-    beater_api_audit_outcome__e outcome,
+    palette_api_audit_outcome__e outcome,
     char *project_id,
     char *reason,
     char *resource_id,

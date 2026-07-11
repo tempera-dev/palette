@@ -13,7 +13,7 @@ static review_task_t *review_task_create_internal(
     char *project_id,
     char *queue_id,
     char *span_id,
-    beater_api_review_task_state__e state,
+    palette_api_review_task_state__e state,
     char *task_id,
     char *tenant_id,
     char *trace_id,
@@ -48,7 +48,7 @@ __attribute__((deprecated)) review_task_t *review_task_create(
     char *project_id,
     char *queue_id,
     char *span_id,
-    beater_api_review_task_state__e state,
+    palette_api_review_task_state__e state,
     char *task_id,
     char *tenant_id,
     char *trace_id,
@@ -186,7 +186,7 @@ cJSON *review_task_convertToJSON(review_task_t *review_task) {
 
 
     // review_task->state
-    if (beater_api_review_task_state__NULL == review_task->state) {
+    if (palette_api_review_task_state__NULL == review_task->state) {
         goto fail;
     }
     cJSON *state_local_JSON = review_task_state_convertToJSON(review_task->state);
@@ -247,7 +247,7 @@ review_task_t *review_task_parseFromJSON(cJSON *review_taskJSON){
     review_task_t *review_task_local_var = NULL;
 
     // define the local variable for review_task->state
-    beater_api_review_task_state__e state_local_nonprim = 0;
+    palette_api_review_task_state__e state_local_nonprim = 0;
 
     // review_task->created_at
     cJSON *created_at = cJSON_GetObjectItemCaseSensitive(review_taskJSON, "created_at");

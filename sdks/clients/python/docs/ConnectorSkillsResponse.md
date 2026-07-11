@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.connector_skills_response import ConnectorSkillsResponse
+from palette_client.models.connector_skills_response import ConnectorSkillsResponse
 
 # TODO update the JSON string below
 json = "{}"

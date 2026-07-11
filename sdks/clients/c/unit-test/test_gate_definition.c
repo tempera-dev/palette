@@ -26,7 +26,7 @@ gate_definition_t* instantiate_gate_definition(int include_optional) {
       "0",
       "0",
       "0",
-      beater_api_gate_definition__pass,
+      palette_api_gate_definition__pass,
       "0",
       "0",
       "0"
@@ -37,7 +37,7 @@ gate_definition_t* instantiate_gate_definition(int include_optional) {
       "0",
       "0",
       "0",
-      beater_api_gate_definition__pass,
+      palette_api_gate_definition__pass,
       "0",
       "0",
       "0"

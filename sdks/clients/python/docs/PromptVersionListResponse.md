@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.prompt_version_list_response import PromptVersionListResponse
+from palette_client.models.prompt_version_list_response import PromptVersionListResponse
 
 # TODO update the JSON string below
 json = "{}"

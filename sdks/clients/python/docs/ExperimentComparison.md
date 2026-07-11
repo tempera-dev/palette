@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.experiment_comparison import ExperimentComparison
+from palette_client.models.experiment_comparison import ExperimentComparison
 
 # TODO update the JSON string below
 json = "{}"

@@ -37,4 +37,4 @@ jobs:
         run: rustup default stable
 
       - name: Gate 1 live runtime smoke
-        run: cargo test -p beaterd --test live_smoke -- --test-threads=1
+        run: cargo test -p paletted --test live_smoke -- --test-threads=1

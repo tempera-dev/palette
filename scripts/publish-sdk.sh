@@ -5,7 +5,7 @@
 # secrets. C/C++ have no central registry -- they ship as source + release tarballs.
 #
 # Version handling: generated clients are versioned at generation time
-# (BEATER_SDK_VERSION -> openapi-generator, see regen-sdks.sh); the published
+# (PALETTE_SDK_VERSION -> openapi-generator, see regen-sdks.sh); the published
 # ergonomic packages are stamped here so a `v0.2.0` tag actually publishes 0.2.0.
 set -euo pipefail
 

@@ -1,6 +1,6 @@
 # Toolkit
 
-A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Beater exposes.
+A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Palette exposes.
 
 ## Properties
 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.toolkit import Toolkit
+from palette_client.models.toolkit import Toolkit
 
 # TODO update the JSON string below
 json = "{}"

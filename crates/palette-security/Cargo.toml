@@ -1,0 +1,23 @@
+[package]
+name = "palette-security"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+argon2.workspace = true
+base64.workspace = true
+palette-core = { path = "../palette-core" }
+chrono.workspace = true
+hmac.workspace = true
+rand_core.workspace = true
+serde.workspace = true
+sha2.workspace = true
+subtle.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+
+[lints]
+workspace = true

@@ -1,5 +1,5 @@
 // Live conformance: drive the generated Go control-plane client against a
-// running beaterd and verify typed request/response shapes. Proves API==SDK for Go.
+// running paletted and verify typed request/response shapes. Proves API==SDK for Go.
 package main
 
 import (
@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 
-	bc "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	bc "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func fail(msg string, err error) {
@@ -16,7 +16,7 @@ func fail(msg string, err error) {
 }
 
 func main() {
-	base := os.Getenv("BEATER_BASE_URL")
+	base := os.Getenv("PALETTE_BASE_URL")
 	tenant := "demo"
 	project := "demo"
 

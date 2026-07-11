@@ -1,16 +1,16 @@
-// Vercel AI SDK + OTLP -> Beater example app (Phase 6 §20.8 #6.3).
+// Vercel AI SDK + OTLP -> Palette example app (Phase 6 §20.8 #6.3).
 //
 // Demonstrates wrapping an AI SDK agent-style generateText call and tool
-// execution with stock OpenTelemetry spans, then exporting to beaterd over
-// OTLP/HTTP. This stays standards-first: no Beater SDK and no provider wrapper
+// execution with stock OpenTelemetry spans, then exporting to paletted over
+// OTLP/HTTP. This stays standards-first: no Palette SDK and no provider wrapper
 // import are required.
 //
 // By default this uses a local stub with the same generateText/tool shape, so
 // the example can run without a model key or live network. To run against a
-// real AI SDK model, install `ai`, set BEATER_EXAMPLE_LIVE_AI=1, and provide a
+// real AI SDK model, install `ai`, set PALETTE_EXAMPLE_LIVE_AI=1, and provide a
 // model/credential supported by your AI SDK setup.
 //
-// Run a local beaterd (`docker compose up`) and then:
+// Run a local paletted (`docker compose up`) and then:
 //
 //   npm install @opentelemetry/api @opentelemetry/sdk-trace-node \
 //     @opentelemetry/exporter-trace-otlp-proto
@@ -20,7 +20,7 @@
 //
 //   npm install ai @opentelemetry/api @opentelemetry/sdk-trace-node \
 //     @opentelemetry/exporter-trace-otlp-proto
-//   BEATER_EXAMPLE_LIVE_AI=1 AI_MODEL=anthropic/claude-sonnet-4.5 \
+//   PALETTE_EXAMPLE_LIVE_AI=1 AI_MODEL=anthropic/claude-sonnet-4.5 \
 //     node examples/typescript/frameworks/vercel-ai-sdk-otlp.mjs
 
 import { SpanStatusCode, trace } from "@opentelemetry/api";
@@ -30,9 +30,9 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 
 const apiBase =
   process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? "http://127.0.0.1:8080";
-const tenant = process.env.BEATER_TENANT_ID ?? "demo";
-const project = process.env.BEATER_PROJECT_ID ?? "demo";
-const environment = process.env.BEATER_ENVIRONMENT_ID ?? "local";
+const tenant = process.env.PALETTE_TENANT_ID ?? "demo";
+const project = process.env.PALETTE_PROJECT_ID ?? "demo";
+const environment = process.env.PALETTE_ENVIRONMENT_ID ?? "local";
 const url = `${apiBase}/v1/otlp/${tenant}/${project}/${environment}/v1/traces`;
 
 const provider = new NodeTracerProvider();
@@ -41,12 +41,12 @@ provider.addSpanProcessor(
 );
 provider.register();
 
-const tracer = trace.getTracer("beater.example.vercel-ai-sdk");
-const release = process.env.BEATER_RELEASE_ID ?? "vercel-ai-sdk-example";
+const tracer = trace.getTracer("palette.example.vercel-ai-sdk");
+const release = process.env.PALETTE_RELEASE_ID ?? "vercel-ai-sdk-example";
 const model = process.env.AI_MODEL ?? "anthropic/claude-sonnet-4.5";
 
 async function loadAiSdk() {
-  if (process.env.BEATER_EXAMPLE_LIVE_AI === "1") {
+  if (process.env.PALETTE_EXAMPLE_LIVE_AI === "1") {
     return await import("ai");
   }
   return {
@@ -105,8 +105,8 @@ function orderLookupTool(tool, jsonSchema) {
         "lookup_order",
         {
           attributes: {
-            "beater.span.kind": "tool.call",
-            "beater.release_id": release,
+            "palette.span.kind": "tool.call",
+            "palette.release_id": release,
             "tool.name": "lookupOrder",
             "input.value": orderId,
           },
@@ -131,8 +131,8 @@ async function main() {
     "support_triage",
     {
       attributes: {
-        "beater.span.kind": "agent.run",
-        "beater.release_id": release,
+        "palette.span.kind": "agent.run",
+        "palette.release_id": release,
         "agent.framework": "vercel-ai-sdk",
         "input.value": prompt,
       },
@@ -142,8 +142,8 @@ async function main() {
         "ai_sdk_generate_text",
         {
           attributes: {
-            "beater.span.kind": "llm.call",
-            "beater.release_id": release,
+            "palette.span.kind": "llm.call",
+            "palette.release_id": release,
             "llm.provider": "ai-gateway",
             "llm.model_name": model,
             "input.value": prompt,
@@ -161,8 +161,8 @@ async function main() {
               maxRetries: 0,
               experimental_telemetry: {
                 isEnabled: true,
-                functionId: "beater.examples.vercel_ai_sdk",
-                metadata: { beater_example: "vercel-ai-sdk-otlp" },
+                functionId: "palette.examples.vercel_ai_sdk",
+                metadata: { palette_example: "vercel-ai-sdk-otlp" },
               },
             });
             recordTokenUsage(llm, response);

@@ -31,7 +31,7 @@ page_run_summary_items_inner_t* instantiate_page_run_summary_items_inner(int inc
       list_createList(),
       0,
       "2013-10-20T19:20:30+01:00",
-      beater_api_page_run_summary_items_inner__ok,
+      palette_api_page_run_summary_items_inner__ok,
       "0",
        // false, not to have infinite recursion
       instantiate_money(0),
@@ -47,7 +47,7 @@ page_run_summary_items_inner_t* instantiate_page_run_summary_items_inner(int inc
       list_createList(),
       0,
       "2013-10-20T19:20:30+01:00",
-      beater_api_page_run_summary_items_inner__ok,
+      palette_api_page_run_summary_items_inner__ok,
       "0",
       NULL,
       "0"

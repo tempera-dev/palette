@@ -22,12 +22,12 @@ span_io_value_one_of_t* instantiate_span_io_value_one_of(int include_optional) {
   span_io_value_one_of_t* span_io_value_one_of = NULL;
   if (include_optional) {
     span_io_value_one_of = span_io_value_one_of_create(
-      beater_api_span_io_value_one_of_KIND_inline,
+      palette_api_span_io_value_one_of_KIND_inline,
       null
     );
   } else {
     span_io_value_one_of = span_io_value_one_of_create(
-      beater_api_span_io_value_one_of_KIND_inline,
+      palette_api_span_io_value_one_of_KIND_inline,
       null
     );
   }

@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## PromptsAddPromptVersion
 
-> PromptVersion PromptsAddPromptVersion(ctx, tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> PromptVersion PromptsAddPromptVersion(ctx, tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -28,7 +28,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -37,13 +37,13 @@ func main() {
 	promptId := "promptId_example" // string | prompt_id
 	addPromptVersionRequest := *openapiclient.NewAddPromptVersionRequest(*openapiclient.NewPromptTemplate("Body_example", []string{"Tags_example"}, []openapiclient.PromptVariable{*openapiclient.NewPromptVariable("Name_example", false)})) // AddPromptVersionRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsAddPromptVersion(context.Background(), tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsAddPromptVersion(context.Background(), tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsAddPromptVersion``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -75,9 +75,9 @@ Name | Type | Description  | Notes
 
  **addPromptVersionRequest** | [**AddPromptVersionRequest**](AddPromptVersionRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -99,7 +99,7 @@ No authorization required
 
 ## PromptsCreatePrompt
 
-> CreatedPrompt PromptsCreatePrompt(ctx, tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> CreatedPrompt PromptsCreatePrompt(ctx, tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -112,7 +112,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -120,13 +120,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	createPromptRequest := *openapiclient.NewCreatePromptRequest("Name_example", *openapiclient.NewPromptTemplate("Body_example", []string{"Tags_example"}, []openapiclient.PromptVariable{*openapiclient.NewPromptVariable("Name_example", false)})) // CreatePromptRequest |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsCreatePrompt(context.Background(), tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsCreatePrompt(context.Background(), tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsCreatePrompt``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -156,9 +156,9 @@ Name | Type | Description  | Notes
 
  **createPromptRequest** | [**CreatePromptRequest**](CreatePromptRequest.md) |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -180,7 +180,7 @@ No authorization required
 
 ## PromptsDiffPromptVersions
 
-> PromptVersionDiff PromptsDiffPromptVersions(ctx, tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> PromptVersionDiff PromptsDiffPromptVersions(ctx, tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -193,7 +193,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -203,13 +203,13 @@ func main() {
 	from := "from_example" // string |
 	to := "to_example" // string |
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsDiffPromptVersions(context.Background(), tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsDiffPromptVersions(context.Background(), tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsDiffPromptVersions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -242,9 +242,9 @@ Name | Type | Description  | Notes
  **from** | **string** |  |
  **to** | **string** |  |
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -266,7 +266,7 @@ No authorization required
 
 ## PromptsGetPrompt
 
-> Prompt PromptsGetPrompt(ctx, tenantId, projectId, promptId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> Prompt PromptsGetPrompt(ctx, tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -279,7 +279,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -287,13 +287,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	promptId := "promptId_example" // string | prompt_id
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsGetPrompt(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsGetPrompt(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsGetPrompt``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -324,9 +324,9 @@ Name | Type | Description  | Notes
 
 
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -348,7 +348,7 @@ No authorization required
 
 ## PromptsListPromptVersions
 
-> PromptVersionListResponse PromptsListPromptVersions(ctx, tenantId, projectId, promptId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> PromptVersionListResponse PromptsListPromptVersions(ctx, tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -361,7 +361,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
@@ -369,13 +369,13 @@ func main() {
 	projectId := "projectId_example" // string | project_id
 	promptId := "promptId_example" // string | prompt_id
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsListPromptVersions(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsListPromptVersions(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsListPromptVersions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -406,9 +406,9 @@ Name | Type | Description  | Notes
 
 
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 
@@ -430,7 +430,7 @@ No authorization required
 
 ## PromptsListPrompts
 
-> PromptListResponse PromptsListPrompts(ctx, tenantId, projectId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+> PromptListResponse PromptsListPrompts(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -443,20 +443,20 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/beaterclient"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
 func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xBeaterApiKey := "xBeaterApiKey_example" // string | API key alternative for strict auth (optional)
-	xBeaterProjectId := "xBeaterProjectId_example" // string | Strict-auth project scope (optional)
-	xBeaterEnvironmentId := "xBeaterEnvironmentId_example" // string | Strict-auth environment scope (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsListPrompts(context.Background(), tenantId, projectId).Authorization(authorization).XBeaterApiKey(xBeaterApiKey).XBeaterProjectId(xBeaterProjectId).XBeaterEnvironmentId(xBeaterEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsListPrompts(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsListPrompts``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -485,9 +485,9 @@ Name | Type | Description  | Notes
 
 
  **authorization** | **string** | Bearer API token for strict auth |
- **xBeaterApiKey** | **string** | API key alternative for strict auth |
- **xBeaterProjectId** | **string** | Strict-auth project scope |
- **xBeaterEnvironmentId** | **string** | Strict-auth environment scope |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
 
 ### Return type
 

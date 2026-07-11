@@ -9,11 +9,11 @@ A few dependencies are inherently large compile units and are genuinely needed:
 
 | Crate | Heavy dependency | Pulls in |
 | --- | --- | --- |
-| `beater-sandbox` | `wasmtime` + `cranelift` | the WASI runtime + JIT codegen |
-| `beater-archive` | `datafusion` 54, `arrow`, `parquet` | the whole query/columnar stack |
-| `beater-search` | `tantivy` | full-text index engine |
-| `beater-browser-cdp` | `chromiumoxide` | CDP client + async-tungstenite |
-| `beater-otlp`, bins | `tonic` + `prost` | gRPC + protobuf codegen |
+| `palette-sandbox` | `wasmtime` + `cranelift` | the WASI runtime + JIT codegen |
+| `palette-archive` | `datafusion` 54, `arrow`, `parquet` | the whole query/columnar stack |
+| `palette-search` | `tantivy` | full-text index engine |
+| `palette-browser-cdp` | `chromiumoxide` | CDP client + async-tungstenite |
+| `palette-otlp`, bins | `tonic` + `prost` | gRPC + protobuf codegen |
 
 A full `cargo build --workspace` compiles all of them, so first/clean builds are
 slow no matter what. That part is "just how it goes."
@@ -24,9 +24,9 @@ Each heavy dependency lives behind exactly one crate (table above). So you do
 **not** pay for them unless you build a crate that needs them:
 
 ```bash
-cargo build -p beater-core        # no datafusion / wasmtime / tantivy
-cargo test  -p beater-eval        # no browser / archive stack
-./beater-cli test backend         # full workspace — pays for everything
+cargo build -p palette-core        # no datafusion / wasmtime / tantivy
+cargo test  -p palette-eval        # no browser / archive stack
+./palette-cli test backend         # full workspace — pays for everything
 ```
 
 When iterating, build/test the single crate you're working on. Reach for the
@@ -81,14 +81,14 @@ from cache instead of recompiled.
 
 The `Dockerfile` uses [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef):
 dependencies are cooked once in a layer keyed on `recipe.json`, so a source-only
-change reuses the cached dependency build. `beaterd` and `beaterctl` build in
+change reuses the cached dependency build. `paletted` and `palettectl` build in
 separate `rust-deps`-derived stages, which lets BuildKit run them in parallel and
 cache each binary independently.
 
 ## Quick reference
 
 ```bash
-./beater-cli test backend     # mirrors CI's backend bucket locally
+./palette-cli test backend     # mirrors CI's backend bucket locally
 cargo build -p <crate>        # iterate on one crate (skips unrelated heavy deps)
 cargo test  -p <crate>
 ```

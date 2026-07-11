@@ -8,7 +8,7 @@ export interface VercelAiTelemetryConfig {
   metadata?: Record<string, unknown>;
 }
 
-export interface BeaterVercelAiTelemetryOptions {
+export interface PaletteVercelAiTelemetryOptions {
   enabled?: boolean;
   functionId?: string;
   recordInputs?: boolean;
@@ -18,11 +18,11 @@ export interface BeaterVercelAiTelemetryOptions {
 
 export type VercelAiTelemetryOptionName = "telemetry" | "experimental_telemetry";
 
-export interface WithVercelAiTelemetryOptions extends BeaterVercelAiTelemetryOptions {
+export interface WithVercelAiTelemetryOptions extends PaletteVercelAiTelemetryOptions {
   optionName?: VercelAiTelemetryOptionName;
 }
 
-export function vercelAiTelemetry(options: BeaterVercelAiTelemetryOptions = {}): VercelAiTelemetryConfig {
+export function vercelAiTelemetry(options: PaletteVercelAiTelemetryOptions = {}): VercelAiTelemetryConfig {
   const config: VercelAiTelemetryConfig = {
     isEnabled: options.enabled ?? true,
   };

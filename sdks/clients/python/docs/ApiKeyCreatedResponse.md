@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.api_key_created_response import ApiKeyCreatedResponse
+from palette_client.models.api_key_created_response import ApiKeyCreatedResponse
 
 # TODO update the JSON string below
 json = "{}"

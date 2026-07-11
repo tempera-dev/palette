@@ -24,7 +24,7 @@ from gate2_proof_contract import (
 IMAGE_NAMES = GATE2_IMAGE_NAMES
 EXPECTED_PLATFORMS = GATE2_EXPECTED_PLATFORMS
 REMOTE_URL_NO_SUFFIX = REMOTE_URL.removesuffix(".git")
-DEFAULT_COMPOSE_SERVICES = {"beaterd", "dashboard"}
+DEFAULT_COMPOSE_SERVICES = {"paletted", "dashboard"}
 PROFILED_THIRD_PARTY_SERVICES = {
     "docker-compose.yml": {
         "postgres": ["deps"],
@@ -40,15 +40,15 @@ PROFILED_THIRD_PARTY_SERVICES = {
 }
 TIMED_COMPOSE_SERVICES = {
     "docker-compose.yml": {
-        "beaterd",
+        "paletted",
         "dashboard",
         "dashboard-e2e",
-        "beaterctl",
+        "palettectl",
         "otel-python-smoke",
         "otel-python-quickstart",
     },
     "docker-compose.prebuilt.yml": {
-        "beaterd",
+        "paletted",
         "dashboard",
         "dashboard-e2e",
         "otel-python-smoke",
@@ -118,7 +118,7 @@ def require_repo_shape(args: argparse.Namespace) -> None:
 def validate_outside_proof_template() -> None:
     validator = repo_root() / "scripts/validate-gate2-outside-proof.sh"
     env = os.environ.copy()
-    env.pop("BEATER_GATE2_OUTSIDE_PROOF", None)
+    env.pop("PALETTE_GATE2_OUTSIDE_PROOF", None)
     subprocess.check_call([str(validator), "--allow-pending"], cwd=repo_root(), env=env)
 
 
@@ -365,12 +365,12 @@ def require_local_browser_endpoint(
     services: dict[str, list[str]],
 ) -> None:
     env = service_environment(services.get("dashboard", []))
-    key = "NEXT_PUBLIC_BEATER_API_BASE_URL"
+    key = "NEXT_PUBLIC_PALETTE_API_BASE_URL"
     actual = env.get(key)
-    if actual != "http://localhost:${BEATER_HTTP_PORT:-8080}":
+    if actual != "http://localhost:${PALETTE_HTTP_PORT:-8080}":
         raise SystemExit(
             f"{compose_name} service dashboard must expose local browser API URL "
-            f"{key}=http://localhost:${{BEATER_HTTP_PORT:-8080}}, got {actual!r}"
+            f"{key}=http://localhost:${{PALETTE_HTTP_PORT:-8080}}, got {actual!r}"
         )
 
 
@@ -382,8 +382,8 @@ def require_compose_local_endpoints(
         compose_name,
         services,
         "dashboard",
-        "BEATER_API_BASE_URL",
-        "http://beaterd:8080",
+        "PALETTE_API_BASE_URL",
+        "http://paletted:8080",
     )
     require_local_browser_endpoint(compose_name, services)
     require_service_env(
@@ -399,14 +399,14 @@ def require_compose_local_endpoints(
             services,
             service,
             "OTEL_EXPORTER_OTLP_ENDPOINT",
-            "http://beaterd:4317",
+            "http://paletted:4317",
         )
     if compose_name == "docker-compose.yml":
-        command = service_block_text(services.get("beaterctl", []), "command")
-        for endpoint in ("http://beaterd:8080", "http://beaterd:4317"):
+        command = service_block_text(services.get("palettectl", []), "command")
+        for endpoint in ("http://paletted:8080", "http://paletted:4317"):
             if endpoint not in command:
                 raise SystemExit(
-                    f"{compose_name} service beaterctl command must use local endpoint {endpoint}"
+                    f"{compose_name} service palettectl command must use local endpoint {endpoint}"
                 )
 
 
@@ -460,7 +460,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--registry-fixture",
-        help="Directory containing beaterd/dashboard/dashboard-e2e/otel-python JSON manifests.",
+        help="Directory containing paletted/dashboard/dashboard-e2e/otel-python JSON manifests.",
     )
     parser.add_argument(
         "--skip-repo-shape",

@@ -2,8 +2,8 @@
  * Canonical `browser.*` semantic-convention attribute keys.
  *
  * These MUST match the Rust source of truth
- * (`crates/beater-browser/src/semconv.rs`) exactly so Beater's OTLP ingest
- * (`beater-otlp`) normalizes spans from this SDK identically to the native
+ * (`crates/palette-browser/src/semconv.rs`) exactly so Palette's OTLP ingest
+ * (`palette-otlp`) normalizes spans from this SDK identically to the native
  * capture layer and the other instrumentation SDKs.
  */
 export const BrowserAttr = {
@@ -40,14 +40,14 @@ export const StepStatus = {
 } as const;
 
 /**
- * Beater span-kind attribute. `beater-otlp` reads this key (alongside
+ * Palette span-kind attribute. `palette-otlp` reads this key (alongside
  * `openinference.span.kind` / `gen_ai.operation.name`) to classify the agent
  * span kind. We set it explicitly so wrapped calls map to `tool.call` and model
  * decisions map to `llm.call`.
  */
-export const BEATER_SPAN_KIND = "beater.span.kind";
+export const PALETTE_SPAN_KIND = "palette.span.kind";
 
-/** Agent span-kind values recognized by `beater-otlp`. */
+/** Agent span-kind values recognized by `palette-otlp`. */
 export const SpanKind = {
   TOOL_CALL: "tool.call",
   LLM_CALL: "llm.call",

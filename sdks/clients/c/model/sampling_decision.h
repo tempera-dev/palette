@@ -20,7 +20,7 @@ typedef struct sampling_decision_t sampling_decision_t;
 
 
 typedef struct sampling_decision_t {
-    beater_api_sampling_reason__e reason; //referenced enum
+    palette_api_sampling_reason__e reason; //referenced enum
     int selected; //boolean
     int stable_score_per_mille; //numeric
 
@@ -28,7 +28,7 @@ typedef struct sampling_decision_t {
 } sampling_decision_t;
 
 __attribute__((deprecated)) sampling_decision_t *sampling_decision_create(
-    beater_api_sampling_reason__e reason,
+    palette_api_sampling_reason__e reason,
     int selected,
     int stable_score_per_mille
 );

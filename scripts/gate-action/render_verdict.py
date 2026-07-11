@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Render a `beaterctl gate-run` JSON report as a CI-facing Markdown verdict.
+"""Render a `palettectl gate-run` JSON report as a CI-facing Markdown verdict.
 
 Consumed by the repo-root composite action (`action.yml`). Reads the raw
-`GateRunReport` JSON that `beaterctl gate-run` prints, and emits:
+`GateRunReport` JSON that `palettectl gate-run` prints, and emits:
 
   - a Markdown verdict block (step summary and/or sticky PR comment body),
   - GitHub Actions outputs (`verdict`, `passed`, `decision`, `reason`).
 
 The verdict is deliberately three-valued — pass / fail / **inconclusive** —
-mirroring `GateDecision` in `beater-eval`. Inconclusive is a first-class
+mirroring `GateDecision` in `palette-eval`. Inconclusive is a first-class
 outcome, not a soft pass: the block reports the minimum detectable effect at
 the current sample size and how many paired cases would have resolved the
 comparison (`mde` / `required_n` from `ExperimentComparison`), so the PR
@@ -24,7 +24,7 @@ import json
 import sys
 from pathlib import Path
 
-# Stable snake_case names from beater-eval's GateDecision.
+# Stable snake_case names from palette-eval's GateDecision.
 DECISION_PASS = "pass"
 DECISION_FAIL = "fail_regression"
 DECISION_INCONCLUSIVE = "inconclusive"
@@ -87,8 +87,8 @@ def render_markdown(report: dict, comment_tag: str | None) -> str:
     lines: list[str] = []
     if comment_tag:
         # Hidden marker that keeps the PR comment sticky across pushes.
-        lines.append(f"<!-- beater-eval-gate:{comment_tag} -->")
-    lines.append(f"## {emoji} Beater eval gate: {label}")
+        lines.append(f"<!-- palette-eval-gate:{comment_tag} -->")
+    lines.append(f"## {emoji} Palette eval gate: {label}")
     lines.append("")
 
     gate_name = inline(report.get("gate_name", "?"))
@@ -206,7 +206,7 @@ def main() -> int:
             ),
         )
 
-    print(f"beater eval gate verdict: {verdict}", file=sys.stderr)
+    print(f"palette eval gate verdict: {verdict}", file=sys.stderr)
     return 0
 
 

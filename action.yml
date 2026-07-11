@@ -1,12 +1,12 @@
-name: "Beater Eval Gate"
+name: "Palette Eval Gate"
 description: >-
-  Run a Beater statistical eval gate in CI and post a pass / fail /
+  Run a Palette statistical eval gate in CI and post a pass / fail /
   INCONCLUSIVE verdict — with effect size, confidence interval, p-value, and
   (when underpowered) the minimum detectable effect and how many more cases
   would make the comparison conclusive — to the step summary and, optionally,
   a sticky PR comment. Runs entirely against the local `--data-dir` store:
-  no Beater server, no API keys.
-author: "Beater"
+  no Palette server, no API keys.
+author: "Palette"
 branding:
   icon: "check-circle"
   color: "green"
@@ -14,10 +14,10 @@ branding:
 inputs:
   data-dir:
     description: >-
-      Beater data directory holding gates.sqlite / experiments.sqlite,
+      Palette data directory holding gates.sqlite / experiments.sqlite,
       produced by the eval steps earlier in the job (or by demo-fixture mode).
     required: false
-    default: ".beater"
+    default: ".palette"
   tenant-id:
     description: "Tenant id the gate belongs to."
     required: false
@@ -36,9 +36,9 @@ inputs:
       experiment run.
     required: false
     default: ""
-  beaterctl-path:
+  palettectl-path:
     description: >-
-      Path to a prebuilt beaterctl binary. Empty = build it from this
+      Path to a prebuilt palettectl binary. Empty = build it from this
       action's checkout with cargo (requires a Rust toolchain on the runner;
       the first uncached build is slow — prefer a prebuilt binary or a cargo
       cache in latency-sensitive workflows).
@@ -47,7 +47,7 @@ inputs:
   demo-fixture:
     description: >-
       "true" seeds the deterministic demo gate + experiments
-      (`beaterctl gate-run-fixture`) into data-dir before running. Zero-config
+      (`palettectl gate-run-fixture`) into data-dir before running. Zero-config
       demo/self-test mode; uses tenant/project/gate demo/demo/main.
     required: false
     default: "false"
@@ -95,43 +95,43 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Resolve beaterctl
+    - name: Resolve palettectl
       id: resolve
       shell: bash
       env:
-        BEATERCTL_INPUT: ${{ inputs.beaterctl-path }}
+        PALETTECTL_INPUT: ${{ inputs.palettectl-path }}
       run: |
         set -euo pipefail
-        if [ -n "$BEATERCTL_INPUT" ]; then
-          BEATERCTL="$BEATERCTL_INPUT"
+        if [ -n "$PALETTECTL_INPUT" ]; then
+          PALETTECTL="$PALETTECTL_INPUT"
         else
-          echo "::group::Building beaterctl from ${GITHUB_ACTION_PATH}"
+          echo "::group::Building palettectl from ${GITHUB_ACTION_PATH}"
           # Pin --target-dir: a consumer job exporting CARGO_TARGET_DIR would
           # otherwise relocate the build and break the path below.
-          cargo build --release -q -p beaterctl \
+          cargo build --release -q -p palettectl \
             --manifest-path "${GITHUB_ACTION_PATH}/Cargo.toml" \
             --target-dir "${GITHUB_ACTION_PATH}/target"
           echo "::endgroup::"
-          BEATERCTL="${GITHUB_ACTION_PATH}/target/release/beaterctl"
+          PALETTECTL="${GITHUB_ACTION_PATH}/target/release/palettectl"
         fi
-        "$BEATERCTL" --help >/dev/null
-        echo "beaterctl=$BEATERCTL" >> "$GITHUB_OUTPUT"
+        "$PALETTECTL" --help >/dev/null
+        echo "palettectl=$PALETTECTL" >> "$GITHUB_OUTPUT"
 
     - name: Seed demo fixture
       if: ${{ inputs.demo-fixture == 'true' }}
       shell: bash
       env:
-        BEATERCTL: ${{ steps.resolve.outputs.beaterctl }}
+        PALETTECTL: ${{ steps.resolve.outputs.palettectl }}
         DATA_DIR: ${{ inputs.data-dir }}
       run: |
         set -euo pipefail
-        "$BEATERCTL" gate-run-fixture --data-dir "$DATA_DIR" >/dev/null
+        "$PALETTECTL" gate-run-fixture --data-dir "$DATA_DIR" >/dev/null
 
     - name: Run the gate
       id: gate
       shell: bash
       env:
-        BEATERCTL: ${{ steps.resolve.outputs.beaterctl }}
+        PALETTECTL: ${{ steps.resolve.outputs.palettectl }}
         DATA_DIR: ${{ inputs.data-dir }}
         TENANT_ID: ${{ inputs.tenant-id }}
         PROJECT_ID: ${{ inputs.project-id }}
@@ -139,7 +139,7 @@ runs:
         EXPERIMENT_RUN_ID: ${{ inputs.experiment-run-id }}
       run: |
         set -euo pipefail
-        REPORT="$(mktemp "${RUNNER_TEMP}/beater-gate-report.XXXXXX.json")"
+        REPORT="$(mktemp "${RUNNER_TEMP}/palette-gate-report.XXXXXX.json")"
         ARGS=(gate-run
           --data-dir "$DATA_DIR"
           --tenant-id "$TENANT_ID"
@@ -151,7 +151,7 @@ runs:
         # gate-run exits 1 on a non-passing gate; capture instead of aborting
         # so the verdict is rendered either way.
         GATE_EXIT=0
-        "$BEATERCTL" "${ARGS[@]}" > "$REPORT" || GATE_EXIT=$?
+        "$PALETTECTL" "${ARGS[@]}" > "$REPORT" || GATE_EXIT=$?
         if [ ! -s "$REPORT" ]; then
           echo "gate-run produced no report (exit ${GATE_EXIT})" >&2
           exit "$GATE_EXIT"
@@ -166,7 +166,7 @@ runs:
         COMMENT_TAG: ${{ inputs.comment-tag }}
       run: |
         set -euo pipefail
-        COMMENT_FILE="$(mktemp "${RUNNER_TEMP}/beater-gate-comment.XXXXXX.md")"
+        COMMENT_FILE="$(mktemp "${RUNNER_TEMP}/palette-gate-comment.XXXXXX.md")"
         python3 "${GITHUB_ACTION_PATH}/scripts/gate-action/render_verdict.py" \
           --report "$REPORT" \
           --summary "$GITHUB_STEP_SUMMARY" \
@@ -184,7 +184,7 @@ runs:
         # Built as an env value (not spliced into the script), and matched in
         # jq via env.MARKER so quotes/backslashes in the tag cannot break the
         # filter program.
-        MARKER: "<!-- beater-eval-gate:${{ inputs.comment-tag }} -->"
+        MARKER: "<!-- palette-eval-gate:${{ inputs.comment-tag }} -->"
         BODY_FILE: ${{ steps.render.outputs.comment-file }}
       run: |
         set -euo pipefail
@@ -210,6 +210,6 @@ runs:
       run: |
         set -euo pipefail
         if [ "$PASSED" != "true" ]; then
-          echo "Beater eval gate verdict: ${VERDICT} — ${REASON}" >&2
+          echo "Palette eval gate verdict: ${VERDICT} — ${REASON}" >&2
           exit 1
         fi

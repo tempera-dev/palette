@@ -1,0 +1,76 @@
+[package]
+name = "paletted"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+async-trait.workspace = true
+axum.workspace = true
+palette-accounts = { path = "../../crates/palette-accounts" }
+palette-api = { path = "../../crates/palette-api" }
+palette-archive = { path = "../../crates/palette-archive" }
+palette-audit = { path = "../../crates/palette-audit" }
+palette-auth = { path = "../../crates/palette-auth" }
+palette-oauth = { path = "../../crates/palette-oauth" }
+palette-oauth-server = { path = "../../crates/palette-oauth-server" }
+palette-bus = { path = "../../crates/palette-bus" }
+palette-calibration = { path = "../../crates/palette-calibration" }
+palette-composio = { path = "../../crates/palette-composio" }
+palette-datasets = { path = "../../crates/palette-datasets" }
+palette-experiments = { path = "../../crates/palette-experiments" }
+palette-gates = { path = "../../crates/palette-gates" }
+palette-human = { path = "../../crates/palette-human" }
+palette-ingest = { path = "../../crates/palette-ingest" }
+palette-judge = { path = "../../crates/palette-judge" }
+palette-langfuse = { path = "../../crates/palette-langfuse" }
+palette-mcp = { path = "../../crates/palette-mcp" }
+palette-otlp = { path = "../../crates/palette-otlp" }
+palette-prompts = { path = "../../crates/palette-prompts" }
+palette-scenarios = { path = "../../crates/palette-scenarios" }
+palette-search = { path = "../../crates/palette-search" }
+palette-secrets = { path = "../../crates/palette-secrets" }
+palette-schema = { path = "../../crates/palette-schema" }
+palette-temporal = { path = "../../crates/palette-temporal" }
+palette-store = { path = "../../crates/palette-store" }
+palette-store-obj = { path = "../../crates/palette-store-obj" }
+palette-store-sql = { path = "../../crates/palette-store-sql" }
+palette-core = { path = "../../crates/palette-core" }
+palette-usage = { path = "../../crates/palette-usage" }
+chrono.workspace = true
+clap.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tonic.workspace = true
+
+[features]
+# R1.2: the future service split is logical, not operational. The all-in-one
+# `paletted` is the only mandatory deployment. Optional thin role binaries are
+# gated behind this feature and are NOT built by default, so a self-host never
+# has to run a multi-service topology.
+default = []
+thin-bins = []
+
+# Optional thin role binaries (R1.2). They share the same crate but are only
+# compiled when the `thin-bins` feature is enabled, proving the split is opt-in.
+[[bin]]
+name = "palette-ingestd"
+path = "src/bin/palette-ingestd.rs"
+required-features = ["thin-bins"]
+
+[[bin]]
+name = "palette-queryd"
+path = "src/bin/palette-queryd.rs"
+required-features = ["thin-bins"]
+
+[dev-dependencies]
+palette-replay = { path = "../../crates/palette-replay" }
+opentelemetry-proto.workspace = true
+tempfile.workspace = true
+tower.workspace = true
+
+[lints]
+workspace = true

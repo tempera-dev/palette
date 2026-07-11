@@ -1,12 +1,12 @@
 name: Bug report
-description: Report a problem with beaterd, the SDKs, the CLI, or the dashboard.
+description: Report a problem with paletted, the SDKs, the CLI, or the dashboard.
 title: "[bug] "
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for filing a bug. Beater self-hosts with one `beaterd` binary, so
+        Thanks for filing a bug. Palette self-hosts with one `paletted` binary, so
         please include enough to reproduce locally (see `docs/local-dev.md`).
   - type: textarea
     id: what-happened
@@ -32,7 +32,7 @@ body:
     attributes:
       label: Area
       options:
-        - beaterd server
+        - paletted server
         - SDK (Rust / Python / TypeScript / other)
         - MCP tools / CLI
         - Dashboard (web)
@@ -53,5 +53,5 @@ body:
     id: logs
     attributes:
       label: Relevant logs
-      description: beaterd stderr, compose logs, or SDK output. Will be rendered as code.
+      description: paletted stderr, compose logs, or SDK output. Will be rendered as code.
       render: shell

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.publish_ack import PublishAck
+from palette_client.models.publish_ack import PublishAck
 
 # TODO update the JSON string below
 json = "{}"

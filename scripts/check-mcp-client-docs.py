@@ -8,18 +8,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOC = ROOT / "docs/mcp-client-setup.md"
-BEATERD_MAIN = ROOT / "bins/beaterd/src/main.rs"
-OAUTH_SERVER = ROOT / "crates/beater-oauth-server/src/lib.rs"
-MCP_LIB = ROOT / "crates/beater-mcp/src/lib.rs"
+PALETTED_MAIN = ROOT / "bins/paletted/src/main.rs"
+OAUTH_SERVER = ROOT / "crates/palette-oauth-server/src/lib.rs"
+MCP_LIB = ROOT / "crates/palette-mcp/src/lib.rs"
 
 
 DOC_REQUIRED = [
     "Claude Code",
     "Codex",
-    "beaterd mcp --stdio",
+    "paletted mcp --stdio",
     "claude mcp add",
-    "[mcp_servers.beater]",
-    "command = \"beaterd\"",
+    "[mcp_servers.palette]",
+    "command = \"paletted\"",
     "POST /mcp",
     "GET  /mcp",
     "/.well-known/oauth-authorization-server",
@@ -28,11 +28,11 @@ DOC_REQUIRED = [
     "tools/list",
     "tools/call",
     "\"name\":\"help\"",
-    "BEATER_MCP_TOKEN",
+    "PALETTE_MCP_TOKEN",
 ]
 
 SOURCE_REQUIRED = {
-    BEATERD_MAIN: ["mcp", "stdio", "beater_mcp::serve_stdio"],
+    PALETTED_MAIN: ["mcp", "stdio", "palette_mcp::serve_stdio"],
     OAUTH_SERVER: [
         "/.well-known/oauth-authorization-server",
         "/oauth/authorize",

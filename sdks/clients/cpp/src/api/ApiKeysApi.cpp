@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -10,10 +10,10 @@
  */
 
 
-#include "beater-client/api/ApiKeysApi.h"
-#include "beater-client/IHttpBody.h"
-#include "beater-client/JsonBody.h"
-#include "beater-client/MultipartFormData.h"
+#include "palette-client/api/ApiKeysApi.h"
+#include "palette-client/IHttpBody.h"
+#include "palette-client/JsonBody.h"
+#include "palette-client/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 
@@ -35,7 +35,7 @@ ApiKeysApi::~ApiKeysApi()
 {
 }
 
-pplx::task<std::shared_ptr<ApiKeyCreatedResponse>> ApiKeysApi::apiKeys_createApiKey(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, std::shared_ptr<CreateApiKeyHttpRequest> createApiKeyHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<ApiKeyCreatedResponse>> ApiKeysApi::apiKeys_createApiKey(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, std::shared_ptr<CreateApiKeyHttpRequest> createApiKeyHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createApiKeyHttpRequest' is set
@@ -90,17 +90,17 @@ pplx::task<std::shared_ptr<ApiKeyCreatedResponse>> ApiKeysApi::apiKeys_createApi
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -199,7 +199,7 @@ pplx::task<std::shared_ptr<ApiKeyCreatedResponse>> ApiKeysApi::apiKeys_createApi
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<RevokedApiKey>> ApiKeysApi::apiKeys_revokeApiKey(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, utility::string_t apiKeyId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<RevokedApiKey>> ApiKeysApi::apiKeys_revokeApiKey(utility::string_t tenantId, utility::string_t projectId, utility::string_t environmentId, utility::string_t apiKeyId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -248,17 +248,17 @@ pplx::task<std::shared_ptr<RevokedApiKey>> ApiKeysApi::apiKeys_revokeApiKey(util
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;

@@ -1,31 +1,31 @@
-//! # Beater Rust SDK — ergonomic, OpenTelemetry-native agent observability
+//! # Palette Rust SDK — ergonomic, OpenTelemetry-native agent observability
 //!
 //! This is the hand-written ergonomic (Layer 2) SDK, mirroring the Python
 //! (`sdks/python`) and TypeScript (`sdks/typescript`) SDKs. It is a thin,
 //! idiomatic wrapper over the OpenTelemetry API: `init()` wires up an OTLP/HTTP
-//! exporter pointed at `beaterd`, and `observe` / `span` open Beater spans with
+//! exporter pointed at `paletted`, and `observe` / `span` open Palette spans with
 //! the right span-kind, sequence, and release attributes.
 //!
 //! ```no_run
-//! use beater::{BeaterConfig, span_kind};
+//! use palette::{PaletteConfig, span_kind};
 //!
-//! beater::init(BeaterConfig::from_env());
+//! palette::init(PaletteConfig::from_env());
 //!
-//! let answer = beater::observe("handle_refund", span_kind::AGENT_RUN, || {
-//!     beater::set_input("late delivery refund");
-//!     beater::set_output("escalate");
+//! let answer = palette::observe("handle_refund", span_kind::AGENT_RUN, || {
+//!     palette::set_input("late delivery refund");
+//!     palette::set_output("escalate");
 //!     "escalate"
 //! });
 //! assert_eq!(answer, "escalate");
-//! beater::shutdown();
+//! palette::shutdown();
 //! ```
 
 mod config;
 pub mod semconv;
 
-pub use config::BeaterConfig;
+pub use config::PaletteConfig;
 // Re-export the semconv namespaces at the crate root for ergonomics, matching
-// `beater.SpanKind` / `beater::span_kind` usage in the sibling SDKs.
+// `palette.SpanKind` / `palette::span_kind` usage in the sibling SDKs.
 pub use semconv::{attr, span_kind, SPAN_KINDS};
 
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -37,18 +37,18 @@ use opentelemetry_otlp::{WithExportConfig, WithHttpConfig};
 use opentelemetry_sdk::trace::SdkTracerProvider;
 use opentelemetry_sdk::Resource;
 
-const TRACER_NAME: &str = "beater.sdk";
+const TRACER_NAME: &str = "palette.sdk";
 
-static CONFIG: OnceLock<BeaterConfig> = OnceLock::new();
+static CONFIG: OnceLock<PaletteConfig> = OnceLock::new();
 static PROVIDER: Mutex<Option<SdkTracerProvider>> = Mutex::new(None);
 static SEQ: AtomicU64 = AtomicU64::new(1);
 
-/// Initialize the Beater tracer. Call once at process start.
+/// Initialize the Palette tracer. Call once at process start.
 ///
 /// Builds an OTLP/HTTP (protobuf) exporter pointed at
 /// `{base_url}/v1/otlp/{tenant}/{project}/{environment}/v1/traces` and installs
 /// it as the global OpenTelemetry tracer provider.
-pub fn init(config: BeaterConfig) {
+pub fn init(config: PaletteConfig) {
     let exporter = build_exporter(&config);
 
     let provider = SdkTracerProvider::builder()
@@ -66,7 +66,7 @@ pub fn init(config: BeaterConfig) {
     let _ = CONFIG.set(config);
 }
 
-fn build_exporter(config: &BeaterConfig) -> opentelemetry_otlp::SpanExporter {
+fn build_exporter(config: &PaletteConfig) -> opentelemetry_otlp::SpanExporter {
     let mut headers = std::collections::HashMap::new();
     if let Some(api_key) = &config.api_key {
         headers.insert("authorization".to_string(), format!("Bearer {api_key}"));
@@ -78,11 +78,11 @@ fn build_exporter(config: &BeaterConfig) -> opentelemetry_otlp::SpanExporter {
         .with_protocol(opentelemetry_otlp::Protocol::HttpBinary)
         .with_headers(headers)
         .build()
-        .expect("failed to build Beater OTLP/HTTP span exporter")
+        .expect("failed to build Palette OTLP/HTTP span exporter")
 }
 
 /// The active config, if `init` has been called.
-pub fn get_config() -> Option<&'static BeaterConfig> {
+pub fn get_config() -> Option<&'static PaletteConfig> {
     CONFIG.get()
 }
 
@@ -103,7 +103,7 @@ fn common_attributes(kind: &str) -> Vec<KeyValue> {
     attrs
 }
 
-/// An ergonomic Beater span: a thin RAII handle that activates an OpenTelemetry
+/// An ergonomic Palette span: a thin RAII handle that activates an OpenTelemetry
 /// span as the current context for its lifetime.
 ///
 /// Use [`span`] to open one, then [`Span::set_input`] / [`Span::set_output`] (or
@@ -154,15 +154,15 @@ impl Drop for Span {
     }
 }
 
-/// Open a Beater span as the current span and return an RAII guard.
+/// Open a Palette span as the current span and return an RAII guard.
 ///
 /// The span carries the given `kind` (one of [`span_kind`]), a monotonically
-/// increasing `beater.seq`, and the configured `agent.release_id`. The span ends
+/// increasing `palette.seq`, and the configured `agent.release_id`. The span ends
 /// when the returned [`Span`] is dropped.
 ///
 /// ```no_run
-/// use beater::span_kind;
-/// let s = beater::span("retrieve", span_kind::RETRIEVAL_QUERY);
+/// use palette::span_kind;
+/// let s = palette::span("retrieve", span_kind::RETRIEVAL_QUERY);
 /// s.set_input("user question");
 /// s.set_output("3 docs");
 /// ```
@@ -177,13 +177,13 @@ pub fn span(name: &str, kind: &str) -> Span {
     Span { cx, _context_guard }
 }
 
-/// Run `f` inside a Beater span, recording status. Returns `f`'s result.
+/// Run `f` inside a Palette span, recording status. Returns `f`'s result.
 ///
 /// This is the primary ergonomic entry point, analogous to Python's `@observe`.
 ///
 /// ```no_run
-/// use beater::span_kind;
-/// let n = beater::observe("plan", span_kind::AGENT_PLAN, || 42);
+/// use palette::span_kind;
+/// let n = palette::observe("plan", span_kind::AGENT_PLAN, || 42);
 /// assert_eq!(n, 42);
 /// ```
 pub fn observe<T>(name: &str, kind: &str, f: impl FnOnce() -> T) -> T {
@@ -201,7 +201,7 @@ pub fn observe<T>(name: &str, kind: &str, f: impl FnOnce() -> T) -> T {
     result
 }
 
-/// Async variant of [`observe`]: run the future inside a Beater span.
+/// Async variant of [`observe`]: run the future inside a Palette span.
 pub async fn observe_async<T, Fut>(name: &str, kind: &str, fut: Fut) -> T
 where
     Fut: std::future::Future<Output = T>,

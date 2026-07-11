@@ -1,0 +1,25 @@
+[package]
+name = "palette-search"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+async-trait.workspace = true
+palette-core = { path = "../palette-core" }
+palette-schema = { path = "../palette-schema" }
+palette-store = { path = "../palette-store" }
+serde.workspace = true
+serde_json.workspace = true
+tantivy.workspace = true
+
+[dev-dependencies]
+palette-store-memory = { path = "../palette-store-memory" }
+chrono.workspace = true
+tempfile.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

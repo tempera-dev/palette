@@ -19,26 +19,26 @@
 - Limit: 300s
 - Git SHA: `3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
 - Git branch: `main`
-- Git origin: `https://github.com/jadenfix/beater.git`
+- Git origin: `https://github.com/jadenfix/palette.git`
 - Git worktree clean: yes
 - OS/arch: `Darwin arm64`
 - Docker: `Docker version 29.2.0, build 0b9d198`
 - Docker Compose: `Docker Compose version v5.0.2`
 - Startup mode: prebuilt-image
 - Clean start: yes
-- Reuse override: `BEATER_GATE2_REUSE=0`
+- Reuse override: `PALETTE_GATE2_REUSE=0`
 - Outside-run wrapper: no
 - Prebuilt pull policy: `always`
-- Compose project: beater-stopwatch
+- Compose project: palette-stopwatch
 - Compose logs artifact: `not requested`
-- Beater image reference: `ghcr.io/jadenfix/beater/beaterd:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
-- Dashboard image reference: `ghcr.io/jadenfix/beater/dashboard:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
-- Dashboard e2e image reference: `ghcr.io/jadenfix/beater/dashboard-e2e:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
-- OTEL Python image reference: `ghcr.io/jadenfix/beater/otel-python:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
-- Beater image digest: `ghcr.io/jadenfix/beater/beaterd@sha256:2f3f45f686c4a5e159b4683ae0b6a7ca72a88fee2be2feacbbd770e95d671ee9`
-- Dashboard image digest: `ghcr.io/jadenfix/beater/dashboard@sha256:2cfdc628375ebeacbd88fd2a0ef540e382da5a5c0400b4950b56472685e92053`
-- Dashboard e2e image digest: `ghcr.io/jadenfix/beater/dashboard-e2e@sha256:4d7cd50903f708c2c29328707abb721ddff1c098034a38a6090ef0f9eb8b56cd`
-- OTEL Python image digest: `ghcr.io/jadenfix/beater/otel-python@sha256:ee6510fbb35fe59acb84817b68485527bcbd1f067226ad61a3bee091597010d0`
+- Palette image reference: `ghcr.io/jadenfix/palette/paletted:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
+- Dashboard image reference: `ghcr.io/jadenfix/palette/dashboard:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
+- Dashboard e2e image reference: `ghcr.io/jadenfix/palette/dashboard-e2e:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
+- OTEL Python image reference: `ghcr.io/jadenfix/palette/otel-python:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab`
+- Palette image digest: `ghcr.io/jadenfix/palette/paletted@sha256:2f3f45f686c4a5e159b4683ae0b6a7ca72a88fee2be2feacbbd770e95d671ee9`
+- Dashboard image digest: `ghcr.io/jadenfix/palette/dashboard@sha256:2cfdc628375ebeacbd88fd2a0ef540e382da5a5c0400b4950b56472685e92053`
+- Dashboard e2e image digest: `ghcr.io/jadenfix/palette/dashboard-e2e@sha256:4d7cd50903f708c2c29328707abb721ddff1c098034a38a6090ef0f9eb8b56cd`
+- OTEL Python image digest: `ghcr.io/jadenfix/palette/otel-python@sha256:ee6510fbb35fe59acb84817b68485527bcbd1f067226ad61a3bee091597010d0`
 - Quickstart snippet: `examples/python/five_line_otel.py`
 - API endpoint: `http://127.0.0.1:8080`
 - OTLP endpoint: `http://127.0.0.1:4317`
@@ -60,12 +60,12 @@
 
 ```text
 CONTAINER                      REPOSITORY                          TAG                                        PLATFORM            IMAGE ID            SIZE                CREATED
-beater-stopwatch-beaterd-1     ghcr.io/jadenfix/beater/beaterd     3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab   linux/arm64         2f3f45f686c4        88.4MB              2 hours ago
-beater-stopwatch-dashboard-1   ghcr.io/jadenfix/beater/dashboard   3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab   linux/arm64         2cfdc628375e        99.2MB              8 hours ago
-proof-image beaterd ghcr.io/jadenfix/beater/beaterd:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/beater/beaterd@sha256:2f3f45f686c4a5e159b4683ae0b6a7ca72a88fee2be2feacbbd770e95d671ee9
-proof-image dashboard ghcr.io/jadenfix/beater/dashboard:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/beater/dashboard@sha256:2cfdc628375ebeacbd88fd2a0ef540e382da5a5c0400b4950b56472685e92053
-proof-image dashboard-e2e ghcr.io/jadenfix/beater/dashboard-e2e:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/beater/dashboard-e2e@sha256:4d7cd50903f708c2c29328707abb721ddff1c098034a38a6090ef0f9eb8b56cd
-proof-image otel-python ghcr.io/jadenfix/beater/otel-python:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/beater/otel-python@sha256:ee6510fbb35fe59acb84817b68485527bcbd1f067226ad61a3bee091597010d0
+palette-stopwatch-paletted-1     ghcr.io/jadenfix/palette/paletted     3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab   linux/arm64         2f3f45f686c4        88.4MB              2 hours ago
+palette-stopwatch-dashboard-1   ghcr.io/jadenfix/palette/dashboard   3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab   linux/arm64         2cfdc628375e        99.2MB              8 hours ago
+proof-image paletted ghcr.io/jadenfix/palette/paletted:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/palette/paletted@sha256:2f3f45f686c4a5e159b4683ae0b6a7ca72a88fee2be2feacbbd770e95d671ee9
+proof-image dashboard ghcr.io/jadenfix/palette/dashboard:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/palette/dashboard@sha256:2cfdc628375ebeacbd88fd2a0ef540e382da5a5c0400b4950b56472685e92053
+proof-image dashboard-e2e ghcr.io/jadenfix/palette/dashboard-e2e:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/palette/dashboard-e2e@sha256:4d7cd50903f708c2c29328707abb721ddff1c098034a38a6090ef0f9eb8b56cd
+proof-image otel-python ghcr.io/jadenfix/palette/otel-python:3d9c7bc5ad38fabc828462d64e8fbe8f0b1521ab ghcr.io/jadenfix/palette/otel-python@sha256:ee6510fbb35fe59acb84817b68485527bcbd1f067226ad61a3bee091597010d0
 ```
 
 This is an automated local stopwatch proof. The mandate still requires an
@@ -74,5 +74,5 @@ outside-person run to fully close Gate 2.
 Regenerate:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```

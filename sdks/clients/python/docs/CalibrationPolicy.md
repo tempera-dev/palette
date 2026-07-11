@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.calibration_policy import CalibrationPolicy
+from palette_client.models.calibration_policy import CalibrationPolicy
 
 # TODO update the JSON string below
 json = "{}"

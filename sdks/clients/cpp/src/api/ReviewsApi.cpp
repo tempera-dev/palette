@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -10,10 +10,10 @@
  */
 
 
-#include "beater-client/api/ReviewsApi.h"
-#include "beater-client/IHttpBody.h"
-#include "beater-client/JsonBody.h"
-#include "beater-client/MultipartFormData.h"
+#include "palette-client/api/ReviewsApi.h"
+#include "palette-client/IHttpBody.h"
+#include "palette-client/JsonBody.h"
+#include "palette-client/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 
@@ -35,7 +35,7 @@ ReviewsApi::~ReviewsApi()
 {
 }
 
-pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateReviewQueueHttpRequest> createReviewQueueHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateReviewQueueHttpRequest> createReviewQueueHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createReviewQueueHttpRequest' is set
@@ -89,17 +89,17 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -198,7 +198,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFromTrace(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, std::shared_ptr<EnqueueReviewTaskFromTraceHttpRequest> enqueueReviewTaskFromTraceHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFromTrace(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, std::shared_ptr<EnqueueReviewTaskFromTraceHttpRequest> enqueueReviewTaskFromTraceHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'enqueueReviewTaskFromTraceHttpRequest' is set
@@ -253,17 +253,17 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -362,7 +362,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listReviewTasks(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, boost::optional<std::shared_ptr<ReviewTaskState>> state, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listReviewTasks(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, boost::optional<std::shared_ptr<ReviewTaskState>> state, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -414,17 +414,17 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -511,7 +511,7 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, utility::string_t annotationId, std::shared_ptr<PromoteReviewAnnotationHttpRequest> promoteReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, utility::string_t annotationId, std::shared_ptr<PromoteReviewAnnotationHttpRequest> promoteReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'promoteReviewAnnotationHttpRequest' is set
@@ -568,17 +568,17 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -677,7 +677,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, std::shared_ptr<SubmitReviewAnnotationHttpRequest> submitReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xBeaterApiKey, boost::optional<utility::string_t> xBeaterProjectId, boost::optional<utility::string_t> xBeaterEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, std::shared_ptr<SubmitReviewAnnotationHttpRequest> submitReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'submitReviewAnnotationHttpRequest' is set
@@ -733,17 +733,17 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAn
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
     }
-    if (xBeaterApiKey)
+    if (xPaletteApiKey)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-api-key")] = ApiClient::parameterToString(*xBeaterApiKey);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
     }
-    if (xBeaterProjectId)
+    if (xPaletteProjectId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-project-id")] = ApiClient::parameterToString(*xBeaterProjectId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
     }
-    if (xBeaterEnvironmentId)
+    if (xPaletteEnvironmentId)
     {
-        localVarHeaderParams[utility::conversions::to_string_t("x-beater-environment-id")] = ApiClient::parameterToString(*xBeaterEnvironmentId);
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;

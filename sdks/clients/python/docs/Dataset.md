@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.dataset import Dataset
+from palette_client.models.dataset import Dataset
 
 # TODO update the JSON string below
 json = "{}"

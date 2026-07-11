@@ -1,15 +1,15 @@
-# beater-browser-use
+# palette-browser-use
 
-Beater instrumentation for the [`browser-use`](https://github.com/browser-use/browser-use)
+Palette instrumentation for the [`browser-use`](https://github.com/browser-use/browser-use)
 agent framework. It hooks an `Agent` and emits **canonical `browser.*` browser-step
-spans** over OTLP/gRPC into Beater, so browser-agent runs land in the same
+spans** over OTLP/gRPC into Palette, so browser-agent runs land in the same
 observability/eval pipeline as everything else.
 
 ## Architecture fit
 
-Generic OTLP/OpenInference/OpenLLMetry ingest remains Beater's zero-code floor:
-any already-instrumented app should export to Beater without this package. Use
-`beater-browser-use` when you need the first-class browser-use vertical from
+Generic OTLP/OpenInference/OpenLLMetry ingest remains Palette's zero-code floor:
+any already-instrumented app should export to Palette without this package. Use
+`palette-browser-use` when you need the first-class browser-use vertical from
 `ARCHITECTURE.md` §28.1: browser step lifecycle hooks, grounded action metadata,
 and canonical `browser.*` spans that generic LLM-only exporters usually cannot
 see.
@@ -25,14 +25,14 @@ Per browser step it emits a span pair:
   optional `browser.dom_artifact_id` / `browser.screenshot_artifact_id`.
 
 The `browser.*` attribute keys are the cross-language ingest contract, mirrored
-from the Rust source of truth in `crates/beater-browser/src/semconv.rs`
-(see [`beater_browser_use/semconv.py`](beater_browser_use/semconv.py)).
+from the Rust source of truth in `crates/palette-browser/src/semconv.rs`
+(see [`palette_browser_use/semconv.py`](palette_browser_use/semconv.py)).
 
 ## Install
 
 ```bash
-pip install beater-browser-use            # SDK + opentelemetry deps
-pip install beater-browser-use[browser-use]   # + browser-use for live runs
+pip install palette-browser-use            # SDK + opentelemetry deps
+pip install palette-browser-use[browser-use]   # + browser-use for live runs
 ```
 
 `browser-use` is an **optional extra** — the SDK and its unit tests run with only
@@ -43,16 +43,16 @@ pip install beater-browser-use[browser-use]   # + browser-use for live runs
 ```python
 import asyncio
 from browser_use import Agent
-from beater_browser_use import instrument
+from palette_browser_use import instrument
 
 async def main():
     agent = Agent(task="Subscribe to the newsletter on example.com", llm=...)
 
-    # Defaults to $BEATER_OTLP_ENDPOINT or localhost:4317.
+    # Defaults to $PALETTE_OTLP_ENDPOINT or localhost:4317.
     inst = instrument(agent, endpoint="localhost:4317")
 
     await agent.run(**inst.run_kwargs())   # splats on_step_start / on_step_end
-    inst.tracer.shutdown()                 # flush spans to Beater
+    inst.tracer.shutdown()                 # flush spans to Palette
 
 asyncio.run(main())
 ```
@@ -66,9 +66,9 @@ step is recorded twice.
 ### Lower-level: build hooks yourself
 
 ```python
-from beater_browser_use import BeaterBrowserUseTracer, make_hooks
+from palette_browser_use import PaletteBrowserUseTracer, make_hooks
 
-tracer = BeaterBrowserUseTracer(endpoint="localhost:4317")
+tracer = PaletteBrowserUseTracer(endpoint="localhost:4317")
 on_step_start, on_step_end = make_hooks(tracer)
 await agent.run(on_step_start=on_step_start, on_step_end=on_step_end)
 tracer.shutdown()
@@ -78,9 +78,9 @@ tracer.shutdown()
 
 | Env var | Default | Meaning |
 | --- | --- | --- |
-| `BEATER_OTLP_ENDPOINT` | `localhost:4317` | OTLP/gRPC endpoint Beater ingests on |
+| `PALETTE_OTLP_ENDPOINT` | `localhost:4317` | OTLP/gRPC endpoint Palette ingests on |
 
-`endpoint=` passed to `instrument()` / `BeaterBrowserUseTracer` overrides the env var.
+`endpoint=` passed to `instrument()` / `PaletteBrowserUseTracer` overrides the env var.
 
 ## Example
 

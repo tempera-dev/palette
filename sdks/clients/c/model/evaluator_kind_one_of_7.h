@@ -18,17 +18,17 @@ typedef struct evaluator_kind_one_of_7_t evaluator_kind_one_of_7_t;
 
 // Enum TYPE for evaluator_kind_one_of_7
 
-typedef enum  { beater_api_evaluator_kind_one_of_7_TYPE_NULL = 0, beater_api_evaluator_kind_one_of_7_TYPE_browser_task_success } beater_api_evaluator_kind_one_of_7_TYPE_e;
+typedef enum  { palette_api_evaluator_kind_one_of_7_TYPE_NULL = 0, palette_api_evaluator_kind_one_of_7_TYPE_browser_task_success } palette_api_evaluator_kind_one_of_7_TYPE_e;
 
-char* evaluator_kind_one_of_7_type_ToString(beater_api_evaluator_kind_one_of_7_TYPE_e type);
+char* evaluator_kind_one_of_7_type_ToString(palette_api_evaluator_kind_one_of_7_TYPE_e type);
 
-beater_api_evaluator_kind_one_of_7_TYPE_e evaluator_kind_one_of_7_type_FromString(char* type);
+palette_api_evaluator_kind_one_of_7_TYPE_e evaluator_kind_one_of_7_type_FromString(char* type);
 
 
 
 typedef struct evaluator_kind_one_of_7_t {
     char *dom_contains; // string
-    beater_api_evaluator_kind_one_of_7_TYPE_e type; //enum
+    palette_api_evaluator_kind_one_of_7_TYPE_e type; //enum
     char *url_contains; // string
 
     int _library_owned; // Is the library responsible for freeing this object?
@@ -36,7 +36,7 @@ typedef struct evaluator_kind_one_of_7_t {
 
 __attribute__((deprecated)) evaluator_kind_one_of_7_t *evaluator_kind_one_of_7_create(
     char *dom_contains,
-    beater_api_evaluator_kind_one_of_7_TYPE_e type,
+    palette_api_evaluator_kind_one_of_7_TYPE_e type,
     char *url_contains
 );
 

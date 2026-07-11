@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-project="${COMPOSE_PROJECT_NAME:-beater-smoke}"
-keep="${KEEP_BEATER_COMPOSE:-0}"
-host_http_port="${BEATER_HTTP_PORT:-8080}"
-host_dashboard_port="${BEATER_DASHBOARD_PORT:-3000}"
+project="${COMPOSE_PROJECT_NAME:-palette-smoke}"
+keep="${KEEP_PALETTE_COMPOSE:-0}"
+host_http_port="${PALETTE_HTTP_PORT:-8080}"
+host_dashboard_port="${PALETTE_DASHBOARD_PORT:-3000}"
 api_url="http://127.0.0.1:$host_http_port"
 dashboard_url="http://127.0.0.1:$host_dashboard_port"
 all_kinds=(
@@ -35,7 +35,7 @@ cleanup() {
 }
 
 diagnose_failure() {
-  echo "Beater compose smoke failed; capturing compose status and logs before cleanup." >&2
+  echo "Palette compose smoke failed; capturing compose status and logs before cleanup." >&2
   compose ps >&2 || true
   compose logs --no-color --timestamps >&2 || true
 }
@@ -53,10 +53,10 @@ wait_url() {
   local url="$1"
   local label="$2"
   local deadline=$((SECONDS + 120))
-  until curl -fsS "$url" >/tmp/beater-smoke-response 2>/tmp/beater-smoke-error; do
+  until curl -fsS "$url" >/tmp/palette-smoke-response 2>/tmp/palette-smoke-error; do
     if (( SECONDS >= deadline )); then
       echo "Timed out waiting for $label at $url" >&2
-      cat /tmp/beater-smoke-error >&2 || true
+      cat /tmp/palette-smoke-error >&2 || true
       return 1
     fi
     sleep 2
@@ -95,10 +95,10 @@ first_trace_id() {
 
 trap on_exit EXIT
 
-compose up -d --build beaterd dashboard
-wait_url "$api_url/health" "beaterd"
+compose up -d --build paletted dashboard
+wait_url "$api_url/health" "paletted"
 
-compose run --rm beaterctl
+compose run --rm palettectl
 compose run --rm otel-python-smoke
 
 wait_url "$dashboard_url/?tenant=demo&project=demo&environment=local" "dashboard"
@@ -114,10 +114,10 @@ done
 require_text "$api_url/openapi.json" "started_after"
 
 cat <<EOF
-Beater compose smoke passed.
+Palette compose smoke passed.
 
 Open the dashboard:
   $python_trace_dashboard
 
-Set KEEP_BEATER_COMPOSE=1 to leave containers running after this script exits.
+Set KEEP_PALETTE_COMPOSE=1 to leave containers running after this script exits.
 EOF

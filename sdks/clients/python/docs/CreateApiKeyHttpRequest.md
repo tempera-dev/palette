@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.create_api_key_http_request import CreateApiKeyHttpRequest
+from palette_client.models.create_api_key_http_request import CreateApiKeyHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

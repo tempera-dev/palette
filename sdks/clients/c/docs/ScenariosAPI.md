@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **ScenariosAPI_scenariosCreateScenario**
 ```c
-scenario_t* ScenariosAPI_scenariosCreateScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, create_scenario_request_t *create_scenario_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+scenario_t* ScenariosAPI_scenariosCreateScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, create_scenario_request_t *create_scenario_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -23,9 +23,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **create_scenario_request** | **[create_scenario_request_t](create_scenario_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -45,7 +45,7 @@ No authorization required
 
 # **ScenariosAPI_scenariosGetScenario**
 ```c
-scenario_t* ScenariosAPI_scenariosGetScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, char *scenario_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+scenario_t* ScenariosAPI_scenariosGetScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, char *scenario_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -56,9 +56,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **scenario_id** | **char \*** | scenario_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -78,7 +78,7 @@ No authorization required
 
 # **ScenariosAPI_scenariosListScenarios**
 ```c
-list_scenarios_response_t* ScenariosAPI_scenariosListScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+list_scenarios_response_t* ScenariosAPI_scenariosListScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -90,9 +90,9 @@ Name | Type | Description  | Notes
 **limit** | **int \*** |  | [optional]
 **cursor** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -112,7 +112,7 @@ No authorization required
 
 # **ScenariosAPI_scenariosMineScenarios**
 ```c
-mine_scenarios_response_t* ScenariosAPI_scenariosMineScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, mine_scenarios_request_t *mine_scenarios_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+mine_scenarios_response_t* ScenariosAPI_scenariosMineScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, mine_scenarios_request_t *mine_scenarios_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -123,9 +123,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **mine_scenarios_request** | **[mine_scenarios_request_t](mine_scenarios_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 

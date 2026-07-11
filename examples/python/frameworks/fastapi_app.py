@@ -1,10 +1,10 @@
-"""FastAPI + OTLP -> Beater example app (R11.4).
+"""FastAPI + OTLP -> Palette example app (R11.4).
 
-A minimal FastAPI service whose request handler emits an agent trace to beaterd
+A minimal FastAPI service whose request handler emits an agent trace to paletted
 over stock OpenTelemetry OTLP/gRPC. Demonstrates the Python framework adoption
-path through standards (no Beater SDK).
+path through standards (no Palette SDK).
 
-Run a local beaterd (`docker compose up`) and then:
+Run a local paletted (`docker compose up`) and then:
 
     pip install fastapi uvicorn opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc
     uvicorn examples.python.frameworks.fastapi_app:app --port 8000
@@ -28,34 +28,34 @@ _provider.add_span_processor(
             endpoint=os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://127.0.0.1:4317"),
             insecure=True,
             headers=(
-                ("x-beater-tenant-id", os.getenv("BEATER_TENANT_ID", "demo")),
-                ("x-beater-project-id", os.getenv("BEATER_PROJECT_ID", "demo")),
-                ("x-beater-environment-id", os.getenv("BEATER_ENVIRONMENT_ID", "local")),
+                ("x-palette-tenant-id", os.getenv("PALETTE_TENANT_ID", "demo")),
+                ("x-palette-project-id", os.getenv("PALETTE_PROJECT_ID", "demo")),
+                ("x-palette-environment-id", os.getenv("PALETTE_ENVIRONMENT_ID", "local")),
             ),
         )
     )
 )
 trace.set_tracer_provider(_provider)
-_tracer = trace.get_tracer("beater.example.fastapi")
+_tracer = trace.get_tracer("palette.example.fastapi")
 
-app = FastAPI(title="beater-fastapi-example")
+app = FastAPI(title="palette-fastapi-example")
 
 
 @app.post("/agent")
 def run_agent(body: dict) -> dict:
     prompt = body.get("prompt", "")
-    release = os.getenv("BEATER_RELEASE_ID", "fastapi-example")
+    release = os.getenv("PALETTE_RELEASE_ID", "fastapi-example")
     with _tracer.start_as_current_span(
         "handle_request",
-        attributes={"beater.span.kind": "agent.run", "beater.release_id": release, "input.value": prompt},
+        attributes={"palette.span.kind": "agent.run", "palette.release_id": release, "input.value": prompt},
     ):
         with _tracer.start_as_current_span(
             "call_model",
             attributes={
-                "beater.span.kind": "llm.call",
+                "palette.span.kind": "llm.call",
                 "llm.provider": "openai",
                 "llm.model_name": "gpt-4o-mini",
-                "beater.release_id": release,
+                "palette.release_id": release,
                 "input.value": prompt,
                 "output.value": "ok",
             },

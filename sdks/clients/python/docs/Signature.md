@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.signature import Signature
+from palette_client.models.signature import Signature
 
 # TODO update the JSON string below
 json = "{}"

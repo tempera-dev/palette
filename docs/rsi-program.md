@@ -7,7 +7,7 @@
 
 ## Thesis
 
-Beater's differentiator is **gated recursive self-improvement**: optimizers only
+Palette's differentiator is **gated recursive self-improvement**: optimizers only
 *propose* changes; nothing ships unless it beats baseline on a **held-out Test
 set** with statistical confidence and survives an **anti-overfitting guardrail**.
 The moat is the gate, not the optimizer. Therefore the program is built
@@ -17,7 +17,7 @@ deliberately engineered to *catch* overfitting.
 ## The keystone gap (why we start here)
 
 The RSI surface map found that the "held-out Test gate" the optimizer docs assume
-**has no data substrate**: `beater-datasets` models immutable version snapshots
+**has no data substrate**: `palette-datasets` models immutable version snapshots
 but has **no train/val/test split, no holdout, no contamination/leakage
 detection**. The §21.4 anti-overfitting guardrail is referenced but unimplemented.
 You cannot claim "non-overfitting RSI" without first being able to *hold data
@@ -30,10 +30,10 @@ contract-regenerated. Stacked because each depends on the prior substrate.
 
 | PR | Substep | Crate(s) | Depends on | Issue |
 |----|---------|----------|-----------|-------|
-| **1** | Deterministic split + contamination substrate | `beater-datasets` | — | #334-adjacent |
-| **2** | Anti-overfitting guardrail (§21.4): reusable holdout + generalization-gap | `beater-stats`, `beater-experiments` | 1 | #436 |
-| **3** | GEPA reflective optimizer + enriched `ProposalContext` | `beater-experiments`, `beater-judge` | 1,2 | #434, #435 |
-| **4** | RSI simulation harness + real-OS-repo dataset generator | `beater-bench` (new module) | 1,2,3 | #437-adjacent |
+| **1** | Deterministic split + contamination substrate | `palette-datasets` | — | #334-adjacent |
+| **2** | Anti-overfitting guardrail (§21.4): reusable holdout + generalization-gap | `palette-stats`, `palette-experiments` | 1 | #436 |
+| **3** | GEPA reflective optimizer + enriched `ProposalContext` | `palette-experiments`, `palette-judge` | 1,2 | #434, #435 |
+| **4** | RSI simulation harness + real-OS-repo dataset generator | `palette-bench` (new module) | 1,2,3 | #437-adjacent |
 | **5** | Iterate/review loop; expose via MCP/CLI/SDK; validate non-overfitting | all | 1-4 | #438 |
 
 ### PR1 — split + contamination (this PR)
@@ -55,7 +55,7 @@ contract-regenerated. Stacked because each depends on the prior substrate.
   Val set many times across rounds; naive reuse overfits. Add a budgeted,
   noise-thresholded holdout mechanism + a strict Train(optimize) /
   Val(select) / Test(gate, queried once) discipline enforced by PR1 splits.
-- **Generalization-gap check.** Reuse `beater_stats::bootstrap_diff_ci` to bound
+- **Generalization-gap check.** Reuse `palette_stats::bootstrap_diff_ci` to bound
   the Train−Test gap; a candidate whose held-out lift CI doesn't clear the
   regression bound is rejected even if Train improved. Wires into the existing
   `compare_paired_scores` → `GateDecision` path.
@@ -67,7 +67,7 @@ contract-regenerated. Stacked because each depends on the prior substrate.
   broker. Pure *proposal* — acceptance still via PR2 gate.
 - Enrich `ProposalContext` with `failure_features` (taxonomy label distribution
   via 82%-accuracy classifier, root-cause span attribution from
-  `beater-replay`), so proposals target real failure modes.
+  `palette-replay`), so proposals target real failure modes.
 
 ### PR4 — simulation harness + real-data generator
 - Generate eval suites from a **real OS repo** with **controlled

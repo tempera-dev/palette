@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **PromptsAPI_promptsAddPromptVersion**
 ```c
-prompt_version_t* PromptsAPI_promptsAddPromptVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, add_prompt_version_request_t *add_prompt_version_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+prompt_version_t* PromptsAPI_promptsAddPromptVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, add_prompt_version_request_t *add_prompt_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -26,9 +26,9 @@ Name | Type | Description  | Notes
 **prompt_id** | **char \*** | prompt_id |
 **add_prompt_version_request** | **[add_prompt_version_request_t](add_prompt_version_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -48,7 +48,7 @@ No authorization required
 
 # **PromptsAPI_promptsCreatePrompt**
 ```c
-created_prompt_t* PromptsAPI_promptsCreatePrompt(apiClient_t *apiClient, char *tenant_id, char *project_id, create_prompt_request_t *create_prompt_request, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+created_prompt_t* PromptsAPI_promptsCreatePrompt(apiClient_t *apiClient, char *tenant_id, char *project_id, create_prompt_request_t *create_prompt_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -59,9 +59,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **create_prompt_request** | **[create_prompt_request_t](create_prompt_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -81,7 +81,7 @@ No authorization required
 
 # **PromptsAPI_promptsDiffPromptVersions**
 ```c
-prompt_version_diff_t* PromptsAPI_promptsDiffPromptVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *from, char *to, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+prompt_version_diff_t* PromptsAPI_promptsDiffPromptVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *from, char *to, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -94,9 +94,9 @@ Name | Type | Description  | Notes
 **from** | **char \*** |  |
 **to** | **char \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -116,7 +116,7 @@ No authorization required
 
 # **PromptsAPI_promptsGetPrompt**
 ```c
-prompt_t* PromptsAPI_promptsGetPrompt(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+prompt_t* PromptsAPI_promptsGetPrompt(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -127,9 +127,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **prompt_id** | **char \*** | prompt_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -149,7 +149,7 @@ No authorization required
 
 # **PromptsAPI_promptsListPromptVersions**
 ```c
-prompt_version_list_response_t* PromptsAPI_promptsListPromptVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+prompt_version_list_response_t* PromptsAPI_promptsListPromptVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -160,9 +160,9 @@ Name | Type | Description  | Notes
 **project_id** | **char \*** | project_id |
 **prompt_id** | **char \*** | prompt_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 
@@ -182,7 +182,7 @@ No authorization required
 
 # **PromptsAPI_promptsListPrompts**
 ```c
-prompt_list_response_t* PromptsAPI_promptsListPrompts(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id);
+prompt_list_response_t* PromptsAPI_promptsListPrompts(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -192,9 +192,9 @@ Name | Type | Description  | Notes
 **tenant_id** | **char \*** | tenant_id |
 **project_id** | **char \*** | project_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
-**x_beater_api_key** | **char \*** | API key alternative for strict auth | [optional]
-**x_beater_project_id** | **char \*** | Strict-auth project scope | [optional]
-**x_beater_environment_id** | **char \*** | Strict-auth environment scope | [optional]
+**x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
+**x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
+**x_palette_environment_id** | **char \*** | Strict-auth environment scope | [optional]
 
 ### Return type
 

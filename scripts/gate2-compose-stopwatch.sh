@@ -1,40 +1,40 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-project="${COMPOSE_PROJECT_NAME:-beater-stopwatch}"
-keep="${KEEP_BEATER_COMPOSE:-1}"
-reuse="${BEATER_GATE2_REUSE:-0}"
-write_proof="${BEATER_GATE2_WRITE_PROOF:-0}"
-proof_path="${BEATER_GATE2_STOPWATCH_PROOF:-docs/demos/gate2-compose-stopwatch.md}"
-local_build="${BEATER_GATE2_LOCAL_BUILD:-0}"
-browser_proof="${BEATER_GATE2_BROWSER_PROOF:-0}"
-record_demo="${BEATER_GATE2_RECORD_DEMO:-0}"
-record_demo_video="${BEATER_GATE2_RECORD_VIDEO:-docs/demos/gate2-compose-browser-demo.webm}"
-record_demo_notes="${BEATER_GATE2_RECORD_NOTES:-docs/demos/gate2-compose-browser-demo.md}"
-compose_logs_path="${BEATER_GATE2_COMPOSE_LOGS:-}"
-terminal_log_path="${BEATER_GATE2_TERMINAL_LOG:-}"
-outside_wrapper="${BEATER_GATE2_OUTSIDE_WRAPPER:-0}"
-prebuilt_pull_policy="${BEATER_GATE2_PULL_POLICY:-always}"
-post_slo_timeout_seconds="${BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS:-300}"
+project="${COMPOSE_PROJECT_NAME:-palette-stopwatch}"
+keep="${KEEP_PALETTE_COMPOSE:-1}"
+reuse="${PALETTE_GATE2_REUSE:-0}"
+write_proof="${PALETTE_GATE2_WRITE_PROOF:-0}"
+proof_path="${PALETTE_GATE2_STOPWATCH_PROOF:-docs/demos/gate2-compose-stopwatch.md}"
+local_build="${PALETTE_GATE2_LOCAL_BUILD:-0}"
+browser_proof="${PALETTE_GATE2_BROWSER_PROOF:-0}"
+record_demo="${PALETTE_GATE2_RECORD_DEMO:-0}"
+record_demo_video="${PALETTE_GATE2_RECORD_VIDEO:-docs/demos/gate2-compose-browser-demo.webm}"
+record_demo_notes="${PALETTE_GATE2_RECORD_NOTES:-docs/demos/gate2-compose-browser-demo.md}"
+compose_logs_path="${PALETTE_GATE2_COMPOSE_LOGS:-}"
+terminal_log_path="${PALETTE_GATE2_TERMINAL_LOG:-}"
+outside_wrapper="${PALETTE_GATE2_OUTSIDE_WRAPPER:-0}"
+prebuilt_pull_policy="${PALETTE_GATE2_PULL_POLICY:-always}"
+post_slo_timeout_seconds="${PALETTE_GATE2_POST_SLO_TIMEOUT_SECONDS:-300}"
 min_recording_seconds="8.0"
-host_http_port="${BEATER_HTTP_PORT:-8080}"
-host_otlp_grpc_port="${BEATER_OTLP_GRPC_PORT:-4317}"
-host_dashboard_port="${BEATER_DASHBOARD_PORT:-3000}"
+host_http_port="${PALETTE_HTTP_PORT:-8080}"
+host_otlp_grpc_port="${PALETTE_OTLP_GRPC_PORT:-4317}"
+host_dashboard_port="${PALETTE_DASHBOARD_PORT:-3000}"
 api_url="http://127.0.0.1:$host_http_port"
 otlp_url="http://127.0.0.1:$host_otlp_grpc_port"
 dashboard_base_url="http://127.0.0.1:$host_dashboard_port"
 start_epoch="$(date +%s)"
-clone_started_epoch="${BEATER_GATE2_CLONE_STARTED_EPOCH:-}"
+clone_started_epoch="${PALETTE_GATE2_CLONE_STARTED_EPOCH:-}"
 timing_start_epoch="$start_epoch"
 timing_start_source="script"
 clone_started_at="not provided"
 if [[ -n "$clone_started_epoch" ]]; then
   if [[ ! "$clone_started_epoch" =~ ^[0-9]+$ ]]; then
-    echo "BEATER_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value" >&2
+    echo "PALETTE_GATE2_CLONE_STARTED_EPOCH must be a Unix epoch second value" >&2
     exit 1
   fi
   if (( clone_started_epoch > start_epoch )); then
-    echo "BEATER_GATE2_CLONE_STARTED_EPOCH must not be in the future" >&2
+    echo "PALETTE_GATE2_CLONE_STARTED_EPOCH must not be in the future" >&2
     exit 1
   fi
   timing_start_epoch="$clone_started_epoch"
@@ -84,9 +84,9 @@ if [[ -n "$git_worktree_status" ]]; then
 else
   git_worktree_clean="yes"
 fi
-gate2_run_id="${BEATER_GATE2_RUN_ID:-gate2-${git_sha:0:12}-${start_epoch}-$$}"
-quickstart_confirmation_salt="${BEATER_GATE2_CONFIRMATION_SALT:-gate2-${start_epoch}-$$-${RANDOM:-0}-${RANDOM:-0}-${RANDOM:-0}}"
-export BEATER_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"
+gate2_run_id="${PALETTE_GATE2_RUN_ID:-gate2-${git_sha:0:12}-${start_epoch}-$$}"
+quickstart_confirmation_salt="${PALETTE_GATE2_CONFIRMATION_SALT:-gate2-${start_epoch}-$$-${RANDOM:-0}-${RANDOM:-0}-${RANDOM:-0}}"
+export PALETTE_GATE2_CONFIRMATION_SALT="$quickstart_confirmation_salt"
 os_arch="$(uname -sm 2>/dev/null || echo unknown)"
 docker_version="$(docker --version 2>/dev/null || echo unknown)"
 compose_version="$(docker compose version 2>/dev/null || echo unknown)"
@@ -102,15 +102,15 @@ if [[ "$timing_start_source" == "external-clone" ]]; then
   clone_started_at="$(utc_from_epoch "$clone_started_epoch")"
 fi
 if [[ "$local_build" != "1" && "$git_sha" =~ ^[0-9a-f]{40}$ ]]; then
-  export BEATERD_IMAGE="${BEATERD_IMAGE:-ghcr.io/jadenfix/beater/beaterd:$git_sha}"
-  export BEATER_DASHBOARD_IMAGE="${BEATER_DASHBOARD_IMAGE:-ghcr.io/jadenfix/beater/dashboard:$git_sha}"
-  export BEATER_DASHBOARD_E2E_IMAGE="${BEATER_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/beater/dashboard-e2e:$git_sha}"
-  export BEATER_OTEL_PYTHON_IMAGE="${BEATER_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/beater/otel-python:$git_sha}"
+  export PALETTED_IMAGE="${PALETTED_IMAGE:-ghcr.io/jadenfix/palette/paletted:$git_sha}"
+  export PALETTE_DASHBOARD_IMAGE="${PALETTE_DASHBOARD_IMAGE:-ghcr.io/jadenfix/palette/dashboard:$git_sha}"
+  export PALETTE_DASHBOARD_E2E_IMAGE="${PALETTE_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/palette/dashboard-e2e:$git_sha}"
+  export PALETTE_OTEL_PYTHON_IMAGE="${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/palette/otel-python:$git_sha}"
 fi
-beater_image_ref="${BEATERD_IMAGE:-local-build}"
-dashboard_image_ref="${BEATER_DASHBOARD_IMAGE:-local-build}"
-dashboard_e2e_image_ref="${BEATER_DASHBOARD_E2E_IMAGE:-local-build}"
-otel_python_image_ref="${BEATER_OTEL_PYTHON_IMAGE:-local-build}"
+palette_image_ref="${PALETTED_IMAGE:-local-build}"
+dashboard_image_ref="${PALETTE_DASHBOARD_IMAGE:-local-build}"
+dashboard_e2e_image_ref="${PALETTE_DASHBOARD_E2E_IMAGE:-local-build}"
+otel_python_image_ref="${PALETTE_OTEL_PYTHON_IMAGE:-local-build}"
 if [[ "$record_demo" == "1" ]]; then
   browser_proof="1"
 fi
@@ -133,11 +133,11 @@ all_kinds=(
 if [[ "$local_build" == "1" ]]; then
   compose_files=(-f docker-compose.yml)
   startup_mode="local-build"
-  startup_args=(up -d --build beaterd dashboard)
+  startup_args=(up -d --build paletted dashboard)
 else
   compose_files=(-f docker-compose.prebuilt.yml)
   startup_mode="prebuilt-image"
-  startup_args=(up -d --pull "$prebuilt_pull_policy" beaterd dashboard)
+  startup_args=(up -d --pull "$prebuilt_pull_policy" paletted dashboard)
 fi
 
 compose() {
@@ -242,10 +242,10 @@ run_with_step_timeout() {
 wait_url() {
   local url="$1"
   local label="$2"
-  until curl -fsS "$url" >/tmp/beater-stopwatch-response 2>/tmp/beater-stopwatch-error; do
+  until curl -fsS "$url" >/tmp/palette-stopwatch-response 2>/tmp/palette-stopwatch-error; do
     if (( $(date +%s) >= deadline_epoch )); then
       echo "Timed out waiting for $label at $url" >&2
-      cat /tmp/beater-stopwatch-error >&2 || true
+      cat /tmp/palette-stopwatch-error >&2 || true
       return 1
     fi
     sleep 2
@@ -414,33 +414,33 @@ service_image_digest() {
   local expected_repo=""
   local image_ref=""
   case "$service" in
-    beaterd)
-      expected_repo="ghcr.io/jadenfix/beater/beaterd"
+    paletted)
+      expected_repo="ghcr.io/jadenfix/palette/paletted"
       ;;
     dashboard)
-      expected_repo="ghcr.io/jadenfix/beater/dashboard"
+      expected_repo="ghcr.io/jadenfix/palette/dashboard"
       ;;
     dashboard-e2e)
-      expected_repo="ghcr.io/jadenfix/beater/dashboard-e2e"
+      expected_repo="ghcr.io/jadenfix/palette/dashboard-e2e"
       ;;
     otel-python | otel-python-quickstart | otel-python-smoke)
-      expected_repo="ghcr.io/jadenfix/beater/otel-python"
+      expected_repo="ghcr.io/jadenfix/palette/otel-python"
       ;;
   esac
   image_id="$(compose images -q "$service" 2>/dev/null | head -n 1 || true)"
   if [[ -z "$image_id" ]]; then
     case "$service" in
-      beaterd)
-        image_ref="${BEATERD_IMAGE:-}"
+      paletted)
+        image_ref="${PALETTED_IMAGE:-}"
         ;;
       dashboard)
-        image_ref="${BEATER_DASHBOARD_IMAGE:-}"
+        image_ref="${PALETTE_DASHBOARD_IMAGE:-}"
         ;;
       dashboard-e2e)
-        image_ref="${BEATER_DASHBOARD_E2E_IMAGE:-}"
+        image_ref="${PALETTE_DASHBOARD_E2E_IMAGE:-}"
         ;;
       otel-python | otel-python-quickstart | otel-python-smoke)
-        image_ref="${BEATER_OTEL_PYTHON_IMAGE:-}"
+        image_ref="${PALETTE_OTEL_PYTHON_IMAGE:-}"
         ;;
     esac
     if [[ -n "$image_ref" ]]; then
@@ -550,7 +550,7 @@ Port $port for $label is already in use before Gate 2 Compose startup.
 
 For outside-person Gate 2 evidence, free the default port and rerun. For
 maintainer diagnostics only, set $env_name to an unused alternate port.
-If this is a stale Beater run, clean it up with:
+If this is a stale Palette run, clean it up with:
   docker compose -f docker-compose.prebuilt.yml -p $project down -v --remove-orphans
 If another app is listed below, stop that app before rerunning; do not set
 $env_name for outside-person evidence.
@@ -595,9 +595,9 @@ preflight_prerequisites() {
 
 preflight_ports() {
   if [[ "$reuse" != "1" ]]; then
-    require_free_port "$host_http_port" "beaterd HTTP" "BEATER_HTTP_PORT"
-    require_free_port "$host_otlp_grpc_port" "OTLP gRPC" "BEATER_OTLP_GRPC_PORT"
-    require_free_port "$host_dashboard_port" "dashboard" "BEATER_DASHBOARD_PORT"
+    require_free_port "$host_http_port" "paletted HTTP" "PALETTE_HTTP_PORT"
+    require_free_port "$host_otlp_grpc_port" "OTLP gRPC" "PALETTE_OTLP_GRPC_PORT"
+    require_free_port "$host_dashboard_port" "dashboard" "PALETTE_DASHBOARD_PORT"
   fi
 }
 
@@ -607,11 +607,11 @@ run_before_deadline "Gate 2 prerequisite preflight" preflight_prerequisites
 run_before_deadline "clean previous Gate 2 state" clean_start
 run_before_deadline "Gate 2 port preflight" preflight_ports
 run_before_deadline "compose startup ($startup_mode)" compose "${startup_args[@]}"
-wait_url "$api_url/health" "beaterd"
+wait_url "$api_url/health" "paletted"
 wait_url "$dashboard_base_url/?tenant=demo&project=demo&environment=local" "dashboard"
 
 run_before_deadline "five-line OTEL snippet" compose_run_tool \
-  -e BEATER_GATE2_RUN_ID="$gate2_run_id" \
+  -e PALETTE_GATE2_RUN_ID="$gate2_run_id" \
   otel-python-quickstart
 
 quickstart_query="$api_url/v1/traces/demo?project_id=demo&environment_id=local&kind=llm.call&model=gpt-quickstart&release=$gate2_run_id"
@@ -665,8 +665,8 @@ confirm_manual_quickstart_click
 
 if [[ "$browser_proof" == "1" ]]; then
   quickstart_browser_proof_args=(
-    -e BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
-    -e BEATER_E2E_QUICKSTART_RELEASE="$gate2_run_id" \
+    -e PALETTE_E2E_QUICKSTART_TRACE_ID="$trace_id" \
+    -e PALETTE_E2E_QUICKSTART_RELEASE="$gate2_run_id" \
     -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
     dashboard-e2e \
     npx playwright test tests/e2e/quickstart.spec.ts
@@ -697,9 +697,9 @@ if [[ "$browser_proof" == "1" ]]; then
   run_with_step_timeout "wait for dashboard redacted I/O trace" wait_text "$redaction_dashboard_url" "sensitive-redaction-review" "dashboard redacted I/O trace"
   run_with_step_timeout "wait for dashboard redacted I/O marker" wait_text "$redaction_dashboard_url" "[redacted]" "dashboard redacted I/O marker"
   run_with_step_timeout "redacted I/O browser proof" compose_run_e2e \
-    -e BEATER_E2E_REDACTION_TRACE_ID="$redaction_trace_id" \
-    -e BEATER_E2E_REDACTION_SPAN_ID="$redaction_span_id" \
-    -e BEATER_E2E_REDACTION_RELEASE="$gate2_run_id" \
+    -e PALETTE_E2E_REDACTION_TRACE_ID="$redaction_trace_id" \
+    -e PALETTE_E2E_REDACTION_SPAN_ID="$redaction_span_id" \
+    -e PALETTE_E2E_REDACTION_RELEASE="$gate2_run_id" \
     -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
     dashboard-e2e \
     npx playwright test tests/e2e/redaction.spec.ts
@@ -721,24 +721,24 @@ if [[ "$browser_proof" == "1" ]]; then
   done
 
   run_with_step_timeout "all-kind waterfall browser proof" compose_run_e2e \
-    -e BEATER_E2E_TRACE_ID="$all_kind_trace_id" \
+    -e PALETTE_E2E_TRACE_ID="$all_kind_trace_id" \
     -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
     dashboard-e2e \
     npx playwright test tests/e2e/dashboard.spec.ts
   if [[ "$record_demo" == "1" ]]; then
     run_with_step_timeout "Gate 2 compose browser recording" compose_run_e2e \
-      -e BEATER_GATE2_RECORD_MODE=compose \
-      -e BEATER_GATE2_OUTSIDE_WRAPPER="$outside_wrapper" \
-      -e BEATER_E2E_QUICKSTART_TRACE_ID="$trace_id" \
-      -e BEATER_E2E_QUICKSTART_RELEASE="$gate2_run_id" \
-      -e BEATER_E2E_ALL_KIND_TRACE_ID="$all_kind_trace_id" \
-      -e BEATER_E2E_REDACTION_TRACE_ID="$redaction_trace_id" \
-      -e BEATER_E2E_REDACTION_SPAN_ID="$redaction_span_id" \
-      -e BEATER_E2E_REDACTION_RELEASE="$gate2_run_id" \
-      -e BEATER_GATE2_RECORD_VIDEO="$record_demo_video" \
-      -e BEATER_GATE2_RECORD_NOTES="$record_demo_notes" \
+      -e PALETTE_GATE2_RECORD_MODE=compose \
+      -e PALETTE_GATE2_OUTSIDE_WRAPPER="$outside_wrapper" \
+      -e PALETTE_E2E_QUICKSTART_TRACE_ID="$trace_id" \
+      -e PALETTE_E2E_QUICKSTART_RELEASE="$gate2_run_id" \
+      -e PALETTE_E2E_ALL_KIND_TRACE_ID="$all_kind_trace_id" \
+      -e PALETTE_E2E_REDACTION_TRACE_ID="$redaction_trace_id" \
+      -e PALETTE_E2E_REDACTION_SPAN_ID="$redaction_span_id" \
+      -e PALETTE_E2E_REDACTION_RELEASE="$gate2_run_id" \
+      -e PALETTE_GATE2_RECORD_VIDEO="$record_demo_video" \
+      -e PALETTE_GATE2_RECORD_NOTES="$record_demo_notes" \
       -e PLAYWRIGHT_BASE_URL="$e2e_base_url" \
-      -e BEATER_GATE2_PUBLIC_DASHBOARD_BASE="$dashboard_base_url" \
+      -e PALETTE_GATE2_PUBLIC_DASHBOARD_BASE="$dashboard_base_url" \
       dashboard-e2e \
       npm run record:gate2
   fi
@@ -758,13 +758,13 @@ time_to_quickstart_click_display="${time_to_quickstart_click_display:-not reques
 script_to_quickstart_click_display="${script_to_quickstart_click_seconds:+${script_to_quickstart_click_seconds}s}"
 script_to_quickstart_click_display="${script_to_quickstart_click_display:-not requested}"
 image_summary="$(compose images 2>/dev/null || true)"
-beater_image_digest="$(service_image_digest beaterd)"
+palette_image_digest="$(service_image_digest paletted)"
 dashboard_image_digest="$(service_image_digest dashboard)"
 dashboard_e2e_image_digest="$(service_image_digest dashboard-e2e)"
 otel_python_image_digest="$(service_image_digest otel-python-quickstart)"
 proof_image_summary="$(cat <<EOF
 $image_summary
-proof-image beaterd $beater_image_ref $beater_image_digest
+proof-image paletted $palette_image_ref $palette_image_digest
 proof-image dashboard $dashboard_image_ref $dashboard_image_digest
 proof-image dashboard-e2e $dashboard_e2e_image_ref $dashboard_e2e_image_digest
 proof-image otel-python $otel_python_image_ref $otel_python_image_digest
@@ -798,7 +798,7 @@ outside-person run to fully close Gate 2.
 Regenerate:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-compose-stopwatch.sh
 ```
 EOF
 )"
@@ -834,17 +834,17 @@ if [[ "$write_proof" == "1" ]]; then
 - Docker Compose: \`$compose_version\`
 - Startup mode: $startup_mode
 - Clean start: $([[ "$reuse" == "1" ]] && echo "no" || echo "yes")
-- Reuse override: \`BEATER_GATE2_REUSE=$reuse\`
+- Reuse override: \`PALETTE_GATE2_REUSE=$reuse\`
 - Outside-run wrapper: $([[ "$outside_wrapper" == "1" ]] && echo "yes" || echo "no")
 - Prebuilt pull policy: \`$prebuilt_pull_policy\`
 - Compose project: $project
 - Compose logs artifact: \`$compose_logs_artifact\`
 - Terminal transcript artifact: \`$terminal_transcript_artifact\`
-- Beater image reference: \`$beater_image_ref\`
+- Palette image reference: \`$palette_image_ref\`
 - Dashboard image reference: \`$dashboard_image_ref\`
 - Dashboard e2e image reference: \`$dashboard_e2e_image_ref\`
 - OTEL Python image reference: \`$otel_python_image_ref\`
-- Beater image digest: \`$beater_image_digest\`
+- Palette image digest: \`$palette_image_digest\`
 - Dashboard image digest: \`$dashboard_image_digest\`
 - Dashboard e2e image digest: \`$dashboard_e2e_image_digest\`
 - OTEL Python image digest: \`$otel_python_image_digest\`
@@ -893,7 +893,7 @@ Outside-run next steps:
   6. Review ${redaction_dashboard_url:-not requested} for redacted I/O and the reasoned unmask browser proof.
   7. Use the saved outside-run terminal transcript as evidence: $terminal_transcript_artifact
   8. Use the saved docker compose logs artifact as evidence: $compose_logs_artifact
-  9. After the one-liner exits, run 'cd ./beater' from the parent shell if your prompt is not already inside the clone.
+  9. After the one-liner exits, run 'cd ./palette' from the parent shell if your prompt is not already inside the clone.
   10. Generate the completed proof from this prefilled command:
 $outside_proof_command
   11. Commit the evidence before closure validation:
@@ -910,17 +910,17 @@ if [[ "$outside_wrapper" == "1" ]]; then
   maintainer_diagnostic_tips="Maintainer diagnostic overrides are intentionally suppressed for outside-person evidence."
 else
   maintainer_diagnostic_tips="$(cat <<'EOF'
-Set KEEP_BEATER_COMPOSE=0 to tear containers down automatically.
-Set BEATER_GATE2_LOCAL_BUILD=1 to build images from local source instead of
+Set KEEP_PALETTE_COMPOSE=0 to tear containers down automatically.
+Set PALETTE_GATE2_LOCAL_BUILD=1 to build images from local source instead of
 pulling prebuilt GHCR images.
-Set BEATER_GATE2_REUSE=1 to skip the pre-run Compose down/volume removal and
+Set PALETTE_GATE2_REUSE=1 to skip the pre-run Compose down/volume removal and
 state cleanup for local warm-loop debugging only.
-Set BEATER_GATE2_BROWSER_PROOF=1 to run the Playwright browser proof for the
+Set PALETTE_GATE2_BROWSER_PROOF=1 to run the Playwright browser proof for the
 five-line quickstart trace, redacted-I/O controls, and all-kind nested agent
 waterfall in the same proof run.
-Set BEATER_GATE2_RECORD_DEMO=1 to record the quickstart click-through and
+Set PALETTE_GATE2_RECORD_DEMO=1 to record the quickstart click-through and
 all-kind waterfall plus redaction browser proof as a committed demo artifact.
-Set BEATER_GATE2_POST_SLO_TIMEOUT_SECONDS to control each post-SLO evidence
+Set PALETTE_GATE2_POST_SLO_TIMEOUT_SECONDS to control each post-SLO evidence
 step timeout after the five-line trace and quickstart click have passed.
 EOF
 )"
@@ -972,7 +972,7 @@ Startup mode:
   $startup_mode
 
 Clean start:
-  $([[ "$reuse" == "1" ]] && echo "no (BEATER_GATE2_REUSE=1)" || echo "yes")
+  $([[ "$reuse" == "1" ]] && echo "no (PALETTE_GATE2_REUSE=1)" || echo "yes")
 
 $maintainer_diagnostic_tips
 $outside_runner_next_steps

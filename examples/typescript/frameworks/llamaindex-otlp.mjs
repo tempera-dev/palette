@@ -1,18 +1,18 @@
-// LlamaIndex.TS + OTLP -> Beater example app (R11.4).
+// LlamaIndex.TS + OTLP -> Palette example app (R11.4).
 //
 // Demonstrates instrumenting a LlamaIndex.TS query engine with stock
-// OpenTelemetry and shipping the trace to beaterd over OTLP/HTTP -- the
-// standards-first TypeScript adoption path (no Beater SDK required).
+// OpenTelemetry and shipping the trace to paletted over OTLP/HTTP -- the
+// standards-first TypeScript adoption path (no Palette SDK required).
 //
 // This example brackets the LlamaIndex call in OTel spans manually so it runs
 // with or without LlamaIndex's own instrumentation. Swap the stub `query()` for
 // a real `index.asQueryEngine().query(...)` once you have an index.
 //
-// This uses the OTLP/HTTP-protobuf exporter, so it targets beaterd's HTTP API
+// This uses the OTLP/HTTP-protobuf exporter, so it targets paletted's HTTP API
 // (:8080) at the tenant-scoped OTLP path, NOT the OTLP/gRPC port (:4317). The
-// scope is carried in the URL path, so no x-beater-* headers are needed.
+// scope is carried in the URL path, so no x-palette-* headers are needed.
 //
-// Run a local beaterd (`docker compose up`) and then:
+// Run a local paletted (`docker compose up`) and then:
 //
 //   npm install llamaindex @opentelemetry/api @opentelemetry/sdk-trace-node \
 //     @opentelemetry/exporter-trace-otlp-proto
@@ -25,9 +25,9 @@ import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 
 const apiBase =
   process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? "http://127.0.0.1:8080";
-const tenant = process.env.BEATER_TENANT_ID ?? "demo";
-const project = process.env.BEATER_PROJECT_ID ?? "demo";
-const environment = process.env.BEATER_ENVIRONMENT_ID ?? "local";
+const tenant = process.env.PALETTE_TENANT_ID ?? "demo";
+const project = process.env.PALETTE_PROJECT_ID ?? "demo";
+const environment = process.env.PALETTE_ENVIRONMENT_ID ?? "local";
 const url = `${apiBase}/v1/otlp/${tenant}/${project}/${environment}/v1/traces`;
 
 const provider = new NodeTracerProvider();
@@ -35,8 +35,8 @@ provider.addSpanProcessor(
   new BatchSpanProcessor(new OTLPTraceExporter({ url })),
 );
 provider.register();
-const tracer = trace.getTracer("beater.example.llamaindex");
-const release = process.env.BEATER_RELEASE_ID ?? "llamaindex-example";
+const tracer = trace.getTracer("palette.example.llamaindex");
+const release = process.env.PALETTE_RELEASE_ID ?? "llamaindex-example";
 
 // Stand-in for a real LlamaIndex query engine call.
 async function query(question) {
@@ -50,11 +50,11 @@ async function main() {
   const question = "What is our refund window?";
   await tracer.startActiveSpan(
     "rag_query",
-    { attributes: { "beater.span.kind": "agent.run", "beater.release_id": release, "input.value": question } },
+    { attributes: { "palette.span.kind": "agent.run", "palette.release_id": release, "input.value": question } },
     async (root) => {
       await tracer.startActiveSpan(
         "retrieve",
-        { attributes: { "beater.span.kind": "retrieval.query", "beater.release_id": release, "input.value": question } },
+        { attributes: { "palette.span.kind": "retrieval.query", "palette.release_id": release, "input.value": question } },
         (retrieval) => {
           retrieval.setStatus({ code: SpanStatusCode.OK });
           retrieval.end();
@@ -64,10 +64,10 @@ async function main() {
         "synthesize",
         {
           attributes: {
-            "beater.span.kind": "llm.call",
+            "palette.span.kind": "llm.call",
             "llm.provider": "openai",
             "llm.model_name": "gpt-4o-mini",
-            "beater.release_id": release,
+            "palette.release_id": release,
             "input.value": question,
           },
         },

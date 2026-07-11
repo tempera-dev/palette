@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.create_dataset_request import CreateDatasetRequest
+from palette_client.models.create_dataset_request import CreateDatasetRequest
 
 # TODO update the JSON string below
 json = "{}"

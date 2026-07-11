@@ -103,7 +103,7 @@ def main() -> int:
             print(f"  - {error}", file=sys.stderr)
         return 1
 
-    print("Backend deploy scope is limited to Fly beaterd deploys from green main.")
+    print("Backend deploy scope is limited to Fly paletted deploys from green main.")
     return 0
 
 

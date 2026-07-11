@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.span_io_value import SpanIoValue
+from palette_client.models.span_io_value import SpanIoValue
 
 # TODO update the JSON string below
 json = "{}"

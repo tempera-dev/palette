@@ -22,8 +22,8 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "OpenAI",
     kind: "provider",
     status: INTEGRATION_AVAILABLE,
-    packageName: "@beater/sdk",
-    module: "@beater/sdk",
+    packageName: "@palette/sdk",
+    module: "@palette/sdk",
     notes: "wrapOpenAI emits llm.call spans with model and token usage.",
   },
   {
@@ -31,8 +31,8 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Anthropic",
     kind: "provider",
     status: INTEGRATION_AVAILABLE,
-    packageName: "@beater/sdk",
-    module: "@beater/sdk",
+    packageName: "@palette/sdk",
+    module: "@palette/sdk",
     notes: "wrapAnthropic emits llm.call spans with model and token usage.",
   },
   {
@@ -40,25 +40,25 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "LangChain.js",
     kind: "framework",
     status: INTEGRATION_AVAILABLE,
-    packageName: "@beater/sdk",
-    module: "@beater/sdk",
-    notes: "Callback handler maps chains, LLMs, tools, and retrievers to Beater spans.",
+    packageName: "@palette/sdk",
+    module: "@palette/sdk",
+    notes: "Callback handler maps chains, LLMs, tools, and retrievers to Palette spans.",
   },
   {
     slug: "vercel-ai-sdk",
     name: "Vercel AI SDK",
     kind: "framework",
     status: INTEGRATION_AVAILABLE,
-    packageName: "@beater/sdk",
-    module: "@beater/sdk",
-    notes: "vercelAiTelemetry enables AI SDK OpenTelemetry spans for Beater ingest.",
+    packageName: "@palette/sdk",
+    module: "@palette/sdk",
+    notes: "vercelAiTelemetry enables AI SDK OpenTelemetry spans for Palette ingest.",
   },
   {
     slug: "llamaindex",
     name: "LlamaIndex.TS",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: TypeScript callback/span-tree instrumentation.",
   },
   {
@@ -66,7 +66,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "LangGraph.js",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: graph node and edge span-tree instrumentation.",
   },
   {
@@ -74,7 +74,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "OpenAI Agents SDK",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: agent span-tree instrumentation.",
   },
   {
@@ -82,7 +82,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Mastra",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: auto-instrumentation breadth parity.",
   },
   {
@@ -90,7 +90,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "LiveKit Agents",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: voice and real-time agent instrumentation.",
   },
   {
@@ -98,7 +98,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "AgentScope",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: multi-agent span-tree instrumentation.",
   },
   {
@@ -106,7 +106,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Google ADK",
     kind: "framework",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: agent span-tree instrumentation.",
   },
   {
@@ -114,7 +114,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "LiteLLM",
     kind: "provider-router",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: provider-router and gateway instrumentation.",
   },
   {
@@ -122,7 +122,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Amazon Bedrock",
     kind: "provider",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: provider wrapper and token usage extraction.",
   },
   {
@@ -130,7 +130,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Mistral",
     kind: "provider",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: provider wrapper and token usage extraction.",
   },
   {
@@ -138,7 +138,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Groq",
     kind: "provider",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: provider wrapper and token usage extraction.",
   },
   {
@@ -146,7 +146,7 @@ const CATALOG: readonly IntegrationSpec[] = [
     name: "Gemini",
     kind: "provider",
     status: INTEGRATION_PLANNED,
-    packageName: "@beater/sdk",
+    packageName: "@palette/sdk",
     notes: "Architecture backlog: provider wrapper and token usage extraction.",
   },
 ];

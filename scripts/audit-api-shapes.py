@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 from typing import Any, TextIO
 
-DEFAULT_SPEC = "sdks/openapi/beater-api.json"
+DEFAULT_SPEC = "sdks/openapi/palette-api.json"
 OPERATION_ID = re.compile(r"^[A-Za-z][A-Za-z0-9]*\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 LIST_PAGINATION_EXEMPTIONS = {
     "audit.list-audit-events",

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.otlp_ingest_outcome import OtlpIngestOutcome
+from palette_client.models.otlp_ingest_outcome import OtlpIngestOutcome
 
 # TODO update the JSON string below
 json = "{}"

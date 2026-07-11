@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Static drift checks for Beater ecosystem integration boundaries.
+"""Static drift checks for Palette ecosystem integration boundaries.
 
 The active neighbor repositories are not available in CI, so this check only
-guards Beater's side of the contract: stable ingress paths, centralized billing
+guards Palette's side of the contract: stable ingress paths, centralized billing
 ownership, and the standalone/offline promise.
 """
 
@@ -14,17 +14,17 @@ from pathlib import Path
 
 REQUIRED_DOC_MARKERS = (
     "Tempo",
-    "beater.js",
-    "beaterOS",
+    "palette.js",
+    "paletteOS",
     "Aether",
-    "BEATER_TRACE_EXPORT_URL",
-    "BEATER_OTLP_EXPORT_URL",
+    "PALETTE_TRACE_EXPORT_URL",
+    "PALETTE_OTLP_EXPORT_URL",
     "POST /v1/traces",
     "POST /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces",
     "POST /v1/traces/native",
     "POST /v1/import/{tenant_id}/{project_id}/{environment_id}",
     "control plane owns checkout",
-    "must not authorize or block local beaterOS actions",
+    "must not authorize or block local paletteOS actions",
     "PaymentEnvelope",
     "AIC/SWR escrow",
     "observed metadata",
@@ -37,7 +37,7 @@ REQUIRED_API_MARKERS = (
     '.route("/v1/traces/native", post(ingest_native))',
     '"/v1/otlp/:tenant_id/:project_id/:environment_id/v1/traces"',
     '"/v1/import/:tenant_id/:project_id/:environment_id"',
-    "beateros.payment_mandate_id",
+    "paletteos.payment_mandate_id",
     "aether.payment_envelope_id",
 )
 
@@ -49,10 +49,10 @@ FORBIDDEN_API_MARKERS = (
     "with_billing",
 )
 
-FORBIDDEN_BEATERD_MARKERS = (
+FORBIDDEN_PALETTED_MARKERS = (
     "billing.sqlite",
     "with_billing",
-    "BEATER_STRIPE_WEBHOOK_SECRET",
+    "PALETTE_STRIPE_WEBHOOK_SECRET",
 )
 
 REQUIRED_OFFLINE_MARKERS = (
@@ -99,8 +99,8 @@ def main() -> None:
     failures: list[str] = []
 
     contract = read(root, "docs/ecosystem-integration-contract.md", failures)
-    api = read(root, "crates/beater-api/src/lib.rs", failures)
-    beaterd = read(root, "bins/beaterd/src/main.rs", failures)
+    api = read(root, "crates/palette-api/src/lib.rs", failures)
+    paletted = read(root, "bins/paletted/src/main.rs", failures)
     offline = read(root, "docs/offline-self-host.md", failures)
     governance = read(root, "GOVERNANCE.md", failures)
 
@@ -110,9 +110,9 @@ def main() -> None:
         REQUIRED_DOC_MARKERS,
         failures,
     )
-    require_markers(api, "crates/beater-api/src/lib.rs", REQUIRED_API_MARKERS, failures)
-    reject_markers(api, "crates/beater-api/src/lib.rs", FORBIDDEN_API_MARKERS, failures)
-    reject_markers(beaterd, "bins/beaterd/src/main.rs", FORBIDDEN_BEATERD_MARKERS, failures)
+    require_markers(api, "crates/palette-api/src/lib.rs", REQUIRED_API_MARKERS, failures)
+    reject_markers(api, "crates/palette-api/src/lib.rs", FORBIDDEN_API_MARKERS, failures)
+    reject_markers(paletted, "bins/paletted/src/main.rs", FORBIDDEN_PALETTED_MARKERS, failures)
     require_markers(offline, "docs/offline-self-host.md", REQUIRED_OFFLINE_MARKERS, failures)
     require_markers(governance, "GOVERNANCE.md", REQUIRED_GOVERNANCE_MARKERS, failures)
 
@@ -122,7 +122,7 @@ def main() -> None:
             print(f"  - {failure}", file=sys.stderr)
         raise SystemExit(1)
 
-    print("Static ecosystem integration markers are aligned with Beater-side code and docs.")
+    print("Static ecosystem integration markers are aligned with Palette-side code and docs.")
 
 
 if __name__ == "__main__":

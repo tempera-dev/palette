@@ -1,7 +1,7 @@
 /*
  * toolkit.h
  *
- * A connectable third-party app (Composio \&quot;toolkit\&quot;), flattened from the v3 &#x60;GET /toolkits&#x60; shape into the fields Beater exposes.
+ * A connectable third-party app (Composio \&quot;toolkit\&quot;), flattened from the v3 &#x60;GET /toolkits&#x60; shape into the fields Palette exposes.
  */
 
 #ifndef _toolkit_H_

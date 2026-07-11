@@ -1,7 +1,7 @@
 # openapi-generator config: Go control-plane client (Layer 1).
 generatorName: go
 additionalProperties:
-  packageName: beaterclient
+  packageName: paletteclient
   packageVersion: 0.1.0
   isGoSubmodule: true
   withGoMod: true

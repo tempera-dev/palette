@@ -1,4 +1,4 @@
-# beater_client.ConnectApi
+# palette_client.ConnectApi
 
 All URIs are relative to *http://localhost*
 
@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **connect_get_palette_connect_status**
-> PaletteConnectStatusResponse connect_get_palette_connect_status(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+> PaletteConnectStatusResponse connect_get_palette_connect_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -16,31 +16,31 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.palette_connect_status_response import PaletteConnectStatusResponse
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.palette_connect_status_response import PaletteConnectStatusResponse
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.ConnectApi(api_client)
+    api_instance = palette_client.ConnectApi(api_client)
     tenant_id = 'tenant_id_example' # str | tenant_id
     project_id = 'project_id_example' # str | project_id
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_beater_api_key = 'x_beater_api_key_example' # str | API key alternative for strict auth (optional)
-    x_beater_project_id = 'x_beater_project_id_example' # str | Strict-auth project scope (optional)
-    x_beater_environment_id = 'x_beater_environment_id_example' # str | Strict-auth environment scope (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.connect_get_palette_connect_status(tenant_id, project_id, authorization=authorization, x_beater_api_key=x_beater_api_key, x_beater_project_id=x_beater_project_id, x_beater_environment_id=x_beater_environment_id)
+        api_response = api_instance.connect_get_palette_connect_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ConnectApi->connect_get_palette_connect_status:\n")
         pprint(api_response)
     except Exception as e:
@@ -57,9 +57,9 @@ Name | Type | Description  | Notes
  **tenant_id** | **str**| tenant_id |
  **project_id** | **str**| project_id |
  **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_beater_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_beater_project_id** | **str**| Strict-auth project scope | [optional]
- **x_beater_environment_id** | **str**| Strict-auth environment scope | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
 
 ### Return type
 

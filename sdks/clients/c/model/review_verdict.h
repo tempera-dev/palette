@@ -18,15 +18,15 @@ typedef struct review_verdict_t review_verdict_t;
 
 // Enum  for review_verdict
 
-typedef enum { beater_api_review_verdict__NULL = 0, beater_api_review_verdict__pass, beater_api_review_verdict__fail, beater_api_review_verdict__needs_fix, beater_api_review_verdict__unsure } beater_api_review_verdict__e;
+typedef enum { palette_api_review_verdict__NULL = 0, palette_api_review_verdict__pass, palette_api_review_verdict__fail, palette_api_review_verdict__needs_fix, palette_api_review_verdict__unsure } palette_api_review_verdict__e;
 
-char* review_verdict_review_verdict_ToString(beater_api_review_verdict__e review_verdict);
+char* review_verdict_review_verdict_ToString(palette_api_review_verdict__e review_verdict);
 
-beater_api_review_verdict__e review_verdict_review_verdict_FromString(char* review_verdict);
+palette_api_review_verdict__e review_verdict_review_verdict_FromString(char* review_verdict);
 
-cJSON *review_verdict_convertToJSON(beater_api_review_verdict__e review_verdict);
+cJSON *review_verdict_convertToJSON(palette_api_review_verdict__e review_verdict);
 
-beater_api_review_verdict__e review_verdict_parseFromJSON(cJSON *review_verdictJSON);
+palette_api_review_verdict__e review_verdict_parseFromJSON(cJSON *review_verdictJSON);
 
 #endif /* _review_verdict_H_ */
 

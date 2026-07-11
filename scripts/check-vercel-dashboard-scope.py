@@ -16,8 +16,8 @@ ALLOWED_PUSH_PATHS = {
     ".github/workflows/deploy-dashboard.yml",
 }
 FORBIDDEN_DEPLOY_PATTERNS = (
-    (re.compile(r"\bbeaterd\b", re.IGNORECASE), "beaterd must not run on Vercel"),
-    (re.compile(r"\bbeaterctl\b", re.IGNORECASE), "beaterctl smoke work is not deploy work"),
+    (re.compile(r"\bpaletted\b", re.IGNORECASE), "paletted must not run on Vercel"),
+    (re.compile(r"\bpalettectl\b", re.IGNORECASE), "palettectl smoke work is not deploy work"),
     (re.compile(r"\bcargo\s+(run|test|build|xtask)\b", re.IGNORECASE), "Rust backend commands do not belong in the Vercel deploy"),
     (re.compile(r"\bdocker(?:-compose|\s+compose|\s|$)", re.IGNORECASE), "Docker backend work does not belong in the Vercel deploy"),
     (re.compile(r"\bcompose\b", re.IGNORECASE), "compose smoke work does not belong in the Vercel deploy"),

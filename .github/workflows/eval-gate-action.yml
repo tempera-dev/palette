@@ -1,6 +1,6 @@
 name: eval-gate-action
 
-# Proof gate for the repo-root "Beater Eval Gate" composite action (#154).
+# Proof gate for the repo-root "Palette Eval Gate" composite action (#154).
 #
 # Two layers, so a regression in either the renderer or the action wiring
 # cannot land silently:
@@ -8,7 +8,7 @@ name: eval-gate-action
 #      reports covering all three GateDecision variants (pass /
 #      fail_regression / inconclusive) — fast, no Rust build.
 #   2. `action-selftest` runs the action itself end-to-end in demo-fixture
-#      mode (`beaterctl gate-run-fixture` seeds a gate whose latest
+#      mode (`palettectl gate-run-fixture` seeds a gate whose latest
 #      experiment is a regression) and asserts the emitted outputs:
 #      verdict=fail, passed=false. `fail-on-gate-failure: false` keeps the
 #      failing verdict from failing the selftest step itself.
@@ -61,16 +61,16 @@ jobs:
         run: rustup toolchain install stable --profile minimal && rustup default stable
       # Debug profile: the fixture workload is milliseconds of SQLite, so
       # build time dominates and release optimization buys nothing here.
-      # Passing beaterctl-path also exercises the prebuilt-binary input.
-      - name: Build beaterctl
-        run: cargo build -q -p beaterctl
+      # Passing palettectl-path also exercises the prebuilt-binary input.
+      - name: Build palettectl
+        run: cargo build -q -p palettectl
       - name: Run the eval gate action against the demo fixture
         id: gate
         uses: ./
         with:
-          data-dir: ${{ runner.temp }}/beater-selftest
+          data-dir: ${{ runner.temp }}/palette-selftest
           demo-fixture: "true"
-          beaterctl-path: target/debug/beaterctl
+          palettectl-path: target/debug/palettectl
           # The fixture's latest experiment is a regression on purpose; the
           # selftest asserts on outputs instead of failing the step.
           fail-on-gate-failure: "false"

@@ -1,8 +1,8 @@
-//! Beater semantic conventions — the SINGLE source of truth for span-kind and
+//! Palette semantic conventions — the SINGLE source of truth for span-kind and
 //! attribute keys in the Rust SDK.
 //!
-//! These strings mirror the server normalizer in `crates/beater-otlp` and the
-//! canonical kinds in `crates/beater-schema`, plus the Python (`sdks/python`)
+//! These strings mirror the server normalizer in `crates/palette-otlp` and the
+//! canonical kinds in `crates/palette-schema`, plus the Python (`sdks/python`)
 //! and TypeScript (`sdks/typescript`) ergonomic SDKs. They are part of the
 //! cross-language ingest contract; keep them in lockstep with the server.
 
@@ -39,7 +39,7 @@ pub const SPAN_KINDS: [&str; 11] = [
 /// Canonical span attribute keys.
 pub mod attr {
     pub const SPAN_KIND: &str = "openinference.span.kind";
-    pub const SEQ: &str = "beater.seq";
+    pub const SEQ: &str = "palette.seq";
     pub const RELEASE_ID: &str = "agent.release_id";
 
     pub const INPUT_VALUE: &str = "input.value";
@@ -56,6 +56,6 @@ pub mod attr {
 }
 
 /// OTLP ingest headers used to scope traces when exporting over gRPC.
-pub const HEADER_TENANT: &str = "x-beater-tenant-id";
-pub const HEADER_PROJECT: &str = "x-beater-project-id";
-pub const HEADER_ENVIRONMENT: &str = "x-beater-environment-id";
+pub const HEADER_TENANT: &str = "x-palette-tenant-id";
+pub const HEADER_PROJECT: &str = "x-palette-project-id";
+pub const HEADER_ENVIRONMENT: &str = "x-palette-environment-id";

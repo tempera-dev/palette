@@ -1,8 +1,8 @@
 """Behavioral tests for the framework integration adapters.
 
 Drives the LangChain and LlamaIndex callback handlers through a simulated run
-and asserts they emit real Beater spans (kinds, I/O, token usage) via an
-in-memory exporter -- no live beaterd and no framework install required.
+and asserts they emit real Palette spans (kinds, I/O, token usage) via an
+in-memory exporter -- no live paletted and no framework install required.
 """
 
 from uuid import uuid4
@@ -14,9 +14,9 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 
-import beater
-from beater import BeaterCallbackHandler, BeaterLlamaIndexHandler, SpanKind
-from beater.semconv import Attr
+import palette
+from palette import PaletteCallbackHandler, PaletteLlamaIndexHandler, SpanKind
+from palette.semconv import Attr
 
 
 @pytest.fixture
@@ -25,8 +25,8 @@ def exporter(monkeypatch):
     mem = InMemorySpanExporter()
     provider.add_span_processor(SimpleSpanProcessor(mem))
     trace.set_tracer_provider(provider)
-    monkeypatch.setattr(beater.tracing, "_config", beater.BeaterConfig.resolve(release_id="rel-1"))
-    monkeypatch.setattr(beater.tracing.trace, "get_tracer", lambda name: provider.get_tracer(name))
+    monkeypatch.setattr(palette.tracing, "_config", palette.PaletteConfig.resolve(release_id="rel-1"))
+    monkeypatch.setattr(palette.tracing.trace, "get_tracer", lambda name: provider.get_tracer(name))
     yield mem
     mem.clear()
 
@@ -37,15 +37,15 @@ def _by_name(spans, name):
 
 def test_adapters_are_public_exports():
     # Mirrors the TypeScript SDK, which exports the same adapters from its root.
-    from beater.integrations import BeaterCallbackHandler as FromPkg
+    from palette.integrations import PaletteCallbackHandler as FromPkg
 
-    assert FromPkg is BeaterCallbackHandler
-    assert "BeaterCallbackHandler" in beater.__all__
-    assert "BeaterLlamaIndexHandler" in beater.__all__
+    assert FromPkg is PaletteCallbackHandler
+    assert "PaletteCallbackHandler" in palette.__all__
+    assert "PaletteLlamaIndexHandler" in palette.__all__
 
 
 def test_langchain_handler_emits_chain_llm_tool_spans(exporter):
-    handler = BeaterCallbackHandler()
+    handler = PaletteCallbackHandler()
 
     chain_id = uuid4()
     llm_id = uuid4()
@@ -102,7 +102,7 @@ def test_langchain_handler_emits_chain_llm_tool_spans(exporter):
 
 
 def test_langchain_handler_records_llm_error(exporter):
-    handler = BeaterCallbackHandler()
+    handler = PaletteCallbackHandler()
     run_id = uuid4()
     handler.on_llm_start({"name": "ChatOpenAI"}, ["hi"], run_id=run_id)
     handler.on_llm_error(ValueError("rate limited"), run_id=run_id)
@@ -112,7 +112,7 @@ def test_langchain_handler_records_llm_error(exporter):
 
 
 def test_llamaindex_handler_emits_event_spans(exporter):
-    handler = BeaterLlamaIndexHandler()
+    handler = PaletteLlamaIndexHandler()
 
     class _Event:
         value = "llm"

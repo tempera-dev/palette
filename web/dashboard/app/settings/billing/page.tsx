@@ -53,7 +53,7 @@ export default async function BillingPage() {
         <div className="page-titles">
           <h1>Billing</h1>
           <p>
-            Beater is local-first and free to self-host. Managed hosting with
+            Palette is local-first and free to self-host. Managed hosting with
             usage-based billing is coming soon.
           </p>
         </div>
@@ -87,7 +87,7 @@ export default async function BillingPage() {
               </ul>
             </div>
             <div className="panel-foot">
-              <span>Running on your beaterd</span>
+              <span>Running on your paletted</span>
               <span className="tag mono">tenant {account.tenant_id}</span>
             </div>
           </section>
@@ -117,7 +117,7 @@ export default async function BillingPage() {
             </div>
             <div className="panel-foot">
               <span>Want early access?</span>
-              <a className="btn-link" href="https://github.com/jadenfix/beater" target="_blank" rel="noreferrer">
+              <a className="btn-link" href="https://github.com/jadenfix/palette" target="_blank" rel="noreferrer">
                 Follow on GitHub
               </a>
             </div>

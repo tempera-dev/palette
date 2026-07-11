@@ -1,7 +1,7 @@
 {
-  "name": "@beater/stagehand-instrumentation",
+  "name": "@palette/stagehand-instrumentation",
   "version": "0.1.0",
-  "description": "Beater instrumentation SDK that wraps the Stagehand browser-automation SDK (act/extract/observe) and emits canonical browser.* spans over OTLP into Beater.",
+  "description": "Palette instrumentation SDK that wraps the Stagehand browser-automation SDK (act/extract/observe) and emits canonical browser.* spans over OTLP into Palette.",
   "license": "Apache-2.0",
   "type": "module",
   "main": "dist/index.js",

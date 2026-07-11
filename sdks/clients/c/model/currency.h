@@ -18,15 +18,15 @@ typedef struct currency_t currency_t;
 
 // Enum  for currency
 
-typedef enum { beater_api_currency__NULL = 0, beater_api_currency__USD } beater_api_currency__e;
+typedef enum { palette_api_currency__NULL = 0, palette_api_currency__USD } palette_api_currency__e;
 
-char* currency_currency_ToString(beater_api_currency__e currency);
+char* currency_currency_ToString(palette_api_currency__e currency);
 
-beater_api_currency__e currency_currency_FromString(char* currency);
+palette_api_currency__e currency_currency_FromString(char* currency);
 
-cJSON *currency_convertToJSON(beater_api_currency__e currency);
+cJSON *currency_convertToJSON(palette_api_currency__e currency);
 
-beater_api_currency__e currency_parseFromJSON(cJSON *currencyJSON);
+palette_api_currency__e currency_parseFromJSON(cJSON *currencyJSON);
 
 #endif /* _currency_H_ */
 

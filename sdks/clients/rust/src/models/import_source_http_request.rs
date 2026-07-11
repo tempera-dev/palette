@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// ImportSourceHttpRequest : Request body for the unified import endpoint. The `source` field selects a registered [`beater_ingest::SourceImporter`] (e.g. `temporal_history`, `native`); `payload` is that source's document (Temporal `History` JSON, a native span list, …). Everything flows through the same downstream ingest pipeline as OTLP — there are no source-specific routes.
+/// ImportSourceHttpRequest : Request body for the unified import endpoint. The `source` field selects a registered [`palette_ingest::SourceImporter`] (e.g. `temporal_history`, `native`); `payload` is that source's document (Temporal `History` JSON, a native span list, …). Everything flows through the same downstream ingest pipeline as OTLP — there are no source-specific routes.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ImportSourceHttpRequest {
     #[serde(rename = "payload", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
@@ -22,7 +22,7 @@ pub struct ImportSourceHttpRequest {
 }
 
 impl ImportSourceHttpRequest {
-    /// Request body for the unified import endpoint. The `source` field selects a registered [`beater_ingest::SourceImporter`] (e.g. `temporal_history`, `native`); `payload` is that source's document (Temporal `History` JSON, a native span list, …). Everything flows through the same downstream ingest pipeline as OTLP — there are no source-specific routes.
+    /// Request body for the unified import endpoint. The `source` field selects a registered [`palette_ingest::SourceImporter`] (e.g. `temporal_history`, `native`); `payload` is that source's document (Temporal `History` JSON, a native span list, …). Everything flows through the same downstream ingest pipeline as OTLP — there are no source-specific routes.
     pub fn new(source: String) -> ImportSourceHttpRequest {
         ImportSourceHttpRequest {
             payload: None,

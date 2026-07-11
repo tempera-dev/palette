@@ -14,32 +14,32 @@ WORKFLOW = ROOT / ".github/workflows/offline-self-host-docs.yml"
 DOC_TOKENS = {
     "R1.3 no-cloud posture": [
         "R1.3",
-        "without Beater Cloud",
-        "no dependency on\nBeater Cloud",
-        "no mandatory Beater Cloud account",
-        "No call to any `*.beater.dev` / `beater.cloud` host is required",
+        "without Palette Cloud",
+        "no dependency on\nPalette Cloud",
+        "no mandatory Palette Cloud account",
+        "No call to any `*.palette.dev` / `palette.cloud` host is required",
     ],
     "default local runtime": [
-        "single `beaterd` process plus the\ndashboard",
+        "single `paletted` process plus the\ndashboard",
         "embedded SQLite + the local\n  filesystem",
-        "docker compose up beaterd dashboard",
-        "beaterd --auth-mode local",
+        "docker compose up paletted dashboard",
+        "paletted --auth-mode local",
         "--auth-mode required",
     ],
     "egress and telemetry": [
         "no outbound calls except to configured providers",
-        "BEATER_SELF_HOST_TELEMETRY",
-        "https://telemetry.beater.dev/v1/usage",
+        "PALETTE_SELF_HOST_TELEMETRY",
+        "https://telemetry.palette.dev/v1/usage",
         "fails closed",
     ],
     "dashboard and Vercel boundary": [
         "Vercel is not required for self-host",
         "local compose\n  `dashboard` service",
         "hosted Vercel deploys\n  are dashboard/control-plane surfaces only",
-        "not the `beaterd` runtime",
+        "not the `paletted` runtime",
     ],
     "proof hook": [
-        "bins/beaterd/tests/offline_compose.rs",
+        "bins/paletted/tests/offline_compose.rs",
         "keeps external backends\nopt-in",
     ],
 }

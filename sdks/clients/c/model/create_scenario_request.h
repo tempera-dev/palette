@@ -22,7 +22,7 @@ typedef struct create_scenario_request_t create_scenario_request_t;
 typedef struct create_scenario_request_t {
     char *exemplar_trace_id; // string
     char *expected_outcome; // string
-    beater_api_failure_mode__e failure_mode; //referenced enum
+    palette_api_failure_mode__e failure_mode; //referenced enum
     list_t *source_trace_ids; //primitive container
     char *title; // string
 
@@ -32,7 +32,7 @@ typedef struct create_scenario_request_t {
 __attribute__((deprecated)) create_scenario_request_t *create_scenario_request_create(
     char *exemplar_trace_id,
     char *expected_outcome,
-    beater_api_failure_mode__e failure_mode,
+    palette_api_failure_mode__e failure_mode,
     list_t *source_trace_ids,
     char *title
 );

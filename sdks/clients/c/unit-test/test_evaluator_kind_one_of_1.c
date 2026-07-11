@@ -23,12 +23,12 @@ evaluator_kind_one_of_1_t* instantiate_evaluator_kind_one_of_1(int include_optio
   if (include_optional) {
     evaluator_kind_one_of_1 = evaluator_kind_one_of_1_create(
       "0",
-      beater_api_evaluator_kind_one_of_1_TYPE_regex_match
+      palette_api_evaluator_kind_one_of_1_TYPE_regex_match
     );
   } else {
     evaluator_kind_one_of_1 = evaluator_kind_one_of_1_create(
       "0",
-      beater_api_evaluator_kind_one_of_1_TYPE_regex_match
+      palette_api_evaluator_kind_one_of_1_TYPE_regex_match
     );
   }
 

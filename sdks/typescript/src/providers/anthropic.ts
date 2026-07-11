@@ -10,8 +10,8 @@ const { toValue, applyCommon } = _internal;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const ANTHROPIC_CLIENT_MARK = Symbol.for("@beater/sdk.anthropic.client");
-const ANTHROPIC_METHOD_MARK = Symbol.for("@beater/sdk.anthropic.method");
+const ANTHROPIC_CLIENT_MARK = Symbol.for("@palette/sdk.anthropic.client");
+const ANTHROPIC_METHOD_MARK = Symbol.for("@palette/sdk.anthropic.method");
 
 function recordUsage(span: any, response: any): void {
   const usage = response?.usage;

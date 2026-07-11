@@ -1,22 +1,22 @@
 # `/v1` API stability and deprecation policy
 
 This document defines the stability guarantees and deprecation process for the
-Beater HTTP API. It satisfies requirement **R11.5** (`/v1` API is stable and
+Palette HTTP API. It satisfies requirement **R11.5** (`/v1` API is stable and
 versioned) and complements the OpenAPI spec
-(`sdks/openapi/beater-api.json`) and `CONTRIBUTING.md`.
+(`sdks/openapi/palette-api.json`) and `CONTRIBUTING.md`.
 
 ## The contract is the single source of truth
 
 Every `/v1` endpoint, request/response type, MCP tool, CLI command, and SDK
-client is generated from one artifact: `sdks/openapi/beater-api.json` (itself
-generated from the Rust handlers in `crates/beater-api`). The drift gate
+client is generated from one artifact: `sdks/openapi/palette-api.json` (itself
+generated from the Rust handlers in `crates/palette-api`). The drift gate
 (`scripts/check-contract-sync.sh`) and `oasdiff` in
 `.github/workflows/sdk-contract.yml` block any change that is not regenerated
 across the spec, all 7 SDK clients, the MCP tools, and the docs.
 
 ## Pre-1.0 caveat
 
-Beater has not declared 1.0 yet. Until that milestone, canonical and API
+Palette has not declared 1.0 yet. Until that milestone, canonical and API
 schemas may evolve freely and **no wire/SDK backward-compatibility is promised
 before 1.0**. That caveat does not relax the contract discipline: every `/v1`
 handler change still regenerates the OpenAPI spec, generated SDK clients,
@@ -69,8 +69,8 @@ While the API is at `/v1`:
 
 ## What this means for self-host
 
-Self-hosted `beaterd` and Beater Cloud serve the identical contract, so the same
-guarantees apply to both. Because OSS runs without Beater Cloud (R1.3), the
+Self-hosted `paletted` and Palette Cloud serve the identical contract, so the same
+guarantees apply to both. Because OSS runs without Palette Cloud (R1.3), the
 stability of `/v1` is what your agents, SDKs, and dashboards depend on — it is
 governed, versioned, and CI-enforced, not maintained by convention.
 

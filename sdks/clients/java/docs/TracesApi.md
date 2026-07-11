@@ -13,7 +13,7 @@ All URIs are relative to *http://localhost*
 
 ## tracesGetTrace
 
-> TraceView tracesGetTrace(tenantId, traceId, unmask, reason, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> TraceView tracesGetTrace(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -21,11 +21,11 @@ All URIs are relative to *http://localhost*
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.TracesApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.TracesApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -38,11 +38,11 @@ public class Example {
         Boolean unmask = true; // Boolean |
         String reason = "reason_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            TraceView result = apiInstance.tracesGetTrace(tenantId, traceId, unmask, reason, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            TraceView result = apiInstance.tracesGetTrace(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TracesApi#tracesGetTrace");
@@ -65,9 +65,9 @@ public class Example {
 | **unmask** | **Boolean**|  | [optional] |
 | **reason** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -94,7 +94,7 @@ No authorization required
 
 ## tracesGetTraceWithHttpInfo
 
-> ApiResponse<TraceView> tracesGetTrace tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<TraceView> tracesGetTrace tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -102,12 +102,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.TracesApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.TracesApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -120,11 +120,11 @@ public class Example {
         Boolean unmask = true; // Boolean |
         String reason = "reason_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<TraceView> response = apiInstance.tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<TraceView> response = apiInstance.tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -149,9 +149,9 @@ public class Example {
 | **unmask** | **Boolean**|  | [optional] |
 | **reason** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -179,7 +179,7 @@ No authorization required
 
 ## tracesListTraces
 
-> PageRunSummary tracesListTraces(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> PageRunSummary tracesListTraces(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -187,11 +187,11 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.TracesApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.TracesApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -216,11 +216,11 @@ public class Example {
         Integer limit = 56; // Integer |
         String cursor = "cursor_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PageRunSummary result = apiInstance.tracesListTraces(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            PageRunSummary result = apiInstance.tracesListTraces(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling TracesApi#tracesListTraces");
@@ -255,9 +255,9 @@ public class Example {
 | **limit** | **Integer**|  | [optional] |
 | **cursor** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 
@@ -283,7 +283,7 @@ No authorization required
 
 ## tracesListTracesWithHttpInfo
 
-> ApiResponse<PageRunSummary> tracesListTraces tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId)
+> ApiResponse<PageRunSummary> tracesListTraces tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -291,12 +291,12 @@ No authorization required
 
 ```java
 // Import classes:
-import ai.beater.client.ApiClient;
-import ai.beater.client.ApiException;
-import ai.beater.client.ApiResponse;
-import ai.beater.client.Configuration;
-import ai.beater.client.models.*;
-import ai.beater.client.api.TracesApi;
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.TracesApi;
 
 public class Example {
     public static void main(String[] args) {
@@ -321,11 +321,11 @@ public class Example {
         Integer limit = 56; // Integer |
         String cursor = "cursor_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xBeaterApiKey = "xBeaterApiKey_example"; // String | API key alternative for strict auth
-        String xBeaterProjectId = "xBeaterProjectId_example"; // String | Strict-auth project scope
-        String xBeaterEnvironmentId = "xBeaterEnvironmentId_example"; // String | Strict-auth environment scope
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PageRunSummary> response = apiInstance.tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xBeaterApiKey, xBeaterProjectId, xBeaterEnvironmentId);
+            ApiResponse<PageRunSummary> response = apiInstance.tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -362,9 +362,9 @@ public class Example {
 | **limit** | **Integer**|  | [optional] |
 | **cursor** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xBeaterApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xBeaterProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xBeaterEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
 
 ### Return type
 

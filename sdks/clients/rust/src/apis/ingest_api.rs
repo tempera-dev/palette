@@ -1,7 +1,7 @@
 /*
- * Beater API
+ * Palette API
  *
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -25,11 +25,11 @@ pub struct IngestPeriodDrainTraceIngestedParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_drain_trace_writes`]
@@ -43,11 +43,11 @@ pub struct IngestPeriodDrainTraceWritesParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_get_ingest_queue_status`]
@@ -60,11 +60,11 @@ pub struct IngestPeriodGetIngestQueueStatusParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_import_source`]
@@ -81,7 +81,7 @@ pub struct IngestPeriodImportSourceParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>
+    pub x_palette_api_key: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_ingest_native`]
@@ -92,11 +92,11 @@ pub struct IngestPeriodIngestNativeParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_ingest_otlp`]
@@ -112,11 +112,11 @@ pub struct IngestPeriodIngestOtlpParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_ingest_otlp_json_collector`]
@@ -126,13 +126,13 @@ pub struct IngestPeriodIngestOtlpJsonCollectorParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Tenant scope override for collector-style OTLP JSON
-    pub x_beater_tenant_id: Option<String>,
+    pub x_palette_tenant_id: Option<String>,
     /// Project scope override for collector-style OTLP JSON
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Environment scope override for collector-style OTLP JSON
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_reconcile_trace`]
@@ -147,11 +147,11 @@ pub struct IngestPeriodReconcileTraceParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 /// struct for passing parameters to the method [`ingest_period_replay_dead_letter`]
@@ -167,11 +167,11 @@ pub struct IngestPeriodReplayDeadLetterParams {
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
-    pub x_beater_api_key: Option<String>,
+    pub x_palette_api_key: Option<String>,
     /// Strict-auth project scope
-    pub x_beater_project_id: Option<String>,
+    pub x_palette_project_id: Option<String>,
     /// Strict-auth environment scope
-    pub x_beater_environment_id: Option<String>
+    pub x_palette_environment_id: Option<String>
 }
 
 
@@ -292,14 +292,14 @@ pub async fn ingest_period_drain_trace_ingested(configuration: &configuration::C
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -331,14 +331,14 @@ pub async fn ingest_period_drain_trace_writes(configuration: &configuration::Con
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -367,14 +367,14 @@ pub async fn ingest_period_get_ingest_queue_status(configuration: &configuration
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -406,8 +406,8 @@ pub async fn ingest_period_import_source(configuration: &configuration::Configur
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
     req_builder = req_builder.json(&params.import_source_http_request);
 
@@ -440,14 +440,14 @@ pub async fn ingest_period_ingest_native(configuration: &configuration::Configur
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
     req_builder = req_builder.json(&params.native_ingest_request);
 
@@ -480,14 +480,14 @@ pub async fn ingest_period_ingest_otlp(configuration: &configuration::Configurat
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -519,17 +519,17 @@ pub async fn ingest_period_ingest_otlp_json_collector(configuration: &configurat
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_tenant_id {
-        req_builder = req_builder.header("x-beater-tenant-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_tenant_id {
+        req_builder = req_builder.header("x-palette-tenant-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -558,14 +558,14 @@ pub async fn ingest_period_reconcile_trace(configuration: &configuration::Config
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;
@@ -597,14 +597,14 @@ pub async fn ingest_period_replay_dead_letter(configuration: &configuration::Con
     if let Some(param_value) = params.authorization {
         req_builder = req_builder.header("authorization", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_api_key {
-        req_builder = req_builder.header("x-beater-api-key", param_value.to_string());
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_project_id {
-        req_builder = req_builder.header("x-beater-project-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
     }
-    if let Some(param_value) = params.x_beater_environment_id {
-        req_builder = req_builder.header("x-beater-environment-id", param_value.to_string());
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
     }
 
     let req = req_builder.build()?;

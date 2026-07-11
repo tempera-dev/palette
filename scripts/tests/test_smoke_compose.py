@@ -38,8 +38,8 @@ def seed_fake_bin(bin_dir: Path) -> None:
     write_executable(
         bin_dir / "docker",
         """#!/usr/bin/env bash
-if [ -n "${BEATER_TEST_LOG:-}" ]; then
-  printf 'docker:%s\\n' "$*" >> "$BEATER_TEST_LOG"
+if [ -n "${PALETTE_TEST_LOG:-}" ]; then
+  printf 'docker:%s\\n' "$*" >> "$PALETTE_TEST_LOG"
 fi
 exit 0
 """,
@@ -47,8 +47,8 @@ exit 0
     write_executable(
         bin_dir / "curl",
         """#!/usr/bin/env bash
-if [ -n "${BEATER_TEST_LOG:-}" ]; then
-  printf 'curl:%s\\n' "$*" >> "$BEATER_TEST_LOG"
+if [ -n "${PALETTE_TEST_LOG:-}" ]; then
+  printf 'curl:%s\\n' "$*" >> "$PALETTE_TEST_LOG"
 fi
 url="${@: -1}"
 case "$url" in
@@ -56,7 +56,7 @@ case "$url" in
     printf 'ok'
     ;;
   */openapi.json)
-    if [ "${BEATER_TEST_STALE_OPENAPI:-0}" = "1" ]; then
+    if [ "${PALETTE_TEST_STALE_OPENAPI:-0}" = "1" ]; then
       printf 'missing contract marker'
     else
       printf 'started_after'
@@ -66,7 +66,7 @@ case "$url" in
     printf '{"items":[{"trace_id":"trace-compose-1"}],"model":"gpt-demo"}'
     ;;
   *'trace=trace-compose-1'*)
-    printf 'Agent Trace Debugger call-policy-model %s' "${BEATER_TEST_DASHBOARD_KINDS:-}"
+    printf 'Agent Trace Debugger call-policy-model %s' "${PALETTE_TEST_DASHBOARD_KINDS:-}"
     ;;
   *)
     printf 'Agent Trace Debugger'
@@ -92,8 +92,8 @@ def run_smoke(
         merged_env.update(
             {
                 "PATH": f"{bin_dir}{os.pathsep}{merged_env['PATH']}",
-                "BEATER_TEST_LOG": str(log),
-                "BEATER_TEST_DASHBOARD_KINDS": " ".join(ALL_KINDS),
+                "PALETTE_TEST_LOG": str(log),
+                "PALETTE_TEST_DASHBOARD_KINDS": " ".join(ALL_KINDS),
             }
         )
         if env:
@@ -131,12 +131,12 @@ def test_compose_smoke_runs_expected_services_and_cleans_up() -> None:
     result, log = run_smoke()
 
     assert result.returncode == 0, result.stderr
-    assert "Beater compose smoke passed." in result.stdout
+    assert "Palette compose smoke passed." in result.stdout
     assert docker_calls(log) == [
-        "compose -p beater-smoke up -d --build beaterd dashboard",
-        "compose -p beater-smoke run --rm beaterctl",
-        "compose -p beater-smoke run --rm otel-python-smoke",
-        "compose -p beater-smoke down -v --remove-orphans",
+        "compose -p palette-smoke up -d --build paletted dashboard",
+        "compose -p palette-smoke run --rm palettectl",
+        "compose -p palette-smoke run --rm otel-python-smoke",
+        "compose -p palette-smoke down -v --remove-orphans",
     ]
     assert "http://127.0.0.1:8080/health" in curl_urls(log)
     assert (
@@ -149,17 +149,17 @@ def test_keep_compose_skips_cleanup_and_customizes_ports_and_project() -> None:
     result, log = run_smoke(
         {
             "COMPOSE_PROJECT_NAME": "custom-smoke",
-            "KEEP_BEATER_COMPOSE": "1",
-            "BEATER_HTTP_PORT": "18080",
-            "BEATER_DASHBOARD_PORT": "13000",
+            "KEEP_PALETTE_COMPOSE": "1",
+            "PALETTE_HTTP_PORT": "18080",
+            "PALETTE_DASHBOARD_PORT": "13000",
         }
     )
 
     assert result.returncode == 0, result.stderr
     calls = docker_calls(log)
     assert calls[:3] == [
-        "compose -p custom-smoke up -d --build beaterd dashboard",
-        "compose -p custom-smoke run --rm beaterctl",
+        "compose -p custom-smoke up -d --build paletted dashboard",
+        "compose -p custom-smoke run --rm palettectl",
         "compose -p custom-smoke run --rm otel-python-smoke",
     ]
     assert not any(" down " in call for call in calls)
@@ -169,18 +169,18 @@ def test_keep_compose_skips_cleanup_and_customizes_ports_and_project() -> None:
 
 
 def test_compose_smoke_failure_still_cleans_up() -> None:
-    result, log = run_smoke({"BEATER_TEST_STALE_OPENAPI": "1"})
+    result, log = run_smoke({"PALETTE_TEST_STALE_OPENAPI": "1"})
 
     assert result.returncode == 1
     assert "Expected 'started_after' in http://127.0.0.1:8080/openapi.json" in result.stderr
     assert (
-        "Beater compose smoke failed; capturing compose status and logs before cleanup."
+        "Palette compose smoke failed; capturing compose status and logs before cleanup."
         in result.stderr
     )
     assert docker_calls(log)[-3:] == [
-        "compose -p beater-smoke ps",
-        "compose -p beater-smoke logs --no-color --timestamps",
-        "compose -p beater-smoke down -v --remove-orphans",
+        "compose -p palette-smoke ps",
+        "compose -p palette-smoke logs --no-color --timestamps",
+        "compose -p palette-smoke down -v --remove-orphans",
     ]
 
 

@@ -1,6 +1,6 @@
 # ImportSourceHttpRequest
 
-Request body for the unified import endpoint. The `source` field selects a registered [`beater_ingest::SourceImporter`] (e.g. `temporal_history`, `native`); `payload` is that source's document (Temporal `History` JSON, a native span list, …). Everything flows through the same downstream ingest pipeline as OTLP — there are no source-specific routes.
+Request body for the unified import endpoint. The `source` field selects a registered [`palette_ingest::SourceImporter`] (e.g. `temporal_history`, `native`); `payload` is that source's document (Temporal `History` JSON, a native span list, …). Everything flows through the same downstream ingest pipeline as OTLP — there are no source-specific routes.
 
 ## Properties
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.import_source_http_request import ImportSourceHttpRequest
+from palette_client.models.import_source_http_request import ImportSourceHttpRequest
 
 # TODO update the JSON string below
 json = "{}"

@@ -22,21 +22,21 @@ remote Docker contexts are rejected because the browser proof connects to
 `127.0.0.1`.
 On macOS, `brew install ffmpeg` provides `ffprobe`; on Ubuntu/Debian, use
 `sudo apt-get install ffmpeg`.
-The public Compose path uses prebuilt Beater images. Optional third-party
+The public Compose path uses prebuilt Palette images. Optional third-party
 topology services remain digest-pinned for deterministic diagnostics, but they
 are not started in the timed default path until the Rust runtime uses them.
 
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd ./beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/palette.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/palette/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/palette.git && cd ./palette && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && PALETTE_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
 ```
 
-Run it from a directory that does not already contain `beater/`; reruns should
+Run it from a directory that does not already contain `palette/`; reruns should
 start from a new or empty parent directory. If an aborted previous attempt left
-default ports occupied by `beater-stopwatch`, use the cleanup hint printed by
+default ports occupied by `palette-stopwatch`, use the cleanup hint printed by
 the preflight before rerunning. If preflight reports another app on a default
-port, stop or move that app instead of setting alternate Beater ports. The
+port, stop or move that app instead of setting alternate Palette ports. The
 command resolves the public `main` commit,
 downloads `scripts/gate2-outside-local-preflight.sh` from that immutable SHA
 into a temp file, and runs it before the stopwatch starts, so missing local
@@ -72,14 +72,14 @@ Exact Docker Compose stopwatch proof for the mandate's clean-machine path:
 Run this from Bash, zsh, Git Bash, or WSL2 before cloning:
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/beater.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/beater-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/beater/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && BEATER_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/beater.git && cd ./beater && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && BEATER_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/palette.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/palette/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/palette.git && cd ./palette && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && PALETTE_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
 ```
 
-Run it from a directory that does not already contain `beater/`; reruns should
+Run it from a directory that does not already contain `palette/`; reruns should
 start from a new or empty parent directory. If an aborted previous attempt left
-default ports occupied by `beater-stopwatch`, use the cleanup hint printed by
+default ports occupied by `palette-stopwatch`, use the cleanup hint printed by
 the preflight before rerunning. If preflight reports another app on a default
-port, stop or move that app instead of setting alternate Beater ports. The
+port, stop or move that app instead of setting alternate Palette ports. The
 one-liner resolves `refs/heads/main`,
 downloads the public `scripts/gate2-outside-local-preflight.sh` from that
 immutable SHA before `t="$(date +%s)"`, and verifies the cloned checkout still
@@ -103,7 +103,7 @@ origins, dirty worktrees, warm-loop reuse, local source builds, alternate ports,
 mutable pull-policy overrides, prebuilt image overrides, evidence
 artifact path overrides, alternate Compose file/profile/project settings, and teardown overrides,
 then runs the stopwatch script with proof writing, browser proof, and browser recording
-enabled. It rejects a pre-set `BEATER_GATE2_RUN_ID`; the stopwatch creates a
+enabled. It rejects a pre-set `PALETTE_GATE2_RUN_ID`; the stopwatch creates a
 fresh per-run quickstart release ID and filters the five-line trace on that ID
 so stale traces cannot satisfy the proof. Test-only registry fixtures are
 rejected; outside evidence must validate image digests against public GHCR. The
@@ -129,11 +129,11 @@ through the trace.
 Before starting Compose it checks local Docker, Docker Compose, curl, `ffprobe`,
 and SHA tooling, and it requires `python3` 3.9+ before the timed run so proof
 generation and validation cannot fail late on missing local tooling.
-It removes any previous Beater stopwatch project, then checks the required host
+It removes any previous Palette stopwatch project, then checks the required host
 ports. For outside-person evidence, free the default
 `8080`/`4317`/`3000` ports rather than using alternate ports. If preflight
 reports another process on one of those ports, stop that app and rerun; do not
-set `BEATER_HTTP_PORT`, `BEATER_OTLP_GRPC_PORT`, or `BEATER_DASHBOARD_PORT` for
+set `PALETTE_HTTP_PORT`, `PALETTE_OTLP_GRPC_PORT`, or `PALETTE_DASHBOARD_PORT` for
 outside-person evidence. Do not set `COMPOSE_FILE`, `COMPOSE_PROJECT_NAME`, or
 `COMPOSE_PROFILES`; the public command controls the Compose topology.
 The outside wrapper also tees its terminal output to
@@ -142,21 +142,21 @@ dashboard URLs, final pass line, and generated proof command are committed as
 evidence alongside the Compose service logs.
 By default it uses `docker-compose.prebuilt.yml` and pulls current GHCR images
 published by `.github/workflows/container-images.yml`. The stopwatch script
-pins `beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` to the checked-out commit SHA
-tags by default, then records the image references, Beater image service rows,
+pins `paletted`, `dashboard`, `dashboard-e2e`, and `otel-python` to the checked-out commit SHA
+tags by default, then records the image references, Palette image service rows,
 and structured `proof-image` rows with resolved GHCR digests in the proof. Closure validation
 requires those digests to match the public GHCR manifest digest set for the
 exact checked-out SHA tag. Set
-`BEATER_GATE2_LOCAL_BUILD=1` when you intentionally want to build the server and
-dashboard images from source. Set `BEATER_GATE2_REUSE=1` only for local
-warm-loop debugging. Set `BEATER_GATE2_BROWSER_PROOF=1` to also run the
+`PALETTE_GATE2_LOCAL_BUILD=1` when you intentionally want to build the server and
+dashboard images from source. Set `PALETTE_GATE2_REUSE=1` only for local
+warm-loop debugging. Set `PALETTE_GATE2_BROWSER_PROOF=1` to also run the
 prebuilt `dashboard-e2e` Playwright browser proof for the five-line trace,
 redacted-I/O unmask controls, and the all-kind nested agent waterfall in the
 same proof run. The five-minute
 SLO is enforced for time-to-first-trace and, in outside-run mode, the manual
 quickstart click confirmation; all-kind and recording steps run afterward with
 per-step timeouts. Set
-`BEATER_GATE2_RECORD_DEMO=1` to write `docs/demos/gate2-compose-browser-demo.webm`
+`PALETTE_GATE2_RECORD_DEMO=1` to write `docs/demos/gate2-compose-browser-demo.webm`
 and its SHA-pinned notes from the same browser session, including the redaction
 trace and unmask reason.
 
@@ -165,9 +165,9 @@ manual step after `docker compose up -d --build`, install stock OTEL packages
 and execute it against the local OTLP port:
 
 ```bash
-python3 -m venv /tmp/beater-otel
-/tmp/beater-otel/bin/pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc
-OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317 /tmp/beater-otel/bin/python examples/python/five_line_otel.py
+python3 -m venv /tmp/palette-otel
+/tmp/palette-otel/bin/pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc
+OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317 /tmp/palette-otel/bin/python examples/python/five_line_otel.py
 sed -n '1,5p' examples/python/five_line_otel.py
 ```
 
@@ -184,10 +184,10 @@ Containerized self-host proof:
 scripts/smoke-compose.sh
 ```
 
-The default compose proof starts `beaterd` and the dashboard, then uses one-shot
+The default compose proof starts `paletted` and the dashboard, then uses one-shot
 `otel-python` and `dashboard-e2e` containers for trace generation and browser
 proof. Postgres, NATS JetStream, and MinIO are available with the `deps` profile;
-ClickHouse is available with the `clickhouse` profile. The current `beaterd`
+ClickHouse is available with the `clickhouse` profile. The current `paletted`
 runtime still stores local OSS state in SQLite under `--data-dir`, so those
 external services are kept as self-host topology and schema-contract services,
 not started in the timed default path.
@@ -207,13 +207,13 @@ scripts/check-openapi-drift.sh
 To regenerate the committed Gate 2 browser capture under `docs/demos/`:
 
 ```bash
-BEATER_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
+PALETTE_GATE2_RECORD_DEMO=1 scripts/gate2-proof.sh
 ```
 
 To write the automated compose stopwatch artifact under `docs/demos/`:
 
 ```bash
-BEATER_GATE2_WRITE_PROOF=1 BEATER_GATE2_BROWSER_PROOF=1 BEATER_GATE2_RECORD_DEMO=1 KEEP_BEATER_COMPOSE=0 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_WRITE_PROOF=1 PALETTE_GATE2_BROWSER_PROOF=1 PALETTE_GATE2_RECORD_DEMO=1 KEEP_PALETTE_COMPOSE=0 scripts/gate2-compose-stopwatch.sh
 ```
 
 The committed compose recording in
@@ -221,7 +221,7 @@ The committed compose recording in
 is a maintainer diagnostic capture from the SHA-pinned prebuilt Compose path.
 It is reviewable demo evidence, but it does not close Gate 2. The outside-person
 proof still must use default `127.0.0.1:3000` evidence captured from a run where
-that port is genuinely Beater, not another local app or an alternate-port
+that port is genuinely Palette, not another local app or an alternate-port
 diagnostic.
 
 Gate 2 still requires an unaided outside-person run before it can be called
@@ -235,21 +235,21 @@ scripts/check-gate2-public-handoff.py --full-run
 
 That mode first preflights the local runtime: canonical public source URL only,
 `docker`, Docker Compose v2, `curl`, `ffprobe`, local Docker daemon, SHA tooling,
-and free default ports after removing any previous `beater-stopwatch` Compose project.
+and free default ports after removing any previous `palette-stopwatch` Compose project.
 It then downloads the raw public preflight from the expected immutable commit
 and runs it under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
 remote Docker contexts fail before clone or Compose cleanup. It runs
 `scripts/check-gate2-outside-readiness.py`, uses one fresh clone from
-`https://github.com/jadenfix/beater.git` for exact-commit, cloned readiness, and
+`https://github.com/jadenfix/palette.git` for exact-commit, cloned readiness, and
 wrapper dry-run checks, then uses a second fresh clone for the timed runtime
 path. The readiness check verifies clean `main`, the expected GitHub remote,
 this proof file's structure, and public current-SHA multi-arch
-`beaterd`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR images for the
+`paletted`, `dashboard`, `dashboard-e2e`, and `otel-python` GHCR images for the
 exact commit. The verifier executes the second clone's
 `scripts/gate2-outside-run.sh` wrapper with the clone-start timestamp captured
 immediately before that second `git clone`, waits until the wrapper prints the
 manual quickstart checkpoint, uses a browser click to read and enter the confirmation
-code from the selected `llm.call` detail for diagnostic automation only, and cleans up the `beater-stopwatch` Compose project after the
+code from the selected `llm.call` detail for diagnostic automation only, and cleans up the `palette-stopwatch` Compose project after the
 wrapper exits. This is maintainer runtime evidence that the exact public
 outside-run path, current GHCR images, OTLP ingest, dashboard render, browser
 proof, and browser recording work; it is not a substitute for the required
@@ -266,7 +266,7 @@ multi-arch GHCR-image checks, but it is not a runtime handoff proof.
 Use [docs/demos/gate2-outside-person-proof.md](gate2-outside-person-proof.md)
 as the required evidence template for that run. After the outside runner has
 completed the stopwatch command, the one-liner returns their parent shell to the
-directory that contains `beater/`; run `cd ./beater`, then use the prefilled
+directory that contains `palette/`; run `cd ./palette`, then use the prefilled
 `scripts/generate-gate2-outside-proof.py --print-command` output printed in the
 terminal. It copies the stopwatch-derived dashboard URLs, terminal excerpt, and
 compose-log artifact into a ready-to-edit command. Before running the command,
@@ -276,18 +276,18 @@ and compose logs as repo-relative, committed/clean, non-symlink files under
 `docs/demos/` (for example `docs/demos/gate2-outside-terminal.log` and
 `docs/demos/gate2-outside-compose.log`), or use an immutable GitHub Actions
 run/job URL for compose logs such as
-`https://github.com/jadenfix/beater/actions/runs/<run_id>`. The outside-run
+`https://github.com/jadenfix/palette/actions/runs/<run_id>`. The outside-run
 wrapper writes `docs/demos/gate2-outside-compose.log` automatically and
 pre-fills that path with `--compose-logs-saved`; it also writes
 `docs/demos/gate2-outside-terminal.log` and pre-fills
 `--terminal-transcript-saved`. For local compose-log files, the validator checks
-the stopwatch-written `# Gate 2 Compose Logs` header, `beater-stopwatch`
+the stopwatch-written `# Gate 2 Compose Logs` header, `palette-stopwatch`
 project, `prebuilt-image` startup mode, and timestamped compose logs command.
 
 To reprint the ready-to-edit command:
 
 ```bash
-cd ./beater
+cd ./palette
 scripts/generate-gate2-outside-proof.py --print-command
 ```
 
@@ -300,7 +300,7 @@ redaction_dashboard="$(sed -n 's/^- Redaction dashboard: //p' docs/demos/gate2-c
 
 scripts/generate-gate2-outside-proof.py \
   --runner-name "Jane Outside Runner" \
-  --relationship "external evaluator; no Beater project role" \
+  --relationship "external evaluator; no Palette project role" \
   --prior-exposure "none" \
   --machine-os "Ubuntu 24.04 x86_64" \
   --browser "Chrome stable" \
@@ -314,7 +314,7 @@ scripts/generate-gate2-outside-proof.py \
   --attest-outside-run
 ```
 
-Then, from the same `beater/` clone, commit the evidence and validate it with:
+Then, from the same `palette/` clone, commit the evidence and validate it with:
 
 ```bash
 git add docs/demos/gate2-outside-person-proof.md \
@@ -375,24 +375,24 @@ Warm-loop debugging can skip the pre-run cleanup, but this is not acceptable
 evidence for Gate 2:
 
 ```bash
-BEATER_GATE2_REUSE=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_REUSE=1 scripts/gate2-compose-stopwatch.sh
 ```
 
 Local source builds are measured but are not the SLO path:
 
 ```bash
-BEATER_GATE2_LOCAL_BUILD=1 scripts/gate2-compose-stopwatch.sh
+PALETTE_GATE2_LOCAL_BUILD=1 scripts/gate2-compose-stopwatch.sh
 ```
 
-With `beaterd` running in local auth mode, remote smoke can target the live
+With `paletted` running in local auth mode, remote smoke can target the live
 server and reports `trace_query_lag_ms`:
 
 ```bash
-cargo run -q -p beaterctl -- smoke --http-url http://127.0.0.1:8080
-cargo run -q -p beaterctl -- smoke --http-url http://127.0.0.1:8080 --otlp-grpc-url http://127.0.0.1:4317
+cargo run -q -p palettectl -- smoke --http-url http://127.0.0.1:8080
+cargo run -q -p palettectl -- smoke --http-url http://127.0.0.1:8080 --otlp-grpc-url http://127.0.0.1:4317
 ```
 
-`beaterd` reads `BEATER_PROVIDER_SECRET_KEY` as a base64 32-byte provider-secret
+`paletted` reads `PALETTE_PROVIDER_SECRET_KEY` as a base64 32-byte provider-secret
 encryption key when set. Without it, local OSS/dev mode creates
 `provider-secrets.key` under the data directory and uses that key to encrypt
 `provider-secrets.sqlite`.

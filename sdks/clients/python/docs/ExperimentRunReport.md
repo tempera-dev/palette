@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.experiment_run_report import ExperimentRunReport
+from palette_client.models.experiment_run_report import ExperimentRunReport
 
 # TODO update the JSON string below
 json = "{}"

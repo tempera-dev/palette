@@ -108,7 +108,7 @@ def violations_for(spec: dict) -> list[str]:
 def test_import_has_no_cli_side_effects() -> None:
     module = load_module()
 
-    assert module.DEFAULT_SPEC == "sdks/openapi/beater-api.json"
+    assert module.DEFAULT_SPEC == "sdks/openapi/palette-api.json"
     assert hasattr(module, "audit_spec")
     assert hasattr(module, "main")
 
@@ -206,7 +206,7 @@ def test_main_reports_failure_for_cli_gate() -> None:
     spec["paths"]["/v1/traces"]["get"].pop("parameters")
 
     with tempfile.TemporaryDirectory() as temp:
-        spec_path = Path(temp) / "beater-api.json"
+        spec_path = Path(temp) / "palette-api.json"
         spec_path.write_text(json.dumps(spec), encoding="utf-8")
         stdout = io.StringIO()
 

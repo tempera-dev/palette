@@ -3,13 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "beater-browser-use"
+name = "palette-browser-use"
 version = "0.1.0"
-description = "Beater instrumentation for the browser-use agent framework — emits canonical browser.* spans over OTLP"
+description = "Palette instrumentation for the browser-use agent framework — emits canonical browser.* spans over OTLP"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
-authors = [{ name = "Beater" }]
+authors = [{ name = "Palette" }]
 keywords = ["observability", "browser-use", "agents", "opentelemetry", "tracing", "browser"]
 dependencies = [
     "opentelemetry-api>=1.20.0",
@@ -24,11 +24,11 @@ browser-use = ["browser-use>=0.1.0"]
 dev = ["pytest>=7.0.0"]
 
 [project.urls]
-Homepage = "https://github.com/beater/beater"
-Documentation = "https://github.com/beater/beater/tree/main/sdks/python-browser-use"
+Homepage = "https://github.com/palette/palette"
+Documentation = "https://github.com/palette/palette/tree/main/sdks/python-browser-use"
 
 [tool.hatch.build.targets.wheel]
-packages = ["beater_browser_use"]
+packages = ["palette_browser_use"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

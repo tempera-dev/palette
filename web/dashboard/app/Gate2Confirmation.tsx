@@ -10,7 +10,7 @@ import {
   type Gate2ConfirmationRequest
 } from "../lib/gate2-confirmation-request";
 
-const CLICK_EVENT = "beater:gate2-span-click";
+const CLICK_EVENT = "palette:gate2-span-click";
 
 type ClickDetail = Gate2ConfirmationRequest;
 
@@ -114,7 +114,7 @@ export function Gate2ConfirmationCode({
 }
 
 function storageKey(traceId: string, spanId: string): string {
-  return `beater:gate2:clicked:${traceId}:${spanId}`;
+  return `palette:gate2:clicked:${traceId}:${spanId}`;
 }
 
 function clickProof(event: MouseEvent): BrowserClickProof | null {

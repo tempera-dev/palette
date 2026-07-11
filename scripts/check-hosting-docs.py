@@ -14,8 +14,8 @@ WORKFLOW = ROOT / ".github/workflows/hosting-docs.yml"
 DOC_TOKENS = {
     "hosted split": [
         "dashboard on **Vercel**",
-        "Rust backend (`beaterd`) on **Fly.io**",
-        "Vercel can host the dashboard but **not** `beaterd`",
+        "Rust backend (`paletted`) on **Fly.io**",
+        "Vercel can host the dashboard but **not** `paletted`",
         "persistent process and a writable\nvolume",
         "ARCHITECTURE.md` §3.2",
     ],
@@ -28,8 +28,8 @@ DOC_TOKENS = {
         "Only secret *names* appear in this repo",
     ],
     "strict backend auth and storage": [
-        "fly volumes create beater_data",
-        "BEATER_PROVIDER_SECRET_KEY",
+        "fly volumes create palette_data",
+        "PALETTE_PROVIDER_SECRET_KEY",
         "--auth-mode required",
         "Bootstrap the first Admin API key",
         "Do not\nuse the bootstrap Admin key as a standing Vercel credential",
@@ -39,10 +39,10 @@ DOC_TOKENS = {
         "Root Directory = `web/dashboard`",
         "encrypted, server-side",
         "Do **not** use `NEXT_PUBLIC_*` for any secret",
-        "BEATER_API_BASE_URL",
-        "BEATER_API_TOKEN",
-        "BEATER_API_KEY",
-        "BEATER_GATE2_CONFIRMATION_SALT",
+        "PALETTE_API_BASE_URL",
+        "PALETTE_API_TOKEN",
+        "PALETTE_API_KEY",
+        "PALETTE_GATE2_CONFIRMATION_SALT",
     ],
     "deploy workflows": [
         ".github/workflows/deploy-backend.yml",
@@ -53,8 +53,8 @@ DOC_TOKENS = {
         "VERCEL_PROJECT_ID",
     ],
     "post-deploy smoke": [
-        "curl -fsS https://beater-api.fly.dev/health",
-        "cargo run -q -p beaterctl",
+        "curl -fsS https://palette-api.fly.dev/health",
+        "cargo run -q -p palettectl",
         "PLAYWRIGHT_BASE_URL",
         "npm run test:e2e",
     ],
@@ -98,7 +98,7 @@ def main() -> int:
             print(f"  - {failure}", file=sys.stderr)
         return 1
 
-    print("Hosting docs preserve the Vercel/Fly/beaterd deployment boundary.")
+    print("Hosting docs preserve the Vercel/Fly/paletted deployment boundary.")
     return 0
 
 

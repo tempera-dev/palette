@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 # The browser-agent feature, split into deterministic tests and live e2e.
-#   browser-tests: the beater-browser-* crates' unit/integration tests
+#   browser-tests: the palette-browser-* crates' unit/integration tests
 #                  (driver trait + conformance, capture, harness loop) — no
 #                  browser required. Owned here, so `backend-tests` excludes them.
 #   e2e-tests:     real Chrome (CDP) + Playwright conformance + the browser-use
@@ -44,12 +44,12 @@ jobs:
       - name: Test the browser crates
         run: |
           cargo test \
-            -p beater-browser \
-            -p beater-browser-capture \
-            -p beater-browser-cdp \
-            -p beater-browser-harness \
-            -p beater-browser-playwright \
-            -p beater-browser-webdriver
+            -p palette-browser \
+            -p palette-browser-capture \
+            -p palette-browser-cdp \
+            -p palette-browser-harness \
+            -p palette-browser-playwright \
+            -p palette-browser-webdriver
 
   e2e-tests:
     name: e2e tests

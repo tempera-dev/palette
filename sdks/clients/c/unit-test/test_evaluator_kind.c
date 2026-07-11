@@ -22,7 +22,7 @@ evaluator_kind_t* instantiate_evaluator_kind(int include_optional) {
   evaluator_kind_t* evaluator_kind = NULL;
   if (include_optional) {
     evaluator_kind = evaluator_kind_create(
-      beater_api_evaluator_kind_TYPE_exact_match,
+      palette_api_evaluator_kind_TYPE_exact_match,
       "0",
       1.337,
       1.337,
@@ -37,7 +37,7 @@ evaluator_kind_t* instantiate_evaluator_kind(int include_optional) {
     );
   } else {
     evaluator_kind = evaluator_kind_create(
-      beater_api_evaluator_kind_TYPE_exact_match,
+      palette_api_evaluator_kind_TYPE_exact_match,
       "0",
       1.337,
       1.337,

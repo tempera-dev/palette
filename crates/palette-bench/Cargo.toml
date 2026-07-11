@@ -1,0 +1,28 @@
+[package]
+name = "palette-bench"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+palette-core = { path = "../palette-core" }
+palette-schema = { path = "../palette-schema" }
+chrono.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+palette-store = { path = "../palette-store" }
+palette-store-memory = { path = "../palette-store-memory" }
+criterion.workspace = true
+tokio.workspace = true
+
+[[bench]]
+name = "smoke"
+harness = false
+
+[[bench]]
+name = "store_memory"
+harness = false
+
+[lints]
+workspace = true

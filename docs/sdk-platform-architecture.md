@@ -1,4 +1,4 @@
-# Beater Client Platform — Architecture & API Design
+# Palette Client Platform — Architecture & API Design
 
 How the **API, MCP server, CLI, and 7 language SDKs** stay coherent, simple, and
 impossible to drift. One contract, generated outward.
@@ -6,12 +6,12 @@ impossible to drift. One contract, generated outward.
 ## Principle: one source of truth, generated outward
 
 ```
-crates/beater-api handlers  ──#[utoipa::path] + ToSchema on the REAL types──┐
+crates/palette-api handlers  ──#[utoipa::path] + ToSchema on the REAL types──┐
                                                                             v
-                                       sdks/openapi/beater-api.json  (OpenAPI 3.1)
+                                       sdks/openapi/palette-api.json  (OpenAPI 3.1)
         +------------------+------------------+------------------+-----------------+
         v                  v                  v                  v                 v
-  7 SDK clients        /mcp tools          beater CLI         docs site      conformance
+  7 SDK clients        /mcp tools          palette CLI         docs site      conformance
   (openapi-generator)  (1 per operation)   (shared client)   (renders spec)  (live, per lang)
 ```
 
@@ -57,7 +57,7 @@ same auth -- so all four surfaces are literally the same operations.
 
 - **Robust:** the contract is type-checked in Rust; `openapi_coverage` asserts
   spec == served routes; per-language **live conformance** drives each generated
-  client against a running `beaterd`; MCP has parity tests vs direct HTTP; the
+  client against a running `paletted`; MCP has parity tests vs direct HTTP; the
   ergonomic SDKs have unit + live E2E.
 - **Scalable:** adding an endpoint = annotate one handler + `regen-sdks.sh`; all
   7 SDKs, MCP tools, CLI commands, and docs update from that single change.
@@ -65,9 +65,9 @@ same auth -- so all four surfaces are literally the same operations.
 
 ## Easy to use
 
-- Python: `pip install beater-sdk` -> `beater.init()` -> `@beater.observe(...)`.
-- TypeScript: `npm i @beater/sdk` -> `beater.init()` -> `observe(fn)`.
-- CLI: `beater api <operationId> --param k=v` reaches any endpoint; typed
-  sugar (`beater traces list`) for common ones.
+- Python: `pip install palette-sdk` -> `palette.init()` -> `@palette.observe(...)`.
+- TypeScript: `npm i @palette/sdk` -> `palette.init()` -> `observe(fn)`.
+- CLI: `palette api <operationId> --param k=v` reaches any endpoint; typed
+  sugar (`palette traces list`) for common ones.
 - MCP: point any MCP client at `/mcp`; every API operation is a tool.
 - Docs: `/docs` renders the live spec + tool catalog + per-language quickstarts.

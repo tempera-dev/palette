@@ -1,11 +1,11 @@
-package beater
+package palette
 
 import (
 	"os"
 	"strings"
 )
 
-// Config holds the connection and scope settings for the Beater SDK.
+// Config holds the connection and scope settings for the Palette SDK.
 type Config struct {
 	BaseURL       string
 	TenantID      string
@@ -23,17 +23,17 @@ func env(name, def string) string {
 	return def
 }
 
-// ConfigFromEnv resolves a Config from BEATER_* environment variables, with
+// ConfigFromEnv resolves a Config from PALETTE_* environment variables, with
 // sensible local defaults (http://127.0.0.1:8080, demo/demo/local).
 func ConfigFromEnv() Config {
 	return Config{
-		BaseURL:       env("BEATER_BASE_URL", "http://127.0.0.1:8080"),
-		TenantID:      env("BEATER_TENANT_ID", "demo"),
-		ProjectID:     env("BEATER_PROJECT_ID", "demo"),
-		EnvironmentID: env("BEATER_ENVIRONMENT_ID", "local"),
-		APIKey:        env("BEATER_API_KEY", ""),
-		ServiceName:   env("BEATER_SERVICE_NAME", "beater-go"),
-		ReleaseID:     env("BEATER_RELEASE_ID", ""),
+		BaseURL:       env("PALETTE_BASE_URL", "http://127.0.0.1:8080"),
+		TenantID:      env("PALETTE_TENANT_ID", "demo"),
+		ProjectID:     env("PALETTE_PROJECT_ID", "demo"),
+		EnvironmentID: env("PALETTE_ENVIRONMENT_ID", "local"),
+		APIKey:        env("PALETTE_API_KEY", ""),
+		ServiceName:   env("PALETTE_SERVICE_NAME", "palette-go"),
+		ReleaseID:     env("PALETTE_RELEASE_ID", ""),
 	}
 }
 

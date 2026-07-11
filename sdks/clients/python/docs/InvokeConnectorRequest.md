@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.invoke_connector_request import InvokeConnectorRequest
+from palette_client.models.invoke_connector_request import InvokeConnectorRequest
 
 # TODO update the JSON string below
 json = "{}"

@@ -1,7 +1,7 @@
 <!--
-Thanks for contributing to Beater! Please read CONTRIBUTING.md first.
+Thanks for contributing to Palette! Please read CONTRIBUTING.md first.
 The HTTP API, the 7 SDK clients, the MCP tools, the CLI, and the docs are ALL
-generated from one artifact: sdks/openapi/beater-api.json.
+generated from one artifact: sdks/openapi/palette-api.json.
 -->
 
 ## What does this PR do?

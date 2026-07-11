@@ -42,7 +42,7 @@ typedef struct canonical_span_t {
     long seq; //numeric
     char *span_id; // string
     char *start_time; //date time
-    beater_api_span_status__e status; //referenced enum
+    palette_api_span_status__e status; //referenced enum
     char *tenant_id; // string
     struct token_counts_t *tokens; //model
     char *trace_id; // string
@@ -69,7 +69,7 @@ __attribute__((deprecated)) canonical_span_t *canonical_span_create(
     long seq,
     char *span_id,
     char *start_time,
-    beater_api_span_status__e status,
+    palette_api_span_status__e status,
     char *tenant_id,
     token_counts_t *tokens,
     char *trace_id,

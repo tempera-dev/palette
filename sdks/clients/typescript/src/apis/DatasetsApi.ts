@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  * 
@@ -45,9 +45,9 @@ export interface DatasetsCreateDatasetRequest {
     projectId: string;
     createDatasetRequest: CreateDatasetRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 export interface DatasetsCreateDatasetVersionRequest {
@@ -56,9 +56,9 @@ export interface DatasetsCreateDatasetVersionRequest {
     datasetId: string;
     createDatasetVersionRequest: CreateDatasetVersionRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 export interface DatasetsPromoteDatasetCaseFromTraceRequest {
@@ -67,9 +67,9 @@ export interface DatasetsPromoteDatasetCaseFromTraceRequest {
     datasetId: string;
     promoteTraceCaseRequest: PromoteTraceCaseRequest;
     authorization?: string | null;
-    xBeaterApiKey?: string | null;
-    xBeaterProjectId?: string | null;
-    xBeaterEnvironmentId?: string | null;
+    xPaletteApiKey?: string | null;
+    xPaletteProjectId?: string | null;
+    xPaletteEnvironmentId?: string | null;
 }
 
 /**
@@ -111,16 +111,16 @@ export class DatasetsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({
@@ -182,16 +182,16 @@ export class DatasetsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({
@@ -253,16 +253,16 @@ export class DatasetsApi extends runtime.BaseAPI {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
 
-        if (requestParameters['xBeaterApiKey'] != null) {
-            headerParameters['x-beater-api-key'] = String(requestParameters['xBeaterApiKey']);
+        if (requestParameters['xPaletteApiKey'] != null) {
+            headerParameters['x-palette-api-key'] = String(requestParameters['xPaletteApiKey']);
         }
 
-        if (requestParameters['xBeaterProjectId'] != null) {
-            headerParameters['x-beater-project-id'] = String(requestParameters['xBeaterProjectId']);
+        if (requestParameters['xPaletteProjectId'] != null) {
+            headerParameters['x-palette-project-id'] = String(requestParameters['xPaletteProjectId']);
         }
 
-        if (requestParameters['xBeaterEnvironmentId'] != null) {
-            headerParameters['x-beater-environment-id'] = String(requestParameters['xBeaterEnvironmentId']);
+        if (requestParameters['xPaletteEnvironmentId'] != null) {
+            headerParameters['x-palette-environment-id'] = String(requestParameters['xPaletteEnvironmentId']);
         }
 
         const response = await this.request({

@@ -20,7 +20,7 @@ typedef struct diff_line_t diff_line_t;
 
 
 typedef struct diff_line_t {
-    beater_api_diff_line_kind__e kind; //referenced enum
+    palette_api_diff_line_kind__e kind; //referenced enum
     int new_line; //numeric
     int old_line; //numeric
     char *text; // string
@@ -29,7 +29,7 @@ typedef struct diff_line_t {
 } diff_line_t;
 
 __attribute__((deprecated)) diff_line_t *diff_line_create(
-    beater_api_diff_line_kind__e kind,
+    palette_api_diff_line_kind__e kind,
     int new_line,
     int old_line,
     char *text

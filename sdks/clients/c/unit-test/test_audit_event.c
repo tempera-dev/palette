@@ -22,13 +22,13 @@ audit_event_t* instantiate_audit_event(int include_optional) {
   audit_event_t* audit_event = NULL;
   if (include_optional) {
     audit_event = audit_event_create(
-      beater_api_audit_event__pii_unmask,
+      palette_api_audit_event__pii_unmask,
       "0",
       null,
       "0",
       "2013-10-20T19:20:30+01:00",
       "0",
-      beater_api_audit_event__allowed,
+      palette_api_audit_event__allowed,
       "0",
       "0",
       "0",
@@ -37,13 +37,13 @@ audit_event_t* instantiate_audit_event(int include_optional) {
     );
   } else {
     audit_event = audit_event_create(
-      beater_api_audit_event__pii_unmask,
+      palette_api_audit_event__pii_unmask,
       "0",
       null,
       "0",
       "2013-10-20T19:20:30+01:00",
       "0",
-      beater_api_audit_event__allowed,
+      palette_api_audit_event__allowed,
       "0",
       "0",
       "0",

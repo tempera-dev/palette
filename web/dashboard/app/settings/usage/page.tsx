@@ -24,7 +24,7 @@ export default async function UsagePage() {
         <div className="page-head">
           <div className="page-titles">
             <h1>Usage</h1>
-            <p>Volume recorded by your beaterd, by metric.</p>
+            <p>Volume recorded by your paletted, by metric.</p>
           </div>
         </div>
         <div className="panel">
@@ -62,7 +62,7 @@ export default async function UsagePage() {
         <div className="page-titles">
           <h1>Usage</h1>
           <p>
-            Volume recorded by your beaterd for the current period. Self-hosted —
+            Volume recorded by your paletted for the current period. Self-hosted —
             you keep every byte.
           </p>
         </div>
@@ -80,8 +80,8 @@ export default async function UsagePage() {
             <strong>{error ? "Usage isn't available yet" : "No usage recorded yet"}</strong>
             <p>
               {error
-                ? "Couldn't reach the usage endpoint. Start beaterd and send a trace to see numbers here."
-                : "Create an API key, point your agent at beaterd, and metrics land here within seconds."}
+                ? "Couldn't reach the usage endpoint. Start paletted and send a trace to see numbers here."
+                : "Create an API key, point your agent at paletted, and metrics land here within seconds."}
             </p>
             <Link href="/settings/api-keys" className="btn btn-primary" style={{ marginTop: 6 }}>
               Create an API key

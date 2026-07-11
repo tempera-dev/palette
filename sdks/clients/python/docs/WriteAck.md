@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.write_ack import WriteAck
+from palette_client.models.write_ack import WriteAck
 
 # TODO update the JSON string below
 json = "{}"

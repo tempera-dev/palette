@@ -8,7 +8,7 @@
 
 
 trace_ingested_drain_report_t*
-IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -65,38 +65,38 @@ IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
 
@@ -178,33 +178,33 @@ IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     if(keyQuery_limit){
         free(keyQuery_limit);
         keyQuery_limit = NULL;
@@ -225,7 +225,7 @@ end:
 }
 
 trace_write_drain_report_t*
-IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -282,38 +282,38 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
 
@@ -395,33 +395,33 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     if(keyQuery_limit){
         free(keyQuery_limit);
         keyQuery_limit = NULL;
@@ -442,7 +442,7 @@ end:
 }
 
 ingest_queue_status_t*
-IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -499,38 +499,38 @@ IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, ch
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
     list_addElement(localVarHeaderType,"application/json"); //produces
@@ -595,33 +595,33 @@ IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, ch
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     return elementToReturn;
 end:
     free(localVarPath);
@@ -630,7 +630,7 @@ end:
 }
 
 ingest_outcome_t*
-IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_beater_api_key)
+IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -699,14 +699,14 @@ IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *proj
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
@@ -803,15 +803,15 @@ IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *proj
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
+    free(keyPairHeader_x_palette_api_key);
     if (localVarSingleItemJSON_import_source_http_request) {
         cJSON_Delete(localVarSingleItemJSON_import_source_http_request);
         localVarSingleItemJSON_import_source_http_request = NULL;
@@ -837,7 +837,7 @@ end:
 }
 
 ingest_outcome_t*
-IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -870,38 +870,38 @@ IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *na
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
 
@@ -995,33 +995,33 @@ IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *na
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     if (localVarSingleItemJSON_native_ingest_request) {
         cJSON_Delete(localVarSingleItemJSON_native_ingest_request);
         localVarSingleItemJSON_native_ingest_request = NULL;
@@ -1047,7 +1047,7 @@ end:
 }
 
 otlp_ingest_outcome_t*
-IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1116,38 +1116,38 @@ IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *projec
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
 
@@ -1233,33 +1233,33 @@ IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *projec
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     if(keyQuery_durability){
         free(keyQuery_durability);
         keyQuery_durability = NULL;
@@ -1280,7 +1280,7 @@ end:
 }
 
 otlp_ingest_outcome_t*
-IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_beater_api_key, char *x_beater_tenant_id, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_tenant_id, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1313,50 +1313,50 @@ IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_tenant_id = NULL;
-    char * valueHeader_x_beater_tenant_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_tenant_id = 0;
-    if (x_beater_tenant_id) {
-        keyHeader_x_beater_tenant_id = strdup("x-beater-tenant-id");
-        valueHeader_x_beater_tenant_id = strdup((x_beater_tenant_id));
-        keyPairHeader_x_beater_tenant_id = keyValuePair_create(keyHeader_x_beater_tenant_id, valueHeader_x_beater_tenant_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_tenant_id);
+    char *keyHeader_x_palette_tenant_id = NULL;
+    char * valueHeader_x_palette_tenant_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_tenant_id = 0;
+    if (x_palette_tenant_id) {
+        keyHeader_x_palette_tenant_id = strdup("x-palette-tenant-id");
+        valueHeader_x_palette_tenant_id = strdup((x_palette_tenant_id));
+        keyPairHeader_x_palette_tenant_id = keyValuePair_create(keyHeader_x_palette_tenant_id, valueHeader_x_palette_tenant_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_tenant_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
 
@@ -1439,42 +1439,42 @@ IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_tenant_id) {
-        free(keyHeader_x_beater_tenant_id);
-        keyHeader_x_beater_tenant_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_tenant_id) {
+        free(keyHeader_x_palette_tenant_id);
+        keyHeader_x_palette_tenant_id = NULL;
     }
-    if (valueHeader_x_beater_tenant_id) {
-        free(valueHeader_x_beater_tenant_id);
-        valueHeader_x_beater_tenant_id = NULL;
+    if (valueHeader_x_palette_tenant_id) {
+        free(valueHeader_x_palette_tenant_id);
+        valueHeader_x_palette_tenant_id = NULL;
     }
-    free(keyPairHeader_x_beater_tenant_id);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_tenant_id);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     if(keyQuery_durability){
         free(keyQuery_durability);
         keyQuery_durability = NULL;
@@ -1495,7 +1495,7 @@ end:
 }
 
 trace_ingested_reconcile_report_t*
-IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -1564,38 +1564,38 @@ IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *pr
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
     list_addElement(localVarHeaderType,"application/json"); //produces
@@ -1665,33 +1665,33 @@ IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *pr
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     return elementToReturn;
 end:
     free(localVarPath);
@@ -1700,7 +1700,7 @@ end:
 }
 
 dead_letter_replay_report_t*
-IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_beater_api_key, char *x_beater_project_id, char *x_beater_environment_id)
+IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1769,38 +1769,38 @@ IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *
 
 
     // header parameters
-    char *keyHeader_x_beater_api_key = NULL;
-    char * valueHeader_x_beater_api_key = 0;
-    keyValuePair_t *keyPairHeader_x_beater_api_key = 0;
-    if (x_beater_api_key) {
-        keyHeader_x_beater_api_key = strdup("x-beater-api-key");
-        valueHeader_x_beater_api_key = strdup((x_beater_api_key));
-        keyPairHeader_x_beater_api_key = keyValuePair_create(keyHeader_x_beater_api_key, valueHeader_x_beater_api_key);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_api_key);
+    char *keyHeader_x_palette_api_key = NULL;
+    char * valueHeader_x_palette_api_key = 0;
+    keyValuePair_t *keyPairHeader_x_palette_api_key = 0;
+    if (x_palette_api_key) {
+        keyHeader_x_palette_api_key = strdup("x-palette-api-key");
+        valueHeader_x_palette_api_key = strdup((x_palette_api_key));
+        keyPairHeader_x_palette_api_key = keyValuePair_create(keyHeader_x_palette_api_key, valueHeader_x_palette_api_key);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_api_key);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_project_id = NULL;
-    char * valueHeader_x_beater_project_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_project_id = 0;
-    if (x_beater_project_id) {
-        keyHeader_x_beater_project_id = strdup("x-beater-project-id");
-        valueHeader_x_beater_project_id = strdup((x_beater_project_id));
-        keyPairHeader_x_beater_project_id = keyValuePair_create(keyHeader_x_beater_project_id, valueHeader_x_beater_project_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_project_id);
+    char *keyHeader_x_palette_project_id = NULL;
+    char * valueHeader_x_palette_project_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_project_id = 0;
+    if (x_palette_project_id) {
+        keyHeader_x_palette_project_id = strdup("x-palette-project-id");
+        valueHeader_x_palette_project_id = strdup((x_palette_project_id));
+        keyPairHeader_x_palette_project_id = keyValuePair_create(keyHeader_x_palette_project_id, valueHeader_x_palette_project_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_project_id);
     }
 
 
     // header parameters
-    char *keyHeader_x_beater_environment_id = NULL;
-    char * valueHeader_x_beater_environment_id = 0;
-    keyValuePair_t *keyPairHeader_x_beater_environment_id = 0;
-    if (x_beater_environment_id) {
-        keyHeader_x_beater_environment_id = strdup("x-beater-environment-id");
-        valueHeader_x_beater_environment_id = strdup((x_beater_environment_id));
-        keyPairHeader_x_beater_environment_id = keyValuePair_create(keyHeader_x_beater_environment_id, valueHeader_x_beater_environment_id);
-        list_addElement(localVarHeaderParameters,keyPairHeader_x_beater_environment_id);
+    char *keyHeader_x_palette_environment_id = NULL;
+    char * valueHeader_x_palette_environment_id = 0;
+    keyValuePair_t *keyPairHeader_x_palette_environment_id = 0;
+    if (x_palette_environment_id) {
+        keyHeader_x_palette_environment_id = strdup("x-palette-environment-id");
+        valueHeader_x_palette_environment_id = strdup((x_palette_environment_id));
+        keyPairHeader_x_palette_environment_id = keyValuePair_create(keyHeader_x_palette_environment_id, valueHeader_x_palette_environment_id);
+        list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
 
@@ -1883,33 +1883,33 @@ IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *
         valueHeader_authorization = NULL;
     }
     free(keyPairHeader_authorization);
-    if (keyHeader_x_beater_api_key) {
-        free(keyHeader_x_beater_api_key);
-        keyHeader_x_beater_api_key = NULL;
+    if (keyHeader_x_palette_api_key) {
+        free(keyHeader_x_palette_api_key);
+        keyHeader_x_palette_api_key = NULL;
     }
-    if (valueHeader_x_beater_api_key) {
-        free(valueHeader_x_beater_api_key);
-        valueHeader_x_beater_api_key = NULL;
+    if (valueHeader_x_palette_api_key) {
+        free(valueHeader_x_palette_api_key);
+        valueHeader_x_palette_api_key = NULL;
     }
-    free(keyPairHeader_x_beater_api_key);
-    if (keyHeader_x_beater_project_id) {
-        free(keyHeader_x_beater_project_id);
-        keyHeader_x_beater_project_id = NULL;
+    free(keyPairHeader_x_palette_api_key);
+    if (keyHeader_x_palette_project_id) {
+        free(keyHeader_x_palette_project_id);
+        keyHeader_x_palette_project_id = NULL;
     }
-    if (valueHeader_x_beater_project_id) {
-        free(valueHeader_x_beater_project_id);
-        valueHeader_x_beater_project_id = NULL;
+    if (valueHeader_x_palette_project_id) {
+        free(valueHeader_x_palette_project_id);
+        valueHeader_x_palette_project_id = NULL;
     }
-    free(keyPairHeader_x_beater_project_id);
-    if (keyHeader_x_beater_environment_id) {
-        free(keyHeader_x_beater_environment_id);
-        keyHeader_x_beater_environment_id = NULL;
+    free(keyPairHeader_x_palette_project_id);
+    if (keyHeader_x_palette_environment_id) {
+        free(keyHeader_x_palette_environment_id);
+        keyHeader_x_palette_environment_id = NULL;
     }
-    if (valueHeader_x_beater_environment_id) {
-        free(valueHeader_x_beater_environment_id);
-        valueHeader_x_beater_environment_id = NULL;
+    if (valueHeader_x_palette_environment_id) {
+        free(valueHeader_x_palette_environment_id);
+        valueHeader_x_palette_environment_id = NULL;
     }
-    free(keyPairHeader_x_beater_environment_id);
+    free(keyPairHeader_x_palette_environment_id);
     if(keyQuery_reset_attempts){
         free(keyQuery_reset_attempts);
         keyQuery_reset_attempts = NULL;

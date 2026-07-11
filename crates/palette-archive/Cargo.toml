@@ -1,0 +1,31 @@
+[package]
+name = "palette-archive"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+utoipa = { workspace = true }
+anyhow.workspace = true
+arrow-array.workspace = true
+arrow-schema.workspace = true
+async-trait.workspace = true
+palette-core = { path = "../palette-core" }
+palette-schema = { path = "../palette-schema" }
+palette-store = { path = "../palette-store" }
+chrono.workspace = true
+datafusion.workspace = true
+parquet.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+palette-store-obj = { path = "../palette-store-obj" }
+palette-store-sql = { path = "../palette-store-sql" }
+tempfile.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

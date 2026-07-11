@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest a capability or improvement for Beater.
+description: Suggest a capability or improvement for Palette.
 title: "[feat] "
 labels: ["enhancement"]
 body:
@@ -7,7 +7,7 @@ body:
     attributes:
       value: |
         Thanks for the idea. Note: the HTTP API, SDKs, MCP tools, CLI, and docs
-        are all generated from one contract (`sdks/openapi/beater-api.json`). If
+        are all generated from one contract (`sdks/openapi/palette-api.json`). If
         your request touches a `/v1` endpoint, it must follow the contract
         workflow in `CONTRIBUTING.md`.
   - type: textarea

@@ -1,4 +1,4 @@
-# beater_client.HealthApi
+# palette_client.HealthApi
 
 All URIs are relative to *http://localhost*
 
@@ -16,22 +16,22 @@ Method | HTTP request | Description
 
 
 ```python
-import beater_client
-from beater_client.models.health_response import HealthResponse
-from beater_client.rest import ApiException
+import palette_client
+from palette_client.models.health_response import HealthResponse
+from palette_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = beater_client.Configuration(
+configuration = palette_client.Configuration(
     host = "http://localhost"
 )
 
 
 # Enter a context with an instance of the API client
-with beater_client.ApiClient(configuration) as api_client:
+with palette_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = beater_client.HealthApi(api_client)
+    api_instance = palette_client.HealthApi(api_client)
 
     try:
         api_response = api_instance.health_health()

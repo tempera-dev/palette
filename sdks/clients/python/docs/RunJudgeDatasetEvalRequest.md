@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.run_judge_dataset_eval_request import RunJudgeDatasetEvalRequest
+from palette_client.models.run_judge_dataset_eval_request import RunJudgeDatasetEvalRequest
 
 # TODO update the JSON string below
 json = "{}"

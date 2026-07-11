@@ -30,7 +30,7 @@ typedef struct experiment_run_report_t {
     char *created_at; //date time
     char *dataset_id; // string
     char *dataset_version_id; // string
-    beater_api_gate_decision__e decision; //referenced enum
+    palette_api_gate_decision__e decision; //referenced enum
     char *evaluator_version_id; // string
     char *experiment_run_id; // string
     struct gate_policy_t *gate_policy; //model
@@ -48,7 +48,7 @@ __attribute__((deprecated)) experiment_run_report_t *experiment_run_report_creat
     char *created_at,
     char *dataset_id,
     char *dataset_version_id,
-    beater_api_gate_decision__e decision,
+    palette_api_gate_decision__e decision,
     char *evaluator_version_id,
     char *experiment_run_id,
     gate_policy_t *gate_policy,

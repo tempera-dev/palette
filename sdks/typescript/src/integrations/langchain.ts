@@ -1,10 +1,10 @@
 /**
- * LangChain.js integration: a callback handler mapping runs to Beater spans.
+ * LangChain.js integration: a callback handler mapping runs to Palette spans.
  *
- *   import { BeaterCallbackHandler } from "@beater/sdk";
- *   await chain.invoke(input, { callbacks: [new BeaterCallbackHandler()] });
+ *   import { PaletteCallbackHandler } from "@palette/sdk";
+ *   await chain.invoke(input, { callbacks: [new PaletteCallbackHandler()] });
  *
- * Implemented structurally (duck-typed) so `@beater/sdk` does not hard-depend on
+ * Implemented structurally (duck-typed) so `@palette/sdk` does not hard-depend on
  * `@langchain/core`. Pass it anywhere a LangChain callback handler is accepted.
  */
 
@@ -18,8 +18,8 @@ const { toValue } = _internal;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export class BeaterCallbackHandler {
-  name = "BeaterCallbackHandler";
+export class PaletteCallbackHandler {
+  name = "PaletteCallbackHandler";
   awaitHandlers = true;
   private spans = new Map<string, Span>();
 

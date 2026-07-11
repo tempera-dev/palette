@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.ingest_queue_status import IngestQueueStatus
+from palette_client.models.ingest_queue_status import IngestQueueStatus
 
 # TODO update the JSON string below
 json = "{}"

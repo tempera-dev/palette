@@ -26,7 +26,7 @@ palette_connect_status_response_t* instantiate_palette_connect_status_response(i
       1,
       1,
       "0",
-      beater_api_palette_connect_status_response__connected,
+      palette_api_palette_connect_status_response__connected,
       "0",
       list_createList(),
       1
@@ -37,7 +37,7 @@ palette_connect_status_response_t* instantiate_palette_connect_status_response(i
       1,
       1,
       "0",
-      beater_api_palette_connect_status_response__connected,
+      palette_api_palette_connect_status_response__connected,
       "0",
       list_createList(),
       1

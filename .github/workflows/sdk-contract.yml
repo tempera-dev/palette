@@ -9,8 +9,8 @@ concurrency:
 
 # Zero-drift gate (one combined check): a handler change that isn't regenerated
 # into the spec + every SDK client cannot merge, and breaking contract changes
-# are flagged. The route-coverage test (`beater-api --test openapi_coverage`)
-# and the semconv normalizer guard (`beater-otlp`) run under the `backend`
+# are flagged. The route-coverage test (`palette-api --test openapi_coverage`)
+# and the semconv normalizer guard (`palette-otlp`) run under the `backend`
 # workflow's `cargo test --workspace`, so they are not re-run here.
 
 on:
@@ -59,8 +59,8 @@ jobs:
 
       - name: Additive-only contract policy (oasdiff)
         run: |
-          cargo run -q -p beater-api --example dump_openapi > /tmp/new-spec.json
-          git show "origin/${{ github.base_ref || 'main' }}:sdks/openapi/beater-api.json" \
+          cargo run -q -p palette-api --example dump_openapi > /tmp/new-spec.json
+          git show "origin/${{ github.base_ref || 'main' }}:sdks/openapi/palette-api.json" \
             > /tmp/base-spec.json || echo '{}' > /tmp/base-spec.json
           set +e
           docker run --rm -v /tmp:/specs tufin/oasdiff breaking \

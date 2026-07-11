@@ -14,7 +14,7 @@ static review_annotation_t *review_annotation_create_internal(
     char *reviewer_id,
     char *task_id,
     char *tenant_id,
-    beater_api_review_verdict__e verdict
+    palette_api_review_verdict__e verdict
     ) {
     review_annotation_t *review_annotation_local_var = malloc(sizeof(review_annotation_t));
     if (!review_annotation_local_var) {
@@ -43,7 +43,7 @@ __attribute__((deprecated)) review_annotation_t *review_annotation_create(
     char *reviewer_id,
     char *task_id,
     char *tenant_id,
-    beater_api_review_verdict__e verdict
+    palette_api_review_verdict__e verdict
     ) {
     return review_annotation_create_internal (
         annotation_id,
@@ -183,7 +183,7 @@ cJSON *review_annotation_convertToJSON(review_annotation_t *review_annotation) {
 
 
     // review_annotation->verdict
-    if (beater_api_review_verdict__NULL == review_annotation->verdict) {
+    if (palette_api_review_verdict__NULL == review_annotation->verdict) {
         goto fail;
     }
     cJSON *verdict_local_JSON = review_verdict_convertToJSON(review_annotation->verdict);
@@ -211,7 +211,7 @@ review_annotation_t *review_annotation_parseFromJSON(cJSON *review_annotationJSO
     _t *payload_local_nonprim = NULL;
 
     // define the local variable for review_annotation->verdict
-    beater_api_review_verdict__e verdict_local_nonprim = 0;
+    palette_api_review_verdict__e verdict_local_nonprim = 0;
 
     // review_annotation->annotation_id
     cJSON *annotation_id = cJSON_GetObjectItemCaseSensitive(review_annotationJSON, "annotation_id");

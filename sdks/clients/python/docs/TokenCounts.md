@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.token_counts import TokenCounts
+from palette_client.models.token_counts import TokenCounts
 
 # TODO update the JSON string below
 json = "{}"

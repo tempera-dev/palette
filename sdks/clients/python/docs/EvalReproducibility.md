@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from beater_client.models.eval_reproducibility import EvalReproducibility
+from palette_client.models.eval_reproducibility import EvalReproducibility
 
 # TODO update the JSON string below
 json = "{}"

@@ -1,6 +1,6 @@
 /**
- * Beater API
- * Agent observability, evaluation, gating, and human-review APIs for Beater
+ * Palette API
+ * Agent observability, evaluation, gating, and human-review APIs for Palette
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -9,7 +9,7 @@
  * Do not edit the class manually.
  */
 
-#include "beater-client/ApiConfiguration.h"
+#include "palette-client/ApiConfiguration.h"
 
 namespace org {
 namespace openapitools {
