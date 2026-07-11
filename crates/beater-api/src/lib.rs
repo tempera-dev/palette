@@ -140,6 +140,10 @@ impl HttpCentralTokenIntrospector {
     }
 }
 
+/// Wire shape of the control-plane introspection response. Unknown JSON
+/// fields are ignored (serde default), so additive control-plane changes do
+/// not break Palette. `token_type`/`api_key_id` cover the api_key shape,
+/// where `jti` may be absent.
 #[derive(Deserialize)]
 struct IntrospectionResponse {
     active: bool,
@@ -153,6 +157,8 @@ struct IntrospectionResponse {
     scope: Option<String>,
     exp: Option<i64>,
     jti: Option<String>,
+    token_type: Option<String>,
+    api_key_id: Option<String>,
 }
 
 #[async_trait::async_trait]
@@ -167,39 +173,55 @@ impl CentralTokenIntrospector for HttpCentralTokenIntrospector {
         }
         let response = request.send().await?.error_for_status()?;
         let body = response.json::<IntrospectionResponse>().await?;
-        if !body.active {
-            anyhow::bail!("inactive token");
-        }
-        let audience = required_introspection_field(body.aud, "aud")?;
-        if audience != "palette" {
-            anyhow::bail!("token audience {audience} is not palette");
-        }
-        let exp = required_introspection_field(body.exp, "exp")?;
-        let expires_at = chrono::DateTime::from_timestamp(exp, 0)
-            .ok_or_else(|| anyhow::anyhow!("invalid exp timestamp"))?;
-        Ok(IntrospectedTokenClaims {
-            issuer: required_introspection_field(body.iss, "iss")?,
-            audience: audience.clone(),
-            subject: required_introspection_field(body.sub, "sub")?,
-            client_id: body.client_id.unwrap_or(audience),
-            token_id: required_introspection_field(body.jti, "jti")?,
-            scope: body
-                .scope
-                .unwrap_or_default()
-                .split_whitespace()
-                .map(ToString::to_string)
-                .collect(),
-            tenant_scope: TenantScope::new(
-                TenantId::new(required_introspection_field(body.org_id, "org_id")?)?,
-                ProjectId::new(required_introspection_field(body.project_id, "project_id")?)?,
-                EnvironmentId::new(required_introspection_field(
-                    body.environment_id,
-                    "environment_id",
-                )?)?,
-            ),
-            expires_at,
-        })
+        claims_from_introspection_response(body)
     }
+}
+
+fn claims_from_introspection_response(
+    body: IntrospectionResponse,
+) -> anyhow::Result<IntrospectedTokenClaims> {
+    if !body.active {
+        anyhow::bail!("inactive token");
+    }
+    let audience = required_introspection_field(body.aud, "aud")?;
+    if audience != "palette" {
+        anyhow::bail!("token audience {audience} is not palette");
+    }
+    let exp = required_introspection_field(body.exp, "exp")?;
+    let expires_at = chrono::DateTime::from_timestamp(exp, 0)
+        .ok_or_else(|| anyhow::anyhow!("invalid exp timestamp"))?;
+    // Central API keys (`token_type == "api_key"`) may omit `jti`; their
+    // stable identifier is `api_key_id`. JWT-shaped responses must carry
+    // `jti` — everything else stays fail-closed.
+    let token_id = match body.jti {
+        Some(jti) => jti,
+        None if body.token_type.as_deref() == Some("api_key") => {
+            required_introspection_field(body.api_key_id, "api_key_id")?
+        }
+        None => return Err(anyhow::anyhow!("introspection response missing jti")),
+    };
+    Ok(IntrospectedTokenClaims {
+        issuer: required_introspection_field(body.iss, "iss")?,
+        audience: audience.clone(),
+        subject: required_introspection_field(body.sub, "sub")?,
+        client_id: body.client_id.unwrap_or(audience),
+        token_id,
+        scope: body
+            .scope
+            .unwrap_or_default()
+            .split_whitespace()
+            .map(ToString::to_string)
+            .collect(),
+        tenant_scope: TenantScope::new(
+            TenantId::new(required_introspection_field(body.org_id, "org_id")?)?,
+            ProjectId::new(required_introspection_field(body.project_id, "project_id")?)?,
+            EnvironmentId::new(required_introspection_field(
+                body.environment_id,
+                "environment_id",
+            )?)?,
+        ),
+        expires_at,
+    })
 }
 
 fn required_introspection_field<T>(value: Option<T>, name: &str) -> anyhow::Result<T> {
@@ -5759,6 +5781,139 @@ mod tests {
     use serde_json::json;
     use std::collections::BTreeMap;
     use tower::ServiceExt;
+
+    fn introspection_body(value: serde_json::Value) -> IntrospectionResponse {
+        serde_json::from_value(value).unwrap_or_else(|err| panic!("{err}"))
+    }
+
+    fn jwt_introspection_json() -> serde_json::Value {
+        json!({
+            "active": true,
+            "iss": "https://auth.example.com",
+            "aud": "palette",
+            "sub": "user_1",
+            "client_id": "cli_1",
+            "org_id": "org_demo",
+            "project_id": "proj_demo",
+            "environment_id": "env_prod",
+            "scope": "traces:read traces:write",
+            "exp": 4_102_444_800i64,
+            "jti": "jwt_token_1",
+        })
+    }
+
+    fn api_key_introspection_json() -> serde_json::Value {
+        json!({
+            "active": true,
+            "iss": "https://auth.example.com",
+            "aud": "palette",
+            "sub": "user_1",
+            "client_id": "cli_1",
+            "org_id": "org_demo",
+            "project_id": "proj_demo",
+            "environment_id": "env_prod",
+            "scope": "traces:read",
+            "exp": 4_102_444_800i64,
+            "token_type": "api_key",
+            "api_key_id": "ak_123",
+        })
+    }
+
+    #[test]
+    fn introspection_accepts_jwt_shaped_response() {
+        let claims =
+            claims_from_introspection_response(introspection_body(jwt_introspection_json()))
+                .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(claims.token_id, "jwt_token_1");
+        assert_eq!(claims.audience, "palette");
+        assert_eq!(claims.issuer, "https://auth.example.com");
+        assert_eq!(
+            claims.scope,
+            BTreeSet::from(["traces:read".to_string(), "traces:write".to_string()])
+        );
+    }
+
+    #[test]
+    fn introspection_accepts_api_key_shape_with_token_id_from_api_key_id() {
+        let claims =
+            claims_from_introspection_response(introspection_body(api_key_introspection_json()))
+                .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(claims.token_id, "ak_123");
+        assert_eq!(claims.audience, "palette");
+        assert_eq!(claims.tenant_scope.tenant_id.as_str(), "org_demo");
+    }
+
+    #[test]
+    fn introspection_prefers_jti_when_api_key_response_includes_it() {
+        let mut body = api_key_introspection_json();
+        body["jti"] = json!("jwt_token_9");
+        let claims = claims_from_introspection_response(introspection_body(body))
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(claims.token_id, "jwt_token_9");
+    }
+
+    #[test]
+    fn introspection_ignores_unknown_fields() {
+        let mut body = jwt_introspection_json();
+        body["some_future_field"] = json!({"nested": true});
+        let claims = claims_from_introspection_response(introspection_body(body))
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(claims.token_id, "jwt_token_1");
+    }
+
+    #[test]
+    fn introspection_rejects_wrong_audience() {
+        for aud in ["tempo", "cradle", "remi", "human-data", "tempera-mcp"] {
+            let mut body = jwt_introspection_json();
+            body["aud"] = json!(aud);
+            let err = claims_from_introspection_response(introspection_body(body))
+                .expect_err("wrong audience must be rejected");
+            assert!(err.to_string().contains("is not palette"), "{err}");
+        }
+    }
+
+    #[test]
+    fn introspection_rejects_inactive_token() {
+        let mut body = jwt_introspection_json();
+        body["active"] = json!(false);
+        let err = claims_from_introspection_response(introspection_body(body))
+            .expect_err("inactive token must be rejected");
+        assert!(err.to_string().contains("inactive token"), "{err}");
+    }
+
+    #[test]
+    fn introspection_rejects_missing_jti_without_api_key_type() {
+        let mut body = jwt_introspection_json();
+        body.as_object_mut()
+            .unwrap_or_else(|| panic!("object body"))
+            .remove("jti");
+        let err = claims_from_introspection_response(introspection_body(body))
+            .expect_err("missing jti must be rejected for non api_key tokens");
+        assert!(err.to_string().contains("missing jti"), "{err}");
+    }
+
+    #[test]
+    fn introspection_rejects_api_key_shape_missing_api_key_id() {
+        let mut body = api_key_introspection_json();
+        body.as_object_mut()
+            .unwrap_or_else(|| panic!("object body"))
+            .remove("api_key_id");
+        let err = claims_from_introspection_response(introspection_body(body))
+            .expect_err("api_key response without api_key_id must be rejected");
+        assert!(err.to_string().contains("missing api_key_id"), "{err}");
+    }
+
+    #[test]
+    fn introspection_rejects_missing_tenant_scope_fields() {
+        for field in ["org_id", "project_id", "environment_id"] {
+            let mut body = jwt_introspection_json();
+            body.as_object_mut()
+                .unwrap_or_else(|| panic!("object body"))
+                .remove(field);
+            let err = claims_from_introspection_response(introspection_body(body)).unwrap_err();
+            assert!(err.to_string().contains(field), "{field}: {err}");
+        }
+    }
 
     #[test]
     fn control_plane_usage_events_map_only_hosted_billable_meters() {
