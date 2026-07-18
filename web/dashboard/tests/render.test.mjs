@@ -651,7 +651,7 @@ test("dashboard search page uses generated span search", () => {
   assert.match(page, /No search hits match this query/);
   assert.doesNotMatch(page, /"use client"/);
 
-  assert.match(api, /type SearchOperation = operations\["search\.search-spans"\]/);
+  assert.match(api, /type SearchOperation = operations\["search\.spans"\]/);
   assert.match(api, /type SearchQueryParams = NonNullable<SearchOperation\["parameters"\]\["query"\]>/);
   assert.match(api, /export type SearchHit = components\["schemas"\]\["SearchHit"\]/);
   assert.match(api, /export type SearchResponse = components\["schemas"\]\["SearchResponse"\]/);
@@ -716,7 +716,7 @@ test("dashboard client uses public palette read endpoints", () => {
   assert.match(api, /if \(!query\.unmask\) return params;/);
 });
 
-test("dashboard search URLs use generated search.search-spans params", () => {
+test("dashboard search URLs use generated search.spans params", () => {
   const { searchSpansPath } = loadDashboardApiModule();
 
   assert.equal(
@@ -1186,7 +1186,7 @@ test("generated api client is produced from the checked-in openapi snapshot", ()
   assert.match(spec, /"\/v1\/traces\/\{tenant_id\}"/);
   assert.match(spec, /"started_after"/);
   assert.match(spec, /"min_cost_micros"/);
-  assert.match(generated, /traces\.list-traces/);
+  assert.match(generated, /traces\.list/);
   assert.match(generated, /started_after/);
   assert.match(generated, /min_cost_micros/);
 });
@@ -1198,8 +1198,8 @@ test("in-app docs runtime surfaces are generated from the openapi contract", () 
     .map((operation) => operation.operationId)
     .filter(Boolean);
 
-  assert.ok(operationIds.includes("traces.list-traces"));
-  assert.ok(operationIds.includes("datasets.create-dataset"));
+  assert.ok(operationIds.includes("traces.list"));
+  assert.ok(operationIds.includes("datasets.create"));
 
   const openapiRoute = readFileSync(join(root, "app/api/openapi/route.ts"), "utf8");
   assert.match(openapiRoute, /openapi", "palette-read-api\.json"/);
@@ -1271,7 +1271,7 @@ test("connect page gives hosted MCP clients OAuth-first setup and scoped fallbac
   assert.match(client, /PALETTE_API_KEY="bt_\.\.\."/);
   assert.doesNotMatch(client, /PALETTE_API_KEY="bao_\.\.\."/);
   assert.match(client, /tools\/call/);
-  assert.match(client, /traces\.list-traces/);
+  assert.match(client, /traces\.list/);
   assert.match(client, /x-palette-project-id/);
   assert.match(client, /x-palette-environment-id/);
   assert.match(client, /CopyField/);
