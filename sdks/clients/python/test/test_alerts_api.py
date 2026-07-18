@@ -26,8 +26,8 @@ class TestAlertsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_alerts_evaluate_alert(self) -> None:
-        """Test case for alerts_evaluate_alert
+    def test_alerts_evaluate(self) -> None:
+        """Test case for alerts_evaluate
 
         """
         pass

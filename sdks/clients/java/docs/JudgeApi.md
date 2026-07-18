@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**judgeEvaluateJudge**](JudgeApi.md#judgeEvaluateJudge) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |  |
-| [**judgeEvaluateJudgeWithHttpInfo**](JudgeApi.md#judgeEvaluateJudgeWithHttpInfo) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |  |
-| [**judgeListJudgeLedger**](JudgeApi.md#judgeListJudgeLedger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |  |
-| [**judgeListJudgeLedgerWithHttpInfo**](JudgeApi.md#judgeListJudgeLedgerWithHttpInfo) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |  |
+| [**judgeEvaluate**](JudgeApi.md#judgeEvaluate) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |  |
+| [**judgeEvaluateWithHttpInfo**](JudgeApi.md#judgeEvaluateWithHttpInfo) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |  |
+| [**judgeListLedger**](JudgeApi.md#judgeListLedger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |  |
+| [**judgeListLedgerWithHttpInfo**](JudgeApi.md#judgeListLedgerWithHttpInfo) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |  |
 
 
 
-## judgeEvaluateJudge
+## judgeEvaluate
 
-> JudgeBrokerOutcome judgeEvaluateJudge(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> JudgeBrokerOutcome judgeEvaluate(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -41,10 +41,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            JudgeBrokerOutcome result = apiInstance.judgeEvaluateJudge(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            JudgeBrokerOutcome result = apiInstance.judgeEvaluate(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling JudgeApi#judgeEvaluateJudge");
+            System.err.println("Exception when calling JudgeApi#judgeEvaluate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -89,9 +89,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## judgeEvaluateJudgeWithHttpInfo
+## judgeEvaluateWithHttpInfo
 
-> ApiResponse<JudgeBrokerOutcome> judgeEvaluateJudge judgeEvaluateJudgeWithHttpInfo(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<JudgeBrokerOutcome> judgeEvaluate judgeEvaluateWithHttpInfo(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -120,12 +120,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<JudgeBrokerOutcome> response = apiInstance.judgeEvaluateJudgeWithHttpInfo(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<JudgeBrokerOutcome> response = apiInstance.judgeEvaluateWithHttpInfo(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling JudgeApi#judgeEvaluateJudge");
+            System.err.println("Exception when calling JudgeApi#judgeEvaluate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -171,9 +171,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## judgeListJudgeLedger
+## judgeListLedger
 
-> List<JudgeAuditRecord> judgeListJudgeLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> List<JudgeAuditRecord> judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -200,10 +200,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<JudgeAuditRecord> result = apiInstance.judgeListJudgeLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            List<JudgeAuditRecord> result = apiInstance.judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling JudgeApi#judgeListJudgeLedger");
+            System.err.println("Exception when calling JudgeApi#judgeListLedger");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -247,9 +247,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## judgeListJudgeLedgerWithHttpInfo
+## judgeListLedgerWithHttpInfo
 
-> ApiResponse<List<JudgeAuditRecord>> judgeListJudgeLedger judgeListJudgeLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<List<JudgeAuditRecord>> judgeListLedger judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -277,12 +277,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<JudgeAuditRecord>> response = apiInstance.judgeListJudgeLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<List<JudgeAuditRecord>> response = apiInstance.judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling JudgeApi#judgeListJudgeLedger");
+            System.err.println("Exception when calling JudgeApi#judgeListLedger");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

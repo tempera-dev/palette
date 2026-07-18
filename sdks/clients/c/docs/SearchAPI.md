@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SearchAPI_searchSearchSpans**](SearchAPI.md#SearchAPI_searchSearchSpans) | **GET** /v1/search/{tenant_id}/spans |
+[**SearchAPI_searchSpans**](SearchAPI.md#SearchAPI_searchSpans) | **GET** /v1/search/{tenant_id}/spans |
 
 
-# **SearchAPI_searchSearchSpans**
+# **SearchAPI_searchSpans**
 ```c
-search_response_t* SearchAPI_searchSearchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+search_response_t* SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

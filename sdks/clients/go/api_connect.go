@@ -23,7 +23,7 @@ import (
 // ConnectAPIService ConnectAPI service
 type ConnectAPIService service
 
-type ApiConnectGetPaletteConnectStatusRequest struct {
+type ApiConnectGetStatusRequest struct {
 	ctx context.Context
 	ApiService *ConnectAPIService
 	tenantId string
@@ -35,43 +35,43 @@ type ApiConnectGetPaletteConnectStatusRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiConnectGetPaletteConnectStatusRequest) Authorization(authorization string) ApiConnectGetPaletteConnectStatusRequest {
+func (r ApiConnectGetStatusRequest) Authorization(authorization string) ApiConnectGetStatusRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiConnectGetPaletteConnectStatusRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectGetPaletteConnectStatusRequest {
+func (r ApiConnectGetStatusRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectGetStatusRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiConnectGetPaletteConnectStatusRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectGetPaletteConnectStatusRequest {
+func (r ApiConnectGetStatusRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectGetStatusRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiConnectGetPaletteConnectStatusRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectGetPaletteConnectStatusRequest {
+func (r ApiConnectGetStatusRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectGetStatusRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiConnectGetPaletteConnectStatusRequest) Execute() (*PaletteConnectStatusResponse, *http.Response, error) {
-	return r.ApiService.ConnectGetPaletteConnectStatusExecute(r)
+func (r ApiConnectGetStatusRequest) Execute() (*PaletteConnectStatusResponse, *http.Response, error) {
+	return r.ApiService.ConnectGetStatusExecute(r)
 }
 
 /*
-ConnectGetPaletteConnectStatus Method for ConnectGetPaletteConnectStatus
+ConnectGetStatus Method for ConnectGetStatus
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiConnectGetPaletteConnectStatusRequest
+ @return ApiConnectGetStatusRequest
 */
-func (a *ConnectAPIService) ConnectGetPaletteConnectStatus(ctx context.Context, tenantId string, projectId string) ApiConnectGetPaletteConnectStatusRequest {
-	return ApiConnectGetPaletteConnectStatusRequest{
+func (a *ConnectAPIService) ConnectGetStatus(ctx context.Context, tenantId string, projectId string) ApiConnectGetStatusRequest {
+	return ApiConnectGetStatusRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -81,7 +81,7 @@ func (a *ConnectAPIService) ConnectGetPaletteConnectStatus(ctx context.Context, 
 
 // Execute executes the request
 //  @return PaletteConnectStatusResponse
-func (a *ConnectAPIService) ConnectGetPaletteConnectStatusExecute(r ApiConnectGetPaletteConnectStatusRequest) (*PaletteConnectStatusResponse, *http.Response, error) {
+func (a *ConnectAPIService) ConnectGetStatusExecute(r ApiConnectGetStatusRequest) (*PaletteConnectStatusResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -89,7 +89,7 @@ func (a *ConnectAPIService) ConnectGetPaletteConnectStatusExecute(r ApiConnectGe
 		localVarReturnValue  *PaletteConnectStatusResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectAPIService.ConnectGetPaletteConnectStatus")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectAPIService.ConnectGetStatus")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

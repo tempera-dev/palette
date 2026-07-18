@@ -38,8 +38,8 @@ class TestIngestApi(unittest.TestCase):
         """
         pass
 
-    def test_ingest_get_ingest_queue_status(self) -> None:
-        """Test case for ingest_get_ingest_queue_status
+    def test_ingest_get_queue_status(self) -> None:
+        """Test case for ingest_get_queue_status
 
         """
         pass
@@ -50,20 +50,20 @@ class TestIngestApi(unittest.TestCase):
         """
         pass
 
-    def test_ingest_ingest_native(self) -> None:
-        """Test case for ingest_ingest_native
+    def test_ingest_native(self) -> None:
+        """Test case for ingest_native
 
         """
         pass
 
-    def test_ingest_ingest_otlp(self) -> None:
-        """Test case for ingest_ingest_otlp
+    def test_ingest_otlp(self) -> None:
+        """Test case for ingest_otlp
 
         """
         pass
 
-    def test_ingest_ingest_otlp_json_collector(self) -> None:
-        """Test case for ingest_ingest_otlp_json_collector
+    def test_ingest_otlp_json_collector(self) -> None:
+        """Test case for ingest_otlp_json_collector
 
         """
         pass

@@ -35,13 +35,13 @@ PromptsApi::~PromptsApi()
 {
 }
 
-pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addPromptVersion(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, std::shared_ptr<AddPromptVersionRequest> addPromptVersionRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addVersion(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, std::shared_ptr<AddPromptVersionRequest> addPromptVersionRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'addPromptVersionRequest' is set
     if (addPromptVersionRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'addPromptVersionRequest' when calling PromptsApi->prompts_addPromptVersion"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'addPromptVersionRequest' when calling PromptsApi->prompts_addVersion"));
     }
 
 
@@ -78,7 +78,7 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addPromptVersion(
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_addPromptVersion does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_addVersion does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -138,7 +138,7 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addPromptVersion(
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_addPromptVersion does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_addVersion does not consume any supported media type"));
     }
 
 
@@ -158,7 +158,7 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addPromptVersion(
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling prompts_addPromptVersion: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling prompts_addVersion: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -169,7 +169,7 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addPromptVersion(
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling prompts_addPromptVersion: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling prompts_addVersion: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -193,19 +193,19 @@ pplx::task<std::shared_ptr<PromptVersion>> PromptsApi::prompts_addPromptVersion(
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling prompts_addPromptVersion: unsupported response type"));
+                , utility::conversions::to_string_t("error calling prompts_addVersion: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_createPrompt(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreatePromptRequest> createPromptRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_create(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreatePromptRequest> createPromptRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createPromptRequest' is set
     if (createPromptRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createPromptRequest' when calling PromptsApi->prompts_createPrompt"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createPromptRequest' when calling PromptsApi->prompts_create"));
     }
 
 
@@ -241,7 +241,7 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_createPrompt(util
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_createPrompt does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_create does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -301,7 +301,7 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_createPrompt(util
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_createPrompt does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_create does not consume any supported media type"));
     }
 
 
@@ -321,7 +321,7 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_createPrompt(util
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling prompts_createPrompt: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling prompts_create: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -332,7 +332,7 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_createPrompt(util
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling prompts_createPrompt: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling prompts_create: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -356,13 +356,13 @@ pplx::task<std::shared_ptr<CreatedPrompt>> PromptsApi::prompts_createPrompt(util
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling prompts_createPrompt: unsupported response type"));
+                , utility::conversions::to_string_t("error calling prompts_create: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffPromptVersions(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, utility::string_t from, utility::string_t to, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffVersions(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, utility::string_t from, utility::string_t to, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -399,7 +399,7 @@ pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffPromptVer
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_diffPromptVersions does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_diffVersions does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -448,7 +448,7 @@ pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffPromptVer
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_diffPromptVersions does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_diffVersions does not consume any supported media type"));
     }
 
 
@@ -468,7 +468,7 @@ pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffPromptVer
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling prompts_diffPromptVersions: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling prompts_diffVersions: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -479,7 +479,7 @@ pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffPromptVer
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling prompts_diffPromptVersions: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling prompts_diffVersions: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -503,13 +503,13 @@ pplx::task<std::shared_ptr<PromptVersionDiff>> PromptsApi::prompts_diffPromptVer
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling prompts_diffPromptVersions: unsupported response type"));
+                , utility::conversions::to_string_t("error calling prompts_diffVersions: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_getPrompt(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_get(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -546,7 +546,7 @@ pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_getPrompt(utility::strin
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_getPrompt does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_get does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -589,7 +589,7 @@ pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_getPrompt(utility::strin
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_getPrompt does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_get does not consume any supported media type"));
     }
 
 
@@ -609,7 +609,7 @@ pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_getPrompt(utility::strin
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling prompts_getPrompt: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling prompts_get: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -620,7 +620,7 @@ pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_getPrompt(utility::strin
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling prompts_getPrompt: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling prompts_get: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -644,13 +644,153 @@ pplx::task<std::shared_ptr<Prompt>> PromptsApi::prompts_getPrompt(utility::strin
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling prompts_getPrompt: unsupported response type"));
+                , utility::conversions::to_string_t("error calling prompts_get: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listPromptVersions(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<PromptListResponse>> PromptsApi::prompts_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+{
+
+
+    std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/prompts/{tenant_id}/{project_id}");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
+
+    std::map<utility::string_t, utility::string_t> localVarQueryParams;
+    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
+    std::map<utility::string_t, utility::string_t> localVarFormParams;
+    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
+
+    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
+    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
+
+    utility::string_t localVarResponseHttpContentType;
+
+    // use JSON if possible
+    if ( localVarResponseHttpContentTypes.size() == 0 )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // JSON
+    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else
+    {
+        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_list does not produce any supported media type"));
+    }
+
+    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
+
+    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+
+    if (authorization)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
+    }
+    if (xPaletteApiKey)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
+    }
+    if (xPaletteProjectId)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
+    }
+    if (xPaletteEnvironmentId)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
+    }
+
+    std::shared_ptr<IHttpBody> localVarHttpBody;
+    utility::string_t localVarRequestHttpContentType;
+
+    // use JSON if possible
+    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
+    else
+    {
+        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_list does not consume any supported media type"));
+    }
+
+
+    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
+    .then([=, this](web::http::http_response localVarResponse)
+    {
+        if (m_ApiClient->getResponseHandler())
+        {
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
+        }
+
+        // 1xx - informational : OK
+        // 2xx - successful       : OK
+        // 3xx - redirection   : OK
+        // 4xx - client error  : not OK
+        // 5xx - client error  : not OK
+        if (localVarResponse.status_code() >= 400)
+        {
+            throw ApiException(localVarResponse.status_code()
+                , utility::conversions::to_string_t("error calling prompts_list: ") + localVarResponse.reason_phrase()
+                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+        }
+
+        // check response content type
+        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
+        {
+            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
+            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
+            {
+                throw ApiException(500
+                    , utility::conversions::to_string_t("error calling prompts_list: unexpected response type: ") + localVarContentType
+                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+            }
+        }
+
+        return localVarResponse.extract_string();
+    })
+    .then([=, this](utility::string_t localVarResponse)
+    {
+        std::shared_ptr<PromptListResponse> localVarResult(new PromptListResponse());
+
+        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        {
+            web::json::value localVarJson = web::json::value::parse(localVarResponse);
+
+            ModelBase::fromJson(localVarJson, localVarResult);
+        }
+        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // {
+        // TODO multipart response parsing
+        // }
+        else
+        {
+            throw ApiException(500
+                , utility::conversions::to_string_t("error calling prompts_list: unsupported response type"));
+        }
+
+        return localVarResult;
+    });
+}
+pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listVersions(utility::string_t tenantId, utility::string_t projectId, utility::string_t promptId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -687,7 +827,7 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listP
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_listPromptVersions does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_listVersions does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -730,7 +870,7 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listP
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_listPromptVersions does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_listVersions does not consume any supported media type"));
     }
 
 
@@ -750,7 +890,7 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listP
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling prompts_listPromptVersions: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling prompts_listVersions: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -761,7 +901,7 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listP
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling prompts_listPromptVersions: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling prompts_listVersions: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -785,147 +925,7 @@ pplx::task<std::shared_ptr<PromptVersionListResponse>> PromptsApi::prompts_listP
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling prompts_listPromptVersions: unsupported response type"));
-        }
-
-        return localVarResult;
-    });
-}
-pplx::task<std::shared_ptr<PromptListResponse>> PromptsApi::prompts_listPrompts(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
-{
-
-
-    std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/prompts/{tenant_id}/{project_id}");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
-
-    std::map<utility::string_t, utility::string_t> localVarQueryParams;
-    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
-    std::map<utility::string_t, utility::string_t> localVarFormParams;
-    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
-
-    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
-
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("PromptsApi->prompts_listPrompts does not produce any supported media type"));
-    }
-
-    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
-
-    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
-
-    if (authorization)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
-    }
-    if (xPaletteApiKey)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
-    }
-    if (xPaletteProjectId)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
-    }
-    if (xPaletteEnvironmentId)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
-    }
-
-    std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
-
-    // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
-    }
-    else
-    {
-        throw ApiException(415, utility::conversions::to_string_t("PromptsApi->prompts_listPrompts does not consume any supported media type"));
-    }
-
-
-    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
-    .then([=, this](web::http::http_response localVarResponse)
-    {
-        if (m_ApiClient->getResponseHandler())
-        {
-            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
-        }
-
-        // 1xx - informational : OK
-        // 2xx - successful       : OK
-        // 3xx - redirection   : OK
-        // 4xx - client error  : not OK
-        // 5xx - client error  : not OK
-        if (localVarResponse.status_code() >= 400)
-        {
-            throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling prompts_listPrompts: ") + localVarResponse.reason_phrase()
-                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
-        }
-
-        // check response content type
-        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
-        {
-            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
-            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
-            {
-                throw ApiException(500
-                    , utility::conversions::to_string_t("error calling prompts_listPrompts: unexpected response type: ") + localVarContentType
-                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
-            }
-        }
-
-        return localVarResponse.extract_string();
-    })
-    .then([=, this](utility::string_t localVarResponse)
-    {
-        std::shared_ptr<PromptListResponse> localVarResult(new PromptListResponse());
-
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
-        {
-            web::json::value localVarJson = web::json::value::parse(localVarResponse);
-
-            ModelBase::fromJson(localVarJson, localVarResult);
-        }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
-        // {
-        // TODO multipart response parsing
-        // }
-        else
-        {
-            throw ApiException(500
-                , utility::conversions::to_string_t("error calling prompts_listPrompts: unsupported response type"));
+                , utility::conversions::to_string_t("error calling prompts_listVersions: unsupported response type"));
         }
 
         return localVarResult;

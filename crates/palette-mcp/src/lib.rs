@@ -396,8 +396,8 @@ fn tool_to_json(tool: &ToolSpec, advertise_oauth: bool) -> Value {
 /// `operationId` (validated against the live spec in tests), not the HTTP method,
 /// because most `POST`s are additive writes that are *not* destructive.
 const DESTRUCTIVE_POST_OPERATIONS: &[&str] = &[
-    "apiKeys.revoke-api-key",
-    "providerSecrets.revoke-provider-secret",
+    "apiKeys.revoke",
+    "providerSecrets.revoke",
 ];
 
 /// `POST` operations that reach an **open world** of external entities — the
@@ -405,10 +405,10 @@ const DESTRUCTIVE_POST_OPERATIONS: &[&str] = &[
 /// should treat them as having side effects beyond Palette's own store (cost, rate
 /// limits, third-party calls), not just a local write.
 const OPEN_WORLD_POST_OPERATIONS: &[&str] = &[
-    "judge.evaluate-judge",
-    "evals.run-judge-eval",
-    "experiments.run-judge-experiment",
-    "ingest.import-source",
+    "judge.evaluate",
+    "evals.runJudge",
+    "experiments.runJudge",
+    "ingest.importSource",
 ];
 
 /// Behavioural hints for an MCP tool. `readOnly`/`idempotent` follow HTTP-method
@@ -443,52 +443,52 @@ fn required_oauth_scopes(tool: &ToolSpec) -> Vec<&'static str> {
 
 fn required_api_scope(operation_id: &str, method: &str) -> &'static str {
     match operation_id {
-        "apiKeys.create-api-key"
-        | "apiKeys.revoke-api-key"
-        | "connectors.connect-connector"
-        | "providerSecrets.list-provider-secrets"
-        | "providerSecrets.create-provider-secret"
-        | "providerSecrets.revoke-provider-secret"
-        | "usage.get-usage-summary"
-        | "ingest.get-ingest-queue-status"
-        | "audit.list-audit-events"
-        | "prompts.create-prompt"
-        | "prompts.add-prompt-version" => "admin",
+        "apiKeys.create"
+        | "apiKeys.revoke"
+        | "connectors.connect"
+        | "providerSecrets.list"
+        | "providerSecrets.create"
+        | "providerSecrets.revoke"
+        | "usage.getSummary"
+        | "ingest.getQueueStatus"
+        | "audit.list"
+        | "prompts.create"
+        | "prompts.addVersion" => "admin",
 
-        "reviews.create-review-queue"
-        | "reviews.enqueue-review-task-from-trace"
-        | "reviews.submit-review-annotation"
-        | "reviews.promote-review-annotation" => "dataset:write",
+        "reviews.createQueue"
+        | "reviews.enqueueTaskFromTrace"
+        | "reviews.submitAnnotation"
+        | "reviews.promoteAnnotation" => "dataset:write",
 
-        "datasets.create-dataset"
-        | "datasets.create-dataset-version"
-        | "datasets.promote-dataset-case-from-trace" => "dataset:write",
+        "datasets.create"
+        | "datasets.createVersion"
+        | "datasets.promoteCaseFromTrace" => "dataset:write",
 
-        "calibrations.run-calibration" => "eval:run",
+        "calibrations.run" => "eval:run",
 
-        "scenarios.create-scenario" | "scenarios.mine-scenarios" => "scenario:write",
-        "scenarios.list-scenarios" | "scenarios.get-scenario" => "scenario:read",
+        "scenarios.create" | "scenarios.mine" => "scenario:write",
+        "scenarios.list" | "scenarios.get" => "scenario:read",
 
-        "judge.evaluate-judge"
-        | "evals.run-deterministic-eval"
-        | "evals.run-judge-eval"
-        | "experiments.run-deterministic-experiment"
-        | "experiments.run-judge-experiment"
-        | "gates.create-gate"
-        | "gates.run-gate"
-        | "connectors.invoke-connector-tool" => "eval:run",
+        "judge.evaluate"
+        | "evals.runDeterministic"
+        | "evals.runJudge"
+        | "experiments.runDeterministic"
+        | "experiments.runJudge"
+        | "gates.create"
+        | "gates.run"
+        | "connectors.invokeTool" => "eval:run",
 
-        "alerts.evaluate-alert" | "online.decide-online-sampling" => "trace:read",
+        "alerts.evaluate" | "online.decideSampling" => "trace:read",
 
-        "ingest.ingest-native"
-        | "ingest.ingest-otlp"
-        | "ingest.ingest-otlp-json-collector"
-        | "ingest.import-source"
-        | "ingest.replay-dead-letter"
-        | "ingest.drain-trace-writes"
-        | "ingest.drain-trace-ingested"
-        | "ingest.reconcile-trace"
-        | "archive.archive-trace" => "trace:write",
+        "ingest.native"
+        | "ingest.otlp"
+        | "ingest.otlpJsonCollector"
+        | "ingest.importSource"
+        | "ingest.replayDeadLetter"
+        | "ingest.drainTraceWrites"
+        | "ingest.drainTraceIngested"
+        | "ingest.reconcileTrace"
+        | "archive.archiveTrace" => "trace:write",
 
         _ if method == "GET" => "trace:read",
         _ => "trace:write",
@@ -1153,16 +1153,16 @@ mod tests {
     #[test]
     fn destructive_post_operations_are_flagged() {
         for op in [
-            "apiKeys.revoke-api-key",
-            "providerSecrets.revoke-provider-secret",
+            "apiKeys.revoke",
+            "providerSecrets.revoke",
         ] {
             let a = annotations_for("POST", op, "t");
             assert_eq!(a["destructiveHint"], Value::Bool(true), "{op} destructive");
         }
         for op in [
-            "datasets.create-dataset",
-            "ingest.ingest-native",
-            "reviews.submit-review-annotation",
+            "datasets.create",
+            "ingest.native",
+            "reviews.submitAnnotation",
         ] {
             let a = annotations_for("POST", op, "t");
             assert_eq!(
@@ -1178,18 +1178,18 @@ mod tests {
     #[test]
     fn open_world_post_operations_are_flagged() {
         for op in [
-            "judge.evaluate-judge",
-            "evals.run-judge-eval",
-            "experiments.run-judge-experiment",
-            "ingest.import-source",
+            "judge.evaluate",
+            "evals.runJudge",
+            "experiments.runJudge",
+            "ingest.importSource",
         ] {
             let a = annotations_for("POST", op, "t");
             assert_eq!(a["openWorldHint"], Value::Bool(true), "{op} open world");
         }
         for op in [
-            "datasets.create-dataset",
-            "evals.run-deterministic-eval",
-            "apiKeys.revoke-api-key",
+            "datasets.create",
+            "evals.runDeterministic",
+            "apiKeys.revoke",
         ] {
             let a = annotations_for("POST", op, "t");
             assert_eq!(a["openWorldHint"], Value::Bool(false), "{op} local");
@@ -1375,8 +1375,8 @@ mod tests {
     fn tool_to_json_advertises_mcp_oauth_scopes_when_enabled() {
         let tool = tools()
             .iter()
-            .find(|tool| tool.name == "spans.get-span")
-            .expect("spans.get-span tool present");
+            .find(|tool| tool.name == "spans.get")
+            .expect("spans.get tool present");
         let without = tool_to_json(tool, false);
         assert!(
             without.get("securitySchemes").is_none(),
@@ -1406,20 +1406,20 @@ mod tests {
     #[test]
     fn oauth_scope_map_matches_non_obvious_api_scopes() {
         let cases = [
-            ("providerSecrets.list-provider-secrets", "GET", "admin"),
-            ("usage.get-usage-summary", "GET", "admin"),
-            ("ingest.get-ingest-queue-status", "GET", "admin"),
-            ("calibrations.run-calibration", "POST", "eval:run"),
-            ("reviews.create-review-queue", "POST", "dataset:write"),
+            ("providerSecrets.list", "GET", "admin"),
+            ("usage.getSummary", "GET", "admin"),
+            ("ingest.getQueueStatus", "GET", "admin"),
+            ("calibrations.run", "POST", "eval:run"),
+            ("reviews.createQueue", "POST", "dataset:write"),
             (
-                "reviews.enqueue-review-task-from-trace",
+                "reviews.enqueueTaskFromTrace",
                 "POST",
                 "dataset:write",
             ),
-            ("reviews.submit-review-annotation", "POST", "dataset:write"),
-            ("reviews.promote-review-annotation", "POST", "dataset:write"),
-            ("online.decide-online-sampling", "POST", "trace:read"),
-            ("alerts.evaluate-alert", "POST", "trace:read"),
+            ("reviews.submitAnnotation", "POST", "dataset:write"),
+            ("reviews.promoteAnnotation", "POST", "dataset:write"),
+            ("online.decideSampling", "POST", "trace:read"),
+            ("alerts.evaluate", "POST", "trace:read"),
         ];
         for (operation_id, method, expected_scope) in cases {
             assert_eq!(
@@ -1435,12 +1435,12 @@ mod tests {
     #[test]
     fn output_schemas_are_object_rooted_or_absent() {
         let array_ops = [
-            "audit.list-audit-events",
-            "judge.list-judge-ledger",
-            "providerSecrets.list-provider-secrets",
-            "reviews.list-review-tasks",
-            "connectors.list-connectors",
-            "connectors.list-connector-tools",
+            "audit.list",
+            "judge.listLedger",
+            "providerSecrets.list",
+            "reviews.listTasks",
+            "connectors.list",
+            "connectors.listTools",
         ];
         for tool in tools() {
             match &tool.output_schema {
@@ -1516,10 +1516,10 @@ mod tests {
 
         // Describe one tool.
         let mut one = Map::new();
-        one.insert("tool".to_string(), json!("traces.list-traces"));
+        one.insert("tool".to_string(), json!("traces.list"));
         let described = handle_help(&one, false).unwrap();
         let t = &described["structuredContent"]["tool"];
-        assert_eq!(t["name"], "traces.list-traces");
+        assert_eq!(t["name"], "traces.list");
         assert_eq!(t["method"], "GET");
         assert!(t["path"].as_str().unwrap().starts_with("/v1/"));
 

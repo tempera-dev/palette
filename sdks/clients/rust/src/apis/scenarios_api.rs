@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`scenarios_period_create_scenario`]
+/// struct for passing parameters to the method [`scenarios_period_create`]
 #[derive(Clone, Debug)]
-pub struct ScenariosPeriodCreateScenarioParams {
+pub struct ScenariosPeriodCreateParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,9 +32,9 @@ pub struct ScenariosPeriodCreateScenarioParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`scenarios_period_get_scenario`]
+/// struct for passing parameters to the method [`scenarios_period_get`]
 #[derive(Clone, Debug)]
-pub struct ScenariosPeriodGetScenarioParams {
+pub struct ScenariosPeriodGetParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -51,9 +51,9 @@ pub struct ScenariosPeriodGetScenarioParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`scenarios_period_list_scenarios`]
+/// struct for passing parameters to the method [`scenarios_period_list`]
 #[derive(Clone, Debug)]
-pub struct ScenariosPeriodListScenariosParams {
+pub struct ScenariosPeriodListParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -70,9 +70,9 @@ pub struct ScenariosPeriodListScenariosParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`scenarios_period_mine_scenarios`]
+/// struct for passing parameters to the method [`scenarios_period_mine`]
 #[derive(Clone, Debug)]
-pub struct ScenariosPeriodMineScenariosParams {
+pub struct ScenariosPeriodMineParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -89,41 +89,20 @@ pub struct ScenariosPeriodMineScenariosParams {
 }
 
 
-/// struct for typed errors of method [`scenarios_period_create_scenario`]
+/// struct for typed errors of method [`scenarios_period_create`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ScenariosPeriodCreateScenarioError {
+pub enum ScenariosPeriodCreateError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`scenarios_period_get_scenario`]
+/// struct for typed errors of method [`scenarios_period_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ScenariosPeriodGetScenarioError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`scenarios_period_list_scenarios`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum ScenariosPeriodListScenariosError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`scenarios_period_mine_scenarios`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum ScenariosPeriodMineScenariosError {
+pub enum ScenariosPeriodGetError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -131,8 +110,29 @@ pub enum ScenariosPeriodMineScenariosError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`scenarios_period_list`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ScenariosPeriodListError {
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status403(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
 
-pub async fn scenarios_period_create_scenario(configuration: &configuration::Configuration, params: ScenariosPeriodCreateScenarioParams) -> Result<models::Scenario, Error<ScenariosPeriodCreateScenarioError>> {
+/// struct for typed errors of method [`scenarios_period_mine`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ScenariosPeriodMineError {
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status403(models::ErrorResponse),
+    Status404(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
+
+pub async fn scenarios_period_create(configuration: &configuration::Configuration, params: ScenariosPeriodCreateParams) -> Result<models::Scenario, Error<ScenariosPeriodCreateError>> {
 
     let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -164,12 +164,12 @@ pub async fn scenarios_period_create_scenario(configuration: &configuration::Con
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ScenariosPeriodCreateScenarioError> = serde_json::from_str(&content).ok();
+        let entity: Option<ScenariosPeriodCreateError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn scenarios_period_get_scenario(configuration: &configuration::Configuration, params: ScenariosPeriodGetScenarioParams) -> Result<models::Scenario, Error<ScenariosPeriodGetScenarioError>> {
+pub async fn scenarios_period_get(configuration: &configuration::Configuration, params: ScenariosPeriodGetParams) -> Result<models::Scenario, Error<ScenariosPeriodGetError>> {
 
     let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}/{scenario_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), scenario_id=crate::apis::urlencode(params.scenario_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -200,12 +200,12 @@ pub async fn scenarios_period_get_scenario(configuration: &configuration::Config
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ScenariosPeriodGetScenarioError> = serde_json::from_str(&content).ok();
+        let entity: Option<ScenariosPeriodGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn scenarios_period_list_scenarios(configuration: &configuration::Configuration, params: ScenariosPeriodListScenariosParams) -> Result<models::ListScenariosResponse, Error<ScenariosPeriodListScenariosError>> {
+pub async fn scenarios_period_list(configuration: &configuration::Configuration, params: ScenariosPeriodListParams) -> Result<models::ListScenariosResponse, Error<ScenariosPeriodListError>> {
 
     let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -242,12 +242,12 @@ pub async fn scenarios_period_list_scenarios(configuration: &configuration::Conf
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ScenariosPeriodListScenariosError> = serde_json::from_str(&content).ok();
+        let entity: Option<ScenariosPeriodListError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn scenarios_period_mine_scenarios(configuration: &configuration::Configuration, params: ScenariosPeriodMineScenariosParams) -> Result<models::MineScenariosResponse, Error<ScenariosPeriodMineScenariosError>> {
+pub async fn scenarios_period_mine(configuration: &configuration::Configuration, params: ScenariosPeriodMineParams) -> Result<models::MineScenariosResponse, Error<ScenariosPeriodMineError>> {
 
     let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}/mine", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -279,7 +279,7 @@ pub async fn scenarios_period_mine_scenarios(configuration: &configuration::Conf
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ScenariosPeriodMineScenariosError> = serde_json::from_str(&content).ok();
+        let entity: Option<ScenariosPeriodMineError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UsageGetUsageSummary**](UsageAPI.md#UsageGetUsageSummary) | **Get** /v1/usage/{tenant_id}/{project_id} |
+[**UsageGetSummary**](UsageAPI.md#UsageGetSummary) | **Get** /v1/usage/{tenant_id}/{project_id} |
 
 
 
-## UsageGetUsageSummary
+## UsageGetSummary
 
-> UsageSummary UsageGetUsageSummary(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> UsageSummary UsageGetSummary(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -36,13 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.UsageAPI.UsageGetUsageSummary(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.UsageAPI.UsageGetSummary(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageGetUsageSummary``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.UsageGetSummary``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UsageGetUsageSummary`: UsageSummary
-	fmt.Fprintf(os.Stdout, "Response from `UsageAPI.UsageGetUsageSummary`: %v\n", resp)
+	// response from `UsageGetSummary`: UsageSummary
+	fmt.Fprintf(os.Stdout, "Response from `UsageAPI.UsageGetSummary`: %v\n", resp)
 }
 ```
 
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiUsageGetUsageSummaryRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiUsageGetSummaryRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

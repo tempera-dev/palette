@@ -23,7 +23,7 @@ import (
 // UsageAPIService UsageAPI service
 type UsageAPIService service
 
-type ApiUsageGetUsageSummaryRequest struct {
+type ApiUsageGetSummaryRequest struct {
 	ctx context.Context
 	ApiService *UsageAPIService
 	tenantId string
@@ -35,43 +35,43 @@ type ApiUsageGetUsageSummaryRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiUsageGetUsageSummaryRequest) Authorization(authorization string) ApiUsageGetUsageSummaryRequest {
+func (r ApiUsageGetSummaryRequest) Authorization(authorization string) ApiUsageGetSummaryRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiUsageGetUsageSummaryRequest) XPaletteApiKey(xPaletteApiKey string) ApiUsageGetUsageSummaryRequest {
+func (r ApiUsageGetSummaryRequest) XPaletteApiKey(xPaletteApiKey string) ApiUsageGetSummaryRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiUsageGetUsageSummaryRequest) XPaletteProjectId(xPaletteProjectId string) ApiUsageGetUsageSummaryRequest {
+func (r ApiUsageGetSummaryRequest) XPaletteProjectId(xPaletteProjectId string) ApiUsageGetSummaryRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiUsageGetUsageSummaryRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiUsageGetUsageSummaryRequest {
+func (r ApiUsageGetSummaryRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiUsageGetSummaryRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiUsageGetUsageSummaryRequest) Execute() (*UsageSummary, *http.Response, error) {
-	return r.ApiService.UsageGetUsageSummaryExecute(r)
+func (r ApiUsageGetSummaryRequest) Execute() (*UsageSummary, *http.Response, error) {
+	return r.ApiService.UsageGetSummaryExecute(r)
 }
 
 /*
-UsageGetUsageSummary Method for UsageGetUsageSummary
+UsageGetSummary Method for UsageGetSummary
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiUsageGetUsageSummaryRequest
+ @return ApiUsageGetSummaryRequest
 */
-func (a *UsageAPIService) UsageGetUsageSummary(ctx context.Context, tenantId string, projectId string) ApiUsageGetUsageSummaryRequest {
-	return ApiUsageGetUsageSummaryRequest{
+func (a *UsageAPIService) UsageGetSummary(ctx context.Context, tenantId string, projectId string) ApiUsageGetSummaryRequest {
+	return ApiUsageGetSummaryRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -81,7 +81,7 @@ func (a *UsageAPIService) UsageGetUsageSummary(ctx context.Context, tenantId str
 
 // Execute executes the request
 //  @return UsageSummary
-func (a *UsageAPIService) UsageGetUsageSummaryExecute(r ApiUsageGetUsageSummaryRequest) (*UsageSummary, *http.Response, error) {
+func (a *UsageAPIService) UsageGetSummaryExecute(r ApiUsageGetSummaryRequest) (*UsageSummary, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -89,7 +89,7 @@ func (a *UsageAPIService) UsageGetUsageSummaryExecute(r ApiUsageGetUsageSummaryR
 		localVarReturnValue  *UsageSummary
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.UsageGetUsageSummary")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsageAPIService.UsageGetSummary")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

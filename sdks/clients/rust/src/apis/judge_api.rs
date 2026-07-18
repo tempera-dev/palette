@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`judge_period_evaluate_judge`]
+/// struct for passing parameters to the method [`judge_period_evaluate`]
 #[derive(Clone, Debug)]
-pub struct JudgePeriodEvaluateJudgeParams {
+pub struct JudgePeriodEvaluateParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,9 +32,9 @@ pub struct JudgePeriodEvaluateJudgeParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`judge_period_list_judge_ledger`]
+/// struct for passing parameters to the method [`judge_period_list_ledger`]
 #[derive(Clone, Debug)]
-pub struct JudgePeriodListJudgeLedgerParams {
+pub struct JudgePeriodListLedgerParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -50,20 +50,20 @@ pub struct JudgePeriodListJudgeLedgerParams {
 }
 
 
-/// struct for typed errors of method [`judge_period_evaluate_judge`]
+/// struct for typed errors of method [`judge_period_evaluate`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum JudgePeriodEvaluateJudgeError {
+pub enum JudgePeriodEvaluateError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`judge_period_list_judge_ledger`]
+/// struct for typed errors of method [`judge_period_list_ledger`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum JudgePeriodListJudgeLedgerError {
+pub enum JudgePeriodListLedgerError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -71,7 +71,7 @@ pub enum JudgePeriodListJudgeLedgerError {
 }
 
 
-pub async fn judge_period_evaluate_judge(configuration: &configuration::Configuration, params: JudgePeriodEvaluateJudgeParams) -> Result<models::JudgeBrokerOutcome, Error<JudgePeriodEvaluateJudgeError>> {
+pub async fn judge_period_evaluate(configuration: &configuration::Configuration, params: JudgePeriodEvaluateParams) -> Result<models::JudgeBrokerOutcome, Error<JudgePeriodEvaluateError>> {
 
     let uri_str = format!("{}/v1/judge/{tenant_id}/{project_id}/evaluate", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -103,12 +103,12 @@ pub async fn judge_period_evaluate_judge(configuration: &configuration::Configur
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<JudgePeriodEvaluateJudgeError> = serde_json::from_str(&content).ok();
+        let entity: Option<JudgePeriodEvaluateError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn judge_period_list_judge_ledger(configuration: &configuration::Configuration, params: JudgePeriodListJudgeLedgerParams) -> Result<Vec<models::JudgeAuditRecord>, Error<JudgePeriodListJudgeLedgerError>> {
+pub async fn judge_period_list_ledger(configuration: &configuration::Configuration, params: JudgePeriodListLedgerParams) -> Result<Vec<models::JudgeAuditRecord>, Error<JudgePeriodListLedgerError>> {
 
     let uri_str = format!("{}/v1/judge/{tenant_id}/{project_id}/ledger", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -139,7 +139,7 @@ pub async fn judge_period_list_judge_ledger(configuration: &configuration::Confi
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<JudgePeriodListJudgeLedgerError> = serde_json::from_str(&content).ok();
+        let entity: Option<JudgePeriodListLedgerError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

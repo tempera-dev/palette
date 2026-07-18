@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**experimentsRunDeterministicExperiment**](ExperimentsApi.md#experimentsRunDeterministicExperiment) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |  |
-| [**experimentsRunDeterministicExperimentWithHttpInfo**](ExperimentsApi.md#experimentsRunDeterministicExperimentWithHttpInfo) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |  |
-| [**experimentsRunJudgeExperiment**](ExperimentsApi.md#experimentsRunJudgeExperiment) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |  |
-| [**experimentsRunJudgeExperimentWithHttpInfo**](ExperimentsApi.md#experimentsRunJudgeExperimentWithHttpInfo) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |  |
+| [**experimentsRunDeterministic**](ExperimentsApi.md#experimentsRunDeterministic) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |  |
+| [**experimentsRunDeterministicWithHttpInfo**](ExperimentsApi.md#experimentsRunDeterministicWithHttpInfo) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |  |
+| [**experimentsRunJudge**](ExperimentsApi.md#experimentsRunJudge) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |  |
+| [**experimentsRunJudgeWithHttpInfo**](ExperimentsApi.md#experimentsRunJudgeWithHttpInfo) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |  |
 
 
 
-## experimentsRunDeterministicExperiment
+## experimentsRunDeterministic
 
-> ExperimentRunReport experimentsRunDeterministicExperiment(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ExperimentRunReport experimentsRunDeterministic(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -43,10 +43,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ExperimentRunReport result = apiInstance.experimentsRunDeterministicExperiment(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ExperimentRunReport result = apiInstance.experimentsRunDeterministic(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ExperimentsApi#experimentsRunDeterministicExperiment");
+            System.err.println("Exception when calling ExperimentsApi#experimentsRunDeterministic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -94,9 +94,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## experimentsRunDeterministicExperimentWithHttpInfo
+## experimentsRunDeterministicWithHttpInfo
 
-> ApiResponse<ExperimentRunReport> experimentsRunDeterministicExperiment experimentsRunDeterministicExperimentWithHttpInfo(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ExperimentRunReport> experimentsRunDeterministic experimentsRunDeterministicWithHttpInfo(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -127,12 +127,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ExperimentRunReport> response = apiInstance.experimentsRunDeterministicExperimentWithHttpInfo(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ExperimentRunReport> response = apiInstance.experimentsRunDeterministicWithHttpInfo(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ExperimentsApi#experimentsRunDeterministicExperiment");
+            System.err.println("Exception when calling ExperimentsApi#experimentsRunDeterministic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -181,9 +181,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## experimentsRunJudgeExperiment
+## experimentsRunJudge
 
-> ExperimentRunReport experimentsRunJudgeExperiment(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ExperimentRunReport experimentsRunJudge(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -213,10 +213,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ExperimentRunReport result = apiInstance.experimentsRunJudgeExperiment(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ExperimentRunReport result = apiInstance.experimentsRunJudge(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ExperimentsApi#experimentsRunJudgeExperiment");
+            System.err.println("Exception when calling ExperimentsApi#experimentsRunJudge");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -264,9 +264,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## experimentsRunJudgeExperimentWithHttpInfo
+## experimentsRunJudgeWithHttpInfo
 
-> ApiResponse<ExperimentRunReport> experimentsRunJudgeExperiment experimentsRunJudgeExperimentWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ExperimentRunReport> experimentsRunJudge experimentsRunJudgeWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -297,12 +297,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ExperimentRunReport> response = apiInstance.experimentsRunJudgeExperimentWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ExperimentRunReport> response = apiInstance.experimentsRunJudgeWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ExperimentsApi#experimentsRunJudgeExperiment");
+            System.err.println("Exception when calling ExperimentsApi#experimentsRunJudge");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

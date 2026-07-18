@@ -23,7 +23,7 @@ import (
 // DatasetsAPIService DatasetsAPI service
 type DatasetsAPIService service
 
-type ApiDatasetsCreateDatasetRequest struct {
+type ApiDatasetsCreateRequest struct {
 	ctx context.Context
 	ApiService *DatasetsAPIService
 	tenantId string
@@ -35,49 +35,49 @@ type ApiDatasetsCreateDatasetRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiDatasetsCreateDatasetRequest) CreateDatasetRequest(createDatasetRequest CreateDatasetRequest) ApiDatasetsCreateDatasetRequest {
+func (r ApiDatasetsCreateRequest) CreateDatasetRequest(createDatasetRequest CreateDatasetRequest) ApiDatasetsCreateRequest {
 	r.createDatasetRequest = &createDatasetRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiDatasetsCreateDatasetRequest) Authorization(authorization string) ApiDatasetsCreateDatasetRequest {
+func (r ApiDatasetsCreateRequest) Authorization(authorization string) ApiDatasetsCreateRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiDatasetsCreateDatasetRequest) XPaletteApiKey(xPaletteApiKey string) ApiDatasetsCreateDatasetRequest {
+func (r ApiDatasetsCreateRequest) XPaletteApiKey(xPaletteApiKey string) ApiDatasetsCreateRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiDatasetsCreateDatasetRequest) XPaletteProjectId(xPaletteProjectId string) ApiDatasetsCreateDatasetRequest {
+func (r ApiDatasetsCreateRequest) XPaletteProjectId(xPaletteProjectId string) ApiDatasetsCreateRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiDatasetsCreateDatasetRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiDatasetsCreateDatasetRequest {
+func (r ApiDatasetsCreateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiDatasetsCreateRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiDatasetsCreateDatasetRequest) Execute() (*Dataset, *http.Response, error) {
-	return r.ApiService.DatasetsCreateDatasetExecute(r)
+func (r ApiDatasetsCreateRequest) Execute() (*Dataset, *http.Response, error) {
+	return r.ApiService.DatasetsCreateExecute(r)
 }
 
 /*
-DatasetsCreateDataset Method for DatasetsCreateDataset
+DatasetsCreate Method for DatasetsCreate
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiDatasetsCreateDatasetRequest
+ @return ApiDatasetsCreateRequest
 */
-func (a *DatasetsAPIService) DatasetsCreateDataset(ctx context.Context, tenantId string, projectId string) ApiDatasetsCreateDatasetRequest {
-	return ApiDatasetsCreateDatasetRequest{
+func (a *DatasetsAPIService) DatasetsCreate(ctx context.Context, tenantId string, projectId string) ApiDatasetsCreateRequest {
+	return ApiDatasetsCreateRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -87,7 +87,7 @@ func (a *DatasetsAPIService) DatasetsCreateDataset(ctx context.Context, tenantId
 
 // Execute executes the request
 //  @return Dataset
-func (a *DatasetsAPIService) DatasetsCreateDatasetExecute(r ApiDatasetsCreateDatasetRequest) (*Dataset, *http.Response, error) {
+func (a *DatasetsAPIService) DatasetsCreateExecute(r ApiDatasetsCreateRequest) (*Dataset, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -95,7 +95,7 @@ func (a *DatasetsAPIService) DatasetsCreateDatasetExecute(r ApiDatasetsCreateDat
 		localVarReturnValue  *Dataset
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DatasetsAPIService.DatasetsCreateDataset")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DatasetsAPIService.DatasetsCreate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -211,7 +211,7 @@ func (a *DatasetsAPIService) DatasetsCreateDatasetExecute(r ApiDatasetsCreateDat
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDatasetsCreateDatasetVersionRequest struct {
+type ApiDatasetsCreateVersionRequest struct {
 	ctx context.Context
 	ApiService *DatasetsAPIService
 	tenantId string
@@ -224,50 +224,50 @@ type ApiDatasetsCreateDatasetVersionRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiDatasetsCreateDatasetVersionRequest) CreateDatasetVersionRequest(createDatasetVersionRequest CreateDatasetVersionRequest) ApiDatasetsCreateDatasetVersionRequest {
+func (r ApiDatasetsCreateVersionRequest) CreateDatasetVersionRequest(createDatasetVersionRequest CreateDatasetVersionRequest) ApiDatasetsCreateVersionRequest {
 	r.createDatasetVersionRequest = &createDatasetVersionRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiDatasetsCreateDatasetVersionRequest) Authorization(authorization string) ApiDatasetsCreateDatasetVersionRequest {
+func (r ApiDatasetsCreateVersionRequest) Authorization(authorization string) ApiDatasetsCreateVersionRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiDatasetsCreateDatasetVersionRequest) XPaletteApiKey(xPaletteApiKey string) ApiDatasetsCreateDatasetVersionRequest {
+func (r ApiDatasetsCreateVersionRequest) XPaletteApiKey(xPaletteApiKey string) ApiDatasetsCreateVersionRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiDatasetsCreateDatasetVersionRequest) XPaletteProjectId(xPaletteProjectId string) ApiDatasetsCreateDatasetVersionRequest {
+func (r ApiDatasetsCreateVersionRequest) XPaletteProjectId(xPaletteProjectId string) ApiDatasetsCreateVersionRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiDatasetsCreateDatasetVersionRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiDatasetsCreateDatasetVersionRequest {
+func (r ApiDatasetsCreateVersionRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiDatasetsCreateVersionRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiDatasetsCreateDatasetVersionRequest) Execute() (*DatasetVersionSnapshot, *http.Response, error) {
-	return r.ApiService.DatasetsCreateDatasetVersionExecute(r)
+func (r ApiDatasetsCreateVersionRequest) Execute() (*DatasetVersionSnapshot, *http.Response, error) {
+	return r.ApiService.DatasetsCreateVersionExecute(r)
 }
 
 /*
-DatasetsCreateDatasetVersion Method for DatasetsCreateDatasetVersion
+DatasetsCreateVersion Method for DatasetsCreateVersion
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param datasetId dataset_id
- @return ApiDatasetsCreateDatasetVersionRequest
+ @return ApiDatasetsCreateVersionRequest
 */
-func (a *DatasetsAPIService) DatasetsCreateDatasetVersion(ctx context.Context, tenantId string, projectId string, datasetId string) ApiDatasetsCreateDatasetVersionRequest {
-	return ApiDatasetsCreateDatasetVersionRequest{
+func (a *DatasetsAPIService) DatasetsCreateVersion(ctx context.Context, tenantId string, projectId string, datasetId string) ApiDatasetsCreateVersionRequest {
+	return ApiDatasetsCreateVersionRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -278,7 +278,7 @@ func (a *DatasetsAPIService) DatasetsCreateDatasetVersion(ctx context.Context, t
 
 // Execute executes the request
 //  @return DatasetVersionSnapshot
-func (a *DatasetsAPIService) DatasetsCreateDatasetVersionExecute(r ApiDatasetsCreateDatasetVersionRequest) (*DatasetVersionSnapshot, *http.Response, error) {
+func (a *DatasetsAPIService) DatasetsCreateVersionExecute(r ApiDatasetsCreateVersionRequest) (*DatasetVersionSnapshot, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -286,7 +286,7 @@ func (a *DatasetsAPIService) DatasetsCreateDatasetVersionExecute(r ApiDatasetsCr
 		localVarReturnValue  *DatasetVersionSnapshot
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DatasetsAPIService.DatasetsCreateDatasetVersion")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DatasetsAPIService.DatasetsCreateVersion")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -414,7 +414,7 @@ func (a *DatasetsAPIService) DatasetsCreateDatasetVersionExecute(r ApiDatasetsCr
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiDatasetsPromoteDatasetCaseFromTraceRequest struct {
+type ApiDatasetsPromoteCaseFromTraceRequest struct {
 	ctx context.Context
 	ApiService *DatasetsAPIService
 	tenantId string
@@ -427,50 +427,50 @@ type ApiDatasetsPromoteDatasetCaseFromTraceRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiDatasetsPromoteDatasetCaseFromTraceRequest) PromoteTraceCaseRequest(promoteTraceCaseRequest PromoteTraceCaseRequest) ApiDatasetsPromoteDatasetCaseFromTraceRequest {
+func (r ApiDatasetsPromoteCaseFromTraceRequest) PromoteTraceCaseRequest(promoteTraceCaseRequest PromoteTraceCaseRequest) ApiDatasetsPromoteCaseFromTraceRequest {
 	r.promoteTraceCaseRequest = &promoteTraceCaseRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiDatasetsPromoteDatasetCaseFromTraceRequest) Authorization(authorization string) ApiDatasetsPromoteDatasetCaseFromTraceRequest {
+func (r ApiDatasetsPromoteCaseFromTraceRequest) Authorization(authorization string) ApiDatasetsPromoteCaseFromTraceRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiDatasetsPromoteDatasetCaseFromTraceRequest) XPaletteApiKey(xPaletteApiKey string) ApiDatasetsPromoteDatasetCaseFromTraceRequest {
+func (r ApiDatasetsPromoteCaseFromTraceRequest) XPaletteApiKey(xPaletteApiKey string) ApiDatasetsPromoteCaseFromTraceRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiDatasetsPromoteDatasetCaseFromTraceRequest) XPaletteProjectId(xPaletteProjectId string) ApiDatasetsPromoteDatasetCaseFromTraceRequest {
+func (r ApiDatasetsPromoteCaseFromTraceRequest) XPaletteProjectId(xPaletteProjectId string) ApiDatasetsPromoteCaseFromTraceRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiDatasetsPromoteDatasetCaseFromTraceRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiDatasetsPromoteDatasetCaseFromTraceRequest {
+func (r ApiDatasetsPromoteCaseFromTraceRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiDatasetsPromoteCaseFromTraceRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiDatasetsPromoteDatasetCaseFromTraceRequest) Execute() (*DatasetCase, *http.Response, error) {
-	return r.ApiService.DatasetsPromoteDatasetCaseFromTraceExecute(r)
+func (r ApiDatasetsPromoteCaseFromTraceRequest) Execute() (*DatasetCase, *http.Response, error) {
+	return r.ApiService.DatasetsPromoteCaseFromTraceExecute(r)
 }
 
 /*
-DatasetsPromoteDatasetCaseFromTrace Method for DatasetsPromoteDatasetCaseFromTrace
+DatasetsPromoteCaseFromTrace Method for DatasetsPromoteCaseFromTrace
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param datasetId dataset_id
- @return ApiDatasetsPromoteDatasetCaseFromTraceRequest
+ @return ApiDatasetsPromoteCaseFromTraceRequest
 */
-func (a *DatasetsAPIService) DatasetsPromoteDatasetCaseFromTrace(ctx context.Context, tenantId string, projectId string, datasetId string) ApiDatasetsPromoteDatasetCaseFromTraceRequest {
-	return ApiDatasetsPromoteDatasetCaseFromTraceRequest{
+func (a *DatasetsAPIService) DatasetsPromoteCaseFromTrace(ctx context.Context, tenantId string, projectId string, datasetId string) ApiDatasetsPromoteCaseFromTraceRequest {
+	return ApiDatasetsPromoteCaseFromTraceRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -481,7 +481,7 @@ func (a *DatasetsAPIService) DatasetsPromoteDatasetCaseFromTrace(ctx context.Con
 
 // Execute executes the request
 //  @return DatasetCase
-func (a *DatasetsAPIService) DatasetsPromoteDatasetCaseFromTraceExecute(r ApiDatasetsPromoteDatasetCaseFromTraceRequest) (*DatasetCase, *http.Response, error) {
+func (a *DatasetsAPIService) DatasetsPromoteCaseFromTraceExecute(r ApiDatasetsPromoteCaseFromTraceRequest) (*DatasetCase, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -489,7 +489,7 @@ func (a *DatasetsAPIService) DatasetsPromoteDatasetCaseFromTraceExecute(r ApiDat
 		localVarReturnValue  *DatasetCase
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DatasetsAPIService.DatasetsPromoteDatasetCaseFromTrace")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DatasetsAPIService.DatasetsPromoteCaseFromTrace")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

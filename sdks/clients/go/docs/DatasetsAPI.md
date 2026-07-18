@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DatasetsCreateDataset**](DatasetsAPI.md#DatasetsCreateDataset) | **Post** /v1/datasets/{tenant_id}/{project_id} |
-[**DatasetsCreateDatasetVersion**](DatasetsAPI.md#DatasetsCreateDatasetVersion) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
-[**DatasetsPromoteDatasetCaseFromTrace**](DatasetsAPI.md#DatasetsPromoteDatasetCaseFromTrace) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+[**DatasetsCreate**](DatasetsAPI.md#DatasetsCreate) | **Post** /v1/datasets/{tenant_id}/{project_id} |
+[**DatasetsCreateVersion**](DatasetsAPI.md#DatasetsCreateVersion) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
+[**DatasetsPromoteCaseFromTrace**](DatasetsAPI.md#DatasetsPromoteCaseFromTrace) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
 
 
 
-## DatasetsCreateDataset
+## DatasetsCreate
 
-> Dataset DatasetsCreateDataset(ctx, tenantId, projectId).CreateDatasetRequest(createDatasetRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> Dataset DatasetsCreate(ctx, tenantId, projectId).CreateDatasetRequest(createDatasetRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DatasetsAPI.DatasetsCreateDataset(context.Background(), tenantId, projectId).CreateDatasetRequest(createDatasetRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.DatasetsAPI.DatasetsCreate(context.Background(), tenantId, projectId).CreateDatasetRequest(createDatasetRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DatasetsAPI.DatasetsCreateDataset``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DatasetsAPI.DatasetsCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DatasetsCreateDataset`: Dataset
-	fmt.Fprintf(os.Stdout, "Response from `DatasetsAPI.DatasetsCreateDataset`: %v\n", resp)
+	// response from `DatasetsCreate`: Dataset
+	fmt.Fprintf(os.Stdout, "Response from `DatasetsAPI.DatasetsCreate`: %v\n", resp)
 }
 ```
 
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDatasetsCreateDatasetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDatasetsCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -91,9 +91,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## DatasetsCreateDatasetVersion
+## DatasetsCreateVersion
 
-> DatasetVersionSnapshot DatasetsCreateDatasetVersion(ctx, tenantId, projectId, datasetId).CreateDatasetVersionRequest(createDatasetVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> DatasetVersionSnapshot DatasetsCreateVersion(ctx, tenantId, projectId, datasetId).CreateDatasetVersionRequest(createDatasetVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -121,13 +121,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DatasetsAPI.DatasetsCreateDatasetVersion(context.Background(), tenantId, projectId, datasetId).CreateDatasetVersionRequest(createDatasetVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.DatasetsAPI.DatasetsCreateVersion(context.Background(), tenantId, projectId, datasetId).CreateDatasetVersionRequest(createDatasetVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DatasetsAPI.DatasetsCreateDatasetVersion``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DatasetsAPI.DatasetsCreateVersion``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DatasetsCreateDatasetVersion`: DatasetVersionSnapshot
-	fmt.Fprintf(os.Stdout, "Response from `DatasetsAPI.DatasetsCreateDatasetVersion`: %v\n", resp)
+	// response from `DatasetsCreateVersion`: DatasetVersionSnapshot
+	fmt.Fprintf(os.Stdout, "Response from `DatasetsAPI.DatasetsCreateVersion`: %v\n", resp)
 }
 ```
 
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDatasetsCreateDatasetVersionRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDatasetsCreateVersionRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -175,9 +175,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## DatasetsPromoteDatasetCaseFromTrace
+## DatasetsPromoteCaseFromTrace
 
-> DatasetCase DatasetsPromoteDatasetCaseFromTrace(ctx, tenantId, projectId, datasetId).PromoteTraceCaseRequest(promoteTraceCaseRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> DatasetCase DatasetsPromoteCaseFromTrace(ctx, tenantId, projectId, datasetId).PromoteTraceCaseRequest(promoteTraceCaseRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -205,13 +205,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DatasetsAPI.DatasetsPromoteDatasetCaseFromTrace(context.Background(), tenantId, projectId, datasetId).PromoteTraceCaseRequest(promoteTraceCaseRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.DatasetsAPI.DatasetsPromoteCaseFromTrace(context.Background(), tenantId, projectId, datasetId).PromoteTraceCaseRequest(promoteTraceCaseRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DatasetsAPI.DatasetsPromoteDatasetCaseFromTrace``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DatasetsAPI.DatasetsPromoteCaseFromTrace``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DatasetsPromoteDatasetCaseFromTrace`: DatasetCase
-	fmt.Fprintf(os.Stdout, "Response from `DatasetsAPI.DatasetsPromoteDatasetCaseFromTrace`: %v\n", resp)
+	// response from `DatasetsPromoteCaseFromTrace`: DatasetCase
+	fmt.Fprintf(os.Stdout, "Response from `DatasetsAPI.DatasetsPromoteCaseFromTrace`: %v\n", resp)
 }
 ```
 
@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDatasetsPromoteDatasetCaseFromTraceRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDatasetsPromoteCaseFromTraceRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

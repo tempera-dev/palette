@@ -23,7 +23,7 @@ import (
 // GatesAPIService GatesAPI service
 type GatesAPIService service
 
-type ApiGatesCreateGateRequest struct {
+type ApiGatesCreateRequest struct {
 	ctx context.Context
 	ApiService *GatesAPIService
 	tenantId string
@@ -35,49 +35,49 @@ type ApiGatesCreateGateRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiGatesCreateGateRequest) CreateGateRequest(createGateRequest CreateGateRequest) ApiGatesCreateGateRequest {
+func (r ApiGatesCreateRequest) CreateGateRequest(createGateRequest CreateGateRequest) ApiGatesCreateRequest {
 	r.createGateRequest = &createGateRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiGatesCreateGateRequest) Authorization(authorization string) ApiGatesCreateGateRequest {
+func (r ApiGatesCreateRequest) Authorization(authorization string) ApiGatesCreateRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiGatesCreateGateRequest) XPaletteApiKey(xPaletteApiKey string) ApiGatesCreateGateRequest {
+func (r ApiGatesCreateRequest) XPaletteApiKey(xPaletteApiKey string) ApiGatesCreateRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiGatesCreateGateRequest) XPaletteProjectId(xPaletteProjectId string) ApiGatesCreateGateRequest {
+func (r ApiGatesCreateRequest) XPaletteProjectId(xPaletteProjectId string) ApiGatesCreateRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiGatesCreateGateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiGatesCreateGateRequest {
+func (r ApiGatesCreateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiGatesCreateRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiGatesCreateGateRequest) Execute() (*GateDefinition, *http.Response, error) {
-	return r.ApiService.GatesCreateGateExecute(r)
+func (r ApiGatesCreateRequest) Execute() (*GateDefinition, *http.Response, error) {
+	return r.ApiService.GatesCreateExecute(r)
 }
 
 /*
-GatesCreateGate Method for GatesCreateGate
+GatesCreate Method for GatesCreate
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiGatesCreateGateRequest
+ @return ApiGatesCreateRequest
 */
-func (a *GatesAPIService) GatesCreateGate(ctx context.Context, tenantId string, projectId string) ApiGatesCreateGateRequest {
-	return ApiGatesCreateGateRequest{
+func (a *GatesAPIService) GatesCreate(ctx context.Context, tenantId string, projectId string) ApiGatesCreateRequest {
+	return ApiGatesCreateRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -87,7 +87,7 @@ func (a *GatesAPIService) GatesCreateGate(ctx context.Context, tenantId string, 
 
 // Execute executes the request
 //  @return GateDefinition
-func (a *GatesAPIService) GatesCreateGateExecute(r ApiGatesCreateGateRequest) (*GateDefinition, *http.Response, error) {
+func (a *GatesAPIService) GatesCreateExecute(r ApiGatesCreateRequest) (*GateDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -95,7 +95,7 @@ func (a *GatesAPIService) GatesCreateGateExecute(r ApiGatesCreateGateRequest) (*
 		localVarReturnValue  *GateDefinition
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GatesAPIService.GatesCreateGate")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GatesAPIService.GatesCreate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -211,7 +211,7 @@ func (a *GatesAPIService) GatesCreateGateExecute(r ApiGatesCreateGateRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGatesRunGateRequest struct {
+type ApiGatesRunRequest struct {
 	ctx context.Context
 	ApiService *GatesAPIService
 	tenantId string
@@ -224,50 +224,50 @@ type ApiGatesRunGateRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiGatesRunGateRequest) RunGateRequest(runGateRequest RunGateRequest) ApiGatesRunGateRequest {
+func (r ApiGatesRunRequest) RunGateRequest(runGateRequest RunGateRequest) ApiGatesRunRequest {
 	r.runGateRequest = &runGateRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiGatesRunGateRequest) Authorization(authorization string) ApiGatesRunGateRequest {
+func (r ApiGatesRunRequest) Authorization(authorization string) ApiGatesRunRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiGatesRunGateRequest) XPaletteApiKey(xPaletteApiKey string) ApiGatesRunGateRequest {
+func (r ApiGatesRunRequest) XPaletteApiKey(xPaletteApiKey string) ApiGatesRunRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiGatesRunGateRequest) XPaletteProjectId(xPaletteProjectId string) ApiGatesRunGateRequest {
+func (r ApiGatesRunRequest) XPaletteProjectId(xPaletteProjectId string) ApiGatesRunRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiGatesRunGateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiGatesRunGateRequest {
+func (r ApiGatesRunRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiGatesRunRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiGatesRunGateRequest) Execute() (*GateRunReport, *http.Response, error) {
-	return r.ApiService.GatesRunGateExecute(r)
+func (r ApiGatesRunRequest) Execute() (*GateRunReport, *http.Response, error) {
+	return r.ApiService.GatesRunExecute(r)
 }
 
 /*
-GatesRunGate Method for GatesRunGate
+GatesRun Method for GatesRun
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param gateId gate_id
- @return ApiGatesRunGateRequest
+ @return ApiGatesRunRequest
 */
-func (a *GatesAPIService) GatesRunGate(ctx context.Context, tenantId string, projectId string, gateId string) ApiGatesRunGateRequest {
-	return ApiGatesRunGateRequest{
+func (a *GatesAPIService) GatesRun(ctx context.Context, tenantId string, projectId string, gateId string) ApiGatesRunRequest {
+	return ApiGatesRunRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -278,7 +278,7 @@ func (a *GatesAPIService) GatesRunGate(ctx context.Context, tenantId string, pro
 
 // Execute executes the request
 //  @return GateRunReport
-func (a *GatesAPIService) GatesRunGateExecute(r ApiGatesRunGateRequest) (*GateRunReport, *http.Response, error) {
+func (a *GatesAPIService) GatesRunExecute(r ApiGatesRunRequest) (*GateRunReport, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -286,7 +286,7 @@ func (a *GatesAPIService) GatesRunGateExecute(r ApiGatesRunGateRequest) (*GateRu
 		localVarReturnValue  *GateRunReport
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GatesAPIService.GatesRunGate")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GatesAPIService.GatesRun")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

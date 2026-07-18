@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AlertsAPI_alertsEvaluateAlert**](AlertsAPI.md#AlertsAPI_alertsEvaluateAlert) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
+[**AlertsAPI_alertsEvaluate**](AlertsAPI.md#AlertsAPI_alertsEvaluate) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
 
 
-# **AlertsAPI_alertsEvaluateAlert**
+# **AlertsAPI_alertsEvaluate**
 ```c
-alert_decision_t* AlertsAPI_alertsEvaluateAlert(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, evaluate_alert_request_t *evaluate_alert_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+alert_decision_t* AlertsAPI_alertsEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, evaluate_alert_request_t *evaluate_alert_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

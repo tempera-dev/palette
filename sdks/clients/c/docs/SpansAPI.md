@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SpansAPI_spansGetSpan**](SpansAPI.md#SpansAPI_spansGetSpan) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
-[**SpansAPI_spansGetSpanIo**](SpansAPI.md#SpansAPI_spansGetSpanIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
+[**SpansAPI_spansGet**](SpansAPI.md#SpansAPI_spansGet) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
+[**SpansAPI_spansGetIo**](SpansAPI.md#SpansAPI_spansGetIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
 
 
-# **SpansAPI_spansGetSpan**
+# **SpansAPI_spansGet**
 ```c
-canonical_span_t* SpansAPI_spansGetSpan(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+canonical_span_t* SpansAPI_spansGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -43,9 +43,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **SpansAPI_spansGetSpanIo**
+# **SpansAPI_spansGetIo**
 ```c
-span_io_response_t* SpansAPI_spansGetSpanIo(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+span_io_response_t* SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

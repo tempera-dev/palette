@@ -22,14 +22,14 @@ func Test_paletteclient_ProviderSecretsAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test ProviderSecretsAPIService ProviderSecretsCreateProviderSecret", func(t *testing.T) {
+	t.Run("Test ProviderSecretsAPIService ProviderSecretsCreate", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var tenantId string
 		var projectId string
 
-		resp, httpRes, err := apiClient.ProviderSecretsAPI.ProviderSecretsCreateProviderSecret(context.Background(), tenantId, projectId).Execute()
+		resp, httpRes, err := apiClient.ProviderSecretsAPI.ProviderSecretsCreate(context.Background(), tenantId, projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -37,14 +37,14 @@ func Test_paletteclient_ProviderSecretsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test ProviderSecretsAPIService ProviderSecretsListProviderSecrets", func(t *testing.T) {
+	t.Run("Test ProviderSecretsAPIService ProviderSecretsList", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var tenantId string
 		var projectId string
 
-		resp, httpRes, err := apiClient.ProviderSecretsAPI.ProviderSecretsListProviderSecrets(context.Background(), tenantId, projectId).Execute()
+		resp, httpRes, err := apiClient.ProviderSecretsAPI.ProviderSecretsList(context.Background(), tenantId, projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -52,7 +52,7 @@ func Test_paletteclient_ProviderSecretsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test ProviderSecretsAPIService ProviderSecretsRevokeProviderSecret", func(t *testing.T) {
+	t.Run("Test ProviderSecretsAPIService ProviderSecretsRevoke", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
@@ -60,7 +60,7 @@ func Test_paletteclient_ProviderSecretsAPIService(t *testing.T) {
 		var projectId string
 		var providerSecretId string
 
-		resp, httpRes, err := apiClient.ProviderSecretsAPI.ProviderSecretsRevokeProviderSecret(context.Background(), tenantId, projectId, providerSecretId).Execute()
+		resp, httpRes, err := apiClient.ProviderSecretsAPI.ProviderSecretsRevoke(context.Background(), tenantId, projectId, providerSecretId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

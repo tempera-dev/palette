@@ -35,13 +35,13 @@ ConnectorsApi::~ConnectorsApi()
 {
 }
 
-pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connectConnector(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<ConnectConnectorRequest> connectConnectorRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connect(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<ConnectConnectorRequest> connectConnectorRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'connectConnectorRequest' is set
     if (connectConnectorRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'connectConnectorRequest' when calling ConnectorsApi->connectors_connectConnector"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'connectConnectorRequest' when calling ConnectorsApi->connectors_connect"));
     }
 
 
@@ -77,7 +77,7 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connectCon
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_connectConnector does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_connect does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -137,7 +137,7 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connectCon
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_connectConnector does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_connect does not consume any supported media type"));
     }
 
 
@@ -157,7 +157,7 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connectCon
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling connectors_connectConnector: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling connectors_connect: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -168,7 +168,7 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connectCon
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling connectors_connectConnector: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling connectors_connect: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -192,156 +192,13 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connectCon
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling connectors_connectConnector: unsupported response type"));
+                , utility::conversions::to_string_t("error calling connectors_connect: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ConnectionStatus>> ConnectorsApi::connectors_connectorStatus(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
-{
-
-
-    std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/connectors/{tenant_id}/{project_id}/status");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
-
-    std::map<utility::string_t, utility::string_t> localVarQueryParams;
-    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
-    std::map<utility::string_t, utility::string_t> localVarFormParams;
-    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
-
-    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
-
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_connectorStatus does not produce any supported media type"));
-    }
-
-    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
-
-    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
-
-    {
-        localVarQueryParams[utility::conversions::to_string_t("toolkit")] = ApiClient::parameterToString(toolkit);
-    }
-    if (authorization)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
-    }
-    if (xPaletteApiKey)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
-    }
-    if (xPaletteProjectId)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
-    }
-    if (xPaletteEnvironmentId)
-    {
-        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
-    }
-
-    std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
-
-    // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
-    }
-    else
-    {
-        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_connectorStatus does not consume any supported media type"));
-    }
-
-
-    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
-    .then([=, this](web::http::http_response localVarResponse)
-    {
-        if (m_ApiClient->getResponseHandler())
-        {
-            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
-        }
-
-        // 1xx - informational : OK
-        // 2xx - successful       : OK
-        // 3xx - redirection   : OK
-        // 4xx - client error  : not OK
-        // 5xx - client error  : not OK
-        if (localVarResponse.status_code() >= 400)
-        {
-            throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling connectors_connectorStatus: ") + localVarResponse.reason_phrase()
-                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
-        }
-
-        // check response content type
-        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
-        {
-            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
-            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
-            {
-                throw ApiException(500
-                    , utility::conversions::to_string_t("error calling connectors_connectorStatus: unexpected response type: ") + localVarContentType
-                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
-            }
-        }
-
-        return localVarResponse.extract_string();
-    })
-    .then([=, this](utility::string_t localVarResponse)
-    {
-        std::shared_ptr<ConnectionStatus> localVarResult(new ConnectionStatus());
-
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
-        {
-            web::json::value localVarJson = web::json::value::parse(localVarResponse);
-
-            ModelBase::fromJson(localVarJson, localVarResult);
-        }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
-        // {
-        // TODO multipart response parsing
-        // }
-        else
-        {
-            throw ApiException(500
-                , utility::conversions::to_string_t("error calling connectors_connectorStatus: unsupported response type"));
-        }
-
-        return localVarResult;
-    });
-}
-pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_getConnectorSkills(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_getSkills(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -377,7 +234,7 @@ pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_g
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_getConnectorSkills does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_getSkills does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -423,7 +280,7 @@ pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_g
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_getConnectorSkills does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_getSkills does not consume any supported media type"));
     }
 
 
@@ -443,7 +300,7 @@ pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_g
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling connectors_getConnectorSkills: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling connectors_getSkills: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -454,7 +311,7 @@ pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_g
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling connectors_getConnectorSkills: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling connectors_getSkills: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -478,19 +335,19 @@ pplx::task<std::shared_ptr<ConnectorSkillsResponse>> ConnectorsApi::connectors_g
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling connectors_getConnectorSkills: unsupported response type"));
+                , utility::conversions::to_string_t("error calling connectors_getSkills: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeConnectorTool(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<InvokeConnectorRequest> invokeConnectorRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeTool(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<InvokeConnectorRequest> invokeConnectorRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'invokeConnectorRequest' is set
     if (invokeConnectorRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'invokeConnectorRequest' when calling ConnectorsApi->connectors_invokeConnectorTool"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'invokeConnectorRequest' when calling ConnectorsApi->connectors_invokeTool"));
     }
 
 
@@ -526,7 +383,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeConne
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_invokeConnectorTool does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_invokeTool does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -586,7 +443,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeConne
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_invokeConnectorTool does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_invokeTool does not consume any supported media type"));
     }
 
 
@@ -606,7 +463,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeConne
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling connectors_invokeConnectorTool: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling connectors_invokeTool: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -617,7 +474,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeConne
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling connectors_invokeConnectorTool: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling connectors_invokeTool: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -641,13 +498,161 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeConne
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling connectors_invokeConnectorTool: unsupported response type"));
+                , utility::conversions::to_string_t("error calling connectors_invokeTool: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connectors_listConnectorTools(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+{
+
+
+    std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/connectors/{tenant_id}/{project_id}");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
+
+    std::map<utility::string_t, utility::string_t> localVarQueryParams;
+    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
+    std::map<utility::string_t, utility::string_t> localVarFormParams;
+    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
+
+    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
+    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
+
+    utility::string_t localVarResponseHttpContentType;
+
+    // use JSON if possible
+    if ( localVarResponseHttpContentTypes.size() == 0 )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // JSON
+    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else
+    {
+        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_list does not produce any supported media type"));
+    }
+
+    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
+
+    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+
+    if (limit)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+    }
+    if (authorization)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
+    }
+    if (xPaletteApiKey)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-api-key")] = ApiClient::parameterToString(*xPaletteApiKey);
+    }
+    if (xPaletteProjectId)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-project-id")] = ApiClient::parameterToString(*xPaletteProjectId);
+    }
+    if (xPaletteEnvironmentId)
+    {
+        localVarHeaderParams[utility::conversions::to_string_t("x-palette-environment-id")] = ApiClient::parameterToString(*xPaletteEnvironmentId);
+    }
+
+    std::shared_ptr<IHttpBody> localVarHttpBody;
+    utility::string_t localVarRequestHttpContentType;
+
+    // use JSON if possible
+    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
+    else
+    {
+        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_list does not consume any supported media type"));
+    }
+
+
+    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
+    .then([=, this](web::http::http_response localVarResponse)
+    {
+        if (m_ApiClient->getResponseHandler())
+        {
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
+        }
+
+        // 1xx - informational : OK
+        // 2xx - successful       : OK
+        // 3xx - redirection   : OK
+        // 4xx - client error  : not OK
+        // 5xx - client error  : not OK
+        if (localVarResponse.status_code() >= 400)
+        {
+            throw ApiException(localVarResponse.status_code()
+                , utility::conversions::to_string_t("error calling connectors_list: ") + localVarResponse.reason_phrase()
+                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+        }
+
+        // check response content type
+        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
+        {
+            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
+            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
+            {
+                throw ApiException(500
+                    , utility::conversions::to_string_t("error calling connectors_list: unexpected response type: ") + localVarContentType
+                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+            }
+        }
+
+        return localVarResponse.extract_string();
+    })
+    .then([=, this](utility::string_t localVarResponse)
+    {
+        std::vector<std::shared_ptr<Toolkit>> localVarResult;
+
+        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        {
+            web::json::value localVarJson = web::json::value::parse(localVarResponse);
+            for( auto& localVarItem : localVarJson.as_array() )
+            {
+                std::shared_ptr<Toolkit> localVarItemObj;
+                ModelBase::fromJson(localVarItem, localVarItemObj);
+                localVarResult.push_back(localVarItemObj);
+            }
+        }
+        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // {
+        // TODO multipart response parsing
+        // }
+        else
+        {
+            throw ApiException(500
+                , utility::conversions::to_string_t("error calling connectors_list: unsupported response type"));
+        }
+
+        return localVarResult;
+    });
+}
+pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connectors_listTools(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -683,7 +688,7 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_listConnectorTools does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_listTools does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -733,7 +738,7 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_listConnectorTools does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_listTools does not consume any supported media type"));
     }
 
 
@@ -753,7 +758,7 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling connectors_listConnectorTools: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling connectors_listTools: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -764,7 +769,7 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling connectors_listConnectorTools: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling connectors_listTools: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -792,18 +797,18 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling connectors_listConnectorTools: unsupported response type"));
+                , utility::conversions::to_string_t("error calling connectors_listTools: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_listConnectors(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ConnectionStatus>> ConnectorsApi::connectors_status(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/connectors/{tenant_id}/{project_id}");
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/connectors/{tenant_id}/{project_id}/status");
     boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
     boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("project_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(projectId)));
 
@@ -834,16 +839,15 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_listConnectors does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ConnectorsApi->connectors_status does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
-    if (limit)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("toolkit")] = ApiClient::parameterToString(toolkit);
     }
     if (authorization)
     {
@@ -881,7 +885,7 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_listConnectors does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ConnectorsApi->connectors_status does not consume any supported media type"));
     }
 
 
@@ -901,7 +905,7 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling connectors_listConnectors: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling connectors_status: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -912,7 +916,7 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling connectors_listConnectors: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling connectors_status: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -921,17 +925,13 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<Toolkit>> localVarResult;
+        std::shared_ptr<ConnectionStatus> localVarResult(new ConnectionStatus());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-            for( auto& localVarItem : localVarJson.as_array() )
-            {
-                std::shared_ptr<Toolkit> localVarItemObj;
-                ModelBase::fromJson(localVarItem, localVarItemObj);
-                localVarResult.push_back(localVarItemObj);
-            }
+
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -940,7 +940,7 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling connectors_listConnectors: unsupported response type"));
+                , utility::conversions::to_string_t("error calling connectors_status: unsupported response type"));
         }
 
         return localVarResult;

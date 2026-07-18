@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**search_search_spans**](SearchApi.md#search_search_spans) | **GET** /v1/search/{tenant_id}/spans |
+[**search_spans**](SearchApi.md#search_spans) | **GET** /v1/search/{tenant_id}/spans |
 
 
-# **search_search_spans**
-> SearchResponse search_search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **search_spans**
+> SearchResponse search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -49,11 +49,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.search_search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of SearchApi->search_search_spans:\n")
+        api_response = api_instance.search_spans(tenant_id, q=q, project_id=project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, model=model, tool=tool, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of SearchApi->search_spans:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling SearchApi->search_search_spans: %s\n" % e)
+        print("Exception when calling SearchApi->search_spans: %s\n" % e)
 ```
 
 

@@ -165,7 +165,7 @@ function apiKeyFallback(origin: string) {
     `  -H "x-palette-api-key: $PALETTE_API_KEY" \\`,
     `  -H "x-palette-project-id: $PALETTE_PROJECT" \\`,
     `  -H "x-palette-environment-id: $PALETTE_ENVIRONMENT" \\`,
-    `  --data "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":1,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"traces.list-traces\\",\\"arguments\\":{\\"tenant_id\\":\\"$PALETTE_TENANT\\"}}}"`,
+    `  --data "{\\"jsonrpc\\":\\"2.0\\",\\"id\\":1,\\"method\\":\\"tools/call\\",\\"params\\":{\\"name\\":\\"traces.list\\",\\"arguments\\":{\\"tenant_id\\":\\"$PALETTE_TENANT\\"}}}"`,
   ].join("\n");
 }
 

@@ -25,7 +25,7 @@ import {
     ErrorResponseToJSON,
 } from '../models/index';
 
-export interface AuditListAuditEventsRequest {
+export interface AuditListRequest {
     tenantId: string;
     projectId: string;
     authorization?: string | null;
@@ -41,18 +41,18 @@ export class AuditApi extends runtime.BaseAPI {
 
     /**
      */
-    async auditListAuditEventsRaw(requestParameters: AuditListAuditEventsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AuditEvent>>> {
+    async auditListRaw(requestParameters: AuditListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AuditEvent>>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling auditListAuditEvents().'
+                'Required parameter "tenantId" was null or undefined when calling auditList().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling auditListAuditEvents().'
+                'Required parameter "projectId" was null or undefined when calling auditList().'
             );
         }
 
@@ -88,8 +88,8 @@ export class AuditApi extends runtime.BaseAPI {
 
     /**
      */
-    async auditListAuditEvents(requestParameters: AuditListAuditEventsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AuditEvent>> {
-        const response = await this.auditListAuditEventsRaw(requestParameters, initOverrides);
+    async auditList(requestParameters: AuditListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AuditEvent>> {
+        const response = await this.auditListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

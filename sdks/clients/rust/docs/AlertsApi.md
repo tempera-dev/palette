@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**alerts_period_evaluate_alert**](AlertsApi.md#alerts_period_evaluate_alert) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
+[**alerts_period_evaluate**](AlertsApi.md#alerts_period_evaluate) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
 
 
 
-## alerts_period_evaluate_alert
+## alerts_period_evaluate
 
-> models::AlertDecision alerts_period_evaluate_alert(tenant_id, project_id, trace_id, evaluate_alert_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::AlertDecision alerts_period_evaluate(tenant_id, project_id, trace_id, evaluate_alert_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

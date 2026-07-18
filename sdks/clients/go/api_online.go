@@ -23,7 +23,7 @@ import (
 // OnlineAPIService OnlineAPI service
 type OnlineAPIService service
 
-type ApiOnlineDecideOnlineSamplingRequest struct {
+type ApiOnlineDecideSamplingRequest struct {
 	ctx context.Context
 	ApiService *OnlineAPIService
 	tenantId string
@@ -36,50 +36,50 @@ type ApiOnlineDecideOnlineSamplingRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiOnlineDecideOnlineSamplingRequest) OnlineSamplingPolicy(onlineSamplingPolicy OnlineSamplingPolicy) ApiOnlineDecideOnlineSamplingRequest {
+func (r ApiOnlineDecideSamplingRequest) OnlineSamplingPolicy(onlineSamplingPolicy OnlineSamplingPolicy) ApiOnlineDecideSamplingRequest {
 	r.onlineSamplingPolicy = &onlineSamplingPolicy
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiOnlineDecideOnlineSamplingRequest) Authorization(authorization string) ApiOnlineDecideOnlineSamplingRequest {
+func (r ApiOnlineDecideSamplingRequest) Authorization(authorization string) ApiOnlineDecideSamplingRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiOnlineDecideOnlineSamplingRequest) XPaletteApiKey(xPaletteApiKey string) ApiOnlineDecideOnlineSamplingRequest {
+func (r ApiOnlineDecideSamplingRequest) XPaletteApiKey(xPaletteApiKey string) ApiOnlineDecideSamplingRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiOnlineDecideOnlineSamplingRequest) XPaletteProjectId(xPaletteProjectId string) ApiOnlineDecideOnlineSamplingRequest {
+func (r ApiOnlineDecideSamplingRequest) XPaletteProjectId(xPaletteProjectId string) ApiOnlineDecideSamplingRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiOnlineDecideOnlineSamplingRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiOnlineDecideOnlineSamplingRequest {
+func (r ApiOnlineDecideSamplingRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiOnlineDecideSamplingRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiOnlineDecideOnlineSamplingRequest) Execute() (*SamplingDecision, *http.Response, error) {
-	return r.ApiService.OnlineDecideOnlineSamplingExecute(r)
+func (r ApiOnlineDecideSamplingRequest) Execute() (*SamplingDecision, *http.Response, error) {
+	return r.ApiService.OnlineDecideSamplingExecute(r)
 }
 
 /*
-OnlineDecideOnlineSampling Method for OnlineDecideOnlineSampling
+OnlineDecideSampling Method for OnlineDecideSampling
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param traceId trace_id
- @return ApiOnlineDecideOnlineSamplingRequest
+ @return ApiOnlineDecideSamplingRequest
 */
-func (a *OnlineAPIService) OnlineDecideOnlineSampling(ctx context.Context, tenantId string, projectId string, traceId string) ApiOnlineDecideOnlineSamplingRequest {
-	return ApiOnlineDecideOnlineSamplingRequest{
+func (a *OnlineAPIService) OnlineDecideSampling(ctx context.Context, tenantId string, projectId string, traceId string) ApiOnlineDecideSamplingRequest {
+	return ApiOnlineDecideSamplingRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -90,7 +90,7 @@ func (a *OnlineAPIService) OnlineDecideOnlineSampling(ctx context.Context, tenan
 
 // Execute executes the request
 //  @return SamplingDecision
-func (a *OnlineAPIService) OnlineDecideOnlineSamplingExecute(r ApiOnlineDecideOnlineSamplingRequest) (*SamplingDecision, *http.Response, error) {
+func (a *OnlineAPIService) OnlineDecideSamplingExecute(r ApiOnlineDecideSamplingRequest) (*SamplingDecision, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -98,7 +98,7 @@ func (a *OnlineAPIService) OnlineDecideOnlineSamplingExecute(r ApiOnlineDecideOn
 		localVarReturnValue  *SamplingDecision
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OnlineAPIService.OnlineDecideOnlineSampling")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OnlineAPIService.OnlineDecideSampling")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

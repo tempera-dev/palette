@@ -4,24 +4,24 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**promptsAddPromptVersion**](PromptsApi.md#promptsAddPromptVersion) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsAddPromptVersionWithHttpInfo**](PromptsApi.md#promptsAddPromptVersionWithHttpInfo) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsCreatePrompt**](PromptsApi.md#promptsCreatePrompt) | **POST** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsCreatePromptWithHttpInfo**](PromptsApi.md#promptsCreatePromptWithHttpInfo) | **POST** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsDiffPromptVersions**](PromptsApi.md#promptsDiffPromptVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |  |
-| [**promptsDiffPromptVersionsWithHttpInfo**](PromptsApi.md#promptsDiffPromptVersionsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |  |
-| [**promptsGetPrompt**](PromptsApi.md#promptsGetPrompt) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |  |
-| [**promptsGetPromptWithHttpInfo**](PromptsApi.md#promptsGetPromptWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |  |
-| [**promptsListPromptVersions**](PromptsApi.md#promptsListPromptVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsListPromptVersionsWithHttpInfo**](PromptsApi.md#promptsListPromptVersionsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
-| [**promptsListPrompts**](PromptsApi.md#promptsListPrompts) | **GET** /v1/prompts/{tenant_id}/{project_id} |  |
-| [**promptsListPromptsWithHttpInfo**](PromptsApi.md#promptsListPromptsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id} |  |
+| [**promptsAddVersion**](PromptsApi.md#promptsAddVersion) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
+| [**promptsAddVersionWithHttpInfo**](PromptsApi.md#promptsAddVersionWithHttpInfo) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
+| [**promptsCreate**](PromptsApi.md#promptsCreate) | **POST** /v1/prompts/{tenant_id}/{project_id} |  |
+| [**promptsCreateWithHttpInfo**](PromptsApi.md#promptsCreateWithHttpInfo) | **POST** /v1/prompts/{tenant_id}/{project_id} |  |
+| [**promptsDiffVersions**](PromptsApi.md#promptsDiffVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |  |
+| [**promptsDiffVersionsWithHttpInfo**](PromptsApi.md#promptsDiffVersionsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |  |
+| [**promptsGet**](PromptsApi.md#promptsGet) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |  |
+| [**promptsGetWithHttpInfo**](PromptsApi.md#promptsGetWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |  |
+| [**promptsList**](PromptsApi.md#promptsList) | **GET** /v1/prompts/{tenant_id}/{project_id} |  |
+| [**promptsListWithHttpInfo**](PromptsApi.md#promptsListWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id} |  |
+| [**promptsListVersions**](PromptsApi.md#promptsListVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
+| [**promptsListVersionsWithHttpInfo**](PromptsApi.md#promptsListVersionsWithHttpInfo) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |  |
 
 
 
-## promptsAddPromptVersion
+## promptsAddVersion
 
-> PromptVersion promptsAddPromptVersion(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PromptVersion promptsAddVersion(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -50,10 +50,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PromptVersion result = apiInstance.promptsAddPromptVersion(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PromptVersion result = apiInstance.promptsAddVersion(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsAddPromptVersion");
+            System.err.println("Exception when calling PromptsApi#promptsAddVersion");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -100,9 +100,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## promptsAddPromptVersionWithHttpInfo
+## promptsAddVersionWithHttpInfo
 
-> ApiResponse<PromptVersion> promptsAddPromptVersion promptsAddPromptVersionWithHttpInfo(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PromptVersion> promptsAddVersion promptsAddVersionWithHttpInfo(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -132,12 +132,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PromptVersion> response = apiInstance.promptsAddPromptVersionWithHttpInfo(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PromptVersion> response = apiInstance.promptsAddVersionWithHttpInfo(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsAddPromptVersion");
+            System.err.println("Exception when calling PromptsApi#promptsAddVersion");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -185,9 +185,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## promptsCreatePrompt
+## promptsCreate
 
-> CreatedPrompt promptsCreatePrompt(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> CreatedPrompt promptsCreate(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -215,10 +215,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            CreatedPrompt result = apiInstance.promptsCreatePrompt(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            CreatedPrompt result = apiInstance.promptsCreate(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsCreatePrompt");
+            System.err.println("Exception when calling PromptsApi#promptsCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -263,9 +263,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## promptsCreatePromptWithHttpInfo
+## promptsCreateWithHttpInfo
 
-> ApiResponse<CreatedPrompt> promptsCreatePrompt promptsCreatePromptWithHttpInfo(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<CreatedPrompt> promptsCreate promptsCreateWithHttpInfo(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -294,12 +294,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<CreatedPrompt> response = apiInstance.promptsCreatePromptWithHttpInfo(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<CreatedPrompt> response = apiInstance.promptsCreateWithHttpInfo(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsCreatePrompt");
+            System.err.println("Exception when calling PromptsApi#promptsCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -345,9 +345,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## promptsDiffPromptVersions
+## promptsDiffVersions
 
-> PromptVersionDiff promptsDiffPromptVersions(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PromptVersionDiff promptsDiffVersions(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -377,10 +377,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PromptVersionDiff result = apiInstance.promptsDiffPromptVersions(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PromptVersionDiff result = apiInstance.promptsDiffVersions(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsDiffPromptVersions");
+            System.err.println("Exception when calling PromptsApi#promptsDiffVersions");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -428,9 +428,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## promptsDiffPromptVersionsWithHttpInfo
+## promptsDiffVersionsWithHttpInfo
 
-> ApiResponse<PromptVersionDiff> promptsDiffPromptVersions promptsDiffPromptVersionsWithHttpInfo(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PromptVersionDiff> promptsDiffVersions promptsDiffVersionsWithHttpInfo(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -461,12 +461,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PromptVersionDiff> response = apiInstance.promptsDiffPromptVersionsWithHttpInfo(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PromptVersionDiff> response = apiInstance.promptsDiffVersionsWithHttpInfo(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsDiffPromptVersions");
+            System.err.println("Exception when calling PromptsApi#promptsDiffVersions");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -515,9 +515,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## promptsGetPrompt
+## promptsGet
 
-> Prompt promptsGetPrompt(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> Prompt promptsGet(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -545,10 +545,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            Prompt result = apiInstance.promptsGetPrompt(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            Prompt result = apiInstance.promptsGet(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsGetPrompt");
+            System.err.println("Exception when calling PromptsApi#promptsGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -594,9 +594,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## promptsGetPromptWithHttpInfo
+## promptsGetWithHttpInfo
 
-> ApiResponse<Prompt> promptsGetPrompt promptsGetPromptWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<Prompt> promptsGet promptsGetWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -625,12 +625,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<Prompt> response = apiInstance.promptsGetPromptWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<Prompt> response = apiInstance.promptsGetWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsGetPrompt");
+            System.err.println("Exception when calling PromptsApi#promptsGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -677,9 +677,165 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## promptsListPromptVersions
+## promptsList
 
-> PromptVersionListResponse promptsListPromptVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PromptListResponse promptsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+
+
+
+### Example
+
+```java
+// Import classes:
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.PromptsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost");
+
+        PromptsApi apiInstance = new PromptsApi(defaultClient);
+        String tenantId = "tenantId_example"; // String | tenant_id
+        String projectId = "projectId_example"; // String | project_id
+        String authorization = "authorization_example"; // String | Bearer API token for strict auth
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
+        try {
+            PromptListResponse result = apiInstance.promptsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PromptsApi#promptsList");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tenantId** | **String**| tenant_id | |
+| **projectId** | **String**| project_id | |
+| **authorization** | **String**| Bearer API token for strict auth | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+
+### Return type
+
+[**PromptListResponse**](PromptListResponse.md)
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List prompts in a project |  -  |
+| **400** | Invalid request, scope, or filter |  -  |
+| **401** | Missing or invalid credentials |  -  |
+| **403** | Credentials lack the required scope |  -  |
+
+## promptsListWithHttpInfo
+
+> ApiResponse<PromptListResponse> promptsList promptsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+
+
+
+### Example
+
+```java
+// Import classes:
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.PromptsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost");
+
+        PromptsApi apiInstance = new PromptsApi(defaultClient);
+        String tenantId = "tenantId_example"; // String | tenant_id
+        String projectId = "projectId_example"; // String | project_id
+        String authorization = "authorization_example"; // String | Bearer API token for strict auth
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
+        try {
+            ApiResponse<PromptListResponse> response = apiInstance.promptsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PromptsApi#promptsList");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tenantId** | **String**| tenant_id | |
+| **projectId** | **String**| project_id | |
+| **authorization** | **String**| Bearer API token for strict auth | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+
+### Return type
+
+ApiResponse<[**PromptListResponse**](PromptListResponse.md)>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List prompts in a project |  -  |
+| **400** | Invalid request, scope, or filter |  -  |
+| **401** | Missing or invalid credentials |  -  |
+| **403** | Credentials lack the required scope |  -  |
+
+
+## promptsListVersions
+
+> PromptVersionListResponse promptsListVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -707,10 +863,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PromptVersionListResponse result = apiInstance.promptsListPromptVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PromptVersionListResponse result = apiInstance.promptsListVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsListPromptVersions");
+            System.err.println("Exception when calling PromptsApi#promptsListVersions");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -756,9 +912,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## promptsListPromptVersionsWithHttpInfo
+## promptsListVersionsWithHttpInfo
 
-> ApiResponse<PromptVersionListResponse> promptsListPromptVersions promptsListPromptVersionsWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PromptVersionListResponse> promptsListVersions promptsListVersionsWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -787,12 +943,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PromptVersionListResponse> response = apiInstance.promptsListPromptVersionsWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PromptVersionListResponse> response = apiInstance.promptsListVersionsWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsListPromptVersions");
+            System.err.println("Exception when calling PromptsApi#promptsListVersions");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -837,159 +993,3 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
-
-
-## promptsListPrompts
-
-> PromptListResponse promptsListPrompts(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
-
-
-
-### Example
-
-```java
-// Import classes:
-import ai.palette.client.ApiClient;
-import ai.palette.client.ApiException;
-import ai.palette.client.Configuration;
-import ai.palette.client.models.*;
-import ai.palette.client.api.PromptsApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
-
-        PromptsApi apiInstance = new PromptsApi(defaultClient);
-        String tenantId = "tenantId_example"; // String | tenant_id
-        String projectId = "projectId_example"; // String | project_id
-        String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
-        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
-        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
-        try {
-            PromptListResponse result = apiInstance.promptsListPrompts(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsListPrompts");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **tenantId** | **String**| tenant_id | |
-| **projectId** | **String**| project_id | |
-| **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
-
-### Return type
-
-[**PromptListResponse**](PromptListResponse.md)
-
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | List prompts in a project |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-
-## promptsListPromptsWithHttpInfo
-
-> ApiResponse<PromptListResponse> promptsListPrompts promptsListPromptsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
-
-
-
-### Example
-
-```java
-// Import classes:
-import ai.palette.client.ApiClient;
-import ai.palette.client.ApiException;
-import ai.palette.client.ApiResponse;
-import ai.palette.client.Configuration;
-import ai.palette.client.models.*;
-import ai.palette.client.api.PromptsApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
-
-        PromptsApi apiInstance = new PromptsApi(defaultClient);
-        String tenantId = "tenantId_example"; // String | tenant_id
-        String projectId = "projectId_example"; // String | project_id
-        String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
-        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
-        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
-        try {
-            ApiResponse<PromptListResponse> response = apiInstance.promptsListPromptsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-            System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders());
-            System.out.println("Response body: " + response.getData());
-        } catch (ApiException e) {
-            System.err.println("Exception when calling PromptsApi#promptsListPrompts");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            System.err.println("Reason: " + e.getResponseBody());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **tenantId** | **String**| tenant_id | |
-| **projectId** | **String**| project_id | |
-| **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
-
-### Return type
-
-ApiResponse<[**PromptListResponse**](PromptListResponse.md)>
-
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | List prompts in a project |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |

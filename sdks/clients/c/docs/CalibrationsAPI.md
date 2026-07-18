@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CalibrationsAPI_calibrationsRunCalibration**](CalibrationsAPI.md#CalibrationsAPI_calibrationsRunCalibration) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
+[**CalibrationsAPI_calibrationsRun**](CalibrationsAPI.md#CalibrationsAPI_calibrationsRun) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
 
 
-# **CalibrationsAPI_calibrationsRunCalibration**
+# **CalibrationsAPI_calibrationsRun**
 ```c
-calibration_report_t* CalibrationsAPI_calibrationsRunCalibration(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_calibration_http_request_t *run_calibration_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+calibration_report_t* CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_calibration_http_request_t *run_calibration_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archive_period_archive_trace**](ArchiveApi.md#archive_period_archive_trace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |
-[**archive_period_query_archive_spans**](ArchiveApi.md#archive_period_query_archive_spans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
+[**archive_period_query_spans**](ArchiveApi.md#archive_period_query_spans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
 
 
 
@@ -43,9 +43,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## archive_period_query_archive_spans
+## archive_period_query_spans
 
-> models::ArchiveQueryResponse archive_period_query_archive_spans(tenant_id, project_id, environment_id, trace_id, span_id, kind, status, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ArchiveQueryResponse archive_period_query_spans(tenant_id, project_id, environment_id, trace_id, span_id, kind, status, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

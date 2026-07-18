@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**audit_list_audit_events**](AuditApi.md#audit_list_audit_events) | **GET** /v1/audit/{tenant_id}/{project_id} |
+[**audit_list**](AuditApi.md#audit_list) | **GET** /v1/audit/{tenant_id}/{project_id} |
 
 
-# **audit_list_audit_events**
-> List[AuditEvent] audit_list_audit_events(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **audit_list**
+> List[AuditEvent] audit_list(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -40,11 +40,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.audit_list_audit_events(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of AuditApi->audit_list_audit_events:\n")
+        api_response = api_instance.audit_list(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of AuditApi->audit_list:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling AuditApi->audit_list_audit_events: %s\n" % e)
+        print("Exception when calling AuditApi->audit_list: %s\n" % e)
 ```
 
 

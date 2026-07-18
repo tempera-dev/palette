@@ -35,13 +35,13 @@ ScenariosApi::~ScenariosApi()
 {
 }
 
-pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateScenarioRequest> createScenarioRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_create(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateScenarioRequest> createScenarioRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createScenarioRequest' is set
     if (createScenarioRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createScenarioRequest' when calling ScenariosApi->scenarios_createScenario"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createScenarioRequest' when calling ScenariosApi->scenarios_create"));
     }
 
 
@@ -77,7 +77,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_createScenario does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_create does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -137,7 +137,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_createScenario does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_create does not consume any supported media type"));
     }
 
 
@@ -157,7 +157,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling scenarios_createScenario: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling scenarios_create: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -168,7 +168,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling scenarios_createScenario: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling scenarios_create: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -192,13 +192,13 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_createScenario(uti
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling scenarios_createScenario: unsupported response type"));
+                , utility::conversions::to_string_t("error calling scenarios_create: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utility::string_t tenantId, utility::string_t projectId, utility::string_t scenarioId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_get(utility::string_t tenantId, utility::string_t projectId, utility::string_t scenarioId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -235,7 +235,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_getScenario does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_get does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -278,7 +278,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_getScenario does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_get does not consume any supported media type"));
     }
 
 
@@ -298,7 +298,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling scenarios_getScenario: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling scenarios_get: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -309,7 +309,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling scenarios_getScenario: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling scenarios_get: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -333,13 +333,13 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_getScenario(utilit
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling scenarios_getScenario: unsupported response type"));
+                , utility::conversions::to_string_t("error calling scenarios_get: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listScenarios(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> cursor, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> cursor, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -375,7 +375,7 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_listScenarios does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_list does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -426,7 +426,7 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_listScenarios does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_list does not consume any supported media type"));
     }
 
 
@@ -446,7 +446,7 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling scenarios_listScenarios: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling scenarios_list: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -457,7 +457,7 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling scenarios_listScenarios: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling scenarios_list: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -481,19 +481,19 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_listS
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling scenarios_listScenarios: unsupported response type"));
+                , utility::conversions::to_string_t("error calling scenarios_list: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineScenarios(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<MineScenariosRequest> mineScenariosRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mine(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<MineScenariosRequest> mineScenariosRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'mineScenariosRequest' is set
     if (mineScenariosRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'mineScenariosRequest' when calling ScenariosApi->scenarios_mineScenarios"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'mineScenariosRequest' when calling ScenariosApi->scenarios_mine"));
     }
 
 
@@ -529,7 +529,7 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineS
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_mineScenarios does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ScenariosApi->scenarios_mine does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -589,7 +589,7 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineS
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_mineScenarios does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ScenariosApi->scenarios_mine does not consume any supported media type"));
     }
 
 
@@ -609,7 +609,7 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineS
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling scenarios_mineScenarios: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling scenarios_mine: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -620,7 +620,7 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineS
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling scenarios_mineScenarios: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling scenarios_mine: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -644,7 +644,7 @@ pplx::task<std::shared_ptr<MineScenariosResponse>> ScenariosApi::scenarios_mineS
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling scenarios_mineScenarios: unsupported response type"));
+                , utility::conversions::to_string_t("error calling scenarios_mine: unsupported response type"));
         }
 
         return localVarResult;

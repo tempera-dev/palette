@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**auditListAuditEvents**](AuditApi.md#auditListAuditEvents) | **GET** /v1/audit/{tenant_id}/{project_id} |  |
-| [**auditListAuditEventsWithHttpInfo**](AuditApi.md#auditListAuditEventsWithHttpInfo) | **GET** /v1/audit/{tenant_id}/{project_id} |  |
+| [**auditList**](AuditApi.md#auditList) | **GET** /v1/audit/{tenant_id}/{project_id} |  |
+| [**auditListWithHttpInfo**](AuditApi.md#auditListWithHttpInfo) | **GET** /v1/audit/{tenant_id}/{project_id} |  |
 
 
 
-## auditListAuditEvents
+## auditList
 
-> List<AuditEvent> auditListAuditEvents(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> List<AuditEvent> auditList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -38,10 +38,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<AuditEvent> result = apiInstance.auditListAuditEvents(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            List<AuditEvent> result = apiInstance.auditList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling AuditApi#auditListAuditEvents");
+            System.err.println("Exception when calling AuditApi#auditList");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -85,9 +85,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## auditListAuditEventsWithHttpInfo
+## auditListWithHttpInfo
 
-> ApiResponse<List<AuditEvent>> auditListAuditEvents auditListAuditEventsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<List<AuditEvent>> auditList auditListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -115,12 +115,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<AuditEvent>> response = apiInstance.auditListAuditEventsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<List<AuditEvent>> response = apiInstance.auditListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling AuditApi#auditListAuditEvents");
+            System.err.println("Exception when calling AuditApi#auditList");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**online_period_decide_online_sampling**](OnlineApi.md#online_period_decide_online_sampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
+[**online_period_decide_sampling**](OnlineApi.md#online_period_decide_sampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
 
 
 
-## online_period_decide_online_sampling
+## online_period_decide_sampling
 
-> models::SamplingDecision online_period_decide_online_sampling(tenant_id, project_id, trace_id, online_sampling_policy, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::SamplingDecision online_period_decide_sampling(tenant_id, project_id, trace_id, online_sampling_policy, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

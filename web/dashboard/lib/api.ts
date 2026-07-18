@@ -2,11 +2,11 @@ import type { components, operations } from "./generated/api-types";
 import { apiSpanIoLabels } from "./span-kinds";
 import { applyFilterParams } from "./dashboard-query";
 
-type TraceListOperation = operations["traces.list-traces"];
-type TraceOperation = operations["traces.get-trace"];
-type SpanOperation = operations["spans.get-span"];
-type SpanIoOperation = operations["spans.get-span-io"];
-type SearchOperation = operations["search.search-spans"];
+type TraceListOperation = operations["traces.list"];
+type TraceOperation = operations["traces.get"];
+type SpanOperation = operations["spans.get"];
+type SpanIoOperation = operations["spans.getIo"];
+type SearchOperation = operations["search.spans"];
 type TraceListQuery = NonNullable<TraceListOperation["parameters"]["query"]>;
 type TraceListPathParams = TraceListOperation["parameters"]["path"];
 type TracePathParams = TraceOperation["parameters"]["path"];

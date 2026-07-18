@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TracesGetTrace**](TracesAPI.md#TracesGetTrace) | **Get** /v1/traces/{tenant_id}/{trace_id} |
-[**TracesListTraces**](TracesAPI.md#TracesListTraces) | **Get** /v1/traces/{tenant_id} |
+[**TracesGet**](TracesAPI.md#TracesGet) | **Get** /v1/traces/{tenant_id}/{trace_id} |
+[**TracesList**](TracesAPI.md#TracesList) | **Get** /v1/traces/{tenant_id} |
 
 
 
-## TracesGetTrace
+## TracesGet
 
-> TraceView TracesGetTrace(ctx, tenantId, traceId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> TraceView TracesGet(ctx, tenantId, traceId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TracesAPI.TracesGetTrace(context.Background(), tenantId, traceId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.TracesAPI.TracesGet(context.Background(), tenantId, traceId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.TracesGetTrace``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.TracesGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `TracesGetTrace`: TraceView
-	fmt.Fprintf(os.Stdout, "Response from `TracesAPI.TracesGetTrace`: %v\n", resp)
+	// response from `TracesGet`: TraceView
+	fmt.Fprintf(os.Stdout, "Response from `TracesAPI.TracesGet`: %v\n", resp)
 }
 ```
 
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiTracesGetTraceRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiTracesGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -92,9 +92,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## TracesListTraces
+## TracesList
 
-> PageRunSummary TracesListTraces(ctx, tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> PageRunSummary TracesList(ctx, tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -134,13 +134,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TracesAPI.TracesListTraces(context.Background(), tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.TracesAPI.TracesList(context.Background(), tenantId).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).Kind(kind).Status(status).StartedAfter(startedAfter).StartedBefore(startedBefore).Model(model).Release(release).MinCostMicros(minCostMicros).MaxCostMicros(maxCostMicros).MinLatencyMs(minLatencyMs).MaxLatencyMs(maxLatencyMs).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.TracesListTraces``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.TracesList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `TracesListTraces`: PageRunSummary
-	fmt.Fprintf(os.Stdout, "Response from `TracesAPI.TracesListTraces`: %v\n", resp)
+	// response from `TracesList`: PageRunSummary
+	fmt.Fprintf(os.Stdout, "Response from `TracesAPI.TracesList`: %v\n", resp)
 }
 ```
 
@@ -154,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiTracesListTracesRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiTracesListRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

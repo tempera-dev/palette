@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GatesCreateGate**](GatesAPI.md#GatesCreateGate) | **Post** /v1/gates/{tenant_id}/{project_id} |
-[**GatesRunGate**](GatesAPI.md#GatesRunGate) | **Post** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
+[**GatesCreate**](GatesAPI.md#GatesCreate) | **Post** /v1/gates/{tenant_id}/{project_id} |
+[**GatesRun**](GatesAPI.md#GatesRun) | **Post** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
 
 
 
-## GatesCreateGate
+## GatesCreate
 
-> GateDefinition GatesCreateGate(ctx, tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> GateDefinition GatesCreate(ctx, tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.GatesAPI.GatesCreateGate(context.Background(), tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.GatesAPI.GatesCreate(context.Background(), tenantId, projectId).CreateGateRequest(createGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `GatesAPI.GatesCreateGate``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `GatesAPI.GatesCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GatesCreateGate`: GateDefinition
-	fmt.Fprintf(os.Stdout, "Response from `GatesAPI.GatesCreateGate`: %v\n", resp)
+	// response from `GatesCreate`: GateDefinition
+	fmt.Fprintf(os.Stdout, "Response from `GatesAPI.GatesCreate`: %v\n", resp)
 }
 ```
 
@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGatesCreateGateRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGatesCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -90,9 +90,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## GatesRunGate
+## GatesRun
 
-> GateRunReport GatesRunGate(ctx, tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> GateRunReport GatesRun(ctx, tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -120,13 +120,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.GatesAPI.GatesRunGate(context.Background(), tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.GatesAPI.GatesRun(context.Background(), tenantId, projectId, gateId).RunGateRequest(runGateRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `GatesAPI.GatesRunGate``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `GatesAPI.GatesRun``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GatesRunGate`: GateRunReport
-	fmt.Fprintf(os.Stdout, "Response from `GatesAPI.GatesRunGate`: %v\n", resp)
+	// response from `GatesRun`: GateRunReport
+	fmt.Fprintf(os.Stdout, "Response from `GatesAPI.GatesRun`: %v\n", resp)
 }
 ```
 
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGatesRunGateRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGatesRunRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

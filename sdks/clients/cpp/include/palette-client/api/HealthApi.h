@@ -48,7 +48,7 @@ public:
     /// <remarks>
     /// 
     /// </remarks>
-    pplx::task<std::shared_ptr<HealthResponse>> health_health(
+    pplx::task<std::shared_ptr<HealthResponse>> health_check(
     ) const;
 
 protected:

@@ -40,7 +40,7 @@ class ConnectApi:
 
 
     @validate_call
-    def connect_get_palette_connect_status(
+    def connect_get_status(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -61,7 +61,7 @@ class ConnectApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PaletteConnectStatusResponse:
-        """connect_get_palette_connect_status
+        """connect_get_status
 
 
         :param tenant_id: tenant_id (required)
@@ -98,7 +98,7 @@ class ConnectApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connect_get_palette_connect_status_serialize(
+        _param = self._connect_get_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -129,7 +129,7 @@ class ConnectApi:
 
 
     @validate_call
-    def connect_get_palette_connect_status_with_http_info(
+    def connect_get_status_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -150,7 +150,7 @@ class ConnectApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PaletteConnectStatusResponse]:
-        """connect_get_palette_connect_status
+        """connect_get_status
 
 
         :param tenant_id: tenant_id (required)
@@ -187,7 +187,7 @@ class ConnectApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connect_get_palette_connect_status_serialize(
+        _param = self._connect_get_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -218,7 +218,7 @@ class ConnectApi:
 
 
     @validate_call
-    def connect_get_palette_connect_status_without_preload_content(
+    def connect_get_status_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -239,7 +239,7 @@ class ConnectApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """connect_get_palette_connect_status
+        """connect_get_status
 
 
         :param tenant_id: tenant_id (required)
@@ -276,7 +276,7 @@ class ConnectApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connect_get_palette_connect_status_serialize(
+        _param = self._connect_get_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -302,7 +302,7 @@ class ConnectApi:
         return response_data.response
 
 
-    def _connect_get_palette_connect_status_serialize(
+    def _connect_get_status_serialize(
         self,
         tenant_id,
         project_id,

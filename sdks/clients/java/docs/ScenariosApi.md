@@ -4,20 +4,20 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**scenariosCreateScenario**](ScenariosApi.md#scenariosCreateScenario) | **POST** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosCreateScenarioWithHttpInfo**](ScenariosApi.md#scenariosCreateScenarioWithHttpInfo) | **POST** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosGetScenario**](ScenariosApi.md#scenariosGetScenario) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |  |
-| [**scenariosGetScenarioWithHttpInfo**](ScenariosApi.md#scenariosGetScenarioWithHttpInfo) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |  |
-| [**scenariosListScenarios**](ScenariosApi.md#scenariosListScenarios) | **GET** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosListScenariosWithHttpInfo**](ScenariosApi.md#scenariosListScenariosWithHttpInfo) | **GET** /v1/scenarios/{tenant_id}/{project_id} |  |
-| [**scenariosMineScenarios**](ScenariosApi.md#scenariosMineScenarios) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |  |
-| [**scenariosMineScenariosWithHttpInfo**](ScenariosApi.md#scenariosMineScenariosWithHttpInfo) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |  |
+| [**scenariosCreate**](ScenariosApi.md#scenariosCreate) | **POST** /v1/scenarios/{tenant_id}/{project_id} |  |
+| [**scenariosCreateWithHttpInfo**](ScenariosApi.md#scenariosCreateWithHttpInfo) | **POST** /v1/scenarios/{tenant_id}/{project_id} |  |
+| [**scenariosGet**](ScenariosApi.md#scenariosGet) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |  |
+| [**scenariosGetWithHttpInfo**](ScenariosApi.md#scenariosGetWithHttpInfo) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |  |
+| [**scenariosList**](ScenariosApi.md#scenariosList) | **GET** /v1/scenarios/{tenant_id}/{project_id} |  |
+| [**scenariosListWithHttpInfo**](ScenariosApi.md#scenariosListWithHttpInfo) | **GET** /v1/scenarios/{tenant_id}/{project_id} |  |
+| [**scenariosMine**](ScenariosApi.md#scenariosMine) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |  |
+| [**scenariosMineWithHttpInfo**](ScenariosApi.md#scenariosMineWithHttpInfo) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |  |
 
 
 
-## scenariosCreateScenario
+## scenariosCreate
 
-> Scenario scenariosCreateScenario(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> Scenario scenariosCreate(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -45,10 +45,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            Scenario result = apiInstance.scenariosCreateScenario(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            Scenario result = apiInstance.scenariosCreate(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosCreateScenario");
+            System.err.println("Exception when calling ScenariosApi#scenariosCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -93,9 +93,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## scenariosCreateScenarioWithHttpInfo
+## scenariosCreateWithHttpInfo
 
-> ApiResponse<Scenario> scenariosCreateScenario scenariosCreateScenarioWithHttpInfo(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<Scenario> scenariosCreate scenariosCreateWithHttpInfo(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -124,12 +124,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<Scenario> response = apiInstance.scenariosCreateScenarioWithHttpInfo(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<Scenario> response = apiInstance.scenariosCreateWithHttpInfo(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosCreateScenario");
+            System.err.println("Exception when calling ScenariosApi#scenariosCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -175,9 +175,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## scenariosGetScenario
+## scenariosGet
 
-> Scenario scenariosGetScenario(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> Scenario scenariosGet(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -205,10 +205,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            Scenario result = apiInstance.scenariosGetScenario(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            Scenario result = apiInstance.scenariosGet(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosGetScenario");
+            System.err.println("Exception when calling ScenariosApi#scenariosGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -254,9 +254,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## scenariosGetScenarioWithHttpInfo
+## scenariosGetWithHttpInfo
 
-> ApiResponse<Scenario> scenariosGetScenario scenariosGetScenarioWithHttpInfo(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<Scenario> scenariosGet scenariosGetWithHttpInfo(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -285,12 +285,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<Scenario> response = apiInstance.scenariosGetScenarioWithHttpInfo(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<Scenario> response = apiInstance.scenariosGetWithHttpInfo(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosGetScenario");
+            System.err.println("Exception when calling ScenariosApi#scenariosGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -337,9 +337,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## scenariosListScenarios
+## scenariosList
 
-> ListScenariosResponse scenariosListScenarios(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ListScenariosResponse scenariosList(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -368,10 +368,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ListScenariosResponse result = apiInstance.scenariosListScenarios(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ListScenariosResponse result = apiInstance.scenariosList(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosListScenarios");
+            System.err.println("Exception when calling ScenariosApi#scenariosList");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -417,9 +417,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## scenariosListScenariosWithHttpInfo
+## scenariosListWithHttpInfo
 
-> ApiResponse<ListScenariosResponse> scenariosListScenarios scenariosListScenariosWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ListScenariosResponse> scenariosList scenariosListWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -449,12 +449,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ListScenariosResponse> response = apiInstance.scenariosListScenariosWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ListScenariosResponse> response = apiInstance.scenariosListWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosListScenarios");
+            System.err.println("Exception when calling ScenariosApi#scenariosList");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -501,9 +501,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## scenariosMineScenarios
+## scenariosMine
 
-> MineScenariosResponse scenariosMineScenarios(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> MineScenariosResponse scenariosMine(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -531,10 +531,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            MineScenariosResponse result = apiInstance.scenariosMineScenarios(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            MineScenariosResponse result = apiInstance.scenariosMine(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosMineScenarios");
+            System.err.println("Exception when calling ScenariosApi#scenariosMine");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -580,9 +580,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## scenariosMineScenariosWithHttpInfo
+## scenariosMineWithHttpInfo
 
-> ApiResponse<MineScenariosResponse> scenariosMineScenarios scenariosMineScenariosWithHttpInfo(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<MineScenariosResponse> scenariosMine scenariosMineWithHttpInfo(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -611,12 +611,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<MineScenariosResponse> response = apiInstance.scenariosMineScenariosWithHttpInfo(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<MineScenariosResponse> response = apiInstance.scenariosMineWithHttpInfo(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ScenariosApi#scenariosMineScenarios");
+            System.err.println("Exception when calling ScenariosApi#scenariosMine");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

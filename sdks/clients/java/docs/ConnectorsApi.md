@@ -4,24 +4,24 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**connectorsConnectConnector**](ConnectorsApi.md#connectorsConnectConnector) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |  |
-| [**connectorsConnectConnectorWithHttpInfo**](ConnectorsApi.md#connectorsConnectConnectorWithHttpInfo) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |  |
-| [**connectorsConnectorStatus**](ConnectorsApi.md#connectorsConnectorStatus) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |  |
-| [**connectorsConnectorStatusWithHttpInfo**](ConnectorsApi.md#connectorsConnectorStatusWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |  |
-| [**connectorsGetConnectorSkills**](ConnectorsApi.md#connectorsGetConnectorSkills) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |  |
-| [**connectorsGetConnectorSkillsWithHttpInfo**](ConnectorsApi.md#connectorsGetConnectorSkillsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |  |
-| [**connectorsInvokeConnectorTool**](ConnectorsApi.md#connectorsInvokeConnectorTool) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |  |
-| [**connectorsInvokeConnectorToolWithHttpInfo**](ConnectorsApi.md#connectorsInvokeConnectorToolWithHttpInfo) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |  |
-| [**connectorsListConnectorTools**](ConnectorsApi.md#connectorsListConnectorTools) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |  |
-| [**connectorsListConnectorToolsWithHttpInfo**](ConnectorsApi.md#connectorsListConnectorToolsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |  |
-| [**connectorsListConnectors**](ConnectorsApi.md#connectorsListConnectors) | **GET** /v1/connectors/{tenant_id}/{project_id} |  |
-| [**connectorsListConnectorsWithHttpInfo**](ConnectorsApi.md#connectorsListConnectorsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id} |  |
+| [**connectorsConnect**](ConnectorsApi.md#connectorsConnect) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |  |
+| [**connectorsConnectWithHttpInfo**](ConnectorsApi.md#connectorsConnectWithHttpInfo) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |  |
+| [**connectorsGetSkills**](ConnectorsApi.md#connectorsGetSkills) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |  |
+| [**connectorsGetSkillsWithHttpInfo**](ConnectorsApi.md#connectorsGetSkillsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |  |
+| [**connectorsInvokeTool**](ConnectorsApi.md#connectorsInvokeTool) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |  |
+| [**connectorsInvokeToolWithHttpInfo**](ConnectorsApi.md#connectorsInvokeToolWithHttpInfo) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |  |
+| [**connectorsList**](ConnectorsApi.md#connectorsList) | **GET** /v1/connectors/{tenant_id}/{project_id} |  |
+| [**connectorsListWithHttpInfo**](ConnectorsApi.md#connectorsListWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id} |  |
+| [**connectorsListTools**](ConnectorsApi.md#connectorsListTools) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |  |
+| [**connectorsListToolsWithHttpInfo**](ConnectorsApi.md#connectorsListToolsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |  |
+| [**connectorsStatus**](ConnectorsApi.md#connectorsStatus) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |  |
+| [**connectorsStatusWithHttpInfo**](ConnectorsApi.md#connectorsStatusWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |  |
 
 
 
-## connectorsConnectConnector
+## connectorsConnect
 
-> ConnectionLink connectorsConnectConnector(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ConnectionLink connectorsConnect(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -49,10 +49,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ConnectionLink result = apiInstance.connectorsConnectConnector(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ConnectionLink result = apiInstance.connectorsConnect(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsConnectConnector");
+            System.err.println("Exception when calling ConnectorsApi#connectorsConnect");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -98,9 +98,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **501** | Connector provider not configured |  -  |
 
-## connectorsConnectConnectorWithHttpInfo
+## connectorsConnectWithHttpInfo
 
-> ApiResponse<ConnectionLink> connectorsConnectConnector connectorsConnectConnectorWithHttpInfo(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ConnectionLink> connectorsConnect connectorsConnectWithHttpInfo(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -129,12 +129,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ConnectionLink> response = apiInstance.connectorsConnectConnectorWithHttpInfo(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ConnectionLink> response = apiInstance.connectorsConnectWithHttpInfo(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsConnectConnector");
+            System.err.println("Exception when calling ConnectorsApi#connectorsConnect");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -181,9 +181,9 @@ No authorization required
 | **501** | Connector provider not configured |  -  |
 
 
-## connectorsConnectorStatus
+## connectorsGetSkills
 
-> ConnectionStatus connectorsConnectorStatus(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ConnectorSkillsResponse connectorsGetSkills(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -211,172 +211,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ConnectionStatus result = apiInstance.connectorsConnectorStatus(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ConnectorSkillsResponse result = apiInstance.connectorsGetSkills(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsConnectorStatus");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **tenantId** | **String**| tenant_id | |
-| **projectId** | **String**| project_id | |
-| **toolkit** | **String**| Toolkit slug to scope the request to. | |
-| **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
-
-### Return type
-
-[**ConnectionStatus**](ConnectionStatus.md)
-
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Connection status of a toolkit for this project |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **501** | Connector provider not configured |  -  |
-
-## connectorsConnectorStatusWithHttpInfo
-
-> ApiResponse<ConnectionStatus> connectorsConnectorStatus connectorsConnectorStatusWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
-
-
-
-### Example
-
-```java
-// Import classes:
-import ai.palette.client.ApiClient;
-import ai.palette.client.ApiException;
-import ai.palette.client.ApiResponse;
-import ai.palette.client.Configuration;
-import ai.palette.client.models.*;
-import ai.palette.client.api.ConnectorsApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
-
-        ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
-        String tenantId = "tenantId_example"; // String | tenant_id
-        String projectId = "projectId_example"; // String | project_id
-        String toolkit = "toolkit_example"; // String | Toolkit slug to scope the request to.
-        String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
-        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
-        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
-        try {
-            ApiResponse<ConnectionStatus> response = apiInstance.connectorsConnectorStatusWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-            System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders());
-            System.out.println("Response body: " + response.getData());
-        } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsConnectorStatus");
-            System.err.println("Status code: " + e.getCode());
-            System.err.println("Response headers: " + e.getResponseHeaders());
-            System.err.println("Reason: " + e.getResponseBody());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **tenantId** | **String**| tenant_id | |
-| **projectId** | **String**| project_id | |
-| **toolkit** | **String**| Toolkit slug to scope the request to. | |
-| **authorization** | **String**| Bearer API token for strict auth | [optional] |
-| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
-| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
-| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
-
-### Return type
-
-ApiResponse<[**ConnectionStatus**](ConnectionStatus.md)>
-
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Connection status of a toolkit for this project |  -  |
-| **400** | Invalid request, scope, or filter |  -  |
-| **401** | Missing or invalid credentials |  -  |
-| **403** | Credentials lack the required scope |  -  |
-| **501** | Connector provider not configured |  -  |
-
-
-## connectorsGetConnectorSkills
-
-> ConnectorSkillsResponse connectorsGetConnectorSkills(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
-
-
-
-### Example
-
-```java
-// Import classes:
-import ai.palette.client.ApiClient;
-import ai.palette.client.ApiException;
-import ai.palette.client.Configuration;
-import ai.palette.client.models.*;
-import ai.palette.client.api.ConnectorsApi;
-
-public class Example {
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
-
-        ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
-        String tenantId = "tenantId_example"; // String | tenant_id
-        String projectId = "projectId_example"; // String | project_id
-        String toolkit = "toolkit_example"; // String | Toolkit slug to scope the request to.
-        String authorization = "authorization_example"; // String | Bearer API token for strict auth
-        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
-        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
-        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
-        try {
-            ConnectorSkillsResponse result = apiInstance.connectorsGetConnectorSkills(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsGetConnectorSkills");
+            System.err.println("Exception when calling ConnectorsApi#connectorsGetSkills");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -422,9 +260,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **501** | Connector provider not configured |  -  |
 
-## connectorsGetConnectorSkillsWithHttpInfo
+## connectorsGetSkillsWithHttpInfo
 
-> ApiResponse<ConnectorSkillsResponse> connectorsGetConnectorSkills connectorsGetConnectorSkillsWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ConnectorSkillsResponse> connectorsGetSkills connectorsGetSkillsWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -453,12 +291,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ConnectorSkillsResponse> response = apiInstance.connectorsGetConnectorSkillsWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ConnectorSkillsResponse> response = apiInstance.connectorsGetSkillsWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsGetConnectorSkills");
+            System.err.println("Exception when calling ConnectorsApi#connectorsGetSkills");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -505,9 +343,9 @@ No authorization required
 | **501** | Connector provider not configured |  -  |
 
 
-## connectorsInvokeConnectorTool
+## connectorsInvokeTool
 
-> ToolExecution connectorsInvokeConnectorTool(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ToolExecution connectorsInvokeTool(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -535,10 +373,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ToolExecution result = apiInstance.connectorsInvokeConnectorTool(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ToolExecution result = apiInstance.connectorsInvokeTool(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsInvokeConnectorTool");
+            System.err.println("Exception when calling ConnectorsApi#connectorsInvokeTool");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -584,9 +422,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **501** | Connector provider not configured |  -  |
 
-## connectorsInvokeConnectorToolWithHttpInfo
+## connectorsInvokeToolWithHttpInfo
 
-> ApiResponse<ToolExecution> connectorsInvokeConnectorTool connectorsInvokeConnectorToolWithHttpInfo(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ToolExecution> connectorsInvokeTool connectorsInvokeToolWithHttpInfo(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -615,12 +453,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ToolExecution> response = apiInstance.connectorsInvokeConnectorToolWithHttpInfo(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ToolExecution> response = apiInstance.connectorsInvokeToolWithHttpInfo(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsInvokeConnectorTool");
+            System.err.println("Exception when calling ConnectorsApi#connectorsInvokeTool");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -667,9 +505,171 @@ No authorization required
 | **501** | Connector provider not configured |  -  |
 
 
-## connectorsListConnectorTools
+## connectorsList
 
-> List<ConnectorTool> connectorsListConnectorTools(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> List<Toolkit> connectorsList(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+
+
+
+### Example
+
+```java
+// Import classes:
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ConnectorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost");
+
+        ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
+        String tenantId = "tenantId_example"; // String | tenant_id
+        String projectId = "projectId_example"; // String | project_id
+        Integer limit = 56; // Integer | Maximum number of apps to return (page size).
+        String authorization = "authorization_example"; // String | Bearer API token for strict auth
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
+        try {
+            List<Toolkit> result = apiInstance.connectorsList(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ConnectorsApi#connectorsList");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tenantId** | **String**| tenant_id | |
+| **projectId** | **String**| project_id | |
+| **limit** | **Integer**| Maximum number of apps to return (page size). | [optional] |
+| **authorization** | **String**| Bearer API token for strict auth | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+
+### Return type
+
+[**List&lt;Toolkit&gt;**](Toolkit.md)
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List connectable third-party apps (catalog) |  -  |
+| **400** | Invalid request, scope, or filter |  -  |
+| **401** | Missing or invalid credentials |  -  |
+| **403** | Credentials lack the required scope |  -  |
+| **501** | Connector provider not configured |  -  |
+
+## connectorsListWithHttpInfo
+
+> ApiResponse<List<Toolkit>> connectorsList connectorsListWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+
+
+
+### Example
+
+```java
+// Import classes:
+import ai.palette.client.ApiClient;
+import ai.palette.client.ApiException;
+import ai.palette.client.ApiResponse;
+import ai.palette.client.Configuration;
+import ai.palette.client.models.*;
+import ai.palette.client.api.ConnectorsApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost");
+
+        ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
+        String tenantId = "tenantId_example"; // String | tenant_id
+        String projectId = "projectId_example"; // String | project_id
+        Integer limit = 56; // Integer | Maximum number of apps to return (page size).
+        String authorization = "authorization_example"; // String | Bearer API token for strict auth
+        String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
+        String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
+        String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
+        try {
+            ApiResponse<List<Toolkit>> response = apiInstance.connectorsListWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ConnectorsApi#connectorsList");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tenantId** | **String**| tenant_id | |
+| **projectId** | **String**| project_id | |
+| **limit** | **Integer**| Maximum number of apps to return (page size). | [optional] |
+| **authorization** | **String**| Bearer API token for strict auth | [optional] |
+| **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
+| **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
+| **xPaletteEnvironmentId** | **String**| Strict-auth environment scope | [optional] |
+
+### Return type
+
+ApiResponse<[**List&lt;Toolkit&gt;**](Toolkit.md)>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | List connectable third-party apps (catalog) |  -  |
+| **400** | Invalid request, scope, or filter |  -  |
+| **401** | Missing or invalid credentials |  -  |
+| **403** | Credentials lack the required scope |  -  |
+| **501** | Connector provider not configured |  -  |
+
+
+## connectorsListTools
+
+> List<ConnectorTool> connectorsListTools(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -698,10 +698,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ConnectorTool> result = apiInstance.connectorsListConnectorTools(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            List<ConnectorTool> result = apiInstance.connectorsListTools(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsListConnectorTools");
+            System.err.println("Exception when calling ConnectorsApi#connectorsListTools");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -748,9 +748,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **501** | Connector provider not configured |  -  |
 
-## connectorsListConnectorToolsWithHttpInfo
+## connectorsListToolsWithHttpInfo
 
-> ApiResponse<List<ConnectorTool>> connectorsListConnectorTools connectorsListConnectorToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<List<ConnectorTool>> connectorsListTools connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -780,12 +780,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ConnectorTool>> response = apiInstance.connectorsListConnectorToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<List<ConnectorTool>> response = apiInstance.connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsListConnectorTools");
+            System.err.println("Exception when calling ConnectorsApi#connectorsListTools");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -833,9 +833,9 @@ No authorization required
 | **501** | Connector provider not configured |  -  |
 
 
-## connectorsListConnectors
+## connectorsStatus
 
-> List<Toolkit> connectorsListConnectors(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ConnectionStatus connectorsStatus(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -857,16 +857,16 @@ public class Example {
         ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
-        Integer limit = 56; // Integer | Maximum number of apps to return (page size).
+        String toolkit = "toolkit_example"; // String | Toolkit slug to scope the request to.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<Toolkit> result = apiInstance.connectorsListConnectors(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ConnectionStatus result = apiInstance.connectorsStatus(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsListConnectors");
+            System.err.println("Exception when calling ConnectorsApi#connectorsStatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -883,7 +883,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
-| **limit** | **Integer**| Maximum number of apps to return (page size). | [optional] |
+| **toolkit** | **String**| Toolkit slug to scope the request to. | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -891,7 +891,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;Toolkit&gt;**](Toolkit.md)
+[**ConnectionStatus**](ConnectionStatus.md)
 
 
 ### Authorization
@@ -906,15 +906,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List connectable third-party apps (catalog) |  -  |
+| **200** | Connection status of a toolkit for this project |  -  |
 | **400** | Invalid request, scope, or filter |  -  |
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 | **501** | Connector provider not configured |  -  |
 
-## connectorsListConnectorsWithHttpInfo
+## connectorsStatusWithHttpInfo
 
-> ApiResponse<List<Toolkit>> connectorsListConnectors connectorsListConnectorsWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ConnectionStatus> connectorsStatus connectorsStatusWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -937,18 +937,18 @@ public class Example {
         ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
-        Integer limit = 56; // Integer | Maximum number of apps to return (page size).
+        String toolkit = "toolkit_example"; // String | Toolkit slug to scope the request to.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<Toolkit>> response = apiInstance.connectorsListConnectorsWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ConnectionStatus> response = apiInstance.connectorsStatusWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectorsApi#connectorsListConnectors");
+            System.err.println("Exception when calling ConnectorsApi#connectorsStatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -965,7 +965,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
-| **limit** | **Integer**| Maximum number of apps to return (page size). | [optional] |
+| **toolkit** | **String**| Toolkit slug to scope the request to. | |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -973,7 +973,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;Toolkit&gt;**](Toolkit.md)>
+ApiResponse<[**ConnectionStatus**](ConnectionStatus.md)>
 
 
 ### Authorization
@@ -988,7 +988,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List connectable third-party apps (catalog) |  -  |
+| **200** | Connection status of a toolkit for this project |  -  |
 | **400** | Invalid request, scope, or filter |  -  |
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |

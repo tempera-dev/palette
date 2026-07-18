@@ -60,7 +60,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<JudgeBrokerOutcome>> judge_evaluateJudge(
+    pplx::task<std::shared_ptr<JudgeBrokerOutcome>> judge_evaluate(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<RunJudgeEvalHttpRequest> runJudgeEvalHttpRequest,
@@ -81,7 +81,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<JudgeAuditRecord>>> judge_listJudgeLedger(
+    pplx::task<std::vector<std::shared_ptr<JudgeAuditRecord>>> judge_listLedger(
         utility::string_t tenantId,
         utility::string_t projectId,
         boost::optional<utility::string_t> authorization,

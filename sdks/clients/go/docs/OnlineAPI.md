@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**OnlineDecideOnlineSampling**](OnlineAPI.md#OnlineDecideOnlineSampling) | **Post** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
+[**OnlineDecideSampling**](OnlineAPI.md#OnlineDecideSampling) | **Post** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
 
 
 
-## OnlineDecideOnlineSampling
+## OnlineDecideSampling
 
-> SamplingDecision OnlineDecideOnlineSampling(ctx, tenantId, projectId, traceId).OnlineSamplingPolicy(onlineSamplingPolicy).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> SamplingDecision OnlineDecideSampling(ctx, tenantId, projectId, traceId).OnlineSamplingPolicy(onlineSamplingPolicy).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.OnlineAPI.OnlineDecideOnlineSampling(context.Background(), tenantId, projectId, traceId).OnlineSamplingPolicy(onlineSamplingPolicy).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.OnlineAPI.OnlineDecideSampling(context.Background(), tenantId, projectId, traceId).OnlineSamplingPolicy(onlineSamplingPolicy).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `OnlineAPI.OnlineDecideOnlineSampling``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `OnlineAPI.OnlineDecideSampling``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `OnlineDecideOnlineSampling`: SamplingDecision
-	fmt.Fprintf(os.Stdout, "Response from `OnlineAPI.OnlineDecideOnlineSampling`: %v\n", resp)
+	// response from `OnlineDecideSampling`: SamplingDecision
+	fmt.Fprintf(os.Stdout, "Response from `OnlineAPI.OnlineDecideSampling`: %v\n", resp)
 }
 ```
 
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiOnlineDecideOnlineSamplingRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiOnlineDecideSamplingRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`gates_period_create_gate`]
+/// struct for passing parameters to the method [`gates_period_create`]
 #[derive(Clone, Debug)]
-pub struct GatesPeriodCreateGateParams {
+pub struct GatesPeriodCreateParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,9 +32,9 @@ pub struct GatesPeriodCreateGateParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`gates_period_run_gate`]
+/// struct for passing parameters to the method [`gates_period_run`]
 #[derive(Clone, Debug)]
-pub struct GatesPeriodRunGateParams {
+pub struct GatesPeriodRunParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -53,20 +53,20 @@ pub struct GatesPeriodRunGateParams {
 }
 
 
-/// struct for typed errors of method [`gates_period_create_gate`]
+/// struct for typed errors of method [`gates_period_create`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GatesPeriodCreateGateError {
+pub enum GatesPeriodCreateError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`gates_period_run_gate`]
+/// struct for typed errors of method [`gates_period_run`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GatesPeriodRunGateError {
+pub enum GatesPeriodRunError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -75,7 +75,7 @@ pub enum GatesPeriodRunGateError {
 }
 
 
-pub async fn gates_period_create_gate(configuration: &configuration::Configuration, params: GatesPeriodCreateGateParams) -> Result<models::GateDefinition, Error<GatesPeriodCreateGateError>> {
+pub async fn gates_period_create(configuration: &configuration::Configuration, params: GatesPeriodCreateParams) -> Result<models::GateDefinition, Error<GatesPeriodCreateError>> {
 
     let uri_str = format!("{}/v1/gates/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -107,12 +107,12 @@ pub async fn gates_period_create_gate(configuration: &configuration::Configurati
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<GatesPeriodCreateGateError> = serde_json::from_str(&content).ok();
+        let entity: Option<GatesPeriodCreateError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn gates_period_run_gate(configuration: &configuration::Configuration, params: GatesPeriodRunGateParams) -> Result<models::GateRunReport, Error<GatesPeriodRunGateError>> {
+pub async fn gates_period_run(configuration: &configuration::Configuration, params: GatesPeriodRunParams) -> Result<models::GateRunReport, Error<GatesPeriodRunError>> {
 
     let uri_str = format!("{}/v1/gates/{tenant_id}/{project_id}/{gate_id}/run", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), gate_id=crate::apis::urlencode(params.gate_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -144,7 +144,7 @@ pub async fn gates_period_run_gate(configuration: &configuration::Configuration,
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<GatesPeriodRunGateError> = serde_json::from_str(&content).ok();
+        let entity: Option<GatesPeriodRunError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

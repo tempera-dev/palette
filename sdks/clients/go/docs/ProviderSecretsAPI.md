@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ProviderSecretsCreateProviderSecret**](ProviderSecretsAPI.md#ProviderSecretsCreateProviderSecret) | **Post** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**ProviderSecretsListProviderSecrets**](ProviderSecretsAPI.md#ProviderSecretsListProviderSecrets) | **Get** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**ProviderSecretsRevokeProviderSecret**](ProviderSecretsAPI.md#ProviderSecretsRevokeProviderSecret) | **Post** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
+[**ProviderSecretsCreate**](ProviderSecretsAPI.md#ProviderSecretsCreate) | **Post** /v1/provider-secrets/{tenant_id}/{project_id} |
+[**ProviderSecretsList**](ProviderSecretsAPI.md#ProviderSecretsList) | **Get** /v1/provider-secrets/{tenant_id}/{project_id} |
+[**ProviderSecretsRevoke**](ProviderSecretsAPI.md#ProviderSecretsRevoke) | **Post** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
 
 
 
-## ProviderSecretsCreateProviderSecret
+## ProviderSecretsCreate
 
-> ProviderSecretMetadata ProviderSecretsCreateProviderSecret(ctx, tenantId, projectId).CreateProviderSecretHttpRequest(createProviderSecretHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ProviderSecretMetadata ProviderSecretsCreate(ctx, tenantId, projectId).CreateProviderSecretHttpRequest(createProviderSecretHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProviderSecretsAPI.ProviderSecretsCreateProviderSecret(context.Background(), tenantId, projectId).CreateProviderSecretHttpRequest(createProviderSecretHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ProviderSecretsAPI.ProviderSecretsCreate(context.Background(), tenantId, projectId).CreateProviderSecretHttpRequest(createProviderSecretHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ProviderSecretsAPI.ProviderSecretsCreateProviderSecret``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderSecretsAPI.ProviderSecretsCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ProviderSecretsCreateProviderSecret`: ProviderSecretMetadata
-	fmt.Fprintf(os.Stdout, "Response from `ProviderSecretsAPI.ProviderSecretsCreateProviderSecret`: %v\n", resp)
+	// response from `ProviderSecretsCreate`: ProviderSecretMetadata
+	fmt.Fprintf(os.Stdout, "Response from `ProviderSecretsAPI.ProviderSecretsCreate`: %v\n", resp)
 }
 ```
 
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiProviderSecretsCreateProviderSecretRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiProviderSecretsCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -91,9 +91,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ProviderSecretsListProviderSecrets
+## ProviderSecretsList
 
-> []ProviderSecretMetadata ProviderSecretsListProviderSecrets(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> []ProviderSecretMetadata ProviderSecretsList(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -119,13 +119,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProviderSecretsAPI.ProviderSecretsListProviderSecrets(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ProviderSecretsAPI.ProviderSecretsList(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ProviderSecretsAPI.ProviderSecretsListProviderSecrets``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderSecretsAPI.ProviderSecretsList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ProviderSecretsListProviderSecrets`: []ProviderSecretMetadata
-	fmt.Fprintf(os.Stdout, "Response from `ProviderSecretsAPI.ProviderSecretsListProviderSecrets`: %v\n", resp)
+	// response from `ProviderSecretsList`: []ProviderSecretMetadata
+	fmt.Fprintf(os.Stdout, "Response from `ProviderSecretsAPI.ProviderSecretsList`: %v\n", resp)
 }
 ```
 
@@ -140,7 +140,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiProviderSecretsListProviderSecretsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiProviderSecretsListRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -170,9 +170,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ProviderSecretsRevokeProviderSecret
+## ProviderSecretsRevoke
 
-> RevokedProviderSecret ProviderSecretsRevokeProviderSecret(ctx, tenantId, projectId, providerSecretId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> RevokedProviderSecret ProviderSecretsRevoke(ctx, tenantId, projectId, providerSecretId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -199,13 +199,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProviderSecretsAPI.ProviderSecretsRevokeProviderSecret(context.Background(), tenantId, projectId, providerSecretId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ProviderSecretsAPI.ProviderSecretsRevoke(context.Background(), tenantId, projectId, providerSecretId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ProviderSecretsAPI.ProviderSecretsRevokeProviderSecret``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ProviderSecretsAPI.ProviderSecretsRevoke``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ProviderSecretsRevokeProviderSecret`: RevokedProviderSecret
-	fmt.Fprintf(os.Stdout, "Response from `ProviderSecretsAPI.ProviderSecretsRevokeProviderSecret`: %v\n", resp)
+	// response from `ProviderSecretsRevoke`: RevokedProviderSecret
+	fmt.Fprintf(os.Stdout, "Response from `ProviderSecretsAPI.ProviderSecretsRevoke`: %v\n", resp)
 }
 ```
 
@@ -221,7 +221,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiProviderSecretsRevokeProviderSecretRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiProviderSecretsRevokeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

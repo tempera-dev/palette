@@ -46,7 +46,7 @@ public class ExperimentsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void experimentsRunDeterministicExperimentTest() throws ApiException {
+    public void experimentsRunDeterministicTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String datasetId = null;
@@ -57,7 +57,7 @@ public class ExperimentsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ExperimentRunReport response = 
-        api.experimentsRunDeterministicExperiment(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.experimentsRunDeterministic(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -71,7 +71,7 @@ public class ExperimentsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void experimentsRunJudgeExperimentTest() throws ApiException {
+    public void experimentsRunJudgeTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String datasetId = null;
@@ -82,7 +82,7 @@ public class ExperimentsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ExperimentRunReport response = 
-        api.experimentsRunJudgeExperiment(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.experimentsRunJudge(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

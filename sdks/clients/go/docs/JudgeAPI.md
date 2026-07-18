@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**JudgeEvaluateJudge**](JudgeAPI.md#JudgeEvaluateJudge) | **Post** /v1/judge/{tenant_id}/{project_id}/evaluate |
-[**JudgeListJudgeLedger**](JudgeAPI.md#JudgeListJudgeLedger) | **Get** /v1/judge/{tenant_id}/{project_id}/ledger |
+[**JudgeEvaluate**](JudgeAPI.md#JudgeEvaluate) | **Post** /v1/judge/{tenant_id}/{project_id}/evaluate |
+[**JudgeListLedger**](JudgeAPI.md#JudgeListLedger) | **Get** /v1/judge/{tenant_id}/{project_id}/ledger |
 
 
 
-## JudgeEvaluateJudge
+## JudgeEvaluate
 
-> JudgeBrokerOutcome JudgeEvaluateJudge(ctx, tenantId, projectId).RunJudgeEvalHttpRequest(runJudgeEvalHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> JudgeBrokerOutcome JudgeEvaluate(ctx, tenantId, projectId).RunJudgeEvalHttpRequest(runJudgeEvalHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -38,13 +38,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.JudgeAPI.JudgeEvaluateJudge(context.Background(), tenantId, projectId).RunJudgeEvalHttpRequest(runJudgeEvalHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.JudgeAPI.JudgeEvaluate(context.Background(), tenantId, projectId).RunJudgeEvalHttpRequest(runJudgeEvalHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `JudgeAPI.JudgeEvaluateJudge``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `JudgeAPI.JudgeEvaluate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `JudgeEvaluateJudge`: JudgeBrokerOutcome
-	fmt.Fprintf(os.Stdout, "Response from `JudgeAPI.JudgeEvaluateJudge`: %v\n", resp)
+	// response from `JudgeEvaluate`: JudgeBrokerOutcome
+	fmt.Fprintf(os.Stdout, "Response from `JudgeAPI.JudgeEvaluate`: %v\n", resp)
 }
 ```
 
@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiJudgeEvaluateJudgeRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiJudgeEvaluateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -90,9 +90,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## JudgeListJudgeLedger
+## JudgeListLedger
 
-> []JudgeAuditRecord JudgeListJudgeLedger(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> []JudgeAuditRecord JudgeListLedger(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -118,13 +118,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.JudgeAPI.JudgeListJudgeLedger(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.JudgeAPI.JudgeListLedger(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `JudgeAPI.JudgeListJudgeLedger``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `JudgeAPI.JudgeListLedger``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `JudgeListJudgeLedger`: []JudgeAuditRecord
-	fmt.Fprintf(os.Stdout, "Response from `JudgeAPI.JudgeListJudgeLedger`: %v\n", resp)
+	// response from `JudgeListLedger`: []JudgeAuditRecord
+	fmt.Fprintf(os.Stdout, "Response from `JudgeAPI.JudgeListLedger`: %v\n", resp)
 }
 ```
 
@@ -139,7 +139,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiJudgeListJudgeLedgerRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiJudgeListLedgerRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

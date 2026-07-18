@@ -6,11 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ingest_period_drain_trace_ingested**](IngestApi.md#ingest_period_drain_trace_ingested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
 [**ingest_period_drain_trace_writes**](IngestApi.md#ingest_period_drain_trace_writes) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**ingest_period_get_ingest_queue_status**](IngestApi.md#ingest_period_get_ingest_queue_status) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
+[**ingest_period_get_queue_status**](IngestApi.md#ingest_period_get_queue_status) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
 [**ingest_period_import_source**](IngestApi.md#ingest_period_import_source) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |
-[**ingest_period_ingest_native**](IngestApi.md#ingest_period_ingest_native) | **POST** /v1/traces/native |
-[**ingest_period_ingest_otlp**](IngestApi.md#ingest_period_ingest_otlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
-[**ingest_period_ingest_otlp_json_collector**](IngestApi.md#ingest_period_ingest_otlp_json_collector) | **POST** /v1/traces |
+[**ingest_period_native**](IngestApi.md#ingest_period_native) | **POST** /v1/traces/native |
+[**ingest_period_otlp**](IngestApi.md#ingest_period_otlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**ingest_period_otlp_json_collector**](IngestApi.md#ingest_period_otlp_json_collector) | **POST** /v1/traces |
 [**ingest_period_reconcile_trace**](IngestApi.md#ingest_period_reconcile_trace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
 [**ingest_period_replay_dead_letter**](IngestApi.md#ingest_period_replay_dead_letter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
 
@@ -84,9 +84,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## ingest_period_get_ingest_queue_status
+## ingest_period_get_queue_status
 
-> models::IngestQueueStatus ingest_period_get_ingest_queue_status(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::IngestQueueStatus ingest_period_get_queue_status(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -151,9 +151,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## ingest_period_ingest_native
+## ingest_period_native
 
-> models::IngestOutcome ingest_period_ingest_native(native_ingest_request, durability, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::IngestOutcome ingest_period_native(native_ingest_request, durability, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -184,9 +184,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## ingest_period_ingest_otlp
+## ingest_period_otlp
 
-> models::OtlpIngestOutcome ingest_period_ingest_otlp(tenant_id, project_id, environment_id, durability, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::OtlpIngestOutcome ingest_period_otlp(tenant_id, project_id, environment_id, durability, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -219,9 +219,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## ingest_period_ingest_otlp_json_collector
+## ingest_period_otlp_json_collector
 
-> models::OtlpIngestOutcome ingest_period_ingest_otlp_json_collector(durability, authorization, x_palette_api_key, x_palette_tenant_id, x_palette_project_id, x_palette_environment_id)
+> models::OtlpIngestOutcome ingest_period_otlp_json_collector(durability, authorization, x_palette_api_key, x_palette_tenant_id, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

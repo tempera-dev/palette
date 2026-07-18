@@ -148,25 +148,12 @@ fn normalize_operation_ids(doc: &mut utoipa::openapi::OpenApi) {
                 .and_then(|tags| tags.first())
                 .map(String::as_str)
                 .unwrap_or("api");
-            operation.operation_id =
-                Some(format!("{}.{}", tag, lower_camel_to_kebab(operation_id)));
+            // Stamp the collection from the resource tag and keep the handler's
+            // lower-camel method verbatim, yielding the ecosystem AIP scheme
+            // `{collection}.{method}` (tempera-api-style-guide.md §4).
+            operation.operation_id = Some(format!("{}.{}", tag, operation_id));
         }
     }
-}
-
-fn lower_camel_to_kebab(value: &str) -> String {
-    let mut output = String::new();
-    for (index, ch) in value.chars().enumerate() {
-        if ch.is_ascii_uppercase() {
-            if index > 0 {
-                output.push('-');
-            }
-            output.push(ch.to_ascii_lowercase());
-        } else {
-            output.push(ch);
-        }
-    }
-    output
 }
 
 /// Percent-encode a value for safe interpolation into a request path segment or

@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`experiments_period_run_deterministic_experiment`]
+/// struct for passing parameters to the method [`experiments_period_run_deterministic`]
 #[derive(Clone, Debug)]
-pub struct ExperimentsPeriodRunDeterministicExperimentParams {
+pub struct ExperimentsPeriodRunDeterministicParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -36,9 +36,9 @@ pub struct ExperimentsPeriodRunDeterministicExperimentParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`experiments_period_run_judge_experiment`]
+/// struct for passing parameters to the method [`experiments_period_run_judge`]
 #[derive(Clone, Debug)]
-pub struct ExperimentsPeriodRunJudgeExperimentParams {
+pub struct ExperimentsPeriodRunJudgeParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -59,10 +59,10 @@ pub struct ExperimentsPeriodRunJudgeExperimentParams {
 }
 
 
-/// struct for typed errors of method [`experiments_period_run_deterministic_experiment`]
+/// struct for typed errors of method [`experiments_period_run_deterministic`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ExperimentsPeriodRunDeterministicExperimentError {
+pub enum ExperimentsPeriodRunDeterministicError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -70,10 +70,10 @@ pub enum ExperimentsPeriodRunDeterministicExperimentError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`experiments_period_run_judge_experiment`]
+/// struct for typed errors of method [`experiments_period_run_judge`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ExperimentsPeriodRunJudgeExperimentError {
+pub enum ExperimentsPeriodRunJudgeError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -82,7 +82,7 @@ pub enum ExperimentsPeriodRunJudgeExperimentError {
 }
 
 
-pub async fn experiments_period_run_deterministic_experiment(configuration: &configuration::Configuration, params: ExperimentsPeriodRunDeterministicExperimentParams) -> Result<models::ExperimentRunReport, Error<ExperimentsPeriodRunDeterministicExperimentError>> {
+pub async fn experiments_period_run_deterministic(configuration: &configuration::Configuration, params: ExperimentsPeriodRunDeterministicParams) -> Result<models::ExperimentRunReport, Error<ExperimentsPeriodRunDeterministicError>> {
 
     let uri_str = format!("{}/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -114,12 +114,12 @@ pub async fn experiments_period_run_deterministic_experiment(configuration: &con
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ExperimentsPeriodRunDeterministicExperimentError> = serde_json::from_str(&content).ok();
+        let entity: Option<ExperimentsPeriodRunDeterministicError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn experiments_period_run_judge_experiment(configuration: &configuration::Configuration, params: ExperimentsPeriodRunJudgeExperimentParams) -> Result<models::ExperimentRunReport, Error<ExperimentsPeriodRunJudgeExperimentError>> {
+pub async fn experiments_period_run_judge(configuration: &configuration::Configuration, params: ExperimentsPeriodRunJudgeParams) -> Result<models::ExperimentRunReport, Error<ExperimentsPeriodRunJudgeError>> {
 
     let uri_str = format!("{}/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -151,7 +151,7 @@ pub async fn experiments_period_run_judge_experiment(configuration: &configurati
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ExperimentsPeriodRunJudgeExperimentError> = serde_json::from_str(&content).ok();
+        let entity: Option<ExperimentsPeriodRunJudgeError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

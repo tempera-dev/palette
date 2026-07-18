@@ -42,7 +42,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_create_provider_secret(
+    def provider_secrets_create(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -64,7 +64,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ProviderSecretMetadata:
-        """provider_secrets_create_provider_secret
+        """provider_secrets_create
 
 
         :param tenant_id: tenant_id (required)
@@ -103,7 +103,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_create_provider_secret_serialize(
+        _param = self._provider_secrets_create_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             create_provider_secret_http_request=create_provider_secret_http_request,
@@ -135,7 +135,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_create_provider_secret_with_http_info(
+    def provider_secrets_create_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -157,7 +157,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ProviderSecretMetadata]:
-        """provider_secrets_create_provider_secret
+        """provider_secrets_create
 
 
         :param tenant_id: tenant_id (required)
@@ -196,7 +196,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_create_provider_secret_serialize(
+        _param = self._provider_secrets_create_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             create_provider_secret_http_request=create_provider_secret_http_request,
@@ -228,7 +228,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_create_provider_secret_without_preload_content(
+    def provider_secrets_create_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -250,7 +250,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """provider_secrets_create_provider_secret
+        """provider_secrets_create
 
 
         :param tenant_id: tenant_id (required)
@@ -289,7 +289,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_create_provider_secret_serialize(
+        _param = self._provider_secrets_create_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             create_provider_secret_http_request=create_provider_secret_http_request,
@@ -316,7 +316,7 @@ class ProviderSecretsApi:
         return response_data.response
 
 
-    def _provider_secrets_create_provider_secret_serialize(
+    def _provider_secrets_create_serialize(
         self,
         tenant_id,
         project_id,
@@ -411,7 +411,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_list_provider_secrets(
+    def provider_secrets_list(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -432,7 +432,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[ProviderSecretMetadata]:
-        """provider_secrets_list_provider_secrets
+        """provider_secrets_list
 
 
         :param tenant_id: tenant_id (required)
@@ -469,7 +469,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_list_provider_secrets_serialize(
+        _param = self._provider_secrets_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -500,7 +500,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_list_provider_secrets_with_http_info(
+    def provider_secrets_list_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -521,7 +521,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[ProviderSecretMetadata]]:
-        """provider_secrets_list_provider_secrets
+        """provider_secrets_list
 
 
         :param tenant_id: tenant_id (required)
@@ -558,7 +558,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_list_provider_secrets_serialize(
+        _param = self._provider_secrets_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -589,7 +589,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_list_provider_secrets_without_preload_content(
+    def provider_secrets_list_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -610,7 +610,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """provider_secrets_list_provider_secrets
+        """provider_secrets_list
 
 
         :param tenant_id: tenant_id (required)
@@ -647,7 +647,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_list_provider_secrets_serialize(
+        _param = self._provider_secrets_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -673,7 +673,7 @@ class ProviderSecretsApi:
         return response_data.response
 
 
-    def _provider_secrets_list_provider_secrets_serialize(
+    def _provider_secrets_list_serialize(
         self,
         tenant_id,
         project_id,
@@ -752,7 +752,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_revoke_provider_secret(
+    def provider_secrets_revoke(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -774,7 +774,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RevokedProviderSecret:
-        """provider_secrets_revoke_provider_secret
+        """provider_secrets_revoke
 
 
         :param tenant_id: tenant_id (required)
@@ -813,7 +813,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_revoke_provider_secret_serialize(
+        _param = self._provider_secrets_revoke_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             provider_secret_id=provider_secret_id,
@@ -846,7 +846,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_revoke_provider_secret_with_http_info(
+    def provider_secrets_revoke_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -868,7 +868,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RevokedProviderSecret]:
-        """provider_secrets_revoke_provider_secret
+        """provider_secrets_revoke
 
 
         :param tenant_id: tenant_id (required)
@@ -907,7 +907,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_revoke_provider_secret_serialize(
+        _param = self._provider_secrets_revoke_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             provider_secret_id=provider_secret_id,
@@ -940,7 +940,7 @@ class ProviderSecretsApi:
 
 
     @validate_call
-    def provider_secrets_revoke_provider_secret_without_preload_content(
+    def provider_secrets_revoke_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -962,7 +962,7 @@ class ProviderSecretsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """provider_secrets_revoke_provider_secret
+        """provider_secrets_revoke
 
 
         :param tenant_id: tenant_id (required)
@@ -1001,7 +1001,7 @@ class ProviderSecretsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._provider_secrets_revoke_provider_secret_serialize(
+        _param = self._provider_secrets_revoke_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             provider_secret_id=provider_secret_id,
@@ -1029,7 +1029,7 @@ class ProviderSecretsApi:
         return response_data.response
 
 
-    def _provider_secrets_revoke_provider_secret_serialize(
+    def _provider_secrets_revoke_serialize(
         self,
         tenant_id,
         project_id,

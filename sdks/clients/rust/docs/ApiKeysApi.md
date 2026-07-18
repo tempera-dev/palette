@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**api_keys_period_create_api_key**](ApiKeysApi.md#api_keys_period_create_api_key) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
-[**api_keys_period_revoke_api_key**](ApiKeysApi.md#api_keys_period_revoke_api_key) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
+[**api_keys_period_create**](ApiKeysApi.md#api_keys_period_create) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
+[**api_keys_period_revoke**](ApiKeysApi.md#api_keys_period_revoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
 
 
 
-## api_keys_period_create_api_key
+## api_keys_period_create
 
-> models::ApiKeyCreatedResponse api_keys_period_create_api_key(tenant_id, project_id, environment_id, create_api_key_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ApiKeyCreatedResponse api_keys_period_create(tenant_id, project_id, environment_id, create_api_key_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -44,9 +44,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## api_keys_period_revoke_api_key
+## api_keys_period_revoke
 
-> models::RevokedApiKey api_keys_period_revoke_api_key(tenant_id, project_id, environment_id, api_key_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::RevokedApiKey api_keys_period_revoke(tenant_id, project_id, environment_id, api_key_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

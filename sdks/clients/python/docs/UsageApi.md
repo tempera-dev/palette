@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**usage_get_usage_summary**](UsageApi.md#usage_get_usage_summary) | **GET** /v1/usage/{tenant_id}/{project_id} |
+[**usage_get_summary**](UsageApi.md#usage_get_summary) | **GET** /v1/usage/{tenant_id}/{project_id} |
 
 
-# **usage_get_usage_summary**
-> UsageSummary usage_get_usage_summary(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **usage_get_summary**
+> UsageSummary usage_get_summary(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -40,11 +40,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.usage_get_usage_summary(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of UsageApi->usage_get_usage_summary:\n")
+        api_response = api_instance.usage_get_summary(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of UsageApi->usage_get_summary:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling UsageApi->usage_get_usage_summary: %s\n" % e)
+        print("Exception when calling UsageApi->usage_get_summary: %s\n" % e)
 ```
 
 

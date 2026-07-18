@@ -60,7 +60,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<GateDefinition>> gates_createGate(
+    pplx::task<std::shared_ptr<GateDefinition>> gates_create(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<CreateGateRequest> createGateRequest,
@@ -83,7 +83,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<GateRunReport>> gates_runGate(
+    pplx::task<std::shared_ptr<GateRunReport>> gates_run(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t gateId,

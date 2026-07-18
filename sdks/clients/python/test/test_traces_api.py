@@ -26,14 +26,14 @@ class TestTracesApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_traces_get_trace(self) -> None:
-        """Test case for traces_get_trace
+    def test_traces_get(self) -> None:
+        """Test case for traces_get
 
         """
         pass
 
-    def test_traces_list_traces(self) -> None:
-        """Test case for traces_list_traces
+    def test_traces_list(self) -> None:
+        """Test case for traces_list
 
         """
         pass

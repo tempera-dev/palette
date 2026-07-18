@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AuditListAuditEvents**](AuditAPI.md#AuditListAuditEvents) | **Get** /v1/audit/{tenant_id}/{project_id} |
+[**AuditList**](AuditAPI.md#AuditList) | **Get** /v1/audit/{tenant_id}/{project_id} |
 
 
 
-## AuditListAuditEvents
+## AuditList
 
-> []AuditEvent AuditListAuditEvents(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> []AuditEvent AuditList(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -36,13 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuditAPI.AuditListAuditEvents(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.AuditAPI.AuditList(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AuditAPI.AuditListAuditEvents``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AuditAPI.AuditList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AuditListAuditEvents`: []AuditEvent
-	fmt.Fprintf(os.Stdout, "Response from `AuditAPI.AuditListAuditEvents`: %v\n", resp)
+	// response from `AuditList`: []AuditEvent
+	fmt.Fprintf(os.Stdout, "Response from `AuditAPI.AuditList`: %v\n", resp)
 }
 ```
 
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAuditListAuditEventsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAuditListRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

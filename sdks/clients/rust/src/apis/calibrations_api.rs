@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`calibrations_period_run_calibration`]
+/// struct for passing parameters to the method [`calibrations_period_run`]
 #[derive(Clone, Debug)]
-pub struct CalibrationsPeriodRunCalibrationParams {
+pub struct CalibrationsPeriodRunParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -37,10 +37,10 @@ pub struct CalibrationsPeriodRunCalibrationParams {
 }
 
 
-/// struct for typed errors of method [`calibrations_period_run_calibration`]
+/// struct for typed errors of method [`calibrations_period_run`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum CalibrationsPeriodRunCalibrationError {
+pub enum CalibrationsPeriodRunError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -49,7 +49,7 @@ pub enum CalibrationsPeriodRunCalibrationError {
 }
 
 
-pub async fn calibrations_period_run_calibration(configuration: &configuration::Configuration, params: CalibrationsPeriodRunCalibrationParams) -> Result<models::CalibrationReport, Error<CalibrationsPeriodRunCalibrationError>> {
+pub async fn calibrations_period_run(configuration: &configuration::Configuration, params: CalibrationsPeriodRunParams) -> Result<models::CalibrationReport, Error<CalibrationsPeriodRunError>> {
 
     let uri_str = format!("{}/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -81,7 +81,7 @@ pub async fn calibrations_period_run_calibration(configuration: &configuration::
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<CalibrationsPeriodRunCalibrationError> = serde_json::from_str(&content).ok();
+        let entity: Option<CalibrationsPeriodRunError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

@@ -38,7 +38,7 @@ export interface ArchiveArchiveTraceRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ArchiveQueryArchiveSpansRequest {
+export interface ArchiveQuerySpansRequest {
     tenantId: string;
     projectId: string;
     environmentId?: string;
@@ -121,18 +121,18 @@ export class ArchiveApi extends runtime.BaseAPI {
 
     /**
      */
-    async archiveQueryArchiveSpansRaw(requestParameters: ArchiveQueryArchiveSpansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArchiveQueryResponse>> {
+    async archiveQuerySpansRaw(requestParameters: ArchiveQuerySpansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArchiveQueryResponse>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling archiveQueryArchiveSpans().'
+                'Required parameter "tenantId" was null or undefined when calling archiveQuerySpans().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling archiveQueryArchiveSpans().'
+                'Required parameter "projectId" was null or undefined when calling archiveQuerySpans().'
             );
         }
 
@@ -192,8 +192,8 @@ export class ArchiveApi extends runtime.BaseAPI {
 
     /**
      */
-    async archiveQueryArchiveSpans(requestParameters: ArchiveQueryArchiveSpansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArchiveQueryResponse> {
-        const response = await this.archiveQueryArchiveSpansRaw(requestParameters, initOverrides);
+    async archiveQuerySpans(requestParameters: ArchiveQuerySpansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArchiveQueryResponse> {
+        const response = await this.archiveQuerySpansRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

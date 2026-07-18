@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**api_keys_create_api_key**](ApiKeysApi.md#api_keys_create_api_key) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
-[**api_keys_revoke_api_key**](ApiKeysApi.md#api_keys_revoke_api_key) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
+[**api_keys_create**](ApiKeysApi.md#api_keys_create) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
+[**api_keys_revoke**](ApiKeysApi.md#api_keys_revoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
 
 
-# **api_keys_create_api_key**
-> ApiKeyCreatedResponse api_keys_create_api_key(tenant_id, project_id, environment_id, create_api_key_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **api_keys_create**
+> ApiKeyCreatedResponse api_keys_create(tenant_id, project_id, environment_id, create_api_key_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -44,11 +44,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.api_keys_create_api_key(tenant_id, project_id, environment_id, create_api_key_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ApiKeysApi->api_keys_create_api_key:\n")
+        api_response = api_instance.api_keys_create(tenant_id, project_id, environment_id, create_api_key_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ApiKeysApi->api_keys_create:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ApiKeysApi->api_keys_create_api_key: %s\n" % e)
+        print("Exception when calling ApiKeysApi->api_keys_create: %s\n" % e)
 ```
 
 
@@ -91,8 +91,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **api_keys_revoke_api_key**
-> RevokedApiKey api_keys_revoke_api_key(tenant_id, project_id, environment_id, api_key_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **api_keys_revoke**
+> RevokedApiKey api_keys_revoke(tenant_id, project_id, environment_id, api_key_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -126,11 +126,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.api_keys_revoke_api_key(tenant_id, project_id, environment_id, api_key_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ApiKeysApi->api_keys_revoke_api_key:\n")
+        api_response = api_instance.api_keys_revoke(tenant_id, project_id, environment_id, api_key_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ApiKeysApi->api_keys_revoke:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ApiKeysApi->api_keys_revoke_api_key: %s\n" % e)
+        print("Exception when calling ApiKeysApi->api_keys_revoke: %s\n" % e)
 ```
 
 

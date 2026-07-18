@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**scenarios_create_scenario**](ScenariosApi.md#scenarios_create_scenario) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
-[**scenarios_get_scenario**](ScenariosApi.md#scenarios_get_scenario) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
-[**scenarios_list_scenarios**](ScenariosApi.md#scenarios_list_scenarios) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
-[**scenarios_mine_scenarios**](ScenariosApi.md#scenarios_mine_scenarios) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
+[**scenarios_create**](ScenariosApi.md#scenarios_create) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
+[**scenarios_get**](ScenariosApi.md#scenarios_get) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
+[**scenarios_list**](ScenariosApi.md#scenarios_list) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
+[**scenarios_mine**](ScenariosApi.md#scenarios_mine) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
 
 
-# **scenarios_create_scenario**
-> Scenario scenarios_create_scenario(tenant_id, project_id, create_scenario_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **scenarios_create**
+> Scenario scenarios_create(tenant_id, project_id, create_scenario_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -45,11 +45,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.scenarios_create_scenario(tenant_id, project_id, create_scenario_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ScenariosApi->scenarios_create_scenario:\n")
+        api_response = api_instance.scenarios_create(tenant_id, project_id, create_scenario_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ScenariosApi->scenarios_create:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ScenariosApi->scenarios_create_scenario: %s\n" % e)
+        print("Exception when calling ScenariosApi->scenarios_create: %s\n" % e)
 ```
 
 
@@ -91,8 +91,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **scenarios_get_scenario**
-> Scenario scenarios_get_scenario(tenant_id, project_id, scenario_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **scenarios_get**
+> Scenario scenarios_get(tenant_id, project_id, scenario_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -125,11 +125,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.scenarios_get_scenario(tenant_id, project_id, scenario_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ScenariosApi->scenarios_get_scenario:\n")
+        api_response = api_instance.scenarios_get(tenant_id, project_id, scenario_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ScenariosApi->scenarios_get:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ScenariosApi->scenarios_get_scenario: %s\n" % e)
+        print("Exception when calling ScenariosApi->scenarios_get: %s\n" % e)
 ```
 
 
@@ -172,8 +172,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **scenarios_list_scenarios**
-> ListScenariosResponse scenarios_list_scenarios(tenant_id, project_id, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **scenarios_list**
+> ListScenariosResponse scenarios_list(tenant_id, project_id, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -207,11 +207,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.scenarios_list_scenarios(tenant_id, project_id, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ScenariosApi->scenarios_list_scenarios:\n")
+        api_response = api_instance.scenarios_list(tenant_id, project_id, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ScenariosApi->scenarios_list:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ScenariosApi->scenarios_list_scenarios: %s\n" % e)
+        print("Exception when calling ScenariosApi->scenarios_list: %s\n" % e)
 ```
 
 
@@ -254,8 +254,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **scenarios_mine_scenarios**
-> MineScenariosResponse scenarios_mine_scenarios(tenant_id, project_id, mine_scenarios_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **scenarios_mine**
+> MineScenariosResponse scenarios_mine(tenant_id, project_id, mine_scenarios_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -289,11 +289,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.scenarios_mine_scenarios(tenant_id, project_id, mine_scenarios_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ScenariosApi->scenarios_mine_scenarios:\n")
+        api_response = api_instance.scenarios_mine(tenant_id, project_id, mine_scenarios_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ScenariosApi->scenarios_mine:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ScenariosApi->scenarios_mine_scenarios: %s\n" % e)
+        print("Exception when calling ScenariosApi->scenarios_mine: %s\n" % e)
 ```
 
 

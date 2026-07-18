@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**calibrations_run_calibration**](CalibrationsApi.md#calibrations_run_calibration) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
+[**calibrations_run**](CalibrationsApi.md#calibrations_run) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
 
 
-# **calibrations_run_calibration**
-> CalibrationReport calibrations_run_calibration(tenant_id, project_id, dataset_id, version_id, run_calibration_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **calibrations_run**
+> CalibrationReport calibrations_run(tenant_id, project_id, dataset_id, version_id, run_calibration_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -44,11 +44,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.calibrations_run_calibration(tenant_id, project_id, dataset_id, version_id, run_calibration_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of CalibrationsApi->calibrations_run_calibration:\n")
+        api_response = api_instance.calibrations_run(tenant_id, project_id, dataset_id, version_id, run_calibration_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of CalibrationsApi->calibrations_run:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling CalibrationsApi->calibrations_run_calibration: %s\n" % e)
+        print("Exception when calling CalibrationsApi->calibrations_run: %s\n" % e)
 ```
 
 

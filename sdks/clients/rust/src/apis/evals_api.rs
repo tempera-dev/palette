@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`evals_period_run_deterministic_eval`]
+/// struct for passing parameters to the method [`evals_period_run_deterministic`]
 #[derive(Clone, Debug)]
-pub struct EvalsPeriodRunDeterministicEvalParams {
+pub struct EvalsPeriodRunDeterministicParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -36,9 +36,9 @@ pub struct EvalsPeriodRunDeterministicEvalParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`evals_period_run_judge_eval`]
+/// struct for passing parameters to the method [`evals_period_run_judge`]
 #[derive(Clone, Debug)]
-pub struct EvalsPeriodRunJudgeEvalParams {
+pub struct EvalsPeriodRunJudgeParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -59,10 +59,10 @@ pub struct EvalsPeriodRunJudgeEvalParams {
 }
 
 
-/// struct for typed errors of method [`evals_period_run_deterministic_eval`]
+/// struct for typed errors of method [`evals_period_run_deterministic`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum EvalsPeriodRunDeterministicEvalError {
+pub enum EvalsPeriodRunDeterministicError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -70,10 +70,10 @@ pub enum EvalsPeriodRunDeterministicEvalError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`evals_period_run_judge_eval`]
+/// struct for typed errors of method [`evals_period_run_judge`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum EvalsPeriodRunJudgeEvalError {
+pub enum EvalsPeriodRunJudgeError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -82,7 +82,7 @@ pub enum EvalsPeriodRunJudgeEvalError {
 }
 
 
-pub async fn evals_period_run_deterministic_eval(configuration: &configuration::Configuration, params: EvalsPeriodRunDeterministicEvalParams) -> Result<models::DatasetEvalReport, Error<EvalsPeriodRunDeterministicEvalError>> {
+pub async fn evals_period_run_deterministic(configuration: &configuration::Configuration, params: EvalsPeriodRunDeterministicParams) -> Result<models::DatasetEvalReport, Error<EvalsPeriodRunDeterministicError>> {
 
     let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -114,12 +114,12 @@ pub async fn evals_period_run_deterministic_eval(configuration: &configuration::
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<EvalsPeriodRunDeterministicEvalError> = serde_json::from_str(&content).ok();
+        let entity: Option<EvalsPeriodRunDeterministicError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn evals_period_run_judge_eval(configuration: &configuration::Configuration, params: EvalsPeriodRunJudgeEvalParams) -> Result<models::DatasetEvalReport, Error<EvalsPeriodRunJudgeEvalError>> {
+pub async fn evals_period_run_judge(configuration: &configuration::Configuration, params: EvalsPeriodRunJudgeParams) -> Result<models::DatasetEvalReport, Error<EvalsPeriodRunJudgeError>> {
 
     let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -151,7 +151,7 @@ pub async fn evals_period_run_judge_eval(configuration: &configuration::Configur
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<EvalsPeriodRunJudgeEvalError> = serde_json::from_str(&content).ok();
+        let entity: Option<EvalsPeriodRunJudgeError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

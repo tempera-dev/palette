@@ -8,7 +8,7 @@
 
 
 gate_definition_t*
-GatesAPI_gatesCreateGate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_gate_request_t *create_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_gate_request_t *create_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -212,7 +212,7 @@ end:
 }
 
 gate_run_report_t*
-GatesAPI_gatesRunGate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *gate_id, run_gate_request_t *run_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+GatesAPI_gatesRun(apiClient_t *apiClient, char *tenant_id, char *project_id, char *gate_id, run_gate_request_t *run_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();

@@ -23,7 +23,7 @@ import (
 // JudgeAPIService JudgeAPI service
 type JudgeAPIService service
 
-type ApiJudgeEvaluateJudgeRequest struct {
+type ApiJudgeEvaluateRequest struct {
 	ctx context.Context
 	ApiService *JudgeAPIService
 	tenantId string
@@ -35,49 +35,49 @@ type ApiJudgeEvaluateJudgeRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiJudgeEvaluateJudgeRequest) RunJudgeEvalHttpRequest(runJudgeEvalHttpRequest RunJudgeEvalHttpRequest) ApiJudgeEvaluateJudgeRequest {
+func (r ApiJudgeEvaluateRequest) RunJudgeEvalHttpRequest(runJudgeEvalHttpRequest RunJudgeEvalHttpRequest) ApiJudgeEvaluateRequest {
 	r.runJudgeEvalHttpRequest = &runJudgeEvalHttpRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiJudgeEvaluateJudgeRequest) Authorization(authorization string) ApiJudgeEvaluateJudgeRequest {
+func (r ApiJudgeEvaluateRequest) Authorization(authorization string) ApiJudgeEvaluateRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiJudgeEvaluateJudgeRequest) XPaletteApiKey(xPaletteApiKey string) ApiJudgeEvaluateJudgeRequest {
+func (r ApiJudgeEvaluateRequest) XPaletteApiKey(xPaletteApiKey string) ApiJudgeEvaluateRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiJudgeEvaluateJudgeRequest) XPaletteProjectId(xPaletteProjectId string) ApiJudgeEvaluateJudgeRequest {
+func (r ApiJudgeEvaluateRequest) XPaletteProjectId(xPaletteProjectId string) ApiJudgeEvaluateRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiJudgeEvaluateJudgeRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiJudgeEvaluateJudgeRequest {
+func (r ApiJudgeEvaluateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiJudgeEvaluateRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiJudgeEvaluateJudgeRequest) Execute() (*JudgeBrokerOutcome, *http.Response, error) {
-	return r.ApiService.JudgeEvaluateJudgeExecute(r)
+func (r ApiJudgeEvaluateRequest) Execute() (*JudgeBrokerOutcome, *http.Response, error) {
+	return r.ApiService.JudgeEvaluateExecute(r)
 }
 
 /*
-JudgeEvaluateJudge Method for JudgeEvaluateJudge
+JudgeEvaluate Method for JudgeEvaluate
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiJudgeEvaluateJudgeRequest
+ @return ApiJudgeEvaluateRequest
 */
-func (a *JudgeAPIService) JudgeEvaluateJudge(ctx context.Context, tenantId string, projectId string) ApiJudgeEvaluateJudgeRequest {
-	return ApiJudgeEvaluateJudgeRequest{
+func (a *JudgeAPIService) JudgeEvaluate(ctx context.Context, tenantId string, projectId string) ApiJudgeEvaluateRequest {
+	return ApiJudgeEvaluateRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -87,7 +87,7 @@ func (a *JudgeAPIService) JudgeEvaluateJudge(ctx context.Context, tenantId strin
 
 // Execute executes the request
 //  @return JudgeBrokerOutcome
-func (a *JudgeAPIService) JudgeEvaluateJudgeExecute(r ApiJudgeEvaluateJudgeRequest) (*JudgeBrokerOutcome, *http.Response, error) {
+func (a *JudgeAPIService) JudgeEvaluateExecute(r ApiJudgeEvaluateRequest) (*JudgeBrokerOutcome, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -95,7 +95,7 @@ func (a *JudgeAPIService) JudgeEvaluateJudgeExecute(r ApiJudgeEvaluateJudgeReque
 		localVarReturnValue  *JudgeBrokerOutcome
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JudgeAPIService.JudgeEvaluateJudge")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JudgeAPIService.JudgeEvaluate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -211,7 +211,7 @@ func (a *JudgeAPIService) JudgeEvaluateJudgeExecute(r ApiJudgeEvaluateJudgeReque
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiJudgeListJudgeLedgerRequest struct {
+type ApiJudgeListLedgerRequest struct {
 	ctx context.Context
 	ApiService *JudgeAPIService
 	tenantId string
@@ -223,43 +223,43 @@ type ApiJudgeListJudgeLedgerRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiJudgeListJudgeLedgerRequest) Authorization(authorization string) ApiJudgeListJudgeLedgerRequest {
+func (r ApiJudgeListLedgerRequest) Authorization(authorization string) ApiJudgeListLedgerRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiJudgeListJudgeLedgerRequest) XPaletteApiKey(xPaletteApiKey string) ApiJudgeListJudgeLedgerRequest {
+func (r ApiJudgeListLedgerRequest) XPaletteApiKey(xPaletteApiKey string) ApiJudgeListLedgerRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiJudgeListJudgeLedgerRequest) XPaletteProjectId(xPaletteProjectId string) ApiJudgeListJudgeLedgerRequest {
+func (r ApiJudgeListLedgerRequest) XPaletteProjectId(xPaletteProjectId string) ApiJudgeListLedgerRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiJudgeListJudgeLedgerRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiJudgeListJudgeLedgerRequest {
+func (r ApiJudgeListLedgerRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiJudgeListLedgerRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiJudgeListJudgeLedgerRequest) Execute() ([]JudgeAuditRecord, *http.Response, error) {
-	return r.ApiService.JudgeListJudgeLedgerExecute(r)
+func (r ApiJudgeListLedgerRequest) Execute() ([]JudgeAuditRecord, *http.Response, error) {
+	return r.ApiService.JudgeListLedgerExecute(r)
 }
 
 /*
-JudgeListJudgeLedger Method for JudgeListJudgeLedger
+JudgeListLedger Method for JudgeListLedger
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiJudgeListJudgeLedgerRequest
+ @return ApiJudgeListLedgerRequest
 */
-func (a *JudgeAPIService) JudgeListJudgeLedger(ctx context.Context, tenantId string, projectId string) ApiJudgeListJudgeLedgerRequest {
-	return ApiJudgeListJudgeLedgerRequest{
+func (a *JudgeAPIService) JudgeListLedger(ctx context.Context, tenantId string, projectId string) ApiJudgeListLedgerRequest {
+	return ApiJudgeListLedgerRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -269,7 +269,7 @@ func (a *JudgeAPIService) JudgeListJudgeLedger(ctx context.Context, tenantId str
 
 // Execute executes the request
 //  @return []JudgeAuditRecord
-func (a *JudgeAPIService) JudgeListJudgeLedgerExecute(r ApiJudgeListJudgeLedgerRequest) ([]JudgeAuditRecord, *http.Response, error) {
+func (a *JudgeAPIService) JudgeListLedgerExecute(r ApiJudgeListLedgerRequest) ([]JudgeAuditRecord, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -277,7 +277,7 @@ func (a *JudgeAPIService) JudgeListJudgeLedgerExecute(r ApiJudgeListJudgeLedgerR
 		localVarReturnValue  []JudgeAuditRecord
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JudgeAPIService.JudgeListJudgeLedger")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JudgeAPIService.JudgeListLedger")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

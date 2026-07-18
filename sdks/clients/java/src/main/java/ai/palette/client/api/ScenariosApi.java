@@ -99,8 +99,8 @@ public class ScenariosApi {
    * @return Scenario
    * @throws ApiException if fails to make API call
    */
-  public Scenario scenariosCreateScenario(String tenantId, String projectId, CreateScenarioRequest createScenarioRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<Scenario> localVarResponse = scenariosCreateScenarioWithHttpInfo(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public Scenario scenariosCreate(String tenantId, String projectId, CreateScenarioRequest createScenarioRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<Scenario> localVarResponse = scenariosCreateWithHttpInfo(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -117,8 +117,8 @@ public class ScenariosApi {
    * @return ApiResponse&lt;Scenario&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Scenario> scenariosCreateScenarioWithHttpInfo(String tenantId, String projectId, CreateScenarioRequest createScenarioRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = scenariosCreateScenarioRequestBuilder(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<Scenario> scenariosCreateWithHttpInfo(String tenantId, String projectId, CreateScenarioRequest createScenarioRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = scenariosCreateRequestBuilder(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -128,7 +128,7 @@ public class ScenariosApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("scenariosCreateScenario", localVarResponse);
+          throw getApiException("scenariosCreate", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<Scenario>(
@@ -157,18 +157,18 @@ public class ScenariosApi {
     }
   }
 
-  private HttpRequest.Builder scenariosCreateScenarioRequestBuilder(String tenantId, String projectId, CreateScenarioRequest createScenarioRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder scenariosCreateRequestBuilder(String tenantId, String projectId, CreateScenarioRequest createScenarioRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosCreateScenario");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosCreate");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosCreateScenario");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosCreate");
     }
     // verify the required parameter 'createScenarioRequest' is set
     if (createScenarioRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'createScenarioRequest' when calling scenariosCreateScenario");
+      throw new ApiException(400, "Missing the required parameter 'createScenarioRequest' when calling scenariosCreate");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -222,8 +222,8 @@ public class ScenariosApi {
    * @return Scenario
    * @throws ApiException if fails to make API call
    */
-  public Scenario scenariosGetScenario(String tenantId, String projectId, String scenarioId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<Scenario> localVarResponse = scenariosGetScenarioWithHttpInfo(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public Scenario scenariosGet(String tenantId, String projectId, String scenarioId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<Scenario> localVarResponse = scenariosGetWithHttpInfo(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -240,8 +240,8 @@ public class ScenariosApi {
    * @return ApiResponse&lt;Scenario&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Scenario> scenariosGetScenarioWithHttpInfo(String tenantId, String projectId, String scenarioId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = scenariosGetScenarioRequestBuilder(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<Scenario> scenariosGetWithHttpInfo(String tenantId, String projectId, String scenarioId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = scenariosGetRequestBuilder(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -251,7 +251,7 @@ public class ScenariosApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("scenariosGetScenario", localVarResponse);
+          throw getApiException("scenariosGet", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<Scenario>(
@@ -280,18 +280,18 @@ public class ScenariosApi {
     }
   }
 
-  private HttpRequest.Builder scenariosGetScenarioRequestBuilder(String tenantId, String projectId, String scenarioId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder scenariosGetRequestBuilder(String tenantId, String projectId, String scenarioId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosGetScenario");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosGet");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosGetScenario");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosGet");
     }
     // verify the required parameter 'scenarioId' is set
     if (scenarioId == null) {
-      throw new ApiException(400, "Missing the required parameter 'scenarioId' when calling scenariosGetScenario");
+      throw new ApiException(400, "Missing the required parameter 'scenarioId' when calling scenariosGet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -341,8 +341,8 @@ public class ScenariosApi {
    * @return ListScenariosResponse
    * @throws ApiException if fails to make API call
    */
-  public ListScenariosResponse scenariosListScenarios(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ListScenariosResponse> localVarResponse = scenariosListScenariosWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ListScenariosResponse scenariosList(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ListScenariosResponse> localVarResponse = scenariosListWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -360,8 +360,8 @@ public class ScenariosApi {
    * @return ApiResponse&lt;ListScenariosResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ListScenariosResponse> scenariosListScenariosWithHttpInfo(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = scenariosListScenariosRequestBuilder(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ListScenariosResponse> scenariosListWithHttpInfo(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = scenariosListRequestBuilder(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -371,7 +371,7 @@ public class ScenariosApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("scenariosListScenarios", localVarResponse);
+          throw getApiException("scenariosList", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ListScenariosResponse>(
@@ -400,14 +400,14 @@ public class ScenariosApi {
     }
   }
 
-  private HttpRequest.Builder scenariosListScenariosRequestBuilder(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder scenariosListRequestBuilder(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosListScenarios");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosList");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosListScenarios");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosList");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -472,8 +472,8 @@ public class ScenariosApi {
    * @return MineScenariosResponse
    * @throws ApiException if fails to make API call
    */
-  public MineScenariosResponse scenariosMineScenarios(String tenantId, String projectId, MineScenariosRequest mineScenariosRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<MineScenariosResponse> localVarResponse = scenariosMineScenariosWithHttpInfo(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public MineScenariosResponse scenariosMine(String tenantId, String projectId, MineScenariosRequest mineScenariosRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<MineScenariosResponse> localVarResponse = scenariosMineWithHttpInfo(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -490,8 +490,8 @@ public class ScenariosApi {
    * @return ApiResponse&lt;MineScenariosResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<MineScenariosResponse> scenariosMineScenariosWithHttpInfo(String tenantId, String projectId, MineScenariosRequest mineScenariosRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = scenariosMineScenariosRequestBuilder(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<MineScenariosResponse> scenariosMineWithHttpInfo(String tenantId, String projectId, MineScenariosRequest mineScenariosRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = scenariosMineRequestBuilder(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -501,7 +501,7 @@ public class ScenariosApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("scenariosMineScenarios", localVarResponse);
+          throw getApiException("scenariosMine", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<MineScenariosResponse>(
@@ -530,18 +530,18 @@ public class ScenariosApi {
     }
   }
 
-  private HttpRequest.Builder scenariosMineScenariosRequestBuilder(String tenantId, String projectId, MineScenariosRequest mineScenariosRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder scenariosMineRequestBuilder(String tenantId, String projectId, MineScenariosRequest mineScenariosRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosMineScenarios");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosMine");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosMineScenarios");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling scenariosMine");
     }
     // verify the required parameter 'mineScenariosRequest' is set
     if (mineScenariosRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'mineScenariosRequest' when calling scenariosMineScenarios");
+      throw new ApiException(400, "Missing the required parameter 'mineScenariosRequest' when calling scenariosMine");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

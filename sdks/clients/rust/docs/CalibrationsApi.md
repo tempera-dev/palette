@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**calibrations_period_run_calibration**](CalibrationsApi.md#calibrations_period_run_calibration) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
+[**calibrations_period_run**](CalibrationsApi.md#calibrations_period_run) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
 
 
 
-## calibrations_period_run_calibration
+## calibrations_period_run
 
-> models::CalibrationReport calibrations_period_run_calibration(tenant_id, project_id, dataset_id, version_id, run_calibration_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::CalibrationReport calibrations_period_run(tenant_id, project_id, dataset_id, version_id, run_calibration_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

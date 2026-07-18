@@ -46,7 +46,7 @@ public class ApiKeysApiTest {
      *          if the Api call fails
      */
     @Test
-    public void apiKeysCreateApiKeyTest() throws ApiException {
+    public void apiKeysCreateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String environmentId = null;
@@ -56,7 +56,7 @@ public class ApiKeysApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ApiKeyCreatedResponse response = 
-        api.apiKeysCreateApiKey(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.apiKeysCreate(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -70,7 +70,7 @@ public class ApiKeysApiTest {
      *          if the Api call fails
      */
     @Test
-    public void apiKeysRevokeApiKeyTest() throws ApiException {
+    public void apiKeysRevokeTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String environmentId = null;
@@ -80,7 +80,7 @@ public class ApiKeysApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         RevokedApiKey response = 
-        api.apiKeysRevokeApiKey(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.apiKeysRevoke(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

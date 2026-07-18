@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**connectGetPaletteConnectStatus**](ConnectApi.md#connectGetPaletteConnectStatus) | **GET** /v1/connect/status/{tenant_id}/{project_id} |  |
-| [**connectGetPaletteConnectStatusWithHttpInfo**](ConnectApi.md#connectGetPaletteConnectStatusWithHttpInfo) | **GET** /v1/connect/status/{tenant_id}/{project_id} |  |
+| [**connectGetStatus**](ConnectApi.md#connectGetStatus) | **GET** /v1/connect/status/{tenant_id}/{project_id} |  |
+| [**connectGetStatusWithHttpInfo**](ConnectApi.md#connectGetStatusWithHttpInfo) | **GET** /v1/connect/status/{tenant_id}/{project_id} |  |
 
 
 
-## connectGetPaletteConnectStatus
+## connectGetStatus
 
-> PaletteConnectStatusResponse connectGetPaletteConnectStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PaletteConnectStatusResponse connectGetStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -38,10 +38,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PaletteConnectStatusResponse result = apiInstance.connectGetPaletteConnectStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PaletteConnectStatusResponse result = apiInstance.connectGetStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectApi#connectGetPaletteConnectStatus");
+            System.err.println("Exception when calling ConnectApi#connectGetStatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -85,9 +85,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## connectGetPaletteConnectStatusWithHttpInfo
+## connectGetStatusWithHttpInfo
 
-> ApiResponse<PaletteConnectStatusResponse> connectGetPaletteConnectStatus connectGetPaletteConnectStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PaletteConnectStatusResponse> connectGetStatus connectGetStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -115,12 +115,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PaletteConnectStatusResponse> response = apiInstance.connectGetPaletteConnectStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PaletteConnectStatusResponse> response = apiInstance.connectGetStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ConnectApi#connectGetPaletteConnectStatus");
+            System.err.println("Exception when calling ConnectApi#connectGetStatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

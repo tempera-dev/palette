@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AlertsEvaluateAlert**](AlertsAPI.md#AlertsEvaluateAlert) | **Post** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
+[**AlertsEvaluate**](AlertsAPI.md#AlertsEvaluate) | **Post** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
 
 
 
-## AlertsEvaluateAlert
+## AlertsEvaluate
 
-> AlertDecision AlertsEvaluateAlert(ctx, tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> AlertDecision AlertsEvaluate(ctx, tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AlertsAPI.AlertsEvaluateAlert(context.Background(), tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.AlertsAPI.AlertsEvaluate(context.Background(), tenantId, projectId, traceId).EvaluateAlertRequest(evaluateAlertRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AlertsAPI.AlertsEvaluateAlert``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AlertsAPI.AlertsEvaluate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AlertsEvaluateAlert`: AlertDecision
-	fmt.Fprintf(os.Stdout, "Response from `AlertsAPI.AlertsEvaluateAlert`: %v\n", resp)
+	// response from `AlertsEvaluate`: AlertDecision
+	fmt.Fprintf(os.Stdout, "Response from `AlertsAPI.AlertsEvaluate`: %v\n", resp)
 }
 ```
 
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAlertsEvaluateAlertRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAlertsEvaluateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

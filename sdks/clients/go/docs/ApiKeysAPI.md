@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ApiKeysCreateApiKey**](ApiKeysAPI.md#ApiKeysCreateApiKey) | **Post** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
-[**ApiKeysRevokeApiKey**](ApiKeysAPI.md#ApiKeysRevokeApiKey) | **Post** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
+[**ApiKeysCreate**](ApiKeysAPI.md#ApiKeysCreate) | **Post** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
+[**ApiKeysRevoke**](ApiKeysAPI.md#ApiKeysRevoke) | **Post** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
 
 
 
-## ApiKeysCreateApiKey
+## ApiKeysCreate
 
-> ApiKeyCreatedResponse ApiKeysCreateApiKey(ctx, tenantId, projectId, environmentId).CreateApiKeyHttpRequest(createApiKeyHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ApiKeyCreatedResponse ApiKeysCreate(ctx, tenantId, projectId, environmentId).CreateApiKeyHttpRequest(createApiKeyHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ApiKeysAPI.ApiKeysCreateApiKey(context.Background(), tenantId, projectId, environmentId).CreateApiKeyHttpRequest(createApiKeyHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ApiKeysAPI.ApiKeysCreate(context.Background(), tenantId, projectId, environmentId).CreateApiKeyHttpRequest(createApiKeyHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeysAPI.ApiKeysCreateApiKey``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeysAPI.ApiKeysCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ApiKeysCreateApiKey`: ApiKeyCreatedResponse
-	fmt.Fprintf(os.Stdout, "Response from `ApiKeysAPI.ApiKeysCreateApiKey`: %v\n", resp)
+	// response from `ApiKeysCreate`: ApiKeyCreatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `ApiKeysAPI.ApiKeysCreate`: %v\n", resp)
 }
 ```
 
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiApiKeysCreateApiKeyRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiApiKeysCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -93,9 +93,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ApiKeysRevokeApiKey
+## ApiKeysRevoke
 
-> RevokedApiKey ApiKeysRevokeApiKey(ctx, tenantId, projectId, environmentId, apiKeyId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> RevokedApiKey ApiKeysRevoke(ctx, tenantId, projectId, environmentId, apiKeyId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -123,13 +123,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ApiKeysAPI.ApiKeysRevokeApiKey(context.Background(), tenantId, projectId, environmentId, apiKeyId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ApiKeysAPI.ApiKeysRevoke(context.Background(), tenantId, projectId, environmentId, apiKeyId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeysAPI.ApiKeysRevokeApiKey``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ApiKeysAPI.ApiKeysRevoke``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ApiKeysRevokeApiKey`: RevokedApiKey
-	fmt.Fprintf(os.Stdout, "Response from `ApiKeysAPI.ApiKeysRevokeApiKey`: %v\n", resp)
+	// response from `ApiKeysRevoke`: RevokedApiKey
+	fmt.Fprintf(os.Stdout, "Response from `ApiKeysAPI.ApiKeysRevoke`: %v\n", resp)
 }
 ```
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiApiKeysRevokeApiKeyRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiApiKeysRevokeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

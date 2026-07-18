@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**connect_period_get_palette_connect_status**](ConnectApi.md#connect_period_get_palette_connect_status) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
+[**connect_period_get_status**](ConnectApi.md#connect_period_get_status) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
 
 
 
-## connect_period_get_palette_connect_status
+## connect_period_get_status
 
-> models::PaletteConnectStatusResponse connect_period_get_palette_connect_status(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::PaletteConnectStatusResponse connect_period_get_status(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

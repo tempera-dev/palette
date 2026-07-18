@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**alerts_evaluate_alert**](AlertsApi.md#alerts_evaluate_alert) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
+[**alerts_evaluate**](AlertsApi.md#alerts_evaluate) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |
 
 
-# **alerts_evaluate_alert**
-> AlertDecision alerts_evaluate_alert(tenant_id, project_id, trace_id, evaluate_alert_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **alerts_evaluate**
+> AlertDecision alerts_evaluate(tenant_id, project_id, trace_id, evaluate_alert_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -43,11 +43,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.alerts_evaluate_alert(tenant_id, project_id, trace_id, evaluate_alert_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of AlertsApi->alerts_evaluate_alert:\n")
+        api_response = api_instance.alerts_evaluate(tenant_id, project_id, trace_id, evaluate_alert_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of AlertsApi->alerts_evaluate:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling AlertsApi->alerts_evaluate_alert: %s\n" % e)
+        print("Exception when calling AlertsApi->alerts_evaluate: %s\n" % e)
 ```
 
 

@@ -97,8 +97,8 @@ public class TracesApi {
    * @return TraceView
    * @throws ApiException if fails to make API call
    */
-  public TraceView tracesGetTrace(String tenantId, String traceId, Boolean unmask, String reason, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<TraceView> localVarResponse = tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public TraceView tracesGet(String tenantId, String traceId, Boolean unmask, String reason, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<TraceView> localVarResponse = tracesGetWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -116,8 +116,8 @@ public class TracesApi {
    * @return ApiResponse&lt;TraceView&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<TraceView> tracesGetTraceWithHttpInfo(String tenantId, String traceId, Boolean unmask, String reason, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = tracesGetTraceRequestBuilder(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<TraceView> tracesGetWithHttpInfo(String tenantId, String traceId, Boolean unmask, String reason, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = tracesGetRequestBuilder(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -127,7 +127,7 @@ public class TracesApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("tracesGetTrace", localVarResponse);
+          throw getApiException("tracesGet", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<TraceView>(
@@ -156,14 +156,14 @@ public class TracesApi {
     }
   }
 
-  private HttpRequest.Builder tracesGetTraceRequestBuilder(String tenantId, String traceId, Boolean unmask, String reason, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder tracesGetRequestBuilder(String tenantId, String traceId, Boolean unmask, String reason, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling tracesGetTrace");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling tracesGet");
     }
     // verify the required parameter 'traceId' is set
     if (traceId == null) {
-      throw new ApiException(400, "Missing the required parameter 'traceId' when calling tracesGetTrace");
+      throw new ApiException(400, "Missing the required parameter 'traceId' when calling tracesGet");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -241,8 +241,8 @@ public class TracesApi {
    * @return PageRunSummary
    * @throws ApiException if fails to make API call
    */
-  public PageRunSummary tracesListTraces(String tenantId, String projectId, String environmentId, String traceId, String kind, String status, String startedAfter, String startedBefore, String model, String release, Long minCostMicros, Long maxCostMicros, Long minLatencyMs, Long maxLatencyMs, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<PageRunSummary> localVarResponse = tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public PageRunSummary tracesList(String tenantId, String projectId, String environmentId, String traceId, String kind, String status, String startedAfter, String startedBefore, String model, String release, Long minCostMicros, Long maxCostMicros, Long minLatencyMs, Long maxLatencyMs, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<PageRunSummary> localVarResponse = tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -272,8 +272,8 @@ public class TracesApi {
    * @return ApiResponse&lt;PageRunSummary&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PageRunSummary> tracesListTracesWithHttpInfo(String tenantId, String projectId, String environmentId, String traceId, String kind, String status, String startedAfter, String startedBefore, String model, String release, Long minCostMicros, Long maxCostMicros, Long minLatencyMs, Long maxLatencyMs, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = tracesListTracesRequestBuilder(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<PageRunSummary> tracesListWithHttpInfo(String tenantId, String projectId, String environmentId, String traceId, String kind, String status, String startedAfter, String startedBefore, String model, String release, Long minCostMicros, Long maxCostMicros, Long minLatencyMs, Long maxLatencyMs, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = tracesListRequestBuilder(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -283,7 +283,7 @@ public class TracesApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("tracesListTraces", localVarResponse);
+          throw getApiException("tracesList", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<PageRunSummary>(
@@ -312,10 +312,10 @@ public class TracesApi {
     }
   }
 
-  private HttpRequest.Builder tracesListTracesRequestBuilder(String tenantId, String projectId, String environmentId, String traceId, String kind, String status, String startedAfter, String startedBefore, String model, String release, Long minCostMicros, Long maxCostMicros, Long minLatencyMs, Long maxLatencyMs, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder tracesListRequestBuilder(String tenantId, String projectId, String environmentId, String traceId, String kind, String status, String startedAfter, String startedBefore, String model, String release, Long minCostMicros, Long maxCostMicros, Long minLatencyMs, Long maxLatencyMs, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling tracesListTraces");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling tracesList");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

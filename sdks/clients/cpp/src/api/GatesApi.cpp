@@ -35,13 +35,13 @@ GatesApi::~GatesApi()
 {
 }
 
-pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_createGate(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateGateRequest> createGateRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_create(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateGateRequest> createGateRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createGateRequest' is set
     if (createGateRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createGateRequest' when calling GatesApi->gates_createGate"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createGateRequest' when calling GatesApi->gates_create"));
     }
 
 
@@ -77,7 +77,7 @@ pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_createGate(utility::
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("GatesApi->gates_createGate does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("GatesApi->gates_create does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -137,7 +137,7 @@ pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_createGate(utility::
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("GatesApi->gates_createGate does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("GatesApi->gates_create does not consume any supported media type"));
     }
 
 
@@ -157,7 +157,7 @@ pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_createGate(utility::
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling gates_createGate: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling gates_create: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -168,7 +168,7 @@ pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_createGate(utility::
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling gates_createGate: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling gates_create: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -192,19 +192,19 @@ pplx::task<std::shared_ptr<GateDefinition>> GatesApi::gates_createGate(utility::
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling gates_createGate: unsupported response type"));
+                , utility::conversions::to_string_t("error calling gates_create: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_runGate(utility::string_t tenantId, utility::string_t projectId, utility::string_t gateId, std::shared_ptr<RunGateRequest> runGateRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_run(utility::string_t tenantId, utility::string_t projectId, utility::string_t gateId, std::shared_ptr<RunGateRequest> runGateRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'runGateRequest' is set
     if (runGateRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'runGateRequest' when calling GatesApi->gates_runGate"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'runGateRequest' when calling GatesApi->gates_run"));
     }
 
 
@@ -241,7 +241,7 @@ pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_runGate(utility::stri
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("GatesApi->gates_runGate does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("GatesApi->gates_run does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -301,7 +301,7 @@ pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_runGate(utility::stri
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("GatesApi->gates_runGate does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("GatesApi->gates_run does not consume any supported media type"));
     }
 
 
@@ -321,7 +321,7 @@ pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_runGate(utility::stri
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling gates_runGate: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling gates_run: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -332,7 +332,7 @@ pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_runGate(utility::stri
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling gates_runGate: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling gates_run: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -356,7 +356,7 @@ pplx::task<std::shared_ptr<GateRunReport>> GatesApi::gates_runGate(utility::stri
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling gates_runGate: unsupported response type"));
+                , utility::conversions::to_string_t("error calling gates_run: unsupported response type"));
         }
 
         return localVarResult;

@@ -38,14 +38,14 @@ func Test_paletteclient_ArchiveAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test ArchiveAPIService ArchiveQueryArchiveSpans", func(t *testing.T) {
+	t.Run("Test ArchiveAPIService ArchiveQuerySpans", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var tenantId string
 		var projectId string
 
-		resp, httpRes, err := apiClient.ArchiveAPI.ArchiveQueryArchiveSpans(context.Background(), tenantId, projectId).Execute()
+		resp, httpRes, err := apiClient.ArchiveAPI.ArchiveQuerySpans(context.Background(), tenantId, projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

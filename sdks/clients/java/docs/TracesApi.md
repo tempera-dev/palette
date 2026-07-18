@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**tracesGetTrace**](TracesApi.md#tracesGetTrace) | **GET** /v1/traces/{tenant_id}/{trace_id} |  |
-| [**tracesGetTraceWithHttpInfo**](TracesApi.md#tracesGetTraceWithHttpInfo) | **GET** /v1/traces/{tenant_id}/{trace_id} |  |
-| [**tracesListTraces**](TracesApi.md#tracesListTraces) | **GET** /v1/traces/{tenant_id} |  |
-| [**tracesListTracesWithHttpInfo**](TracesApi.md#tracesListTracesWithHttpInfo) | **GET** /v1/traces/{tenant_id} |  |
+| [**tracesGet**](TracesApi.md#tracesGet) | **GET** /v1/traces/{tenant_id}/{trace_id} |  |
+| [**tracesGetWithHttpInfo**](TracesApi.md#tracesGetWithHttpInfo) | **GET** /v1/traces/{tenant_id}/{trace_id} |  |
+| [**tracesList**](TracesApi.md#tracesList) | **GET** /v1/traces/{tenant_id} |  |
+| [**tracesListWithHttpInfo**](TracesApi.md#tracesListWithHttpInfo) | **GET** /v1/traces/{tenant_id} |  |
 
 
 
-## tracesGetTrace
+## tracesGet
 
-> TraceView tracesGetTrace(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> TraceView tracesGet(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -42,10 +42,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            TraceView result = apiInstance.tracesGetTrace(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            TraceView result = apiInstance.tracesGet(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TracesApi#tracesGetTrace");
+            System.err.println("Exception when calling TracesApi#tracesGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -92,9 +92,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## tracesGetTraceWithHttpInfo
+## tracesGetWithHttpInfo
 
-> ApiResponse<TraceView> tracesGetTrace tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<TraceView> tracesGet tracesGetWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -124,12 +124,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<TraceView> response = apiInstance.tracesGetTraceWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<TraceView> response = apiInstance.tracesGetWithHttpInfo(tenantId, traceId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling TracesApi#tracesGetTrace");
+            System.err.println("Exception when calling TracesApi#tracesGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -177,9 +177,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## tracesListTraces
+## tracesList
 
-> PageRunSummary tracesListTraces(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PageRunSummary tracesList(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -220,10 +220,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PageRunSummary result = apiInstance.tracesListTraces(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PageRunSummary result = apiInstance.tracesList(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling TracesApi#tracesListTraces");
+            System.err.println("Exception when calling TracesApi#tracesList");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -281,9 +281,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## tracesListTracesWithHttpInfo
+## tracesListWithHttpInfo
 
-> ApiResponse<PageRunSummary> tracesListTraces tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PageRunSummary> tracesList tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -325,12 +325,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PageRunSummary> response = apiInstance.tracesListTracesWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PageRunSummary> response = apiInstance.tracesListWithHttpInfo(tenantId, projectId, environmentId, traceId, kind, status, startedAfter, startedBefore, model, release, minCostMicros, maxCostMicros, minLatencyMs, maxLatencyMs, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling TracesApi#tracesListTraces");
+            System.err.println("Exception when calling TracesApi#tracesList");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

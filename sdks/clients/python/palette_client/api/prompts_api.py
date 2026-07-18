@@ -47,7 +47,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_add_prompt_version(
+    def prompts_add_version(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -70,7 +70,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PromptVersion:
-        """prompts_add_prompt_version
+        """prompts_add_version
 
 
         :param tenant_id: tenant_id (required)
@@ -111,7 +111,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_add_prompt_version_serialize(
+        _param = self._prompts_add_version_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -145,7 +145,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_add_prompt_version_with_http_info(
+    def prompts_add_version_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -168,7 +168,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PromptVersion]:
-        """prompts_add_prompt_version
+        """prompts_add_version
 
 
         :param tenant_id: tenant_id (required)
@@ -209,7 +209,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_add_prompt_version_serialize(
+        _param = self._prompts_add_version_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -243,7 +243,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_add_prompt_version_without_preload_content(
+    def prompts_add_version_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -266,7 +266,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """prompts_add_prompt_version
+        """prompts_add_version
 
 
         :param tenant_id: tenant_id (required)
@@ -307,7 +307,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_add_prompt_version_serialize(
+        _param = self._prompts_add_version_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -336,7 +336,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _prompts_add_prompt_version_serialize(
+    def _prompts_add_version_serialize(
         self,
         tenant_id,
         project_id,
@@ -434,7 +434,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_create_prompt(
+    def prompts_create(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -456,7 +456,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> CreatedPrompt:
-        """prompts_create_prompt
+        """prompts_create
 
 
         :param tenant_id: tenant_id (required)
@@ -495,7 +495,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_create_prompt_serialize(
+        _param = self._prompts_create_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             create_prompt_request=create_prompt_request,
@@ -527,7 +527,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_create_prompt_with_http_info(
+    def prompts_create_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -549,7 +549,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[CreatedPrompt]:
-        """prompts_create_prompt
+        """prompts_create
 
 
         :param tenant_id: tenant_id (required)
@@ -588,7 +588,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_create_prompt_serialize(
+        _param = self._prompts_create_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             create_prompt_request=create_prompt_request,
@@ -620,7 +620,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_create_prompt_without_preload_content(
+    def prompts_create_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -642,7 +642,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """prompts_create_prompt
+        """prompts_create
 
 
         :param tenant_id: tenant_id (required)
@@ -681,7 +681,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_create_prompt_serialize(
+        _param = self._prompts_create_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             create_prompt_request=create_prompt_request,
@@ -708,7 +708,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _prompts_create_prompt_serialize(
+    def _prompts_create_serialize(
         self,
         tenant_id,
         project_id,
@@ -803,7 +803,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_diff_prompt_versions(
+    def prompts_diff_versions(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -827,7 +827,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PromptVersionDiff:
-        """prompts_diff_prompt_versions
+        """prompts_diff_versions
 
 
         :param tenant_id: tenant_id (required)
@@ -870,7 +870,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_diff_prompt_versions_serialize(
+        _param = self._prompts_diff_versions_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -905,7 +905,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_diff_prompt_versions_with_http_info(
+    def prompts_diff_versions_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -929,7 +929,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PromptVersionDiff]:
-        """prompts_diff_prompt_versions
+        """prompts_diff_versions
 
 
         :param tenant_id: tenant_id (required)
@@ -972,7 +972,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_diff_prompt_versions_serialize(
+        _param = self._prompts_diff_versions_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1007,7 +1007,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_diff_prompt_versions_without_preload_content(
+    def prompts_diff_versions_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1031,7 +1031,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """prompts_diff_prompt_versions
+        """prompts_diff_versions
 
 
         :param tenant_id: tenant_id (required)
@@ -1074,7 +1074,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_diff_prompt_versions_serialize(
+        _param = self._prompts_diff_versions_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1104,7 +1104,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _prompts_diff_prompt_versions_serialize(
+    def _prompts_diff_versions_serialize(
         self,
         tenant_id,
         project_id,
@@ -1196,7 +1196,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_get_prompt(
+    def prompts_get(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1218,7 +1218,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Prompt:
-        """prompts_get_prompt
+        """prompts_get
 
 
         :param tenant_id: tenant_id (required)
@@ -1257,7 +1257,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_get_prompt_serialize(
+        _param = self._prompts_get_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1290,7 +1290,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_get_prompt_with_http_info(
+    def prompts_get_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1312,7 +1312,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Prompt]:
-        """prompts_get_prompt
+        """prompts_get
 
 
         :param tenant_id: tenant_id (required)
@@ -1351,7 +1351,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_get_prompt_serialize(
+        _param = self._prompts_get_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1384,7 +1384,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_get_prompt_without_preload_content(
+    def prompts_get_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1406,7 +1406,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """prompts_get_prompt
+        """prompts_get
 
 
         :param tenant_id: tenant_id (required)
@@ -1445,7 +1445,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_get_prompt_serialize(
+        _param = self._prompts_get_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1473,7 +1473,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _prompts_get_prompt_serialize(
+    def _prompts_get_serialize(
         self,
         tenant_id,
         project_id,
@@ -1555,7 +1555,348 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_list_prompt_versions(
+    def prompts_list(
+        self,
+        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
+        project_id: Annotated[StrictStr, Field(description="project_id")],
+        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
+        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
+        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
+        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PromptListResponse:
+        """prompts_list
+
+
+        :param tenant_id: tenant_id (required)
+        :type tenant_id: str
+        :param project_id: project_id (required)
+        :type project_id: str
+        :param authorization: Bearer API token for strict auth
+        :type authorization: str
+        :param x_palette_api_key: API key alternative for strict auth
+        :type x_palette_api_key: str
+        :param x_palette_project_id: Strict-auth project scope
+        :type x_palette_project_id: str
+        :param x_palette_environment_id: Strict-auth environment scope
+        :type x_palette_environment_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._prompts_list_serialize(
+            tenant_id=tenant_id,
+            project_id=project_id,
+            authorization=authorization,
+            x_palette_api_key=x_palette_api_key,
+            x_palette_project_id=x_palette_project_id,
+            x_palette_environment_id=x_palette_environment_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PromptListResponse",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '403': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def prompts_list_with_http_info(
+        self,
+        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
+        project_id: Annotated[StrictStr, Field(description="project_id")],
+        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
+        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
+        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
+        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PromptListResponse]:
+        """prompts_list
+
+
+        :param tenant_id: tenant_id (required)
+        :type tenant_id: str
+        :param project_id: project_id (required)
+        :type project_id: str
+        :param authorization: Bearer API token for strict auth
+        :type authorization: str
+        :param x_palette_api_key: API key alternative for strict auth
+        :type x_palette_api_key: str
+        :param x_palette_project_id: Strict-auth project scope
+        :type x_palette_project_id: str
+        :param x_palette_environment_id: Strict-auth environment scope
+        :type x_palette_environment_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._prompts_list_serialize(
+            tenant_id=tenant_id,
+            project_id=project_id,
+            authorization=authorization,
+            x_palette_api_key=x_palette_api_key,
+            x_palette_project_id=x_palette_project_id,
+            x_palette_environment_id=x_palette_environment_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PromptListResponse",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '403': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def prompts_list_without_preload_content(
+        self,
+        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
+        project_id: Annotated[StrictStr, Field(description="project_id")],
+        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
+        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
+        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
+        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """prompts_list
+
+
+        :param tenant_id: tenant_id (required)
+        :type tenant_id: str
+        :param project_id: project_id (required)
+        :type project_id: str
+        :param authorization: Bearer API token for strict auth
+        :type authorization: str
+        :param x_palette_api_key: API key alternative for strict auth
+        :type x_palette_api_key: str
+        :param x_palette_project_id: Strict-auth project scope
+        :type x_palette_project_id: str
+        :param x_palette_environment_id: Strict-auth environment scope
+        :type x_palette_environment_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._prompts_list_serialize(
+            tenant_id=tenant_id,
+            project_id=project_id,
+            authorization=authorization,
+            x_palette_api_key=x_palette_api_key,
+            x_palette_project_id=x_palette_project_id,
+            x_palette_environment_id=x_palette_environment_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PromptListResponse",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '403': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _prompts_list_serialize(
+        self,
+        tenant_id,
+        project_id,
+        authorization,
+        x_palette_api_key,
+        x_palette_project_id,
+        x_palette_environment_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if tenant_id is not None:
+            _path_params['tenant_id'] = tenant_id
+        if project_id is not None:
+            _path_params['project_id'] = project_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        if x_palette_api_key is not None:
+            _header_params['x-palette-api-key'] = x_palette_api_key
+        if x_palette_project_id is not None:
+            _header_params['x-palette-project-id'] = x_palette_project_id
+        if x_palette_environment_id is not None:
+            _header_params['x-palette-environment-id'] = x_palette_environment_id
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/prompts/{tenant_id}/{project_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def prompts_list_versions(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1577,7 +1918,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PromptVersionListResponse:
-        """prompts_list_prompt_versions
+        """prompts_list_versions
 
 
         :param tenant_id: tenant_id (required)
@@ -1616,7 +1957,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_list_prompt_versions_serialize(
+        _param = self._prompts_list_versions_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1649,7 +1990,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_list_prompt_versions_with_http_info(
+    def prompts_list_versions_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1671,7 +2012,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PromptVersionListResponse]:
-        """prompts_list_prompt_versions
+        """prompts_list_versions
 
 
         :param tenant_id: tenant_id (required)
@@ -1710,7 +2051,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_list_prompt_versions_serialize(
+        _param = self._prompts_list_versions_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1743,7 +2084,7 @@ class PromptsApi:
 
 
     @validate_call
-    def prompts_list_prompt_versions_without_preload_content(
+    def prompts_list_versions_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1765,7 +2106,7 @@ class PromptsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """prompts_list_prompt_versions
+        """prompts_list_versions
 
 
         :param tenant_id: tenant_id (required)
@@ -1804,7 +2145,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._prompts_list_prompt_versions_serialize(
+        _param = self._prompts_list_versions_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
@@ -1832,7 +2173,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _prompts_list_prompt_versions_serialize(
+    def _prompts_list_versions_serialize(
         self,
         tenant_id,
         project_id,
@@ -1898,347 +2239,6 @@ class PromptsApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def prompts_list_prompts(
-        self,
-        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
-        project_id: Annotated[StrictStr, Field(description="project_id")],
-        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
-        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
-        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
-        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PromptListResponse:
-        """prompts_list_prompts
-
-
-        :param tenant_id: tenant_id (required)
-        :type tenant_id: str
-        :param project_id: project_id (required)
-        :type project_id: str
-        :param authorization: Bearer API token for strict auth
-        :type authorization: str
-        :param x_palette_api_key: API key alternative for strict auth
-        :type x_palette_api_key: str
-        :param x_palette_project_id: Strict-auth project scope
-        :type x_palette_project_id: str
-        :param x_palette_environment_id: Strict-auth environment scope
-        :type x_palette_environment_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._prompts_list_prompts_serialize(
-            tenant_id=tenant_id,
-            project_id=project_id,
-            authorization=authorization,
-            x_palette_api_key=x_palette_api_key,
-            x_palette_project_id=x_palette_project_id,
-            x_palette_environment_id=x_palette_environment_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def prompts_list_prompts_with_http_info(
-        self,
-        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
-        project_id: Annotated[StrictStr, Field(description="project_id")],
-        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
-        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
-        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
-        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PromptListResponse]:
-        """prompts_list_prompts
-
-
-        :param tenant_id: tenant_id (required)
-        :type tenant_id: str
-        :param project_id: project_id (required)
-        :type project_id: str
-        :param authorization: Bearer API token for strict auth
-        :type authorization: str
-        :param x_palette_api_key: API key alternative for strict auth
-        :type x_palette_api_key: str
-        :param x_palette_project_id: Strict-auth project scope
-        :type x_palette_project_id: str
-        :param x_palette_environment_id: Strict-auth environment scope
-        :type x_palette_environment_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._prompts_list_prompts_serialize(
-            tenant_id=tenant_id,
-            project_id=project_id,
-            authorization=authorization,
-            x_palette_api_key=x_palette_api_key,
-            x_palette_project_id=x_palette_project_id,
-            x_palette_environment_id=x_palette_environment_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def prompts_list_prompts_without_preload_content(
-        self,
-        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
-        project_id: Annotated[StrictStr, Field(description="project_id")],
-        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
-        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
-        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
-        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """prompts_list_prompts
-
-
-        :param tenant_id: tenant_id (required)
-        :type tenant_id: str
-        :param project_id: project_id (required)
-        :type project_id: str
-        :param authorization: Bearer API token for strict auth
-        :type authorization: str
-        :param x_palette_api_key: API key alternative for strict auth
-        :type x_palette_api_key: str
-        :param x_palette_project_id: Strict-auth project scope
-        :type x_palette_project_id: str
-        :param x_palette_environment_id: Strict-auth environment scope
-        :type x_palette_environment_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._prompts_list_prompts_serialize(
-            tenant_id=tenant_id,
-            project_id=project_id,
-            authorization=authorization,
-            x_palette_api_key=x_palette_api_key,
-            x_palette_project_id=x_palette_project_id,
-            x_palette_environment_id=x_palette_environment_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptListResponse",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _prompts_list_prompts_serialize(
-        self,
-        tenant_id,
-        project_id,
-        authorization,
-        x_palette_api_key,
-        x_palette_project_id,
-        x_palette_environment_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
-        if project_id is not None:
-            _path_params['project_id'] = project_id
-        # process the query parameters
-        # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
-        if x_palette_api_key is not None:
-            _header_params['x-palette-api-key'] = x_palette_api_key
-        if x_palette_project_id is not None:
-            _header_params['x-palette-project-id'] = x_palette_project_id
-        if x_palette_environment_id is not None:
-            _header_params['x-palette-environment-id'] = x_palette_environment_id
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/prompts/{tenant_id}/{project_id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**apiKeysCreateApiKey**](ApiKeysApi.md#apiKeysCreateApiKey) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |  |
-| [**apiKeysCreateApiKeyWithHttpInfo**](ApiKeysApi.md#apiKeysCreateApiKeyWithHttpInfo) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |  |
-| [**apiKeysRevokeApiKey**](ApiKeysApi.md#apiKeysRevokeApiKey) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |  |
-| [**apiKeysRevokeApiKeyWithHttpInfo**](ApiKeysApi.md#apiKeysRevokeApiKeyWithHttpInfo) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |  |
+| [**apiKeysCreate**](ApiKeysApi.md#apiKeysCreate) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |  |
+| [**apiKeysCreateWithHttpInfo**](ApiKeysApi.md#apiKeysCreateWithHttpInfo) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |  |
+| [**apiKeysRevoke**](ApiKeysApi.md#apiKeysRevoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |  |
+| [**apiKeysRevokeWithHttpInfo**](ApiKeysApi.md#apiKeysRevokeWithHttpInfo) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |  |
 
 
 
-## apiKeysCreateApiKey
+## apiKeysCreate
 
-> ApiKeyCreatedResponse apiKeysCreateApiKey(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiKeyCreatedResponse apiKeysCreate(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -42,10 +42,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiKeyCreatedResponse result = apiInstance.apiKeysCreateApiKey(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiKeyCreatedResponse result = apiInstance.apiKeysCreate(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ApiKeysApi#apiKeysCreateApiKey");
+            System.err.println("Exception when calling ApiKeysApi#apiKeysCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -91,9 +91,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## apiKeysCreateApiKeyWithHttpInfo
+## apiKeysCreateWithHttpInfo
 
-> ApiResponse<ApiKeyCreatedResponse> apiKeysCreateApiKey apiKeysCreateApiKeyWithHttpInfo(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ApiKeyCreatedResponse> apiKeysCreate apiKeysCreateWithHttpInfo(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -123,12 +123,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ApiKeyCreatedResponse> response = apiInstance.apiKeysCreateApiKeyWithHttpInfo(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ApiKeyCreatedResponse> response = apiInstance.apiKeysCreateWithHttpInfo(tenantId, projectId, environmentId, createApiKeyHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ApiKeysApi#apiKeysCreateApiKey");
+            System.err.println("Exception when calling ApiKeysApi#apiKeysCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -175,9 +175,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## apiKeysRevokeApiKey
+## apiKeysRevoke
 
-> RevokedApiKey apiKeysRevokeApiKey(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> RevokedApiKey apiKeysRevoke(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -206,10 +206,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            RevokedApiKey result = apiInstance.apiKeysRevokeApiKey(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            RevokedApiKey result = apiInstance.apiKeysRevoke(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ApiKeysApi#apiKeysRevokeApiKey");
+            System.err.println("Exception when calling ApiKeysApi#apiKeysRevoke");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -256,9 +256,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## apiKeysRevokeApiKeyWithHttpInfo
+## apiKeysRevokeWithHttpInfo
 
-> ApiResponse<RevokedApiKey> apiKeysRevokeApiKey apiKeysRevokeApiKeyWithHttpInfo(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<RevokedApiKey> apiKeysRevoke apiKeysRevokeWithHttpInfo(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -288,12 +288,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<RevokedApiKey> response = apiInstance.apiKeysRevokeApiKeyWithHttpInfo(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<RevokedApiKey> response = apiInstance.apiKeysRevokeWithHttpInfo(tenantId, projectId, environmentId, apiKeyId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ApiKeysApi#apiKeysRevokeApiKey");
+            System.err.println("Exception when calling ApiKeysApi#apiKeysRevoke");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`connect_period_get_palette_connect_status`]
+/// struct for passing parameters to the method [`connect_period_get_status`]
 #[derive(Clone, Debug)]
-pub struct ConnectPeriodGetPaletteConnectStatusParams {
+pub struct ConnectPeriodGetStatusParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,10 +32,10 @@ pub struct ConnectPeriodGetPaletteConnectStatusParams {
 }
 
 
-/// struct for typed errors of method [`connect_period_get_palette_connect_status`]
+/// struct for typed errors of method [`connect_period_get_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ConnectPeriodGetPaletteConnectStatusError {
+pub enum ConnectPeriodGetStatusError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -43,7 +43,7 @@ pub enum ConnectPeriodGetPaletteConnectStatusError {
 }
 
 
-pub async fn connect_period_get_palette_connect_status(configuration: &configuration::Configuration, params: ConnectPeriodGetPaletteConnectStatusParams) -> Result<models::PaletteConnectStatusResponse, Error<ConnectPeriodGetPaletteConnectStatusError>> {
+pub async fn connect_period_get_status(configuration: &configuration::Configuration, params: ConnectPeriodGetStatusParams) -> Result<models::PaletteConnectStatusResponse, Error<ConnectPeriodGetStatusError>> {
 
     let uri_str = format!("{}/v1/connect/status/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -74,7 +74,7 @@ pub async fn connect_period_get_palette_connect_status(configuration: &configura
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ConnectPeriodGetPaletteConnectStatusError> = serde_json::from_str(&content).ok();
+        let entity: Option<ConnectPeriodGetStatusError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

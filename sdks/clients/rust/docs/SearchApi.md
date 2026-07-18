@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**search_period_search_spans**](SearchApi.md#search_period_search_spans) | **GET** /v1/search/{tenant_id}/spans |
+[**search_period_spans**](SearchApi.md#search_period_spans) | **GET** /v1/search/{tenant_id}/spans |
 
 
 
-## search_period_search_spans
+## search_period_spans
 
-> models::SearchResponse search_period_search_spans(tenant_id, q, project_id, environment_id, trace_id, span_id, kind, status, model, tool, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::SearchResponse search_period_spans(tenant_id, q, project_id, environment_id, trace_id, span_id, kind, status, model, tool, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

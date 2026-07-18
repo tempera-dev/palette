@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`datasets_period_create_dataset`]
+/// struct for passing parameters to the method [`datasets_period_create`]
 #[derive(Clone, Debug)]
-pub struct DatasetsPeriodCreateDatasetParams {
+pub struct DatasetsPeriodCreateParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,9 +32,9 @@ pub struct DatasetsPeriodCreateDatasetParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`datasets_period_create_dataset_version`]
+/// struct for passing parameters to the method [`datasets_period_create_version`]
 #[derive(Clone, Debug)]
-pub struct DatasetsPeriodCreateDatasetVersionParams {
+pub struct DatasetsPeriodCreateVersionParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -52,9 +52,9 @@ pub struct DatasetsPeriodCreateDatasetVersionParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`datasets_period_promote_dataset_case_from_trace`]
+/// struct for passing parameters to the method [`datasets_period_promote_case_from_trace`]
 #[derive(Clone, Debug)]
-pub struct DatasetsPeriodPromoteDatasetCaseFromTraceParams {
+pub struct DatasetsPeriodPromoteCaseFromTraceParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -73,31 +73,20 @@ pub struct DatasetsPeriodPromoteDatasetCaseFromTraceParams {
 }
 
 
-/// struct for typed errors of method [`datasets_period_create_dataset`]
+/// struct for typed errors of method [`datasets_period_create`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DatasetsPeriodCreateDatasetError {
+pub enum DatasetsPeriodCreateError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`datasets_period_create_dataset_version`]
+/// struct for typed errors of method [`datasets_period_create_version`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DatasetsPeriodCreateDatasetVersionError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`datasets_period_promote_dataset_case_from_trace`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum DatasetsPeriodPromoteDatasetCaseFromTraceError {
+pub enum DatasetsPeriodCreateVersionError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -105,8 +94,19 @@ pub enum DatasetsPeriodPromoteDatasetCaseFromTraceError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`datasets_period_promote_case_from_trace`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DatasetsPeriodPromoteCaseFromTraceError {
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status403(models::ErrorResponse),
+    Status404(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
 
-pub async fn datasets_period_create_dataset(configuration: &configuration::Configuration, params: DatasetsPeriodCreateDatasetParams) -> Result<models::Dataset, Error<DatasetsPeriodCreateDatasetError>> {
+
+pub async fn datasets_period_create(configuration: &configuration::Configuration, params: DatasetsPeriodCreateParams) -> Result<models::Dataset, Error<DatasetsPeriodCreateError>> {
 
     let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -138,12 +138,12 @@ pub async fn datasets_period_create_dataset(configuration: &configuration::Confi
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<DatasetsPeriodCreateDatasetError> = serde_json::from_str(&content).ok();
+        let entity: Option<DatasetsPeriodCreateError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn datasets_period_create_dataset_version(configuration: &configuration::Configuration, params: DatasetsPeriodCreateDatasetVersionParams) -> Result<models::DatasetVersionSnapshot, Error<DatasetsPeriodCreateDatasetVersionError>> {
+pub async fn datasets_period_create_version(configuration: &configuration::Configuration, params: DatasetsPeriodCreateVersionParams) -> Result<models::DatasetVersionSnapshot, Error<DatasetsPeriodCreateVersionError>> {
 
     let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -175,12 +175,12 @@ pub async fn datasets_period_create_dataset_version(configuration: &configuratio
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<DatasetsPeriodCreateDatasetVersionError> = serde_json::from_str(&content).ok();
+        let entity: Option<DatasetsPeriodCreateVersionError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn datasets_period_promote_dataset_case_from_trace(configuration: &configuration::Configuration, params: DatasetsPeriodPromoteDatasetCaseFromTraceParams) -> Result<models::DatasetCase, Error<DatasetsPeriodPromoteDatasetCaseFromTraceError>> {
+pub async fn datasets_period_promote_case_from_trace(configuration: &configuration::Configuration, params: DatasetsPeriodPromoteCaseFromTraceParams) -> Result<models::DatasetCase, Error<DatasetsPeriodPromoteCaseFromTraceError>> {
 
     let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -212,7 +212,7 @@ pub async fn datasets_period_promote_dataset_case_from_trace(configuration: &con
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<DatasetsPeriodPromoteDatasetCaseFromTraceError> = serde_json::from_str(&content).ok();
+        let entity: Option<DatasetsPeriodPromoteCaseFromTraceError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

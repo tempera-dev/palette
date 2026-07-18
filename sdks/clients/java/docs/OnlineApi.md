@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**onlineDecideOnlineSampling**](OnlineApi.md#onlineDecideOnlineSampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |  |
-| [**onlineDecideOnlineSamplingWithHttpInfo**](OnlineApi.md#onlineDecideOnlineSamplingWithHttpInfo) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |  |
+| [**onlineDecideSampling**](OnlineApi.md#onlineDecideSampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |  |
+| [**onlineDecideSamplingWithHttpInfo**](OnlineApi.md#onlineDecideSamplingWithHttpInfo) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |  |
 
 
 
-## onlineDecideOnlineSampling
+## onlineDecideSampling
 
-> SamplingDecision onlineDecideOnlineSampling(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> SamplingDecision onlineDecideSampling(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -40,10 +40,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            SamplingDecision result = apiInstance.onlineDecideOnlineSampling(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            SamplingDecision result = apiInstance.onlineDecideSampling(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling OnlineApi#onlineDecideOnlineSampling");
+            System.err.println("Exception when calling OnlineApi#onlineDecideSampling");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -89,9 +89,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## onlineDecideOnlineSamplingWithHttpInfo
+## onlineDecideSamplingWithHttpInfo
 
-> ApiResponse<SamplingDecision> onlineDecideOnlineSampling onlineDecideOnlineSamplingWithHttpInfo(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<SamplingDecision> onlineDecideSampling onlineDecideSamplingWithHttpInfo(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -121,12 +121,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<SamplingDecision> response = apiInstance.onlineDecideOnlineSamplingWithHttpInfo(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<SamplingDecision> response = apiInstance.onlineDecideSamplingWithHttpInfo(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling OnlineApi#onlineDecideOnlineSampling");
+            System.err.println("Exception when calling OnlineApi#onlineDecideSampling");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

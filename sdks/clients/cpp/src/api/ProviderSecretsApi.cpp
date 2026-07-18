@@ -35,13 +35,13 @@ ProviderSecretsApi::~ProviderSecretsApi()
 {
 }
 
-pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::providerSecrets_createProviderSecret(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateProviderSecretHttpRequest> createProviderSecretHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::providerSecrets_create(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateProviderSecretHttpRequest> createProviderSecretHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createProviderSecretHttpRequest' is set
     if (createProviderSecretHttpRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createProviderSecretHttpRequest' when calling ProviderSecretsApi->providerSecrets_createProviderSecret"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createProviderSecretHttpRequest' when calling ProviderSecretsApi->providerSecrets_create"));
     }
 
 
@@ -77,7 +77,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_createProviderSecret does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_create does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -137,7 +137,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_createProviderSecret does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_create does not consume any supported media type"));
     }
 
 
@@ -157,7 +157,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling providerSecrets_createProviderSecret: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling providerSecrets_create: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -168,7 +168,7 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling providerSecrets_createProviderSecret: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling providerSecrets_create: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -192,13 +192,13 @@ pplx::task<std::shared_ptr<ProviderSecretMetadata>> ProviderSecretsApi::provider
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling providerSecrets_createProviderSecret: unsupported response type"));
+                , utility::conversions::to_string_t("error calling providerSecrets_create: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecretsApi::providerSecrets_listProviderSecrets(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecretsApi::providerSecrets_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -234,7 +234,7 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_listProviderSecrets does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_list does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -277,7 +277,7 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_listProviderSecrets does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_list does not consume any supported media type"));
     }
 
 
@@ -297,7 +297,7 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling providerSecrets_listProviderSecrets: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling providerSecrets_list: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -308,7 +308,7 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling providerSecrets_listProviderSecrets: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling providerSecrets_list: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -336,13 +336,13 @@ pplx::task<std::vector<std::shared_ptr<ProviderSecretMetadata>>> ProviderSecrets
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling providerSecrets_listProviderSecrets: unsupported response type"));
+                , utility::conversions::to_string_t("error calling providerSecrets_list: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerSecrets_revokeProviderSecret(utility::string_t tenantId, utility::string_t projectId, utility::string_t providerSecretId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerSecrets_revoke(utility::string_t tenantId, utility::string_t projectId, utility::string_t providerSecretId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -379,7 +379,7 @@ pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerS
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_revokeProviderSecret does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_revoke does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -422,7 +422,7 @@ pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerS
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_revokeProviderSecret does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ProviderSecretsApi->providerSecrets_revoke does not consume any supported media type"));
     }
 
 
@@ -442,7 +442,7 @@ pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerS
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling providerSecrets_revokeProviderSecret: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling providerSecrets_revoke: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -453,7 +453,7 @@ pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerS
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling providerSecrets_revokeProviderSecret: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling providerSecrets_revoke: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -477,7 +477,7 @@ pplx::task<std::shared_ptr<RevokedProviderSecret>> ProviderSecretsApi::providerS
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling providerSecrets_revokeProviderSecret: unsupported response type"));
+                , utility::conversions::to_string_t("error calling providerSecrets_revoke: unsupported response type"));
         }
 
         return localVarResult;

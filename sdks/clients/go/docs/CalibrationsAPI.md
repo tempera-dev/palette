@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CalibrationsRunCalibration**](CalibrationsAPI.md#CalibrationsRunCalibration) | **Post** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
+[**CalibrationsRun**](CalibrationsAPI.md#CalibrationsRun) | **Post** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
 
 
 
-## CalibrationsRunCalibration
+## CalibrationsRun
 
-> CalibrationReport CalibrationsRunCalibration(ctx, tenantId, projectId, datasetId, versionId).RunCalibrationHttpRequest(runCalibrationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> CalibrationReport CalibrationsRun(ctx, tenantId, projectId, datasetId, versionId).RunCalibrationHttpRequest(runCalibrationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.CalibrationsAPI.CalibrationsRunCalibration(context.Background(), tenantId, projectId, datasetId, versionId).RunCalibrationHttpRequest(runCalibrationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.CalibrationsAPI.CalibrationsRun(context.Background(), tenantId, projectId, datasetId, versionId).RunCalibrationHttpRequest(runCalibrationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `CalibrationsAPI.CalibrationsRunCalibration``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `CalibrationsAPI.CalibrationsRun``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CalibrationsRunCalibration`: CalibrationReport
-	fmt.Fprintf(os.Stdout, "Response from `CalibrationsAPI.CalibrationsRunCalibration`: %v\n", resp)
+	// response from `CalibrationsRun`: CalibrationReport
+	fmt.Fprintf(os.Stdout, "Response from `CalibrationsAPI.CalibrationsRun`: %v\n", resp)
 }
 ```
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCalibrationsRunCalibrationRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiCalibrationsRunRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

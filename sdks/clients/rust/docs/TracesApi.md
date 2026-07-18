@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**traces_period_get_trace**](TracesApi.md#traces_period_get_trace) | **GET** /v1/traces/{tenant_id}/{trace_id} |
-[**traces_period_list_traces**](TracesApi.md#traces_period_list_traces) | **GET** /v1/traces/{tenant_id} |
+[**traces_period_get**](TracesApi.md#traces_period_get) | **GET** /v1/traces/{tenant_id}/{trace_id} |
+[**traces_period_list**](TracesApi.md#traces_period_list) | **GET** /v1/traces/{tenant_id} |
 
 
 
-## traces_period_get_trace
+## traces_period_get
 
-> models::TraceView traces_period_get_trace(tenant_id, trace_id, unmask, reason, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::TraceView traces_period_get(tenant_id, trace_id, unmask, reason, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -44,9 +44,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## traces_period_list_traces
+## traces_period_list
 
-> models::PageRunSummary traces_period_list_traces(tenant_id, project_id, environment_id, trace_id, kind, status, started_after, started_before, model, release, min_cost_micros, max_cost_micros, min_latency_ms, max_latency_ms, limit, cursor, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::PageRunSummary traces_period_list(tenant_id, project_id, environment_id, trace_id, kind, status, started_after, started_before, model, release, min_cost_micros, max_cost_micros, min_latency_ms, max_latency_ms, limit, cursor, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

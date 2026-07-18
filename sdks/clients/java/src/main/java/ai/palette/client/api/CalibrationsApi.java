@@ -98,8 +98,8 @@ public class CalibrationsApi {
    * @return CalibrationReport
    * @throws ApiException if fails to make API call
    */
-  public CalibrationReport calibrationsRunCalibration(String tenantId, String projectId, String datasetId, String versionId, RunCalibrationHttpRequest runCalibrationHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<CalibrationReport> localVarResponse = calibrationsRunCalibrationWithHttpInfo(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public CalibrationReport calibrationsRun(String tenantId, String projectId, String datasetId, String versionId, RunCalibrationHttpRequest runCalibrationHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<CalibrationReport> localVarResponse = calibrationsRunWithHttpInfo(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -118,8 +118,8 @@ public class CalibrationsApi {
    * @return ApiResponse&lt;CalibrationReport&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<CalibrationReport> calibrationsRunCalibrationWithHttpInfo(String tenantId, String projectId, String datasetId, String versionId, RunCalibrationHttpRequest runCalibrationHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = calibrationsRunCalibrationRequestBuilder(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<CalibrationReport> calibrationsRunWithHttpInfo(String tenantId, String projectId, String datasetId, String versionId, RunCalibrationHttpRequest runCalibrationHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = calibrationsRunRequestBuilder(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -129,7 +129,7 @@ public class CalibrationsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("calibrationsRunCalibration", localVarResponse);
+          throw getApiException("calibrationsRun", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<CalibrationReport>(
@@ -158,26 +158,26 @@ public class CalibrationsApi {
     }
   }
 
-  private HttpRequest.Builder calibrationsRunCalibrationRequestBuilder(String tenantId, String projectId, String datasetId, String versionId, RunCalibrationHttpRequest runCalibrationHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder calibrationsRunRequestBuilder(String tenantId, String projectId, String datasetId, String versionId, RunCalibrationHttpRequest runCalibrationHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling calibrationsRunCalibration");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling calibrationsRun");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling calibrationsRunCalibration");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling calibrationsRun");
     }
     // verify the required parameter 'datasetId' is set
     if (datasetId == null) {
-      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling calibrationsRunCalibration");
+      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling calibrationsRun");
     }
     // verify the required parameter 'versionId' is set
     if (versionId == null) {
-      throw new ApiException(400, "Missing the required parameter 'versionId' when calling calibrationsRunCalibration");
+      throw new ApiException(400, "Missing the required parameter 'versionId' when calling calibrationsRun");
     }
     // verify the required parameter 'runCalibrationHttpRequest' is set
     if (runCalibrationHttpRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'runCalibrationHttpRequest' when calling calibrationsRunCalibration");
+      throw new ApiException(400, "Missing the required parameter 'runCalibrationHttpRequest' when calling calibrationsRun");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

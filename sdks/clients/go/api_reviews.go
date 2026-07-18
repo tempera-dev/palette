@@ -23,7 +23,7 @@ import (
 // ReviewsAPIService ReviewsAPI service
 type ReviewsAPIService service
 
-type ApiReviewsCreateReviewQueueRequest struct {
+type ApiReviewsCreateQueueRequest struct {
 	ctx context.Context
 	ApiService *ReviewsAPIService
 	tenantId string
@@ -35,49 +35,49 @@ type ApiReviewsCreateReviewQueueRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiReviewsCreateReviewQueueRequest) CreateReviewQueueHttpRequest(createReviewQueueHttpRequest CreateReviewQueueHttpRequest) ApiReviewsCreateReviewQueueRequest {
+func (r ApiReviewsCreateQueueRequest) CreateReviewQueueHttpRequest(createReviewQueueHttpRequest CreateReviewQueueHttpRequest) ApiReviewsCreateQueueRequest {
 	r.createReviewQueueHttpRequest = &createReviewQueueHttpRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiReviewsCreateReviewQueueRequest) Authorization(authorization string) ApiReviewsCreateReviewQueueRequest {
+func (r ApiReviewsCreateQueueRequest) Authorization(authorization string) ApiReviewsCreateQueueRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiReviewsCreateReviewQueueRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsCreateReviewQueueRequest {
+func (r ApiReviewsCreateQueueRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsCreateQueueRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiReviewsCreateReviewQueueRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsCreateReviewQueueRequest {
+func (r ApiReviewsCreateQueueRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsCreateQueueRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiReviewsCreateReviewQueueRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsCreateReviewQueueRequest {
+func (r ApiReviewsCreateQueueRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsCreateQueueRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiReviewsCreateReviewQueueRequest) Execute() (*ReviewQueue, *http.Response, error) {
-	return r.ApiService.ReviewsCreateReviewQueueExecute(r)
+func (r ApiReviewsCreateQueueRequest) Execute() (*ReviewQueue, *http.Response, error) {
+	return r.ApiService.ReviewsCreateQueueExecute(r)
 }
 
 /*
-ReviewsCreateReviewQueue Method for ReviewsCreateReviewQueue
+ReviewsCreateQueue Method for ReviewsCreateQueue
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiReviewsCreateReviewQueueRequest
+ @return ApiReviewsCreateQueueRequest
 */
-func (a *ReviewsAPIService) ReviewsCreateReviewQueue(ctx context.Context, tenantId string, projectId string) ApiReviewsCreateReviewQueueRequest {
-	return ApiReviewsCreateReviewQueueRequest{
+func (a *ReviewsAPIService) ReviewsCreateQueue(ctx context.Context, tenantId string, projectId string) ApiReviewsCreateQueueRequest {
+	return ApiReviewsCreateQueueRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -87,7 +87,7 @@ func (a *ReviewsAPIService) ReviewsCreateReviewQueue(ctx context.Context, tenant
 
 // Execute executes the request
 //  @return ReviewQueue
-func (a *ReviewsAPIService) ReviewsCreateReviewQueueExecute(r ApiReviewsCreateReviewQueueRequest) (*ReviewQueue, *http.Response, error) {
+func (a *ReviewsAPIService) ReviewsCreateQueueExecute(r ApiReviewsCreateQueueRequest) (*ReviewQueue, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -95,7 +95,7 @@ func (a *ReviewsAPIService) ReviewsCreateReviewQueueExecute(r ApiReviewsCreateRe
 		localVarReturnValue  *ReviewQueue
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsCreateReviewQueue")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsCreateQueue")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -211,7 +211,7 @@ func (a *ReviewsAPIService) ReviewsCreateReviewQueueExecute(r ApiReviewsCreateRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiReviewsEnqueueReviewTaskFromTraceRequest struct {
+type ApiReviewsEnqueueTaskFromTraceRequest struct {
 	ctx context.Context
 	ApiService *ReviewsAPIService
 	tenantId string
@@ -224,50 +224,50 @@ type ApiReviewsEnqueueReviewTaskFromTraceRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiReviewsEnqueueReviewTaskFromTraceRequest) EnqueueReviewTaskFromTraceHttpRequest(enqueueReviewTaskFromTraceHttpRequest EnqueueReviewTaskFromTraceHttpRequest) ApiReviewsEnqueueReviewTaskFromTraceRequest {
+func (r ApiReviewsEnqueueTaskFromTraceRequest) EnqueueReviewTaskFromTraceHttpRequest(enqueueReviewTaskFromTraceHttpRequest EnqueueReviewTaskFromTraceHttpRequest) ApiReviewsEnqueueTaskFromTraceRequest {
 	r.enqueueReviewTaskFromTraceHttpRequest = &enqueueReviewTaskFromTraceHttpRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiReviewsEnqueueReviewTaskFromTraceRequest) Authorization(authorization string) ApiReviewsEnqueueReviewTaskFromTraceRequest {
+func (r ApiReviewsEnqueueTaskFromTraceRequest) Authorization(authorization string) ApiReviewsEnqueueTaskFromTraceRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiReviewsEnqueueReviewTaskFromTraceRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsEnqueueReviewTaskFromTraceRequest {
+func (r ApiReviewsEnqueueTaskFromTraceRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsEnqueueTaskFromTraceRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiReviewsEnqueueReviewTaskFromTraceRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsEnqueueReviewTaskFromTraceRequest {
+func (r ApiReviewsEnqueueTaskFromTraceRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsEnqueueTaskFromTraceRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiReviewsEnqueueReviewTaskFromTraceRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsEnqueueReviewTaskFromTraceRequest {
+func (r ApiReviewsEnqueueTaskFromTraceRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsEnqueueTaskFromTraceRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiReviewsEnqueueReviewTaskFromTraceRequest) Execute() (*ReviewTask, *http.Response, error) {
-	return r.ApiService.ReviewsEnqueueReviewTaskFromTraceExecute(r)
+func (r ApiReviewsEnqueueTaskFromTraceRequest) Execute() (*ReviewTask, *http.Response, error) {
+	return r.ApiService.ReviewsEnqueueTaskFromTraceExecute(r)
 }
 
 /*
-ReviewsEnqueueReviewTaskFromTrace Method for ReviewsEnqueueReviewTaskFromTrace
+ReviewsEnqueueTaskFromTrace Method for ReviewsEnqueueTaskFromTrace
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param queueId queue_id
- @return ApiReviewsEnqueueReviewTaskFromTraceRequest
+ @return ApiReviewsEnqueueTaskFromTraceRequest
 */
-func (a *ReviewsAPIService) ReviewsEnqueueReviewTaskFromTrace(ctx context.Context, tenantId string, projectId string, queueId string) ApiReviewsEnqueueReviewTaskFromTraceRequest {
-	return ApiReviewsEnqueueReviewTaskFromTraceRequest{
+func (a *ReviewsAPIService) ReviewsEnqueueTaskFromTrace(ctx context.Context, tenantId string, projectId string, queueId string) ApiReviewsEnqueueTaskFromTraceRequest {
+	return ApiReviewsEnqueueTaskFromTraceRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -278,7 +278,7 @@ func (a *ReviewsAPIService) ReviewsEnqueueReviewTaskFromTrace(ctx context.Contex
 
 // Execute executes the request
 //  @return ReviewTask
-func (a *ReviewsAPIService) ReviewsEnqueueReviewTaskFromTraceExecute(r ApiReviewsEnqueueReviewTaskFromTraceRequest) (*ReviewTask, *http.Response, error) {
+func (a *ReviewsAPIService) ReviewsEnqueueTaskFromTraceExecute(r ApiReviewsEnqueueTaskFromTraceRequest) (*ReviewTask, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -286,7 +286,7 @@ func (a *ReviewsAPIService) ReviewsEnqueueReviewTaskFromTraceExecute(r ApiReview
 		localVarReturnValue  *ReviewTask
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsEnqueueReviewTaskFromTrace")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsEnqueueTaskFromTrace")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -414,7 +414,7 @@ func (a *ReviewsAPIService) ReviewsEnqueueReviewTaskFromTraceExecute(r ApiReview
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiReviewsListReviewTasksRequest struct {
+type ApiReviewsListTasksRequest struct {
 	ctx context.Context
 	ApiService *ReviewsAPIService
 	tenantId string
@@ -427,50 +427,50 @@ type ApiReviewsListReviewTasksRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiReviewsListReviewTasksRequest) State(state ReviewTaskState) ApiReviewsListReviewTasksRequest {
+func (r ApiReviewsListTasksRequest) State(state ReviewTaskState) ApiReviewsListTasksRequest {
 	r.state = &state
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiReviewsListReviewTasksRequest) Authorization(authorization string) ApiReviewsListReviewTasksRequest {
+func (r ApiReviewsListTasksRequest) Authorization(authorization string) ApiReviewsListTasksRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiReviewsListReviewTasksRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsListReviewTasksRequest {
+func (r ApiReviewsListTasksRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsListTasksRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiReviewsListReviewTasksRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsListReviewTasksRequest {
+func (r ApiReviewsListTasksRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsListTasksRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiReviewsListReviewTasksRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsListReviewTasksRequest {
+func (r ApiReviewsListTasksRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsListTasksRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiReviewsListReviewTasksRequest) Execute() ([]ReviewTask, *http.Response, error) {
-	return r.ApiService.ReviewsListReviewTasksExecute(r)
+func (r ApiReviewsListTasksRequest) Execute() ([]ReviewTask, *http.Response, error) {
+	return r.ApiService.ReviewsListTasksExecute(r)
 }
 
 /*
-ReviewsListReviewTasks Method for ReviewsListReviewTasks
+ReviewsListTasks Method for ReviewsListTasks
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param queueId queue_id
- @return ApiReviewsListReviewTasksRequest
+ @return ApiReviewsListTasksRequest
 */
-func (a *ReviewsAPIService) ReviewsListReviewTasks(ctx context.Context, tenantId string, projectId string, queueId string) ApiReviewsListReviewTasksRequest {
-	return ApiReviewsListReviewTasksRequest{
+func (a *ReviewsAPIService) ReviewsListTasks(ctx context.Context, tenantId string, projectId string, queueId string) ApiReviewsListTasksRequest {
+	return ApiReviewsListTasksRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -481,7 +481,7 @@ func (a *ReviewsAPIService) ReviewsListReviewTasks(ctx context.Context, tenantId
 
 // Execute executes the request
 //  @return []ReviewTask
-func (a *ReviewsAPIService) ReviewsListReviewTasksExecute(r ApiReviewsListReviewTasksRequest) ([]ReviewTask, *http.Response, error) {
+func (a *ReviewsAPIService) ReviewsListTasksExecute(r ApiReviewsListTasksRequest) ([]ReviewTask, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -489,7 +489,7 @@ func (a *ReviewsAPIService) ReviewsListReviewTasksExecute(r ApiReviewsListReview
 		localVarReturnValue  []ReviewTask
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsListReviewTasks")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsListTasks")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -615,7 +615,7 @@ func (a *ReviewsAPIService) ReviewsListReviewTasksExecute(r ApiReviewsListReview
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiReviewsPromoteReviewAnnotationRequest struct {
+type ApiReviewsPromoteAnnotationRequest struct {
 	ctx context.Context
 	ApiService *ReviewsAPIService
 	tenantId string
@@ -630,41 +630,41 @@ type ApiReviewsPromoteReviewAnnotationRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiReviewsPromoteReviewAnnotationRequest) PromoteReviewAnnotationHttpRequest(promoteReviewAnnotationHttpRequest PromoteReviewAnnotationHttpRequest) ApiReviewsPromoteReviewAnnotationRequest {
+func (r ApiReviewsPromoteAnnotationRequest) PromoteReviewAnnotationHttpRequest(promoteReviewAnnotationHttpRequest PromoteReviewAnnotationHttpRequest) ApiReviewsPromoteAnnotationRequest {
 	r.promoteReviewAnnotationHttpRequest = &promoteReviewAnnotationHttpRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiReviewsPromoteReviewAnnotationRequest) Authorization(authorization string) ApiReviewsPromoteReviewAnnotationRequest {
+func (r ApiReviewsPromoteAnnotationRequest) Authorization(authorization string) ApiReviewsPromoteAnnotationRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiReviewsPromoteReviewAnnotationRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsPromoteReviewAnnotationRequest {
+func (r ApiReviewsPromoteAnnotationRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsPromoteAnnotationRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiReviewsPromoteReviewAnnotationRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsPromoteReviewAnnotationRequest {
+func (r ApiReviewsPromoteAnnotationRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsPromoteAnnotationRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiReviewsPromoteReviewAnnotationRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsPromoteReviewAnnotationRequest {
+func (r ApiReviewsPromoteAnnotationRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsPromoteAnnotationRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiReviewsPromoteReviewAnnotationRequest) Execute() (*DatasetCase, *http.Response, error) {
-	return r.ApiService.ReviewsPromoteReviewAnnotationExecute(r)
+func (r ApiReviewsPromoteAnnotationRequest) Execute() (*DatasetCase, *http.Response, error) {
+	return r.ApiService.ReviewsPromoteAnnotationExecute(r)
 }
 
 /*
-ReviewsPromoteReviewAnnotation Method for ReviewsPromoteReviewAnnotation
+ReviewsPromoteAnnotation Method for ReviewsPromoteAnnotation
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
@@ -672,10 +672,10 @@ ReviewsPromoteReviewAnnotation Method for ReviewsPromoteReviewAnnotation
  @param queueId queue_id
  @param taskId task_id
  @param annotationId annotation_id
- @return ApiReviewsPromoteReviewAnnotationRequest
+ @return ApiReviewsPromoteAnnotationRequest
 */
-func (a *ReviewsAPIService) ReviewsPromoteReviewAnnotation(ctx context.Context, tenantId string, projectId string, queueId string, taskId string, annotationId string) ApiReviewsPromoteReviewAnnotationRequest {
-	return ApiReviewsPromoteReviewAnnotationRequest{
+func (a *ReviewsAPIService) ReviewsPromoteAnnotation(ctx context.Context, tenantId string, projectId string, queueId string, taskId string, annotationId string) ApiReviewsPromoteAnnotationRequest {
+	return ApiReviewsPromoteAnnotationRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -688,7 +688,7 @@ func (a *ReviewsAPIService) ReviewsPromoteReviewAnnotation(ctx context.Context, 
 
 // Execute executes the request
 //  @return DatasetCase
-func (a *ReviewsAPIService) ReviewsPromoteReviewAnnotationExecute(r ApiReviewsPromoteReviewAnnotationRequest) (*DatasetCase, *http.Response, error) {
+func (a *ReviewsAPIService) ReviewsPromoteAnnotationExecute(r ApiReviewsPromoteAnnotationRequest) (*DatasetCase, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -696,7 +696,7 @@ func (a *ReviewsAPIService) ReviewsPromoteReviewAnnotationExecute(r ApiReviewsPr
 		localVarReturnValue  *DatasetCase
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsPromoteReviewAnnotation")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsPromoteAnnotation")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -826,7 +826,7 @@ func (a *ReviewsAPIService) ReviewsPromoteReviewAnnotationExecute(r ApiReviewsPr
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiReviewsSubmitReviewAnnotationRequest struct {
+type ApiReviewsSubmitAnnotationRequest struct {
 	ctx context.Context
 	ApiService *ReviewsAPIService
 	tenantId string
@@ -840,51 +840,51 @@ type ApiReviewsSubmitReviewAnnotationRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiReviewsSubmitReviewAnnotationRequest) SubmitReviewAnnotationHttpRequest(submitReviewAnnotationHttpRequest SubmitReviewAnnotationHttpRequest) ApiReviewsSubmitReviewAnnotationRequest {
+func (r ApiReviewsSubmitAnnotationRequest) SubmitReviewAnnotationHttpRequest(submitReviewAnnotationHttpRequest SubmitReviewAnnotationHttpRequest) ApiReviewsSubmitAnnotationRequest {
 	r.submitReviewAnnotationHttpRequest = &submitReviewAnnotationHttpRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiReviewsSubmitReviewAnnotationRequest) Authorization(authorization string) ApiReviewsSubmitReviewAnnotationRequest {
+func (r ApiReviewsSubmitAnnotationRequest) Authorization(authorization string) ApiReviewsSubmitAnnotationRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiReviewsSubmitReviewAnnotationRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsSubmitReviewAnnotationRequest {
+func (r ApiReviewsSubmitAnnotationRequest) XPaletteApiKey(xPaletteApiKey string) ApiReviewsSubmitAnnotationRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiReviewsSubmitReviewAnnotationRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsSubmitReviewAnnotationRequest {
+func (r ApiReviewsSubmitAnnotationRequest) XPaletteProjectId(xPaletteProjectId string) ApiReviewsSubmitAnnotationRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiReviewsSubmitReviewAnnotationRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsSubmitReviewAnnotationRequest {
+func (r ApiReviewsSubmitAnnotationRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiReviewsSubmitAnnotationRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiReviewsSubmitReviewAnnotationRequest) Execute() (*ReviewAnnotation, *http.Response, error) {
-	return r.ApiService.ReviewsSubmitReviewAnnotationExecute(r)
+func (r ApiReviewsSubmitAnnotationRequest) Execute() (*ReviewAnnotation, *http.Response, error) {
+	return r.ApiService.ReviewsSubmitAnnotationExecute(r)
 }
 
 /*
-ReviewsSubmitReviewAnnotation Method for ReviewsSubmitReviewAnnotation
+ReviewsSubmitAnnotation Method for ReviewsSubmitAnnotation
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param queueId queue_id
  @param taskId task_id
- @return ApiReviewsSubmitReviewAnnotationRequest
+ @return ApiReviewsSubmitAnnotationRequest
 */
-func (a *ReviewsAPIService) ReviewsSubmitReviewAnnotation(ctx context.Context, tenantId string, projectId string, queueId string, taskId string) ApiReviewsSubmitReviewAnnotationRequest {
-	return ApiReviewsSubmitReviewAnnotationRequest{
+func (a *ReviewsAPIService) ReviewsSubmitAnnotation(ctx context.Context, tenantId string, projectId string, queueId string, taskId string) ApiReviewsSubmitAnnotationRequest {
+	return ApiReviewsSubmitAnnotationRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -896,7 +896,7 @@ func (a *ReviewsAPIService) ReviewsSubmitReviewAnnotation(ctx context.Context, t
 
 // Execute executes the request
 //  @return ReviewAnnotation
-func (a *ReviewsAPIService) ReviewsSubmitReviewAnnotationExecute(r ApiReviewsSubmitReviewAnnotationRequest) (*ReviewAnnotation, *http.Response, error) {
+func (a *ReviewsAPIService) ReviewsSubmitAnnotationExecute(r ApiReviewsSubmitAnnotationRequest) (*ReviewAnnotation, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -904,7 +904,7 @@ func (a *ReviewsAPIService) ReviewsSubmitReviewAnnotationExecute(r ApiReviewsSub
 		localVarReturnValue  *ReviewAnnotation
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsSubmitReviewAnnotation")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ReviewsAPIService.ReviewsSubmitAnnotation")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

@@ -62,7 +62,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<Dataset>> datasets_createDataset(
+    pplx::task<std::shared_ptr<Dataset>> datasets_create(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<CreateDatasetRequest> createDatasetRequest,
@@ -85,7 +85,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<DatasetVersionSnapshot>> datasets_createDatasetVersion(
+    pplx::task<std::shared_ptr<DatasetVersionSnapshot>> datasets_createVersion(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t datasetId,
@@ -109,7 +109,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<DatasetCase>> datasets_promoteDatasetCaseFromTrace(
+    pplx::task<std::shared_ptr<DatasetCase>> datasets_promoteCaseFromTrace(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t datasetId,

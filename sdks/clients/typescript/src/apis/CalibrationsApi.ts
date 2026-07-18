@@ -28,7 +28,7 @@ import {
     RunCalibrationHttpRequestToJSON,
 } from '../models/index';
 
-export interface CalibrationsRunCalibrationRequest {
+export interface CalibrationsRunRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -47,39 +47,39 @@ export class CalibrationsApi extends runtime.BaseAPI {
 
     /**
      */
-    async calibrationsRunCalibrationRaw(requestParameters: CalibrationsRunCalibrationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CalibrationReport>> {
+    async calibrationsRunRaw(requestParameters: CalibrationsRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CalibrationReport>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling calibrationsRunCalibration().'
+                'Required parameter "tenantId" was null or undefined when calling calibrationsRun().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling calibrationsRunCalibration().'
+                'Required parameter "projectId" was null or undefined when calling calibrationsRun().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling calibrationsRunCalibration().'
+                'Required parameter "datasetId" was null or undefined when calling calibrationsRun().'
             );
         }
 
         if (requestParameters['versionId'] == null) {
             throw new runtime.RequiredError(
                 'versionId',
-                'Required parameter "versionId" was null or undefined when calling calibrationsRunCalibration().'
+                'Required parameter "versionId" was null or undefined when calling calibrationsRun().'
             );
         }
 
         if (requestParameters['runCalibrationHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'runCalibrationHttpRequest',
-                'Required parameter "runCalibrationHttpRequest" was null or undefined when calling calibrationsRunCalibration().'
+                'Required parameter "runCalibrationHttpRequest" was null or undefined when calling calibrationsRun().'
             );
         }
 
@@ -118,8 +118,8 @@ export class CalibrationsApi extends runtime.BaseAPI {
 
     /**
      */
-    async calibrationsRunCalibration(requestParameters: CalibrationsRunCalibrationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CalibrationReport> {
-        const response = await this.calibrationsRunCalibrationRaw(requestParameters, initOverrides);
+    async calibrationsRun(requestParameters: CalibrationsRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CalibrationReport> {
+        const response = await this.calibrationsRunRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

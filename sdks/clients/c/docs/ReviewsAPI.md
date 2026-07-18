@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ReviewsAPI_reviewsCreateReviewQueue**](ReviewsAPI.md#ReviewsAPI_reviewsCreateReviewQueue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |
-[**ReviewsAPI_reviewsEnqueueReviewTaskFromTrace**](ReviewsAPI.md#ReviewsAPI_reviewsEnqueueReviewTaskFromTrace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
-[**ReviewsAPI_reviewsListReviewTasks**](ReviewsAPI.md#ReviewsAPI_reviewsListReviewTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
-[**ReviewsAPI_reviewsPromoteReviewAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsPromoteReviewAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
-[**ReviewsAPI_reviewsSubmitReviewAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsSubmitReviewAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
+[**ReviewsAPI_reviewsCreateQueue**](ReviewsAPI.md#ReviewsAPI_reviewsCreateQueue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |
+[**ReviewsAPI_reviewsEnqueueTaskFromTrace**](ReviewsAPI.md#ReviewsAPI_reviewsEnqueueTaskFromTrace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
+[**ReviewsAPI_reviewsListTasks**](ReviewsAPI.md#ReviewsAPI_reviewsListTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
+[**ReviewsAPI_reviewsPromoteAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsPromoteAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
+[**ReviewsAPI_reviewsSubmitAnnotation**](ReviewsAPI.md#ReviewsAPI_reviewsSubmitAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
 
 
-# **ReviewsAPI_reviewsCreateReviewQueue**
+# **ReviewsAPI_reviewsCreateQueue**
 ```c
-review_queue_t* ReviewsAPI_reviewsCreateReviewQueue(apiClient_t *apiClient, char *tenant_id, char *project_id, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_queue_t* ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *project_id, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -44,9 +44,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ReviewsAPI_reviewsEnqueueReviewTaskFromTrace**
+# **ReviewsAPI_reviewsEnqueueTaskFromTrace**
 ```c
-review_task_t* ReviewsAPI_reviewsEnqueueReviewTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_task_t* ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -78,9 +78,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ReviewsAPI_reviewsListReviewTasks**
+# **ReviewsAPI_reviewsListTasks**
 ```c
-list_t* ReviewsAPI_reviewsListReviewTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+list_t* ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -112,9 +112,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ReviewsAPI_reviewsPromoteReviewAnnotation**
+# **ReviewsAPI_reviewsPromoteAnnotation**
 ```c
-dataset_case_t* ReviewsAPI_reviewsPromoteReviewAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, char *annotation_id, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_case_t* ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, char *annotation_id, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -148,9 +148,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ReviewsAPI_reviewsSubmitReviewAnnotation**
+# **ReviewsAPI_reviewsSubmitAnnotation**
 ```c
-review_annotation_t* ReviewsAPI_reviewsSubmitReviewAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_annotation_t* ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

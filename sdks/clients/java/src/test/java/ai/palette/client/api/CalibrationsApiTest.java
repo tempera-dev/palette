@@ -45,7 +45,7 @@ public class CalibrationsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void calibrationsRunCalibrationTest() throws ApiException {
+    public void calibrationsRunTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String datasetId = null;
@@ -56,7 +56,7 @@ public class CalibrationsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         CalibrationReport response = 
-        api.calibrationsRunCalibration(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.calibrationsRun(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

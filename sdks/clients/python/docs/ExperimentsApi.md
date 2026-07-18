@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**experiments_run_deterministic_experiment**](ExperimentsApi.md#experiments_run_deterministic_experiment) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
-[**experiments_run_judge_experiment**](ExperimentsApi.md#experiments_run_judge_experiment) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |
+[**experiments_run_deterministic**](ExperimentsApi.md#experiments_run_deterministic) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
+[**experiments_run_judge**](ExperimentsApi.md#experiments_run_judge) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |
 
 
-# **experiments_run_deterministic_experiment**
-> ExperimentRunReport experiments_run_deterministic_experiment(tenant_id, project_id, dataset_id, version_id, run_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **experiments_run_deterministic**
+> ExperimentRunReport experiments_run_deterministic(tenant_id, project_id, dataset_id, version_id, run_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -45,11 +45,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.experiments_run_deterministic_experiment(tenant_id, project_id, dataset_id, version_id, run_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ExperimentsApi->experiments_run_deterministic_experiment:\n")
+        api_response = api_instance.experiments_run_deterministic(tenant_id, project_id, dataset_id, version_id, run_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ExperimentsApi->experiments_run_deterministic:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ExperimentsApi->experiments_run_deterministic_experiment: %s\n" % e)
+        print("Exception when calling ExperimentsApi->experiments_run_deterministic: %s\n" % e)
 ```
 
 
@@ -94,8 +94,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **experiments_run_judge_experiment**
-> ExperimentRunReport experiments_run_judge_experiment(tenant_id, project_id, dataset_id, version_id, run_judge_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **experiments_run_judge**
+> ExperimentRunReport experiments_run_judge(tenant_id, project_id, dataset_id, version_id, run_judge_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -131,11 +131,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.experiments_run_judge_experiment(tenant_id, project_id, dataset_id, version_id, run_judge_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ExperimentsApi->experiments_run_judge_experiment:\n")
+        api_response = api_instance.experiments_run_judge(tenant_id, project_id, dataset_id, version_id, run_judge_experiment_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ExperimentsApi->experiments_run_judge:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ExperimentsApi->experiments_run_judge_experiment: %s\n" % e)
+        print("Exception when calling ExperimentsApi->experiments_run_judge: %s\n" % e)
 ```
 
 

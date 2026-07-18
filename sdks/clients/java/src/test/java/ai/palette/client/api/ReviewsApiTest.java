@@ -52,7 +52,7 @@ public class ReviewsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void reviewsCreateReviewQueueTest() throws ApiException {
+    public void reviewsCreateQueueTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         CreateReviewQueueHttpRequest createReviewQueueHttpRequest = null;
@@ -61,7 +61,7 @@ public class ReviewsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ReviewQueue response = 
-        api.reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.reviewsCreateQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -75,7 +75,7 @@ public class ReviewsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void reviewsEnqueueReviewTaskFromTraceTest() throws ApiException {
+    public void reviewsEnqueueTaskFromTraceTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String queueId = null;
@@ -85,7 +85,7 @@ public class ReviewsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ReviewTask response = 
-        api.reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.reviewsEnqueueTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -99,7 +99,7 @@ public class ReviewsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void reviewsListReviewTasksTest() throws ApiException {
+    public void reviewsListTasksTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String queueId = null;
@@ -109,7 +109,7 @@ public class ReviewsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         List<ReviewTask> response = 
-        api.reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.reviewsListTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -123,7 +123,7 @@ public class ReviewsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void reviewsPromoteReviewAnnotationTest() throws ApiException {
+    public void reviewsPromoteAnnotationTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String queueId = null;
@@ -135,7 +135,7 @@ public class ReviewsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         DatasetCase response = 
-        api.reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.reviewsPromoteAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -149,7 +149,7 @@ public class ReviewsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void reviewsSubmitReviewAnnotationTest() throws ApiException {
+    public void reviewsSubmitAnnotationTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String queueId = null;
@@ -160,7 +160,7 @@ public class ReviewsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ReviewAnnotation response = 
-        api.reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.reviewsSubmitAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

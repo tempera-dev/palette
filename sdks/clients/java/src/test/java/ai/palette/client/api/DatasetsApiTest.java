@@ -49,7 +49,7 @@ public class DatasetsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void datasetsCreateDatasetTest() throws ApiException {
+    public void datasetsCreateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         CreateDatasetRequest createDatasetRequest = null;
@@ -58,7 +58,7 @@ public class DatasetsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         Dataset response = 
-        api.datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.datasetsCreate(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -72,7 +72,7 @@ public class DatasetsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void datasetsCreateDatasetVersionTest() throws ApiException {
+    public void datasetsCreateVersionTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String datasetId = null;
@@ -82,7 +82,7 @@ public class DatasetsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         DatasetVersionSnapshot response = 
-        api.datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.datasetsCreateVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -96,7 +96,7 @@ public class DatasetsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void datasetsPromoteDatasetCaseFromTraceTest() throws ApiException {
+    public void datasetsPromoteCaseFromTraceTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String datasetId = null;
@@ -106,7 +106,7 @@ public class DatasetsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         DatasetCase response = 
-        api.datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.datasetsPromoteCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

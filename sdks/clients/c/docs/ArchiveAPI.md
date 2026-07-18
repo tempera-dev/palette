@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveAPI_archiveArchiveTrace**](ArchiveAPI.md#ArchiveAPI_archiveArchiveTrace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |
-[**ArchiveAPI_archiveQueryArchiveSpans**](ArchiveAPI.md#ArchiveAPI_archiveQueryArchiveSpans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
+[**ArchiveAPI_archiveQuerySpans**](ArchiveAPI.md#ArchiveAPI_archiveQuerySpans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
 
 
 # **ArchiveAPI_archiveArchiveTrace**
@@ -41,9 +41,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ArchiveAPI_archiveQueryArchiveSpans**
+# **ArchiveAPI_archiveQuerySpans**
 ```c
-archive_query_response_t* ArchiveAPI_archiveQueryArchiveSpans(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+archive_query_response_t* ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

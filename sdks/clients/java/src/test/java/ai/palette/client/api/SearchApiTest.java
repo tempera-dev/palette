@@ -44,7 +44,7 @@ public class SearchApiTest {
      *          if the Api call fails
      */
     @Test
-    public void searchSearchSpansTest() throws ApiException {
+    public void searchSpansTest() throws ApiException {
         String tenantId = null;
         String q = null;
         String projectId = null;
@@ -61,7 +61,7 @@ public class SearchApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         SearchResponse response = 
-        api.searchSearchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

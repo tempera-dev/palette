@@ -6,14 +6,14 @@
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 
-// Functions for enum  for ReviewsAPI_reviewsListReviewTasks
+// Functions for enum  for ReviewsAPI_reviewsListTasks
 
-static char* reviewsListReviewTasks__ToString(palette_api_reviewsListReviewTasks_state_e ){
+static char* reviewsListTasks__ToString(palette_api_reviewsListTasks_state_e ){
     char *Array[] =  { "NULL", "open", "submitted", "cancelled" };
     return Array[];
 }
 
-static palette_api_reviewsListReviewTasks_state_e reviewsListReviewTasks__FromString(char* ){
+static palette_api_reviewsListTasks_state_e reviewsListTasks__FromString(char* ){
     int stringToReturn = 0;
     char *Array[] =  { "NULL", "open", "submitted", "cancelled" };
     size_t sizeofArray = sizeof(Array) / sizeof(Array[0]);
@@ -27,10 +27,10 @@ static palette_api_reviewsListReviewTasks_state_e reviewsListReviewTasks__FromSt
 }
 
 /*
-// Function reviewsListReviewTasks__convertToJSON is not currently used,
+// Function reviewsListTasks__convertToJSON is not currently used,
 // since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
 //
-static cJSON *reviewsListReviewTasks__convertToJSON(palette_api_reviewsListReviewTasks_state_e ) {
+static cJSON *reviewsListTasks__convertToJSON(palette_api_reviewsListTasks_state_e ) {
     cJSON *item = cJSON_CreateObject();
     return item;
     fail:
@@ -38,11 +38,11 @@ static cJSON *reviewsListReviewTasks__convertToJSON(palette_api_reviewsListRevie
     return NULL;
 }
 
-// Function reviewsListReviewTasks__parseFromJSON is not currently used,
+// Function reviewsListTasks__parseFromJSON is not currently used,
 // since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
 //
-static palette_api_reviewsListReviewTasks_state_e reviewsListReviewTasks__parseFromJSON(cJSON* JSON) {
-    palette_api_reviewsListReviewTasks_state_e Variable = 0;
+static palette_api_reviewsListTasks_state_e reviewsListTasks__parseFromJSON(cJSON* JSON) {
+    palette_api_reviewsListTasks_state_e Variable = 0;
     return Variable;
 end:
     return 0;
@@ -51,7 +51,7 @@ end:
 
 
 review_queue_t*
-ReviewsAPI_reviewsCreateReviewQueue(apiClient_t *apiClient, char *tenant_id, char *project_id, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsCreateQueue(apiClient_t *apiClient, char *tenant_id, char *project_id, create_review_queue_http_request_t *create_review_queue_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -255,7 +255,7 @@ end:
 }
 
 review_task_t*
-ReviewsAPI_reviewsEnqueueReviewTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -476,7 +476,7 @@ end:
 }
 
 list_t*
-ReviewsAPI_reviewsListReviewTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -588,7 +588,7 @@ ReviewsAPI_reviewsListReviewTasks(apiClient_t *apiClient, char *tenant_id, char 
     {
         keyQuery_state = strdup("state");
         valueQuery_state = (state);
-        keyPairQuery_state = keyValuePair_create(keyQuery_state, strdup(reviewsListReviewTasks__ToString(
+        keyPairQuery_state = keyValuePair_create(keyQuery_state, strdup(reviewsListTasks__ToString(
         &valueQuery_state)));
         list_addElement(localVarQueryParameters,keyPairQuery_state);
     }
@@ -712,7 +712,7 @@ end:
 }
 
 dataset_case_t*
-ReviewsAPI_reviewsPromoteReviewAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, char *annotation_id, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, char *annotation_id, promote_review_annotation_http_request_t *promote_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -959,7 +959,7 @@ end:
 }
 
 review_annotation_t*
-ReviewsAPI_reviewsSubmitReviewAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();

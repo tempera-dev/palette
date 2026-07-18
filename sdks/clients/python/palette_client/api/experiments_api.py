@@ -42,7 +42,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def experiments_run_deterministic_experiment(
+    def experiments_run_deterministic(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -66,7 +66,7 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ExperimentRunReport:
-        """experiments_run_deterministic_experiment
+        """experiments_run_deterministic
 
 
         :param tenant_id: tenant_id (required)
@@ -109,7 +109,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._experiments_run_deterministic_experiment_serialize(
+        _param = self._experiments_run_deterministic_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             dataset_id=dataset_id,
@@ -144,7 +144,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def experiments_run_deterministic_experiment_with_http_info(
+    def experiments_run_deterministic_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -168,7 +168,7 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ExperimentRunReport]:
-        """experiments_run_deterministic_experiment
+        """experiments_run_deterministic
 
 
         :param tenant_id: tenant_id (required)
@@ -211,7 +211,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._experiments_run_deterministic_experiment_serialize(
+        _param = self._experiments_run_deterministic_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             dataset_id=dataset_id,
@@ -246,7 +246,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def experiments_run_deterministic_experiment_without_preload_content(
+    def experiments_run_deterministic_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -270,7 +270,7 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """experiments_run_deterministic_experiment
+        """experiments_run_deterministic
 
 
         :param tenant_id: tenant_id (required)
@@ -313,7 +313,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._experiments_run_deterministic_experiment_serialize(
+        _param = self._experiments_run_deterministic_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             dataset_id=dataset_id,
@@ -343,7 +343,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _experiments_run_deterministic_experiment_serialize(
+    def _experiments_run_deterministic_serialize(
         self,
         tenant_id,
         project_id,
@@ -444,7 +444,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def experiments_run_judge_experiment(
+    def experiments_run_judge(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -468,7 +468,7 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ExperimentRunReport:
-        """experiments_run_judge_experiment
+        """experiments_run_judge
 
 
         :param tenant_id: tenant_id (required)
@@ -511,7 +511,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._experiments_run_judge_experiment_serialize(
+        _param = self._experiments_run_judge_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             dataset_id=dataset_id,
@@ -546,7 +546,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def experiments_run_judge_experiment_with_http_info(
+    def experiments_run_judge_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -570,7 +570,7 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ExperimentRunReport]:
-        """experiments_run_judge_experiment
+        """experiments_run_judge
 
 
         :param tenant_id: tenant_id (required)
@@ -613,7 +613,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._experiments_run_judge_experiment_serialize(
+        _param = self._experiments_run_judge_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             dataset_id=dataset_id,
@@ -648,7 +648,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def experiments_run_judge_experiment_without_preload_content(
+    def experiments_run_judge_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -672,7 +672,7 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """experiments_run_judge_experiment
+        """experiments_run_judge
 
 
         :param tenant_id: tenant_id (required)
@@ -715,7 +715,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._experiments_run_judge_experiment_serialize(
+        _param = self._experiments_run_judge_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             dataset_id=dataset_id,
@@ -745,7 +745,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _experiments_run_judge_experiment_serialize(
+    def _experiments_run_judge_serialize(
         self,
         tenant_id,
         project_id,

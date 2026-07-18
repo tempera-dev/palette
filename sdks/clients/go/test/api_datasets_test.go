@@ -22,14 +22,14 @@ func Test_paletteclient_DatasetsAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test DatasetsAPIService DatasetsCreateDataset", func(t *testing.T) {
+	t.Run("Test DatasetsAPIService DatasetsCreate", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var tenantId string
 		var projectId string
 
-		resp, httpRes, err := apiClient.DatasetsAPI.DatasetsCreateDataset(context.Background(), tenantId, projectId).Execute()
+		resp, httpRes, err := apiClient.DatasetsAPI.DatasetsCreate(context.Background(), tenantId, projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -37,7 +37,7 @@ func Test_paletteclient_DatasetsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DatasetsAPIService DatasetsCreateDatasetVersion", func(t *testing.T) {
+	t.Run("Test DatasetsAPIService DatasetsCreateVersion", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
@@ -45,7 +45,7 @@ func Test_paletteclient_DatasetsAPIService(t *testing.T) {
 		var projectId string
 		var datasetId string
 
-		resp, httpRes, err := apiClient.DatasetsAPI.DatasetsCreateDatasetVersion(context.Background(), tenantId, projectId, datasetId).Execute()
+		resp, httpRes, err := apiClient.DatasetsAPI.DatasetsCreateVersion(context.Background(), tenantId, projectId, datasetId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -53,7 +53,7 @@ func Test_paletteclient_DatasetsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DatasetsAPIService DatasetsPromoteDatasetCaseFromTrace", func(t *testing.T) {
+	t.Run("Test DatasetsAPIService DatasetsPromoteCaseFromTrace", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
@@ -61,7 +61,7 @@ func Test_paletteclient_DatasetsAPIService(t *testing.T) {
 		var projectId string
 		var datasetId string
 
-		resp, httpRes, err := apiClient.DatasetsAPI.DatasetsPromoteDatasetCaseFromTrace(context.Background(), tenantId, projectId, datasetId).Execute()
+		resp, httpRes, err := apiClient.DatasetsAPI.DatasetsPromoteCaseFromTrace(context.Background(), tenantId, projectId, datasetId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

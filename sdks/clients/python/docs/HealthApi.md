@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**health_health**](HealthApi.md#health_health) | **GET** /health |
+[**health_check**](HealthApi.md#health_check) | **GET** /health |
 
 
-# **health_health**
-> HealthResponse health_health()
+# **health_check**
+> HealthResponse health_check()
 
 
 
@@ -34,11 +34,11 @@ with palette_client.ApiClient(configuration) as api_client:
     api_instance = palette_client.HealthApi(api_client)
 
     try:
-        api_response = api_instance.health_health()
-        print("The response of HealthApi->health_health:\n")
+        api_response = api_instance.health_check()
+        print("The response of HealthApi->health_check:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling HealthApi->health_health: %s\n" % e)
+        print("Exception when calling HealthApi->health_check: %s\n" % e)
 ```
 
 

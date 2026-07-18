@@ -31,7 +31,7 @@ import {
     RevokedProviderSecretToJSON,
 } from '../models/index';
 
-export interface ProviderSecretsCreateProviderSecretRequest {
+export interface ProviderSecretsCreateRequest {
     tenantId: string;
     projectId: string;
     createProviderSecretHttpRequest: CreateProviderSecretHttpRequest;
@@ -41,7 +41,7 @@ export interface ProviderSecretsCreateProviderSecretRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ProviderSecretsListProviderSecretsRequest {
+export interface ProviderSecretsListRequest {
     tenantId: string;
     projectId: string;
     authorization?: string | null;
@@ -50,7 +50,7 @@ export interface ProviderSecretsListProviderSecretsRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ProviderSecretsRevokeProviderSecretRequest {
+export interface ProviderSecretsRevokeRequest {
     tenantId: string;
     projectId: string;
     providerSecretId: string;
@@ -67,25 +67,25 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
 
     /**
      */
-    async providerSecretsCreateProviderSecretRaw(requestParameters: ProviderSecretsCreateProviderSecretRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProviderSecretMetadata>> {
+    async providerSecretsCreateRaw(requestParameters: ProviderSecretsCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProviderSecretMetadata>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling providerSecretsCreateProviderSecret().'
+                'Required parameter "tenantId" was null or undefined when calling providerSecretsCreate().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling providerSecretsCreateProviderSecret().'
+                'Required parameter "projectId" was null or undefined when calling providerSecretsCreate().'
             );
         }
 
         if (requestParameters['createProviderSecretHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'createProviderSecretHttpRequest',
-                'Required parameter "createProviderSecretHttpRequest" was null or undefined when calling providerSecretsCreateProviderSecret().'
+                'Required parameter "createProviderSecretHttpRequest" was null or undefined when calling providerSecretsCreate().'
             );
         }
 
@@ -124,25 +124,25 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
 
     /**
      */
-    async providerSecretsCreateProviderSecret(requestParameters: ProviderSecretsCreateProviderSecretRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProviderSecretMetadata> {
-        const response = await this.providerSecretsCreateProviderSecretRaw(requestParameters, initOverrides);
+    async providerSecretsCreate(requestParameters: ProviderSecretsCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProviderSecretMetadata> {
+        const response = await this.providerSecretsCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async providerSecretsListProviderSecretsRaw(requestParameters: ProviderSecretsListProviderSecretsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ProviderSecretMetadata>>> {
+    async providerSecretsListRaw(requestParameters: ProviderSecretsListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ProviderSecretMetadata>>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling providerSecretsListProviderSecrets().'
+                'Required parameter "tenantId" was null or undefined when calling providerSecretsList().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling providerSecretsListProviderSecrets().'
+                'Required parameter "projectId" was null or undefined when calling providerSecretsList().'
             );
         }
 
@@ -178,32 +178,32 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
 
     /**
      */
-    async providerSecretsListProviderSecrets(requestParameters: ProviderSecretsListProviderSecretsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ProviderSecretMetadata>> {
-        const response = await this.providerSecretsListProviderSecretsRaw(requestParameters, initOverrides);
+    async providerSecretsList(requestParameters: ProviderSecretsListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ProviderSecretMetadata>> {
+        const response = await this.providerSecretsListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async providerSecretsRevokeProviderSecretRaw(requestParameters: ProviderSecretsRevokeProviderSecretRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokedProviderSecret>> {
+    async providerSecretsRevokeRaw(requestParameters: ProviderSecretsRevokeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokedProviderSecret>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling providerSecretsRevokeProviderSecret().'
+                'Required parameter "tenantId" was null or undefined when calling providerSecretsRevoke().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling providerSecretsRevokeProviderSecret().'
+                'Required parameter "projectId" was null or undefined when calling providerSecretsRevoke().'
             );
         }
 
         if (requestParameters['providerSecretId'] == null) {
             throw new runtime.RequiredError(
                 'providerSecretId',
-                'Required parameter "providerSecretId" was null or undefined when calling providerSecretsRevokeProviderSecret().'
+                'Required parameter "providerSecretId" was null or undefined when calling providerSecretsRevoke().'
             );
         }
 
@@ -239,8 +239,8 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
 
     /**
      */
-    async providerSecretsRevokeProviderSecret(requestParameters: ProviderSecretsRevokeProviderSecretRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokedProviderSecret> {
-        const response = await this.providerSecretsRevokeProviderSecretRaw(requestParameters, initOverrides);
+    async providerSecretsRevoke(requestParameters: ProviderSecretsRevokeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokedProviderSecret> {
+        const response = await this.providerSecretsRevokeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

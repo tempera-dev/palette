@@ -46,7 +46,7 @@ public class JudgeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void judgeEvaluateJudgeTest() throws ApiException {
+    public void judgeEvaluateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         RunJudgeEvalHttpRequest runJudgeEvalHttpRequest = null;
@@ -55,7 +55,7 @@ public class JudgeApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         JudgeBrokerOutcome response = 
-        api.judgeEvaluateJudge(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.judgeEvaluate(tenantId, projectId, runJudgeEvalHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -69,7 +69,7 @@ public class JudgeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void judgeListJudgeLedgerTest() throws ApiException {
+    public void judgeListLedgerTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String authorization = null;
@@ -77,7 +77,7 @@ public class JudgeApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         List<JudgeAuditRecord> response = 
-        api.judgeListJudgeLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

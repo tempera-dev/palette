@@ -11,7 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["health.health"];
+        get: operations["health.check"];
         put?: never;
         post?: never;
         delete?: never;
@@ -29,7 +29,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["alerts.evaluate-alert"];
+        post: operations["alerts.evaluate"];
         delete?: never;
         options?: never;
         head?: never;
@@ -45,7 +45,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["apiKeys.create-api-key"];
+        post: operations["apiKeys.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -61,7 +61,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["apiKeys.revoke-api-key"];
+        post: operations["apiKeys.revoke"];
         delete?: never;
         options?: never;
         head?: never;
@@ -75,7 +75,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["archive.query-archive-spans"];
+        get: operations["archive.querySpans"];
         put?: never;
         post?: never;
         delete?: never;
@@ -93,7 +93,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["archive.archive-trace"];
+        post: operations["archive.archiveTrace"];
         delete?: never;
         options?: never;
         head?: never;
@@ -107,7 +107,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["audit.list-audit-events"];
+        get: operations["audit.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -125,7 +125,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["calibrations.run-calibration"];
+        post: operations["calibrations.run"];
         delete?: never;
         options?: never;
         head?: never;
@@ -139,7 +139,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["connect.get-palette-connect-status"];
+        get: operations["connect.getStatus"];
         put?: never;
         post?: never;
         delete?: never;
@@ -155,7 +155,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["connectors.list-connectors"];
+        get: operations["connectors.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -173,7 +173,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["connectors.connect-connector"];
+        post: operations["connectors.connect"];
         delete?: never;
         options?: never;
         head?: never;
@@ -189,7 +189,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["connectors.invoke-connector-tool"];
+        post: operations["connectors.invokeTool"];
         delete?: never;
         options?: never;
         head?: never;
@@ -203,7 +203,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["connectors.get-connector-skills"];
+        get: operations["connectors.getSkills"];
         put?: never;
         post?: never;
         delete?: never;
@@ -219,7 +219,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["connectors.connector-status"];
+        get: operations["connectors.status"];
         put?: never;
         post?: never;
         delete?: never;
@@ -235,7 +235,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["connectors.list-connector-tools"];
+        get: operations["connectors.listTools"];
         put?: never;
         post?: never;
         delete?: never;
@@ -253,7 +253,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["datasets.create-dataset"];
+        post: operations["datasets.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -269,7 +269,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["datasets.promote-dataset-case-from-trace"];
+        post: operations["datasets.promoteCaseFromTrace"];
         delete?: never;
         options?: never;
         head?: never;
@@ -285,7 +285,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["datasets.create-dataset-version"];
+        post: operations["datasets.createVersion"];
         delete?: never;
         options?: never;
         head?: never;
@@ -301,7 +301,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["evals.run-deterministic-eval"];
+        post: operations["evals.runDeterministic"];
         delete?: never;
         options?: never;
         head?: never;
@@ -317,7 +317,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["evals.run-judge-eval"];
+        post: operations["evals.runJudge"];
         delete?: never;
         options?: never;
         head?: never;
@@ -333,7 +333,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["experiments.run-deterministic-experiment"];
+        post: operations["experiments.runDeterministic"];
         delete?: never;
         options?: never;
         head?: never;
@@ -349,7 +349,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["experiments.run-judge-experiment"];
+        post: operations["experiments.runJudge"];
         delete?: never;
         options?: never;
         head?: never;
@@ -365,7 +365,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["gates.create-gate"];
+        post: operations["gates.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -381,7 +381,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["gates.run-gate"];
+        post: operations["gates.run"];
         delete?: never;
         options?: never;
         head?: never;
@@ -397,7 +397,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.import-source"];
+        post: operations["ingest.importSource"];
         delete?: never;
         options?: never;
         head?: never;
@@ -413,7 +413,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.replay-dead-letter"];
+        post: operations["ingest.replayDeadLetter"];
         delete?: never;
         options?: never;
         head?: never;
@@ -427,7 +427,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["ingest.get-ingest-queue-status"];
+        get: operations["ingest.getQueueStatus"];
         put?: never;
         post?: never;
         delete?: never;
@@ -445,7 +445,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.drain-trace-ingested"];
+        post: operations["ingest.drainTraceIngested"];
         delete?: never;
         options?: never;
         head?: never;
@@ -461,7 +461,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.drain-trace-writes"];
+        post: operations["ingest.drainTraceWrites"];
         delete?: never;
         options?: never;
         head?: never;
@@ -477,7 +477,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.reconcile-trace"];
+        post: operations["ingest.reconcileTrace"];
         delete?: never;
         options?: never;
         head?: never;
@@ -493,7 +493,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["judge.evaluate-judge"];
+        post: operations["judge.evaluate"];
         delete?: never;
         options?: never;
         head?: never;
@@ -507,7 +507,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["judge.list-judge-ledger"];
+        get: operations["judge.listLedger"];
         put?: never;
         post?: never;
         delete?: never;
@@ -525,7 +525,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["online.decide-online-sampling"];
+        post: operations["online.decideSampling"];
         delete?: never;
         options?: never;
         head?: never;
@@ -541,7 +541,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.ingest-otlp"];
+        post: operations["ingest.otlp"];
         delete?: never;
         options?: never;
         head?: never;
@@ -555,9 +555,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["prompts.list-prompts"];
+        get: operations["prompts.list"];
         put?: never;
-        post: operations["prompts.create-prompt"];
+        post: operations["prompts.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -571,7 +571,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["prompts.get-prompt"];
+        get: operations["prompts.get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -587,7 +587,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["prompts.diff-prompt-versions"];
+        get: operations["prompts.diffVersions"];
         put?: never;
         post?: never;
         delete?: never;
@@ -603,9 +603,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["prompts.list-prompt-versions"];
+        get: operations["prompts.listVersions"];
         put?: never;
-        post: operations["prompts.add-prompt-version"];
+        post: operations["prompts.addVersion"];
         delete?: never;
         options?: never;
         head?: never;
@@ -619,9 +619,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["providerSecrets.list-provider-secrets"];
+        get: operations["providerSecrets.list"];
         put?: never;
-        post: operations["providerSecrets.create-provider-secret"];
+        post: operations["providerSecrets.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -637,7 +637,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["providerSecrets.revoke-provider-secret"];
+        post: operations["providerSecrets.revoke"];
         delete?: never;
         options?: never;
         head?: never;
@@ -653,7 +653,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["reviews.create-review-queue"];
+        post: operations["reviews.createQueue"];
         delete?: never;
         options?: never;
         head?: never;
@@ -667,7 +667,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["reviews.list-review-tasks"];
+        get: operations["reviews.listTasks"];
         put?: never;
         post?: never;
         delete?: never;
@@ -685,7 +685,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["reviews.enqueue-review-task-from-trace"];
+        post: operations["reviews.enqueueTaskFromTrace"];
         delete?: never;
         options?: never;
         head?: never;
@@ -701,7 +701,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["reviews.submit-review-annotation"];
+        post: operations["reviews.submitAnnotation"];
         delete?: never;
         options?: never;
         head?: never;
@@ -717,7 +717,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["reviews.promote-review-annotation"];
+        post: operations["reviews.promoteAnnotation"];
         delete?: never;
         options?: never;
         head?: never;
@@ -731,9 +731,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["scenarios.list-scenarios"];
+        get: operations["scenarios.list"];
         put?: never;
-        post: operations["scenarios.create-scenario"];
+        post: operations["scenarios.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -749,7 +749,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["scenarios.mine-scenarios"];
+        post: operations["scenarios.mine"];
         delete?: never;
         options?: never;
         head?: never;
@@ -763,7 +763,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["scenarios.get-scenario"];
+        get: operations["scenarios.get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -779,7 +779,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["search.search-spans"];
+        get: operations["search.spans"];
         put?: never;
         post?: never;
         delete?: never;
@@ -795,7 +795,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["spans.get-span"];
+        get: operations["spans.get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -811,7 +811,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["spans.get-span-io"];
+        get: operations["spans.getIo"];
         put?: never;
         post?: never;
         delete?: never;
@@ -829,7 +829,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.ingest-otlp-json-collector"];
+        post: operations["ingest.otlpJsonCollector"];
         delete?: never;
         options?: never;
         head?: never;
@@ -845,7 +845,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["ingest.ingest-native"];
+        post: operations["ingest.native"];
         delete?: never;
         options?: never;
         head?: never;
@@ -859,7 +859,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["traces.list-traces"];
+        get: operations["traces.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -875,7 +875,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["traces.get-trace"];
+        get: operations["traces.get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -891,7 +891,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["usage.get-usage-summary"];
+        get: operations["usage.getSummary"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2279,7 +2279,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    "health.health": {
+    "health.check": {
         parameters: {
             query?: never;
             header?: never;
@@ -2299,7 +2299,7 @@ export interface operations {
             };
         };
     };
-    "alerts.evaluate-alert": {
+    "alerts.evaluate": {
         parameters: {
             query?: never;
             header?: {
@@ -2366,7 +2366,7 @@ export interface operations {
             };
         };
     };
-    "apiKeys.create-api-key": {
+    "apiKeys.create": {
         parameters: {
             query?: never;
             header?: {
@@ -2433,7 +2433,7 @@ export interface operations {
             };
         };
     };
-    "apiKeys.revoke-api-key": {
+    "apiKeys.revoke": {
         parameters: {
             query?: never;
             header?: {
@@ -2507,7 +2507,7 @@ export interface operations {
             };
         };
     };
-    "archive.query-archive-spans": {
+    "archive.querySpans": {
         parameters: {
             query?: {
                 environment_id?: string;
@@ -2575,7 +2575,7 @@ export interface operations {
             };
         };
     };
-    "archive.archive-trace": {
+    "archive.archiveTrace": {
         parameters: {
             query?: never;
             header?: {
@@ -2647,7 +2647,7 @@ export interface operations {
             };
         };
     };
-    "audit.list-audit-events": {
+    "audit.list": {
         parameters: {
             query?: never;
             header?: {
@@ -2708,7 +2708,7 @@ export interface operations {
             };
         };
     };
-    "calibrations.run-calibration": {
+    "calibrations.run": {
         parameters: {
             query?: never;
             header?: {
@@ -2786,7 +2786,7 @@ export interface operations {
             };
         };
     };
-    "connect.get-palette-connect-status": {
+    "connect.getStatus": {
         parameters: {
             query?: never;
             header?: {
@@ -2847,7 +2847,7 @@ export interface operations {
             };
         };
     };
-    "connectors.list-connectors": {
+    "connectors.list": {
         parameters: {
             query?: {
                 /** @description Maximum number of apps to return (page size). */
@@ -2920,7 +2920,7 @@ export interface operations {
             };
         };
     };
-    "connectors.connect-connector": {
+    "connectors.connect": {
         parameters: {
             query?: never;
             header?: {
@@ -2994,7 +2994,7 @@ export interface operations {
             };
         };
     };
-    "connectors.invoke-connector-tool": {
+    "connectors.invokeTool": {
         parameters: {
             query?: never;
             header?: {
@@ -3068,7 +3068,7 @@ export interface operations {
             };
         };
     };
-    "connectors.get-connector-skills": {
+    "connectors.getSkills": {
         parameters: {
             query: {
                 /** @description Toolkit slug to scope the request to. */
@@ -3141,7 +3141,7 @@ export interface operations {
             };
         };
     };
-    "connectors.connector-status": {
+    "connectors.status": {
         parameters: {
             query: {
                 /** @description Toolkit slug to scope the request to. */
@@ -3214,7 +3214,7 @@ export interface operations {
             };
         };
     };
-    "connectors.list-connector-tools": {
+    "connectors.listTools": {
         parameters: {
             query: {
                 /** @description Toolkit slug to list tools for. */
@@ -3289,7 +3289,7 @@ export interface operations {
             };
         };
     };
-    "datasets.create-dataset": {
+    "datasets.create": {
         parameters: {
             query?: never;
             header?: {
@@ -3354,7 +3354,7 @@ export interface operations {
             };
         };
     };
-    "datasets.promote-dataset-case-from-trace": {
+    "datasets.promoteCaseFromTrace": {
         parameters: {
             query?: never;
             header?: {
@@ -3430,7 +3430,7 @@ export interface operations {
             };
         };
     };
-    "datasets.create-dataset-version": {
+    "datasets.createVersion": {
         parameters: {
             query?: never;
             header?: {
@@ -3506,7 +3506,7 @@ export interface operations {
             };
         };
     };
-    "evals.run-deterministic-eval": {
+    "evals.runDeterministic": {
         parameters: {
             query?: never;
             header?: {
@@ -3584,7 +3584,7 @@ export interface operations {
             };
         };
     };
-    "evals.run-judge-eval": {
+    "evals.runJudge": {
         parameters: {
             query?: never;
             header?: {
@@ -3662,7 +3662,7 @@ export interface operations {
             };
         };
     };
-    "experiments.run-deterministic-experiment": {
+    "experiments.runDeterministic": {
         parameters: {
             query?: never;
             header?: {
@@ -3740,7 +3740,7 @@ export interface operations {
             };
         };
     };
-    "experiments.run-judge-experiment": {
+    "experiments.runJudge": {
         parameters: {
             query?: never;
             header?: {
@@ -3818,7 +3818,7 @@ export interface operations {
             };
         };
     };
-    "gates.create-gate": {
+    "gates.create": {
         parameters: {
             query?: never;
             header?: {
@@ -3883,7 +3883,7 @@ export interface operations {
             };
         };
     };
-    "gates.run-gate": {
+    "gates.run": {
         parameters: {
             query?: never;
             header?: {
@@ -3959,7 +3959,7 @@ export interface operations {
             };
         };
     };
-    "ingest.import-source": {
+    "ingest.importSource": {
         parameters: {
             query?: {
                 durability?: string;
@@ -4042,7 +4042,7 @@ export interface operations {
             };
         };
     };
-    "ingest.replay-dead-letter": {
+    "ingest.replayDeadLetter": {
         parameters: {
             query?: {
                 reset_attempts?: boolean;
@@ -4116,7 +4116,7 @@ export interface operations {
             };
         };
     };
-    "ingest.get-ingest-queue-status": {
+    "ingest.getQueueStatus": {
         parameters: {
             query?: never;
             header?: {
@@ -4177,7 +4177,7 @@ export interface operations {
             };
         };
     };
-    "ingest.drain-trace-ingested": {
+    "ingest.drainTraceIngested": {
         parameters: {
             query?: {
                 limit?: number;
@@ -4249,7 +4249,7 @@ export interface operations {
             };
         };
     };
-    "ingest.drain-trace-writes": {
+    "ingest.drainTraceWrites": {
         parameters: {
             query?: {
                 limit?: number;
@@ -4321,7 +4321,7 @@ export interface operations {
             };
         };
     };
-    "ingest.reconcile-trace": {
+    "ingest.reconcileTrace": {
         parameters: {
             query?: never;
             header?: {
@@ -4393,7 +4393,7 @@ export interface operations {
             };
         };
     };
-    "judge.evaluate-judge": {
+    "judge.evaluate": {
         parameters: {
             query?: never;
             header?: {
@@ -4458,7 +4458,7 @@ export interface operations {
             };
         };
     };
-    "judge.list-judge-ledger": {
+    "judge.listLedger": {
         parameters: {
             query?: never;
             header?: {
@@ -4519,7 +4519,7 @@ export interface operations {
             };
         };
     };
-    "online.decide-online-sampling": {
+    "online.decideSampling": {
         parameters: {
             query?: never;
             header?: {
@@ -4586,7 +4586,7 @@ export interface operations {
             };
         };
     };
-    "ingest.ingest-otlp": {
+    "ingest.otlp": {
         parameters: {
             query?: {
                 durability?: string;
@@ -4669,7 +4669,7 @@ export interface operations {
             };
         };
     };
-    "prompts.list-prompts": {
+    "prompts.list": {
         parameters: {
             query?: never;
             header?: {
@@ -4730,7 +4730,7 @@ export interface operations {
             };
         };
     };
-    "prompts.create-prompt": {
+    "prompts.create": {
         parameters: {
             query?: never;
             header?: {
@@ -4795,7 +4795,7 @@ export interface operations {
             };
         };
     };
-    "prompts.get-prompt": {
+    "prompts.get": {
         parameters: {
             query?: never;
             header?: {
@@ -4867,7 +4867,7 @@ export interface operations {
             };
         };
     };
-    "prompts.diff-prompt-versions": {
+    "prompts.diffVersions": {
         parameters: {
             query: {
                 from: string;
@@ -4942,7 +4942,7 @@ export interface operations {
             };
         };
     };
-    "prompts.list-prompt-versions": {
+    "prompts.listVersions": {
         parameters: {
             query?: never;
             header?: {
@@ -5014,7 +5014,7 @@ export interface operations {
             };
         };
     };
-    "prompts.add-prompt-version": {
+    "prompts.addVersion": {
         parameters: {
             query?: never;
             header?: {
@@ -5090,7 +5090,7 @@ export interface operations {
             };
         };
     };
-    "providerSecrets.list-provider-secrets": {
+    "providerSecrets.list": {
         parameters: {
             query?: never;
             header?: {
@@ -5151,7 +5151,7 @@ export interface operations {
             };
         };
     };
-    "providerSecrets.create-provider-secret": {
+    "providerSecrets.create": {
         parameters: {
             query?: never;
             header?: {
@@ -5216,7 +5216,7 @@ export interface operations {
             };
         };
     };
-    "providerSecrets.revoke-provider-secret": {
+    "providerSecrets.revoke": {
         parameters: {
             query?: never;
             header?: {
@@ -5288,7 +5288,7 @@ export interface operations {
             };
         };
     };
-    "reviews.create-review-queue": {
+    "reviews.createQueue": {
         parameters: {
             query?: never;
             header?: {
@@ -5353,7 +5353,7 @@ export interface operations {
             };
         };
     };
-    "reviews.list-review-tasks": {
+    "reviews.listTasks": {
         parameters: {
             query?: {
                 state?: components["schemas"]["ReviewTaskState"];
@@ -5427,7 +5427,7 @@ export interface operations {
             };
         };
     };
-    "reviews.enqueue-review-task-from-trace": {
+    "reviews.enqueueTaskFromTrace": {
         parameters: {
             query?: never;
             header?: {
@@ -5503,7 +5503,7 @@ export interface operations {
             };
         };
     };
-    "reviews.submit-review-annotation": {
+    "reviews.submitAnnotation": {
         parameters: {
             query?: never;
             header?: {
@@ -5581,7 +5581,7 @@ export interface operations {
             };
         };
     };
-    "reviews.promote-review-annotation": {
+    "reviews.promoteAnnotation": {
         parameters: {
             query?: never;
             header?: {
@@ -5661,7 +5661,7 @@ export interface operations {
             };
         };
     };
-    "scenarios.list-scenarios": {
+    "scenarios.list": {
         parameters: {
             query?: {
                 limit?: number;
@@ -5725,7 +5725,7 @@ export interface operations {
             };
         };
     };
-    "scenarios.create-scenario": {
+    "scenarios.create": {
         parameters: {
             query?: never;
             header?: {
@@ -5790,7 +5790,7 @@ export interface operations {
             };
         };
     };
-    "scenarios.mine-scenarios": {
+    "scenarios.mine": {
         parameters: {
             query?: never;
             header?: {
@@ -5864,7 +5864,7 @@ export interface operations {
             };
         };
     };
-    "scenarios.get-scenario": {
+    "scenarios.get": {
         parameters: {
             query?: never;
             header?: {
@@ -5936,7 +5936,7 @@ export interface operations {
             };
         };
     };
-    "search.search-spans": {
+    "search.spans": {
         parameters: {
             query?: {
                 q?: string;
@@ -6006,7 +6006,7 @@ export interface operations {
             };
         };
     };
-    "spans.get-span": {
+    "spans.get": {
         parameters: {
             query?: {
                 unmask?: boolean;
@@ -6081,7 +6081,7 @@ export interface operations {
             };
         };
     };
-    "spans.get-span-io": {
+    "spans.getIo": {
         parameters: {
             query?: {
                 unmask?: boolean;
@@ -6156,7 +6156,7 @@ export interface operations {
             };
         };
     };
-    "ingest.ingest-otlp-json-collector": {
+    "ingest.otlpJsonCollector": {
         parameters: {
             query?: {
                 durability?: string;
@@ -6234,7 +6234,7 @@ export interface operations {
             };
         };
     };
-    "ingest.ingest-native": {
+    "ingest.native": {
         parameters: {
             query?: {
                 durability?: string;
@@ -6314,7 +6314,7 @@ export interface operations {
             };
         };
     };
-    "traces.list-traces": {
+    "traces.list": {
         parameters: {
             query?: {
                 project_id?: string;
@@ -6389,7 +6389,7 @@ export interface operations {
             };
         };
     };
-    "traces.get-trace": {
+    "traces.get": {
         parameters: {
             query?: {
                 unmask?: boolean;
@@ -6462,7 +6462,7 @@ export interface operations {
             };
         };
     };
-    "usage.get-usage-summary": {
+    "usage.getSummary": {
         parameters: {
             query?: never;
             header?: {

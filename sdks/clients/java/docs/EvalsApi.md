@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**evalsRunDeterministicEval**](EvalsApi.md#evalsRunDeterministicEval) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
-| [**evalsRunDeterministicEvalWithHttpInfo**](EvalsApi.md#evalsRunDeterministicEvalWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
-| [**evalsRunJudgeEval**](EvalsApi.md#evalsRunJudgeEval) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
-| [**evalsRunJudgeEvalWithHttpInfo**](EvalsApi.md#evalsRunJudgeEvalWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
+| [**evalsRunDeterministic**](EvalsApi.md#evalsRunDeterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
+| [**evalsRunDeterministicWithHttpInfo**](EvalsApi.md#evalsRunDeterministicWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |  |
+| [**evalsRunJudge**](EvalsApi.md#evalsRunJudge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
+| [**evalsRunJudgeWithHttpInfo**](EvalsApi.md#evalsRunJudgeWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |  |
 
 
 
-## evalsRunDeterministicEval
+## evalsRunDeterministic
 
-> DatasetEvalReport evalsRunDeterministicEval(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> DatasetEvalReport evalsRunDeterministic(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -43,10 +43,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetEvalReport result = apiInstance.evalsRunDeterministicEval(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            DatasetEvalReport result = apiInstance.evalsRunDeterministic(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling EvalsApi#evalsRunDeterministicEval");
+            System.err.println("Exception when calling EvalsApi#evalsRunDeterministic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -94,9 +94,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## evalsRunDeterministicEvalWithHttpInfo
+## evalsRunDeterministicWithHttpInfo
 
-> ApiResponse<DatasetEvalReport> evalsRunDeterministicEval evalsRunDeterministicEvalWithHttpInfo(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<DatasetEvalReport> evalsRunDeterministic evalsRunDeterministicWithHttpInfo(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -127,12 +127,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetEvalReport> response = apiInstance.evalsRunDeterministicEvalWithHttpInfo(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<DatasetEvalReport> response = apiInstance.evalsRunDeterministicWithHttpInfo(tenantId, projectId, datasetId, versionId, runDeterministicEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling EvalsApi#evalsRunDeterministicEval");
+            System.err.println("Exception when calling EvalsApi#evalsRunDeterministic");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -181,9 +181,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## evalsRunJudgeEval
+## evalsRunJudge
 
-> DatasetEvalReport evalsRunJudgeEval(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> DatasetEvalReport evalsRunJudge(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -213,10 +213,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetEvalReport result = apiInstance.evalsRunJudgeEval(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            DatasetEvalReport result = apiInstance.evalsRunJudge(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling EvalsApi#evalsRunJudgeEval");
+            System.err.println("Exception when calling EvalsApi#evalsRunJudge");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -264,9 +264,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## evalsRunJudgeEvalWithHttpInfo
+## evalsRunJudgeWithHttpInfo
 
-> ApiResponse<DatasetEvalReport> evalsRunJudgeEval evalsRunJudgeEvalWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<DatasetEvalReport> evalsRunJudge evalsRunJudgeWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -297,12 +297,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetEvalReport> response = apiInstance.evalsRunJudgeEvalWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<DatasetEvalReport> response = apiInstance.evalsRunJudgeWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeDatasetEvalRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling EvalsApi#evalsRunJudgeEval");
+            System.err.println("Exception when calling EvalsApi#evalsRunJudge");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

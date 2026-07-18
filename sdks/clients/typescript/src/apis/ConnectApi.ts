@@ -25,7 +25,7 @@ import {
     PaletteConnectStatusResponseToJSON,
 } from '../models/index';
 
-export interface ConnectGetPaletteConnectStatusRequest {
+export interface ConnectGetStatusRequest {
     tenantId: string;
     projectId: string;
     authorization?: string | null;
@@ -41,18 +41,18 @@ export class ConnectApi extends runtime.BaseAPI {
 
     /**
      */
-    async connectGetPaletteConnectStatusRaw(requestParameters: ConnectGetPaletteConnectStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaletteConnectStatusResponse>> {
+    async connectGetStatusRaw(requestParameters: ConnectGetStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaletteConnectStatusResponse>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling connectGetPaletteConnectStatus().'
+                'Required parameter "tenantId" was null or undefined when calling connectGetStatus().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling connectGetPaletteConnectStatus().'
+                'Required parameter "projectId" was null or undefined when calling connectGetStatus().'
             );
         }
 
@@ -88,8 +88,8 @@ export class ConnectApi extends runtime.BaseAPI {
 
     /**
      */
-    async connectGetPaletteConnectStatus(requestParameters: ConnectGetPaletteConnectStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaletteConnectStatusResponse> {
-        const response = await this.connectGetPaletteConnectStatusRaw(requestParameters, initOverrides);
+    async connectGetStatus(requestParameters: ConnectGetStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaletteConnectStatusResponse> {
+        const response = await this.connectGetStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

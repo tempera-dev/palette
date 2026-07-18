@@ -26,14 +26,14 @@ class TestGatesApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_gates_create_gate(self) -> None:
-        """Test case for gates_create_gate
+    def test_gates_create(self) -> None:
+        """Test case for gates_create
 
         """
         pass
 
-    def test_gates_run_gate(self) -> None:
-        """Test case for gates_run_gate
+    def test_gates_run(self) -> None:
+        """Test case for gates_run
 
         """
         pass

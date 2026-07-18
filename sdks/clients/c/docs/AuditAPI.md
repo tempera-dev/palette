@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AuditAPI_auditListAuditEvents**](AuditAPI.md#AuditAPI_auditListAuditEvents) | **GET** /v1/audit/{tenant_id}/{project_id} |
+[**AuditAPI_auditList**](AuditAPI.md#AuditAPI_auditList) | **GET** /v1/audit/{tenant_id}/{project_id} |
 
 
-# **AuditAPI_auditListAuditEvents**
+# **AuditAPI_auditList**
 ```c
-list_t* AuditAPI_auditListAuditEvents(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+list_t* AuditAPI_auditList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

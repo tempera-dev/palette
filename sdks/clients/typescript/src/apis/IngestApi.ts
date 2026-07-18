@@ -69,7 +69,7 @@ export interface IngestDrainTraceWritesRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface IngestGetIngestQueueStatusRequest {
+export interface IngestGetQueueStatusRequest {
     tenantId: string;
     projectId: string;
     authorization?: string | null;
@@ -88,7 +88,7 @@ export interface IngestImportSourceRequest {
     xPaletteApiKey?: string | null;
 }
 
-export interface IngestIngestNativeRequest {
+export interface IngestNativeRequest {
     nativeIngestRequest: NativeIngestRequest;
     durability?: string;
     authorization?: string | null;
@@ -97,7 +97,7 @@ export interface IngestIngestNativeRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface IngestIngestOtlpRequest {
+export interface IngestOtlpRequest {
     tenantId: string;
     projectId: string;
     environmentId: string;
@@ -108,7 +108,7 @@ export interface IngestIngestOtlpRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface IngestIngestOtlpJsonCollectorRequest {
+export interface IngestOtlpJsonCollectorRequest {
     durability?: string;
     authorization?: string | null;
     xPaletteApiKey?: string | null;
@@ -261,18 +261,18 @@ export class IngestApi extends runtime.BaseAPI {
 
     /**
      */
-    async ingestGetIngestQueueStatusRaw(requestParameters: IngestGetIngestQueueStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IngestQueueStatus>> {
+    async ingestGetQueueStatusRaw(requestParameters: IngestGetQueueStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IngestQueueStatus>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling ingestGetIngestQueueStatus().'
+                'Required parameter "tenantId" was null or undefined when calling ingestGetQueueStatus().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling ingestGetIngestQueueStatus().'
+                'Required parameter "projectId" was null or undefined when calling ingestGetQueueStatus().'
             );
         }
 
@@ -308,8 +308,8 @@ export class IngestApi extends runtime.BaseAPI {
 
     /**
      */
-    async ingestGetIngestQueueStatus(requestParameters: IngestGetIngestQueueStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IngestQueueStatus> {
-        const response = await this.ingestGetIngestQueueStatusRaw(requestParameters, initOverrides);
+    async ingestGetQueueStatus(requestParameters: IngestGetQueueStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IngestQueueStatus> {
+        const response = await this.ingestGetQueueStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -382,11 +382,11 @@ export class IngestApi extends runtime.BaseAPI {
 
     /**
      */
-    async ingestIngestNativeRaw(requestParameters: IngestIngestNativeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IngestOutcome>> {
+    async ingestNativeRaw(requestParameters: IngestNativeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IngestOutcome>> {
         if (requestParameters['nativeIngestRequest'] == null) {
             throw new runtime.RequiredError(
                 'nativeIngestRequest',
-                'Required parameter "nativeIngestRequest" was null or undefined when calling ingestIngestNative().'
+                'Required parameter "nativeIngestRequest" was null or undefined when calling ingestNative().'
             );
         }
 
@@ -429,32 +429,32 @@ export class IngestApi extends runtime.BaseAPI {
 
     /**
      */
-    async ingestIngestNative(requestParameters: IngestIngestNativeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IngestOutcome> {
-        const response = await this.ingestIngestNativeRaw(requestParameters, initOverrides);
+    async ingestNative(requestParameters: IngestNativeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IngestOutcome> {
+        const response = await this.ingestNativeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async ingestIngestOtlpRaw(requestParameters: IngestIngestOtlpRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OtlpIngestOutcome>> {
+    async ingestOtlpRaw(requestParameters: IngestOtlpRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OtlpIngestOutcome>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling ingestIngestOtlp().'
+                'Required parameter "tenantId" was null or undefined when calling ingestOtlp().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling ingestIngestOtlp().'
+                'Required parameter "projectId" was null or undefined when calling ingestOtlp().'
             );
         }
 
         if (requestParameters['environmentId'] == null) {
             throw new runtime.RequiredError(
                 'environmentId',
-                'Required parameter "environmentId" was null or undefined when calling ingestIngestOtlp().'
+                'Required parameter "environmentId" was null or undefined when calling ingestOtlp().'
             );
         }
 
@@ -494,14 +494,14 @@ export class IngestApi extends runtime.BaseAPI {
 
     /**
      */
-    async ingestIngestOtlp(requestParameters: IngestIngestOtlpRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OtlpIngestOutcome> {
-        const response = await this.ingestIngestOtlpRaw(requestParameters, initOverrides);
+    async ingestOtlp(requestParameters: IngestOtlpRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OtlpIngestOutcome> {
+        const response = await this.ingestOtlpRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async ingestIngestOtlpJsonCollectorRaw(requestParameters: IngestIngestOtlpJsonCollectorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OtlpIngestOutcome>> {
+    async ingestOtlpJsonCollectorRaw(requestParameters: IngestOtlpJsonCollectorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OtlpIngestOutcome>> {
         const queryParameters: any = {};
 
         if (requestParameters['durability'] != null) {
@@ -542,8 +542,8 @@ export class IngestApi extends runtime.BaseAPI {
 
     /**
      */
-    async ingestIngestOtlpJsonCollector(requestParameters: IngestIngestOtlpJsonCollectorRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OtlpIngestOutcome> {
-        const response = await this.ingestIngestOtlpJsonCollectorRaw(requestParameters, initOverrides);
+    async ingestOtlpJsonCollector(requestParameters: IngestOtlpJsonCollectorRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OtlpIngestOutcome> {
+        const response = await this.ingestOtlpJsonCollectorRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

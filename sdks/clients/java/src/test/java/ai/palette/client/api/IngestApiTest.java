@@ -98,7 +98,7 @@ public class IngestApiTest {
      *          if the Api call fails
      */
     @Test
-    public void ingestGetIngestQueueStatusTest() throws ApiException {
+    public void ingestGetQueueStatusTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String authorization = null;
@@ -106,7 +106,7 @@ public class IngestApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         IngestQueueStatus response =
-        api.ingestGetIngestQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.ingestGetQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
 
         // TODO: test validations
     }
@@ -143,7 +143,7 @@ public class IngestApiTest {
      *          if the Api call fails
      */
     @Test
-    public void ingestIngestNativeTest() throws ApiException {
+    public void ingestNativeTest() throws ApiException {
         NativeIngestRequest nativeIngestRequest = null;
         String durability = null;
         String authorization = null;
@@ -151,7 +151,7 @@ public class IngestApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         IngestOutcome response =
-        api.ingestIngestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.ingestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
 
         // TODO: test validations
     }
@@ -165,7 +165,7 @@ public class IngestApiTest {
      *          if the Api call fails
      */
     @Test
-    public void ingestIngestOtlpTest() throws ApiException {
+    public void ingestOtlpTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String environmentId = null;
@@ -175,7 +175,7 @@ public class IngestApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         OtlpIngestOutcome response =
-        api.ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.ingestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
 
         // TODO: test validations
     }
@@ -189,7 +189,7 @@ public class IngestApiTest {
      *          if the Api call fails
      */
     @Test
-    public void ingestIngestOtlpJsonCollectorTest() throws ApiException {
+    public void ingestOtlpJsonCollectorTest() throws ApiException {
         String durability = null;
         String authorization = null;
         String xPaletteApiKey = null;
@@ -197,7 +197,7 @@ public class IngestApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         OtlpIngestOutcome response =
-        api.ingestIngestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
+        api.ingestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
 
         // TODO: test validations
     }

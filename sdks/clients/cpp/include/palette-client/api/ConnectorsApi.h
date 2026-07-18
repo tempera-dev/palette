@@ -65,7 +65,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ConnectionLink>> connectors_connectConnector(
+    pplx::task<std::shared_ptr<ConnectionLink>> connectors_connect(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<ConnectConnectorRequest> connectConnectorRequest,
@@ -87,29 +87,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ConnectionStatus>> connectors_connectorStatus(
-        utility::string_t tenantId,
-        utility::string_t projectId,
-        utility::string_t toolkit,
-        boost::optional<utility::string_t> authorization,
-        boost::optional<utility::string_t> xPaletteApiKey,
-        boost::optional<utility::string_t> xPaletteProjectId,
-        boost::optional<utility::string_t> xPaletteEnvironmentId
-    ) const;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    /// <param name="tenantId">tenant_id</param>
-    /// <param name="projectId">project_id</param>
-    /// <param name="toolkit">Toolkit slug to scope the request to.</param>
-    /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ConnectorSkillsResponse>> connectors_getConnectorSkills(
+    pplx::task<std::shared_ptr<ConnectorSkillsResponse>> connectors_getSkills(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t toolkit,
@@ -131,10 +109,32 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ToolExecution>> connectors_invokeConnectorTool(
+    pplx::task<std::shared_ptr<ToolExecution>> connectors_invokeTool(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<InvokeConnectorRequest> invokeConnectorRequest,
+        boost::optional<utility::string_t> authorization,
+        boost::optional<utility::string_t> xPaletteApiKey,
+        boost::optional<utility::string_t> xPaletteProjectId,
+        boost::optional<utility::string_t> xPaletteEnvironmentId
+    ) const;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// 
+    /// </remarks>
+    /// <param name="tenantId">tenant_id</param>
+    /// <param name="projectId">project_id</param>
+    /// <param name="limit">Maximum number of apps to return (page size). (optional, default to 0)</param>
+    /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    pplx::task<std::vector<std::shared_ptr<Toolkit>>> connectors_list(
+        utility::string_t tenantId,
+        utility::string_t projectId,
+        boost::optional<int32_t> limit,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
@@ -154,7 +154,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> connectors_listConnectorTools(
+    pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> connectors_listTools(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t toolkit,
@@ -172,15 +172,15 @@ public:
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
-    /// <param name="limit">Maximum number of apps to return (page size). (optional, default to 0)</param>
+    /// <param name="toolkit">Toolkit slug to scope the request to.</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<Toolkit>>> connectors_listConnectors(
+    pplx::task<std::shared_ptr<ConnectionStatus>> connectors_status(
         utility::string_t tenantId,
         utility::string_t projectId,
-        boost::optional<int32_t> limit,
+        utility::string_t toolkit,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,

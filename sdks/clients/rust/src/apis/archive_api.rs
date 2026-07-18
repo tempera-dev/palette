@@ -33,9 +33,9 @@ pub struct ArchivePeriodArchiveTraceParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`archive_period_query_archive_spans`]
+/// struct for passing parameters to the method [`archive_period_query_spans`]
 #[derive(Clone, Debug)]
-pub struct ArchivePeriodQueryArchiveSpansParams {
+pub struct ArchivePeriodQuerySpansParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -68,10 +68,10 @@ pub enum ArchivePeriodArchiveTraceError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`archive_period_query_archive_spans`]
+/// struct for typed errors of method [`archive_period_query_spans`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ArchivePeriodQueryArchiveSpansError {
+pub enum ArchivePeriodQuerySpansError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -115,7 +115,7 @@ pub async fn archive_period_archive_trace(configuration: &configuration::Configu
     }
 }
 
-pub async fn archive_period_query_archive_spans(configuration: &configuration::Configuration, params: ArchivePeriodQueryArchiveSpansParams) -> Result<models::ArchiveQueryResponse, Error<ArchivePeriodQueryArchiveSpansError>> {
+pub async fn archive_period_query_spans(configuration: &configuration::Configuration, params: ArchivePeriodQuerySpansParams) -> Result<models::ArchiveQueryResponse, Error<ArchivePeriodQuerySpansError>> {
 
     let uri_str = format!("{}/v1/archive/{tenant_id}/{project_id}/spans", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -164,7 +164,7 @@ pub async fn archive_period_query_archive_spans(configuration: &configuration::C
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ArchivePeriodQueryArchiveSpansError> = serde_json::from_str(&content).ok();
+        let entity: Option<ArchivePeriodQuerySpansError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

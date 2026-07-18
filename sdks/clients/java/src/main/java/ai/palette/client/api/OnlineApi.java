@@ -97,8 +97,8 @@ public class OnlineApi {
    * @return SamplingDecision
    * @throws ApiException if fails to make API call
    */
-  public SamplingDecision onlineDecideOnlineSampling(String tenantId, String projectId, String traceId, OnlineSamplingPolicy onlineSamplingPolicy, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<SamplingDecision> localVarResponse = onlineDecideOnlineSamplingWithHttpInfo(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public SamplingDecision onlineDecideSampling(String tenantId, String projectId, String traceId, OnlineSamplingPolicy onlineSamplingPolicy, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<SamplingDecision> localVarResponse = onlineDecideSamplingWithHttpInfo(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -116,8 +116,8 @@ public class OnlineApi {
    * @return ApiResponse&lt;SamplingDecision&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<SamplingDecision> onlineDecideOnlineSamplingWithHttpInfo(String tenantId, String projectId, String traceId, OnlineSamplingPolicy onlineSamplingPolicy, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = onlineDecideOnlineSamplingRequestBuilder(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<SamplingDecision> onlineDecideSamplingWithHttpInfo(String tenantId, String projectId, String traceId, OnlineSamplingPolicy onlineSamplingPolicy, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = onlineDecideSamplingRequestBuilder(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -127,7 +127,7 @@ public class OnlineApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("onlineDecideOnlineSampling", localVarResponse);
+          throw getApiException("onlineDecideSampling", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<SamplingDecision>(
@@ -156,22 +156,22 @@ public class OnlineApi {
     }
   }
 
-  private HttpRequest.Builder onlineDecideOnlineSamplingRequestBuilder(String tenantId, String projectId, String traceId, OnlineSamplingPolicy onlineSamplingPolicy, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder onlineDecideSamplingRequestBuilder(String tenantId, String projectId, String traceId, OnlineSamplingPolicy onlineSamplingPolicy, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling onlineDecideOnlineSampling");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling onlineDecideSampling");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling onlineDecideOnlineSampling");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling onlineDecideSampling");
     }
     // verify the required parameter 'traceId' is set
     if (traceId == null) {
-      throw new ApiException(400, "Missing the required parameter 'traceId' when calling onlineDecideOnlineSampling");
+      throw new ApiException(400, "Missing the required parameter 'traceId' when calling onlineDecideSampling");
     }
     // verify the required parameter 'onlineSamplingPolicy' is set
     if (onlineSamplingPolicy == null) {
-      throw new ApiException(400, "Missing the required parameter 'onlineSamplingPolicy' when calling onlineDecideOnlineSampling");
+      throw new ApiException(400, "Missing the required parameter 'onlineSamplingPolicy' when calling onlineDecideSampling");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

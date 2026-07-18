@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`reviews_period_create_review_queue`]
+/// struct for passing parameters to the method [`reviews_period_create_queue`]
 #[derive(Clone, Debug)]
-pub struct ReviewsPeriodCreateReviewQueueParams {
+pub struct ReviewsPeriodCreateQueueParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,9 +32,9 @@ pub struct ReviewsPeriodCreateReviewQueueParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`reviews_period_enqueue_review_task_from_trace`]
+/// struct for passing parameters to the method [`reviews_period_enqueue_task_from_trace`]
 #[derive(Clone, Debug)]
-pub struct ReviewsPeriodEnqueueReviewTaskFromTraceParams {
+pub struct ReviewsPeriodEnqueueTaskFromTraceParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -52,9 +52,9 @@ pub struct ReviewsPeriodEnqueueReviewTaskFromTraceParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`reviews_period_list_review_tasks`]
+/// struct for passing parameters to the method [`reviews_period_list_tasks`]
 #[derive(Clone, Debug)]
-pub struct ReviewsPeriodListReviewTasksParams {
+pub struct ReviewsPeriodListTasksParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -72,9 +72,9 @@ pub struct ReviewsPeriodListReviewTasksParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`reviews_period_promote_review_annotation`]
+/// struct for passing parameters to the method [`reviews_period_promote_annotation`]
 #[derive(Clone, Debug)]
-pub struct ReviewsPeriodPromoteReviewAnnotationParams {
+pub struct ReviewsPeriodPromoteAnnotationParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -96,9 +96,9 @@ pub struct ReviewsPeriodPromoteReviewAnnotationParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`reviews_period_submit_review_annotation`]
+/// struct for passing parameters to the method [`reviews_period_submit_annotation`]
 #[derive(Clone, Debug)]
-pub struct ReviewsPeriodSubmitReviewAnnotationParams {
+pub struct ReviewsPeriodSubmitAnnotationParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -119,31 +119,20 @@ pub struct ReviewsPeriodSubmitReviewAnnotationParams {
 }
 
 
-/// struct for typed errors of method [`reviews_period_create_review_queue`]
+/// struct for typed errors of method [`reviews_period_create_queue`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ReviewsPeriodCreateReviewQueueError {
+pub enum ReviewsPeriodCreateQueueError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`reviews_period_enqueue_review_task_from_trace`]
+/// struct for typed errors of method [`reviews_period_enqueue_task_from_trace`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ReviewsPeriodEnqueueReviewTaskFromTraceError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`reviews_period_list_review_tasks`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum ReviewsPeriodListReviewTasksError {
+pub enum ReviewsPeriodEnqueueTaskFromTraceError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -151,10 +140,10 @@ pub enum ReviewsPeriodListReviewTasksError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`reviews_period_promote_review_annotation`]
+/// struct for typed errors of method [`reviews_period_list_tasks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ReviewsPeriodPromoteReviewAnnotationError {
+pub enum ReviewsPeriodListTasksError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -162,10 +151,21 @@ pub enum ReviewsPeriodPromoteReviewAnnotationError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`reviews_period_submit_review_annotation`]
+/// struct for typed errors of method [`reviews_period_promote_annotation`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ReviewsPeriodSubmitReviewAnnotationError {
+pub enum ReviewsPeriodPromoteAnnotationError {
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status403(models::ErrorResponse),
+    Status404(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`reviews_period_submit_annotation`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ReviewsPeriodSubmitAnnotationError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -174,7 +174,7 @@ pub enum ReviewsPeriodSubmitReviewAnnotationError {
 }
 
 
-pub async fn reviews_period_create_review_queue(configuration: &configuration::Configuration, params: ReviewsPeriodCreateReviewQueueParams) -> Result<models::ReviewQueue, Error<ReviewsPeriodCreateReviewQueueError>> {
+pub async fn reviews_period_create_queue(configuration: &configuration::Configuration, params: ReviewsPeriodCreateQueueParams) -> Result<models::ReviewQueue, Error<ReviewsPeriodCreateQueueError>> {
 
     let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -206,12 +206,12 @@ pub async fn reviews_period_create_review_queue(configuration: &configuration::C
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ReviewsPeriodCreateReviewQueueError> = serde_json::from_str(&content).ok();
+        let entity: Option<ReviewsPeriodCreateQueueError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn reviews_period_enqueue_review_task_from_trace(configuration: &configuration::Configuration, params: ReviewsPeriodEnqueueReviewTaskFromTraceParams) -> Result<models::ReviewTask, Error<ReviewsPeriodEnqueueReviewTaskFromTraceError>> {
+pub async fn reviews_period_enqueue_task_from_trace(configuration: &configuration::Configuration, params: ReviewsPeriodEnqueueTaskFromTraceParams) -> Result<models::ReviewTask, Error<ReviewsPeriodEnqueueTaskFromTraceError>> {
 
     let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -243,12 +243,12 @@ pub async fn reviews_period_enqueue_review_task_from_trace(configuration: &confi
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ReviewsPeriodEnqueueReviewTaskFromTraceError> = serde_json::from_str(&content).ok();
+        let entity: Option<ReviewsPeriodEnqueueTaskFromTraceError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn reviews_period_list_review_tasks(configuration: &configuration::Configuration, params: ReviewsPeriodListReviewTasksParams) -> Result<Vec<models::ReviewTask>, Error<ReviewsPeriodListReviewTasksError>> {
+pub async fn reviews_period_list_tasks(configuration: &configuration::Configuration, params: ReviewsPeriodListTasksParams) -> Result<Vec<models::ReviewTask>, Error<ReviewsPeriodListTasksError>> {
 
     let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -282,12 +282,12 @@ pub async fn reviews_period_list_review_tasks(configuration: &configuration::Con
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ReviewsPeriodListReviewTasksError> = serde_json::from_str(&content).ok();
+        let entity: Option<ReviewsPeriodListTasksError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn reviews_period_promote_review_annotation(configuration: &configuration::Configuration, params: ReviewsPeriodPromoteReviewAnnotationParams) -> Result<models::DatasetCase, Error<ReviewsPeriodPromoteReviewAnnotationError>> {
+pub async fn reviews_period_promote_annotation(configuration: &configuration::Configuration, params: ReviewsPeriodPromoteAnnotationParams) -> Result<models::DatasetCase, Error<ReviewsPeriodPromoteAnnotationError>> {
 
     let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id), task_id=crate::apis::urlencode(params.task_id), annotation_id=crate::apis::urlencode(params.annotation_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -319,12 +319,12 @@ pub async fn reviews_period_promote_review_annotation(configuration: &configurat
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ReviewsPeriodPromoteReviewAnnotationError> = serde_json::from_str(&content).ok();
+        let entity: Option<ReviewsPeriodPromoteAnnotationError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn reviews_period_submit_review_annotation(configuration: &configuration::Configuration, params: ReviewsPeriodSubmitReviewAnnotationParams) -> Result<models::ReviewAnnotation, Error<ReviewsPeriodSubmitReviewAnnotationError>> {
+pub async fn reviews_period_submit_annotation(configuration: &configuration::Configuration, params: ReviewsPeriodSubmitAnnotationParams) -> Result<models::ReviewAnnotation, Error<ReviewsPeriodSubmitAnnotationError>> {
 
     let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id), task_id=crate::apis::urlencode(params.task_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -356,7 +356,7 @@ pub async fn reviews_period_submit_review_annotation(configuration: &configurati
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<ReviewsPeriodSubmitReviewAnnotationError> = serde_json::from_str(&content).ok();
+        let entity: Option<ReviewsPeriodSubmitAnnotationError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

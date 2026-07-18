@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**healthHealth**](HealthApi.md#healthHealth) | **GET** /health |  |
-| [**healthHealthWithHttpInfo**](HealthApi.md#healthHealthWithHttpInfo) | **GET** /health |  |
+| [**healthCheck**](HealthApi.md#healthCheck) | **GET** /health |  |
+| [**healthCheckWithHttpInfo**](HealthApi.md#healthCheckWithHttpInfo) | **GET** /health |  |
 
 
 
-## healthHealth
+## healthCheck
 
-> HealthResponse healthHealth()
+> HealthResponse healthCheck()
 
 
 
@@ -32,10 +32,10 @@ public class Example {
 
         HealthApi apiInstance = new HealthApi(defaultClient);
         try {
-            HealthResponse result = apiInstance.healthHealth();
+            HealthResponse result = apiInstance.healthCheck();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling HealthApi#healthHealth");
+            System.err.println("Exception when calling HealthApi#healthCheck");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -68,9 +68,9 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Runtime is accepting requests |  -  |
 
-## healthHealthWithHttpInfo
+## healthCheckWithHttpInfo
 
-> ApiResponse<HealthResponse> healthHealth healthHealthWithHttpInfo()
+> ApiResponse<HealthResponse> healthCheck healthCheckWithHttpInfo()
 
 
 
@@ -92,12 +92,12 @@ public class Example {
 
         HealthApi apiInstance = new HealthApi(defaultClient);
         try {
-            ApiResponse<HealthResponse> response = apiInstance.healthHealthWithHttpInfo();
+            ApiResponse<HealthResponse> response = apiInstance.healthCheckWithHttpInfo();
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling HealthApi#healthHealth");
+            System.err.println("Exception when calling HealthApi#healthCheck");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

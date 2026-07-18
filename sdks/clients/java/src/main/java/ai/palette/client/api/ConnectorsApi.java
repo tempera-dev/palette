@@ -102,8 +102,8 @@ public class ConnectorsApi {
    * @return ConnectionLink
    * @throws ApiException if fails to make API call
    */
-  public ConnectionLink connectorsConnectConnector(String tenantId, String projectId, ConnectConnectorRequest connectConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ConnectionLink> localVarResponse = connectorsConnectConnectorWithHttpInfo(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ConnectionLink connectorsConnect(String tenantId, String projectId, ConnectConnectorRequest connectConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ConnectionLink> localVarResponse = connectorsConnectWithHttpInfo(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -120,8 +120,8 @@ public class ConnectorsApi {
    * @return ApiResponse&lt;ConnectionLink&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ConnectionLink> connectorsConnectConnectorWithHttpInfo(String tenantId, String projectId, ConnectConnectorRequest connectConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectorsConnectConnectorRequestBuilder(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ConnectionLink> connectorsConnectWithHttpInfo(String tenantId, String projectId, ConnectConnectorRequest connectConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectorsConnectRequestBuilder(tenantId, projectId, connectConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -131,7 +131,7 @@ public class ConnectorsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectorsConnectConnector", localVarResponse);
+          throw getApiException("connectorsConnect", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ConnectionLink>(
@@ -160,18 +160,18 @@ public class ConnectorsApi {
     }
   }
 
-  private HttpRequest.Builder connectorsConnectConnectorRequestBuilder(String tenantId, String projectId, ConnectConnectorRequest connectConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder connectorsConnectRequestBuilder(String tenantId, String projectId, ConnectConnectorRequest connectConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsConnectConnector");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsConnect");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsConnectConnector");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsConnect");
     }
     // verify the required parameter 'connectConnectorRequest' is set
     if (connectConnectorRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'connectConnectorRequest' when calling connectorsConnectConnector");
+      throw new ApiException(400, "Missing the required parameter 'connectConnectorRequest' when calling connectorsConnect");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -222,143 +222,11 @@ public class ConnectorsApi {
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
    * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
-   * @return ConnectionStatus
-   * @throws ApiException if fails to make API call
-   */
-  public ConnectionStatus connectorsConnectorStatus(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ConnectionStatus> localVarResponse = connectorsConnectorStatusWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-    return localVarResponse.getData();
-  }
-
-  /**
-   * 
-   * 
-   * @param tenantId tenant_id (required)
-   * @param projectId project_id (required)
-   * @param toolkit Toolkit slug to scope the request to. (required)
-   * @param authorization Bearer API token for strict auth (optional)
-   * @param xPaletteApiKey API key alternative for strict auth (optional)
-   * @param xPaletteProjectId Strict-auth project scope (optional)
-   * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
-   * @return ApiResponse&lt;ConnectionStatus&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public ApiResponse<ConnectionStatus> connectorsConnectorStatusWithHttpInfo(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectorsConnectorStatusRequestBuilder(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-    try {
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }
-      try {
-        if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectorsConnectorStatus", localVarResponse);
-        }
-        if (localVarResponse.body() == null) {
-          return new ApiResponse<ConnectionStatus>(
-              localVarResponse.statusCode(),
-              localVarResponse.headers().map(),
-              null
-          );
-        }
-
-        String responseBody = new String(localVarResponse.body().readAllBytes());
-        localVarResponse.body().close();
-
-        return new ApiResponse<ConnectionStatus>(
-            localVarResponse.statusCode(),
-            localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<ConnectionStatus>() {})
-        );
-      } finally {
-      }
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
-    }
-  }
-
-  private HttpRequest.Builder connectorsConnectorStatusRequestBuilder(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    // verify the required parameter 'tenantId' is set
-    if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsConnectorStatus");
-    }
-    // verify the required parameter 'projectId' is set
-    if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsConnectorStatus");
-    }
-    // verify the required parameter 'toolkit' is set
-    if (toolkit == null) {
-      throw new ApiException(400, "Missing the required parameter 'toolkit' when calling connectorsConnectorStatus");
-    }
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/v1/connectors/{tenant_id}/{project_id}/status"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
-
-    List<Pair> localVarQueryParams = new ArrayList<>();
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "toolkit";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("toolkit", toolkit));
-
-    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
-      StringJoiner queryJoiner = new StringJoiner("&");
-      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
-      if (localVarQueryStringJoiner.length() != 0) {
-        queryJoiner.add(localVarQueryStringJoiner.toString());
-      }
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
-    } else {
-      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-    }
-
-    if (authorization != null) {
-      localVarRequestBuilder.header("authorization", authorization.toString());
-    }
-    if (xPaletteApiKey != null) {
-      localVarRequestBuilder.header("x-palette-api-key", xPaletteApiKey.toString());
-    }
-    if (xPaletteProjectId != null) {
-      localVarRequestBuilder.header("x-palette-project-id", xPaletteProjectId.toString());
-    }
-    if (xPaletteEnvironmentId != null) {
-      localVarRequestBuilder.header("x-palette-environment-id", xPaletteEnvironmentId.toString());
-    }
-    localVarRequestBuilder.header("Accept", "application/json");
-
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-    if (memberVarReadTimeout != null) {
-      localVarRequestBuilder.timeout(memberVarReadTimeout);
-    }
-    if (memberVarInterceptor != null) {
-      memberVarInterceptor.accept(localVarRequestBuilder);
-    }
-    return localVarRequestBuilder;
-  }
-
-  /**
-   * 
-   * 
-   * @param tenantId tenant_id (required)
-   * @param projectId project_id (required)
-   * @param toolkit Toolkit slug to scope the request to. (required)
-   * @param authorization Bearer API token for strict auth (optional)
-   * @param xPaletteApiKey API key alternative for strict auth (optional)
-   * @param xPaletteProjectId Strict-auth project scope (optional)
-   * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
    * @return ConnectorSkillsResponse
    * @throws ApiException if fails to make API call
    */
-  public ConnectorSkillsResponse connectorsGetConnectorSkills(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ConnectorSkillsResponse> localVarResponse = connectorsGetConnectorSkillsWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ConnectorSkillsResponse connectorsGetSkills(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ConnectorSkillsResponse> localVarResponse = connectorsGetSkillsWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -375,8 +243,8 @@ public class ConnectorsApi {
    * @return ApiResponse&lt;ConnectorSkillsResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ConnectorSkillsResponse> connectorsGetConnectorSkillsWithHttpInfo(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectorsGetConnectorSkillsRequestBuilder(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ConnectorSkillsResponse> connectorsGetSkillsWithHttpInfo(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectorsGetSkillsRequestBuilder(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -386,7 +254,7 @@ public class ConnectorsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectorsGetConnectorSkills", localVarResponse);
+          throw getApiException("connectorsGetSkills", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ConnectorSkillsResponse>(
@@ -415,18 +283,18 @@ public class ConnectorsApi {
     }
   }
 
-  private HttpRequest.Builder connectorsGetConnectorSkillsRequestBuilder(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder connectorsGetSkillsRequestBuilder(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsGetConnectorSkills");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsGetSkills");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsGetConnectorSkills");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsGetSkills");
     }
     // verify the required parameter 'toolkit' is set
     if (toolkit == null) {
-      throw new ApiException(400, "Missing the required parameter 'toolkit' when calling connectorsGetConnectorSkills");
+      throw new ApiException(400, "Missing the required parameter 'toolkit' when calling connectorsGetSkills");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -489,8 +357,8 @@ public class ConnectorsApi {
    * @return ToolExecution
    * @throws ApiException if fails to make API call
    */
-  public ToolExecution connectorsInvokeConnectorTool(String tenantId, String projectId, InvokeConnectorRequest invokeConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ToolExecution> localVarResponse = connectorsInvokeConnectorToolWithHttpInfo(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ToolExecution connectorsInvokeTool(String tenantId, String projectId, InvokeConnectorRequest invokeConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ToolExecution> localVarResponse = connectorsInvokeToolWithHttpInfo(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -507,8 +375,8 @@ public class ConnectorsApi {
    * @return ApiResponse&lt;ToolExecution&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ToolExecution> connectorsInvokeConnectorToolWithHttpInfo(String tenantId, String projectId, InvokeConnectorRequest invokeConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectorsInvokeConnectorToolRequestBuilder(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ToolExecution> connectorsInvokeToolWithHttpInfo(String tenantId, String projectId, InvokeConnectorRequest invokeConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectorsInvokeToolRequestBuilder(tenantId, projectId, invokeConnectorRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -518,7 +386,7 @@ public class ConnectorsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectorsInvokeConnectorTool", localVarResponse);
+          throw getApiException("connectorsInvokeTool", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ToolExecution>(
@@ -547,18 +415,18 @@ public class ConnectorsApi {
     }
   }
 
-  private HttpRequest.Builder connectorsInvokeConnectorToolRequestBuilder(String tenantId, String projectId, InvokeConnectorRequest invokeConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder connectorsInvokeToolRequestBuilder(String tenantId, String projectId, InvokeConnectorRequest invokeConnectorRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsInvokeConnectorTool");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsInvokeTool");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsInvokeConnectorTool");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsInvokeTool");
     }
     // verify the required parameter 'invokeConnectorRequest' is set
     if (invokeConnectorRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'invokeConnectorRequest' when calling connectorsInvokeConnectorTool");
+      throw new ApiException(400, "Missing the required parameter 'invokeConnectorRequest' when calling connectorsInvokeTool");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -604,6 +472,134 @@ public class ConnectorsApi {
    * 
    * @param tenantId tenant_id (required)
    * @param projectId project_id (required)
+   * @param limit Maximum number of apps to return (page size). (optional)
+   * @param authorization Bearer API token for strict auth (optional)
+   * @param xPaletteApiKey API key alternative for strict auth (optional)
+   * @param xPaletteProjectId Strict-auth project scope (optional)
+   * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
+   * @return List&lt;Toolkit&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public List<Toolkit> connectorsList(String tenantId, String projectId, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<List<Toolkit>> localVarResponse = connectorsListWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * 
+   * 
+   * @param tenantId tenant_id (required)
+   * @param projectId project_id (required)
+   * @param limit Maximum number of apps to return (page size). (optional)
+   * @param authorization Bearer API token for strict auth (optional)
+   * @param xPaletteApiKey API key alternative for strict auth (optional)
+   * @param xPaletteProjectId Strict-auth project scope (optional)
+   * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
+   * @return ApiResponse&lt;List&lt;Toolkit&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<List<Toolkit>> connectorsListWithHttpInfo(String tenantId, String projectId, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectorsListRequestBuilder(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("connectorsList", localVarResponse);
+        }
+        if (localVarResponse.body() == null) {
+          return new ApiResponse<List<Toolkit>>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
+        }
+
+        String responseBody = new String(localVarResponse.body().readAllBytes());
+        localVarResponse.body().close();
+
+        return new ApiResponse<List<Toolkit>>(
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Toolkit>>() {})
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder connectorsListRequestBuilder(String tenantId, String projectId, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    // verify the required parameter 'tenantId' is set
+    if (tenantId == null) {
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsList");
+    }
+    // verify the required parameter 'projectId' is set
+    if (projectId == null) {
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsList");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/v1/connectors/{tenant_id}/{project_id}"
+        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "limit";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("limit", limit));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    if (authorization != null) {
+      localVarRequestBuilder.header("authorization", authorization.toString());
+    }
+    if (xPaletteApiKey != null) {
+      localVarRequestBuilder.header("x-palette-api-key", xPaletteApiKey.toString());
+    }
+    if (xPaletteProjectId != null) {
+      localVarRequestBuilder.header("x-palette-project-id", xPaletteProjectId.toString());
+    }
+    if (xPaletteEnvironmentId != null) {
+      localVarRequestBuilder.header("x-palette-environment-id", xPaletteEnvironmentId.toString());
+    }
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * 
+   * 
+   * @param tenantId tenant_id (required)
+   * @param projectId project_id (required)
    * @param toolkit Toolkit slug to list tools for. (required)
    * @param limit Maximum number of tools to return (page size). (optional)
    * @param authorization Bearer API token for strict auth (optional)
@@ -613,8 +609,8 @@ public class ConnectorsApi {
    * @return List&lt;ConnectorTool&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<ConnectorTool> connectorsListConnectorTools(String tenantId, String projectId, String toolkit, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<List<ConnectorTool>> localVarResponse = connectorsListConnectorToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public List<ConnectorTool> connectorsListTools(String tenantId, String projectId, String toolkit, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<List<ConnectorTool>> localVarResponse = connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -632,8 +628,8 @@ public class ConnectorsApi {
    * @return ApiResponse&lt;List&lt;ConnectorTool&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<ConnectorTool>> connectorsListConnectorToolsWithHttpInfo(String tenantId, String projectId, String toolkit, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectorsListConnectorToolsRequestBuilder(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<List<ConnectorTool>> connectorsListToolsWithHttpInfo(String tenantId, String projectId, String toolkit, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectorsListToolsRequestBuilder(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -643,7 +639,7 @@ public class ConnectorsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectorsListConnectorTools", localVarResponse);
+          throw getApiException("connectorsListTools", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<List<ConnectorTool>>(
@@ -672,18 +668,18 @@ public class ConnectorsApi {
     }
   }
 
-  private HttpRequest.Builder connectorsListConnectorToolsRequestBuilder(String tenantId, String projectId, String toolkit, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder connectorsListToolsRequestBuilder(String tenantId, String projectId, String toolkit, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsListConnectorTools");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsListTools");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsListConnectorTools");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsListTools");
     }
     // verify the required parameter 'toolkit' is set
     if (toolkit == null) {
-      throw new ApiException(400, "Missing the required parameter 'toolkit' when calling connectorsListConnectorTools");
+      throw new ApiException(400, "Missing the required parameter 'toolkit' when calling connectorsListTools");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -740,16 +736,16 @@ public class ConnectorsApi {
    * 
    * @param tenantId tenant_id (required)
    * @param projectId project_id (required)
-   * @param limit Maximum number of apps to return (page size). (optional)
+   * @param toolkit Toolkit slug to scope the request to. (required)
    * @param authorization Bearer API token for strict auth (optional)
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
    * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
-   * @return List&lt;Toolkit&gt;
+   * @return ConnectionStatus
    * @throws ApiException if fails to make API call
    */
-  public List<Toolkit> connectorsListConnectors(String tenantId, String projectId, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<List<Toolkit>> localVarResponse = connectorsListConnectorsWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ConnectionStatus connectorsStatus(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ConnectionStatus> localVarResponse = connectorsStatusWithHttpInfo(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -758,16 +754,16 @@ public class ConnectorsApi {
    * 
    * @param tenantId tenant_id (required)
    * @param projectId project_id (required)
-   * @param limit Maximum number of apps to return (page size). (optional)
+   * @param toolkit Toolkit slug to scope the request to. (required)
    * @param authorization Bearer API token for strict auth (optional)
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
    * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
-   * @return ApiResponse&lt;List&lt;Toolkit&gt;&gt;
+   * @return ApiResponse&lt;ConnectionStatus&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<Toolkit>> connectorsListConnectorsWithHttpInfo(String tenantId, String projectId, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectorsListConnectorsRequestBuilder(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ConnectionStatus> connectorsStatusWithHttpInfo(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectorsStatusRequestBuilder(tenantId, projectId, toolkit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -777,10 +773,10 @@ public class ConnectorsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectorsListConnectors", localVarResponse);
+          throw getApiException("connectorsStatus", localVarResponse);
         }
         if (localVarResponse.body() == null) {
-          return new ApiResponse<List<Toolkit>>(
+          return new ApiResponse<ConnectionStatus>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
               null
@@ -790,10 +786,10 @@ public class ConnectorsApi {
         String responseBody = new String(localVarResponse.body().readAllBytes());
         localVarResponse.body().close();
 
-        return new ApiResponse<List<Toolkit>>(
+        return new ApiResponse<ConnectionStatus>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<Toolkit>>() {})
+            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<ConnectionStatus>() {})
         );
       } finally {
       }
@@ -806,27 +802,31 @@ public class ConnectorsApi {
     }
   }
 
-  private HttpRequest.Builder connectorsListConnectorsRequestBuilder(String tenantId, String projectId, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder connectorsStatusRequestBuilder(String tenantId, String projectId, String toolkit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsListConnectors");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectorsStatus");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsListConnectors");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectorsStatus");
+    }
+    // verify the required parameter 'toolkit' is set
+    if (toolkit == null) {
+      throw new ApiException(400, "Missing the required parameter 'toolkit' when calling connectorsStatus");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/connectors/{tenant_id}/{project_id}"
+    String localVarPath = "/v1/connectors/{tenant_id}/{project_id}/status"
         .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
         .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "limit";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("limit", limit));
+    localVarQueryParameterBaseName = "toolkit";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("toolkit", toolkit));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");

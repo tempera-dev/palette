@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**searchSearchSpans**](SearchApi.md#searchSearchSpans) | **GET** /v1/search/{tenant_id}/spans |  |
-| [**searchSearchSpansWithHttpInfo**](SearchApi.md#searchSearchSpansWithHttpInfo) | **GET** /v1/search/{tenant_id}/spans |  |
+| [**searchSpans**](SearchApi.md#searchSpans) | **GET** /v1/search/{tenant_id}/spans |  |
+| [**searchSpansWithHttpInfo**](SearchApi.md#searchSpansWithHttpInfo) | **GET** /v1/search/{tenant_id}/spans |  |
 
 
 
-## searchSearchSpans
+## searchSpans
 
-> SearchResponse searchSearchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> SearchResponse searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -47,10 +47,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            SearchResponse result = apiInstance.searchSearchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            SearchResponse result = apiInstance.searchSpans(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling SearchApi#searchSearchSpans");
+            System.err.println("Exception when calling SearchApi#searchSpans");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -103,9 +103,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## searchSearchSpansWithHttpInfo
+## searchSpansWithHttpInfo
 
-> ApiResponse<SearchResponse> searchSearchSpans searchSearchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<SearchResponse> searchSpans searchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -142,12 +142,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<SearchResponse> response = apiInstance.searchSearchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<SearchResponse> response = apiInstance.searchSpansWithHttpInfo(tenantId, q, projectId, environmentId, traceId, spanId, kind, status, model, tool, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling SearchApi#searchSearchSpans");
+            System.err.println("Exception when calling SearchApi#searchSpans");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

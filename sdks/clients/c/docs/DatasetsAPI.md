@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DatasetsAPI_datasetsCreateDataset**](DatasetsAPI.md#DatasetsAPI_datasetsCreateDataset) | **POST** /v1/datasets/{tenant_id}/{project_id} |
-[**DatasetsAPI_datasetsCreateDatasetVersion**](DatasetsAPI.md#DatasetsAPI_datasetsCreateDatasetVersion) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
-[**DatasetsAPI_datasetsPromoteDatasetCaseFromTrace**](DatasetsAPI.md#DatasetsAPI_datasetsPromoteDatasetCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+[**DatasetsAPI_datasetsCreate**](DatasetsAPI.md#DatasetsAPI_datasetsCreate) | **POST** /v1/datasets/{tenant_id}/{project_id} |
+[**DatasetsAPI_datasetsCreateVersion**](DatasetsAPI.md#DatasetsAPI_datasetsCreateVersion) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
+[**DatasetsAPI_datasetsPromoteCaseFromTrace**](DatasetsAPI.md#DatasetsAPI_datasetsPromoteCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
 
 
-# **DatasetsAPI_datasetsCreateDataset**
+# **DatasetsAPI_datasetsCreate**
 ```c
-dataset_t* DatasetsAPI_datasetsCreateDataset(apiClient_t *apiClient, char *tenant_id, char *project_id, create_dataset_request_t *create_dataset_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_t* DatasetsAPI_datasetsCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_dataset_request_t *create_dataset_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -42,9 +42,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **DatasetsAPI_datasetsCreateDatasetVersion**
+# **DatasetsAPI_datasetsCreateVersion**
 ```c
-dataset_version_snapshot_t* DatasetsAPI_datasetsCreateDatasetVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, create_dataset_version_request_t *create_dataset_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_version_snapshot_t* DatasetsAPI_datasetsCreateVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, create_dataset_version_request_t *create_dataset_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -76,9 +76,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **DatasetsAPI_datasetsPromoteDatasetCaseFromTrace**
+# **DatasetsAPI_datasetsPromoteCaseFromTrace**
 ```c
-dataset_case_t* DatasetsAPI_datasetsPromoteDatasetCaseFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, promote_trace_case_request_t *promote_trace_case_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dataset_case_t* DatasetsAPI_datasetsPromoteCaseFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, promote_trace_case_request_t *promote_trace_case_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

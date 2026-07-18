@@ -6,11 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**IngestDrainTraceIngested**](IngestAPI.md#IngestDrainTraceIngested) | **Post** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
 [**IngestDrainTraceWrites**](IngestAPI.md#IngestDrainTraceWrites) | **Post** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**IngestGetIngestQueueStatus**](IngestAPI.md#IngestGetIngestQueueStatus) | **Get** /v1/ingest/{tenant_id}/{project_id}/queue |
+[**IngestGetQueueStatus**](IngestAPI.md#IngestGetQueueStatus) | **Get** /v1/ingest/{tenant_id}/{project_id}/queue |
 [**IngestImportSource**](IngestAPI.md#IngestImportSource) | **Post** /v1/import/{tenant_id}/{project_id}/{environment_id} |
-[**IngestIngestNative**](IngestAPI.md#IngestIngestNative) | **Post** /v1/traces/native |
-[**IngestIngestOtlp**](IngestAPI.md#IngestIngestOtlp) | **Post** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
-[**IngestIngestOtlpJsonCollector**](IngestAPI.md#IngestIngestOtlpJsonCollector) | **Post** /v1/traces |
+[**IngestNative**](IngestAPI.md#IngestNative) | **Post** /v1/traces/native |
+[**IngestOtlp**](IngestAPI.md#IngestOtlp) | **Post** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**IngestOtlpJsonCollector**](IngestAPI.md#IngestOtlpJsonCollector) | **Post** /v1/traces |
 [**IngestReconcileTrace**](IngestAPI.md#IngestReconcileTrace) | **Post** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
 [**IngestReplayDeadLetter**](IngestAPI.md#IngestReplayDeadLetter) | **Post** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
 
@@ -178,9 +178,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## IngestGetIngestQueueStatus
+## IngestGetQueueStatus
 
-> IngestQueueStatus IngestGetIngestQueueStatus(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> IngestQueueStatus IngestGetQueueStatus(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -206,13 +206,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestGetIngestQueueStatus(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestGetQueueStatus(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestGetIngestQueueStatus``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestGetQueueStatus``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `IngestGetIngestQueueStatus`: IngestQueueStatus
-	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestGetIngestQueueStatus`: %v\n", resp)
+	// response from `IngestGetQueueStatus`: IngestQueueStatus
+	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestGetQueueStatus`: %v\n", resp)
 }
 ```
 
@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiIngestGetIngestQueueStatusRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiIngestGetQueueStatusRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -339,9 +339,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## IngestIngestNative
+## IngestNative
 
-> IngestOutcome IngestIngestNative(ctx).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> IngestOutcome IngestNative(ctx).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -367,13 +367,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestIngestNative(context.Background()).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestNative(context.Background()).NativeIngestRequest(nativeIngestRequest).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestIngestNative``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestNative``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `IngestIngestNative`: IngestOutcome
-	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestIngestNative`: %v\n", resp)
+	// response from `IngestNative`: IngestOutcome
+	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestNative`: %v\n", resp)
 }
 ```
 
@@ -383,7 +383,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiIngestIngestNativeRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiIngestNativeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -413,9 +413,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## IngestIngestOtlp
+## IngestOtlp
 
-> OtlpIngestOutcome IngestIngestOtlp(ctx, tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> OtlpIngestOutcome IngestOtlp(ctx, tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -443,13 +443,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestIngestOtlp(context.Background(), tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestOtlp(context.Background(), tenantId, projectId, environmentId).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestIngestOtlp``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestOtlp``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `IngestIngestOtlp`: OtlpIngestOutcome
-	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestIngestOtlp`: %v\n", resp)
+	// response from `IngestOtlp`: OtlpIngestOutcome
+	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestOtlp`: %v\n", resp)
 }
 ```
 
@@ -465,7 +465,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiIngestIngestOtlpRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiIngestOtlpRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -497,9 +497,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## IngestIngestOtlpJsonCollector
+## IngestOtlpJsonCollector
 
-> OtlpIngestOutcome IngestIngestOtlpJsonCollector(ctx).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteTenantId(xPaletteTenantId).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> OtlpIngestOutcome IngestOtlpJsonCollector(ctx).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteTenantId(xPaletteTenantId).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -525,13 +525,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.IngestAPI.IngestIngestOtlpJsonCollector(context.Background()).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteTenantId(xPaletteTenantId).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.IngestAPI.IngestOtlpJsonCollector(context.Background()).Durability(durability).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteTenantId(xPaletteTenantId).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestIngestOtlpJsonCollector``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `IngestAPI.IngestOtlpJsonCollector``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `IngestIngestOtlpJsonCollector`: OtlpIngestOutcome
-	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestIngestOtlpJsonCollector`: %v\n", resp)
+	// response from `IngestOtlpJsonCollector`: OtlpIngestOutcome
+	fmt.Fprintf(os.Stdout, "Response from `IngestAPI.IngestOtlpJsonCollector`: %v\n", resp)
 }
 ```
 
@@ -541,7 +541,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiIngestIngestOtlpJsonCollectorRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiIngestOtlpJsonCollectorRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

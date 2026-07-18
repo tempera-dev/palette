@@ -26,8 +26,8 @@ class TestConnectApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_connect_get_palette_connect_status(self) -> None:
-        """Test case for connect_get_palette_connect_status
+    def test_connect_get_status(self) -> None:
+        """Test case for connect_get_status
 
         """
         pass

@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`search_period_search_spans`]
+/// struct for passing parameters to the method [`search_period_spans`]
 #[derive(Clone, Debug)]
-pub struct SearchPeriodSearchSpansParams {
+pub struct SearchPeriodSpansParams {
     /// tenant_id
     pub tenant_id: String,
     pub q: Option<String>,
@@ -40,10 +40,10 @@ pub struct SearchPeriodSearchSpansParams {
 }
 
 
-/// struct for typed errors of method [`search_period_search_spans`]
+/// struct for typed errors of method [`search_period_spans`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum SearchPeriodSearchSpansError {
+pub enum SearchPeriodSpansError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -51,7 +51,7 @@ pub enum SearchPeriodSearchSpansError {
 }
 
 
-pub async fn search_period_search_spans(configuration: &configuration::Configuration, params: SearchPeriodSearchSpansParams) -> Result<models::SearchResponse, Error<SearchPeriodSearchSpansError>> {
+pub async fn search_period_spans(configuration: &configuration::Configuration, params: SearchPeriodSpansParams) -> Result<models::SearchResponse, Error<SearchPeriodSpansError>> {
 
     let uri_str = format!("{}/v1/search/{tenant_id}/spans", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -112,7 +112,7 @@ pub async fn search_period_search_spans(configuration: &configuration::Configura
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<SearchPeriodSearchSpansError> = serde_json::from_str(&content).ok();
+        let entity: Option<SearchPeriodSpansError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**alertsEvaluateAlert**](AlertsApi.md#alertsEvaluateAlert) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |  |
-| [**alertsEvaluateAlertWithHttpInfo**](AlertsApi.md#alertsEvaluateAlertWithHttpInfo) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |  |
+| [**alertsEvaluate**](AlertsApi.md#alertsEvaluate) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |  |
+| [**alertsEvaluateWithHttpInfo**](AlertsApi.md#alertsEvaluateWithHttpInfo) | **POST** /v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook |  |
 
 
 
-## alertsEvaluateAlert
+## alertsEvaluate
 
-> AlertDecision alertsEvaluateAlert(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> AlertDecision alertsEvaluate(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -40,10 +40,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            AlertDecision result = apiInstance.alertsEvaluateAlert(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            AlertDecision result = apiInstance.alertsEvaluate(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling AlertsApi#alertsEvaluateAlert");
+            System.err.println("Exception when calling AlertsApi#alertsEvaluate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -89,9 +89,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## alertsEvaluateAlertWithHttpInfo
+## alertsEvaluateWithHttpInfo
 
-> ApiResponse<AlertDecision> alertsEvaluateAlert alertsEvaluateAlertWithHttpInfo(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<AlertDecision> alertsEvaluate alertsEvaluateWithHttpInfo(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -121,12 +121,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<AlertDecision> response = apiInstance.alertsEvaluateAlertWithHttpInfo(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<AlertDecision> response = apiInstance.alertsEvaluateWithHttpInfo(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling AlertsApi#alertsEvaluateAlert");
+            System.err.println("Exception when calling AlertsApi#alertsEvaluate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
