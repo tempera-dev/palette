@@ -49,7 +49,7 @@ import {
     SubmitReviewAnnotationHttpRequestToJSON,
 } from '../models/index';
 
-export interface ReviewsCreateReviewQueueRequest {
+export interface ReviewsCreateQueueRequest {
     tenantId: string;
     projectId: string;
     createReviewQueueHttpRequest: CreateReviewQueueHttpRequest;
@@ -59,7 +59,7 @@ export interface ReviewsCreateReviewQueueRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ReviewsEnqueueReviewTaskFromTraceRequest {
+export interface ReviewsEnqueueTaskFromTraceRequest {
     tenantId: string;
     projectId: string;
     queueId: string;
@@ -70,7 +70,7 @@ export interface ReviewsEnqueueReviewTaskFromTraceRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ReviewsListReviewTasksRequest {
+export interface ReviewsListTasksRequest {
     tenantId: string;
     projectId: string;
     queueId: string;
@@ -81,7 +81,7 @@ export interface ReviewsListReviewTasksRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ReviewsPromoteReviewAnnotationRequest {
+export interface ReviewsPromoteAnnotationRequest {
     tenantId: string;
     projectId: string;
     queueId: string;
@@ -94,7 +94,7 @@ export interface ReviewsPromoteReviewAnnotationRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ReviewsSubmitReviewAnnotationRequest {
+export interface ReviewsSubmitAnnotationRequest {
     tenantId: string;
     projectId: string;
     queueId: string;
@@ -113,25 +113,25 @@ export class ReviewsApi extends runtime.BaseAPI {
 
     /**
      */
-    async reviewsCreateReviewQueueRaw(requestParameters: ReviewsCreateReviewQueueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReviewQueue>> {
+    async reviewsCreateQueueRaw(requestParameters: ReviewsCreateQueueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReviewQueue>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling reviewsCreateReviewQueue().'
+                'Required parameter "tenantId" was null or undefined when calling reviewsCreateQueue().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling reviewsCreateReviewQueue().'
+                'Required parameter "projectId" was null or undefined when calling reviewsCreateQueue().'
             );
         }
 
         if (requestParameters['createReviewQueueHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'createReviewQueueHttpRequest',
-                'Required parameter "createReviewQueueHttpRequest" was null or undefined when calling reviewsCreateReviewQueue().'
+                'Required parameter "createReviewQueueHttpRequest" was null or undefined when calling reviewsCreateQueue().'
             );
         }
 
@@ -170,39 +170,39 @@ export class ReviewsApi extends runtime.BaseAPI {
 
     /**
      */
-    async reviewsCreateReviewQueue(requestParameters: ReviewsCreateReviewQueueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReviewQueue> {
-        const response = await this.reviewsCreateReviewQueueRaw(requestParameters, initOverrides);
+    async reviewsCreateQueue(requestParameters: ReviewsCreateQueueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReviewQueue> {
+        const response = await this.reviewsCreateQueueRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async reviewsEnqueueReviewTaskFromTraceRaw(requestParameters: ReviewsEnqueueReviewTaskFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReviewTask>> {
+    async reviewsEnqueueTaskFromTraceRaw(requestParameters: ReviewsEnqueueTaskFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReviewTask>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling reviewsEnqueueReviewTaskFromTrace().'
+                'Required parameter "tenantId" was null or undefined when calling reviewsEnqueueTaskFromTrace().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling reviewsEnqueueReviewTaskFromTrace().'
+                'Required parameter "projectId" was null or undefined when calling reviewsEnqueueTaskFromTrace().'
             );
         }
 
         if (requestParameters['queueId'] == null) {
             throw new runtime.RequiredError(
                 'queueId',
-                'Required parameter "queueId" was null or undefined when calling reviewsEnqueueReviewTaskFromTrace().'
+                'Required parameter "queueId" was null or undefined when calling reviewsEnqueueTaskFromTrace().'
             );
         }
 
         if (requestParameters['enqueueReviewTaskFromTraceHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'enqueueReviewTaskFromTraceHttpRequest',
-                'Required parameter "enqueueReviewTaskFromTraceHttpRequest" was null or undefined when calling reviewsEnqueueReviewTaskFromTrace().'
+                'Required parameter "enqueueReviewTaskFromTraceHttpRequest" was null or undefined when calling reviewsEnqueueTaskFromTrace().'
             );
         }
 
@@ -241,32 +241,32 @@ export class ReviewsApi extends runtime.BaseAPI {
 
     /**
      */
-    async reviewsEnqueueReviewTaskFromTrace(requestParameters: ReviewsEnqueueReviewTaskFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReviewTask> {
-        const response = await this.reviewsEnqueueReviewTaskFromTraceRaw(requestParameters, initOverrides);
+    async reviewsEnqueueTaskFromTrace(requestParameters: ReviewsEnqueueTaskFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReviewTask> {
+        const response = await this.reviewsEnqueueTaskFromTraceRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async reviewsListReviewTasksRaw(requestParameters: ReviewsListReviewTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ReviewTask>>> {
+    async reviewsListTasksRaw(requestParameters: ReviewsListTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ReviewTask>>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling reviewsListReviewTasks().'
+                'Required parameter "tenantId" was null or undefined when calling reviewsListTasks().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling reviewsListReviewTasks().'
+                'Required parameter "projectId" was null or undefined when calling reviewsListTasks().'
             );
         }
 
         if (requestParameters['queueId'] == null) {
             throw new runtime.RequiredError(
                 'queueId',
-                'Required parameter "queueId" was null or undefined when calling reviewsListReviewTasks().'
+                'Required parameter "queueId" was null or undefined when calling reviewsListTasks().'
             );
         }
 
@@ -306,53 +306,53 @@ export class ReviewsApi extends runtime.BaseAPI {
 
     /**
      */
-    async reviewsListReviewTasks(requestParameters: ReviewsListReviewTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ReviewTask>> {
-        const response = await this.reviewsListReviewTasksRaw(requestParameters, initOverrides);
+    async reviewsListTasks(requestParameters: ReviewsListTasksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ReviewTask>> {
+        const response = await this.reviewsListTasksRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async reviewsPromoteReviewAnnotationRaw(requestParameters: ReviewsPromoteReviewAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetCase>> {
+    async reviewsPromoteAnnotationRaw(requestParameters: ReviewsPromoteAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetCase>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling reviewsPromoteReviewAnnotation().'
+                'Required parameter "tenantId" was null or undefined when calling reviewsPromoteAnnotation().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling reviewsPromoteReviewAnnotation().'
+                'Required parameter "projectId" was null or undefined when calling reviewsPromoteAnnotation().'
             );
         }
 
         if (requestParameters['queueId'] == null) {
             throw new runtime.RequiredError(
                 'queueId',
-                'Required parameter "queueId" was null or undefined when calling reviewsPromoteReviewAnnotation().'
+                'Required parameter "queueId" was null or undefined when calling reviewsPromoteAnnotation().'
             );
         }
 
         if (requestParameters['taskId'] == null) {
             throw new runtime.RequiredError(
                 'taskId',
-                'Required parameter "taskId" was null or undefined when calling reviewsPromoteReviewAnnotation().'
+                'Required parameter "taskId" was null or undefined when calling reviewsPromoteAnnotation().'
             );
         }
 
         if (requestParameters['annotationId'] == null) {
             throw new runtime.RequiredError(
                 'annotationId',
-                'Required parameter "annotationId" was null or undefined when calling reviewsPromoteReviewAnnotation().'
+                'Required parameter "annotationId" was null or undefined when calling reviewsPromoteAnnotation().'
             );
         }
 
         if (requestParameters['promoteReviewAnnotationHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'promoteReviewAnnotationHttpRequest',
-                'Required parameter "promoteReviewAnnotationHttpRequest" was null or undefined when calling reviewsPromoteReviewAnnotation().'
+                'Required parameter "promoteReviewAnnotationHttpRequest" was null or undefined when calling reviewsPromoteAnnotation().'
             );
         }
 
@@ -391,46 +391,46 @@ export class ReviewsApi extends runtime.BaseAPI {
 
     /**
      */
-    async reviewsPromoteReviewAnnotation(requestParameters: ReviewsPromoteReviewAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetCase> {
-        const response = await this.reviewsPromoteReviewAnnotationRaw(requestParameters, initOverrides);
+    async reviewsPromoteAnnotation(requestParameters: ReviewsPromoteAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetCase> {
+        const response = await this.reviewsPromoteAnnotationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async reviewsSubmitReviewAnnotationRaw(requestParameters: ReviewsSubmitReviewAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReviewAnnotation>> {
+    async reviewsSubmitAnnotationRaw(requestParameters: ReviewsSubmitAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReviewAnnotation>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling reviewsSubmitReviewAnnotation().'
+                'Required parameter "tenantId" was null or undefined when calling reviewsSubmitAnnotation().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling reviewsSubmitReviewAnnotation().'
+                'Required parameter "projectId" was null or undefined when calling reviewsSubmitAnnotation().'
             );
         }
 
         if (requestParameters['queueId'] == null) {
             throw new runtime.RequiredError(
                 'queueId',
-                'Required parameter "queueId" was null or undefined when calling reviewsSubmitReviewAnnotation().'
+                'Required parameter "queueId" was null or undefined when calling reviewsSubmitAnnotation().'
             );
         }
 
         if (requestParameters['taskId'] == null) {
             throw new runtime.RequiredError(
                 'taskId',
-                'Required parameter "taskId" was null or undefined when calling reviewsSubmitReviewAnnotation().'
+                'Required parameter "taskId" was null or undefined when calling reviewsSubmitAnnotation().'
             );
         }
 
         if (requestParameters['submitReviewAnnotationHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'submitReviewAnnotationHttpRequest',
-                'Required parameter "submitReviewAnnotationHttpRequest" was null or undefined when calling reviewsSubmitReviewAnnotation().'
+                'Required parameter "submitReviewAnnotationHttpRequest" was null or undefined when calling reviewsSubmitAnnotation().'
             );
         }
 
@@ -469,8 +469,8 @@ export class ReviewsApi extends runtime.BaseAPI {
 
     /**
      */
-    async reviewsSubmitReviewAnnotation(requestParameters: ReviewsSubmitReviewAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReviewAnnotation> {
-        const response = await this.reviewsSubmitReviewAnnotationRaw(requestParameters, initOverrides);
+    async reviewsSubmitAnnotation(requestParameters: ReviewsSubmitAnnotationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ReviewAnnotation> {
+        const response = await this.reviewsSubmitAnnotationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

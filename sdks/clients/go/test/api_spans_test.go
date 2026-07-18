@@ -22,7 +22,7 @@ func Test_paletteclient_SpansAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test SpansAPIService SpansGetSpan", func(t *testing.T) {
+	t.Run("Test SpansAPIService SpansGet", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
@@ -30,7 +30,7 @@ func Test_paletteclient_SpansAPIService(t *testing.T) {
 		var traceId string
 		var spanId string
 
-		resp, httpRes, err := apiClient.SpansAPI.SpansGetSpan(context.Background(), tenantId, traceId, spanId).Execute()
+		resp, httpRes, err := apiClient.SpansAPI.SpansGet(context.Background(), tenantId, traceId, spanId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -38,7 +38,7 @@ func Test_paletteclient_SpansAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test SpansAPIService SpansGetSpanIo", func(t *testing.T) {
+	t.Run("Test SpansAPIService SpansGetIo", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
@@ -46,7 +46,7 @@ func Test_paletteclient_SpansAPIService(t *testing.T) {
 		var traceId string
 		var spanId string
 
-		resp, httpRes, err := apiClient.SpansAPI.SpansGetSpanIo(context.Background(), tenantId, traceId, spanId).Execute()
+		resp, httpRes, err := apiClient.SpansAPI.SpansGetIo(context.Background(), tenantId, traceId, spanId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

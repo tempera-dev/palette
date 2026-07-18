@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConnectorsConnectConnector**](ConnectorsAPI.md#ConnectorsConnectConnector) | **Post** /v1/connectors/{tenant_id}/{project_id}/connect |
-[**ConnectorsConnectorStatus**](ConnectorsAPI.md#ConnectorsConnectorStatus) | **Get** /v1/connectors/{tenant_id}/{project_id}/status |
-[**ConnectorsGetConnectorSkills**](ConnectorsAPI.md#ConnectorsGetConnectorSkills) | **Get** /v1/connectors/{tenant_id}/{project_id}/skills |
-[**ConnectorsInvokeConnectorTool**](ConnectorsAPI.md#ConnectorsInvokeConnectorTool) | **Post** /v1/connectors/{tenant_id}/{project_id}/invoke |
-[**ConnectorsListConnectorTools**](ConnectorsAPI.md#ConnectorsListConnectorTools) | **Get** /v1/connectors/{tenant_id}/{project_id}/tools |
-[**ConnectorsListConnectors**](ConnectorsAPI.md#ConnectorsListConnectors) | **Get** /v1/connectors/{tenant_id}/{project_id} |
+[**ConnectorsConnect**](ConnectorsAPI.md#ConnectorsConnect) | **Post** /v1/connectors/{tenant_id}/{project_id}/connect |
+[**ConnectorsGetSkills**](ConnectorsAPI.md#ConnectorsGetSkills) | **Get** /v1/connectors/{tenant_id}/{project_id}/skills |
+[**ConnectorsInvokeTool**](ConnectorsAPI.md#ConnectorsInvokeTool) | **Post** /v1/connectors/{tenant_id}/{project_id}/invoke |
+[**ConnectorsList**](ConnectorsAPI.md#ConnectorsList) | **Get** /v1/connectors/{tenant_id}/{project_id} |
+[**ConnectorsListTools**](ConnectorsAPI.md#ConnectorsListTools) | **Get** /v1/connectors/{tenant_id}/{project_id}/tools |
+[**ConnectorsStatus**](ConnectorsAPI.md#ConnectorsStatus) | **Get** /v1/connectors/{tenant_id}/{project_id}/status |
 
 
 
-## ConnectorsConnectConnector
+## ConnectorsConnect
 
-> ConnectionLink ConnectorsConnectConnector(ctx, tenantId, projectId).ConnectConnectorRequest(connectConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ConnectionLink ConnectorsConnect(ctx, tenantId, projectId).ConnectConnectorRequest(connectConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -42,13 +42,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsConnectConnector(context.Background(), tenantId, projectId).ConnectConnectorRequest(connectConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsConnect(context.Background(), tenantId, projectId).ConnectConnectorRequest(connectConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsConnectConnector``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsConnect``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsConnectConnector`: ConnectionLink
-	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsConnectConnector`: %v\n", resp)
+	// response from `ConnectorsConnect`: ConnectionLink
+	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsConnect`: %v\n", resp)
 }
 ```
 
@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiConnectorsConnectConnectorRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiConnectorsConnectRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -94,90 +94,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ConnectorsConnectorStatus
+## ConnectorsGetSkills
 
-> ConnectionStatus ConnectorsConnectorStatus(ctx, tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
-)
-
-func main() {
-	tenantId := "tenantId_example" // string | tenant_id
-	projectId := "projectId_example" // string | project_id
-	toolkit := "toolkit_example" // string | Toolkit slug to scope the request to.
-	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
-	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
-	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsConnectorStatus(context.Background(), tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsConnectorStatus``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `ConnectorsConnectorStatus`: ConnectionStatus
-	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsConnectorStatus`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tenantId** | **string** | tenant_id |
-**projectId** | **string** | project_id |
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiConnectorsConnectorStatusRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
- **toolkit** | **string** | Toolkit slug to scope the request to. |
- **authorization** | **string** | Bearer API token for strict auth |
- **xPaletteApiKey** | **string** | API key alternative for strict auth |
- **xPaletteProjectId** | **string** | Strict-auth project scope |
- **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
-
-### Return type
-
-[**ConnectionStatus**](ConnectionStatus.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ConnectorsGetConnectorSkills
-
-> ConnectorSkillsResponse ConnectorsGetConnectorSkills(ctx, tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ConnectorSkillsResponse ConnectorsGetSkills(ctx, tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -204,13 +123,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsGetConnectorSkills(context.Background(), tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsGetSkills(context.Background(), tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsGetConnectorSkills``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsGetSkills``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsGetConnectorSkills`: ConnectorSkillsResponse
-	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsGetConnectorSkills`: %v\n", resp)
+	// response from `ConnectorsGetSkills`: ConnectorSkillsResponse
+	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsGetSkills`: %v\n", resp)
 }
 ```
 
@@ -225,7 +144,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiConnectorsGetConnectorSkillsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiConnectorsGetSkillsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -256,9 +175,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ConnectorsInvokeConnectorTool
+## ConnectorsInvokeTool
 
-> ToolExecution ConnectorsInvokeConnectorTool(ctx, tenantId, projectId).InvokeConnectorRequest(invokeConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ToolExecution ConnectorsInvokeTool(ctx, tenantId, projectId).InvokeConnectorRequest(invokeConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -285,13 +204,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsInvokeConnectorTool(context.Background(), tenantId, projectId).InvokeConnectorRequest(invokeConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsInvokeTool(context.Background(), tenantId, projectId).InvokeConnectorRequest(invokeConnectorRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsInvokeConnectorTool``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsInvokeTool``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsInvokeConnectorTool`: ToolExecution
-	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsInvokeConnectorTool`: %v\n", resp)
+	// response from `ConnectorsInvokeTool`: ToolExecution
+	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsInvokeTool`: %v\n", resp)
 }
 ```
 
@@ -306,7 +225,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiConnectorsInvokeConnectorToolRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiConnectorsInvokeToolRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -337,9 +256,90 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ConnectorsListConnectorTools
+## ConnectorsList
 
-> []ConnectorTool ConnectorsListConnectorTools(ctx, tenantId, projectId).Toolkit(toolkit).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> []Toolkit ConnectorsList(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
+)
+
+func main() {
+	tenantId := "tenantId_example" // string | tenant_id
+	projectId := "projectId_example" // string | project_id
+	limit := int32(56) // int32 | Maximum number of apps to return (page size). (optional)
+	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsList(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsList``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ConnectorsList`: []Toolkit
+	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tenantId** | **string** | tenant_id |
+**projectId** | **string** | project_id |
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiConnectorsListRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **limit** | **int32** | Maximum number of apps to return (page size). |
+ **authorization** | **string** | Bearer API token for strict auth |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
+
+### Return type
+
+[**[]Toolkit**](Toolkit.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ConnectorsListTools
+
+> []ConnectorTool ConnectorsListTools(ctx, tenantId, projectId).Toolkit(toolkit).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -367,13 +367,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsListConnectorTools(context.Background(), tenantId, projectId).Toolkit(toolkit).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsListTools(context.Background(), tenantId, projectId).Toolkit(toolkit).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsListConnectorTools``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsListTools``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsListConnectorTools`: []ConnectorTool
-	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsListConnectorTools`: %v\n", resp)
+	// response from `ConnectorsListTools`: []ConnectorTool
+	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsListTools`: %v\n", resp)
 }
 ```
 
@@ -388,7 +388,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiConnectorsListConnectorToolsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiConnectorsListToolsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -420,9 +420,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ConnectorsListConnectors
+## ConnectorsStatus
 
-> []Toolkit ConnectorsListConnectors(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ConnectionStatus ConnectorsStatus(ctx, tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -441,7 +441,7 @@ import (
 func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
-	limit := int32(56) // int32 | Maximum number of apps to return (page size). (optional)
+	toolkit := "toolkit_example" // string | Toolkit slug to scope the request to.
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -449,13 +449,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsListConnectors(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsStatus(context.Background(), tenantId, projectId).Toolkit(toolkit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsListConnectors``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsStatus``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsListConnectors`: []Toolkit
-	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsListConnectors`: %v\n", resp)
+	// response from `ConnectorsStatus`: ConnectionStatus
+	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsStatus`: %v\n", resp)
 }
 ```
 
@@ -470,14 +470,14 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiConnectorsListConnectorsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiConnectorsStatusRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **limit** | **int32** | Maximum number of apps to return (page size). |
+ **toolkit** | **string** | Toolkit slug to scope the request to. |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -485,7 +485,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]Toolkit**](Toolkit.md)
+[**ConnectionStatus**](ConnectionStatus.md)
 
 ### Authorization
 

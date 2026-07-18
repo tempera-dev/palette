@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GatesAPI_gatesCreateGate**](GatesAPI.md#GatesAPI_gatesCreateGate) | **POST** /v1/gates/{tenant_id}/{project_id} |
-[**GatesAPI_gatesRunGate**](GatesAPI.md#GatesAPI_gatesRunGate) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
+[**GatesAPI_gatesCreate**](GatesAPI.md#GatesAPI_gatesCreate) | **POST** /v1/gates/{tenant_id}/{project_id} |
+[**GatesAPI_gatesRun**](GatesAPI.md#GatesAPI_gatesRun) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
 
 
-# **GatesAPI_gatesCreateGate**
+# **GatesAPI_gatesCreate**
 ```c
-gate_definition_t* GatesAPI_gatesCreateGate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_gate_request_t *create_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+gate_definition_t* GatesAPI_gatesCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_gate_request_t *create_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -41,9 +41,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GatesAPI_gatesRunGate**
+# **GatesAPI_gatesRun**
 ```c
-gate_run_report_t* GatesAPI_gatesRunGate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *gate_id, run_gate_request_t *run_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+gate_run_report_t* GatesAPI_gatesRun(apiClient_t *apiClient, char *tenant_id, char *project_id, char *gate_id, run_gate_request_t *run_gate_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

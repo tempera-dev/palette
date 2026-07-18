@@ -8,7 +8,7 @@
 
 
 sampling_decision_t*
-OnlineAPI_onlineDecideOnlineSampling(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, online_sampling_policy_t *online_sampling_policy, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+OnlineAPI_onlineDecideSampling(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, online_sampling_policy_t *online_sampling_policy, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();

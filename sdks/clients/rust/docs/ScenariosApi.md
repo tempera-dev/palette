@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**scenarios_period_create_scenario**](ScenariosApi.md#scenarios_period_create_scenario) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
-[**scenarios_period_get_scenario**](ScenariosApi.md#scenarios_period_get_scenario) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
-[**scenarios_period_list_scenarios**](ScenariosApi.md#scenarios_period_list_scenarios) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
-[**scenarios_period_mine_scenarios**](ScenariosApi.md#scenarios_period_mine_scenarios) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
+[**scenarios_period_create**](ScenariosApi.md#scenarios_period_create) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
+[**scenarios_period_get**](ScenariosApi.md#scenarios_period_get) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
+[**scenarios_period_list**](ScenariosApi.md#scenarios_period_list) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
+[**scenarios_period_mine**](ScenariosApi.md#scenarios_period_mine) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
 
 
 
-## scenarios_period_create_scenario
+## scenarios_period_create
 
-> models::Scenario scenarios_period_create_scenario(tenant_id, project_id, create_scenario_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::Scenario scenarios_period_create(tenant_id, project_id, create_scenario_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -45,9 +45,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## scenarios_period_get_scenario
+## scenarios_period_get
 
-> models::Scenario scenarios_period_get_scenario(tenant_id, project_id, scenario_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::Scenario scenarios_period_get(tenant_id, project_id, scenario_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -79,9 +79,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## scenarios_period_list_scenarios
+## scenarios_period_list
 
-> models::ListScenariosResponse scenarios_period_list_scenarios(tenant_id, project_id, limit, cursor, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ListScenariosResponse scenarios_period_list(tenant_id, project_id, limit, cursor, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -114,9 +114,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## scenarios_period_mine_scenarios
+## scenarios_period_mine
 
-> models::MineScenariosResponse scenarios_period_mine_scenarios(tenant_id, project_id, mine_scenarios_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::MineScenariosResponse scenarios_period_mine(tenant_id, project_id, mine_scenarios_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

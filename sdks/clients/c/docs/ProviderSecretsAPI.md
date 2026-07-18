@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ProviderSecretsAPI_providerSecretsCreateProviderSecret**](ProviderSecretsAPI.md#ProviderSecretsAPI_providerSecretsCreateProviderSecret) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**ProviderSecretsAPI_providerSecretsListProviderSecrets**](ProviderSecretsAPI.md#ProviderSecretsAPI_providerSecretsListProviderSecrets) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**ProviderSecretsAPI_providerSecretsRevokeProviderSecret**](ProviderSecretsAPI.md#ProviderSecretsAPI_providerSecretsRevokeProviderSecret) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
+[**ProviderSecretsAPI_providerSecretsCreate**](ProviderSecretsAPI.md#ProviderSecretsAPI_providerSecretsCreate) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |
+[**ProviderSecretsAPI_providerSecretsList**](ProviderSecretsAPI.md#ProviderSecretsAPI_providerSecretsList) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |
+[**ProviderSecretsAPI_providerSecretsRevoke**](ProviderSecretsAPI.md#ProviderSecretsAPI_providerSecretsRevoke) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
 
 
-# **ProviderSecretsAPI_providerSecretsCreateProviderSecret**
+# **ProviderSecretsAPI_providerSecretsCreate**
 ```c
-provider_secret_metadata_t* ProviderSecretsAPI_providerSecretsCreateProviderSecret(apiClient_t *apiClient, char *tenant_id, char *project_id, create_provider_secret_http_request_t *create_provider_secret_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+provider_secret_metadata_t* ProviderSecretsAPI_providerSecretsCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_provider_secret_http_request_t *create_provider_secret_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -42,9 +42,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ProviderSecretsAPI_providerSecretsListProviderSecrets**
+# **ProviderSecretsAPI_providerSecretsList**
 ```c
-list_t* ProviderSecretsAPI_providerSecretsListProviderSecrets(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+list_t* ProviderSecretsAPI_providerSecretsList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -74,9 +74,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ProviderSecretsAPI_providerSecretsRevokeProviderSecret**
+# **ProviderSecretsAPI_providerSecretsRevoke**
 ```c
-revoked_provider_secret_t* ProviderSecretsAPI_providerSecretsRevokeProviderSecret(apiClient_t *apiClient, char *tenant_id, char *project_id, char *provider_secret_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+revoked_provider_secret_t* ProviderSecretsAPI_providerSecretsRevoke(apiClient_t *apiClient, char *tenant_id, char *project_id, char *provider_secret_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

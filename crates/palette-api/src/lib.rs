@@ -852,7 +852,7 @@ pub fn router(state: ApiState) -> Router {
     get,
     path = "/health",
     tag = "health",
-    operation_id = "health",
+    operation_id = "check",
     responses(
         (status = 200, description = "Runtime is accepting requests", body = HealthResponse),
     )
@@ -869,7 +869,7 @@ async fn openapi_json() -> Json<utoipa::openapi::OpenApi> {
     post,
     path = "/v1/traces/native",
     tag = "ingest",
-    operation_id = "ingestNative",
+    operation_id = "native",
     params(
         IngestDurabilityQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
@@ -915,7 +915,7 @@ async fn ingest_native(
     post,
     path = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}",
     tag = "apiKeys",
-    operation_id = "createApiKey",
+    operation_id = "create",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -995,7 +995,7 @@ async fn create_api_key_route(
     post,
     path = "/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke",
     tag = "apiKeys",
-    operation_id = "revokeApiKey",
+    operation_id = "revoke",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1084,7 +1084,7 @@ async fn revoke_api_key_route(
     post,
     path = "/v1/provider-secrets/{tenant_id}/{project_id}",
     tag = "providerSecrets",
-    operation_id = "createProviderSecret",
+    operation_id = "create",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1148,7 +1148,7 @@ async fn create_provider_secret_route(
     get,
     path = "/v1/provider-secrets/{tenant_id}/{project_id}",
     tag = "providerSecrets",
-    operation_id = "listProviderSecrets",
+    operation_id = "list",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1183,7 +1183,7 @@ async fn list_provider_secrets_route(
     post,
     path = "/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke",
     tag = "providerSecrets",
-    operation_id = "revokeProviderSecret",
+    operation_id = "revoke",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1342,7 +1342,7 @@ struct ConnectorSkillsResponse {
     get,
     path = "/v1/connectors/{tenant_id}/{project_id}",
     tag = "connectors",
-    operation_id = "listConnectors",
+    operation_id = "list",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1389,7 +1389,7 @@ async fn list_connectors_route(
     get,
     path = "/v1/connectors/{tenant_id}/{project_id}/tools",
     tag = "connectors",
-    operation_id = "listConnectorTools",
+    operation_id = "listTools",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1436,7 +1436,7 @@ async fn list_connector_tools_route(
     get,
     path = "/v1/connectors/{tenant_id}/{project_id}/skills",
     tag = "connectors",
-    operation_id = "getConnectorSkills",
+    operation_id = "getSkills",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1489,7 +1489,7 @@ async fn connector_skills_route(
     post,
     path = "/v1/connectors/{tenant_id}/{project_id}/connect",
     tag = "connectors",
-    operation_id = "connectConnector",
+    operation_id = "connect",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1529,7 +1529,7 @@ async fn connect_connector_route(
     get,
     path = "/v1/connectors/{tenant_id}/{project_id}/status",
     tag = "connectors",
-    operation_id = "connectorStatus",
+    operation_id = "status",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1576,7 +1576,7 @@ async fn connector_status_route(
     post,
     path = "/v1/connectors/{tenant_id}/{project_id}/invoke",
     tag = "connectors",
-    operation_id = "invokeConnectorTool",
+    operation_id = "invokeTool",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1685,7 +1685,7 @@ async fn record_connector_tool_policy_audit_if_configured(
     post,
     path = "/v1/judge/{tenant_id}/{project_id}/evaluate",
     tag = "judge",
-    operation_id = "evaluateJudge",
+    operation_id = "evaluate",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1731,7 +1731,7 @@ async fn run_judge_eval_route(
     get,
     path = "/v1/usage/{tenant_id}/{project_id}",
     tag = "usage",
-    operation_id = "getUsageSummary",
+    operation_id = "getSummary",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1785,7 +1785,7 @@ struct PaletteConnectStatusResponse {
     get,
     path = "/v1/connect/status/{tenant_id}/{project_id}",
     tag = "connect",
-    operation_id = "getPaletteConnectStatus",
+    operation_id = "getStatus",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1860,7 +1860,7 @@ async fn get_palette_connect_status_route(
     get,
     path = "/v1/judge/{tenant_id}/{project_id}/ledger",
     tag = "judge",
-    operation_id = "listJudgeLedger",
+    operation_id = "listLedger",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -1893,7 +1893,7 @@ async fn list_judge_ledger_route(
     get,
     path = "/v1/ingest/{tenant_id}/{project_id}/queue",
     tag = "ingest",
-    operation_id = "getIngestQueueStatus",
+    operation_id = "getQueueStatus",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2104,7 +2104,7 @@ fn drain_status(dead_lettered: usize) -> StatusCode {
     post,
     path = "/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces",
     tag = "ingest",
-    operation_id = "ingestOtlp",
+    operation_id = "otlp",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2168,7 +2168,7 @@ async fn ingest_otlp_http(
     post,
     path = "/v1/traces",
     tag = "ingest",
-    operation_id = "ingestOtlpJsonCollector",
+    operation_id = "otlpJsonCollector",
     params(
         IngestDurabilityQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
@@ -2309,7 +2309,7 @@ async fn import_source_route(
     get,
     path = "/v1/search/{tenant_id}/spans",
     tag = "search",
-    operation_id = "searchSpans",
+    operation_id = "spans",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         SearchQueryParams,
@@ -2375,7 +2375,7 @@ async fn search_spans(
     get,
     path = "/v1/traces/{tenant_id}",
     tag = "traces",
-    operation_id = "listTraces",
+    operation_id = "list",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ListTracesQuery,
@@ -2437,7 +2437,7 @@ async fn list_traces(
     get,
     path = "/v1/traces/{tenant_id}/{trace_id}",
     tag = "traces",
-    operation_id = "getTrace",
+    operation_id = "get",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("trace_id" = String, Path, description = "trace_id"),
@@ -2484,7 +2484,7 @@ async fn get_trace(
     get,
     path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}",
     tag = "spans",
-    operation_id = "getSpan",
+    operation_id = "get",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("trace_id" = String, Path, description = "trace_id"),
@@ -2517,7 +2517,7 @@ async fn get_span_route(
     get,
     path = "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io",
     tag = "spans",
-    operation_id = "getSpanIo",
+    operation_id = "getIo",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("trace_id" = String, Path, description = "trace_id"),
@@ -2556,7 +2556,7 @@ async fn get_span_io_route(
     get,
     path = "/v1/audit/{tenant_id}/{project_id}",
     tag = "audit",
-    operation_id = "listAuditEvents",
+    operation_id = "list",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2650,7 +2650,7 @@ async fn archive_trace(
     get,
     path = "/v1/archive/{tenant_id}/{project_id}/spans",
     tag = "archive",
-    operation_id = "queryArchiveSpans",
+    operation_id = "querySpans",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2763,7 +2763,7 @@ struct DiffPromptVersionsQuery {
     post,
     path = "/v1/prompts/{tenant_id}/{project_id}",
     tag = "prompts",
-    operation_id = "createPrompt",
+    operation_id = "create",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2813,7 +2813,7 @@ async fn create_prompt_route(
     get,
     path = "/v1/prompts/{tenant_id}/{project_id}",
     tag = "prompts",
-    operation_id = "listPrompts",
+    operation_id = "list",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2853,7 +2853,7 @@ async fn list_prompts_route(
     get,
     path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}",
     tag = "prompts",
-    operation_id = "getPrompt",
+    operation_id = "get",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2896,7 +2896,7 @@ async fn get_prompt_route(
     post,
     path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions",
     tag = "prompts",
-    operation_id = "addPromptVersion",
+    operation_id = "addVersion",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2948,7 +2948,7 @@ async fn add_prompt_version_route(
     get,
     path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions",
     tag = "prompts",
-    operation_id = "listPromptVersions",
+    operation_id = "listVersions",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -2991,7 +2991,7 @@ async fn list_prompt_versions_route(
     get,
     path = "/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff",
     tag = "prompts",
-    operation_id = "diffPromptVersions",
+    operation_id = "diffVersions",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3044,7 +3044,7 @@ async fn diff_prompt_versions_route(
     post,
     path = "/v1/datasets/{tenant_id}/{project_id}",
     tag = "datasets",
-    operation_id = "createDataset",
+    operation_id = "create",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3088,7 +3088,7 @@ async fn create_dataset(
     post,
     path = "/v1/scenarios/{tenant_id}/{project_id}",
     tag = "scenarios",
-    operation_id = "createScenario",
+    operation_id = "create",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3157,7 +3157,7 @@ async fn create_scenario(
     get,
     path = "/v1/scenarios/{tenant_id}/{project_id}",
     tag = "scenarios",
-    operation_id = "listScenarios",
+    operation_id = "list",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3219,7 +3219,7 @@ async fn list_scenarios(
     get,
     path = "/v1/scenarios/{tenant_id}/{project_id}/{scenario_id}",
     tag = "scenarios",
-    operation_id = "getScenario",
+    operation_id = "get",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3264,7 +3264,7 @@ async fn get_scenario(
     post,
     path = "/v1/scenarios/{tenant_id}/{project_id}/mine",
     tag = "scenarios",
-    operation_id = "mineScenarios",
+    operation_id = "mine",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3318,7 +3318,7 @@ async fn mine_scenarios(
     post,
     path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace",
     tag = "datasets",
-    operation_id = "promoteDatasetCaseFromTrace",
+    operation_id = "promoteCaseFromTrace",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3383,7 +3383,7 @@ async fn promote_dataset_case(
     post,
     path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions",
     tag = "datasets",
-    operation_id = "createDatasetVersion",
+    operation_id = "createVersion",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3438,7 +3438,7 @@ async fn create_dataset_version(
     post,
     path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic",
     tag = "evals",
-    operation_id = "runDeterministicEval",
+    operation_id = "runDeterministic",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3504,7 +3504,7 @@ async fn run_deterministic_dataset_eval(
     post,
     path = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge",
     tag = "evals",
-    operation_id = "runJudgeEval",
+    operation_id = "runJudge",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3578,7 +3578,7 @@ async fn run_judge_dataset_eval(
     post,
     path = "/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}",
     tag = "calibrations",
-    operation_id = "runCalibration",
+    operation_id = "run",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3663,7 +3663,7 @@ async fn run_calibration_route(
     post,
     path = "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic",
     tag = "experiments",
-    operation_id = "runDeterministicExperiment",
+    operation_id = "runDeterministic",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3728,7 +3728,7 @@ async fn run_deterministic_experiment_route(
     post,
     path = "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge",
     tag = "experiments",
-    operation_id = "runJudgeExperiment",
+    operation_id = "runJudge",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3801,7 +3801,7 @@ async fn run_judge_experiment_route(
     post,
     path = "/v1/gates/{tenant_id}/{project_id}",
     tag = "gates",
-    operation_id = "createGate",
+    operation_id = "create",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3850,7 +3850,7 @@ async fn create_gate_route(
     post,
     path = "/v1/gates/{tenant_id}/{project_id}/{gate_id}/run",
     tag = "gates",
-    operation_id = "runGate",
+    operation_id = "run",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3899,7 +3899,7 @@ async fn run_gate_route(
     post,
     path = "/v1/review-queues/{tenant_id}/{project_id}",
     tag = "reviews",
-    operation_id = "createReviewQueue",
+    operation_id = "createQueue",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -3949,7 +3949,7 @@ async fn create_review_queue_route(
     get,
     path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks",
     tag = "reviews",
-    operation_id = "listReviewTasks",
+    operation_id = "listTasks",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -4000,7 +4000,7 @@ async fn list_review_tasks_route(
     post,
     path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace",
     tag = "reviews",
-    operation_id = "enqueueReviewTaskFromTrace",
+    operation_id = "enqueueTaskFromTrace",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -4070,7 +4070,7 @@ async fn enqueue_review_task_from_trace_route(
     post,
     path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations",
     tag = "reviews",
-    operation_id = "submitReviewAnnotation",
+    operation_id = "submitAnnotation",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -4126,7 +4126,7 @@ async fn submit_review_annotation_route(
     post,
     path = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote",
     tag = "reviews",
-    operation_id = "promoteReviewAnnotation",
+    operation_id = "promoteAnnotation",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -4215,7 +4215,7 @@ async fn promote_review_annotation_route(
     post,
     path = "/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling",
     tag = "online",
-    operation_id = "decideOnlineSampling",
+    operation_id = "decideSampling",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
@@ -4263,7 +4263,7 @@ async fn decide_online_sampling(
     post,
     path = "/v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook",
     tag = "alerts",
-    operation_id = "evaluateAlert",
+    operation_id = "evaluate",
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),

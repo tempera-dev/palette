@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**datasets_create_dataset**](DatasetsApi.md#datasets_create_dataset) | **POST** /v1/datasets/{tenant_id}/{project_id} |
-[**datasets_create_dataset_version**](DatasetsApi.md#datasets_create_dataset_version) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
-[**datasets_promote_dataset_case_from_trace**](DatasetsApi.md#datasets_promote_dataset_case_from_trace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+[**datasets_create**](DatasetsApi.md#datasets_create) | **POST** /v1/datasets/{tenant_id}/{project_id} |
+[**datasets_create_version**](DatasetsApi.md#datasets_create_version) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
+[**datasets_promote_case_from_trace**](DatasetsApi.md#datasets_promote_case_from_trace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
 
 
-# **datasets_create_dataset**
-> Dataset datasets_create_dataset(tenant_id, project_id, create_dataset_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **datasets_create**
+> Dataset datasets_create(tenant_id, project_id, create_dataset_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -44,11 +44,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.datasets_create_dataset(tenant_id, project_id, create_dataset_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of DatasetsApi->datasets_create_dataset:\n")
+        api_response = api_instance.datasets_create(tenant_id, project_id, create_dataset_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of DatasetsApi->datasets_create:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DatasetsApi->datasets_create_dataset: %s\n" % e)
+        print("Exception when calling DatasetsApi->datasets_create: %s\n" % e)
 ```
 
 
@@ -90,8 +90,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **datasets_create_dataset_version**
-> DatasetVersionSnapshot datasets_create_dataset_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **datasets_create_version**
+> DatasetVersionSnapshot datasets_create_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -126,11 +126,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.datasets_create_dataset_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of DatasetsApi->datasets_create_dataset_version:\n")
+        api_response = api_instance.datasets_create_version(tenant_id, project_id, dataset_id, create_dataset_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of DatasetsApi->datasets_create_version:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DatasetsApi->datasets_create_dataset_version: %s\n" % e)
+        print("Exception when calling DatasetsApi->datasets_create_version: %s\n" % e)
 ```
 
 
@@ -174,8 +174,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **datasets_promote_dataset_case_from_trace**
-> DatasetCase datasets_promote_dataset_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **datasets_promote_case_from_trace**
+> DatasetCase datasets_promote_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -210,11 +210,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.datasets_promote_dataset_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of DatasetsApi->datasets_promote_dataset_case_from_trace:\n")
+        api_response = api_instance.datasets_promote_case_from_trace(tenant_id, project_id, dataset_id, promote_trace_case_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of DatasetsApi->datasets_promote_case_from_trace:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DatasetsApi->datasets_promote_dataset_case_from_trace: %s\n" % e)
+        print("Exception when calling DatasetsApi->datasets_promote_case_from_trace: %s\n" % e)
 ```
 
 

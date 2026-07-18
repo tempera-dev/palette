@@ -23,7 +23,7 @@ import (
 // AlertsAPIService AlertsAPI service
 type AlertsAPIService service
 
-type ApiAlertsEvaluateAlertRequest struct {
+type ApiAlertsEvaluateRequest struct {
 	ctx context.Context
 	ApiService *AlertsAPIService
 	tenantId string
@@ -36,50 +36,50 @@ type ApiAlertsEvaluateAlertRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiAlertsEvaluateAlertRequest) EvaluateAlertRequest(evaluateAlertRequest EvaluateAlertRequest) ApiAlertsEvaluateAlertRequest {
+func (r ApiAlertsEvaluateRequest) EvaluateAlertRequest(evaluateAlertRequest EvaluateAlertRequest) ApiAlertsEvaluateRequest {
 	r.evaluateAlertRequest = &evaluateAlertRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiAlertsEvaluateAlertRequest) Authorization(authorization string) ApiAlertsEvaluateAlertRequest {
+func (r ApiAlertsEvaluateRequest) Authorization(authorization string) ApiAlertsEvaluateRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiAlertsEvaluateAlertRequest) XPaletteApiKey(xPaletteApiKey string) ApiAlertsEvaluateAlertRequest {
+func (r ApiAlertsEvaluateRequest) XPaletteApiKey(xPaletteApiKey string) ApiAlertsEvaluateRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiAlertsEvaluateAlertRequest) XPaletteProjectId(xPaletteProjectId string) ApiAlertsEvaluateAlertRequest {
+func (r ApiAlertsEvaluateRequest) XPaletteProjectId(xPaletteProjectId string) ApiAlertsEvaluateRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiAlertsEvaluateAlertRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiAlertsEvaluateAlertRequest {
+func (r ApiAlertsEvaluateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiAlertsEvaluateRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiAlertsEvaluateAlertRequest) Execute() (*AlertDecision, *http.Response, error) {
-	return r.ApiService.AlertsEvaluateAlertExecute(r)
+func (r ApiAlertsEvaluateRequest) Execute() (*AlertDecision, *http.Response, error) {
+	return r.ApiService.AlertsEvaluateExecute(r)
 }
 
 /*
-AlertsEvaluateAlert Method for AlertsEvaluateAlert
+AlertsEvaluate Method for AlertsEvaluate
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param traceId trace_id
- @return ApiAlertsEvaluateAlertRequest
+ @return ApiAlertsEvaluateRequest
 */
-func (a *AlertsAPIService) AlertsEvaluateAlert(ctx context.Context, tenantId string, projectId string, traceId string) ApiAlertsEvaluateAlertRequest {
-	return ApiAlertsEvaluateAlertRequest{
+func (a *AlertsAPIService) AlertsEvaluate(ctx context.Context, tenantId string, projectId string, traceId string) ApiAlertsEvaluateRequest {
+	return ApiAlertsEvaluateRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -90,7 +90,7 @@ func (a *AlertsAPIService) AlertsEvaluateAlert(ctx context.Context, tenantId str
 
 // Execute executes the request
 //  @return AlertDecision
-func (a *AlertsAPIService) AlertsEvaluateAlertExecute(r ApiAlertsEvaluateAlertRequest) (*AlertDecision, *http.Response, error) {
+func (a *AlertsAPIService) AlertsEvaluateExecute(r ApiAlertsEvaluateRequest) (*AlertDecision, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -98,7 +98,7 @@ func (a *AlertsAPIService) AlertsEvaluateAlertExecute(r ApiAlertsEvaluateAlertRe
 		localVarReturnValue  *AlertDecision
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertsAPIService.AlertsEvaluateAlert")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AlertsAPIService.AlertsEvaluate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

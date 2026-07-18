@@ -26,7 +26,7 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
 
 
 ingest_queue_status_t*
-IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 ingest_outcome_t*
@@ -34,15 +34,15 @@ IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *proj
 
 
 ingest_outcome_t*
-IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 otlp_ingest_outcome_t*
-IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 otlp_ingest_outcome_t*
-IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_tenant_id, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_tenant_id, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 trace_ingested_reconcile_report_t*

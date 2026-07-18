@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`prompts_period_add_prompt_version`]
+/// struct for passing parameters to the method [`prompts_period_add_version`]
 #[derive(Clone, Debug)]
-pub struct PromptsPeriodAddPromptVersionParams {
+pub struct PromptsPeriodAddVersionParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -34,9 +34,9 @@ pub struct PromptsPeriodAddPromptVersionParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`prompts_period_create_prompt`]
+/// struct for passing parameters to the method [`prompts_period_create`]
 #[derive(Clone, Debug)]
-pub struct PromptsPeriodCreatePromptParams {
+pub struct PromptsPeriodCreateParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -52,9 +52,9 @@ pub struct PromptsPeriodCreatePromptParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`prompts_period_diff_prompt_versions`]
+/// struct for passing parameters to the method [`prompts_period_diff_versions`]
 #[derive(Clone, Debug)]
-pub struct PromptsPeriodDiffPromptVersionsParams {
+pub struct PromptsPeriodDiffVersionsParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -73,9 +73,9 @@ pub struct PromptsPeriodDiffPromptVersionsParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`prompts_period_get_prompt`]
+/// struct for passing parameters to the method [`prompts_period_get`]
 #[derive(Clone, Debug)]
-pub struct PromptsPeriodGetPromptParams {
+pub struct PromptsPeriodGetParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -92,9 +92,26 @@ pub struct PromptsPeriodGetPromptParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`prompts_period_list_prompt_versions`]
+/// struct for passing parameters to the method [`prompts_period_list`]
 #[derive(Clone, Debug)]
-pub struct PromptsPeriodListPromptVersionsParams {
+pub struct PromptsPeriodListParams {
+    /// tenant_id
+    pub tenant_id: String,
+    /// project_id
+    pub project_id: String,
+    /// Bearer API token for strict auth
+    pub authorization: Option<String>,
+    /// API key alternative for strict auth
+    pub x_palette_api_key: Option<String>,
+    /// Strict-auth project scope
+    pub x_palette_project_id: Option<String>,
+    /// Strict-auth environment scope
+    pub x_palette_environment_id: Option<String>
+}
+
+/// struct for passing parameters to the method [`prompts_period_list_versions`]
+#[derive(Clone, Debug)]
+pub struct PromptsPeriodListVersionsParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -111,28 +128,11 @@ pub struct PromptsPeriodListPromptVersionsParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`prompts_period_list_prompts`]
-#[derive(Clone, Debug)]
-pub struct PromptsPeriodListPromptsParams {
-    /// tenant_id
-    pub tenant_id: String,
-    /// project_id
-    pub project_id: String,
-    /// Bearer API token for strict auth
-    pub authorization: Option<String>,
-    /// API key alternative for strict auth
-    pub x_palette_api_key: Option<String>,
-    /// Strict-auth project scope
-    pub x_palette_project_id: Option<String>,
-    /// Strict-auth environment scope
-    pub x_palette_environment_id: Option<String>
-}
 
-
-/// struct for typed errors of method [`prompts_period_add_prompt_version`]
+/// struct for typed errors of method [`prompts_period_add_version`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PromptsPeriodAddPromptVersionError {
+pub enum PromptsPeriodAddVersionError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -140,31 +140,20 @@ pub enum PromptsPeriodAddPromptVersionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`prompts_period_create_prompt`]
+/// struct for typed errors of method [`prompts_period_create`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PromptsPeriodCreatePromptError {
+pub enum PromptsPeriodCreateError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`prompts_period_diff_prompt_versions`]
+/// struct for typed errors of method [`prompts_period_diff_versions`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PromptsPeriodDiffPromptVersionsError {
-    Status400(models::ErrorResponse),
-    Status401(models::ErrorResponse),
-    Status403(models::ErrorResponse),
-    Status404(models::ErrorResponse),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed errors of method [`prompts_period_get_prompt`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum PromptsPeriodGetPromptError {
+pub enum PromptsPeriodDiffVersionsError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -172,10 +161,10 @@ pub enum PromptsPeriodGetPromptError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`prompts_period_list_prompt_versions`]
+/// struct for typed errors of method [`prompts_period_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PromptsPeriodListPromptVersionsError {
+pub enum PromptsPeriodGetError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -183,18 +172,29 @@ pub enum PromptsPeriodListPromptVersionsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`prompts_period_list_prompts`]
+/// struct for typed errors of method [`prompts_period_list`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PromptsPeriodListPromptsError {
+pub enum PromptsPeriodListError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`prompts_period_list_versions`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PromptsPeriodListVersionsError {
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status403(models::ErrorResponse),
+    Status404(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
 
-pub async fn prompts_period_add_prompt_version(configuration: &configuration::Configuration, params: PromptsPeriodAddPromptVersionParams) -> Result<models::PromptVersion, Error<PromptsPeriodAddPromptVersionError>> {
+
+pub async fn prompts_period_add_version(configuration: &configuration::Configuration, params: PromptsPeriodAddVersionParams) -> Result<models::PromptVersion, Error<PromptsPeriodAddVersionError>> {
 
     let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -226,12 +226,12 @@ pub async fn prompts_period_add_prompt_version(configuration: &configuration::Co
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<PromptsPeriodAddPromptVersionError> = serde_json::from_str(&content).ok();
+        let entity: Option<PromptsPeriodAddVersionError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn prompts_period_create_prompt(configuration: &configuration::Configuration, params: PromptsPeriodCreatePromptParams) -> Result<models::CreatedPrompt, Error<PromptsPeriodCreatePromptError>> {
+pub async fn prompts_period_create(configuration: &configuration::Configuration, params: PromptsPeriodCreateParams) -> Result<models::CreatedPrompt, Error<PromptsPeriodCreateError>> {
 
     let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -263,12 +263,12 @@ pub async fn prompts_period_create_prompt(configuration: &configuration::Configu
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<PromptsPeriodCreatePromptError> = serde_json::from_str(&content).ok();
+        let entity: Option<PromptsPeriodCreateError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn prompts_period_diff_prompt_versions(configuration: &configuration::Configuration, params: PromptsPeriodDiffPromptVersionsParams) -> Result<models::PromptVersionDiff, Error<PromptsPeriodDiffPromptVersionsError>> {
+pub async fn prompts_period_diff_versions(configuration: &configuration::Configuration, params: PromptsPeriodDiffVersionsParams) -> Result<models::PromptVersionDiff, Error<PromptsPeriodDiffVersionsError>> {
 
     let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -301,12 +301,12 @@ pub async fn prompts_period_diff_prompt_versions(configuration: &configuration::
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<PromptsPeriodDiffPromptVersionsError> = serde_json::from_str(&content).ok();
+        let entity: Option<PromptsPeriodDiffVersionsError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn prompts_period_get_prompt(configuration: &configuration::Configuration, params: PromptsPeriodGetPromptParams) -> Result<models::Prompt, Error<PromptsPeriodGetPromptError>> {
+pub async fn prompts_period_get(configuration: &configuration::Configuration, params: PromptsPeriodGetParams) -> Result<models::Prompt, Error<PromptsPeriodGetError>> {
 
     let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -337,48 +337,12 @@ pub async fn prompts_period_get_prompt(configuration: &configuration::Configurat
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<PromptsPeriodGetPromptError> = serde_json::from_str(&content).ok();
+        let entity: Option<PromptsPeriodGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn prompts_period_list_prompt_versions(configuration: &configuration::Configuration, params: PromptsPeriodListPromptVersionsParams) -> Result<models::PromptVersionListResponse, Error<PromptsPeriodListPromptVersionsError>> {
-
-    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
-    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(param_value) = params.authorization {
-        req_builder = req_builder.header("authorization", param_value.to_string());
-    }
-    if let Some(param_value) = params.x_palette_api_key {
-        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
-    }
-    if let Some(param_value) = params.x_palette_project_id {
-        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
-    }
-    if let Some(param_value) = params.x_palette_environment_id {
-        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
-    }
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        serde_json::from_str(&content).map_err(Error::from)
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<PromptsPeriodListPromptVersionsError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-pub async fn prompts_period_list_prompts(configuration: &configuration::Configuration, params: PromptsPeriodListPromptsParams) -> Result<models::PromptListResponse, Error<PromptsPeriodListPromptsError>> {
+pub async fn prompts_period_list(configuration: &configuration::Configuration, params: PromptsPeriodListParams) -> Result<models::PromptListResponse, Error<PromptsPeriodListError>> {
 
     let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -409,7 +373,43 @@ pub async fn prompts_period_list_prompts(configuration: &configuration::Configur
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<PromptsPeriodListPromptsError> = serde_json::from_str(&content).ok();
+        let entity: Option<PromptsPeriodListError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn prompts_period_list_versions(configuration: &configuration::Configuration, params: PromptsPeriodListVersionsParams) -> Result<models::PromptVersionListResponse, Error<PromptsPeriodListVersionsError>> {
+
+    let uri_str = format!("{}/v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), prompt_id=crate::apis::urlencode(params.prompt_id));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(param_value) = params.authorization {
+        req_builder = req_builder.header("authorization", param_value.to_string());
+    }
+    if let Some(param_value) = params.x_palette_api_key {
+        req_builder = req_builder.header("x-palette-api-key", param_value.to_string());
+    }
+    if let Some(param_value) = params.x_palette_project_id {
+        req_builder = req_builder.header("x-palette-project-id", param_value.to_string());
+    }
+    if let Some(param_value) = params.x_palette_environment_id {
+        req_builder = req_builder.header("x-palette-environment-id", param_value.to_string());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<PromptsPeriodListVersionsError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

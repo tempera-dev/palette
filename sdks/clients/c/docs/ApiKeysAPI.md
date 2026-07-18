@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ApiKeysAPI_apiKeysCreateApiKey**](ApiKeysAPI.md#ApiKeysAPI_apiKeysCreateApiKey) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
-[**ApiKeysAPI_apiKeysRevokeApiKey**](ApiKeysAPI.md#ApiKeysAPI_apiKeysRevokeApiKey) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
+[**ApiKeysAPI_apiKeysCreate**](ApiKeysAPI.md#ApiKeysAPI_apiKeysCreate) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
+[**ApiKeysAPI_apiKeysRevoke**](ApiKeysAPI.md#ApiKeysAPI_apiKeysRevoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
 
 
-# **ApiKeysAPI_apiKeysCreateApiKey**
+# **ApiKeysAPI_apiKeysCreate**
 ```c
-api_key_created_response_t* ApiKeysAPI_apiKeysCreateApiKey(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+api_key_created_response_t* ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -42,9 +42,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ApiKeysAPI_apiKeysRevokeApiKey**
+# **ApiKeysAPI_apiKeysRevoke**
 ```c
-revoked_api_key_t* ApiKeysAPI_apiKeysRevokeApiKey(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *api_key_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+revoked_api_key_t* ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *api_key_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

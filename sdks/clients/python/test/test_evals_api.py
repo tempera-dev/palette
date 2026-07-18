@@ -26,14 +26,14 @@ class TestEvalsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_evals_run_deterministic_eval(self) -> None:
-        """Test case for evals_run_deterministic_eval
+    def test_evals_run_deterministic(self) -> None:
+        """Test case for evals_run_deterministic
 
         """
         pass
 
-    def test_evals_run_judge_eval(self) -> None:
-        """Test case for evals_run_judge_eval
+    def test_evals_run_judge(self) -> None:
+        """Test case for evals_run_judge
 
         """
         pass

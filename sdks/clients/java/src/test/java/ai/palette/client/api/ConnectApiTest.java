@@ -44,7 +44,7 @@ public class ConnectApiTest {
      *          if the Api call fails
      */
     @Test
-    public void connectGetPaletteConnectStatusTest() throws ApiException {
+    public void connectGetStatusTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String authorization = null;
@@ -52,7 +52,7 @@ public class ConnectApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         PaletteConnectStatusResponse response = 
-        api.connectGetPaletteConnectStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.connectGetStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

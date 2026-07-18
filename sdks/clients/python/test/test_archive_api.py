@@ -32,8 +32,8 @@ class TestArchiveApi(unittest.TestCase):
         """
         pass
 
-    def test_archive_query_archive_spans(self) -> None:
-        """Test case for archive_query_archive_spans
+    def test_archive_query_spans(self) -> None:
+        """Test case for archive_query_spans
 
         """
         pass

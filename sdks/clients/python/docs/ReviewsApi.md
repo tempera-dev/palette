@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**reviews_create_review_queue**](ReviewsApi.md#reviews_create_review_queue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |
-[**reviews_enqueue_review_task_from_trace**](ReviewsApi.md#reviews_enqueue_review_task_from_trace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
-[**reviews_list_review_tasks**](ReviewsApi.md#reviews_list_review_tasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
-[**reviews_promote_review_annotation**](ReviewsApi.md#reviews_promote_review_annotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
-[**reviews_submit_review_annotation**](ReviewsApi.md#reviews_submit_review_annotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
+[**reviews_create_queue**](ReviewsApi.md#reviews_create_queue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |
+[**reviews_enqueue_task_from_trace**](ReviewsApi.md#reviews_enqueue_task_from_trace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
+[**reviews_list_tasks**](ReviewsApi.md#reviews_list_tasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
+[**reviews_promote_annotation**](ReviewsApi.md#reviews_promote_annotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
+[**reviews_submit_annotation**](ReviewsApi.md#reviews_submit_annotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
 
 
-# **reviews_create_review_queue**
-> ReviewQueue reviews_create_review_queue(tenant_id, project_id, create_review_queue_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **reviews_create_queue**
+> ReviewQueue reviews_create_queue(tenant_id, project_id, create_review_queue_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -46,11 +46,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.reviews_create_review_queue(tenant_id, project_id, create_review_queue_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ReviewsApi->reviews_create_review_queue:\n")
+        api_response = api_instance.reviews_create_queue(tenant_id, project_id, create_review_queue_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ReviewsApi->reviews_create_queue:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ReviewsApi->reviews_create_review_queue: %s\n" % e)
+        print("Exception when calling ReviewsApi->reviews_create_queue: %s\n" % e)
 ```
 
 
@@ -92,8 +92,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **reviews_enqueue_review_task_from_trace**
-> ReviewTask reviews_enqueue_review_task_from_trace(tenant_id, project_id, queue_id, enqueue_review_task_from_trace_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **reviews_enqueue_task_from_trace**
+> ReviewTask reviews_enqueue_task_from_trace(tenant_id, project_id, queue_id, enqueue_review_task_from_trace_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -128,11 +128,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.reviews_enqueue_review_task_from_trace(tenant_id, project_id, queue_id, enqueue_review_task_from_trace_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ReviewsApi->reviews_enqueue_review_task_from_trace:\n")
+        api_response = api_instance.reviews_enqueue_task_from_trace(tenant_id, project_id, queue_id, enqueue_review_task_from_trace_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ReviewsApi->reviews_enqueue_task_from_trace:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ReviewsApi->reviews_enqueue_review_task_from_trace: %s\n" % e)
+        print("Exception when calling ReviewsApi->reviews_enqueue_task_from_trace: %s\n" % e)
 ```
 
 
@@ -176,8 +176,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **reviews_list_review_tasks**
-> List[ReviewTask] reviews_list_review_tasks(tenant_id, project_id, queue_id, state=state, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **reviews_list_tasks**
+> List[ReviewTask] reviews_list_tasks(tenant_id, project_id, queue_id, state=state, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -212,11 +212,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.reviews_list_review_tasks(tenant_id, project_id, queue_id, state=state, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ReviewsApi->reviews_list_review_tasks:\n")
+        api_response = api_instance.reviews_list_tasks(tenant_id, project_id, queue_id, state=state, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ReviewsApi->reviews_list_tasks:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ReviewsApi->reviews_list_review_tasks: %s\n" % e)
+        print("Exception when calling ReviewsApi->reviews_list_tasks: %s\n" % e)
 ```
 
 
@@ -260,8 +260,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **reviews_promote_review_annotation**
-> DatasetCase reviews_promote_review_annotation(tenant_id, project_id, queue_id, task_id, annotation_id, promote_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **reviews_promote_annotation**
+> DatasetCase reviews_promote_annotation(tenant_id, project_id, queue_id, task_id, annotation_id, promote_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -298,11 +298,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.reviews_promote_review_annotation(tenant_id, project_id, queue_id, task_id, annotation_id, promote_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ReviewsApi->reviews_promote_review_annotation:\n")
+        api_response = api_instance.reviews_promote_annotation(tenant_id, project_id, queue_id, task_id, annotation_id, promote_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ReviewsApi->reviews_promote_annotation:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ReviewsApi->reviews_promote_review_annotation: %s\n" % e)
+        print("Exception when calling ReviewsApi->reviews_promote_annotation: %s\n" % e)
 ```
 
 
@@ -348,8 +348,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **reviews_submit_review_annotation**
-> ReviewAnnotation reviews_submit_review_annotation(tenant_id, project_id, queue_id, task_id, submit_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **reviews_submit_annotation**
+> ReviewAnnotation reviews_submit_annotation(tenant_id, project_id, queue_id, task_id, submit_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -385,11 +385,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.reviews_submit_review_annotation(tenant_id, project_id, queue_id, task_id, submit_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ReviewsApi->reviews_submit_review_annotation:\n")
+        api_response = api_instance.reviews_submit_annotation(tenant_id, project_id, queue_id, task_id, submit_review_annotation_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ReviewsApi->reviews_submit_annotation:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ReviewsApi->reviews_submit_review_annotation: %s\n" % e)
+        print("Exception when calling ReviewsApi->reviews_submit_annotation: %s\n" % e)
 ```
 
 

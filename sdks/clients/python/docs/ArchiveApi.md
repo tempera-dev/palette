@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archive_archive_trace**](ArchiveApi.md#archive_archive_trace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |
-[**archive_query_archive_spans**](ArchiveApi.md#archive_query_archive_spans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
+[**archive_query_spans**](ArchiveApi.md#archive_query_spans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |
 
 
 # **archive_archive_trace**
@@ -89,8 +89,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **archive_query_archive_spans**
-> ArchiveQueryResponse archive_query_archive_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **archive_query_spans**
+> ArchiveQueryResponse archive_query_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -128,11 +128,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.archive_query_archive_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ArchiveApi->archive_query_archive_spans:\n")
+        api_response = api_instance.archive_query_spans(tenant_id, project_id, environment_id=environment_id, trace_id=trace_id, span_id=span_id, kind=kind, status=status, limit=limit, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ArchiveApi->archive_query_spans:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ArchiveApi->archive_query_archive_spans: %s\n" % e)
+        print("Exception when calling ArchiveApi->archive_query_spans: %s\n" % e)
 ```
 
 

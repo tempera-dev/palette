@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**traces_get_trace**](TracesApi.md#traces_get_trace) | **GET** /v1/traces/{tenant_id}/{trace_id} |
-[**traces_list_traces**](TracesApi.md#traces_list_traces) | **GET** /v1/traces/{tenant_id} |
+[**traces_get**](TracesApi.md#traces_get) | **GET** /v1/traces/{tenant_id}/{trace_id} |
+[**traces_list**](TracesApi.md#traces_list) | **GET** /v1/traces/{tenant_id} |
 
 
-# **traces_get_trace**
-> TraceView traces_get_trace(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **traces_get**
+> TraceView traces_get(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -43,11 +43,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.traces_get_trace(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of TracesApi->traces_get_trace:\n")
+        api_response = api_instance.traces_get(tenant_id, trace_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of TracesApi->traces_get:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling TracesApi->traces_get_trace: %s\n" % e)
+        print("Exception when calling TracesApi->traces_get: %s\n" % e)
 ```
 
 
@@ -91,8 +91,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **traces_list_traces**
-> PageRunSummary traces_list_traces(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **traces_list**
+> PageRunSummary traces_list(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -138,11 +138,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.traces_list_traces(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of TracesApi->traces_list_traces:\n")
+        api_response = api_instance.traces_list(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of TracesApi->traces_list:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling TracesApi->traces_list_traces: %s\n" % e)
+        print("Exception when calling TracesApi->traces_list: %s\n" % e)
 ```
 
 

@@ -22,14 +22,14 @@ func Test_paletteclient_GatesAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test GatesAPIService GatesCreateGate", func(t *testing.T) {
+	t.Run("Test GatesAPIService GatesCreate", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var tenantId string
 		var projectId string
 
-		resp, httpRes, err := apiClient.GatesAPI.GatesCreateGate(context.Background(), tenantId, projectId).Execute()
+		resp, httpRes, err := apiClient.GatesAPI.GatesCreate(context.Background(), tenantId, projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -37,7 +37,7 @@ func Test_paletteclient_GatesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test GatesAPIService GatesRunGate", func(t *testing.T) {
+	t.Run("Test GatesAPIService GatesRun", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
@@ -45,7 +45,7 @@ func Test_paletteclient_GatesAPIService(t *testing.T) {
 		var projectId string
 		var gateId string
 
-		resp, httpRes, err := apiClient.GatesAPI.GatesRunGate(context.Background(), tenantId, projectId, gateId).Execute()
+		resp, httpRes, err := apiClient.GatesAPI.GatesRun(context.Background(), tenantId, projectId, gateId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

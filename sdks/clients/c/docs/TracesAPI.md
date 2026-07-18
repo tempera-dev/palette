@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TracesAPI_tracesGetTrace**](TracesAPI.md#TracesAPI_tracesGetTrace) | **GET** /v1/traces/{tenant_id}/{trace_id} |
-[**TracesAPI_tracesListTraces**](TracesAPI.md#TracesAPI_tracesListTraces) | **GET** /v1/traces/{tenant_id} |
+[**TracesAPI_tracesGet**](TracesAPI.md#TracesAPI_tracesGet) | **GET** /v1/traces/{tenant_id}/{trace_id} |
+[**TracesAPI_tracesList**](TracesAPI.md#TracesAPI_tracesList) | **GET** /v1/traces/{tenant_id} |
 
 
-# **TracesAPI_tracesGetTrace**
+# **TracesAPI_tracesGet**
 ```c
-trace_view_t* TracesAPI_tracesGetTrace(apiClient_t *apiClient, char *tenant_id, char *trace_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_view_t* TracesAPI_tracesGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -42,9 +42,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **TracesAPI_tracesListTraces**
+# **TracesAPI_tracesList**
 ```c
-page_run_summary_t* TracesAPI_tracesListTraces(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *kind, char *status, char *started_after, char *started_before, char *model, char *release, long min_cost_micros, long max_cost_micros, long min_latency_ms, long max_latency_ms, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+page_run_summary_t* TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *kind, char *status, char *started_after, char *started_before, char *model, char *release, long min_cost_micros, long max_cost_micros, long min_latency_ms, long max_latency_ms, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

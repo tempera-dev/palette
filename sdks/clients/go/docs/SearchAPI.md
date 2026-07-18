@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SearchSearchSpans**](SearchAPI.md#SearchSearchSpans) | **Get** /v1/search/{tenant_id}/spans |
+[**SearchSpans**](SearchAPI.md#SearchSpans) | **Get** /v1/search/{tenant_id}/spans |
 
 
 
-## SearchSearchSpans
+## SearchSpans
 
-> SearchResponse SearchSearchSpans(ctx, tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> SearchResponse SearchSpans(ctx, tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -45,13 +45,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SearchAPI.SearchSearchSpans(context.Background(), tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.SearchAPI.SearchSpans(context.Background(), tenantId).Q(q).ProjectId(projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Model(model).Tool(tool).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.SearchSearchSpans``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `SearchAPI.SearchSpans``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SearchSearchSpans`: SearchResponse
-	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.SearchSearchSpans`: %v\n", resp)
+	// response from `SearchSpans`: SearchResponse
+	fmt.Fprintf(os.Stdout, "Response from `SearchAPI.SearchSpans`: %v\n", resp)
 }
 ```
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiSearchSearchSpansRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiSearchSpansRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

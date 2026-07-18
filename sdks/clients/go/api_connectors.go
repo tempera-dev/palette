@@ -23,7 +23,7 @@ import (
 // ConnectorsAPIService ConnectorsAPI service
 type ConnectorsAPIService service
 
-type ApiConnectorsConnectConnectorRequest struct {
+type ApiConnectorsConnectRequest struct {
 	ctx context.Context
 	ApiService *ConnectorsAPIService
 	tenantId string
@@ -35,49 +35,49 @@ type ApiConnectorsConnectConnectorRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiConnectorsConnectConnectorRequest) ConnectConnectorRequest(connectConnectorRequest ConnectConnectorRequest) ApiConnectorsConnectConnectorRequest {
+func (r ApiConnectorsConnectRequest) ConnectConnectorRequest(connectConnectorRequest ConnectConnectorRequest) ApiConnectorsConnectRequest {
 	r.connectConnectorRequest = &connectConnectorRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiConnectorsConnectConnectorRequest) Authorization(authorization string) ApiConnectorsConnectConnectorRequest {
+func (r ApiConnectorsConnectRequest) Authorization(authorization string) ApiConnectorsConnectRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiConnectorsConnectConnectorRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsConnectConnectorRequest {
+func (r ApiConnectorsConnectRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsConnectRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiConnectorsConnectConnectorRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsConnectConnectorRequest {
+func (r ApiConnectorsConnectRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsConnectRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiConnectorsConnectConnectorRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsConnectConnectorRequest {
+func (r ApiConnectorsConnectRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsConnectRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiConnectorsConnectConnectorRequest) Execute() (*ConnectionLink, *http.Response, error) {
-	return r.ApiService.ConnectorsConnectConnectorExecute(r)
+func (r ApiConnectorsConnectRequest) Execute() (*ConnectionLink, *http.Response, error) {
+	return r.ApiService.ConnectorsConnectExecute(r)
 }
 
 /*
-ConnectorsConnectConnector Method for ConnectorsConnectConnector
+ConnectorsConnect Method for ConnectorsConnect
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiConnectorsConnectConnectorRequest
+ @return ApiConnectorsConnectRequest
 */
-func (a *ConnectorsAPIService) ConnectorsConnectConnector(ctx context.Context, tenantId string, projectId string) ApiConnectorsConnectConnectorRequest {
-	return ApiConnectorsConnectConnectorRequest{
+func (a *ConnectorsAPIService) ConnectorsConnect(ctx context.Context, tenantId string, projectId string) ApiConnectorsConnectRequest {
+	return ApiConnectorsConnectRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -87,7 +87,7 @@ func (a *ConnectorsAPIService) ConnectorsConnectConnector(ctx context.Context, t
 
 // Execute executes the request
 //  @return ConnectionLink
-func (a *ConnectorsAPIService) ConnectorsConnectConnectorExecute(r ApiConnectorsConnectConnectorRequest) (*ConnectionLink, *http.Response, error) {
+func (a *ConnectorsAPIService) ConnectorsConnectExecute(r ApiConnectorsConnectRequest) (*ConnectionLink, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -95,7 +95,7 @@ func (a *ConnectorsAPIService) ConnectorsConnectConnectorExecute(r ApiConnectors
 		localVarReturnValue  *ConnectionLink
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsConnectConnector")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsConnect")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -222,7 +222,7 @@ func (a *ConnectorsAPIService) ConnectorsConnectConnectorExecute(r ApiConnectors
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiConnectorsConnectorStatusRequest struct {
+type ApiConnectorsGetSkillsRequest struct {
 	ctx context.Context
 	ApiService *ConnectorsAPIService
 	tenantId string
@@ -235,248 +235,49 @@ type ApiConnectorsConnectorStatusRequest struct {
 }
 
 // Toolkit slug to scope the request to.
-func (r ApiConnectorsConnectorStatusRequest) Toolkit(toolkit string) ApiConnectorsConnectorStatusRequest {
+func (r ApiConnectorsGetSkillsRequest) Toolkit(toolkit string) ApiConnectorsGetSkillsRequest {
 	r.toolkit = &toolkit
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiConnectorsConnectorStatusRequest) Authorization(authorization string) ApiConnectorsConnectorStatusRequest {
+func (r ApiConnectorsGetSkillsRequest) Authorization(authorization string) ApiConnectorsGetSkillsRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiConnectorsConnectorStatusRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsConnectorStatusRequest {
+func (r ApiConnectorsGetSkillsRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsGetSkillsRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiConnectorsConnectorStatusRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsConnectorStatusRequest {
+func (r ApiConnectorsGetSkillsRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsGetSkillsRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiConnectorsConnectorStatusRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsConnectorStatusRequest {
+func (r ApiConnectorsGetSkillsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsGetSkillsRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiConnectorsConnectorStatusRequest) Execute() (*ConnectionStatus, *http.Response, error) {
-	return r.ApiService.ConnectorsConnectorStatusExecute(r)
+func (r ApiConnectorsGetSkillsRequest) Execute() (*ConnectorSkillsResponse, *http.Response, error) {
+	return r.ApiService.ConnectorsGetSkillsExecute(r)
 }
 
 /*
-ConnectorsConnectorStatus Method for ConnectorsConnectorStatus
+ConnectorsGetSkills Method for ConnectorsGetSkills
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiConnectorsConnectorStatusRequest
+ @return ApiConnectorsGetSkillsRequest
 */
-func (a *ConnectorsAPIService) ConnectorsConnectorStatus(ctx context.Context, tenantId string, projectId string) ApiConnectorsConnectorStatusRequest {
-	return ApiConnectorsConnectorStatusRequest{
-		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		projectId: projectId,
-	}
-}
-
-// Execute executes the request
-//  @return ConnectionStatus
-func (a *ConnectorsAPIService) ConnectorsConnectorStatusExecute(r ApiConnectorsConnectorStatusRequest) (*ConnectionStatus, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ConnectionStatus
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsConnectorStatus")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/connectors/{tenant_id}/{project_id}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.toolkit == nil {
-		return localVarReturnValue, nil, reportError("toolkit is required and must be specified")
-	}
-
-	parameterAddToHeaderOrQuery(localVarQueryParams, "toolkit", r.toolkit, "form", "")
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.authorization != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
-	}
-	if r.xPaletteApiKey != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-api-key", r.xPaletteApiKey, "simple", "")
-	}
-	if r.xPaletteProjectId != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-project-id", r.xPaletteProjectId, "simple", "")
-	}
-	if r.xPaletteEnvironmentId != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-environment-id", r.xPaletteEnvironmentId, "simple", "")
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 501 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiConnectorsGetConnectorSkillsRequest struct {
-	ctx context.Context
-	ApiService *ConnectorsAPIService
-	tenantId string
-	projectId string
-	toolkit *string
-	authorization *string
-	xPaletteApiKey *string
-	xPaletteProjectId *string
-	xPaletteEnvironmentId *string
-}
-
-// Toolkit slug to scope the request to.
-func (r ApiConnectorsGetConnectorSkillsRequest) Toolkit(toolkit string) ApiConnectorsGetConnectorSkillsRequest {
-	r.toolkit = &toolkit
-	return r
-}
-
-// Bearer API token for strict auth
-func (r ApiConnectorsGetConnectorSkillsRequest) Authorization(authorization string) ApiConnectorsGetConnectorSkillsRequest {
-	r.authorization = &authorization
-	return r
-}
-
-// API key alternative for strict auth
-func (r ApiConnectorsGetConnectorSkillsRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsGetConnectorSkillsRequest {
-	r.xPaletteApiKey = &xPaletteApiKey
-	return r
-}
-
-// Strict-auth project scope
-func (r ApiConnectorsGetConnectorSkillsRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsGetConnectorSkillsRequest {
-	r.xPaletteProjectId = &xPaletteProjectId
-	return r
-}
-
-// Strict-auth environment scope
-func (r ApiConnectorsGetConnectorSkillsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsGetConnectorSkillsRequest {
-	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
-	return r
-}
-
-func (r ApiConnectorsGetConnectorSkillsRequest) Execute() (*ConnectorSkillsResponse, *http.Response, error) {
-	return r.ApiService.ConnectorsGetConnectorSkillsExecute(r)
-}
-
-/*
-ConnectorsGetConnectorSkills Method for ConnectorsGetConnectorSkills
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId tenant_id
- @param projectId project_id
- @return ApiConnectorsGetConnectorSkillsRequest
-*/
-func (a *ConnectorsAPIService) ConnectorsGetConnectorSkills(ctx context.Context, tenantId string, projectId string) ApiConnectorsGetConnectorSkillsRequest {
-	return ApiConnectorsGetConnectorSkillsRequest{
+func (a *ConnectorsAPIService) ConnectorsGetSkills(ctx context.Context, tenantId string, projectId string) ApiConnectorsGetSkillsRequest {
+	return ApiConnectorsGetSkillsRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -486,7 +287,7 @@ func (a *ConnectorsAPIService) ConnectorsGetConnectorSkills(ctx context.Context,
 
 // Execute executes the request
 //  @return ConnectorSkillsResponse
-func (a *ConnectorsAPIService) ConnectorsGetConnectorSkillsExecute(r ApiConnectorsGetConnectorSkillsRequest) (*ConnectorSkillsResponse, *http.Response, error) {
+func (a *ConnectorsAPIService) ConnectorsGetSkillsExecute(r ApiConnectorsGetSkillsRequest) (*ConnectorSkillsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -494,7 +295,7 @@ func (a *ConnectorsAPIService) ConnectorsGetConnectorSkillsExecute(r ApiConnecto
 		localVarReturnValue  *ConnectorSkillsResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsGetConnectorSkills")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsGetSkills")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -620,7 +421,7 @@ func (a *ConnectorsAPIService) ConnectorsGetConnectorSkillsExecute(r ApiConnecto
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiConnectorsInvokeConnectorToolRequest struct {
+type ApiConnectorsInvokeToolRequest struct {
 	ctx context.Context
 	ApiService *ConnectorsAPIService
 	tenantId string
@@ -632,49 +433,49 @@ type ApiConnectorsInvokeConnectorToolRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiConnectorsInvokeConnectorToolRequest) InvokeConnectorRequest(invokeConnectorRequest InvokeConnectorRequest) ApiConnectorsInvokeConnectorToolRequest {
+func (r ApiConnectorsInvokeToolRequest) InvokeConnectorRequest(invokeConnectorRequest InvokeConnectorRequest) ApiConnectorsInvokeToolRequest {
 	r.invokeConnectorRequest = &invokeConnectorRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiConnectorsInvokeConnectorToolRequest) Authorization(authorization string) ApiConnectorsInvokeConnectorToolRequest {
+func (r ApiConnectorsInvokeToolRequest) Authorization(authorization string) ApiConnectorsInvokeToolRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiConnectorsInvokeConnectorToolRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsInvokeConnectorToolRequest {
+func (r ApiConnectorsInvokeToolRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsInvokeToolRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiConnectorsInvokeConnectorToolRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsInvokeConnectorToolRequest {
+func (r ApiConnectorsInvokeToolRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsInvokeToolRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiConnectorsInvokeConnectorToolRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsInvokeConnectorToolRequest {
+func (r ApiConnectorsInvokeToolRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsInvokeToolRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiConnectorsInvokeConnectorToolRequest) Execute() (*ToolExecution, *http.Response, error) {
-	return r.ApiService.ConnectorsInvokeConnectorToolExecute(r)
+func (r ApiConnectorsInvokeToolRequest) Execute() (*ToolExecution, *http.Response, error) {
+	return r.ApiService.ConnectorsInvokeToolExecute(r)
 }
 
 /*
-ConnectorsInvokeConnectorTool Method for ConnectorsInvokeConnectorTool
+ConnectorsInvokeTool Method for ConnectorsInvokeTool
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiConnectorsInvokeConnectorToolRequest
+ @return ApiConnectorsInvokeToolRequest
 */
-func (a *ConnectorsAPIService) ConnectorsInvokeConnectorTool(ctx context.Context, tenantId string, projectId string) ApiConnectorsInvokeConnectorToolRequest {
-	return ApiConnectorsInvokeConnectorToolRequest{
+func (a *ConnectorsAPIService) ConnectorsInvokeTool(ctx context.Context, tenantId string, projectId string) ApiConnectorsInvokeToolRequest {
+	return ApiConnectorsInvokeToolRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -684,7 +485,7 @@ func (a *ConnectorsAPIService) ConnectorsInvokeConnectorTool(ctx context.Context
 
 // Execute executes the request
 //  @return ToolExecution
-func (a *ConnectorsAPIService) ConnectorsInvokeConnectorToolExecute(r ApiConnectorsInvokeConnectorToolRequest) (*ToolExecution, *http.Response, error) {
+func (a *ConnectorsAPIService) ConnectorsInvokeToolExecute(r ApiConnectorsInvokeToolRequest) (*ToolExecution, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -692,7 +493,7 @@ func (a *ConnectorsAPIService) ConnectorsInvokeConnectorToolExecute(r ApiConnect
 		localVarReturnValue  *ToolExecution
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsInvokeConnectorTool")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsInvokeTool")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -819,7 +620,205 @@ func (a *ConnectorsAPIService) ConnectorsInvokeConnectorToolExecute(r ApiConnect
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiConnectorsListConnectorToolsRequest struct {
+type ApiConnectorsListRequest struct {
+	ctx context.Context
+	ApiService *ConnectorsAPIService
+	tenantId string
+	projectId string
+	limit *int32
+	authorization *string
+	xPaletteApiKey *string
+	xPaletteProjectId *string
+	xPaletteEnvironmentId *string
+}
+
+// Maximum number of apps to return (page size).
+func (r ApiConnectorsListRequest) Limit(limit int32) ApiConnectorsListRequest {
+	r.limit = &limit
+	return r
+}
+
+// Bearer API token for strict auth
+func (r ApiConnectorsListRequest) Authorization(authorization string) ApiConnectorsListRequest {
+	r.authorization = &authorization
+	return r
+}
+
+// API key alternative for strict auth
+func (r ApiConnectorsListRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsListRequest {
+	r.xPaletteApiKey = &xPaletteApiKey
+	return r
+}
+
+// Strict-auth project scope
+func (r ApiConnectorsListRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsListRequest {
+	r.xPaletteProjectId = &xPaletteProjectId
+	return r
+}
+
+// Strict-auth environment scope
+func (r ApiConnectorsListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsListRequest {
+	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
+	return r
+}
+
+func (r ApiConnectorsListRequest) Execute() ([]Toolkit, *http.Response, error) {
+	return r.ApiService.ConnectorsListExecute(r)
+}
+
+/*
+ConnectorsList Method for ConnectorsList
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param tenantId tenant_id
+ @param projectId project_id
+ @return ApiConnectorsListRequest
+*/
+func (a *ConnectorsAPIService) ConnectorsList(ctx context.Context, tenantId string, projectId string) ApiConnectorsListRequest {
+	return ApiConnectorsListRequest{
+		ApiService: a,
+		ctx: ctx,
+		tenantId: tenantId,
+		projectId: projectId,
+	}
+}
+
+// Execute executes the request
+//  @return []Toolkit
+func (a *ConnectorsAPIService) ConnectorsListExecute(r ApiConnectorsListRequest) ([]Toolkit, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []Toolkit
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsList")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/connectors/{tenant_id}/{project_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	if r.xPaletteApiKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-api-key", r.xPaletteApiKey, "simple", "")
+	}
+	if r.xPaletteProjectId != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-project-id", r.xPaletteProjectId, "simple", "")
+	}
+	if r.xPaletteEnvironmentId != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-environment-id", r.xPaletteEnvironmentId, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 501 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiConnectorsListToolsRequest struct {
 	ctx context.Context
 	ApiService *ConnectorsAPIService
 	tenantId string
@@ -833,55 +832,55 @@ type ApiConnectorsListConnectorToolsRequest struct {
 }
 
 // Toolkit slug to list tools for.
-func (r ApiConnectorsListConnectorToolsRequest) Toolkit(toolkit string) ApiConnectorsListConnectorToolsRequest {
+func (r ApiConnectorsListToolsRequest) Toolkit(toolkit string) ApiConnectorsListToolsRequest {
 	r.toolkit = &toolkit
 	return r
 }
 
 // Maximum number of tools to return (page size).
-func (r ApiConnectorsListConnectorToolsRequest) Limit(limit int32) ApiConnectorsListConnectorToolsRequest {
+func (r ApiConnectorsListToolsRequest) Limit(limit int32) ApiConnectorsListToolsRequest {
 	r.limit = &limit
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiConnectorsListConnectorToolsRequest) Authorization(authorization string) ApiConnectorsListConnectorToolsRequest {
+func (r ApiConnectorsListToolsRequest) Authorization(authorization string) ApiConnectorsListToolsRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiConnectorsListConnectorToolsRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsListConnectorToolsRequest {
+func (r ApiConnectorsListToolsRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsListToolsRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiConnectorsListConnectorToolsRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsListConnectorToolsRequest {
+func (r ApiConnectorsListToolsRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsListToolsRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiConnectorsListConnectorToolsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsListConnectorToolsRequest {
+func (r ApiConnectorsListToolsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsListToolsRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiConnectorsListConnectorToolsRequest) Execute() ([]ConnectorTool, *http.Response, error) {
-	return r.ApiService.ConnectorsListConnectorToolsExecute(r)
+func (r ApiConnectorsListToolsRequest) Execute() ([]ConnectorTool, *http.Response, error) {
+	return r.ApiService.ConnectorsListToolsExecute(r)
 }
 
 /*
-ConnectorsListConnectorTools Method for ConnectorsListConnectorTools
+ConnectorsListTools Method for ConnectorsListTools
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiConnectorsListConnectorToolsRequest
+ @return ApiConnectorsListToolsRequest
 */
-func (a *ConnectorsAPIService) ConnectorsListConnectorTools(ctx context.Context, tenantId string, projectId string) ApiConnectorsListConnectorToolsRequest {
-	return ApiConnectorsListConnectorToolsRequest{
+func (a *ConnectorsAPIService) ConnectorsListTools(ctx context.Context, tenantId string, projectId string) ApiConnectorsListToolsRequest {
+	return ApiConnectorsListToolsRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -891,7 +890,7 @@ func (a *ConnectorsAPIService) ConnectorsListConnectorTools(ctx context.Context,
 
 // Execute executes the request
 //  @return []ConnectorTool
-func (a *ConnectorsAPIService) ConnectorsListConnectorToolsExecute(r ApiConnectorsListConnectorToolsRequest) ([]ConnectorTool, *http.Response, error) {
+func (a *ConnectorsAPIService) ConnectorsListToolsExecute(r ApiConnectorsListToolsRequest) ([]ConnectorTool, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -899,7 +898,7 @@ func (a *ConnectorsAPIService) ConnectorsListConnectorToolsExecute(r ApiConnecto
 		localVarReturnValue  []ConnectorTool
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsListConnectorTools")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsListTools")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1028,62 +1027,62 @@ func (a *ConnectorsAPIService) ConnectorsListConnectorToolsExecute(r ApiConnecto
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiConnectorsListConnectorsRequest struct {
+type ApiConnectorsStatusRequest struct {
 	ctx context.Context
 	ApiService *ConnectorsAPIService
 	tenantId string
 	projectId string
-	limit *int32
+	toolkit *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
 }
 
-// Maximum number of apps to return (page size).
-func (r ApiConnectorsListConnectorsRequest) Limit(limit int32) ApiConnectorsListConnectorsRequest {
-	r.limit = &limit
+// Toolkit slug to scope the request to.
+func (r ApiConnectorsStatusRequest) Toolkit(toolkit string) ApiConnectorsStatusRequest {
+	r.toolkit = &toolkit
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiConnectorsListConnectorsRequest) Authorization(authorization string) ApiConnectorsListConnectorsRequest {
+func (r ApiConnectorsStatusRequest) Authorization(authorization string) ApiConnectorsStatusRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiConnectorsListConnectorsRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsListConnectorsRequest {
+func (r ApiConnectorsStatusRequest) XPaletteApiKey(xPaletteApiKey string) ApiConnectorsStatusRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiConnectorsListConnectorsRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsListConnectorsRequest {
+func (r ApiConnectorsStatusRequest) XPaletteProjectId(xPaletteProjectId string) ApiConnectorsStatusRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiConnectorsListConnectorsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsListConnectorsRequest {
+func (r ApiConnectorsStatusRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiConnectorsStatusRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiConnectorsListConnectorsRequest) Execute() ([]Toolkit, *http.Response, error) {
-	return r.ApiService.ConnectorsListConnectorsExecute(r)
+func (r ApiConnectorsStatusRequest) Execute() (*ConnectionStatus, *http.Response, error) {
+	return r.ApiService.ConnectorsStatusExecute(r)
 }
 
 /*
-ConnectorsListConnectors Method for ConnectorsListConnectors
+ConnectorsStatus Method for ConnectorsStatus
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiConnectorsListConnectorsRequest
+ @return ApiConnectorsStatusRequest
 */
-func (a *ConnectorsAPIService) ConnectorsListConnectors(ctx context.Context, tenantId string, projectId string) ApiConnectorsListConnectorsRequest {
-	return ApiConnectorsListConnectorsRequest{
+func (a *ConnectorsAPIService) ConnectorsStatus(ctx context.Context, tenantId string, projectId string) ApiConnectorsStatusRequest {
+	return ApiConnectorsStatusRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -1092,31 +1091,32 @@ func (a *ConnectorsAPIService) ConnectorsListConnectors(ctx context.Context, ten
 }
 
 // Execute executes the request
-//  @return []Toolkit
-func (a *ConnectorsAPIService) ConnectorsListConnectorsExecute(r ApiConnectorsListConnectorsRequest) ([]Toolkit, *http.Response, error) {
+//  @return ConnectionStatus
+func (a *ConnectorsAPIService) ConnectorsStatusExecute(r ApiConnectorsStatusRequest) (*ConnectionStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []Toolkit
+		localVarReturnValue  *ConnectionStatus
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsListConnectors")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsStatus")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/connectors/{tenant_id}/{project_id}"
+	localVarPath := localBasePath + "/v1/connectors/{tenant_id}/{project_id}/status"
 	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.toolkit == nil {
+		return localVarReturnValue, nil, reportError("toolkit is required and must be specified")
 	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "toolkit", r.toolkit, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

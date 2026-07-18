@@ -68,7 +68,7 @@ public class ArchiveApiTest {
      *          if the Api call fails
      */
     @Test
-    public void archiveQueryArchiveSpansTest() throws ApiException {
+    public void archiveQuerySpansTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String environmentId = null;
@@ -82,7 +82,7 @@ public class ArchiveApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ArchiveQueryResponse response = 
-        api.archiveQueryArchiveSpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

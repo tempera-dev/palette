@@ -48,7 +48,7 @@ public class ScenariosApiTest {
      *          if the Api call fails
      */
     @Test
-    public void scenariosCreateScenarioTest() throws ApiException {
+    public void scenariosCreateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         CreateScenarioRequest createScenarioRequest = null;
@@ -57,7 +57,7 @@ public class ScenariosApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         Scenario response = 
-        api.scenariosCreateScenario(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.scenariosCreate(tenantId, projectId, createScenarioRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -71,7 +71,7 @@ public class ScenariosApiTest {
      *          if the Api call fails
      */
     @Test
-    public void scenariosGetScenarioTest() throws ApiException {
+    public void scenariosGetTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String scenarioId = null;
@@ -80,7 +80,7 @@ public class ScenariosApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         Scenario response = 
-        api.scenariosGetScenario(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.scenariosGet(tenantId, projectId, scenarioId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -94,7 +94,7 @@ public class ScenariosApiTest {
      *          if the Api call fails
      */
     @Test
-    public void scenariosListScenariosTest() throws ApiException {
+    public void scenariosListTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         Integer limit = null;
@@ -104,7 +104,7 @@ public class ScenariosApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ListScenariosResponse response = 
-        api.scenariosListScenarios(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.scenariosList(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -118,7 +118,7 @@ public class ScenariosApiTest {
      *          if the Api call fails
      */
     @Test
-    public void scenariosMineScenariosTest() throws ApiException {
+    public void scenariosMineTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         MineScenariosRequest mineScenariosRequest = null;
@@ -127,7 +127,7 @@ public class ScenariosApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         MineScenariosResponse response = 
-        api.scenariosMineScenarios(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.scenariosMine(tenantId, projectId, mineScenariosRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

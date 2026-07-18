@@ -8,16 +8,16 @@ All URIs are relative to *http://localhost*
 | [**ingestDrainTraceIngestedWithHttpInfo**](IngestApi.md#ingestDrainTraceIngestedWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |  |
 | [**ingestDrainTraceWrites**](IngestApi.md#ingestDrainTraceWrites) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |  |
 | [**ingestDrainTraceWritesWithHttpInfo**](IngestApi.md#ingestDrainTraceWritesWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |  |
-| [**ingestGetIngestQueueStatus**](IngestApi.md#ingestGetIngestQueueStatus) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |  |
-| [**ingestGetIngestQueueStatusWithHttpInfo**](IngestApi.md#ingestGetIngestQueueStatusWithHttpInfo) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |  |
+| [**ingestGetQueueStatus**](IngestApi.md#ingestGetQueueStatus) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |  |
+| [**ingestGetQueueStatusWithHttpInfo**](IngestApi.md#ingestGetQueueStatusWithHttpInfo) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |  |
 | [**ingestImportSource**](IngestApi.md#ingestImportSource) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |  |
 | [**ingestImportSourceWithHttpInfo**](IngestApi.md#ingestImportSourceWithHttpInfo) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |  |
-| [**ingestIngestNative**](IngestApi.md#ingestIngestNative) | **POST** /v1/traces/native |  |
-| [**ingestIngestNativeWithHttpInfo**](IngestApi.md#ingestIngestNativeWithHttpInfo) | **POST** /v1/traces/native |  |
-| [**ingestIngestOtlp**](IngestApi.md#ingestIngestOtlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |  |
-| [**ingestIngestOtlpWithHttpInfo**](IngestApi.md#ingestIngestOtlpWithHttpInfo) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |  |
-| [**ingestIngestOtlpJsonCollector**](IngestApi.md#ingestIngestOtlpJsonCollector) | **POST** /v1/traces |  |
-| [**ingestIngestOtlpJsonCollectorWithHttpInfo**](IngestApi.md#ingestIngestOtlpJsonCollectorWithHttpInfo) | **POST** /v1/traces |  |
+| [**ingestNative**](IngestApi.md#ingestNative) | **POST** /v1/traces/native |  |
+| [**ingestNativeWithHttpInfo**](IngestApi.md#ingestNativeWithHttpInfo) | **POST** /v1/traces/native |  |
+| [**ingestOtlp**](IngestApi.md#ingestOtlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |  |
+| [**ingestOtlpWithHttpInfo**](IngestApi.md#ingestOtlpWithHttpInfo) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |  |
+| [**ingestOtlpJsonCollector**](IngestApi.md#ingestOtlpJsonCollector) | **POST** /v1/traces |  |
+| [**ingestOtlpJsonCollectorWithHttpInfo**](IngestApi.md#ingestOtlpJsonCollectorWithHttpInfo) | **POST** /v1/traces |  |
 | [**ingestReconcileTrace**](IngestApi.md#ingestReconcileTrace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |  |
 | [**ingestReconcileTraceWithHttpInfo**](IngestApi.md#ingestReconcileTraceWithHttpInfo) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |  |
 | [**ingestReplayDeadLetter**](IngestApi.md#ingestReplayDeadLetter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |  |
@@ -349,9 +349,9 @@ No authorization required
 | **422** | Drained with dead-letters |  -  |
 
 
-## ingestGetIngestQueueStatus
+## ingestGetQueueStatus
 
-> IngestQueueStatus ingestGetIngestQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> IngestQueueStatus ingestGetQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -378,10 +378,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            IngestQueueStatus result = apiInstance.ingestGetIngestQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            IngestQueueStatus result = apiInstance.ingestGetQueueStatus(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestGetIngestQueueStatus");
+            System.err.println("Exception when calling IngestApi#ingestGetQueueStatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -425,9 +425,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## ingestGetIngestQueueStatusWithHttpInfo
+## ingestGetQueueStatusWithHttpInfo
 
-> ApiResponse<IngestQueueStatus> ingestGetIngestQueueStatus ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<IngestQueueStatus> ingestGetQueueStatus ingestGetQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -455,12 +455,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<IngestQueueStatus> response = apiInstance.ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<IngestQueueStatus> response = apiInstance.ingestGetQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestGetIngestQueueStatus");
+            System.err.println("Exception when calling IngestApi#ingestGetQueueStatus");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -669,9 +669,9 @@ No authorization required
 | **429** | Per-project quota exceeded or backpressure |  -  |
 
 
-## ingestIngestNative
+## ingestNative
 
-> IngestOutcome ingestIngestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> IngestOutcome ingestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -698,10 +698,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            IngestOutcome result = apiInstance.ingestIngestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            IngestOutcome result = apiInstance.ingestNative(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestIngestNative");
+            System.err.println("Exception when calling IngestApi#ingestNative");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -747,9 +747,9 @@ No authorization required
 | **413** | Payload or attribute cardinality too large |  -  |
 | **429** | Per-project quota exceeded or backpressure |  -  |
 
-## ingestIngestNativeWithHttpInfo
+## ingestNativeWithHttpInfo
 
-> ApiResponse<IngestOutcome> ingestIngestNative ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<IngestOutcome> ingestNative ingestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -777,12 +777,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<IngestOutcome> response = apiInstance.ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<IngestOutcome> response = apiInstance.ingestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestIngestNative");
+            System.err.println("Exception when calling IngestApi#ingestNative");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -829,9 +829,9 @@ No authorization required
 | **429** | Per-project quota exceeded or backpressure |  -  |
 
 
-## ingestIngestOtlp
+## ingestOtlp
 
-> OtlpIngestOutcome ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> OtlpIngestOutcome ingestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -860,10 +860,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            OtlpIngestOutcome result = apiInstance.ingestIngestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            OtlpIngestOutcome result = apiInstance.ingestOtlp(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestIngestOtlp");
+            System.err.println("Exception when calling IngestApi#ingestOtlp");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -911,9 +911,9 @@ No authorization required
 | **413** | Payload or attribute cardinality too large |  -  |
 | **429** | Per-project quota exceeded or backpressure |  -  |
 
-## ingestIngestOtlpWithHttpInfo
+## ingestOtlpWithHttpInfo
 
-> ApiResponse<OtlpIngestOutcome> ingestIngestOtlp ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<OtlpIngestOutcome> ingestOtlp ingestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -943,12 +943,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestIngestOtlp");
+            System.err.println("Exception when calling IngestApi#ingestOtlp");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -997,9 +997,9 @@ No authorization required
 | **429** | Per-project quota exceeded or backpressure |  -  |
 
 
-## ingestIngestOtlpJsonCollector
+## ingestOtlpJsonCollector
 
-> OtlpIngestOutcome ingestIngestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId)
+> OtlpIngestOutcome ingestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1026,10 +1026,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Project scope override for collector-style OTLP JSON
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Environment scope override for collector-style OTLP JSON
         try {
-            OtlpIngestOutcome result = apiInstance.ingestIngestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
+            OtlpIngestOutcome result = apiInstance.ingestOtlpJsonCollector(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestIngestOtlpJsonCollector");
+            System.err.println("Exception when calling IngestApi#ingestOtlpJsonCollector");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -1075,9 +1075,9 @@ No authorization required
 | **413** | Payload or attribute cardinality too large |  -  |
 | **429** | Per-project quota exceeded or backpressure |  -  |
 
-## ingestIngestOtlpJsonCollectorWithHttpInfo
+## ingestOtlpJsonCollectorWithHttpInfo
 
-> ApiResponse<OtlpIngestOutcome> ingestIngestOtlpJsonCollector ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<OtlpIngestOutcome> ingestOtlpJsonCollector ingestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -1105,12 +1105,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Project scope override for collector-style OTLP JSON
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Environment scope override for collector-style OTLP JSON
         try {
-            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<OtlpIngestOutcome> response = apiInstance.ingestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling IngestApi#ingestIngestOtlpJsonCollector");
+            System.err.println("Exception when calling IngestApi#ingestOtlpJsonCollector");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

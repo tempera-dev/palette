@@ -12,10 +12,10 @@
 
 
 api_key_created_response_t*
-ApiKeysAPI_apiKeysCreateApiKey(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 revoked_api_key_t*
-ApiKeysAPI_apiKeysRevokeApiKey(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *api_key_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *api_key_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 

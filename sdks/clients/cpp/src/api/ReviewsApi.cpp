@@ -35,13 +35,13 @@ ReviewsApi::~ReviewsApi()
 {
 }
 
-pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateReviewQueueHttpRequest> createReviewQueueHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createQueue(utility::string_t tenantId, utility::string_t projectId, std::shared_ptr<CreateReviewQueueHttpRequest> createReviewQueueHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'createReviewQueueHttpRequest' is set
     if (createReviewQueueHttpRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createReviewQueueHttpRequest' when calling ReviewsApi->reviews_createReviewQueue"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createReviewQueueHttpRequest' when calling ReviewsApi->reviews_createQueue"));
     }
 
 
@@ -77,7 +77,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_createReviewQueue does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_createQueue does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -137,7 +137,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_createReviewQueue does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_createQueue does not consume any supported media type"));
     }
 
 
@@ -157,7 +157,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling reviews_createReviewQueue: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling reviews_createQueue: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -168,7 +168,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling reviews_createReviewQueue: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling reviews_createQueue: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -192,19 +192,19 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createReviewQueue(u
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling reviews_createReviewQueue: unsupported response type"));
+                , utility::conversions::to_string_t("error calling reviews_createQueue: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFromTrace(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, std::shared_ptr<EnqueueReviewTaskFromTraceHttpRequest> enqueueReviewTaskFromTraceHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueTaskFromTrace(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, std::shared_ptr<EnqueueReviewTaskFromTraceHttpRequest> enqueueReviewTaskFromTraceHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'enqueueReviewTaskFromTraceHttpRequest' is set
     if (enqueueReviewTaskFromTraceHttpRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'enqueueReviewTaskFromTraceHttpRequest' when calling ReviewsApi->reviews_enqueueReviewTaskFromTrace"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'enqueueReviewTaskFromTraceHttpRequest' when calling ReviewsApi->reviews_enqueueTaskFromTrace"));
     }
 
 
@@ -241,7 +241,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_enqueueReviewTaskFromTrace does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_enqueueTaskFromTrace does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -301,7 +301,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_enqueueReviewTaskFromTrace does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_enqueueTaskFromTrace does not consume any supported media type"));
     }
 
 
@@ -321,7 +321,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling reviews_enqueueReviewTaskFromTrace: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling reviews_enqueueTaskFromTrace: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -332,7 +332,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling reviews_enqueueReviewTaskFromTrace: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling reviews_enqueueTaskFromTrace: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -356,13 +356,13 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueReviewTaskFro
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling reviews_enqueueReviewTaskFromTrace: unsupported response type"));
+                , utility::conversions::to_string_t("error calling reviews_enqueueTaskFromTrace: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listReviewTasks(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, boost::optional<std::shared_ptr<ReviewTaskState>> state, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listTasks(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, boost::optional<std::shared_ptr<ReviewTaskState>> state, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -399,7 +399,7 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_listReviewTasks does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_listTasks does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -446,7 +446,7 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_listReviewTasks does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_listTasks does not consume any supported media type"));
     }
 
 
@@ -466,7 +466,7 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling reviews_listReviewTasks: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling reviews_listTasks: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -477,7 +477,7 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling reviews_listReviewTasks: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling reviews_listTasks: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -505,19 +505,19 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listRev
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling reviews_listReviewTasks: unsupported response type"));
+                , utility::conversions::to_string_t("error calling reviews_listTasks: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, utility::string_t annotationId, std::shared_ptr<PromoteReviewAnnotationHttpRequest> promoteReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, utility::string_t annotationId, std::shared_ptr<PromoteReviewAnnotationHttpRequest> promoteReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'promoteReviewAnnotationHttpRequest' is set
     if (promoteReviewAnnotationHttpRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'promoteReviewAnnotationHttpRequest' when calling ReviewsApi->reviews_promoteReviewAnnotation"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'promoteReviewAnnotationHttpRequest' when calling ReviewsApi->reviews_promoteAnnotation"));
     }
 
 
@@ -556,7 +556,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_promoteReviewAnnotation does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_promoteAnnotation does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -616,7 +616,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_promoteReviewAnnotation does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_promoteAnnotation does not consume any supported media type"));
     }
 
 
@@ -636,7 +636,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling reviews_promoteReviewAnnotation: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling reviews_promoteAnnotation: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -647,7 +647,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling reviews_promoteReviewAnnotation: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling reviews_promoteAnnotation: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -671,19 +671,19 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteReviewAnnota
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling reviews_promoteReviewAnnotation: unsupported response type"));
+                , utility::conversions::to_string_t("error calling reviews_promoteAnnotation: unsupported response type"));
         }
 
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, std::shared_ptr<SubmitReviewAnnotationHttpRequest> submitReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitAnnotation(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, utility::string_t taskId, std::shared_ptr<SubmitReviewAnnotationHttpRequest> submitReviewAnnotationHttpRequest, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
     // verify the required parameter 'submitReviewAnnotationHttpRequest' is set
     if (submitReviewAnnotationHttpRequest == nullptr)
     {
-        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'submitReviewAnnotationHttpRequest' when calling ReviewsApi->reviews_submitReviewAnnotation"));
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'submitReviewAnnotationHttpRequest' when calling ReviewsApi->reviews_submitAnnotation"));
     }
 
 
@@ -721,7 +721,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAn
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_submitReviewAnnotation does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("ReviewsApi->reviews_submitAnnotation does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
@@ -781,7 +781,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAn
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_submitReviewAnnotation does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("ReviewsApi->reviews_submitAnnotation does not consume any supported media type"));
     }
 
 
@@ -801,7 +801,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAn
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling reviews_submitReviewAnnotation: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling reviews_submitAnnotation: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -812,7 +812,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAn
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling reviews_submitReviewAnnotation: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling reviews_submitAnnotation: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -836,7 +836,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitReviewAn
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling reviews_submitReviewAnnotation: unsupported response type"));
+                , utility::conversions::to_string_t("error calling reviews_submitAnnotation: unsupported response type"));
         }
 
         return localVarResult;

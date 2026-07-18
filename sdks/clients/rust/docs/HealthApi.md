@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**health_period_health**](HealthApi.md#health_period_health) | **GET** /health |
+[**health_period_check**](HealthApi.md#health_period_check) | **GET** /health |
 
 
 
-## health_period_health
+## health_period_check
 
-> models::HealthResponse health_period_health()
+> models::HealthResponse health_period_check()
 
 
 ### Parameters

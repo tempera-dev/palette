@@ -50,9 +50,9 @@ pub struct IngestPeriodDrainTraceWritesParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`ingest_period_get_ingest_queue_status`]
+/// struct for passing parameters to the method [`ingest_period_get_queue_status`]
 #[derive(Clone, Debug)]
-pub struct IngestPeriodGetIngestQueueStatusParams {
+pub struct IngestPeriodGetQueueStatusParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -84,9 +84,9 @@ pub struct IngestPeriodImportSourceParams {
     pub x_palette_api_key: Option<String>
 }
 
-/// struct for passing parameters to the method [`ingest_period_ingest_native`]
+/// struct for passing parameters to the method [`ingest_period_native`]
 #[derive(Clone, Debug)]
-pub struct IngestPeriodIngestNativeParams {
+pub struct IngestPeriodNativeParams {
     pub native_ingest_request: models::NativeIngestRequest,
     pub durability: Option<String>,
     /// Bearer API token for strict auth
@@ -99,9 +99,9 @@ pub struct IngestPeriodIngestNativeParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`ingest_period_ingest_otlp`]
+/// struct for passing parameters to the method [`ingest_period_otlp`]
 #[derive(Clone, Debug)]
-pub struct IngestPeriodIngestOtlpParams {
+pub struct IngestPeriodOtlpParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -119,9 +119,9 @@ pub struct IngestPeriodIngestOtlpParams {
     pub x_palette_environment_id: Option<String>
 }
 
-/// struct for passing parameters to the method [`ingest_period_ingest_otlp_json_collector`]
+/// struct for passing parameters to the method [`ingest_period_otlp_json_collector`]
 #[derive(Clone, Debug)]
-pub struct IngestPeriodIngestOtlpJsonCollectorParams {
+pub struct IngestPeriodOtlpJsonCollectorParams {
     pub durability: Option<String>,
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
@@ -197,10 +197,10 @@ pub enum IngestPeriodDrainTraceWritesError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`ingest_period_get_ingest_queue_status`]
+/// struct for typed errors of method [`ingest_period_get_queue_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum IngestPeriodGetIngestQueueStatusError {
+pub enum IngestPeriodGetQueueStatusError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -219,10 +219,10 @@ pub enum IngestPeriodImportSourceError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`ingest_period_ingest_native`]
+/// struct for typed errors of method [`ingest_period_native`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum IngestPeriodIngestNativeError {
+pub enum IngestPeriodNativeError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -231,10 +231,10 @@ pub enum IngestPeriodIngestNativeError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`ingest_period_ingest_otlp`]
+/// struct for typed errors of method [`ingest_period_otlp`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum IngestPeriodIngestOtlpError {
+pub enum IngestPeriodOtlpError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -243,10 +243,10 @@ pub enum IngestPeriodIngestOtlpError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`ingest_period_ingest_otlp_json_collector`]
+/// struct for typed errors of method [`ingest_period_otlp_json_collector`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum IngestPeriodIngestOtlpJsonCollectorError {
+pub enum IngestPeriodOtlpJsonCollectorError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -356,7 +356,7 @@ pub async fn ingest_period_drain_trace_writes(configuration: &configuration::Con
     }
 }
 
-pub async fn ingest_period_get_ingest_queue_status(configuration: &configuration::Configuration, params: IngestPeriodGetIngestQueueStatusParams) -> Result<models::IngestQueueStatus, Error<IngestPeriodGetIngestQueueStatusError>> {
+pub async fn ingest_period_get_queue_status(configuration: &configuration::Configuration, params: IngestPeriodGetQueueStatusParams) -> Result<models::IngestQueueStatus, Error<IngestPeriodGetQueueStatusError>> {
 
     let uri_str = format!("{}/v1/ingest/{tenant_id}/{project_id}/queue", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -387,7 +387,7 @@ pub async fn ingest_period_get_ingest_queue_status(configuration: &configuration
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<IngestPeriodGetIngestQueueStatusError> = serde_json::from_str(&content).ok();
+        let entity: Option<IngestPeriodGetQueueStatusError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -426,7 +426,7 @@ pub async fn ingest_period_import_source(configuration: &configuration::Configur
     }
 }
 
-pub async fn ingest_period_ingest_native(configuration: &configuration::Configuration, params: IngestPeriodIngestNativeParams) -> Result<models::IngestOutcome, Error<IngestPeriodIngestNativeError>> {
+pub async fn ingest_period_native(configuration: &configuration::Configuration, params: IngestPeriodNativeParams) -> Result<models::IngestOutcome, Error<IngestPeriodNativeError>> {
 
     let uri_str = format!("{}/v1/traces/native", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -461,12 +461,12 @@ pub async fn ingest_period_ingest_native(configuration: &configuration::Configur
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<IngestPeriodIngestNativeError> = serde_json::from_str(&content).ok();
+        let entity: Option<IngestPeriodNativeError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn ingest_period_ingest_otlp(configuration: &configuration::Configuration, params: IngestPeriodIngestOtlpParams) -> Result<models::OtlpIngestOutcome, Error<IngestPeriodIngestOtlpError>> {
+pub async fn ingest_period_otlp(configuration: &configuration::Configuration, params: IngestPeriodOtlpParams) -> Result<models::OtlpIngestOutcome, Error<IngestPeriodOtlpError>> {
 
     let uri_str = format!("{}/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), environment_id=crate::apis::urlencode(params.environment_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -500,12 +500,12 @@ pub async fn ingest_period_ingest_otlp(configuration: &configuration::Configurat
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<IngestPeriodIngestOtlpError> = serde_json::from_str(&content).ok();
+        let entity: Option<IngestPeriodOtlpError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn ingest_period_ingest_otlp_json_collector(configuration: &configuration::Configuration, params: IngestPeriodIngestOtlpJsonCollectorParams) -> Result<models::OtlpIngestOutcome, Error<IngestPeriodIngestOtlpJsonCollectorError>> {
+pub async fn ingest_period_otlp_json_collector(configuration: &configuration::Configuration, params: IngestPeriodOtlpJsonCollectorParams) -> Result<models::OtlpIngestOutcome, Error<IngestPeriodOtlpJsonCollectorError>> {
 
     let uri_str = format!("{}/v1/traces", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -542,7 +542,7 @@ pub async fn ingest_period_ingest_otlp_json_collector(configuration: &configurat
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<IngestPeriodIngestOtlpJsonCollectorError> = serde_json::from_str(&content).ok();
+        let entity: Option<IngestPeriodOtlpJsonCollectorError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

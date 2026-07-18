@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**evals_run_deterministic_eval**](EvalsApi.md#evals_run_deterministic_eval) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
-[**evals_run_judge_eval**](EvalsApi.md#evals_run_judge_eval) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
+[**evals_run_deterministic**](EvalsApi.md#evals_run_deterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
+[**evals_run_judge**](EvalsApi.md#evals_run_judge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
 
 
-# **evals_run_deterministic_eval**
-> DatasetEvalReport evals_run_deterministic_eval(tenant_id, project_id, dataset_id, version_id, run_deterministic_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **evals_run_deterministic**
+> DatasetEvalReport evals_run_deterministic(tenant_id, project_id, dataset_id, version_id, run_deterministic_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -45,11 +45,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.evals_run_deterministic_eval(tenant_id, project_id, dataset_id, version_id, run_deterministic_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of EvalsApi->evals_run_deterministic_eval:\n")
+        api_response = api_instance.evals_run_deterministic(tenant_id, project_id, dataset_id, version_id, run_deterministic_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of EvalsApi->evals_run_deterministic:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling EvalsApi->evals_run_deterministic_eval: %s\n" % e)
+        print("Exception when calling EvalsApi->evals_run_deterministic: %s\n" % e)
 ```
 
 
@@ -94,8 +94,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **evals_run_judge_eval**
-> DatasetEvalReport evals_run_judge_eval(tenant_id, project_id, dataset_id, version_id, run_judge_dataset_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **evals_run_judge**
+> DatasetEvalReport evals_run_judge(tenant_id, project_id, dataset_id, version_id, run_judge_dataset_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -131,11 +131,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.evals_run_judge_eval(tenant_id, project_id, dataset_id, version_id, run_judge_dataset_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of EvalsApi->evals_run_judge_eval:\n")
+        api_response = api_instance.evals_run_judge(tenant_id, project_id, dataset_id, version_id, run_judge_dataset_eval_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of EvalsApi->evals_run_judge:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling EvalsApi->evals_run_judge_eval: %s\n" % e)
+        print("Exception when calling EvalsApi->evals_run_judge: %s\n" % e)
 ```
 
 

@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**gates_create_gate**](GatesApi.md#gates_create_gate) | **POST** /v1/gates/{tenant_id}/{project_id} |
-[**gates_run_gate**](GatesApi.md#gates_run_gate) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
+[**gates_create**](GatesApi.md#gates_create) | **POST** /v1/gates/{tenant_id}/{project_id} |
+[**gates_run**](GatesApi.md#gates_run) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
 
 
-# **gates_create_gate**
-> GateDefinition gates_create_gate(tenant_id, project_id, create_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **gates_create**
+> GateDefinition gates_create(tenant_id, project_id, create_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -43,11 +43,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.gates_create_gate(tenant_id, project_id, create_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of GatesApi->gates_create_gate:\n")
+        api_response = api_instance.gates_create(tenant_id, project_id, create_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of GatesApi->gates_create:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling GatesApi->gates_create_gate: %s\n" % e)
+        print("Exception when calling GatesApi->gates_create: %s\n" % e)
 ```
 
 
@@ -89,8 +89,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **gates_run_gate**
-> GateRunReport gates_run_gate(tenant_id, project_id, gate_id, run_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **gates_run**
+> GateRunReport gates_run(tenant_id, project_id, gate_id, run_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -125,11 +125,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.gates_run_gate(tenant_id, project_id, gate_id, run_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of GatesApi->gates_run_gate:\n")
+        api_response = api_instance.gates_run(tenant_id, project_id, gate_id, run_gate_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of GatesApi->gates_run:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling GatesApi->gates_run_gate: %s\n" % e)
+        print("Exception when calling GatesApi->gates_run: %s\n" % e)
 ```
 
 

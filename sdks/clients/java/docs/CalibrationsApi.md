@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**calibrationsRunCalibration**](CalibrationsApi.md#calibrationsRunCalibration) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |  |
-| [**calibrationsRunCalibrationWithHttpInfo**](CalibrationsApi.md#calibrationsRunCalibrationWithHttpInfo) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |  |
+| [**calibrationsRun**](CalibrationsApi.md#calibrationsRun) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |  |
+| [**calibrationsRunWithHttpInfo**](CalibrationsApi.md#calibrationsRunWithHttpInfo) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |  |
 
 
 
-## calibrationsRunCalibration
+## calibrationsRun
 
-> CalibrationReport calibrationsRunCalibration(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> CalibrationReport calibrationsRun(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -41,10 +41,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            CalibrationReport result = apiInstance.calibrationsRunCalibration(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            CalibrationReport result = apiInstance.calibrationsRun(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling CalibrationsApi#calibrationsRunCalibration");
+            System.err.println("Exception when calling CalibrationsApi#calibrationsRun");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -92,9 +92,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## calibrationsRunCalibrationWithHttpInfo
+## calibrationsRunWithHttpInfo
 
-> ApiResponse<CalibrationReport> calibrationsRunCalibration calibrationsRunCalibrationWithHttpInfo(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<CalibrationReport> calibrationsRun calibrationsRunWithHttpInfo(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -125,12 +125,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<CalibrationReport> response = apiInstance.calibrationsRunCalibrationWithHttpInfo(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<CalibrationReport> response = apiInstance.calibrationsRunWithHttpInfo(tenantId, projectId, datasetId, versionId, runCalibrationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling CalibrationsApi#calibrationsRunCalibration");
+            System.err.println("Exception when calling CalibrationsApi#calibrationsRun");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

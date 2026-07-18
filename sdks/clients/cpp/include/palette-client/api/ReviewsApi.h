@@ -66,7 +66,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ReviewQueue>> reviews_createReviewQueue(
+    pplx::task<std::shared_ptr<ReviewQueue>> reviews_createQueue(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<CreateReviewQueueHttpRequest> createReviewQueueHttpRequest,
@@ -89,7 +89,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ReviewTask>> reviews_enqueueReviewTaskFromTrace(
+    pplx::task<std::shared_ptr<ReviewTask>> reviews_enqueueTaskFromTrace(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t queueId,
@@ -113,7 +113,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<ReviewTask>>> reviews_listReviewTasks(
+    pplx::task<std::vector<std::shared_ptr<ReviewTask>>> reviews_listTasks(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t queueId,
@@ -139,7 +139,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<DatasetCase>> reviews_promoteReviewAnnotation(
+    pplx::task<std::shared_ptr<DatasetCase>> reviews_promoteAnnotation(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t queueId,
@@ -166,7 +166,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<ReviewAnnotation>> reviews_submitReviewAnnotation(
+    pplx::task<std::shared_ptr<ReviewAnnotation>> reviews_submitAnnotation(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t queueId,

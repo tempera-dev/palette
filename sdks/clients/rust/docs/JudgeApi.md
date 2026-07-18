@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**judge_period_evaluate_judge**](JudgeApi.md#judge_period_evaluate_judge) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |
-[**judge_period_list_judge_ledger**](JudgeApi.md#judge_period_list_judge_ledger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |
+[**judge_period_evaluate**](JudgeApi.md#judge_period_evaluate) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |
+[**judge_period_list_ledger**](JudgeApi.md#judge_period_list_ledger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |
 
 
 
-## judge_period_evaluate_judge
+## judge_period_evaluate
 
-> models::JudgeBrokerOutcome judge_period_evaluate_judge(tenant_id, project_id, run_judge_eval_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::JudgeBrokerOutcome judge_period_evaluate(tenant_id, project_id, run_judge_eval_http_request, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -43,9 +43,9 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## judge_period_list_judge_ledger
+## judge_period_list_ledger
 
-> Vec<models::JudgeAuditRecord> judge_period_list_judge_ledger(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> Vec<models::JudgeAuditRecord> judge_period_list_ledger(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

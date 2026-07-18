@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**audit_period_list_audit_events**](AuditApi.md#audit_period_list_audit_events) | **GET** /v1/audit/{tenant_id}/{project_id} |
+[**audit_period_list**](AuditApi.md#audit_period_list) | **GET** /v1/audit/{tenant_id}/{project_id} |
 
 
 
-## audit_period_list_audit_events
+## audit_period_list
 
-> Vec<models::AuditEvent> audit_period_list_audit_events(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> Vec<models::AuditEvent> audit_period_list(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

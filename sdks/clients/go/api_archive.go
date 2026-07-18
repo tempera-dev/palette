@@ -215,7 +215,7 @@ func (a *ArchiveAPIService) ArchiveArchiveTraceExecute(r ApiArchiveArchiveTraceR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiArchiveQueryArchiveSpansRequest struct {
+type ApiArchiveQuerySpansRequest struct {
 	ctx context.Context
 	ApiService *ArchiveAPIService
 	tenantId string
@@ -232,74 +232,74 @@ type ApiArchiveQueryArchiveSpansRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) EnvironmentId(environmentId string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) EnvironmentId(environmentId string) ApiArchiveQuerySpansRequest {
 	r.environmentId = &environmentId
 	return r
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) TraceId(traceId string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) TraceId(traceId string) ApiArchiveQuerySpansRequest {
 	r.traceId = &traceId
 	return r
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) SpanId(spanId string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) SpanId(spanId string) ApiArchiveQuerySpansRequest {
 	r.spanId = &spanId
 	return r
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) Kind(kind string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) Kind(kind string) ApiArchiveQuerySpansRequest {
 	r.kind = &kind
 	return r
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) Status(status string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) Status(status string) ApiArchiveQuerySpansRequest {
 	r.status = &status
 	return r
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) Limit(limit int32) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) Limit(limit int32) ApiArchiveQuerySpansRequest {
 	r.limit = &limit
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiArchiveQueryArchiveSpansRequest) Authorization(authorization string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) Authorization(authorization string) ApiArchiveQuerySpansRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiArchiveQueryArchiveSpansRequest) XPaletteApiKey(xPaletteApiKey string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) XPaletteApiKey(xPaletteApiKey string) ApiArchiveQuerySpansRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiArchiveQueryArchiveSpansRequest) XPaletteProjectId(xPaletteProjectId string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) XPaletteProjectId(xPaletteProjectId string) ApiArchiveQuerySpansRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiArchiveQueryArchiveSpansRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiArchiveQueryArchiveSpansRequest {
+func (r ApiArchiveQuerySpansRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiArchiveQuerySpansRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiArchiveQueryArchiveSpansRequest) Execute() (*ArchiveQueryResponse, *http.Response, error) {
-	return r.ApiService.ArchiveQueryArchiveSpansExecute(r)
+func (r ApiArchiveQuerySpansRequest) Execute() (*ArchiveQueryResponse, *http.Response, error) {
+	return r.ApiService.ArchiveQuerySpansExecute(r)
 }
 
 /*
-ArchiveQueryArchiveSpans Method for ArchiveQueryArchiveSpans
+ArchiveQuerySpans Method for ArchiveQuerySpans
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiArchiveQueryArchiveSpansRequest
+ @return ApiArchiveQuerySpansRequest
 */
-func (a *ArchiveAPIService) ArchiveQueryArchiveSpans(ctx context.Context, tenantId string, projectId string) ApiArchiveQueryArchiveSpansRequest {
-	return ApiArchiveQueryArchiveSpansRequest{
+func (a *ArchiveAPIService) ArchiveQuerySpans(ctx context.Context, tenantId string, projectId string) ApiArchiveQuerySpansRequest {
+	return ApiArchiveQuerySpansRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -309,7 +309,7 @@ func (a *ArchiveAPIService) ArchiveQueryArchiveSpans(ctx context.Context, tenant
 
 // Execute executes the request
 //  @return ArchiveQueryResponse
-func (a *ArchiveAPIService) ArchiveQueryArchiveSpansExecute(r ApiArchiveQueryArchiveSpansRequest) (*ArchiveQueryResponse, *http.Response, error) {
+func (a *ArchiveAPIService) ArchiveQuerySpansExecute(r ApiArchiveQuerySpansRequest) (*ArchiveQueryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -317,7 +317,7 @@ func (a *ArchiveAPIService) ArchiveQueryArchiveSpansExecute(r ApiArchiveQueryArc
 		localVarReturnValue  *ArchiveQueryResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ArchiveAPIService.ArchiveQueryArchiveSpans")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ArchiveAPIService.ArchiveQuerySpans")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

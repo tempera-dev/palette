@@ -40,7 +40,7 @@ class AuditApi:
 
 
     @validate_call
-    def audit_list_audit_events(
+    def audit_list(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -61,7 +61,7 @@ class AuditApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[AuditEvent]:
-        """audit_list_audit_events
+        """audit_list
 
 
         :param tenant_id: tenant_id (required)
@@ -98,7 +98,7 @@ class AuditApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._audit_list_audit_events_serialize(
+        _param = self._audit_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -129,7 +129,7 @@ class AuditApi:
 
 
     @validate_call
-    def audit_list_audit_events_with_http_info(
+    def audit_list_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -150,7 +150,7 @@ class AuditApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[AuditEvent]]:
-        """audit_list_audit_events
+        """audit_list
 
 
         :param tenant_id: tenant_id (required)
@@ -187,7 +187,7 @@ class AuditApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._audit_list_audit_events_serialize(
+        _param = self._audit_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -218,7 +218,7 @@ class AuditApi:
 
 
     @validate_call
-    def audit_list_audit_events_without_preload_content(
+    def audit_list_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -239,7 +239,7 @@ class AuditApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """audit_list_audit_events
+        """audit_list
 
 
         :param tenant_id: tenant_id (required)
@@ -276,7 +276,7 @@ class AuditApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._audit_list_audit_events_serialize(
+        _param = self._audit_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -302,7 +302,7 @@ class AuditApi:
         return response_data.response
 
 
-    def _audit_list_audit_events_serialize(
+    def _audit_list_serialize(
         self,
         tenant_id,
         project_id,

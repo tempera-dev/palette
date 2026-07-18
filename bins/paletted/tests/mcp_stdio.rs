@@ -78,7 +78,7 @@ fn paletted_mcp_stdio_calls_help_tool() -> anyhow::Result<()> {
         "method": "tools/call",
         "params": {
             "name": "help",
-            "arguments": { "tool": "traces.list-traces" }
+            "arguments": { "tool": "traces.list" }
         }
     }))?;
 
@@ -94,16 +94,16 @@ fn paletted_mcp_stdio_calls_help_tool() -> anyhow::Result<()> {
     );
 
     let tool = &result["structuredContent"]["tool"];
-    assert_eq!(tool["name"], "traces.list-traces");
+    assert_eq!(tool["name"], "traces.list");
     assert_eq!(tool["method"], "GET");
     assert_eq!(tool["path"], "/v1/traces/{tenant_id}");
     assert!(
         tool["inputSchema"].is_object(),
-        "help should describe traces.list-traces input schema: {rpc}"
+        "help should describe traces.list input schema: {rpc}"
     );
     assert!(
         tool["outputSchema"].is_object(),
-        "help should describe traces.list-traces output schema: {rpc}"
+        "help should describe traces.list output schema: {rpc}"
     );
 
     Ok(())

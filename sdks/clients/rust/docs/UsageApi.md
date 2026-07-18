@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**usage_period_get_usage_summary**](UsageApi.md#usage_period_get_usage_summary) | **GET** /v1/usage/{tenant_id}/{project_id} |
+[**usage_period_get_summary**](UsageApi.md#usage_period_get_summary) | **GET** /v1/usage/{tenant_id}/{project_id} |
 
 
 
-## usage_period_get_usage_summary
+## usage_period_get_summary
 
-> models::UsageSummary usage_period_get_usage_summary(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::UsageSummary usage_period_get_summary(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters

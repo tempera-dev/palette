@@ -770,7 +770,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_get_ingest_queue_status(
+    def ingest_get_queue_status(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -791,7 +791,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> IngestQueueStatus:
-        """ingest_get_ingest_queue_status
+        """ingest_get_queue_status
 
 
         :param tenant_id: tenant_id (required)
@@ -828,7 +828,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_get_ingest_queue_status_serialize(
+        _param = self._ingest_get_queue_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -859,7 +859,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_get_ingest_queue_status_with_http_info(
+    def ingest_get_queue_status_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -880,7 +880,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[IngestQueueStatus]:
-        """ingest_get_ingest_queue_status
+        """ingest_get_queue_status
 
 
         :param tenant_id: tenant_id (required)
@@ -917,7 +917,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_get_ingest_queue_status_serialize(
+        _param = self._ingest_get_queue_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -948,7 +948,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_get_ingest_queue_status_without_preload_content(
+    def ingest_get_queue_status_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -969,7 +969,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ingest_get_ingest_queue_status
+        """ingest_get_queue_status
 
 
         :param tenant_id: tenant_id (required)
@@ -1006,7 +1006,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_get_ingest_queue_status_serialize(
+        _param = self._ingest_get_queue_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             authorization=authorization,
@@ -1032,7 +1032,7 @@ class IngestApi:
         return response_data.response
 
 
-    def _ingest_get_ingest_queue_status_serialize(
+    def _ingest_get_queue_status_serialize(
         self,
         tenant_id,
         project_id,
@@ -1488,7 +1488,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_native(
+    def ingest_native(
         self,
         native_ingest_request: NativeIngestRequest,
         durability: Optional[StrictStr] = None,
@@ -1509,7 +1509,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> IngestOutcome:
-        """ingest_ingest_native
+        """ingest_native
 
 
         :param native_ingest_request: (required)
@@ -1546,7 +1546,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_native_serialize(
+        _param = self._ingest_native_serialize(
             native_ingest_request=native_ingest_request,
             durability=durability,
             authorization=authorization,
@@ -1579,7 +1579,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_native_with_http_info(
+    def ingest_native_with_http_info(
         self,
         native_ingest_request: NativeIngestRequest,
         durability: Optional[StrictStr] = None,
@@ -1600,7 +1600,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[IngestOutcome]:
-        """ingest_ingest_native
+        """ingest_native
 
 
         :param native_ingest_request: (required)
@@ -1637,7 +1637,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_native_serialize(
+        _param = self._ingest_native_serialize(
             native_ingest_request=native_ingest_request,
             durability=durability,
             authorization=authorization,
@@ -1670,7 +1670,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_native_without_preload_content(
+    def ingest_native_without_preload_content(
         self,
         native_ingest_request: NativeIngestRequest,
         durability: Optional[StrictStr] = None,
@@ -1691,7 +1691,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ingest_ingest_native
+        """ingest_native
 
 
         :param native_ingest_request: (required)
@@ -1728,7 +1728,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_native_serialize(
+        _param = self._ingest_native_serialize(
             native_ingest_request=native_ingest_request,
             durability=durability,
             authorization=authorization,
@@ -1756,7 +1756,7 @@ class IngestApi:
         return response_data.response
 
 
-    def _ingest_ingest_native_serialize(
+    def _ingest_native_serialize(
         self,
         native_ingest_request,
         durability,
@@ -1850,7 +1850,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_otlp(
+    def ingest_otlp(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1873,7 +1873,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OtlpIngestOutcome:
-        """ingest_ingest_otlp
+        """ingest_otlp
 
 
         :param tenant_id: tenant_id (required)
@@ -1914,7 +1914,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_otlp_serialize(
+        _param = self._ingest_otlp_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             environment_id=environment_id,
@@ -1949,7 +1949,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_otlp_with_http_info(
+    def ingest_otlp_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1972,7 +1972,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OtlpIngestOutcome]:
-        """ingest_ingest_otlp
+        """ingest_otlp
 
 
         :param tenant_id: tenant_id (required)
@@ -2013,7 +2013,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_otlp_serialize(
+        _param = self._ingest_otlp_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             environment_id=environment_id,
@@ -2048,7 +2048,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_otlp_without_preload_content(
+    def ingest_otlp_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -2071,7 +2071,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ingest_ingest_otlp
+        """ingest_otlp
 
 
         :param tenant_id: tenant_id (required)
@@ -2112,7 +2112,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_otlp_serialize(
+        _param = self._ingest_otlp_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             environment_id=environment_id,
@@ -2142,7 +2142,7 @@ class IngestApi:
         return response_data.response
 
 
-    def _ingest_ingest_otlp_serialize(
+    def _ingest_otlp_serialize(
         self,
         tenant_id,
         project_id,
@@ -2229,7 +2229,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_otlp_json_collector(
+    def ingest_otlp_json_collector(
         self,
         durability: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
@@ -2250,7 +2250,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> OtlpIngestOutcome:
-        """ingest_ingest_otlp_json_collector
+        """ingest_otlp_json_collector
 
 
         :param durability:
@@ -2287,7 +2287,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_otlp_json_collector_serialize(
+        _param = self._ingest_otlp_json_collector_serialize(
             durability=durability,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
@@ -2320,7 +2320,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_otlp_json_collector_with_http_info(
+    def ingest_otlp_json_collector_with_http_info(
         self,
         durability: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
@@ -2341,7 +2341,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[OtlpIngestOutcome]:
-        """ingest_ingest_otlp_json_collector
+        """ingest_otlp_json_collector
 
 
         :param durability:
@@ -2378,7 +2378,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_otlp_json_collector_serialize(
+        _param = self._ingest_otlp_json_collector_serialize(
             durability=durability,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
@@ -2411,7 +2411,7 @@ class IngestApi:
 
 
     @validate_call
-    def ingest_ingest_otlp_json_collector_without_preload_content(
+    def ingest_otlp_json_collector_without_preload_content(
         self,
         durability: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
@@ -2432,7 +2432,7 @@ class IngestApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ingest_ingest_otlp_json_collector
+        """ingest_otlp_json_collector
 
 
         :param durability:
@@ -2469,7 +2469,7 @@ class IngestApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._ingest_ingest_otlp_json_collector_serialize(
+        _param = self._ingest_otlp_json_collector_serialize(
             durability=durability,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
@@ -2497,7 +2497,7 @@ class IngestApi:
         return response_data.response
 
 
-    def _ingest_ingest_otlp_json_collector_serialize(
+    def _ingest_otlp_json_collector_serialize(
         self,
         durability,
         authorization,

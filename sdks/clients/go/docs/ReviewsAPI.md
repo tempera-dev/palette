@@ -4,17 +4,17 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ReviewsCreateReviewQueue**](ReviewsAPI.md#ReviewsCreateReviewQueue) | **Post** /v1/review-queues/{tenant_id}/{project_id} |
-[**ReviewsEnqueueReviewTaskFromTrace**](ReviewsAPI.md#ReviewsEnqueueReviewTaskFromTrace) | **Post** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
-[**ReviewsListReviewTasks**](ReviewsAPI.md#ReviewsListReviewTasks) | **Get** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
-[**ReviewsPromoteReviewAnnotation**](ReviewsAPI.md#ReviewsPromoteReviewAnnotation) | **Post** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
-[**ReviewsSubmitReviewAnnotation**](ReviewsAPI.md#ReviewsSubmitReviewAnnotation) | **Post** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
+[**ReviewsCreateQueue**](ReviewsAPI.md#ReviewsCreateQueue) | **Post** /v1/review-queues/{tenant_id}/{project_id} |
+[**ReviewsEnqueueTaskFromTrace**](ReviewsAPI.md#ReviewsEnqueueTaskFromTrace) | **Post** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |
+[**ReviewsListTasks**](ReviewsAPI.md#ReviewsListTasks) | **Get** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |
+[**ReviewsPromoteAnnotation**](ReviewsAPI.md#ReviewsPromoteAnnotation) | **Post** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |
+[**ReviewsSubmitAnnotation**](ReviewsAPI.md#ReviewsSubmitAnnotation) | **Post** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |
 
 
 
-## ReviewsCreateReviewQueue
+## ReviewsCreateQueue
 
-> ReviewQueue ReviewsCreateReviewQueue(ctx, tenantId, projectId).CreateReviewQueueHttpRequest(createReviewQueueHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ReviewQueue ReviewsCreateQueue(ctx, tenantId, projectId).CreateReviewQueueHttpRequest(createReviewQueueHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -41,13 +41,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReviewsAPI.ReviewsCreateReviewQueue(context.Background(), tenantId, projectId).CreateReviewQueueHttpRequest(createReviewQueueHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ReviewsAPI.ReviewsCreateQueue(context.Background(), tenantId, projectId).CreateReviewQueueHttpRequest(createReviewQueueHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsCreateReviewQueue``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsCreateQueue``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReviewsCreateReviewQueue`: ReviewQueue
-	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsCreateReviewQueue`: %v\n", resp)
+	// response from `ReviewsCreateQueue`: ReviewQueue
+	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsCreateQueue`: %v\n", resp)
 }
 ```
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReviewsCreateReviewQueueRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiReviewsCreateQueueRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -93,9 +93,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ReviewsEnqueueReviewTaskFromTrace
+## ReviewsEnqueueTaskFromTrace
 
-> ReviewTask ReviewsEnqueueReviewTaskFromTrace(ctx, tenantId, projectId, queueId).EnqueueReviewTaskFromTraceHttpRequest(enqueueReviewTaskFromTraceHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ReviewTask ReviewsEnqueueTaskFromTrace(ctx, tenantId, projectId, queueId).EnqueueReviewTaskFromTraceHttpRequest(enqueueReviewTaskFromTraceHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -123,13 +123,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReviewsAPI.ReviewsEnqueueReviewTaskFromTrace(context.Background(), tenantId, projectId, queueId).EnqueueReviewTaskFromTraceHttpRequest(enqueueReviewTaskFromTraceHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ReviewsAPI.ReviewsEnqueueTaskFromTrace(context.Background(), tenantId, projectId, queueId).EnqueueReviewTaskFromTraceHttpRequest(enqueueReviewTaskFromTraceHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsEnqueueReviewTaskFromTrace``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsEnqueueTaskFromTrace``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReviewsEnqueueReviewTaskFromTrace`: ReviewTask
-	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsEnqueueReviewTaskFromTrace`: %v\n", resp)
+	// response from `ReviewsEnqueueTaskFromTrace`: ReviewTask
+	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsEnqueueTaskFromTrace`: %v\n", resp)
 }
 ```
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReviewsEnqueueReviewTaskFromTraceRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiReviewsEnqueueTaskFromTraceRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -177,9 +177,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ReviewsListReviewTasks
+## ReviewsListTasks
 
-> []ReviewTask ReviewsListReviewTasks(ctx, tenantId, projectId, queueId).State(state).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> []ReviewTask ReviewsListTasks(ctx, tenantId, projectId, queueId).State(state).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -207,13 +207,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReviewsAPI.ReviewsListReviewTasks(context.Background(), tenantId, projectId, queueId).State(state).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ReviewsAPI.ReviewsListTasks(context.Background(), tenantId, projectId, queueId).State(state).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsListReviewTasks``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsListTasks``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReviewsListReviewTasks`: []ReviewTask
-	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsListReviewTasks`: %v\n", resp)
+	// response from `ReviewsListTasks`: []ReviewTask
+	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsListTasks`: %v\n", resp)
 }
 ```
 
@@ -229,7 +229,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReviewsListReviewTasksRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiReviewsListTasksRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -261,9 +261,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ReviewsPromoteReviewAnnotation
+## ReviewsPromoteAnnotation
 
-> DatasetCase ReviewsPromoteReviewAnnotation(ctx, tenantId, projectId, queueId, taskId, annotationId).PromoteReviewAnnotationHttpRequest(promoteReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> DatasetCase ReviewsPromoteAnnotation(ctx, tenantId, projectId, queueId, taskId, annotationId).PromoteReviewAnnotationHttpRequest(promoteReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -293,13 +293,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReviewsAPI.ReviewsPromoteReviewAnnotation(context.Background(), tenantId, projectId, queueId, taskId, annotationId).PromoteReviewAnnotationHttpRequest(promoteReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ReviewsAPI.ReviewsPromoteAnnotation(context.Background(), tenantId, projectId, queueId, taskId, annotationId).PromoteReviewAnnotationHttpRequest(promoteReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsPromoteReviewAnnotation``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsPromoteAnnotation``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReviewsPromoteReviewAnnotation`: DatasetCase
-	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsPromoteReviewAnnotation`: %v\n", resp)
+	// response from `ReviewsPromoteAnnotation`: DatasetCase
+	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsPromoteAnnotation`: %v\n", resp)
 }
 ```
 
@@ -317,7 +317,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReviewsPromoteReviewAnnotationRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiReviewsPromoteAnnotationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -351,9 +351,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ReviewsSubmitReviewAnnotation
+## ReviewsSubmitAnnotation
 
-> ReviewAnnotation ReviewsSubmitReviewAnnotation(ctx, tenantId, projectId, queueId, taskId).SubmitReviewAnnotationHttpRequest(submitReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ReviewAnnotation ReviewsSubmitAnnotation(ctx, tenantId, projectId, queueId, taskId).SubmitReviewAnnotationHttpRequest(submitReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -382,13 +382,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReviewsAPI.ReviewsSubmitReviewAnnotation(context.Background(), tenantId, projectId, queueId, taskId).SubmitReviewAnnotationHttpRequest(submitReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ReviewsAPI.ReviewsSubmitAnnotation(context.Background(), tenantId, projectId, queueId, taskId).SubmitReviewAnnotationHttpRequest(submitReviewAnnotationHttpRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsSubmitReviewAnnotation``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ReviewsAPI.ReviewsSubmitAnnotation``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ReviewsSubmitReviewAnnotation`: ReviewAnnotation
-	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsSubmitReviewAnnotation`: %v\n", resp)
+	// response from `ReviewsSubmitAnnotation`: ReviewAnnotation
+	fmt.Fprintf(os.Stdout, "Response from `ReviewsAPI.ReviewsSubmitAnnotation`: %v\n", resp)
 }
 ```
 
@@ -405,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiReviewsSubmitReviewAnnotationRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiReviewsSubmitAnnotationRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

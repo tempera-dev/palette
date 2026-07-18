@@ -40,7 +40,7 @@ import {
     PromoteTraceCaseRequestToJSON,
 } from '../models/index';
 
-export interface DatasetsCreateDatasetRequest {
+export interface DatasetsCreateRequest {
     tenantId: string;
     projectId: string;
     createDatasetRequest: CreateDatasetRequest;
@@ -50,7 +50,7 @@ export interface DatasetsCreateDatasetRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface DatasetsCreateDatasetVersionRequest {
+export interface DatasetsCreateVersionRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -61,7 +61,7 @@ export interface DatasetsCreateDatasetVersionRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface DatasetsPromoteDatasetCaseFromTraceRequest {
+export interface DatasetsPromoteCaseFromTraceRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -79,25 +79,25 @@ export class DatasetsApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetsCreateDatasetRaw(requestParameters: DatasetsCreateDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Dataset>> {
+    async datasetsCreateRaw(requestParameters: DatasetsCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Dataset>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling datasetsCreateDataset().'
+                'Required parameter "tenantId" was null or undefined when calling datasetsCreate().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling datasetsCreateDataset().'
+                'Required parameter "projectId" was null or undefined when calling datasetsCreate().'
             );
         }
 
         if (requestParameters['createDatasetRequest'] == null) {
             throw new runtime.RequiredError(
                 'createDatasetRequest',
-                'Required parameter "createDatasetRequest" was null or undefined when calling datasetsCreateDataset().'
+                'Required parameter "createDatasetRequest" was null or undefined when calling datasetsCreate().'
             );
         }
 
@@ -136,39 +136,39 @@ export class DatasetsApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetsCreateDataset(requestParameters: DatasetsCreateDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Dataset> {
-        const response = await this.datasetsCreateDatasetRaw(requestParameters, initOverrides);
+    async datasetsCreate(requestParameters: DatasetsCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Dataset> {
+        const response = await this.datasetsCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async datasetsCreateDatasetVersionRaw(requestParameters: DatasetsCreateDatasetVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetVersionSnapshot>> {
+    async datasetsCreateVersionRaw(requestParameters: DatasetsCreateVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetVersionSnapshot>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling datasetsCreateDatasetVersion().'
+                'Required parameter "tenantId" was null or undefined when calling datasetsCreateVersion().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling datasetsCreateDatasetVersion().'
+                'Required parameter "projectId" was null or undefined when calling datasetsCreateVersion().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling datasetsCreateDatasetVersion().'
+                'Required parameter "datasetId" was null or undefined when calling datasetsCreateVersion().'
             );
         }
 
         if (requestParameters['createDatasetVersionRequest'] == null) {
             throw new runtime.RequiredError(
                 'createDatasetVersionRequest',
-                'Required parameter "createDatasetVersionRequest" was null or undefined when calling datasetsCreateDatasetVersion().'
+                'Required parameter "createDatasetVersionRequest" was null or undefined when calling datasetsCreateVersion().'
             );
         }
 
@@ -207,39 +207,39 @@ export class DatasetsApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetsCreateDatasetVersion(requestParameters: DatasetsCreateDatasetVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetVersionSnapshot> {
-        const response = await this.datasetsCreateDatasetVersionRaw(requestParameters, initOverrides);
+    async datasetsCreateVersion(requestParameters: DatasetsCreateVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetVersionSnapshot> {
+        const response = await this.datasetsCreateVersionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async datasetsPromoteDatasetCaseFromTraceRaw(requestParameters: DatasetsPromoteDatasetCaseFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetCase>> {
+    async datasetsPromoteCaseFromTraceRaw(requestParameters: DatasetsPromoteCaseFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetCase>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling datasetsPromoteDatasetCaseFromTrace().'
+                'Required parameter "tenantId" was null or undefined when calling datasetsPromoteCaseFromTrace().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling datasetsPromoteDatasetCaseFromTrace().'
+                'Required parameter "projectId" was null or undefined when calling datasetsPromoteCaseFromTrace().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling datasetsPromoteDatasetCaseFromTrace().'
+                'Required parameter "datasetId" was null or undefined when calling datasetsPromoteCaseFromTrace().'
             );
         }
 
         if (requestParameters['promoteTraceCaseRequest'] == null) {
             throw new runtime.RequiredError(
                 'promoteTraceCaseRequest',
-                'Required parameter "promoteTraceCaseRequest" was null or undefined when calling datasetsPromoteDatasetCaseFromTrace().'
+                'Required parameter "promoteTraceCaseRequest" was null or undefined when calling datasetsPromoteCaseFromTrace().'
             );
         }
 
@@ -278,8 +278,8 @@ export class DatasetsApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetsPromoteDatasetCaseFromTrace(requestParameters: DatasetsPromoteDatasetCaseFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetCase> {
-        const response = await this.datasetsPromoteDatasetCaseFromTraceRaw(requestParameters, initOverrides);
+    async datasetsPromoteCaseFromTrace(requestParameters: DatasetsPromoteCaseFromTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetCase> {
+        const response = await this.datasetsPromoteCaseFromTraceRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

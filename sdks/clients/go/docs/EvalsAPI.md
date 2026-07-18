@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**EvalsRunDeterministicEval**](EvalsAPI.md#EvalsRunDeterministicEval) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
-[**EvalsRunJudgeEval**](EvalsAPI.md#EvalsRunJudgeEval) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
+[**EvalsRunDeterministic**](EvalsAPI.md#EvalsRunDeterministic) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
+[**EvalsRunJudge**](EvalsAPI.md#EvalsRunJudge) | **Post** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
 
 
 
-## EvalsRunDeterministicEval
+## EvalsRunDeterministic
 
-> DatasetEvalReport EvalsRunDeterministicEval(ctx, tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> DatasetEvalReport EvalsRunDeterministic(ctx, tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -40,13 +40,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.EvalsAPI.EvalsRunDeterministicEval(context.Background(), tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.EvalsAPI.EvalsRunDeterministic(context.Background(), tenantId, projectId, datasetId, versionId).RunDeterministicEvalRequest(runDeterministicEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `EvalsAPI.EvalsRunDeterministicEval``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `EvalsAPI.EvalsRunDeterministic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `EvalsRunDeterministicEval`: DatasetEvalReport
-	fmt.Fprintf(os.Stdout, "Response from `EvalsAPI.EvalsRunDeterministicEval`: %v\n", resp)
+	// response from `EvalsRunDeterministic`: DatasetEvalReport
+	fmt.Fprintf(os.Stdout, "Response from `EvalsAPI.EvalsRunDeterministic`: %v\n", resp)
 }
 ```
 
@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiEvalsRunDeterministicEvalRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiEvalsRunDeterministicRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -96,9 +96,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## EvalsRunJudgeEval
+## EvalsRunJudge
 
-> DatasetEvalReport EvalsRunJudgeEval(ctx, tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> DatasetEvalReport EvalsRunJudge(ctx, tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -127,13 +127,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.EvalsAPI.EvalsRunJudgeEval(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.EvalsAPI.EvalsRunJudge(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeDatasetEvalRequest(runJudgeDatasetEvalRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `EvalsAPI.EvalsRunJudgeEval``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `EvalsAPI.EvalsRunJudge``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `EvalsRunJudgeEval`: DatasetEvalReport
-	fmt.Fprintf(os.Stdout, "Response from `EvalsAPI.EvalsRunJudgeEval`: %v\n", resp)
+	// response from `EvalsRunJudge`: DatasetEvalReport
+	fmt.Fprintf(os.Stdout, "Response from `EvalsAPI.EvalsRunJudge`: %v\n", resp)
 }
 ```
 
@@ -150,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiEvalsRunJudgeEvalRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiEvalsRunJudgeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

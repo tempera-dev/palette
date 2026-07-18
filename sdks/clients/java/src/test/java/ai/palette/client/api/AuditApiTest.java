@@ -44,7 +44,7 @@ public class AuditApiTest {
      *          if the Api call fails
      */
     @Test
-    public void auditListAuditEventsTest() throws ApiException {
+    public void auditListTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String authorization = null;
@@ -52,7 +52,7 @@ public class AuditApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         List<AuditEvent> response = 
-        api.auditListAuditEvents(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.auditList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

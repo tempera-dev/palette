@@ -45,7 +45,7 @@ public class AlertsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void alertsEvaluateAlertTest() throws ApiException {
+    public void alertsEvaluateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String traceId = null;
@@ -55,7 +55,7 @@ public class AlertsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         AlertDecision response = 
-        api.alertsEvaluateAlert(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.alertsEvaluate(tenantId, projectId, traceId, evaluateAlertRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

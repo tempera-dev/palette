@@ -46,7 +46,7 @@ public class ProviderSecretsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void providerSecretsCreateProviderSecretTest() throws ApiException {
+    public void providerSecretsCreateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         CreateProviderSecretHttpRequest createProviderSecretHttpRequest = null;
@@ -55,7 +55,7 @@ public class ProviderSecretsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ProviderSecretMetadata response = 
-        api.providerSecretsCreateProviderSecret(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.providerSecretsCreate(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -69,7 +69,7 @@ public class ProviderSecretsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void providerSecretsListProviderSecretsTest() throws ApiException {
+    public void providerSecretsListTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String authorization = null;
@@ -77,7 +77,7 @@ public class ProviderSecretsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         List<ProviderSecretMetadata> response = 
-        api.providerSecretsListProviderSecrets(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.providerSecretsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -91,7 +91,7 @@ public class ProviderSecretsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void providerSecretsRevokeProviderSecretTest() throws ApiException {
+    public void providerSecretsRevokeTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String providerSecretId = null;
@@ -100,7 +100,7 @@ public class ProviderSecretsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         RevokedProviderSecret response = 
-        api.providerSecretsRevokeProviderSecret(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.providerSecretsRevoke(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

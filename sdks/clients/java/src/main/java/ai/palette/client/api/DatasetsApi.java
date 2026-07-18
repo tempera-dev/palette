@@ -100,8 +100,8 @@ public class DatasetsApi {
    * @return Dataset
    * @throws ApiException if fails to make API call
    */
-  public Dataset datasetsCreateDataset(String tenantId, String projectId, CreateDatasetRequest createDatasetRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<Dataset> localVarResponse = datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public Dataset datasetsCreate(String tenantId, String projectId, CreateDatasetRequest createDatasetRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<Dataset> localVarResponse = datasetsCreateWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -118,8 +118,8 @@ public class DatasetsApi {
    * @return ApiResponse&lt;Dataset&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Dataset> datasetsCreateDatasetWithHttpInfo(String tenantId, String projectId, CreateDatasetRequest createDatasetRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = datasetsCreateDatasetRequestBuilder(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<Dataset> datasetsCreateWithHttpInfo(String tenantId, String projectId, CreateDatasetRequest createDatasetRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = datasetsCreateRequestBuilder(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -129,7 +129,7 @@ public class DatasetsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("datasetsCreateDataset", localVarResponse);
+          throw getApiException("datasetsCreate", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<Dataset>(
@@ -158,18 +158,18 @@ public class DatasetsApi {
     }
   }
 
-  private HttpRequest.Builder datasetsCreateDatasetRequestBuilder(String tenantId, String projectId, CreateDatasetRequest createDatasetRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder datasetsCreateRequestBuilder(String tenantId, String projectId, CreateDatasetRequest createDatasetRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling datasetsCreateDataset");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling datasetsCreate");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling datasetsCreateDataset");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling datasetsCreate");
     }
     // verify the required parameter 'createDatasetRequest' is set
     if (createDatasetRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'createDatasetRequest' when calling datasetsCreateDataset");
+      throw new ApiException(400, "Missing the required parameter 'createDatasetRequest' when calling datasetsCreate");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -224,8 +224,8 @@ public class DatasetsApi {
    * @return DatasetVersionSnapshot
    * @throws ApiException if fails to make API call
    */
-  public DatasetVersionSnapshot datasetsCreateDatasetVersion(String tenantId, String projectId, String datasetId, CreateDatasetVersionRequest createDatasetVersionRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<DatasetVersionSnapshot> localVarResponse = datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public DatasetVersionSnapshot datasetsCreateVersion(String tenantId, String projectId, String datasetId, CreateDatasetVersionRequest createDatasetVersionRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<DatasetVersionSnapshot> localVarResponse = datasetsCreateVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -243,8 +243,8 @@ public class DatasetsApi {
    * @return ApiResponse&lt;DatasetVersionSnapshot&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<DatasetVersionSnapshot> datasetsCreateDatasetVersionWithHttpInfo(String tenantId, String projectId, String datasetId, CreateDatasetVersionRequest createDatasetVersionRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = datasetsCreateDatasetVersionRequestBuilder(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<DatasetVersionSnapshot> datasetsCreateVersionWithHttpInfo(String tenantId, String projectId, String datasetId, CreateDatasetVersionRequest createDatasetVersionRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = datasetsCreateVersionRequestBuilder(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -254,7 +254,7 @@ public class DatasetsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("datasetsCreateDatasetVersion", localVarResponse);
+          throw getApiException("datasetsCreateVersion", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<DatasetVersionSnapshot>(
@@ -283,22 +283,22 @@ public class DatasetsApi {
     }
   }
 
-  private HttpRequest.Builder datasetsCreateDatasetVersionRequestBuilder(String tenantId, String projectId, String datasetId, CreateDatasetVersionRequest createDatasetVersionRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder datasetsCreateVersionRequestBuilder(String tenantId, String projectId, String datasetId, CreateDatasetVersionRequest createDatasetVersionRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling datasetsCreateDatasetVersion");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling datasetsCreateVersion");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling datasetsCreateDatasetVersion");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling datasetsCreateVersion");
     }
     // verify the required parameter 'datasetId' is set
     if (datasetId == null) {
-      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling datasetsCreateDatasetVersion");
+      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling datasetsCreateVersion");
     }
     // verify the required parameter 'createDatasetVersionRequest' is set
     if (createDatasetVersionRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'createDatasetVersionRequest' when calling datasetsCreateDatasetVersion");
+      throw new ApiException(400, "Missing the required parameter 'createDatasetVersionRequest' when calling datasetsCreateVersion");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -354,8 +354,8 @@ public class DatasetsApi {
    * @return DatasetCase
    * @throws ApiException if fails to make API call
    */
-  public DatasetCase datasetsPromoteDatasetCaseFromTrace(String tenantId, String projectId, String datasetId, PromoteTraceCaseRequest promoteTraceCaseRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<DatasetCase> localVarResponse = datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public DatasetCase datasetsPromoteCaseFromTrace(String tenantId, String projectId, String datasetId, PromoteTraceCaseRequest promoteTraceCaseRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<DatasetCase> localVarResponse = datasetsPromoteCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -373,8 +373,8 @@ public class DatasetsApi {
    * @return ApiResponse&lt;DatasetCase&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<DatasetCase> datasetsPromoteDatasetCaseFromTraceWithHttpInfo(String tenantId, String projectId, String datasetId, PromoteTraceCaseRequest promoteTraceCaseRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = datasetsPromoteDatasetCaseFromTraceRequestBuilder(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<DatasetCase> datasetsPromoteCaseFromTraceWithHttpInfo(String tenantId, String projectId, String datasetId, PromoteTraceCaseRequest promoteTraceCaseRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = datasetsPromoteCaseFromTraceRequestBuilder(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -384,7 +384,7 @@ public class DatasetsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("datasetsPromoteDatasetCaseFromTrace", localVarResponse);
+          throw getApiException("datasetsPromoteCaseFromTrace", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<DatasetCase>(
@@ -413,22 +413,22 @@ public class DatasetsApi {
     }
   }
 
-  private HttpRequest.Builder datasetsPromoteDatasetCaseFromTraceRequestBuilder(String tenantId, String projectId, String datasetId, PromoteTraceCaseRequest promoteTraceCaseRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder datasetsPromoteCaseFromTraceRequestBuilder(String tenantId, String projectId, String datasetId, PromoteTraceCaseRequest promoteTraceCaseRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling datasetsPromoteDatasetCaseFromTrace");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling datasetsPromoteCaseFromTrace");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling datasetsPromoteDatasetCaseFromTrace");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling datasetsPromoteCaseFromTrace");
     }
     // verify the required parameter 'datasetId' is set
     if (datasetId == null) {
-      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling datasetsPromoteDatasetCaseFromTrace");
+      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling datasetsPromoteCaseFromTrace");
     }
     // verify the required parameter 'promoteTraceCaseRequest' is set
     if (promoteTraceCaseRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'promoteTraceCaseRequest' when calling datasetsPromoteDatasetCaseFromTrace");
+      throw new ApiException(400, "Missing the required parameter 'promoteTraceCaseRequest' when calling datasetsPromoteCaseFromTrace");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ExperimentsAPI_experimentsRunDeterministicExperiment**](ExperimentsAPI.md#ExperimentsAPI_experimentsRunDeterministicExperiment) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
-[**ExperimentsAPI_experimentsRunJudgeExperiment**](ExperimentsAPI.md#ExperimentsAPI_experimentsRunJudgeExperiment) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |
+[**ExperimentsAPI_experimentsRunDeterministic**](ExperimentsAPI.md#ExperimentsAPI_experimentsRunDeterministic) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
+[**ExperimentsAPI_experimentsRunJudge**](ExperimentsAPI.md#ExperimentsAPI_experimentsRunJudge) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |
 
 
-# **ExperimentsAPI_experimentsRunDeterministicExperiment**
+# **ExperimentsAPI_experimentsRunDeterministic**
 ```c
-experiment_run_report_t* ExperimentsAPI_experimentsRunDeterministicExperiment(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_experiment_request_t *run_experiment_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+experiment_run_report_t* ExperimentsAPI_experimentsRunDeterministic(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_experiment_request_t *run_experiment_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -43,9 +43,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ExperimentsAPI_experimentsRunJudgeExperiment**
+# **ExperimentsAPI_experimentsRunJudge**
 ```c
-experiment_run_report_t* ExperimentsAPI_experimentsRunJudgeExperiment(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_judge_experiment_request_t *run_judge_experiment_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+experiment_run_report_t* ExperimentsAPI_experimentsRunJudge(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_judge_experiment_request_t *run_judge_experiment_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

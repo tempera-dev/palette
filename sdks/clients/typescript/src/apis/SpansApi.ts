@@ -28,7 +28,7 @@ import {
     SpanIoResponseToJSON,
 } from '../models/index';
 
-export interface SpansGetSpanRequest {
+export interface SpansGetRequest {
     tenantId: string;
     traceId: string;
     spanId: string;
@@ -40,7 +40,7 @@ export interface SpansGetSpanRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface SpansGetSpanIoRequest {
+export interface SpansGetIoRequest {
     tenantId: string;
     traceId: string;
     spanId: string;
@@ -59,25 +59,25 @@ export class SpansApi extends runtime.BaseAPI {
 
     /**
      */
-    async spansGetSpanRaw(requestParameters: SpansGetSpanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CanonicalSpan>> {
+    async spansGetRaw(requestParameters: SpansGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CanonicalSpan>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling spansGetSpan().'
+                'Required parameter "tenantId" was null or undefined when calling spansGet().'
             );
         }
 
         if (requestParameters['traceId'] == null) {
             throw new runtime.RequiredError(
                 'traceId',
-                'Required parameter "traceId" was null or undefined when calling spansGetSpan().'
+                'Required parameter "traceId" was null or undefined when calling spansGet().'
             );
         }
 
         if (requestParameters['spanId'] == null) {
             throw new runtime.RequiredError(
                 'spanId',
-                'Required parameter "spanId" was null or undefined when calling spansGetSpan().'
+                'Required parameter "spanId" was null or undefined when calling spansGet().'
             );
         }
 
@@ -121,32 +121,32 @@ export class SpansApi extends runtime.BaseAPI {
 
     /**
      */
-    async spansGetSpan(requestParameters: SpansGetSpanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CanonicalSpan> {
-        const response = await this.spansGetSpanRaw(requestParameters, initOverrides);
+    async spansGet(requestParameters: SpansGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CanonicalSpan> {
+        const response = await this.spansGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async spansGetSpanIoRaw(requestParameters: SpansGetSpanIoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SpanIoResponse>> {
+    async spansGetIoRaw(requestParameters: SpansGetIoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SpanIoResponse>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling spansGetSpanIo().'
+                'Required parameter "tenantId" was null or undefined when calling spansGetIo().'
             );
         }
 
         if (requestParameters['traceId'] == null) {
             throw new runtime.RequiredError(
                 'traceId',
-                'Required parameter "traceId" was null or undefined when calling spansGetSpanIo().'
+                'Required parameter "traceId" was null or undefined when calling spansGetIo().'
             );
         }
 
         if (requestParameters['spanId'] == null) {
             throw new runtime.RequiredError(
                 'spanId',
-                'Required parameter "spanId" was null or undefined when calling spansGetSpanIo().'
+                'Required parameter "spanId" was null or undefined when calling spansGetIo().'
             );
         }
 
@@ -190,8 +190,8 @@ export class SpansApi extends runtime.BaseAPI {
 
     /**
      */
-    async spansGetSpanIo(requestParameters: SpansGetSpanIoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SpanIoResponse> {
-        const response = await this.spansGetSpanIoRaw(requestParameters, initOverrides);
+    async spansGetIo(requestParameters: SpansGetIoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SpanIoResponse> {
+        const response = await this.spansGetIoRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

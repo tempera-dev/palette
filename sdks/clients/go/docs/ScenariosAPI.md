@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ScenariosCreateScenario**](ScenariosAPI.md#ScenariosCreateScenario) | **Post** /v1/scenarios/{tenant_id}/{project_id} |
-[**ScenariosGetScenario**](ScenariosAPI.md#ScenariosGetScenario) | **Get** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
-[**ScenariosListScenarios**](ScenariosAPI.md#ScenariosListScenarios) | **Get** /v1/scenarios/{tenant_id}/{project_id} |
-[**ScenariosMineScenarios**](ScenariosAPI.md#ScenariosMineScenarios) | **Post** /v1/scenarios/{tenant_id}/{project_id}/mine |
+[**ScenariosCreate**](ScenariosAPI.md#ScenariosCreate) | **Post** /v1/scenarios/{tenant_id}/{project_id} |
+[**ScenariosGet**](ScenariosAPI.md#ScenariosGet) | **Get** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
+[**ScenariosList**](ScenariosAPI.md#ScenariosList) | **Get** /v1/scenarios/{tenant_id}/{project_id} |
+[**ScenariosMine**](ScenariosAPI.md#ScenariosMine) | **Post** /v1/scenarios/{tenant_id}/{project_id}/mine |
 
 
 
-## ScenariosCreateScenario
+## ScenariosCreate
 
-> Scenario ScenariosCreateScenario(ctx, tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> Scenario ScenariosCreate(ctx, tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -40,13 +40,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosCreateScenario(context.Background(), tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosCreate(context.Background(), tenantId, projectId).CreateScenarioRequest(createScenarioRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosCreateScenario``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ScenariosCreateScenario`: Scenario
-	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosCreateScenario`: %v\n", resp)
+	// response from `ScenariosCreate`: Scenario
+	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosCreate`: %v\n", resp)
 }
 ```
 
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiScenariosCreateScenarioRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiScenariosCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -92,9 +92,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ScenariosGetScenario
+## ScenariosGet
 
-> Scenario ScenariosGetScenario(ctx, tenantId, projectId, scenarioId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> Scenario ScenariosGet(ctx, tenantId, projectId, scenarioId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -121,13 +121,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosGetScenario(context.Background(), tenantId, projectId, scenarioId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosGet(context.Background(), tenantId, projectId, scenarioId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosGetScenario``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ScenariosGetScenario`: Scenario
-	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosGetScenario`: %v\n", resp)
+	// response from `ScenariosGet`: Scenario
+	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosGet`: %v\n", resp)
 }
 ```
 
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiScenariosGetScenarioRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiScenariosGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -174,9 +174,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ScenariosListScenarios
+## ScenariosList
 
-> ListScenariosResponse ScenariosListScenarios(ctx, tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ListScenariosResponse ScenariosList(ctx, tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -204,13 +204,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosListScenarios(context.Background(), tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosList(context.Background(), tenantId, projectId).Limit(limit).Cursor(cursor).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosListScenarios``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ScenariosListScenarios`: ListScenariosResponse
-	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosListScenarios`: %v\n", resp)
+	// response from `ScenariosList`: ListScenariosResponse
+	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosList`: %v\n", resp)
 }
 ```
 
@@ -225,7 +225,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiScenariosListScenariosRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiScenariosListRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -257,9 +257,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ScenariosMineScenarios
+## ScenariosMine
 
-> MineScenariosResponse ScenariosMineScenarios(ctx, tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> MineScenariosResponse ScenariosMine(ctx, tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -286,13 +286,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ScenariosAPI.ScenariosMineScenarios(context.Background(), tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ScenariosAPI.ScenariosMine(context.Background(), tenantId, projectId).MineScenariosRequest(mineScenariosRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosMineScenarios``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ScenariosAPI.ScenariosMine``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ScenariosMineScenarios`: MineScenariosResponse
-	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosMineScenarios`: %v\n", resp)
+	// response from `ScenariosMine`: MineScenariosResponse
+	fmt.Fprintf(os.Stdout, "Response from `ScenariosAPI.ScenariosMine`: %v\n", resp)
 }
 ```
 
@@ -307,7 +307,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiScenariosMineScenariosRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiScenariosMineRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConnectAPI_connectGetPaletteConnectStatus**](ConnectAPI.md#ConnectAPI_connectGetPaletteConnectStatus) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
+[**ConnectAPI_connectGetStatus**](ConnectAPI.md#ConnectAPI_connectGetStatus) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
 
 
-# **ConnectAPI_connectGetPaletteConnectStatus**
+# **ConnectAPI_connectGetStatus**
 ```c
-palette_connect_status_response_t* ConnectAPI_connectGetPaletteConnectStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+palette_connect_status_response_t* ConnectAPI_connectGetStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

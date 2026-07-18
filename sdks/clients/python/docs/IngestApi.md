@@ -6,11 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ingest_drain_trace_ingested**](IngestApi.md#ingest_drain_trace_ingested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
 [**ingest_drain_trace_writes**](IngestApi.md#ingest_drain_trace_writes) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**ingest_get_ingest_queue_status**](IngestApi.md#ingest_get_ingest_queue_status) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
+[**ingest_get_queue_status**](IngestApi.md#ingest_get_queue_status) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
 [**ingest_import_source**](IngestApi.md#ingest_import_source) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |
-[**ingest_ingest_native**](IngestApi.md#ingest_ingest_native) | **POST** /v1/traces/native |
-[**ingest_ingest_otlp**](IngestApi.md#ingest_ingest_otlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
-[**ingest_ingest_otlp_json_collector**](IngestApi.md#ingest_ingest_otlp_json_collector) | **POST** /v1/traces |
+[**ingest_native**](IngestApi.md#ingest_native) | **POST** /v1/traces/native |
+[**ingest_otlp**](IngestApi.md#ingest_otlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**ingest_otlp_json_collector**](IngestApi.md#ingest_otlp_json_collector) | **POST** /v1/traces |
 [**ingest_reconcile_trace**](IngestApi.md#ingest_reconcile_trace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
 [**ingest_replay_dead_letter**](IngestApi.md#ingest_replay_dead_letter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
 
@@ -177,8 +177,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ingest_get_ingest_queue_status**
-> IngestQueueStatus ingest_get_ingest_queue_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **ingest_get_queue_status**
+> IngestQueueStatus ingest_get_queue_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -210,11 +210,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_get_ingest_queue_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of IngestApi->ingest_get_ingest_queue_status:\n")
+        api_response = api_instance.ingest_get_queue_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of IngestApi->ingest_get_queue_status:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling IngestApi->ingest_get_ingest_queue_status: %s\n" % e)
+        print("Exception when calling IngestApi->ingest_get_queue_status: %s\n" % e)
 ```
 
 
@@ -338,8 +338,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ingest_ingest_native**
-> IngestOutcome ingest_ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **ingest_native**
+> IngestOutcome ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -372,11 +372,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of IngestApi->ingest_ingest_native:\n")
+        api_response = api_instance.ingest_native(native_ingest_request, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of IngestApi->ingest_native:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling IngestApi->ingest_ingest_native: %s\n" % e)
+        print("Exception when calling IngestApi->ingest_native: %s\n" % e)
 ```
 
 
@@ -419,8 +419,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ingest_ingest_otlp**
-> OtlpIngestOutcome ingest_ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **ingest_otlp**
+> OtlpIngestOutcome ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -454,11 +454,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.ingest_ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of IngestApi->ingest_ingest_otlp:\n")
+        api_response = api_instance.ingest_otlp(tenant_id, project_id, environment_id, durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of IngestApi->ingest_otlp:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling IngestApi->ingest_ingest_otlp: %s\n" % e)
+        print("Exception when calling IngestApi->ingest_otlp: %s\n" % e)
 ```
 
 
@@ -503,8 +503,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ingest_ingest_otlp_json_collector**
-> OtlpIngestOutcome ingest_ingest_otlp_json_collector(durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_tenant_id=x_palette_tenant_id, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **ingest_otlp_json_collector**
+> OtlpIngestOutcome ingest_otlp_json_collector(durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_tenant_id=x_palette_tenant_id, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -536,11 +536,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Environment scope override for collector-style OTLP JSON (optional)
 
     try:
-        api_response = api_instance.ingest_ingest_otlp_json_collector(durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_tenant_id=x_palette_tenant_id, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of IngestApi->ingest_ingest_otlp_json_collector:\n")
+        api_response = api_instance.ingest_otlp_json_collector(durability=durability, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_tenant_id=x_palette_tenant_id, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of IngestApi->ingest_otlp_json_collector:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling IngestApi->ingest_ingest_otlp_json_collector: %s\n" % e)
+        print("Exception when calling IngestApi->ingest_otlp_json_collector: %s\n" % e)
 ```
 
 

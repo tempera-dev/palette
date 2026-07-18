@@ -358,8 +358,8 @@ public class IngestApi {
    * @return IngestQueueStatus
    * @throws ApiException if fails to make API call
    */
-  public IngestQueueStatus ingestGetIngestQueueStatus(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<IngestQueueStatus> localVarResponse = ingestGetIngestQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public IngestQueueStatus ingestGetQueueStatus(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<IngestQueueStatus> localVarResponse = ingestGetQueueStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -375,8 +375,8 @@ public class IngestApi {
    * @return ApiResponse&lt;IngestQueueStatus&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<IngestQueueStatus> ingestGetIngestQueueStatusWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = ingestGetIngestQueueStatusRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<IngestQueueStatus> ingestGetQueueStatusWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = ingestGetQueueStatusRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -386,7 +386,7 @@ public class IngestApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("ingestGetIngestQueueStatus", localVarResponse);
+          throw getApiException("ingestGetQueueStatus", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<IngestQueueStatus>(
@@ -415,14 +415,14 @@ public class IngestApi {
     }
   }
 
-  private HttpRequest.Builder ingestGetIngestQueueStatusRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder ingestGetQueueStatusRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling ingestGetIngestQueueStatus");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling ingestGetQueueStatus");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling ingestGetIngestQueueStatus");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling ingestGetQueueStatus");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -606,8 +606,8 @@ public class IngestApi {
    * @return IngestOutcome
    * @throws ApiException if fails to make API call
    */
-  public IngestOutcome ingestIngestNative(NativeIngestRequest nativeIngestRequest, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<IngestOutcome> localVarResponse = ingestIngestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public IngestOutcome ingestNative(NativeIngestRequest nativeIngestRequest, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<IngestOutcome> localVarResponse = ingestNativeWithHttpInfo(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -623,8 +623,8 @@ public class IngestApi {
    * @return ApiResponse&lt;IngestOutcome&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<IngestOutcome> ingestIngestNativeWithHttpInfo(NativeIngestRequest nativeIngestRequest, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = ingestIngestNativeRequestBuilder(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<IngestOutcome> ingestNativeWithHttpInfo(NativeIngestRequest nativeIngestRequest, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = ingestNativeRequestBuilder(nativeIngestRequest, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -634,7 +634,7 @@ public class IngestApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("ingestIngestNative", localVarResponse);
+          throw getApiException("ingestNative", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<IngestOutcome>(
@@ -663,10 +663,10 @@ public class IngestApi {
     }
   }
 
-  private HttpRequest.Builder ingestIngestNativeRequestBuilder(NativeIngestRequest nativeIngestRequest, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder ingestNativeRequestBuilder(NativeIngestRequest nativeIngestRequest, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'nativeIngestRequest' is set
     if (nativeIngestRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'nativeIngestRequest' when calling ingestIngestNative");
+      throw new ApiException(400, "Missing the required parameter 'nativeIngestRequest' when calling ingestNative");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -734,8 +734,8 @@ public class IngestApi {
    * @return OtlpIngestOutcome
    * @throws ApiException if fails to make API call
    */
-  public OtlpIngestOutcome ingestIngestOtlp(String tenantId, String projectId, String environmentId, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<OtlpIngestOutcome> localVarResponse = ingestIngestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public OtlpIngestOutcome ingestOtlp(String tenantId, String projectId, String environmentId, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<OtlpIngestOutcome> localVarResponse = ingestOtlpWithHttpInfo(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -753,8 +753,8 @@ public class IngestApi {
    * @return ApiResponse&lt;OtlpIngestOutcome&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<OtlpIngestOutcome> ingestIngestOtlpWithHttpInfo(String tenantId, String projectId, String environmentId, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = ingestIngestOtlpRequestBuilder(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<OtlpIngestOutcome> ingestOtlpWithHttpInfo(String tenantId, String projectId, String environmentId, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = ingestOtlpRequestBuilder(tenantId, projectId, environmentId, durability, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -764,7 +764,7 @@ public class IngestApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("ingestIngestOtlp", localVarResponse);
+          throw getApiException("ingestOtlp", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<OtlpIngestOutcome>(
@@ -793,18 +793,18 @@ public class IngestApi {
     }
   }
 
-  private HttpRequest.Builder ingestIngestOtlpRequestBuilder(String tenantId, String projectId, String environmentId, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder ingestOtlpRequestBuilder(String tenantId, String projectId, String environmentId, String durability, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling ingestIngestOtlp");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling ingestOtlp");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling ingestIngestOtlp");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling ingestOtlp");
     }
     // verify the required parameter 'environmentId' is set
     if (environmentId == null) {
-      throw new ApiException(400, "Missing the required parameter 'environmentId' when calling ingestIngestOtlp");
+      throw new ApiException(400, "Missing the required parameter 'environmentId' when calling ingestOtlp");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -867,8 +867,8 @@ public class IngestApi {
    * @return OtlpIngestOutcome
    * @throws ApiException if fails to make API call
    */
-  public OtlpIngestOutcome ingestIngestOtlpJsonCollector(String durability, String authorization, String xPaletteApiKey, String xPaletteTenantId, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<OtlpIngestOutcome> localVarResponse = ingestIngestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
+  public OtlpIngestOutcome ingestOtlpJsonCollector(String durability, String authorization, String xPaletteApiKey, String xPaletteTenantId, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<OtlpIngestOutcome> localVarResponse = ingestOtlpJsonCollectorWithHttpInfo(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -884,8 +884,8 @@ public class IngestApi {
    * @return ApiResponse&lt;OtlpIngestOutcome&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<OtlpIngestOutcome> ingestIngestOtlpJsonCollectorWithHttpInfo(String durability, String authorization, String xPaletteApiKey, String xPaletteTenantId, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = ingestIngestOtlpJsonCollectorRequestBuilder(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<OtlpIngestOutcome> ingestOtlpJsonCollectorWithHttpInfo(String durability, String authorization, String xPaletteApiKey, String xPaletteTenantId, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = ingestOtlpJsonCollectorRequestBuilder(durability, authorization, xPaletteApiKey, xPaletteTenantId, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -895,7 +895,7 @@ public class IngestApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("ingestIngestOtlpJsonCollector", localVarResponse);
+          throw getApiException("ingestOtlpJsonCollector", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<OtlpIngestOutcome>(
@@ -924,7 +924,7 @@ public class IngestApi {
     }
   }
 
-  private HttpRequest.Builder ingestIngestOtlpJsonCollectorRequestBuilder(String durability, String authorization, String xPaletteApiKey, String xPaletteTenantId, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder ingestOtlpJsonCollectorRequestBuilder(String durability, String authorization, String xPaletteApiKey, String xPaletteTenantId, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

@@ -99,8 +99,8 @@ public class ExperimentsApi {
    * @return ExperimentRunReport
    * @throws ApiException if fails to make API call
    */
-  public ExperimentRunReport experimentsRunDeterministicExperiment(String tenantId, String projectId, String datasetId, String versionId, RunExperimentRequest runExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ExperimentRunReport> localVarResponse = experimentsRunDeterministicExperimentWithHttpInfo(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ExperimentRunReport experimentsRunDeterministic(String tenantId, String projectId, String datasetId, String versionId, RunExperimentRequest runExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ExperimentRunReport> localVarResponse = experimentsRunDeterministicWithHttpInfo(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -119,8 +119,8 @@ public class ExperimentsApi {
    * @return ApiResponse&lt;ExperimentRunReport&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ExperimentRunReport> experimentsRunDeterministicExperimentWithHttpInfo(String tenantId, String projectId, String datasetId, String versionId, RunExperimentRequest runExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = experimentsRunDeterministicExperimentRequestBuilder(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ExperimentRunReport> experimentsRunDeterministicWithHttpInfo(String tenantId, String projectId, String datasetId, String versionId, RunExperimentRequest runExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = experimentsRunDeterministicRequestBuilder(tenantId, projectId, datasetId, versionId, runExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -130,7 +130,7 @@ public class ExperimentsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("experimentsRunDeterministicExperiment", localVarResponse);
+          throw getApiException("experimentsRunDeterministic", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ExperimentRunReport>(
@@ -159,26 +159,26 @@ public class ExperimentsApi {
     }
   }
 
-  private HttpRequest.Builder experimentsRunDeterministicExperimentRequestBuilder(String tenantId, String projectId, String datasetId, String versionId, RunExperimentRequest runExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder experimentsRunDeterministicRequestBuilder(String tenantId, String projectId, String datasetId, String versionId, RunExperimentRequest runExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling experimentsRunDeterministicExperiment");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling experimentsRunDeterministic");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling experimentsRunDeterministicExperiment");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling experimentsRunDeterministic");
     }
     // verify the required parameter 'datasetId' is set
     if (datasetId == null) {
-      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling experimentsRunDeterministicExperiment");
+      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling experimentsRunDeterministic");
     }
     // verify the required parameter 'versionId' is set
     if (versionId == null) {
-      throw new ApiException(400, "Missing the required parameter 'versionId' when calling experimentsRunDeterministicExperiment");
+      throw new ApiException(400, "Missing the required parameter 'versionId' when calling experimentsRunDeterministic");
     }
     // verify the required parameter 'runExperimentRequest' is set
     if (runExperimentRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'runExperimentRequest' when calling experimentsRunDeterministicExperiment");
+      throw new ApiException(400, "Missing the required parameter 'runExperimentRequest' when calling experimentsRunDeterministic");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -236,8 +236,8 @@ public class ExperimentsApi {
    * @return ExperimentRunReport
    * @throws ApiException if fails to make API call
    */
-  public ExperimentRunReport experimentsRunJudgeExperiment(String tenantId, String projectId, String datasetId, String versionId, RunJudgeExperimentRequest runJudgeExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ExperimentRunReport> localVarResponse = experimentsRunJudgeExperimentWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ExperimentRunReport experimentsRunJudge(String tenantId, String projectId, String datasetId, String versionId, RunJudgeExperimentRequest runJudgeExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ExperimentRunReport> localVarResponse = experimentsRunJudgeWithHttpInfo(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -256,8 +256,8 @@ public class ExperimentsApi {
    * @return ApiResponse&lt;ExperimentRunReport&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ExperimentRunReport> experimentsRunJudgeExperimentWithHttpInfo(String tenantId, String projectId, String datasetId, String versionId, RunJudgeExperimentRequest runJudgeExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = experimentsRunJudgeExperimentRequestBuilder(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ExperimentRunReport> experimentsRunJudgeWithHttpInfo(String tenantId, String projectId, String datasetId, String versionId, RunJudgeExperimentRequest runJudgeExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = experimentsRunJudgeRequestBuilder(tenantId, projectId, datasetId, versionId, runJudgeExperimentRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -267,7 +267,7 @@ public class ExperimentsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("experimentsRunJudgeExperiment", localVarResponse);
+          throw getApiException("experimentsRunJudge", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ExperimentRunReport>(
@@ -296,26 +296,26 @@ public class ExperimentsApi {
     }
   }
 
-  private HttpRequest.Builder experimentsRunJudgeExperimentRequestBuilder(String tenantId, String projectId, String datasetId, String versionId, RunJudgeExperimentRequest runJudgeExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder experimentsRunJudgeRequestBuilder(String tenantId, String projectId, String datasetId, String versionId, RunJudgeExperimentRequest runJudgeExperimentRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling experimentsRunJudgeExperiment");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling experimentsRunJudge");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling experimentsRunJudgeExperiment");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling experimentsRunJudge");
     }
     // verify the required parameter 'datasetId' is set
     if (datasetId == null) {
-      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling experimentsRunJudgeExperiment");
+      throw new ApiException(400, "Missing the required parameter 'datasetId' when calling experimentsRunJudge");
     }
     // verify the required parameter 'versionId' is set
     if (versionId == null) {
-      throw new ApiException(400, "Missing the required parameter 'versionId' when calling experimentsRunJudgeExperiment");
+      throw new ApiException(400, "Missing the required parameter 'versionId' when calling experimentsRunJudge");
     }
     // verify the required parameter 'runJudgeExperimentRequest' is set
     if (runJudgeExperimentRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'runJudgeExperimentRequest' when calling experimentsRunJudgeExperiment");
+      throw new ApiException(400, "Missing the required parameter 'runJudgeExperimentRequest' when calling experimentsRunJudge");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

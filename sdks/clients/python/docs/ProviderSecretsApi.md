@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**provider_secrets_create_provider_secret**](ProviderSecretsApi.md#provider_secrets_create_provider_secret) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**provider_secrets_list_provider_secrets**](ProviderSecretsApi.md#provider_secrets_list_provider_secrets) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**provider_secrets_revoke_provider_secret**](ProviderSecretsApi.md#provider_secrets_revoke_provider_secret) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
+[**provider_secrets_create**](ProviderSecretsApi.md#provider_secrets_create) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |
+[**provider_secrets_list**](ProviderSecretsApi.md#provider_secrets_list) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |
+[**provider_secrets_revoke**](ProviderSecretsApi.md#provider_secrets_revoke) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
 
 
-# **provider_secrets_create_provider_secret**
-> ProviderSecretMetadata provider_secrets_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **provider_secrets_create**
+> ProviderSecretMetadata provider_secrets_create(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -44,11 +44,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.provider_secrets_create_provider_secret(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ProviderSecretsApi->provider_secrets_create_provider_secret:\n")
+        api_response = api_instance.provider_secrets_create(tenant_id, project_id, create_provider_secret_http_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ProviderSecretsApi->provider_secrets_create:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ProviderSecretsApi->provider_secrets_create_provider_secret: %s\n" % e)
+        print("Exception when calling ProviderSecretsApi->provider_secrets_create: %s\n" % e)
 ```
 
 
@@ -90,8 +90,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **provider_secrets_list_provider_secrets**
-> List[ProviderSecretMetadata] provider_secrets_list_provider_secrets(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **provider_secrets_list**
+> List[ProviderSecretMetadata] provider_secrets_list(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -123,11 +123,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.provider_secrets_list_provider_secrets(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ProviderSecretsApi->provider_secrets_list_provider_secrets:\n")
+        api_response = api_instance.provider_secrets_list(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ProviderSecretsApi->provider_secrets_list:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ProviderSecretsApi->provider_secrets_list_provider_secrets: %s\n" % e)
+        print("Exception when calling ProviderSecretsApi->provider_secrets_list: %s\n" % e)
 ```
 
 
@@ -168,8 +168,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **provider_secrets_revoke_provider_secret**
-> RevokedProviderSecret provider_secrets_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **provider_secrets_revoke**
+> RevokedProviderSecret provider_secrets_revoke(tenant_id, project_id, provider_secret_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -202,11 +202,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.provider_secrets_revoke_provider_secret(tenant_id, project_id, provider_secret_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ProviderSecretsApi->provider_secrets_revoke_provider_secret:\n")
+        api_response = api_instance.provider_secrets_revoke(tenant_id, project_id, provider_secret_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ProviderSecretsApi->provider_secrets_revoke:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ProviderSecretsApi->provider_secrets_revoke_provider_secret: %s\n" % e)
+        print("Exception when calling ProviderSecretsApi->provider_secrets_revoke: %s\n" % e)
 ```
 
 

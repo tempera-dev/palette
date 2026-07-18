@@ -23,7 +23,7 @@ import (
 // AuditAPIService AuditAPI service
 type AuditAPIService service
 
-type ApiAuditListAuditEventsRequest struct {
+type ApiAuditListRequest struct {
 	ctx context.Context
 	ApiService *AuditAPIService
 	tenantId string
@@ -35,43 +35,43 @@ type ApiAuditListAuditEventsRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiAuditListAuditEventsRequest) Authorization(authorization string) ApiAuditListAuditEventsRequest {
+func (r ApiAuditListRequest) Authorization(authorization string) ApiAuditListRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiAuditListAuditEventsRequest) XPaletteApiKey(xPaletteApiKey string) ApiAuditListAuditEventsRequest {
+func (r ApiAuditListRequest) XPaletteApiKey(xPaletteApiKey string) ApiAuditListRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiAuditListAuditEventsRequest) XPaletteProjectId(xPaletteProjectId string) ApiAuditListAuditEventsRequest {
+func (r ApiAuditListRequest) XPaletteProjectId(xPaletteProjectId string) ApiAuditListRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiAuditListAuditEventsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiAuditListAuditEventsRequest {
+func (r ApiAuditListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiAuditListRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiAuditListAuditEventsRequest) Execute() ([]AuditEvent, *http.Response, error) {
-	return r.ApiService.AuditListAuditEventsExecute(r)
+func (r ApiAuditListRequest) Execute() ([]AuditEvent, *http.Response, error) {
+	return r.ApiService.AuditListExecute(r)
 }
 
 /*
-AuditListAuditEvents Method for AuditListAuditEvents
+AuditList Method for AuditList
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiAuditListAuditEventsRequest
+ @return ApiAuditListRequest
 */
-func (a *AuditAPIService) AuditListAuditEvents(ctx context.Context, tenantId string, projectId string) ApiAuditListAuditEventsRequest {
-	return ApiAuditListAuditEventsRequest{
+func (a *AuditAPIService) AuditList(ctx context.Context, tenantId string, projectId string) ApiAuditListRequest {
+	return ApiAuditListRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -81,7 +81,7 @@ func (a *AuditAPIService) AuditListAuditEvents(ctx context.Context, tenantId str
 
 // Execute executes the request
 //  @return []AuditEvent
-func (a *AuditAPIService) AuditListAuditEventsExecute(r ApiAuditListAuditEventsRequest) ([]AuditEvent, *http.Response, error) {
+func (a *AuditAPIService) AuditListExecute(r ApiAuditListRequest) ([]AuditEvent, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -89,7 +89,7 @@ func (a *AuditAPIService) AuditListAuditEventsExecute(r ApiAuditListAuditEventsR
 		localVarReturnValue  []AuditEvent
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuditAPIService.AuditListAuditEvents")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuditAPIService.AuditList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

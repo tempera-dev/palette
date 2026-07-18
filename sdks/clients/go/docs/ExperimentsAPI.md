@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ExperimentsRunDeterministicExperiment**](ExperimentsAPI.md#ExperimentsRunDeterministicExperiment) | **Post** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
-[**ExperimentsRunJudgeExperiment**](ExperimentsAPI.md#ExperimentsRunJudgeExperiment) | **Post** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |
+[**ExperimentsRunDeterministic**](ExperimentsAPI.md#ExperimentsRunDeterministic) | **Post** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
+[**ExperimentsRunJudge**](ExperimentsAPI.md#ExperimentsRunJudge) | **Post** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |
 
 
 
-## ExperimentsRunDeterministicExperiment
+## ExperimentsRunDeterministic
 
-> ExperimentRunReport ExperimentsRunDeterministicExperiment(ctx, tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ExperimentRunReport ExperimentsRunDeterministic(ctx, tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -40,13 +40,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunDeterministicExperiment(context.Background(), tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunDeterministic(context.Background(), tenantId, projectId, datasetId, versionId).RunExperimentRequest(runExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ExperimentsAPI.ExperimentsRunDeterministicExperiment``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ExperimentsAPI.ExperimentsRunDeterministic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ExperimentsRunDeterministicExperiment`: ExperimentRunReport
-	fmt.Fprintf(os.Stdout, "Response from `ExperimentsAPI.ExperimentsRunDeterministicExperiment`: %v\n", resp)
+	// response from `ExperimentsRunDeterministic`: ExperimentRunReport
+	fmt.Fprintf(os.Stdout, "Response from `ExperimentsAPI.ExperimentsRunDeterministic`: %v\n", resp)
 }
 ```
 
@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiExperimentsRunDeterministicExperimentRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiExperimentsRunDeterministicRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -96,9 +96,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ExperimentsRunJudgeExperiment
+## ExperimentsRunJudge
 
-> ExperimentRunReport ExperimentsRunJudgeExperiment(ctx, tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ExperimentRunReport ExperimentsRunJudge(ctx, tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -127,13 +127,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunJudgeExperiment(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ExperimentsAPI.ExperimentsRunJudge(context.Background(), tenantId, projectId, datasetId, versionId).RunJudgeExperimentRequest(runJudgeExperimentRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ExperimentsAPI.ExperimentsRunJudgeExperiment``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ExperimentsAPI.ExperimentsRunJudge``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ExperimentsRunJudgeExperiment`: ExperimentRunReport
-	fmt.Fprintf(os.Stdout, "Response from `ExperimentsAPI.ExperimentsRunJudgeExperiment`: %v\n", resp)
+	// response from `ExperimentsRunJudge`: ExperimentRunReport
+	fmt.Fprintf(os.Stdout, "Response from `ExperimentsAPI.ExperimentsRunJudge`: %v\n", resp)
 }
 ```
 
@@ -150,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiExperimentsRunJudgeExperimentRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiExperimentsRunJudgeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

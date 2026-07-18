@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UsageAPI_usageGetUsageSummary**](UsageAPI.md#UsageAPI_usageGetUsageSummary) | **GET** /v1/usage/{tenant_id}/{project_id} |
+[**UsageAPI_usageGetSummary**](UsageAPI.md#UsageAPI_usageGetSummary) | **GET** /v1/usage/{tenant_id}/{project_id} |
 
 
-# **UsageAPI_usageGetUsageSummary**
+# **UsageAPI_usageGetSummary**
 ```c
-usage_summary_t* UsageAPI_usageGetUsageSummary(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+usage_summary_t* UsageAPI_usageGetSummary(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

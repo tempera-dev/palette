@@ -6,11 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**IngestAPI_ingestDrainTraceIngested**](IngestAPI.md#IngestAPI_ingestDrainTraceIngested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
 [**IngestAPI_ingestDrainTraceWrites**](IngestAPI.md#IngestAPI_ingestDrainTraceWrites) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**IngestAPI_ingestGetIngestQueueStatus**](IngestAPI.md#IngestAPI_ingestGetIngestQueueStatus) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
+[**IngestAPI_ingestGetQueueStatus**](IngestAPI.md#IngestAPI_ingestGetQueueStatus) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
 [**IngestAPI_ingestImportSource**](IngestAPI.md#IngestAPI_ingestImportSource) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |
-[**IngestAPI_ingestIngestNative**](IngestAPI.md#IngestAPI_ingestIngestNative) | **POST** /v1/traces/native |
-[**IngestAPI_ingestIngestOtlp**](IngestAPI.md#IngestAPI_ingestIngestOtlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
-[**IngestAPI_ingestIngestOtlpJsonCollector**](IngestAPI.md#IngestAPI_ingestIngestOtlpJsonCollector) | **POST** /v1/traces |
+[**IngestAPI_ingestNative**](IngestAPI.md#IngestAPI_ingestNative) | **POST** /v1/traces/native |
+[**IngestAPI_ingestOtlp**](IngestAPI.md#IngestAPI_ingestOtlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**IngestAPI_ingestOtlpJsonCollector**](IngestAPI.md#IngestAPI_ingestOtlpJsonCollector) | **POST** /v1/traces |
 [**IngestAPI_ingestReconcileTrace**](IngestAPI.md#IngestAPI_ingestReconcileTrace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
 [**IngestAPI_ingestReplayDeadLetter**](IngestAPI.md#IngestAPI_ingestReplayDeadLetter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
 
@@ -81,9 +81,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **IngestAPI_ingestGetIngestQueueStatus**
+# **IngestAPI_ingestGetQueueStatus**
 ```c
-ingest_queue_status_t* IngestAPI_ingestGetIngestQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ingest_queue_status_t* IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -146,9 +146,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **IngestAPI_ingestIngestNative**
+# **IngestAPI_ingestNative**
 ```c
-ingest_outcome_t* IngestAPI_ingestIngestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ingest_outcome_t* IngestAPI_ingestNative(apiClient_t *apiClient, native_ingest_request_t *native_ingest_request, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -178,9 +178,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **IngestAPI_ingestIngestOtlp**
+# **IngestAPI_ingestOtlp**
 ```c
-otlp_ingest_outcome_t* IngestAPI_ingestIngestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+otlp_ingest_outcome_t* IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -212,9 +212,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **IngestAPI_ingestIngestOtlpJsonCollector**
+# **IngestAPI_ingestOtlpJsonCollector**
 ```c
-otlp_ingest_outcome_t* IngestAPI_ingestIngestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_tenant_id, char *x_palette_project_id, char *x_palette_environment_id);
+otlp_ingest_outcome_t* IngestAPI_ingestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_tenant_id, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

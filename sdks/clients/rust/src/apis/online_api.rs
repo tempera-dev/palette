@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`online_period_decide_online_sampling`]
+/// struct for passing parameters to the method [`online_period_decide_sampling`]
 #[derive(Clone, Debug)]
-pub struct OnlinePeriodDecideOnlineSamplingParams {
+pub struct OnlinePeriodDecideSamplingParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -35,10 +35,10 @@ pub struct OnlinePeriodDecideOnlineSamplingParams {
 }
 
 
-/// struct for typed errors of method [`online_period_decide_online_sampling`]
+/// struct for typed errors of method [`online_period_decide_sampling`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OnlinePeriodDecideOnlineSamplingError {
+pub enum OnlinePeriodDecideSamplingError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -46,7 +46,7 @@ pub enum OnlinePeriodDecideOnlineSamplingError {
 }
 
 
-pub async fn online_period_decide_online_sampling(configuration: &configuration::Configuration, params: OnlinePeriodDecideOnlineSamplingParams) -> Result<models::SamplingDecision, Error<OnlinePeriodDecideOnlineSamplingError>> {
+pub async fn online_period_decide_sampling(configuration: &configuration::Configuration, params: OnlinePeriodDecideSamplingParams) -> Result<models::SamplingDecision, Error<OnlinePeriodDecideSamplingError>> {
 
     let uri_str = format!("{}/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), trace_id=crate::apis::urlencode(params.trace_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -78,7 +78,7 @@ pub async fn online_period_decide_online_sampling(configuration: &configuration:
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<OnlinePeriodDecideOnlineSamplingError> = serde_json::from_str(&content).ok();
+        let entity: Option<OnlinePeriodDecideSamplingError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

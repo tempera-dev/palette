@@ -26,8 +26,8 @@ class TestHealthApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_health_health(self) -> None:
-        """Test case for health_health
+    def test_health_check(self) -> None:
+        """Test case for health_check
 
         """
         pass

@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**datasetsCreateDataset**](DatasetsApi.md#datasetsCreateDataset) | **POST** /v1/datasets/{tenant_id}/{project_id} |  |
-| [**datasetsCreateDatasetWithHttpInfo**](DatasetsApi.md#datasetsCreateDatasetWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id} |  |
-| [**datasetsCreateDatasetVersion**](DatasetsApi.md#datasetsCreateDatasetVersion) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |  |
-| [**datasetsCreateDatasetVersionWithHttpInfo**](DatasetsApi.md#datasetsCreateDatasetVersionWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |  |
-| [**datasetsPromoteDatasetCaseFromTrace**](DatasetsApi.md#datasetsPromoteDatasetCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |  |
-| [**datasetsPromoteDatasetCaseFromTraceWithHttpInfo**](DatasetsApi.md#datasetsPromoteDatasetCaseFromTraceWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |  |
+| [**datasetsCreate**](DatasetsApi.md#datasetsCreate) | **POST** /v1/datasets/{tenant_id}/{project_id} |  |
+| [**datasetsCreateWithHttpInfo**](DatasetsApi.md#datasetsCreateWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id} |  |
+| [**datasetsCreateVersion**](DatasetsApi.md#datasetsCreateVersion) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |  |
+| [**datasetsCreateVersionWithHttpInfo**](DatasetsApi.md#datasetsCreateVersionWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |  |
+| [**datasetsPromoteCaseFromTrace**](DatasetsApi.md#datasetsPromoteCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |  |
+| [**datasetsPromoteCaseFromTraceWithHttpInfo**](DatasetsApi.md#datasetsPromoteCaseFromTraceWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |  |
 
 
 
-## datasetsCreateDataset
+## datasetsCreate
 
-> Dataset datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> Dataset datasetsCreate(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -43,10 +43,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            Dataset result = apiInstance.datasetsCreateDataset(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            Dataset result = apiInstance.datasetsCreate(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DatasetsApi#datasetsCreateDataset");
+            System.err.println("Exception when calling DatasetsApi#datasetsCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -91,9 +91,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## datasetsCreateDatasetWithHttpInfo
+## datasetsCreateWithHttpInfo
 
-> ApiResponse<Dataset> datasetsCreateDataset datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<Dataset> datasetsCreate datasetsCreateWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -122,12 +122,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<Dataset> response = apiInstance.datasetsCreateDatasetWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<Dataset> response = apiInstance.datasetsCreateWithHttpInfo(tenantId, projectId, createDatasetRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling DatasetsApi#datasetsCreateDataset");
+            System.err.println("Exception when calling DatasetsApi#datasetsCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -173,9 +173,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## datasetsCreateDatasetVersion
+## datasetsCreateVersion
 
-> DatasetVersionSnapshot datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> DatasetVersionSnapshot datasetsCreateVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -204,10 +204,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetVersionSnapshot result = apiInstance.datasetsCreateDatasetVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            DatasetVersionSnapshot result = apiInstance.datasetsCreateVersion(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DatasetsApi#datasetsCreateDatasetVersion");
+            System.err.println("Exception when calling DatasetsApi#datasetsCreateVersion");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -254,9 +254,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## datasetsCreateDatasetVersionWithHttpInfo
+## datasetsCreateVersionWithHttpInfo
 
-> ApiResponse<DatasetVersionSnapshot> datasetsCreateDatasetVersion datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<DatasetVersionSnapshot> datasetsCreateVersion datasetsCreateVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -286,12 +286,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetVersionSnapshot> response = apiInstance.datasetsCreateDatasetVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<DatasetVersionSnapshot> response = apiInstance.datasetsCreateVersionWithHttpInfo(tenantId, projectId, datasetId, createDatasetVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling DatasetsApi#datasetsCreateDatasetVersion");
+            System.err.println("Exception when calling DatasetsApi#datasetsCreateVersion");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -339,9 +339,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## datasetsPromoteDatasetCaseFromTrace
+## datasetsPromoteCaseFromTrace
 
-> DatasetCase datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> DatasetCase datasetsPromoteCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -370,10 +370,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetCase result = apiInstance.datasetsPromoteDatasetCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            DatasetCase result = apiInstance.datasetsPromoteCaseFromTrace(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DatasetsApi#datasetsPromoteDatasetCaseFromTrace");
+            System.err.println("Exception when calling DatasetsApi#datasetsPromoteCaseFromTrace");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -420,9 +420,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## datasetsPromoteDatasetCaseFromTraceWithHttpInfo
+## datasetsPromoteCaseFromTraceWithHttpInfo
 
-> ApiResponse<DatasetCase> datasetsPromoteDatasetCaseFromTrace datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<DatasetCase> datasetsPromoteCaseFromTrace datasetsPromoteCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -452,12 +452,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetCase> response = apiInstance.datasetsPromoteDatasetCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<DatasetCase> response = apiInstance.datasetsPromoteCaseFromTraceWithHttpInfo(tenantId, projectId, datasetId, promoteTraceCaseRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling DatasetsApi#datasetsPromoteDatasetCaseFromTrace");
+            System.err.println("Exception when calling DatasetsApi#datasetsPromoteCaseFromTrace");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

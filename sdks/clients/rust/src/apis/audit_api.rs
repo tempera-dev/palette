@@ -14,9 +14,9 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method [`audit_period_list_audit_events`]
+/// struct for passing parameters to the method [`audit_period_list`]
 #[derive(Clone, Debug)]
-pub struct AuditPeriodListAuditEventsParams {
+pub struct AuditPeriodListParams {
     /// tenant_id
     pub tenant_id: String,
     /// project_id
@@ -32,10 +32,10 @@ pub struct AuditPeriodListAuditEventsParams {
 }
 
 
-/// struct for typed errors of method [`audit_period_list_audit_events`]
+/// struct for typed errors of method [`audit_period_list`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AuditPeriodListAuditEventsError {
+pub enum AuditPeriodListError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
@@ -43,7 +43,7 @@ pub enum AuditPeriodListAuditEventsError {
 }
 
 
-pub async fn audit_period_list_audit_events(configuration: &configuration::Configuration, params: AuditPeriodListAuditEventsParams) -> Result<Vec<models::AuditEvent>, Error<AuditPeriodListAuditEventsError>> {
+pub async fn audit_period_list(configuration: &configuration::Configuration, params: AuditPeriodListParams) -> Result<Vec<models::AuditEvent>, Error<AuditPeriodListError>> {
 
     let uri_str = format!("{}/v1/audit/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -74,7 +74,7 @@ pub async fn audit_period_list_audit_events(configuration: &configuration::Confi
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let content = resp.text().await?;
-        let entity: Option<AuditPeriodListAuditEventsError> = serde_json::from_str(&content).ok();
+        let entity: Option<AuditPeriodListError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

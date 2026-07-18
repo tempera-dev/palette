@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**PromptsAddPromptVersion**](PromptsAPI.md#PromptsAddPromptVersion) | **Post** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**PromptsCreatePrompt**](PromptsAPI.md#PromptsCreatePrompt) | **Post** /v1/prompts/{tenant_id}/{project_id} |
-[**PromptsDiffPromptVersions**](PromptsAPI.md#PromptsDiffPromptVersions) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
-[**PromptsGetPrompt**](PromptsAPI.md#PromptsGetPrompt) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
-[**PromptsListPromptVersions**](PromptsAPI.md#PromptsListPromptVersions) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**PromptsListPrompts**](PromptsAPI.md#PromptsListPrompts) | **Get** /v1/prompts/{tenant_id}/{project_id} |
+[**PromptsAddVersion**](PromptsAPI.md#PromptsAddVersion) | **Post** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
+[**PromptsCreate**](PromptsAPI.md#PromptsCreate) | **Post** /v1/prompts/{tenant_id}/{project_id} |
+[**PromptsDiffVersions**](PromptsAPI.md#PromptsDiffVersions) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
+[**PromptsGet**](PromptsAPI.md#PromptsGet) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
+[**PromptsList**](PromptsAPI.md#PromptsList) | **Get** /v1/prompts/{tenant_id}/{project_id} |
+[**PromptsListVersions**](PromptsAPI.md#PromptsListVersions) | **Get** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
 
 
 
-## PromptsAddPromptVersion
+## PromptsAddVersion
 
-> PromptVersion PromptsAddPromptVersion(ctx, tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> PromptVersion PromptsAddVersion(ctx, tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -43,13 +43,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsAddPromptVersion(context.Background(), tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsAddVersion(context.Background(), tenantId, projectId, promptId).AddPromptVersionRequest(addPromptVersionRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsAddPromptVersion``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsAddVersion``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `PromptsAddPromptVersion`: PromptVersion
-	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsAddPromptVersion`: %v\n", resp)
+	// response from `PromptsAddVersion`: PromptVersion
+	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsAddVersion`: %v\n", resp)
 }
 ```
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiPromptsAddPromptVersionRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiPromptsAddVersionRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -97,9 +97,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## PromptsCreatePrompt
+## PromptsCreate
 
-> CreatedPrompt PromptsCreatePrompt(ctx, tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> CreatedPrompt PromptsCreate(ctx, tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -126,13 +126,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsCreatePrompt(context.Background(), tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsCreate(context.Background(), tenantId, projectId).CreatePromptRequest(createPromptRequest).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsCreatePrompt``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `PromptsCreatePrompt`: CreatedPrompt
-	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsCreatePrompt`: %v\n", resp)
+	// response from `PromptsCreate`: CreatedPrompt
+	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsCreate`: %v\n", resp)
 }
 ```
 
@@ -147,7 +147,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiPromptsCreatePromptRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiPromptsCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -178,9 +178,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## PromptsDiffPromptVersions
+## PromptsDiffVersions
 
-> PromptVersionDiff PromptsDiffPromptVersions(ctx, tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> PromptVersionDiff PromptsDiffVersions(ctx, tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -209,13 +209,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsDiffPromptVersions(context.Background(), tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsDiffVersions(context.Background(), tenantId, projectId, promptId).From(from).To(to).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsDiffPromptVersions``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsDiffVersions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `PromptsDiffPromptVersions`: PromptVersionDiff
-	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsDiffPromptVersions`: %v\n", resp)
+	// response from `PromptsDiffVersions`: PromptVersionDiff
+	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsDiffVersions`: %v\n", resp)
 }
 ```
 
@@ -231,7 +231,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiPromptsDiffPromptVersionsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiPromptsDiffVersionsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -264,9 +264,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## PromptsGetPrompt
+## PromptsGet
 
-> Prompt PromptsGetPrompt(ctx, tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> Prompt PromptsGet(ctx, tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -293,13 +293,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsGetPrompt(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsGet(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsGetPrompt``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `PromptsGetPrompt`: Prompt
-	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsGetPrompt`: %v\n", resp)
+	// response from `PromptsGet`: Prompt
+	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsGet`: %v\n", resp)
 }
 ```
 
@@ -315,7 +315,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiPromptsGetPromptRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiPromptsGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -346,9 +346,88 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## PromptsListPromptVersions
+## PromptsList
 
-> PromptVersionListResponse PromptsListPromptVersions(ctx, tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> PromptListResponse PromptsList(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
+)
+
+func main() {
+	tenantId := "tenantId_example" // string | tenant_id
+	projectId := "projectId_example" // string | project_id
+	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
+	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
+	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
+	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PromptsAPI.PromptsList(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsList``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PromptsList`: PromptListResponse
+	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**tenantId** | **string** | tenant_id |
+**projectId** | **string** | project_id |
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPromptsListRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **authorization** | **string** | Bearer API token for strict auth |
+ **xPaletteApiKey** | **string** | API key alternative for strict auth |
+ **xPaletteProjectId** | **string** | Strict-auth project scope |
+ **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
+
+### Return type
+
+[**PromptListResponse**](PromptListResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PromptsListVersions
+
+> PromptVersionListResponse PromptsListVersions(ctx, tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -375,13 +454,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsListPromptVersions(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.PromptsAPI.PromptsListVersions(context.Background(), tenantId, projectId, promptId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsListPromptVersions``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsListVersions``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `PromptsListPromptVersions`: PromptVersionListResponse
-	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsListPromptVersions`: %v\n", resp)
+	// response from `PromptsListVersions`: PromptVersionListResponse
+	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsListVersions`: %v\n", resp)
 }
 ```
 
@@ -397,7 +476,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiPromptsListPromptVersionsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiPromptsListVersionsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -413,85 +492,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**PromptVersionListResponse**](PromptVersionListResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## PromptsListPrompts
-
-> PromptListResponse PromptsListPrompts(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
-)
-
-func main() {
-	tenantId := "tenantId_example" // string | tenant_id
-	projectId := "projectId_example" // string | project_id
-	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
-	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
-	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
-	xPaletteEnvironmentId := "xPaletteEnvironmentId_example" // string | Strict-auth environment scope (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PromptsAPI.PromptsListPrompts(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PromptsAPI.PromptsListPrompts``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `PromptsListPrompts`: PromptListResponse
-	fmt.Fprintf(os.Stdout, "Response from `PromptsAPI.PromptsListPrompts`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tenantId** | **string** | tenant_id |
-**projectId** | **string** | project_id |
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiPromptsListPromptsRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
- **authorization** | **string** | Bearer API token for strict auth |
- **xPaletteApiKey** | **string** | API key alternative for strict auth |
- **xPaletteProjectId** | **string** | Strict-auth project scope |
- **xPaletteEnvironmentId** | **string** | Strict-auth environment scope |
-
-### Return type
-
-[**PromptListResponse**](PromptListResponse.md)
 
 ### Authorization
 

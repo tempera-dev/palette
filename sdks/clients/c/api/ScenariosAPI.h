@@ -14,18 +14,18 @@
 
 
 scenario_t*
-ScenariosAPI_scenariosCreateScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, create_scenario_request_t *create_scenario_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ScenariosAPI_scenariosCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_scenario_request_t *create_scenario_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 scenario_t*
-ScenariosAPI_scenariosGetScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, char *scenario_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ScenariosAPI_scenariosGet(apiClient_t *apiClient, char *tenant_id, char *project_id, char *scenario_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 list_scenarios_response_t*
-ScenariosAPI_scenariosListScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 mine_scenarios_response_t*
-ScenariosAPI_scenariosMineScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, mine_scenarios_request_t *mine_scenarios_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ScenariosAPI_scenariosMine(apiClient_t *apiClient, char *tenant_id, char *project_id, mine_scenarios_request_t *mine_scenarios_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 

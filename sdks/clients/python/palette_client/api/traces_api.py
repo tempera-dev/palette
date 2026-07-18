@@ -41,7 +41,7 @@ class TracesApi:
 
 
     @validate_call
-    def traces_get_trace(
+    def traces_get(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         trace_id: Annotated[StrictStr, Field(description="trace_id")],
@@ -64,7 +64,7 @@ class TracesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> TraceView:
-        """traces_get_trace
+        """traces_get
 
 
         :param tenant_id: tenant_id (required)
@@ -105,7 +105,7 @@ class TracesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._traces_get_trace_serialize(
+        _param = self._traces_get_serialize(
             tenant_id=tenant_id,
             trace_id=trace_id,
             unmask=unmask,
@@ -139,7 +139,7 @@ class TracesApi:
 
 
     @validate_call
-    def traces_get_trace_with_http_info(
+    def traces_get_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         trace_id: Annotated[StrictStr, Field(description="trace_id")],
@@ -162,7 +162,7 @@ class TracesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[TraceView]:
-        """traces_get_trace
+        """traces_get
 
 
         :param tenant_id: tenant_id (required)
@@ -203,7 +203,7 @@ class TracesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._traces_get_trace_serialize(
+        _param = self._traces_get_serialize(
             tenant_id=tenant_id,
             trace_id=trace_id,
             unmask=unmask,
@@ -237,7 +237,7 @@ class TracesApi:
 
 
     @validate_call
-    def traces_get_trace_without_preload_content(
+    def traces_get_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         trace_id: Annotated[StrictStr, Field(description="trace_id")],
@@ -260,7 +260,7 @@ class TracesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """traces_get_trace
+        """traces_get
 
 
         :param tenant_id: tenant_id (required)
@@ -301,7 +301,7 @@ class TracesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._traces_get_trace_serialize(
+        _param = self._traces_get_serialize(
             tenant_id=tenant_id,
             trace_id=trace_id,
             unmask=unmask,
@@ -330,7 +330,7 @@ class TracesApi:
         return response_data.response
 
 
-    def _traces_get_trace_serialize(
+    def _traces_get_serialize(
         self,
         tenant_id,
         trace_id,
@@ -419,7 +419,7 @@ class TracesApi:
 
 
     @validate_call
-    def traces_list_traces(
+    def traces_list(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Optional[StrictStr] = None,
@@ -454,7 +454,7 @@ class TracesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PageRunSummary:
-        """traces_list_traces
+        """traces_list
 
 
         :param tenant_id: tenant_id (required)
@@ -519,7 +519,7 @@ class TracesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._traces_list_traces_serialize(
+        _param = self._traces_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             environment_id=environment_id,
@@ -564,7 +564,7 @@ class TracesApi:
 
 
     @validate_call
-    def traces_list_traces_with_http_info(
+    def traces_list_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Optional[StrictStr] = None,
@@ -599,7 +599,7 @@ class TracesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PageRunSummary]:
-        """traces_list_traces
+        """traces_list
 
 
         :param tenant_id: tenant_id (required)
@@ -664,7 +664,7 @@ class TracesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._traces_list_traces_serialize(
+        _param = self._traces_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             environment_id=environment_id,
@@ -709,7 +709,7 @@ class TracesApi:
 
 
     @validate_call
-    def traces_list_traces_without_preload_content(
+    def traces_list_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Optional[StrictStr] = None,
@@ -744,7 +744,7 @@ class TracesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """traces_list_traces
+        """traces_list
 
 
         :param tenant_id: tenant_id (required)
@@ -809,7 +809,7 @@ class TracesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._traces_list_traces_serialize(
+        _param = self._traces_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             environment_id=environment_id,
@@ -849,7 +849,7 @@ class TracesApi:
         return response_data.response
 
 
-    def _traces_list_traces_serialize(
+    def _traces_list_serialize(
         self,
         tenant_id,
         project_id,

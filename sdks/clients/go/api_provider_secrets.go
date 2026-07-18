@@ -23,7 +23,7 @@ import (
 // ProviderSecretsAPIService ProviderSecretsAPI service
 type ProviderSecretsAPIService service
 
-type ApiProviderSecretsCreateProviderSecretRequest struct {
+type ApiProviderSecretsCreateRequest struct {
 	ctx context.Context
 	ApiService *ProviderSecretsAPIService
 	tenantId string
@@ -35,49 +35,49 @@ type ApiProviderSecretsCreateProviderSecretRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiProviderSecretsCreateProviderSecretRequest) CreateProviderSecretHttpRequest(createProviderSecretHttpRequest CreateProviderSecretHttpRequest) ApiProviderSecretsCreateProviderSecretRequest {
+func (r ApiProviderSecretsCreateRequest) CreateProviderSecretHttpRequest(createProviderSecretHttpRequest CreateProviderSecretHttpRequest) ApiProviderSecretsCreateRequest {
 	r.createProviderSecretHttpRequest = &createProviderSecretHttpRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiProviderSecretsCreateProviderSecretRequest) Authorization(authorization string) ApiProviderSecretsCreateProviderSecretRequest {
+func (r ApiProviderSecretsCreateRequest) Authorization(authorization string) ApiProviderSecretsCreateRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiProviderSecretsCreateProviderSecretRequest) XPaletteApiKey(xPaletteApiKey string) ApiProviderSecretsCreateProviderSecretRequest {
+func (r ApiProviderSecretsCreateRequest) XPaletteApiKey(xPaletteApiKey string) ApiProviderSecretsCreateRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiProviderSecretsCreateProviderSecretRequest) XPaletteProjectId(xPaletteProjectId string) ApiProviderSecretsCreateProviderSecretRequest {
+func (r ApiProviderSecretsCreateRequest) XPaletteProjectId(xPaletteProjectId string) ApiProviderSecretsCreateRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiProviderSecretsCreateProviderSecretRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiProviderSecretsCreateProviderSecretRequest {
+func (r ApiProviderSecretsCreateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiProviderSecretsCreateRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiProviderSecretsCreateProviderSecretRequest) Execute() (*ProviderSecretMetadata, *http.Response, error) {
-	return r.ApiService.ProviderSecretsCreateProviderSecretExecute(r)
+func (r ApiProviderSecretsCreateRequest) Execute() (*ProviderSecretMetadata, *http.Response, error) {
+	return r.ApiService.ProviderSecretsCreateExecute(r)
 }
 
 /*
-ProviderSecretsCreateProviderSecret Method for ProviderSecretsCreateProviderSecret
+ProviderSecretsCreate Method for ProviderSecretsCreate
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiProviderSecretsCreateProviderSecretRequest
+ @return ApiProviderSecretsCreateRequest
 */
-func (a *ProviderSecretsAPIService) ProviderSecretsCreateProviderSecret(ctx context.Context, tenantId string, projectId string) ApiProviderSecretsCreateProviderSecretRequest {
-	return ApiProviderSecretsCreateProviderSecretRequest{
+func (a *ProviderSecretsAPIService) ProviderSecretsCreate(ctx context.Context, tenantId string, projectId string) ApiProviderSecretsCreateRequest {
+	return ApiProviderSecretsCreateRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -87,7 +87,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsCreateProviderSecret(ctx cont
 
 // Execute executes the request
 //  @return ProviderSecretMetadata
-func (a *ProviderSecretsAPIService) ProviderSecretsCreateProviderSecretExecute(r ApiProviderSecretsCreateProviderSecretRequest) (*ProviderSecretMetadata, *http.Response, error) {
+func (a *ProviderSecretsAPIService) ProviderSecretsCreateExecute(r ApiProviderSecretsCreateRequest) (*ProviderSecretMetadata, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -95,7 +95,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsCreateProviderSecretExecute(r
 		localVarReturnValue  *ProviderSecretMetadata
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsCreateProviderSecret")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsCreate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -211,7 +211,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsCreateProviderSecretExecute(r
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiProviderSecretsListProviderSecretsRequest struct {
+type ApiProviderSecretsListRequest struct {
 	ctx context.Context
 	ApiService *ProviderSecretsAPIService
 	tenantId string
@@ -223,43 +223,43 @@ type ApiProviderSecretsListProviderSecretsRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiProviderSecretsListProviderSecretsRequest) Authorization(authorization string) ApiProviderSecretsListProviderSecretsRequest {
+func (r ApiProviderSecretsListRequest) Authorization(authorization string) ApiProviderSecretsListRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiProviderSecretsListProviderSecretsRequest) XPaletteApiKey(xPaletteApiKey string) ApiProviderSecretsListProviderSecretsRequest {
+func (r ApiProviderSecretsListRequest) XPaletteApiKey(xPaletteApiKey string) ApiProviderSecretsListRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiProviderSecretsListProviderSecretsRequest) XPaletteProjectId(xPaletteProjectId string) ApiProviderSecretsListProviderSecretsRequest {
+func (r ApiProviderSecretsListRequest) XPaletteProjectId(xPaletteProjectId string) ApiProviderSecretsListRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiProviderSecretsListProviderSecretsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiProviderSecretsListProviderSecretsRequest {
+func (r ApiProviderSecretsListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiProviderSecretsListRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiProviderSecretsListProviderSecretsRequest) Execute() ([]ProviderSecretMetadata, *http.Response, error) {
-	return r.ApiService.ProviderSecretsListProviderSecretsExecute(r)
+func (r ApiProviderSecretsListRequest) Execute() ([]ProviderSecretMetadata, *http.Response, error) {
+	return r.ApiService.ProviderSecretsListExecute(r)
 }
 
 /*
-ProviderSecretsListProviderSecrets Method for ProviderSecretsListProviderSecrets
+ProviderSecretsList Method for ProviderSecretsList
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiProviderSecretsListProviderSecretsRequest
+ @return ApiProviderSecretsListRequest
 */
-func (a *ProviderSecretsAPIService) ProviderSecretsListProviderSecrets(ctx context.Context, tenantId string, projectId string) ApiProviderSecretsListProviderSecretsRequest {
-	return ApiProviderSecretsListProviderSecretsRequest{
+func (a *ProviderSecretsAPIService) ProviderSecretsList(ctx context.Context, tenantId string, projectId string) ApiProviderSecretsListRequest {
+	return ApiProviderSecretsListRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -269,7 +269,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsListProviderSecrets(ctx conte
 
 // Execute executes the request
 //  @return []ProviderSecretMetadata
-func (a *ProviderSecretsAPIService) ProviderSecretsListProviderSecretsExecute(r ApiProviderSecretsListProviderSecretsRequest) ([]ProviderSecretMetadata, *http.Response, error) {
+func (a *ProviderSecretsAPIService) ProviderSecretsListExecute(r ApiProviderSecretsListRequest) ([]ProviderSecretMetadata, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -277,7 +277,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsListProviderSecretsExecute(r 
 		localVarReturnValue  []ProviderSecretMetadata
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsListProviderSecrets")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -388,7 +388,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsListProviderSecretsExecute(r 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiProviderSecretsRevokeProviderSecretRequest struct {
+type ApiProviderSecretsRevokeRequest struct {
 	ctx context.Context
 	ApiService *ProviderSecretsAPIService
 	tenantId string
@@ -401,44 +401,44 @@ type ApiProviderSecretsRevokeProviderSecretRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiProviderSecretsRevokeProviderSecretRequest) Authorization(authorization string) ApiProviderSecretsRevokeProviderSecretRequest {
+func (r ApiProviderSecretsRevokeRequest) Authorization(authorization string) ApiProviderSecretsRevokeRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiProviderSecretsRevokeProviderSecretRequest) XPaletteApiKey(xPaletteApiKey string) ApiProviderSecretsRevokeProviderSecretRequest {
+func (r ApiProviderSecretsRevokeRequest) XPaletteApiKey(xPaletteApiKey string) ApiProviderSecretsRevokeRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiProviderSecretsRevokeProviderSecretRequest) XPaletteProjectId(xPaletteProjectId string) ApiProviderSecretsRevokeProviderSecretRequest {
+func (r ApiProviderSecretsRevokeRequest) XPaletteProjectId(xPaletteProjectId string) ApiProviderSecretsRevokeRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiProviderSecretsRevokeProviderSecretRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiProviderSecretsRevokeProviderSecretRequest {
+func (r ApiProviderSecretsRevokeRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiProviderSecretsRevokeRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiProviderSecretsRevokeProviderSecretRequest) Execute() (*RevokedProviderSecret, *http.Response, error) {
-	return r.ApiService.ProviderSecretsRevokeProviderSecretExecute(r)
+func (r ApiProviderSecretsRevokeRequest) Execute() (*RevokedProviderSecret, *http.Response, error) {
+	return r.ApiService.ProviderSecretsRevokeExecute(r)
 }
 
 /*
-ProviderSecretsRevokeProviderSecret Method for ProviderSecretsRevokeProviderSecret
+ProviderSecretsRevoke Method for ProviderSecretsRevoke
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param providerSecretId provider_secret_id
- @return ApiProviderSecretsRevokeProviderSecretRequest
+ @return ApiProviderSecretsRevokeRequest
 */
-func (a *ProviderSecretsAPIService) ProviderSecretsRevokeProviderSecret(ctx context.Context, tenantId string, projectId string, providerSecretId string) ApiProviderSecretsRevokeProviderSecretRequest {
-	return ApiProviderSecretsRevokeProviderSecretRequest{
+func (a *ProviderSecretsAPIService) ProviderSecretsRevoke(ctx context.Context, tenantId string, projectId string, providerSecretId string) ApiProviderSecretsRevokeRequest {
+	return ApiProviderSecretsRevokeRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -449,7 +449,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsRevokeProviderSecret(ctx cont
 
 // Execute executes the request
 //  @return RevokedProviderSecret
-func (a *ProviderSecretsAPIService) ProviderSecretsRevokeProviderSecretExecute(r ApiProviderSecretsRevokeProviderSecretRequest) (*RevokedProviderSecret, *http.Response, error) {
+func (a *ProviderSecretsAPIService) ProviderSecretsRevokeExecute(r ApiProviderSecretsRevokeRequest) (*RevokedProviderSecret, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -457,7 +457,7 @@ func (a *ProviderSecretsAPIService) ProviderSecretsRevokeProviderSecretExecute(r
 		localVarReturnValue  *RevokedProviderSecret
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsRevokeProviderSecret")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProviderSecretsAPIService.ProviderSecretsRevoke")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

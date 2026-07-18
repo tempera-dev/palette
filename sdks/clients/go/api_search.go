@@ -23,7 +23,7 @@ import (
 // SearchAPIService SearchAPI service
 type SearchAPIService service
 
-type ApiSearchSearchSpansRequest struct {
+type ApiSearchSpansRequest struct {
 	ctx context.Context
 	ApiService *SearchAPIService
 	tenantId string
@@ -43,93 +43,93 @@ type ApiSearchSearchSpansRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiSearchSearchSpansRequest) Q(q string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Q(q string) ApiSearchSpansRequest {
 	r.q = &q
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) ProjectId(projectId string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) ProjectId(projectId string) ApiSearchSpansRequest {
 	r.projectId = &projectId
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) EnvironmentId(environmentId string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) EnvironmentId(environmentId string) ApiSearchSpansRequest {
 	r.environmentId = &environmentId
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) TraceId(traceId string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) TraceId(traceId string) ApiSearchSpansRequest {
 	r.traceId = &traceId
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) SpanId(spanId string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) SpanId(spanId string) ApiSearchSpansRequest {
 	r.spanId = &spanId
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) Kind(kind string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Kind(kind string) ApiSearchSpansRequest {
 	r.kind = &kind
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) Status(status string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Status(status string) ApiSearchSpansRequest {
 	r.status = &status
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) Model(model string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Model(model string) ApiSearchSpansRequest {
 	r.model = &model
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) Tool(tool string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Tool(tool string) ApiSearchSpansRequest {
 	r.tool = &tool
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) Limit(limit int32) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Limit(limit int32) ApiSearchSpansRequest {
 	r.limit = &limit
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiSearchSearchSpansRequest) Authorization(authorization string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) Authorization(authorization string) ApiSearchSpansRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiSearchSearchSpansRequest) XPaletteApiKey(xPaletteApiKey string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) XPaletteApiKey(xPaletteApiKey string) ApiSearchSpansRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiSearchSearchSpansRequest) XPaletteProjectId(xPaletteProjectId string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) XPaletteProjectId(xPaletteProjectId string) ApiSearchSpansRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiSearchSearchSpansRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiSearchSearchSpansRequest {
+func (r ApiSearchSpansRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiSearchSpansRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiSearchSearchSpansRequest) Execute() (*SearchResponse, *http.Response, error) {
-	return r.ApiService.SearchSearchSpansExecute(r)
+func (r ApiSearchSpansRequest) Execute() (*SearchResponse, *http.Response, error) {
+	return r.ApiService.SearchSpansExecute(r)
 }
 
 /*
-SearchSearchSpans Method for SearchSearchSpans
+SearchSpans Method for SearchSpans
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
- @return ApiSearchSearchSpansRequest
+ @return ApiSearchSpansRequest
 */
-func (a *SearchAPIService) SearchSearchSpans(ctx context.Context, tenantId string) ApiSearchSearchSpansRequest {
-	return ApiSearchSearchSpansRequest{
+func (a *SearchAPIService) SearchSpans(ctx context.Context, tenantId string) ApiSearchSpansRequest {
+	return ApiSearchSpansRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -138,7 +138,7 @@ func (a *SearchAPIService) SearchSearchSpans(ctx context.Context, tenantId strin
 
 // Execute executes the request
 //  @return SearchResponse
-func (a *SearchAPIService) SearchSearchSpansExecute(r ApiSearchSearchSpansRequest) (*SearchResponse, *http.Response, error) {
+func (a *SearchAPIService) SearchSpansExecute(r ApiSearchSpansRequest) (*SearchResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -146,7 +146,7 @@ func (a *SearchAPIService) SearchSearchSpansExecute(r ApiSearchSearchSpansReques
 		localVarReturnValue  *SearchResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SearchAPIService.SearchSearchSpans")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SearchAPIService.SearchSpans")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConnectGetPaletteConnectStatus**](ConnectAPI.md#ConnectGetPaletteConnectStatus) | **Get** /v1/connect/status/{tenant_id}/{project_id} |
+[**ConnectGetStatus**](ConnectAPI.md#ConnectGetStatus) | **Get** /v1/connect/status/{tenant_id}/{project_id} |
 
 
 
-## ConnectGetPaletteConnectStatus
+## ConnectGetStatus
 
-> PaletteConnectStatusResponse ConnectGetPaletteConnectStatus(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> PaletteConnectStatusResponse ConnectGetStatus(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -36,13 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectAPI.ConnectGetPaletteConnectStatus(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectAPI.ConnectGetStatus(context.Background(), tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ConnectAPI.ConnectGetPaletteConnectStatus``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ConnectAPI.ConnectGetStatus``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectGetPaletteConnectStatus`: PaletteConnectStatusResponse
-	fmt.Fprintf(os.Stdout, "Response from `ConnectAPI.ConnectGetPaletteConnectStatus`: %v\n", resp)
+	// response from `ConnectGetStatus`: PaletteConnectStatusResponse
+	fmt.Fprintf(os.Stdout, "Response from `ConnectAPI.ConnectGetStatus`: %v\n", resp)
 }
 ```
 
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiConnectGetPaletteConnectStatusRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiConnectGetStatusRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

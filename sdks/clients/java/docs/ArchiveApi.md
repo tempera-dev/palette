@@ -6,8 +6,8 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 | [**archiveArchiveTrace**](ArchiveApi.md#archiveArchiveTrace) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |  |
 | [**archiveArchiveTraceWithHttpInfo**](ArchiveApi.md#archiveArchiveTraceWithHttpInfo) | **POST** /v1/archive/{tenant_id}/{project_id}/{trace_id} |  |
-| [**archiveQueryArchiveSpans**](ArchiveApi.md#archiveQueryArchiveSpans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |  |
-| [**archiveQueryArchiveSpansWithHttpInfo**](ArchiveApi.md#archiveQueryArchiveSpansWithHttpInfo) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |  |
+| [**archiveQuerySpans**](ArchiveApi.md#archiveQuerySpans) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |  |
+| [**archiveQuerySpansWithHttpInfo**](ArchiveApi.md#archiveQuerySpansWithHttpInfo) | **GET** /v1/archive/{tenant_id}/{project_id}/spans |  |
 
 
 
@@ -173,9 +173,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## archiveQueryArchiveSpans
+## archiveQuerySpans
 
-> ArchiveQueryResponse archiveQueryArchiveSpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ArchiveQueryResponse archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -208,10 +208,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ArchiveQueryResponse result = apiInstance.archiveQueryArchiveSpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ArchiveQueryResponse result = apiInstance.archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ArchiveApi#archiveQueryArchiveSpans");
+            System.err.println("Exception when calling ArchiveApi#archiveQuerySpans");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -261,9 +261,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## archiveQueryArchiveSpansWithHttpInfo
+## archiveQuerySpansWithHttpInfo
 
-> ApiResponse<ArchiveQueryResponse> archiveQueryArchiveSpans archiveQueryArchiveSpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ArchiveQueryResponse> archiveQuerySpans archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -297,12 +297,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ArchiveQueryResponse> response = apiInstance.archiveQueryArchiveSpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ArchiveQueryResponse> response = apiInstance.archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ArchiveApi#archiveQueryArchiveSpans");
+            System.err.println("Exception when calling ArchiveApi#archiveQuerySpans");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

@@ -97,8 +97,8 @@ public class ProviderSecretsApi {
    * @return ProviderSecretMetadata
    * @throws ApiException if fails to make API call
    */
-  public ProviderSecretMetadata providerSecretsCreateProviderSecret(String tenantId, String projectId, CreateProviderSecretHttpRequest createProviderSecretHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ProviderSecretMetadata> localVarResponse = providerSecretsCreateProviderSecretWithHttpInfo(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ProviderSecretMetadata providerSecretsCreate(String tenantId, String projectId, CreateProviderSecretHttpRequest createProviderSecretHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ProviderSecretMetadata> localVarResponse = providerSecretsCreateWithHttpInfo(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -115,8 +115,8 @@ public class ProviderSecretsApi {
    * @return ApiResponse&lt;ProviderSecretMetadata&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ProviderSecretMetadata> providerSecretsCreateProviderSecretWithHttpInfo(String tenantId, String projectId, CreateProviderSecretHttpRequest createProviderSecretHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = providerSecretsCreateProviderSecretRequestBuilder(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ProviderSecretMetadata> providerSecretsCreateWithHttpInfo(String tenantId, String projectId, CreateProviderSecretHttpRequest createProviderSecretHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = providerSecretsCreateRequestBuilder(tenantId, projectId, createProviderSecretHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -126,7 +126,7 @@ public class ProviderSecretsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("providerSecretsCreateProviderSecret", localVarResponse);
+          throw getApiException("providerSecretsCreate", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ProviderSecretMetadata>(
@@ -155,18 +155,18 @@ public class ProviderSecretsApi {
     }
   }
 
-  private HttpRequest.Builder providerSecretsCreateProviderSecretRequestBuilder(String tenantId, String projectId, CreateProviderSecretHttpRequest createProviderSecretHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder providerSecretsCreateRequestBuilder(String tenantId, String projectId, CreateProviderSecretHttpRequest createProviderSecretHttpRequest, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling providerSecretsCreateProviderSecret");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling providerSecretsCreate");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling providerSecretsCreateProviderSecret");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling providerSecretsCreate");
     }
     // verify the required parameter 'createProviderSecretHttpRequest' is set
     if (createProviderSecretHttpRequest == null) {
-      throw new ApiException(400, "Missing the required parameter 'createProviderSecretHttpRequest' when calling providerSecretsCreateProviderSecret");
+      throw new ApiException(400, "Missing the required parameter 'createProviderSecretHttpRequest' when calling providerSecretsCreate");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -219,8 +219,8 @@ public class ProviderSecretsApi {
    * @return List&lt;ProviderSecretMetadata&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<ProviderSecretMetadata> providerSecretsListProviderSecrets(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<List<ProviderSecretMetadata>> localVarResponse = providerSecretsListProviderSecretsWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public List<ProviderSecretMetadata> providerSecretsList(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<List<ProviderSecretMetadata>> localVarResponse = providerSecretsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -236,8 +236,8 @@ public class ProviderSecretsApi {
    * @return ApiResponse&lt;List&lt;ProviderSecretMetadata&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<ProviderSecretMetadata>> providerSecretsListProviderSecretsWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = providerSecretsListProviderSecretsRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<List<ProviderSecretMetadata>> providerSecretsListWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = providerSecretsListRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -247,7 +247,7 @@ public class ProviderSecretsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("providerSecretsListProviderSecrets", localVarResponse);
+          throw getApiException("providerSecretsList", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<List<ProviderSecretMetadata>>(
@@ -276,14 +276,14 @@ public class ProviderSecretsApi {
     }
   }
 
-  private HttpRequest.Builder providerSecretsListProviderSecretsRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder providerSecretsListRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling providerSecretsListProviderSecrets");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling providerSecretsList");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling providerSecretsListProviderSecrets");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling providerSecretsList");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -331,8 +331,8 @@ public class ProviderSecretsApi {
    * @return RevokedProviderSecret
    * @throws ApiException if fails to make API call
    */
-  public RevokedProviderSecret providerSecretsRevokeProviderSecret(String tenantId, String projectId, String providerSecretId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<RevokedProviderSecret> localVarResponse = providerSecretsRevokeProviderSecretWithHttpInfo(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public RevokedProviderSecret providerSecretsRevoke(String tenantId, String projectId, String providerSecretId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<RevokedProviderSecret> localVarResponse = providerSecretsRevokeWithHttpInfo(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -349,8 +349,8 @@ public class ProviderSecretsApi {
    * @return ApiResponse&lt;RevokedProviderSecret&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<RevokedProviderSecret> providerSecretsRevokeProviderSecretWithHttpInfo(String tenantId, String projectId, String providerSecretId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = providerSecretsRevokeProviderSecretRequestBuilder(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<RevokedProviderSecret> providerSecretsRevokeWithHttpInfo(String tenantId, String projectId, String providerSecretId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = providerSecretsRevokeRequestBuilder(tenantId, projectId, providerSecretId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -360,7 +360,7 @@ public class ProviderSecretsApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("providerSecretsRevokeProviderSecret", localVarResponse);
+          throw getApiException("providerSecretsRevoke", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<RevokedProviderSecret>(
@@ -389,18 +389,18 @@ public class ProviderSecretsApi {
     }
   }
 
-  private HttpRequest.Builder providerSecretsRevokeProviderSecretRequestBuilder(String tenantId, String projectId, String providerSecretId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder providerSecretsRevokeRequestBuilder(String tenantId, String projectId, String providerSecretId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling providerSecretsRevokeProviderSecret");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling providerSecretsRevoke");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling providerSecretsRevokeProviderSecret");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling providerSecretsRevoke");
     }
     // verify the required parameter 'providerSecretId' is set
     if (providerSecretId == null) {
-      throw new ApiException(400, "Missing the required parameter 'providerSecretId' when calling providerSecretsRevokeProviderSecret");
+      throw new ApiException(400, "Missing the required parameter 'providerSecretId' when calling providerSecretsRevoke");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

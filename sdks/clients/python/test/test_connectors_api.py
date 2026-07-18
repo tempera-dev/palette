@@ -26,38 +26,38 @@ class TestConnectorsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_connectors_connect_connector(self) -> None:
-        """Test case for connectors_connect_connector
+    def test_connectors_connect(self) -> None:
+        """Test case for connectors_connect
 
         """
         pass
 
-    def test_connectors_connector_status(self) -> None:
-        """Test case for connectors_connector_status
+    def test_connectors_get_skills(self) -> None:
+        """Test case for connectors_get_skills
 
         """
         pass
 
-    def test_connectors_get_connector_skills(self) -> None:
-        """Test case for connectors_get_connector_skills
+    def test_connectors_invoke_tool(self) -> None:
+        """Test case for connectors_invoke_tool
 
         """
         pass
 
-    def test_connectors_invoke_connector_tool(self) -> None:
-        """Test case for connectors_invoke_connector_tool
+    def test_connectors_list(self) -> None:
+        """Test case for connectors_list
 
         """
         pass
 
-    def test_connectors_list_connector_tools(self) -> None:
-        """Test case for connectors_list_connector_tools
+    def test_connectors_list_tools(self) -> None:
+        """Test case for connectors_list_tools
 
         """
         pass
 
-    def test_connectors_list_connectors(self) -> None:
-        """Test case for connectors_list_connectors
+    def test_connectors_status(self) -> None:
+        """Test case for connectors_status
 
         """
         pass

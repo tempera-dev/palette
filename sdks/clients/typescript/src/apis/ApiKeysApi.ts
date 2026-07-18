@@ -31,7 +31,7 @@ import {
     RevokedApiKeyToJSON,
 } from '../models/index';
 
-export interface ApiKeysCreateApiKeyRequest {
+export interface ApiKeysCreateRequest {
     tenantId: string;
     projectId: string;
     environmentId: string;
@@ -42,7 +42,7 @@ export interface ApiKeysCreateApiKeyRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ApiKeysRevokeApiKeyRequest {
+export interface ApiKeysRevokeRequest {
     tenantId: string;
     projectId: string;
     environmentId: string;
@@ -60,32 +60,32 @@ export class ApiKeysApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiKeysCreateApiKeyRaw(requestParameters: ApiKeysCreateApiKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiKeyCreatedResponse>> {
+    async apiKeysCreateRaw(requestParameters: ApiKeysCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApiKeyCreatedResponse>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling apiKeysCreateApiKey().'
+                'Required parameter "tenantId" was null or undefined when calling apiKeysCreate().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling apiKeysCreateApiKey().'
+                'Required parameter "projectId" was null or undefined when calling apiKeysCreate().'
             );
         }
 
         if (requestParameters['environmentId'] == null) {
             throw new runtime.RequiredError(
                 'environmentId',
-                'Required parameter "environmentId" was null or undefined when calling apiKeysCreateApiKey().'
+                'Required parameter "environmentId" was null or undefined when calling apiKeysCreate().'
             );
         }
 
         if (requestParameters['createApiKeyHttpRequest'] == null) {
             throw new runtime.RequiredError(
                 'createApiKeyHttpRequest',
-                'Required parameter "createApiKeyHttpRequest" was null or undefined when calling apiKeysCreateApiKey().'
+                'Required parameter "createApiKeyHttpRequest" was null or undefined when calling apiKeysCreate().'
             );
         }
 
@@ -124,39 +124,39 @@ export class ApiKeysApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiKeysCreateApiKey(requestParameters: ApiKeysCreateApiKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiKeyCreatedResponse> {
-        const response = await this.apiKeysCreateApiKeyRaw(requestParameters, initOverrides);
+    async apiKeysCreate(requestParameters: ApiKeysCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApiKeyCreatedResponse> {
+        const response = await this.apiKeysCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async apiKeysRevokeApiKeyRaw(requestParameters: ApiKeysRevokeApiKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokedApiKey>> {
+    async apiKeysRevokeRaw(requestParameters: ApiKeysRevokeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokedApiKey>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling apiKeysRevokeApiKey().'
+                'Required parameter "tenantId" was null or undefined when calling apiKeysRevoke().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling apiKeysRevokeApiKey().'
+                'Required parameter "projectId" was null or undefined when calling apiKeysRevoke().'
             );
         }
 
         if (requestParameters['environmentId'] == null) {
             throw new runtime.RequiredError(
                 'environmentId',
-                'Required parameter "environmentId" was null or undefined when calling apiKeysRevokeApiKey().'
+                'Required parameter "environmentId" was null or undefined when calling apiKeysRevoke().'
             );
         }
 
         if (requestParameters['apiKeyId'] == null) {
             throw new runtime.RequiredError(
                 'apiKeyId',
-                'Required parameter "apiKeyId" was null or undefined when calling apiKeysRevokeApiKey().'
+                'Required parameter "apiKeyId" was null or undefined when calling apiKeysRevoke().'
             );
         }
 
@@ -192,8 +192,8 @@ export class ApiKeysApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiKeysRevokeApiKey(requestParameters: ApiKeysRevokeApiKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokedApiKey> {
-        const response = await this.apiKeysRevokeApiKeyRaw(requestParameters, initOverrides);
+    async apiKeysRevoke(requestParameters: ApiKeysRevokeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokedApiKey> {
+        const response = await this.apiKeysRevokeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

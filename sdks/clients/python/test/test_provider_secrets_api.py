@@ -26,20 +26,20 @@ class TestProviderSecretsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_provider_secrets_create_provider_secret(self) -> None:
-        """Test case for provider_secrets_create_provider_secret
+    def test_provider_secrets_create(self) -> None:
+        """Test case for provider_secrets_create
 
         """
         pass
 
-    def test_provider_secrets_list_provider_secrets(self) -> None:
-        """Test case for provider_secrets_list_provider_secrets
+    def test_provider_secrets_list(self) -> None:
+        """Test case for provider_secrets_list
 
         """
         pass
 
-    def test_provider_secrets_revoke_provider_secret(self) -> None:
-        """Test case for provider_secrets_revoke_provider_secret
+    def test_provider_secrets_revoke(self) -> None:
+        """Test case for provider_secrets_revoke
 
         """
         pass

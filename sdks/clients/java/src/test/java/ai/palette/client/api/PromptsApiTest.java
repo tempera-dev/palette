@@ -51,7 +51,7 @@ public class PromptsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void promptsAddPromptVersionTest() throws ApiException {
+    public void promptsAddVersionTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String promptId = null;
@@ -61,7 +61,7 @@ public class PromptsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         PromptVersion response = 
-        api.promptsAddPromptVersion(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.promptsAddVersion(tenantId, projectId, promptId, addPromptVersionRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -75,7 +75,7 @@ public class PromptsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void promptsCreatePromptTest() throws ApiException {
+    public void promptsCreateTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         CreatePromptRequest createPromptRequest = null;
@@ -84,7 +84,7 @@ public class PromptsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         CreatedPrompt response = 
-        api.promptsCreatePrompt(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.promptsCreate(tenantId, projectId, createPromptRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -98,7 +98,7 @@ public class PromptsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void promptsDiffPromptVersionsTest() throws ApiException {
+    public void promptsDiffVersionsTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String promptId = null;
@@ -109,7 +109,7 @@ public class PromptsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         PromptVersionDiff response = 
-        api.promptsDiffPromptVersions(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.promptsDiffVersions(tenantId, projectId, promptId, from, to, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -123,7 +123,7 @@ public class PromptsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void promptsGetPromptTest() throws ApiException {
+    public void promptsGetTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String promptId = null;
@@ -132,7 +132,7 @@ public class PromptsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         Prompt response = 
-        api.promptsGetPrompt(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.promptsGet(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }
@@ -146,7 +146,29 @@ public class PromptsApiTest {
      *          if the Api call fails
      */
     @Test
-    public void promptsListPromptVersionsTest() throws ApiException {
+    public void promptsListTest() throws ApiException {
+        String tenantId = null;
+        String projectId = null;
+        String authorization = null;
+        String xPaletteApiKey = null;
+        String xPaletteProjectId = null;
+        String xPaletteEnvironmentId = null;
+        PromptListResponse response = 
+        api.promptsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void promptsListVersionsTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String promptId = null;
@@ -155,29 +177,7 @@ public class PromptsApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         PromptVersionListResponse response = 
-        api.promptsListPromptVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
-        
-        // TODO: test validations
-    }
-    
-    /**
-     * 
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void promptsListPromptsTest() throws ApiException {
-        String tenantId = null;
-        String projectId = null;
-        String authorization = null;
-        String xPaletteApiKey = null;
-        String xPaletteProjectId = null;
-        String xPaletteEnvironmentId = null;
-        PromptListResponse response = 
-        api.promptsListPrompts(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.promptsListVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

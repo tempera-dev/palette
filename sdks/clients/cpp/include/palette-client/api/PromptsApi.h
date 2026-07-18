@@ -65,7 +65,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<PromptVersion>> prompts_addPromptVersion(
+    pplx::task<std::shared_ptr<PromptVersion>> prompts_addVersion(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t promptId,
@@ -88,7 +88,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<CreatedPrompt>> prompts_createPrompt(
+    pplx::task<std::shared_ptr<CreatedPrompt>> prompts_create(
         utility::string_t tenantId,
         utility::string_t projectId,
         std::shared_ptr<CreatePromptRequest> createPromptRequest,
@@ -112,7 +112,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<PromptVersionDiff>> prompts_diffPromptVersions(
+    pplx::task<std::shared_ptr<PromptVersionDiff>> prompts_diffVersions(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t promptId,
@@ -136,10 +136,30 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<Prompt>> prompts_getPrompt(
+    pplx::task<std::shared_ptr<Prompt>> prompts_get(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t promptId,
+        boost::optional<utility::string_t> authorization,
+        boost::optional<utility::string_t> xPaletteApiKey,
+        boost::optional<utility::string_t> xPaletteProjectId,
+        boost::optional<utility::string_t> xPaletteEnvironmentId
+    ) const;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// 
+    /// </remarks>
+    /// <param name="tenantId">tenant_id</param>
+    /// <param name="projectId">project_id</param>
+    /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    pplx::task<std::shared_ptr<PromptListResponse>> prompts_list(
+        utility::string_t tenantId,
+        utility::string_t projectId,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
@@ -158,30 +178,10 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<PromptVersionListResponse>> prompts_listPromptVersions(
+    pplx::task<std::shared_ptr<PromptVersionListResponse>> prompts_listVersions(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t promptId,
-        boost::optional<utility::string_t> authorization,
-        boost::optional<utility::string_t> xPaletteApiKey,
-        boost::optional<utility::string_t> xPaletteProjectId,
-        boost::optional<utility::string_t> xPaletteEnvironmentId
-    ) const;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    /// <param name="tenantId">tenant_id</param>
-    /// <param name="projectId">project_id</param>
-    /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<PromptListResponse>> prompts_listPrompts(
-        utility::string_t tenantId,
-        utility::string_t projectId,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,

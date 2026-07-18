@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**prompts_add_prompt_version**](PromptsApi.md#prompts_add_prompt_version) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**prompts_create_prompt**](PromptsApi.md#prompts_create_prompt) | **POST** /v1/prompts/{tenant_id}/{project_id} |
-[**prompts_diff_prompt_versions**](PromptsApi.md#prompts_diff_prompt_versions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
-[**prompts_get_prompt**](PromptsApi.md#prompts_get_prompt) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
-[**prompts_list_prompt_versions**](PromptsApi.md#prompts_list_prompt_versions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**prompts_list_prompts**](PromptsApi.md#prompts_list_prompts) | **GET** /v1/prompts/{tenant_id}/{project_id} |
+[**prompts_add_version**](PromptsApi.md#prompts_add_version) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
+[**prompts_create**](PromptsApi.md#prompts_create) | **POST** /v1/prompts/{tenant_id}/{project_id} |
+[**prompts_diff_versions**](PromptsApi.md#prompts_diff_versions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
+[**prompts_get**](PromptsApi.md#prompts_get) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
+[**prompts_list**](PromptsApi.md#prompts_list) | **GET** /v1/prompts/{tenant_id}/{project_id} |
+[**prompts_list_versions**](PromptsApi.md#prompts_list_versions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
 
 
-# **prompts_add_prompt_version**
-> PromptVersion prompts_add_prompt_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **prompts_add_version**
+> PromptVersion prompts_add_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -48,11 +48,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_add_prompt_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of PromptsApi->prompts_add_prompt_version:\n")
+        api_response = api_instance.prompts_add_version(tenant_id, project_id, prompt_id, add_prompt_version_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of PromptsApi->prompts_add_version:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling PromptsApi->prompts_add_prompt_version: %s\n" % e)
+        print("Exception when calling PromptsApi->prompts_add_version: %s\n" % e)
 ```
 
 
@@ -96,8 +96,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **prompts_create_prompt**
-> CreatedPrompt prompts_create_prompt(tenant_id, project_id, create_prompt_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **prompts_create**
+> CreatedPrompt prompts_create(tenant_id, project_id, create_prompt_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -131,11 +131,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_create_prompt(tenant_id, project_id, create_prompt_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of PromptsApi->prompts_create_prompt:\n")
+        api_response = api_instance.prompts_create(tenant_id, project_id, create_prompt_request, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of PromptsApi->prompts_create:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling PromptsApi->prompts_create_prompt: %s\n" % e)
+        print("Exception when calling PromptsApi->prompts_create: %s\n" % e)
 ```
 
 
@@ -177,8 +177,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **prompts_diff_prompt_versions**
-> PromptVersionDiff prompts_diff_prompt_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **prompts_diff_versions**
+> PromptVersionDiff prompts_diff_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -213,11 +213,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_diff_prompt_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of PromptsApi->prompts_diff_prompt_versions:\n")
+        api_response = api_instance.prompts_diff_versions(tenant_id, project_id, prompt_id, var_from, to, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of PromptsApi->prompts_diff_versions:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling PromptsApi->prompts_diff_prompt_versions: %s\n" % e)
+        print("Exception when calling PromptsApi->prompts_diff_versions: %s\n" % e)
 ```
 
 
@@ -262,8 +262,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **prompts_get_prompt**
-> Prompt prompts_get_prompt(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **prompts_get**
+> Prompt prompts_get(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -296,11 +296,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_get_prompt(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of PromptsApi->prompts_get_prompt:\n")
+        api_response = api_instance.prompts_get(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of PromptsApi->prompts_get:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling PromptsApi->prompts_get_prompt: %s\n" % e)
+        print("Exception when calling PromptsApi->prompts_get: %s\n" % e)
 ```
 
 
@@ -343,8 +343,86 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **prompts_list_prompt_versions**
-> PromptVersionListResponse prompts_list_prompt_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **prompts_list**
+> PromptListResponse prompts_list(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+
+
+
+### Example
+
+
+```python
+import palette_client
+from palette_client.models.prompt_list_response import PromptListResponse
+from palette_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = palette_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with palette_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = palette_client.PromptsApi(api_client)
+    tenant_id = 'tenant_id_example' # str | tenant_id
+    project_id = 'project_id_example' # str | project_id
+    authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
+    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
+    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
+    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
+
+    try:
+        api_response = api_instance.prompts_list(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of PromptsApi->prompts_list:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PromptsApi->prompts_list: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tenant_id** | **str**| tenant_id |
+ **project_id** | **str**| project_id |
+ **authorization** | **str**| Bearer API token for strict auth | [optional]
+ **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
+ **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
+ **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
+
+### Return type
+
+[**PromptListResponse**](PromptListResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | List prompts in a project |  -  |
+**400** | Invalid request, scope, or filter |  -  |
+**401** | Missing or invalid credentials |  -  |
+**403** | Credentials lack the required scope |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **prompts_list_versions**
+> PromptVersionListResponse prompts_list_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -377,11 +455,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.prompts_list_prompt_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of PromptsApi->prompts_list_prompt_versions:\n")
+        api_response = api_instance.prompts_list_versions(tenant_id, project_id, prompt_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of PromptsApi->prompts_list_versions:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling PromptsApi->prompts_list_prompt_versions: %s\n" % e)
+        print("Exception when calling PromptsApi->prompts_list_versions: %s\n" % e)
 ```
 
 
@@ -421,83 +499,5 @@ No authorization required
 **401** | Missing or invalid credentials |  -  |
 **403** | Credentials lack the required scope |  -  |
 **404** | Resource not found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **prompts_list_prompts**
-> PromptListResponse prompts_list_prompts(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-
-
-
-### Example
-
-
-```python
-import palette_client
-from palette_client.models.prompt_list_response import PromptListResponse
-from palette_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to http://localhost
-# See configuration.py for a list of all supported configuration parameters.
-configuration = palette_client.Configuration(
-    host = "http://localhost"
-)
-
-
-# Enter a context with an instance of the API client
-with palette_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = palette_client.PromptsApi(api_client)
-    tenant_id = 'tenant_id_example' # str | tenant_id
-    project_id = 'project_id_example' # str | project_id
-    authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
-    x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
-    x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
-    x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
-
-    try:
-        api_response = api_instance.prompts_list_prompts(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of PromptsApi->prompts_list_prompts:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling PromptsApi->prompts_list_prompts: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tenant_id** | **str**| tenant_id |
- **project_id** | **str**| project_id |
- **authorization** | **str**| Bearer API token for strict auth | [optional]
- **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
- **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
- **x_palette_environment_id** | **str**| Strict-auth environment scope | [optional]
-
-### Return type
-
-[**PromptListResponse**](PromptListResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | List prompts in a project |  -  |
-**400** | Invalid request, scope, or filter |  -  |
-**401** | Missing or invalid credentials |  -  |
-**403** | Credentials lack the required scope |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

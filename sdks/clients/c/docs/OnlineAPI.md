@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**OnlineAPI_onlineDecideOnlineSampling**](OnlineAPI.md#OnlineAPI_onlineDecideOnlineSampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
+[**OnlineAPI_onlineDecideSampling**](OnlineAPI.md#OnlineAPI_onlineDecideSampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
 
 
-# **OnlineAPI_onlineDecideOnlineSampling**
+# **OnlineAPI_onlineDecideSampling**
 ```c
-sampling_decision_t* OnlineAPI_onlineDecideOnlineSampling(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, online_sampling_policy_t *online_sampling_policy, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+sampling_decision_t* OnlineAPI_onlineDecideSampling(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, online_sampling_policy_t *online_sampling_policy, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

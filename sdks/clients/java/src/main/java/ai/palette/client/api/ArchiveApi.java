@@ -219,8 +219,8 @@ public class ArchiveApi {
    * @return ArchiveQueryResponse
    * @throws ApiException if fails to make API call
    */
-  public ArchiveQueryResponse archiveQueryArchiveSpans(String tenantId, String projectId, String environmentId, String traceId, String spanId, String kind, String status, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ArchiveQueryResponse> localVarResponse = archiveQueryArchiveSpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ArchiveQueryResponse archiveQuerySpans(String tenantId, String projectId, String environmentId, String traceId, String spanId, String kind, String status, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ArchiveQueryResponse> localVarResponse = archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -242,8 +242,8 @@ public class ArchiveApi {
    * @return ApiResponse&lt;ArchiveQueryResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ArchiveQueryResponse> archiveQueryArchiveSpansWithHttpInfo(String tenantId, String projectId, String environmentId, String traceId, String spanId, String kind, String status, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = archiveQueryArchiveSpansRequestBuilder(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ArchiveQueryResponse> archiveQuerySpansWithHttpInfo(String tenantId, String projectId, String environmentId, String traceId, String spanId, String kind, String status, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = archiveQuerySpansRequestBuilder(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -253,7 +253,7 @@ public class ArchiveApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("archiveQueryArchiveSpans", localVarResponse);
+          throw getApiException("archiveQuerySpans", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<ArchiveQueryResponse>(
@@ -282,14 +282,14 @@ public class ArchiveApi {
     }
   }
 
-  private HttpRequest.Builder archiveQueryArchiveSpansRequestBuilder(String tenantId, String projectId, String environmentId, String traceId, String spanId, String kind, String status, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder archiveQuerySpansRequestBuilder(String tenantId, String projectId, String environmentId, String traceId, String spanId, String kind, String status, Integer limit, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling archiveQueryArchiveSpans");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling archiveQuerySpans");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling archiveQueryArchiveSpans");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling archiveQuerySpans");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

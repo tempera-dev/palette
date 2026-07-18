@@ -94,8 +94,8 @@ public class ConnectApi {
    * @return PaletteConnectStatusResponse
    * @throws ApiException if fails to make API call
    */
-  public PaletteConnectStatusResponse connectGetPaletteConnectStatus(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<PaletteConnectStatusResponse> localVarResponse = connectGetPaletteConnectStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public PaletteConnectStatusResponse connectGetStatus(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<PaletteConnectStatusResponse> localVarResponse = connectGetStatusWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -111,8 +111,8 @@ public class ConnectApi {
    * @return ApiResponse&lt;PaletteConnectStatusResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<PaletteConnectStatusResponse> connectGetPaletteConnectStatusWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = connectGetPaletteConnectStatusRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<PaletteConnectStatusResponse> connectGetStatusWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = connectGetStatusRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -122,7 +122,7 @@ public class ConnectApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("connectGetPaletteConnectStatus", localVarResponse);
+          throw getApiException("connectGetStatus", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<PaletteConnectStatusResponse>(
@@ -151,14 +151,14 @@ public class ConnectApi {
     }
   }
 
-  private HttpRequest.Builder connectGetPaletteConnectStatusRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder connectGetStatusRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectGetPaletteConnectStatus");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling connectGetStatus");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectGetPaletteConnectStatus");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling connectGetStatus");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

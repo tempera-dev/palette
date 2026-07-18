@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SpansGetSpan**](SpansAPI.md#SpansGetSpan) | **Get** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
-[**SpansGetSpanIo**](SpansAPI.md#SpansGetSpanIo) | **Get** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
+[**SpansGet**](SpansAPI.md#SpansGet) | **Get** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
+[**SpansGetIo**](SpansAPI.md#SpansGetIo) | **Get** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
 
 
 
-## SpansGetSpan
+## SpansGet
 
-> CanonicalSpan SpansGetSpan(ctx, tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> CanonicalSpan SpansGet(ctx, tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -40,13 +40,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SpansAPI.SpansGetSpan(context.Background(), tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.SpansAPI.SpansGet(context.Background(), tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `SpansAPI.SpansGetSpan``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `SpansAPI.SpansGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SpansGetSpan`: CanonicalSpan
-	fmt.Fprintf(os.Stdout, "Response from `SpansAPI.SpansGetSpan`: %v\n", resp)
+	// response from `SpansGet`: CanonicalSpan
+	fmt.Fprintf(os.Stdout, "Response from `SpansAPI.SpansGet`: %v\n", resp)
 }
 ```
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiSpansGetSpanRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiSpansGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -95,9 +95,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## SpansGetSpanIo
+## SpansGetIo
 
-> SpanIoResponse SpansGetSpanIo(ctx, tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> SpanIoResponse SpansGetIo(ctx, tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -126,13 +126,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SpansAPI.SpansGetSpanIo(context.Background(), tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.SpansAPI.SpansGetIo(context.Background(), tenantId, traceId, spanId).Unmask(unmask).Reason(reason).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `SpansAPI.SpansGetSpanIo``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `SpansAPI.SpansGetIo``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SpansGetSpanIo`: SpanIoResponse
-	fmt.Fprintf(os.Stdout, "Response from `SpansAPI.SpansGetSpanIo`: %v\n", resp)
+	// response from `SpansGetIo`: SpanIoResponse
+	fmt.Fprintf(os.Stdout, "Response from `SpansAPI.SpansGetIo`: %v\n", resp)
 }
 ```
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiSpansGetSpanIoRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiSpansGetIoRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

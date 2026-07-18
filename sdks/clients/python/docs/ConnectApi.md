@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**connect_get_palette_connect_status**](ConnectApi.md#connect_get_palette_connect_status) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
+[**connect_get_status**](ConnectApi.md#connect_get_status) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
 
 
-# **connect_get_palette_connect_status**
-> PaletteConnectStatusResponse connect_get_palette_connect_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **connect_get_status**
+> PaletteConnectStatusResponse connect_get_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -40,11 +40,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.connect_get_palette_connect_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of ConnectApi->connect_get_palette_connect_status:\n")
+        api_response = api_instance.connect_get_status(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of ConnectApi->connect_get_status:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ConnectApi->connect_get_palette_connect_status: %s\n" % e)
+        print("Exception when calling ConnectApi->connect_get_status: %s\n" % e)
 ```
 
 

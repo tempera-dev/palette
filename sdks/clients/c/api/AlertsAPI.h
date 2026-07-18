@@ -11,6 +11,6 @@
 
 
 alert_decision_t*
-AlertsAPI_alertsEvaluateAlert(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, evaluate_alert_request_t *evaluate_alert_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+AlertsAPI_alertsEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, evaluate_alert_request_t *evaluate_alert_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 

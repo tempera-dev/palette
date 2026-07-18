@@ -23,7 +23,7 @@ import (
 // PromptsAPIService PromptsAPI service
 type PromptsAPIService service
 
-type ApiPromptsAddPromptVersionRequest struct {
+type ApiPromptsAddVersionRequest struct {
 	ctx context.Context
 	ApiService *PromptsAPIService
 	tenantId string
@@ -36,50 +36,50 @@ type ApiPromptsAddPromptVersionRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiPromptsAddPromptVersionRequest) AddPromptVersionRequest(addPromptVersionRequest AddPromptVersionRequest) ApiPromptsAddPromptVersionRequest {
+func (r ApiPromptsAddVersionRequest) AddPromptVersionRequest(addPromptVersionRequest AddPromptVersionRequest) ApiPromptsAddVersionRequest {
 	r.addPromptVersionRequest = &addPromptVersionRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiPromptsAddPromptVersionRequest) Authorization(authorization string) ApiPromptsAddPromptVersionRequest {
+func (r ApiPromptsAddVersionRequest) Authorization(authorization string) ApiPromptsAddVersionRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiPromptsAddPromptVersionRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsAddPromptVersionRequest {
+func (r ApiPromptsAddVersionRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsAddVersionRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiPromptsAddPromptVersionRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsAddPromptVersionRequest {
+func (r ApiPromptsAddVersionRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsAddVersionRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiPromptsAddPromptVersionRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsAddPromptVersionRequest {
+func (r ApiPromptsAddVersionRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsAddVersionRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiPromptsAddPromptVersionRequest) Execute() (*PromptVersion, *http.Response, error) {
-	return r.ApiService.PromptsAddPromptVersionExecute(r)
+func (r ApiPromptsAddVersionRequest) Execute() (*PromptVersion, *http.Response, error) {
+	return r.ApiService.PromptsAddVersionExecute(r)
 }
 
 /*
-PromptsAddPromptVersion Method for PromptsAddPromptVersion
+PromptsAddVersion Method for PromptsAddVersion
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param promptId prompt_id
- @return ApiPromptsAddPromptVersionRequest
+ @return ApiPromptsAddVersionRequest
 */
-func (a *PromptsAPIService) PromptsAddPromptVersion(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsAddPromptVersionRequest {
-	return ApiPromptsAddPromptVersionRequest{
+func (a *PromptsAPIService) PromptsAddVersion(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsAddVersionRequest {
+	return ApiPromptsAddVersionRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -90,7 +90,7 @@ func (a *PromptsAPIService) PromptsAddPromptVersion(ctx context.Context, tenantI
 
 // Execute executes the request
 //  @return PromptVersion
-func (a *PromptsAPIService) PromptsAddPromptVersionExecute(r ApiPromptsAddPromptVersionRequest) (*PromptVersion, *http.Response, error) {
+func (a *PromptsAPIService) PromptsAddVersionExecute(r ApiPromptsAddVersionRequest) (*PromptVersion, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -98,7 +98,7 @@ func (a *PromptsAPIService) PromptsAddPromptVersionExecute(r ApiPromptsAddPrompt
 		localVarReturnValue  *PromptVersion
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsAddPromptVersion")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsAddVersion")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -226,7 +226,7 @@ func (a *PromptsAPIService) PromptsAddPromptVersionExecute(r ApiPromptsAddPrompt
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPromptsCreatePromptRequest struct {
+type ApiPromptsCreateRequest struct {
 	ctx context.Context
 	ApiService *PromptsAPIService
 	tenantId string
@@ -238,49 +238,49 @@ type ApiPromptsCreatePromptRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiPromptsCreatePromptRequest) CreatePromptRequest(createPromptRequest CreatePromptRequest) ApiPromptsCreatePromptRequest {
+func (r ApiPromptsCreateRequest) CreatePromptRequest(createPromptRequest CreatePromptRequest) ApiPromptsCreateRequest {
 	r.createPromptRequest = &createPromptRequest
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiPromptsCreatePromptRequest) Authorization(authorization string) ApiPromptsCreatePromptRequest {
+func (r ApiPromptsCreateRequest) Authorization(authorization string) ApiPromptsCreateRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiPromptsCreatePromptRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsCreatePromptRequest {
+func (r ApiPromptsCreateRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsCreateRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiPromptsCreatePromptRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsCreatePromptRequest {
+func (r ApiPromptsCreateRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsCreateRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiPromptsCreatePromptRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsCreatePromptRequest {
+func (r ApiPromptsCreateRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsCreateRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiPromptsCreatePromptRequest) Execute() (*CreatedPrompt, *http.Response, error) {
-	return r.ApiService.PromptsCreatePromptExecute(r)
+func (r ApiPromptsCreateRequest) Execute() (*CreatedPrompt, *http.Response, error) {
+	return r.ApiService.PromptsCreateExecute(r)
 }
 
 /*
-PromptsCreatePrompt Method for PromptsCreatePrompt
+PromptsCreate Method for PromptsCreate
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
- @return ApiPromptsCreatePromptRequest
+ @return ApiPromptsCreateRequest
 */
-func (a *PromptsAPIService) PromptsCreatePrompt(ctx context.Context, tenantId string, projectId string) ApiPromptsCreatePromptRequest {
-	return ApiPromptsCreatePromptRequest{
+func (a *PromptsAPIService) PromptsCreate(ctx context.Context, tenantId string, projectId string) ApiPromptsCreateRequest {
+	return ApiPromptsCreateRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -290,7 +290,7 @@ func (a *PromptsAPIService) PromptsCreatePrompt(ctx context.Context, tenantId st
 
 // Execute executes the request
 //  @return CreatedPrompt
-func (a *PromptsAPIService) PromptsCreatePromptExecute(r ApiPromptsCreatePromptRequest) (*CreatedPrompt, *http.Response, error) {
+func (a *PromptsAPIService) PromptsCreateExecute(r ApiPromptsCreateRequest) (*CreatedPrompt, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -298,7 +298,7 @@ func (a *PromptsAPIService) PromptsCreatePromptExecute(r ApiPromptsCreatePromptR
 		localVarReturnValue  *CreatedPrompt
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsCreatePrompt")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsCreate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -414,7 +414,7 @@ func (a *PromptsAPIService) PromptsCreatePromptExecute(r ApiPromptsCreatePromptR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPromptsDiffPromptVersionsRequest struct {
+type ApiPromptsDiffVersionsRequest struct {
 	ctx context.Context
 	ApiService *PromptsAPIService
 	tenantId string
@@ -428,55 +428,55 @@ type ApiPromptsDiffPromptVersionsRequest struct {
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiPromptsDiffPromptVersionsRequest) From(from string) ApiPromptsDiffPromptVersionsRequest {
+func (r ApiPromptsDiffVersionsRequest) From(from string) ApiPromptsDiffVersionsRequest {
 	r.from = &from
 	return r
 }
 
-func (r ApiPromptsDiffPromptVersionsRequest) To(to string) ApiPromptsDiffPromptVersionsRequest {
+func (r ApiPromptsDiffVersionsRequest) To(to string) ApiPromptsDiffVersionsRequest {
 	r.to = &to
 	return r
 }
 
 // Bearer API token for strict auth
-func (r ApiPromptsDiffPromptVersionsRequest) Authorization(authorization string) ApiPromptsDiffPromptVersionsRequest {
+func (r ApiPromptsDiffVersionsRequest) Authorization(authorization string) ApiPromptsDiffVersionsRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiPromptsDiffPromptVersionsRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsDiffPromptVersionsRequest {
+func (r ApiPromptsDiffVersionsRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsDiffVersionsRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiPromptsDiffPromptVersionsRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsDiffPromptVersionsRequest {
+func (r ApiPromptsDiffVersionsRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsDiffVersionsRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiPromptsDiffPromptVersionsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsDiffPromptVersionsRequest {
+func (r ApiPromptsDiffVersionsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsDiffVersionsRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiPromptsDiffPromptVersionsRequest) Execute() (*PromptVersionDiff, *http.Response, error) {
-	return r.ApiService.PromptsDiffPromptVersionsExecute(r)
+func (r ApiPromptsDiffVersionsRequest) Execute() (*PromptVersionDiff, *http.Response, error) {
+	return r.ApiService.PromptsDiffVersionsExecute(r)
 }
 
 /*
-PromptsDiffPromptVersions Method for PromptsDiffPromptVersions
+PromptsDiffVersions Method for PromptsDiffVersions
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param promptId prompt_id
- @return ApiPromptsDiffPromptVersionsRequest
+ @return ApiPromptsDiffVersionsRequest
 */
-func (a *PromptsAPIService) PromptsDiffPromptVersions(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsDiffPromptVersionsRequest {
-	return ApiPromptsDiffPromptVersionsRequest{
+func (a *PromptsAPIService) PromptsDiffVersions(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsDiffVersionsRequest {
+	return ApiPromptsDiffVersionsRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -487,7 +487,7 @@ func (a *PromptsAPIService) PromptsDiffPromptVersions(ctx context.Context, tenan
 
 // Execute executes the request
 //  @return PromptVersionDiff
-func (a *PromptsAPIService) PromptsDiffPromptVersionsExecute(r ApiPromptsDiffPromptVersionsRequest) (*PromptVersionDiff, *http.Response, error) {
+func (a *PromptsAPIService) PromptsDiffVersionsExecute(r ApiPromptsDiffVersionsRequest) (*PromptVersionDiff, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -495,7 +495,7 @@ func (a *PromptsAPIService) PromptsDiffPromptVersionsExecute(r ApiPromptsDiffPro
 		localVarReturnValue  *PromptVersionDiff
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsDiffPromptVersions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsDiffVersions")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -626,7 +626,7 @@ func (a *PromptsAPIService) PromptsDiffPromptVersionsExecute(r ApiPromptsDiffPro
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPromptsGetPromptRequest struct {
+type ApiPromptsGetRequest struct {
 	ctx context.Context
 	ApiService *PromptsAPIService
 	tenantId string
@@ -639,44 +639,44 @@ type ApiPromptsGetPromptRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiPromptsGetPromptRequest) Authorization(authorization string) ApiPromptsGetPromptRequest {
+func (r ApiPromptsGetRequest) Authorization(authorization string) ApiPromptsGetRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiPromptsGetPromptRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsGetPromptRequest {
+func (r ApiPromptsGetRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsGetRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiPromptsGetPromptRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsGetPromptRequest {
+func (r ApiPromptsGetRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsGetRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiPromptsGetPromptRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsGetPromptRequest {
+func (r ApiPromptsGetRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsGetRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiPromptsGetPromptRequest) Execute() (*Prompt, *http.Response, error) {
-	return r.ApiService.PromptsGetPromptExecute(r)
+func (r ApiPromptsGetRequest) Execute() (*Prompt, *http.Response, error) {
+	return r.ApiService.PromptsGetExecute(r)
 }
 
 /*
-PromptsGetPrompt Method for PromptsGetPrompt
+PromptsGet Method for PromptsGet
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param promptId prompt_id
- @return ApiPromptsGetPromptRequest
+ @return ApiPromptsGetRequest
 */
-func (a *PromptsAPIService) PromptsGetPrompt(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsGetPromptRequest {
-	return ApiPromptsGetPromptRequest{
+func (a *PromptsAPIService) PromptsGet(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsGetRequest {
+	return ApiPromptsGetRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -687,7 +687,7 @@ func (a *PromptsAPIService) PromptsGetPrompt(ctx context.Context, tenantId strin
 
 // Execute executes the request
 //  @return Prompt
-func (a *PromptsAPIService) PromptsGetPromptExecute(r ApiPromptsGetPromptRequest) (*Prompt, *http.Response, error) {
+func (a *PromptsAPIService) PromptsGetExecute(r ApiPromptsGetRequest) (*Prompt, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -695,7 +695,7 @@ func (a *PromptsAPIService) PromptsGetPromptExecute(r ApiPromptsGetPromptRequest
 		localVarReturnValue  *Prompt
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsGetPrompt")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -818,7 +818,184 @@ func (a *PromptsAPIService) PromptsGetPromptExecute(r ApiPromptsGetPromptRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPromptsListPromptVersionsRequest struct {
+type ApiPromptsListRequest struct {
+	ctx context.Context
+	ApiService *PromptsAPIService
+	tenantId string
+	projectId string
+	authorization *string
+	xPaletteApiKey *string
+	xPaletteProjectId *string
+	xPaletteEnvironmentId *string
+}
+
+// Bearer API token for strict auth
+func (r ApiPromptsListRequest) Authorization(authorization string) ApiPromptsListRequest {
+	r.authorization = &authorization
+	return r
+}
+
+// API key alternative for strict auth
+func (r ApiPromptsListRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsListRequest {
+	r.xPaletteApiKey = &xPaletteApiKey
+	return r
+}
+
+// Strict-auth project scope
+func (r ApiPromptsListRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsListRequest {
+	r.xPaletteProjectId = &xPaletteProjectId
+	return r
+}
+
+// Strict-auth environment scope
+func (r ApiPromptsListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsListRequest {
+	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
+	return r
+}
+
+func (r ApiPromptsListRequest) Execute() (*PromptListResponse, *http.Response, error) {
+	return r.ApiService.PromptsListExecute(r)
+}
+
+/*
+PromptsList Method for PromptsList
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param tenantId tenant_id
+ @param projectId project_id
+ @return ApiPromptsListRequest
+*/
+func (a *PromptsAPIService) PromptsList(ctx context.Context, tenantId string, projectId string) ApiPromptsListRequest {
+	return ApiPromptsListRequest{
+		ApiService: a,
+		ctx: ctx,
+		tenantId: tenantId,
+		projectId: projectId,
+	}
+}
+
+// Execute executes the request
+//  @return PromptListResponse
+func (a *PromptsAPIService) PromptsListExecute(r ApiPromptsListRequest) (*PromptListResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromptListResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsList")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/prompts/{tenant_id}/{project_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	if r.xPaletteApiKey != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-api-key", r.xPaletteApiKey, "simple", "")
+	}
+	if r.xPaletteProjectId != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-project-id", r.xPaletteProjectId, "simple", "")
+	}
+	if r.xPaletteEnvironmentId != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-environment-id", r.xPaletteEnvironmentId, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPromptsListVersionsRequest struct {
 	ctx context.Context
 	ApiService *PromptsAPIService
 	tenantId string
@@ -831,44 +1008,44 @@ type ApiPromptsListPromptVersionsRequest struct {
 }
 
 // Bearer API token for strict auth
-func (r ApiPromptsListPromptVersionsRequest) Authorization(authorization string) ApiPromptsListPromptVersionsRequest {
+func (r ApiPromptsListVersionsRequest) Authorization(authorization string) ApiPromptsListVersionsRequest {
 	r.authorization = &authorization
 	return r
 }
 
 // API key alternative for strict auth
-func (r ApiPromptsListPromptVersionsRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsListPromptVersionsRequest {
+func (r ApiPromptsListVersionsRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsListVersionsRequest {
 	r.xPaletteApiKey = &xPaletteApiKey
 	return r
 }
 
 // Strict-auth project scope
-func (r ApiPromptsListPromptVersionsRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsListPromptVersionsRequest {
+func (r ApiPromptsListVersionsRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsListVersionsRequest {
 	r.xPaletteProjectId = &xPaletteProjectId
 	return r
 }
 
 // Strict-auth environment scope
-func (r ApiPromptsListPromptVersionsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsListPromptVersionsRequest {
+func (r ApiPromptsListVersionsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsListVersionsRequest {
 	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
 	return r
 }
 
-func (r ApiPromptsListPromptVersionsRequest) Execute() (*PromptVersionListResponse, *http.Response, error) {
-	return r.ApiService.PromptsListPromptVersionsExecute(r)
+func (r ApiPromptsListVersionsRequest) Execute() (*PromptVersionListResponse, *http.Response, error) {
+	return r.ApiService.PromptsListVersionsExecute(r)
 }
 
 /*
-PromptsListPromptVersions Method for PromptsListPromptVersions
+PromptsListVersions Method for PromptsListVersions
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param tenantId tenant_id
  @param projectId project_id
  @param promptId prompt_id
- @return ApiPromptsListPromptVersionsRequest
+ @return ApiPromptsListVersionsRequest
 */
-func (a *PromptsAPIService) PromptsListPromptVersions(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsListPromptVersionsRequest {
-	return ApiPromptsListPromptVersionsRequest{
+func (a *PromptsAPIService) PromptsListVersions(ctx context.Context, tenantId string, projectId string, promptId string) ApiPromptsListVersionsRequest {
+	return ApiPromptsListVersionsRequest{
 		ApiService: a,
 		ctx: ctx,
 		tenantId: tenantId,
@@ -879,7 +1056,7 @@ func (a *PromptsAPIService) PromptsListPromptVersions(ctx context.Context, tenan
 
 // Execute executes the request
 //  @return PromptVersionListResponse
-func (a *PromptsAPIService) PromptsListPromptVersionsExecute(r ApiPromptsListPromptVersionsRequest) (*PromptVersionListResponse, *http.Response, error) {
+func (a *PromptsAPIService) PromptsListVersionsExecute(r ApiPromptsListVersionsRequest) (*PromptVersionListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -887,7 +1064,7 @@ func (a *PromptsAPIService) PromptsListPromptVersionsExecute(r ApiPromptsListPro
 		localVarReturnValue  *PromptVersionListResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsListPromptVersions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsListVersions")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -986,183 +1163,6 @@ func (a *PromptsAPIService) PromptsListPromptVersionsExecute(r ApiPromptsListPro
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiPromptsListPromptsRequest struct {
-	ctx context.Context
-	ApiService *PromptsAPIService
-	tenantId string
-	projectId string
-	authorization *string
-	xPaletteApiKey *string
-	xPaletteProjectId *string
-	xPaletteEnvironmentId *string
-}
-
-// Bearer API token for strict auth
-func (r ApiPromptsListPromptsRequest) Authorization(authorization string) ApiPromptsListPromptsRequest {
-	r.authorization = &authorization
-	return r
-}
-
-// API key alternative for strict auth
-func (r ApiPromptsListPromptsRequest) XPaletteApiKey(xPaletteApiKey string) ApiPromptsListPromptsRequest {
-	r.xPaletteApiKey = &xPaletteApiKey
-	return r
-}
-
-// Strict-auth project scope
-func (r ApiPromptsListPromptsRequest) XPaletteProjectId(xPaletteProjectId string) ApiPromptsListPromptsRequest {
-	r.xPaletteProjectId = &xPaletteProjectId
-	return r
-}
-
-// Strict-auth environment scope
-func (r ApiPromptsListPromptsRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string) ApiPromptsListPromptsRequest {
-	r.xPaletteEnvironmentId = &xPaletteEnvironmentId
-	return r
-}
-
-func (r ApiPromptsListPromptsRequest) Execute() (*PromptListResponse, *http.Response, error) {
-	return r.ApiService.PromptsListPromptsExecute(r)
-}
-
-/*
-PromptsListPrompts Method for PromptsListPrompts
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param tenantId tenant_id
- @param projectId project_id
- @return ApiPromptsListPromptsRequest
-*/
-func (a *PromptsAPIService) PromptsListPrompts(ctx context.Context, tenantId string, projectId string) ApiPromptsListPromptsRequest {
-	return ApiPromptsListPromptsRequest{
-		ApiService: a,
-		ctx: ctx,
-		tenantId: tenantId,
-		projectId: projectId,
-	}
-}
-
-// Execute executes the request
-//  @return PromptListResponse
-func (a *PromptsAPIService) PromptsListPromptsExecute(r ApiPromptsListPromptsRequest) (*PromptListResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromptListResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PromptsAPIService.PromptsListPrompts")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/prompts/{tenant_id}/{project_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"project_id"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.authorization != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
-	}
-	if r.xPaletteApiKey != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-api-key", r.xPaletteApiKey, "simple", "")
-	}
-	if r.xPaletteProjectId != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-project-id", r.xPaletteProjectId, "simple", "")
-	}
-	if r.xPaletteEnvironmentId != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-palette-environment-id", r.xPaletteEnvironmentId, "simple", "")
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
 			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

@@ -22,14 +22,14 @@ func Test_paletteclient_ConnectAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test ConnectAPIService ConnectGetPaletteConnectStatus", func(t *testing.T) {
+	t.Run("Test ConnectAPIService ConnectGetStatus", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var tenantId string
 		var projectId string
 
-		resp, httpRes, err := apiClient.ConnectAPI.ConnectGetPaletteConnectStatus(context.Background(), tenantId, projectId).Execute()
+		resp, httpRes, err := apiClient.ConnectAPI.ConnectGetStatus(context.Background(), tenantId, projectId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

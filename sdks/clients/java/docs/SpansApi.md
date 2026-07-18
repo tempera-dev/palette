@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**spansGetSpan**](SpansApi.md#spansGetSpan) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |  |
-| [**spansGetSpanWithHttpInfo**](SpansApi.md#spansGetSpanWithHttpInfo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |  |
-| [**spansGetSpanIo**](SpansApi.md#spansGetSpanIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |  |
-| [**spansGetSpanIoWithHttpInfo**](SpansApi.md#spansGetSpanIoWithHttpInfo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |  |
+| [**spansGet**](SpansApi.md#spansGet) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |  |
+| [**spansGetWithHttpInfo**](SpansApi.md#spansGetWithHttpInfo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |  |
+| [**spansGetIo**](SpansApi.md#spansGetIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |  |
+| [**spansGetIoWithHttpInfo**](SpansApi.md#spansGetIoWithHttpInfo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |  |
 
 
 
-## spansGetSpan
+## spansGet
 
-> CanonicalSpan spansGetSpan(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> CanonicalSpan spansGet(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -43,10 +43,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            CanonicalSpan result = apiInstance.spansGetSpan(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            CanonicalSpan result = apiInstance.spansGet(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling SpansApi#spansGetSpan");
+            System.err.println("Exception when calling SpansApi#spansGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -94,9 +94,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## spansGetSpanWithHttpInfo
+## spansGetWithHttpInfo
 
-> ApiResponse<CanonicalSpan> spansGetSpan spansGetSpanWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<CanonicalSpan> spansGet spansGetWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -127,12 +127,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<CanonicalSpan> response = apiInstance.spansGetSpanWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<CanonicalSpan> response = apiInstance.spansGetWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling SpansApi#spansGetSpan");
+            System.err.println("Exception when calling SpansApi#spansGet");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -181,9 +181,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## spansGetSpanIo
+## spansGetIo
 
-> SpanIoResponse spansGetSpanIo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> SpanIoResponse spansGetIo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -213,10 +213,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            SpanIoResponse result = apiInstance.spansGetSpanIo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            SpanIoResponse result = apiInstance.spansGetIo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling SpansApi#spansGetSpanIo");
+            System.err.println("Exception when calling SpansApi#spansGetIo");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -264,9 +264,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## spansGetSpanIoWithHttpInfo
+## spansGetIoWithHttpInfo
 
-> ApiResponse<SpanIoResponse> spansGetSpanIo spansGetSpanIoWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<SpanIoResponse> spansGetIo spansGetIoWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -297,12 +297,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<SpanIoResponse> response = apiInstance.spansGetSpanIoWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<SpanIoResponse> response = apiInstance.spansGetIoWithHttpInfo(tenantId, traceId, spanId, unmask, reason, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling SpansApi#spansGetSpanIo");
+            System.err.println("Exception when calling SpansApi#spansGetIo");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

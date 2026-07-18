@@ -31,7 +31,7 @@ import {
     RunJudgeExperimentRequestToJSON,
 } from '../models/index';
 
-export interface ExperimentsRunDeterministicExperimentRequest {
+export interface ExperimentsRunDeterministicRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -43,7 +43,7 @@ export interface ExperimentsRunDeterministicExperimentRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ExperimentsRunJudgeExperimentRequest {
+export interface ExperimentsRunJudgeRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -62,39 +62,39 @@ export class ExperimentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async experimentsRunDeterministicExperimentRaw(requestParameters: ExperimentsRunDeterministicExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentRunReport>> {
+    async experimentsRunDeterministicRaw(requestParameters: ExperimentsRunDeterministicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentRunReport>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling experimentsRunDeterministicExperiment().'
+                'Required parameter "tenantId" was null or undefined when calling experimentsRunDeterministic().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling experimentsRunDeterministicExperiment().'
+                'Required parameter "projectId" was null or undefined when calling experimentsRunDeterministic().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling experimentsRunDeterministicExperiment().'
+                'Required parameter "datasetId" was null or undefined when calling experimentsRunDeterministic().'
             );
         }
 
         if (requestParameters['versionId'] == null) {
             throw new runtime.RequiredError(
                 'versionId',
-                'Required parameter "versionId" was null or undefined when calling experimentsRunDeterministicExperiment().'
+                'Required parameter "versionId" was null or undefined when calling experimentsRunDeterministic().'
             );
         }
 
         if (requestParameters['runExperimentRequest'] == null) {
             throw new runtime.RequiredError(
                 'runExperimentRequest',
-                'Required parameter "runExperimentRequest" was null or undefined when calling experimentsRunDeterministicExperiment().'
+                'Required parameter "runExperimentRequest" was null or undefined when calling experimentsRunDeterministic().'
             );
         }
 
@@ -133,46 +133,46 @@ export class ExperimentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async experimentsRunDeterministicExperiment(requestParameters: ExperimentsRunDeterministicExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ExperimentRunReport> {
-        const response = await this.experimentsRunDeterministicExperimentRaw(requestParameters, initOverrides);
+    async experimentsRunDeterministic(requestParameters: ExperimentsRunDeterministicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ExperimentRunReport> {
+        const response = await this.experimentsRunDeterministicRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async experimentsRunJudgeExperimentRaw(requestParameters: ExperimentsRunJudgeExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentRunReport>> {
+    async experimentsRunJudgeRaw(requestParameters: ExperimentsRunJudgeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentRunReport>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling experimentsRunJudgeExperiment().'
+                'Required parameter "tenantId" was null or undefined when calling experimentsRunJudge().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling experimentsRunJudgeExperiment().'
+                'Required parameter "projectId" was null or undefined when calling experimentsRunJudge().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling experimentsRunJudgeExperiment().'
+                'Required parameter "datasetId" was null or undefined when calling experimentsRunJudge().'
             );
         }
 
         if (requestParameters['versionId'] == null) {
             throw new runtime.RequiredError(
                 'versionId',
-                'Required parameter "versionId" was null or undefined when calling experimentsRunJudgeExperiment().'
+                'Required parameter "versionId" was null or undefined when calling experimentsRunJudge().'
             );
         }
 
         if (requestParameters['runJudgeExperimentRequest'] == null) {
             throw new runtime.RequiredError(
                 'runJudgeExperimentRequest',
-                'Required parameter "runJudgeExperimentRequest" was null or undefined when calling experimentsRunJudgeExperiment().'
+                'Required parameter "runJudgeExperimentRequest" was null or undefined when calling experimentsRunJudge().'
             );
         }
 
@@ -211,8 +211,8 @@ export class ExperimentsApi extends runtime.BaseAPI {
 
     /**
      */
-    async experimentsRunJudgeExperiment(requestParameters: ExperimentsRunJudgeExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ExperimentRunReport> {
-        const response = await this.experimentsRunJudgeExperimentRaw(requestParameters, initOverrides);
+    async experimentsRunJudge(requestParameters: ExperimentsRunJudgeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ExperimentRunReport> {
+        const response = await this.experimentsRunJudgeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ScenariosAPI_scenariosCreateScenario**](ScenariosAPI.md#ScenariosAPI_scenariosCreateScenario) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
-[**ScenariosAPI_scenariosGetScenario**](ScenariosAPI.md#ScenariosAPI_scenariosGetScenario) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
-[**ScenariosAPI_scenariosListScenarios**](ScenariosAPI.md#ScenariosAPI_scenariosListScenarios) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
-[**ScenariosAPI_scenariosMineScenarios**](ScenariosAPI.md#ScenariosAPI_scenariosMineScenarios) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
+[**ScenariosAPI_scenariosCreate**](ScenariosAPI.md#ScenariosAPI_scenariosCreate) | **POST** /v1/scenarios/{tenant_id}/{project_id} |
+[**ScenariosAPI_scenariosGet**](ScenariosAPI.md#ScenariosAPI_scenariosGet) | **GET** /v1/scenarios/{tenant_id}/{project_id}/{scenario_id} |
+[**ScenariosAPI_scenariosList**](ScenariosAPI.md#ScenariosAPI_scenariosList) | **GET** /v1/scenarios/{tenant_id}/{project_id} |
+[**ScenariosAPI_scenariosMine**](ScenariosAPI.md#ScenariosAPI_scenariosMine) | **POST** /v1/scenarios/{tenant_id}/{project_id}/mine |
 
 
-# **ScenariosAPI_scenariosCreateScenario**
+# **ScenariosAPI_scenariosCreate**
 ```c
-scenario_t* ScenariosAPI_scenariosCreateScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, create_scenario_request_t *create_scenario_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+scenario_t* ScenariosAPI_scenariosCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_scenario_request_t *create_scenario_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -43,9 +43,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ScenariosAPI_scenariosGetScenario**
+# **ScenariosAPI_scenariosGet**
 ```c
-scenario_t* ScenariosAPI_scenariosGetScenario(apiClient_t *apiClient, char *tenant_id, char *project_id, char *scenario_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+scenario_t* ScenariosAPI_scenariosGet(apiClient_t *apiClient, char *tenant_id, char *project_id, char *scenario_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -76,9 +76,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ScenariosAPI_scenariosListScenarios**
+# **ScenariosAPI_scenariosList**
 ```c
-list_scenarios_response_t* ScenariosAPI_scenariosListScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+list_scenarios_response_t* ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -110,9 +110,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ScenariosAPI_scenariosMineScenarios**
+# **ScenariosAPI_scenariosMine**
 ```c
-mine_scenarios_response_t* ScenariosAPI_scenariosMineScenarios(apiClient_t *apiClient, char *tenant_id, char *project_id, mine_scenarios_request_t *mine_scenarios_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+mine_scenarios_response_t* ScenariosAPI_scenariosMine(apiClient_t *apiClient, char *tenant_id, char *project_id, mine_scenarios_request_t *mine_scenarios_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

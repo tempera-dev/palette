@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**gatesCreateGate**](GatesApi.md#gatesCreateGate) | **POST** /v1/gates/{tenant_id}/{project_id} |  |
-| [**gatesCreateGateWithHttpInfo**](GatesApi.md#gatesCreateGateWithHttpInfo) | **POST** /v1/gates/{tenant_id}/{project_id} |  |
-| [**gatesRunGate**](GatesApi.md#gatesRunGate) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |  |
-| [**gatesRunGateWithHttpInfo**](GatesApi.md#gatesRunGateWithHttpInfo) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |  |
+| [**gatesCreate**](GatesApi.md#gatesCreate) | **POST** /v1/gates/{tenant_id}/{project_id} |  |
+| [**gatesCreateWithHttpInfo**](GatesApi.md#gatesCreateWithHttpInfo) | **POST** /v1/gates/{tenant_id}/{project_id} |  |
+| [**gatesRun**](GatesApi.md#gatesRun) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |  |
+| [**gatesRunWithHttpInfo**](GatesApi.md#gatesRunWithHttpInfo) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |  |
 
 
 
-## gatesCreateGate
+## gatesCreate
 
-> GateDefinition gatesCreateGate(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> GateDefinition gatesCreate(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -41,10 +41,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            GateDefinition result = apiInstance.gatesCreateGate(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            GateDefinition result = apiInstance.gatesCreate(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GatesApi#gatesCreateGate");
+            System.err.println("Exception when calling GatesApi#gatesCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -89,9 +89,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## gatesCreateGateWithHttpInfo
+## gatesCreateWithHttpInfo
 
-> ApiResponse<GateDefinition> gatesCreateGate gatesCreateGateWithHttpInfo(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<GateDefinition> gatesCreate gatesCreateWithHttpInfo(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -120,12 +120,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<GateDefinition> response = apiInstance.gatesCreateGateWithHttpInfo(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<GateDefinition> response = apiInstance.gatesCreateWithHttpInfo(tenantId, projectId, createGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling GatesApi#gatesCreateGate");
+            System.err.println("Exception when calling GatesApi#gatesCreate");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -171,9 +171,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## gatesRunGate
+## gatesRun
 
-> GateRunReport gatesRunGate(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> GateRunReport gatesRun(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -202,10 +202,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            GateRunReport result = apiInstance.gatesRunGate(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            GateRunReport result = apiInstance.gatesRun(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling GatesApi#gatesRunGate");
+            System.err.println("Exception when calling GatesApi#gatesRun");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -252,9 +252,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## gatesRunGateWithHttpInfo
+## gatesRunWithHttpInfo
 
-> ApiResponse<GateRunReport> gatesRunGate gatesRunGateWithHttpInfo(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<GateRunReport> gatesRun gatesRunWithHttpInfo(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -284,12 +284,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<GateRunReport> response = apiInstance.gatesRunGateWithHttpInfo(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<GateRunReport> response = apiInstance.gatesRunWithHttpInfo(tenantId, projectId, gateId, runGateRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling GatesApi#gatesRunGate");
+            System.err.println("Exception when calling GatesApi#gatesRun");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

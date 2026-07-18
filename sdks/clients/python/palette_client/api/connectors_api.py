@@ -47,7 +47,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_connect_connector(
+    def connectors_connect(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -69,7 +69,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ConnectionLink:
-        """connectors_connect_connector
+        """connectors_connect
 
 
         :param tenant_id: tenant_id (required)
@@ -108,7 +108,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_connect_connector_serialize(
+        _param = self._connectors_connect_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             connect_connector_request=connect_connector_request,
@@ -141,7 +141,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_connect_connector_with_http_info(
+    def connectors_connect_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -163,7 +163,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ConnectionLink]:
-        """connectors_connect_connector
+        """connectors_connect
 
 
         :param tenant_id: tenant_id (required)
@@ -202,7 +202,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_connect_connector_serialize(
+        _param = self._connectors_connect_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             connect_connector_request=connect_connector_request,
@@ -235,7 +235,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_connect_connector_without_preload_content(
+    def connectors_connect_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -257,7 +257,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """connectors_connect_connector
+        """connectors_connect
 
 
         :param tenant_id: tenant_id (required)
@@ -296,7 +296,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_connect_connector_serialize(
+        _param = self._connectors_connect_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             connect_connector_request=connect_connector_request,
@@ -324,7 +324,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _connectors_connect_connector_serialize(
+    def _connectors_connect_serialize(
         self,
         tenant_id,
         project_id,
@@ -419,368 +419,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_connector_status(
-        self,
-        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
-        project_id: Annotated[StrictStr, Field(description="project_id")],
-        toolkit: Annotated[StrictStr, Field(description="Toolkit slug to scope the request to.")],
-        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
-        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
-        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
-        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ConnectionStatus:
-        """connectors_connector_status
-
-
-        :param tenant_id: tenant_id (required)
-        :type tenant_id: str
-        :param project_id: project_id (required)
-        :type project_id: str
-        :param toolkit: Toolkit slug to scope the request to. (required)
-        :type toolkit: str
-        :param authorization: Bearer API token for strict auth
-        :type authorization: str
-        :param x_palette_api_key: API key alternative for strict auth
-        :type x_palette_api_key: str
-        :param x_palette_project_id: Strict-auth project scope
-        :type x_palette_project_id: str
-        :param x_palette_environment_id: Strict-auth environment scope
-        :type x_palette_environment_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._connectors_connector_status_serialize(
-            tenant_id=tenant_id,
-            project_id=project_id,
-            toolkit=toolkit,
-            authorization=authorization,
-            x_palette_api_key=x_palette_api_key,
-            x_palette_project_id=x_palette_project_id,
-            x_palette_environment_id=x_palette_environment_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionStatus",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def connectors_connector_status_with_http_info(
-        self,
-        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
-        project_id: Annotated[StrictStr, Field(description="project_id")],
-        toolkit: Annotated[StrictStr, Field(description="Toolkit slug to scope the request to.")],
-        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
-        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
-        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
-        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ConnectionStatus]:
-        """connectors_connector_status
-
-
-        :param tenant_id: tenant_id (required)
-        :type tenant_id: str
-        :param project_id: project_id (required)
-        :type project_id: str
-        :param toolkit: Toolkit slug to scope the request to. (required)
-        :type toolkit: str
-        :param authorization: Bearer API token for strict auth
-        :type authorization: str
-        :param x_palette_api_key: API key alternative for strict auth
-        :type x_palette_api_key: str
-        :param x_palette_project_id: Strict-auth project scope
-        :type x_palette_project_id: str
-        :param x_palette_environment_id: Strict-auth environment scope
-        :type x_palette_environment_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._connectors_connector_status_serialize(
-            tenant_id=tenant_id,
-            project_id=project_id,
-            toolkit=toolkit,
-            authorization=authorization,
-            x_palette_api_key=x_palette_api_key,
-            x_palette_project_id=x_palette_project_id,
-            x_palette_environment_id=x_palette_environment_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionStatus",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def connectors_connector_status_without_preload_content(
-        self,
-        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
-        project_id: Annotated[StrictStr, Field(description="project_id")],
-        toolkit: Annotated[StrictStr, Field(description="Toolkit slug to scope the request to.")],
-        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
-        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
-        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
-        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """connectors_connector_status
-
-
-        :param tenant_id: tenant_id (required)
-        :type tenant_id: str
-        :param project_id: project_id (required)
-        :type project_id: str
-        :param toolkit: Toolkit slug to scope the request to. (required)
-        :type toolkit: str
-        :param authorization: Bearer API token for strict auth
-        :type authorization: str
-        :param x_palette_api_key: API key alternative for strict auth
-        :type x_palette_api_key: str
-        :param x_palette_project_id: Strict-auth project scope
-        :type x_palette_project_id: str
-        :param x_palette_environment_id: Strict-auth environment scope
-        :type x_palette_environment_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._connectors_connector_status_serialize(
-            tenant_id=tenant_id,
-            project_id=project_id,
-            toolkit=toolkit,
-            authorization=authorization,
-            x_palette_api_key=x_palette_api_key,
-            x_palette_project_id=x_palette_project_id,
-            x_palette_environment_id=x_palette_environment_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionStatus",
-            '400': "ErrorResponse",
-            '401': "ErrorResponse",
-            '403': "ErrorResponse",
-            '501': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _connectors_connector_status_serialize(
-        self,
-        tenant_id,
-        project_id,
-        toolkit,
-        authorization,
-        x_palette_api_key,
-        x_palette_project_id,
-        x_palette_environment_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
-        if project_id is not None:
-            _path_params['project_id'] = project_id
-        # process the query parameters
-        if toolkit is not None:
-            
-            _query_params.append(('toolkit', toolkit))
-            
-        # process the header parameters
-        if authorization is not None:
-            _header_params['authorization'] = authorization
-        if x_palette_api_key is not None:
-            _header_params['x-palette-api-key'] = x_palette_api_key
-        if x_palette_project_id is not None:
-            _header_params['x-palette-project-id'] = x_palette_project_id
-        if x_palette_environment_id is not None:
-            _header_params['x-palette-environment-id'] = x_palette_environment_id
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}/status',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def connectors_get_connector_skills(
+    def connectors_get_skills(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -802,7 +441,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ConnectorSkillsResponse:
-        """connectors_get_connector_skills
+        """connectors_get_skills
 
 
         :param tenant_id: tenant_id (required)
@@ -841,7 +480,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_get_connector_skills_serialize(
+        _param = self._connectors_get_skills_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
@@ -874,7 +513,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_get_connector_skills_with_http_info(
+    def connectors_get_skills_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -896,7 +535,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ConnectorSkillsResponse]:
-        """connectors_get_connector_skills
+        """connectors_get_skills
 
 
         :param tenant_id: tenant_id (required)
@@ -935,7 +574,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_get_connector_skills_serialize(
+        _param = self._connectors_get_skills_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
@@ -968,7 +607,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_get_connector_skills_without_preload_content(
+    def connectors_get_skills_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -990,7 +629,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """connectors_get_connector_skills
+        """connectors_get_skills
 
 
         :param tenant_id: tenant_id (required)
@@ -1029,7 +668,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_get_connector_skills_serialize(
+        _param = self._connectors_get_skills_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
@@ -1057,7 +696,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _connectors_get_connector_skills_serialize(
+    def _connectors_get_skills_serialize(
         self,
         tenant_id,
         project_id,
@@ -1141,7 +780,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_invoke_connector_tool(
+    def connectors_invoke_tool(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1163,7 +802,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ToolExecution:
-        """connectors_invoke_connector_tool
+        """connectors_invoke_tool
 
 
         :param tenant_id: tenant_id (required)
@@ -1202,7 +841,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_invoke_connector_tool_serialize(
+        _param = self._connectors_invoke_tool_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             invoke_connector_request=invoke_connector_request,
@@ -1235,7 +874,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_invoke_connector_tool_with_http_info(
+    def connectors_invoke_tool_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1257,7 +896,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ToolExecution]:
-        """connectors_invoke_connector_tool
+        """connectors_invoke_tool
 
 
         :param tenant_id: tenant_id (required)
@@ -1296,7 +935,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_invoke_connector_tool_serialize(
+        _param = self._connectors_invoke_tool_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             invoke_connector_request=invoke_connector_request,
@@ -1329,7 +968,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_invoke_connector_tool_without_preload_content(
+    def connectors_invoke_tool_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1351,7 +990,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """connectors_invoke_connector_tool
+        """connectors_invoke_tool
 
 
         :param tenant_id: tenant_id (required)
@@ -1390,7 +1029,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_invoke_connector_tool_serialize(
+        _param = self._connectors_invoke_tool_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             invoke_connector_request=invoke_connector_request,
@@ -1418,7 +1057,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _connectors_invoke_connector_tool_serialize(
+    def _connectors_invoke_tool_serialize(
         self,
         tenant_id,
         project_id,
@@ -1513,7 +1152,368 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_list_connector_tools(
+    def connectors_list(
+        self,
+        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
+        project_id: Annotated[StrictStr, Field(description="project_id")],
+        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
+        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
+        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
+        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[Toolkit]:
+        """connectors_list
+
+
+        :param tenant_id: tenant_id (required)
+        :type tenant_id: str
+        :param project_id: project_id (required)
+        :type project_id: str
+        :param limit: Maximum number of apps to return (page size).
+        :type limit: int
+        :param authorization: Bearer API token for strict auth
+        :type authorization: str
+        :param x_palette_api_key: API key alternative for strict auth
+        :type x_palette_api_key: str
+        :param x_palette_project_id: Strict-auth project scope
+        :type x_palette_project_id: str
+        :param x_palette_environment_id: Strict-auth environment scope
+        :type x_palette_environment_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._connectors_list_serialize(
+            tenant_id=tenant_id,
+            project_id=project_id,
+            limit=limit,
+            authorization=authorization,
+            x_palette_api_key=x_palette_api_key,
+            x_palette_project_id=x_palette_project_id,
+            x_palette_environment_id=x_palette_environment_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Toolkit]",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '403': "ErrorResponse",
+            '501': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def connectors_list_with_http_info(
+        self,
+        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
+        project_id: Annotated[StrictStr, Field(description="project_id")],
+        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
+        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
+        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
+        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[Toolkit]]:
+        """connectors_list
+
+
+        :param tenant_id: tenant_id (required)
+        :type tenant_id: str
+        :param project_id: project_id (required)
+        :type project_id: str
+        :param limit: Maximum number of apps to return (page size).
+        :type limit: int
+        :param authorization: Bearer API token for strict auth
+        :type authorization: str
+        :param x_palette_api_key: API key alternative for strict auth
+        :type x_palette_api_key: str
+        :param x_palette_project_id: Strict-auth project scope
+        :type x_palette_project_id: str
+        :param x_palette_environment_id: Strict-auth environment scope
+        :type x_palette_environment_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._connectors_list_serialize(
+            tenant_id=tenant_id,
+            project_id=project_id,
+            limit=limit,
+            authorization=authorization,
+            x_palette_api_key=x_palette_api_key,
+            x_palette_project_id=x_palette_project_id,
+            x_palette_environment_id=x_palette_environment_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Toolkit]",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '403': "ErrorResponse",
+            '501': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def connectors_list_without_preload_content(
+        self,
+        tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
+        project_id: Annotated[StrictStr, Field(description="project_id")],
+        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
+        x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
+        x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
+        x_palette_environment_id: Annotated[Optional[StrictStr], Field(description="Strict-auth environment scope")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """connectors_list
+
+
+        :param tenant_id: tenant_id (required)
+        :type tenant_id: str
+        :param project_id: project_id (required)
+        :type project_id: str
+        :param limit: Maximum number of apps to return (page size).
+        :type limit: int
+        :param authorization: Bearer API token for strict auth
+        :type authorization: str
+        :param x_palette_api_key: API key alternative for strict auth
+        :type x_palette_api_key: str
+        :param x_palette_project_id: Strict-auth project scope
+        :type x_palette_project_id: str
+        :param x_palette_environment_id: Strict-auth environment scope
+        :type x_palette_environment_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._connectors_list_serialize(
+            tenant_id=tenant_id,
+            project_id=project_id,
+            limit=limit,
+            authorization=authorization,
+            x_palette_api_key=x_palette_api_key,
+            x_palette_project_id=x_palette_project_id,
+            x_palette_environment_id=x_palette_environment_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Toolkit]",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '403': "ErrorResponse",
+            '501': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _connectors_list_serialize(
+        self,
+        tenant_id,
+        project_id,
+        limit,
+        authorization,
+        x_palette_api_key,
+        x_palette_project_id,
+        x_palette_environment_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if tenant_id is not None:
+            _path_params['tenant_id'] = tenant_id
+        if project_id is not None:
+            _path_params['project_id'] = project_id
+        # process the query parameters
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        if x_palette_api_key is not None:
+            _header_params['x-palette-api-key'] = x_palette_api_key
+        if x_palette_project_id is not None:
+            _header_params['x-palette-project-id'] = x_palette_project_id
+        if x_palette_environment_id is not None:
+            _header_params['x-palette-environment-id'] = x_palette_environment_id
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/connectors/{tenant_id}/{project_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def connectors_list_tools(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1536,7 +1536,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[ConnectorTool]:
-        """connectors_list_connector_tools
+        """connectors_list_tools
 
 
         :param tenant_id: tenant_id (required)
@@ -1577,7 +1577,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_list_connector_tools_serialize(
+        _param = self._connectors_list_tools_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
@@ -1611,7 +1611,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_list_connector_tools_with_http_info(
+    def connectors_list_tools_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1634,7 +1634,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[ConnectorTool]]:
-        """connectors_list_connector_tools
+        """connectors_list_tools
 
 
         :param tenant_id: tenant_id (required)
@@ -1675,7 +1675,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_list_connector_tools_serialize(
+        _param = self._connectors_list_tools_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
@@ -1709,7 +1709,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_list_connector_tools_without_preload_content(
+    def connectors_list_tools_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
@@ -1732,7 +1732,7 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """connectors_list_connector_tools
+        """connectors_list_tools
 
 
         :param tenant_id: tenant_id (required)
@@ -1773,7 +1773,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_list_connector_tools_serialize(
+        _param = self._connectors_list_tools_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
@@ -1802,7 +1802,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _connectors_list_connector_tools_serialize(
+    def _connectors_list_tools_serialize(
         self,
         tenant_id,
         project_id,
@@ -1891,11 +1891,11 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_list_connectors(
+    def connectors_status(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        toolkit: Annotated[StrictStr, Field(description="Toolkit slug to scope the request to.")],
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1912,16 +1912,16 @@ class ConnectorsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Toolkit]:
-        """connectors_list_connectors
+    ) -> ConnectionStatus:
+        """connectors_status
 
 
         :param tenant_id: tenant_id (required)
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
-        :param limit: Maximum number of apps to return (page size).
-        :type limit: int
+        :param toolkit: Toolkit slug to scope the request to. (required)
+        :type toolkit: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1952,10 +1952,10 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_list_connectors_serialize(
+        _param = self._connectors_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
-            limit=limit,
+            toolkit=toolkit,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1967,7 +1967,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Toolkit]",
+            '200': "ConnectionStatus",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1985,11 +1985,11 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_list_connectors_with_http_info(
+    def connectors_status_with_http_info(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        toolkit: Annotated[StrictStr, Field(description="Toolkit slug to scope the request to.")],
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -2006,16 +2006,16 @@ class ConnectorsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Toolkit]]:
-        """connectors_list_connectors
+    ) -> ApiResponse[ConnectionStatus]:
+        """connectors_status
 
 
         :param tenant_id: tenant_id (required)
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
-        :param limit: Maximum number of apps to return (page size).
-        :type limit: int
+        :param toolkit: Toolkit slug to scope the request to. (required)
+        :type toolkit: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -2046,10 +2046,10 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_list_connectors_serialize(
+        _param = self._connectors_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
-            limit=limit,
+            toolkit=toolkit,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -2061,7 +2061,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Toolkit]",
+            '200': "ConnectionStatus",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -2079,11 +2079,11 @@ class ConnectorsApi:
 
 
     @validate_call
-    def connectors_list_connectors_without_preload_content(
+    def connectors_status_without_preload_content(
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        toolkit: Annotated[StrictStr, Field(description="Toolkit slug to scope the request to.")],
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -2101,15 +2101,15 @@ class ConnectorsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """connectors_list_connectors
+        """connectors_status
 
 
         :param tenant_id: tenant_id (required)
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
-        :param limit: Maximum number of apps to return (page size).
-        :type limit: int
+        :param toolkit: Toolkit slug to scope the request to. (required)
+        :type toolkit: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -2140,10 +2140,10 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._connectors_list_connectors_serialize(
+        _param = self._connectors_status_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
-            limit=limit,
+            toolkit=toolkit,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -2155,7 +2155,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Toolkit]",
+            '200': "ConnectionStatus",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -2168,11 +2168,11 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _connectors_list_connectors_serialize(
+    def _connectors_status_serialize(
         self,
         tenant_id,
         project_id,
-        limit,
+        toolkit,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -2203,9 +2203,9 @@ class ConnectorsApi:
         if project_id is not None:
             _path_params['project_id'] = project_id
         # process the query parameters
-        if limit is not None:
+        if toolkit is not None:
             
-            _query_params.append(('limit', limit))
+            _query_params.append(('toolkit', toolkit))
             
         # process the header parameters
         if authorization is not None:
@@ -2235,7 +2235,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}',
+            resource_path='/v1/connectors/{tenant_id}/{project_id}/status',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

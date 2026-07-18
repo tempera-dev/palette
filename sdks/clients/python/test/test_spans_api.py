@@ -26,14 +26,14 @@ class TestSpansApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_spans_get_span(self) -> None:
-        """Test case for spans_get_span
+    def test_spans_get(self) -> None:
+        """Test case for spans_get
 
         """
         pass
 
-    def test_spans_get_span_io(self) -> None:
-        """Test case for spans_get_span_io
+    def test_spans_get_io(self) -> None:
+        """Test case for spans_get_io
 
         """
         pass

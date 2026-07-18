@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveArchiveTrace**](ArchiveAPI.md#ArchiveArchiveTrace) | **Post** /v1/archive/{tenant_id}/{project_id}/{trace_id} |
-[**ArchiveQueryArchiveSpans**](ArchiveAPI.md#ArchiveQueryArchiveSpans) | **Get** /v1/archive/{tenant_id}/{project_id}/spans |
+[**ArchiveQuerySpans**](ArchiveAPI.md#ArchiveQuerySpans) | **Get** /v1/archive/{tenant_id}/{project_id}/spans |
 
 
 
@@ -91,9 +91,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## ArchiveQueryArchiveSpans
+## ArchiveQuerySpans
 
-> ArchiveQueryResponse ArchiveQueryArchiveSpans(ctx, tenantId, projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ArchiveQueryResponse ArchiveQuerySpans(ctx, tenantId, projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -125,13 +125,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ArchiveAPI.ArchiveQueryArchiveSpans(context.Background(), tenantId, projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ArchiveAPI.ArchiveQuerySpans(context.Background(), tenantId, projectId).EnvironmentId(environmentId).TraceId(traceId).SpanId(spanId).Kind(kind).Status(status).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ArchiveAPI.ArchiveQueryArchiveSpans``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `ArchiveAPI.ArchiveQuerySpans``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ArchiveQueryArchiveSpans`: ArchiveQueryResponse
-	fmt.Fprintf(os.Stdout, "Response from `ArchiveAPI.ArchiveQueryArchiveSpans`: %v\n", resp)
+	// response from `ArchiveQuerySpans`: ArchiveQueryResponse
+	fmt.Fprintf(os.Stdout, "Response from `ArchiveAPI.ArchiveQuerySpans`: %v\n", resp)
 }
 ```
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiArchiveQueryArchiveSpansRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiArchiveQuerySpansRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

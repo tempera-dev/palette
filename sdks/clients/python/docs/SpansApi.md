@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**spans_get_span**](SpansApi.md#spans_get_span) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
-[**spans_get_span_io**](SpansApi.md#spans_get_span_io) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
+[**spans_get**](SpansApi.md#spans_get) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
+[**spans_get_io**](SpansApi.md#spans_get_io) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
 
 
-# **spans_get_span**
-> CanonicalSpan spans_get_span(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **spans_get**
+> CanonicalSpan spans_get(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -44,11 +44,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.spans_get_span(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of SpansApi->spans_get_span:\n")
+        api_response = api_instance.spans_get(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of SpansApi->spans_get:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling SpansApi->spans_get_span: %s\n" % e)
+        print("Exception when calling SpansApi->spans_get: %s\n" % e)
 ```
 
 
@@ -93,8 +93,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **spans_get_span_io**
-> SpanIoResponse spans_get_span_io(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+# **spans_get_io**
+> SpanIoResponse spans_get_io(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -129,11 +129,11 @@ with palette_client.ApiClient(configuration) as api_client:
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.spans_get_span_io(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
-        print("The response of SpansApi->spans_get_span_io:\n")
+        api_response = api_instance.spans_get_io(tenant_id, trace_id, span_id, unmask=unmask, reason=reason, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        print("The response of SpansApi->spans_get_io:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling SpansApi->spans_get_span_io: %s\n" % e)
+        print("Exception when calling SpansApi->spans_get_io: %s\n" % e)
 ```
 
 

@@ -94,8 +94,8 @@ public class UsageApi {
    * @return UsageSummary
    * @throws ApiException if fails to make API call
    */
-  public UsageSummary usageGetUsageSummary(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<UsageSummary> localVarResponse = usageGetUsageSummaryWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public UsageSummary usageGetSummary(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<UsageSummary> localVarResponse = usageGetSummaryWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -111,8 +111,8 @@ public class UsageApi {
    * @return ApiResponse&lt;UsageSummary&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<UsageSummary> usageGetUsageSummaryWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = usageGetUsageSummaryRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<UsageSummary> usageGetSummaryWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = usageGetSummaryRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -122,7 +122,7 @@ public class UsageApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("usageGetUsageSummary", localVarResponse);
+          throw getApiException("usageGetSummary", localVarResponse);
         }
         if (localVarResponse.body() == null) {
           return new ApiResponse<UsageSummary>(
@@ -151,14 +151,14 @@ public class UsageApi {
     }
   }
 
-  private HttpRequest.Builder usageGetUsageSummaryRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder usageGetSummaryRequestBuilder(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
-      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling usageGetUsageSummary");
+      throw new ApiException(400, "Missing the required parameter 'tenantId' when calling usageGetSummary");
     }
     // verify the required parameter 'projectId' is set
     if (projectId == null) {
-      throw new ApiException(400, "Missing the required parameter 'projectId' when calling usageGetUsageSummary");
+      throw new ApiException(400, "Missing the required parameter 'projectId' when calling usageGetSummary");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

@@ -37,7 +37,7 @@ import {
     ScenarioToJSON,
 } from '../models/index';
 
-export interface ScenariosCreateScenarioRequest {
+export interface ScenariosCreateRequest {
     tenantId: string;
     projectId: string;
     createScenarioRequest: CreateScenarioRequest;
@@ -47,7 +47,7 @@ export interface ScenariosCreateScenarioRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ScenariosGetScenarioRequest {
+export interface ScenariosGetRequest {
     tenantId: string;
     projectId: string;
     scenarioId: string;
@@ -57,7 +57,7 @@ export interface ScenariosGetScenarioRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ScenariosListScenariosRequest {
+export interface ScenariosListRequest {
     tenantId: string;
     projectId: string;
     limit?: number;
@@ -68,7 +68,7 @@ export interface ScenariosListScenariosRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface ScenariosMineScenariosRequest {
+export interface ScenariosMineRequest {
     tenantId: string;
     projectId: string;
     mineScenariosRequest: MineScenariosRequest;
@@ -85,25 +85,25 @@ export class ScenariosApi extends runtime.BaseAPI {
 
     /**
      */
-    async scenariosCreateScenarioRaw(requestParameters: ScenariosCreateScenarioRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Scenario>> {
+    async scenariosCreateRaw(requestParameters: ScenariosCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Scenario>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling scenariosCreateScenario().'
+                'Required parameter "tenantId" was null or undefined when calling scenariosCreate().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling scenariosCreateScenario().'
+                'Required parameter "projectId" was null or undefined when calling scenariosCreate().'
             );
         }
 
         if (requestParameters['createScenarioRequest'] == null) {
             throw new runtime.RequiredError(
                 'createScenarioRequest',
-                'Required parameter "createScenarioRequest" was null or undefined when calling scenariosCreateScenario().'
+                'Required parameter "createScenarioRequest" was null or undefined when calling scenariosCreate().'
             );
         }
 
@@ -142,32 +142,32 @@ export class ScenariosApi extends runtime.BaseAPI {
 
     /**
      */
-    async scenariosCreateScenario(requestParameters: ScenariosCreateScenarioRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Scenario> {
-        const response = await this.scenariosCreateScenarioRaw(requestParameters, initOverrides);
+    async scenariosCreate(requestParameters: ScenariosCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Scenario> {
+        const response = await this.scenariosCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async scenariosGetScenarioRaw(requestParameters: ScenariosGetScenarioRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Scenario>> {
+    async scenariosGetRaw(requestParameters: ScenariosGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Scenario>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling scenariosGetScenario().'
+                'Required parameter "tenantId" was null or undefined when calling scenariosGet().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling scenariosGetScenario().'
+                'Required parameter "projectId" was null or undefined when calling scenariosGet().'
             );
         }
 
         if (requestParameters['scenarioId'] == null) {
             throw new runtime.RequiredError(
                 'scenarioId',
-                'Required parameter "scenarioId" was null or undefined when calling scenariosGetScenario().'
+                'Required parameter "scenarioId" was null or undefined when calling scenariosGet().'
             );
         }
 
@@ -203,25 +203,25 @@ export class ScenariosApi extends runtime.BaseAPI {
 
     /**
      */
-    async scenariosGetScenario(requestParameters: ScenariosGetScenarioRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Scenario> {
-        const response = await this.scenariosGetScenarioRaw(requestParameters, initOverrides);
+    async scenariosGet(requestParameters: ScenariosGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Scenario> {
+        const response = await this.scenariosGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async scenariosListScenariosRaw(requestParameters: ScenariosListScenariosRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListScenariosResponse>> {
+    async scenariosListRaw(requestParameters: ScenariosListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListScenariosResponse>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling scenariosListScenarios().'
+                'Required parameter "tenantId" was null or undefined when calling scenariosList().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling scenariosListScenarios().'
+                'Required parameter "projectId" was null or undefined when calling scenariosList().'
             );
         }
 
@@ -265,32 +265,32 @@ export class ScenariosApi extends runtime.BaseAPI {
 
     /**
      */
-    async scenariosListScenarios(requestParameters: ScenariosListScenariosRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListScenariosResponse> {
-        const response = await this.scenariosListScenariosRaw(requestParameters, initOverrides);
+    async scenariosList(requestParameters: ScenariosListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListScenariosResponse> {
+        const response = await this.scenariosListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async scenariosMineScenariosRaw(requestParameters: ScenariosMineScenariosRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MineScenariosResponse>> {
+    async scenariosMineRaw(requestParameters: ScenariosMineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MineScenariosResponse>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling scenariosMineScenarios().'
+                'Required parameter "tenantId" was null or undefined when calling scenariosMine().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling scenariosMineScenarios().'
+                'Required parameter "projectId" was null or undefined when calling scenariosMine().'
             );
         }
 
         if (requestParameters['mineScenariosRequest'] == null) {
             throw new runtime.RequiredError(
                 'mineScenariosRequest',
-                'Required parameter "mineScenariosRequest" was null or undefined when calling scenariosMineScenarios().'
+                'Required parameter "mineScenariosRequest" was null or undefined when calling scenariosMine().'
             );
         }
 
@@ -329,8 +329,8 @@ export class ScenariosApi extends runtime.BaseAPI {
 
     /**
      */
-    async scenariosMineScenarios(requestParameters: ScenariosMineScenariosRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MineScenariosResponse> {
-        const response = await this.scenariosMineScenariosRaw(requestParameters, initOverrides);
+    async scenariosMine(requestParameters: ScenariosMineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MineScenariosResponse> {
+        const response = await this.scenariosMineRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

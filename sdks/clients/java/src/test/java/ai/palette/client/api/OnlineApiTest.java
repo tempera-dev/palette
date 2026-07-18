@@ -45,7 +45,7 @@ public class OnlineApiTest {
      *          if the Api call fails
      */
     @Test
-    public void onlineDecideOnlineSamplingTest() throws ApiException {
+    public void onlineDecideSamplingTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
         String traceId = null;
@@ -55,7 +55,7 @@ public class OnlineApiTest {
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         SamplingDecision response = 
-        api.onlineDecideOnlineSampling(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.onlineDecideSampling(tenantId, projectId, traceId, onlineSamplingPolicy, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

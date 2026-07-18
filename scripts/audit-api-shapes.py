@@ -20,14 +20,16 @@ from pathlib import Path
 from typing import Any, TextIO
 
 DEFAULT_SPEC = "sdks/openapi/palette-api.json"
-OPERATION_ID = re.compile(r"^[A-Za-z][A-Za-z0-9]*\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
+# Canonical AIP scheme (tempera-api-style-guide.md §4): `{collection}.{method}`,
+# lower-camel collection, dot, lower-camel standard-method-or-custom-verb.
+OPERATION_ID = re.compile(r"^[A-Za-z][A-Za-z0-9]*\.[a-z][A-Za-z0-9]*$")
 LIST_PAGINATION_EXEMPTIONS = {
-    "audit.list-audit-events",
-    "judge.list-judge-ledger",
-    "prompts.list-prompt-versions",
-    "prompts.list-prompts",
-    "providerSecrets.list-provider-secrets",
-    "reviews.list-review-tasks",
+    "audit.list",
+    "judge.listLedger",
+    "prompts.listVersions",
+    "prompts.list",
+    "providerSecrets.list",
+    "reviews.listTasks",
 }
 
 
@@ -80,7 +82,7 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
         # Health is the only allowed exception to the error-body rule.
         # 422 is used for partial-success (drain-with-dead-letters) and carries a
         # domain payload, not the shared error body, so it's exempt from this rule.
-        if oid != "health.health":
+        if oid != "health.check":
             err_codes = [
                 c for c in responses if c.startswith(("4", "5")) and c != "422"
             ]
@@ -128,7 +130,11 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
     for method, path, op in ops:
         oid = op.get("operationId", "")
         verb = oid.split(".", 1)[1] if "." in oid else oid
-        if verb.startswith("list-") and oid not in LIST_PAGINATION_EXEMPTIONS:
+        # `list` or a lower-camel `list<Qualifier>` standard method.
+        is_list = verb == "list" or (
+            verb.startswith("list") and len(verb) > 4 and verb[4].isupper()
+        )
+        if is_list and oid not in LIST_PAGINATION_EXEMPTIONS:
             params = {p.get("name") for p in op.get("parameters", [])}
             if "cursor" not in params and "limit" not in params:
                 violations.append(

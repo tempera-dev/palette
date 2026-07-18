@@ -31,7 +31,7 @@ import {
     RunJudgeDatasetEvalRequestToJSON,
 } from '../models/index';
 
-export interface EvalsRunDeterministicEvalRequest {
+export interface EvalsRunDeterministicRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -43,7 +43,7 @@ export interface EvalsRunDeterministicEvalRequest {
     xPaletteEnvironmentId?: string | null;
 }
 
-export interface EvalsRunJudgeEvalRequest {
+export interface EvalsRunJudgeRequest {
     tenantId: string;
     projectId: string;
     datasetId: string;
@@ -62,39 +62,39 @@ export class EvalsApi extends runtime.BaseAPI {
 
     /**
      */
-    async evalsRunDeterministicEvalRaw(requestParameters: EvalsRunDeterministicEvalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetEvalReport>> {
+    async evalsRunDeterministicRaw(requestParameters: EvalsRunDeterministicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetEvalReport>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling evalsRunDeterministicEval().'
+                'Required parameter "tenantId" was null or undefined when calling evalsRunDeterministic().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling evalsRunDeterministicEval().'
+                'Required parameter "projectId" was null or undefined when calling evalsRunDeterministic().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling evalsRunDeterministicEval().'
+                'Required parameter "datasetId" was null or undefined when calling evalsRunDeterministic().'
             );
         }
 
         if (requestParameters['versionId'] == null) {
             throw new runtime.RequiredError(
                 'versionId',
-                'Required parameter "versionId" was null or undefined when calling evalsRunDeterministicEval().'
+                'Required parameter "versionId" was null or undefined when calling evalsRunDeterministic().'
             );
         }
 
         if (requestParameters['runDeterministicEvalRequest'] == null) {
             throw new runtime.RequiredError(
                 'runDeterministicEvalRequest',
-                'Required parameter "runDeterministicEvalRequest" was null or undefined when calling evalsRunDeterministicEval().'
+                'Required parameter "runDeterministicEvalRequest" was null or undefined when calling evalsRunDeterministic().'
             );
         }
 
@@ -133,46 +133,46 @@ export class EvalsApi extends runtime.BaseAPI {
 
     /**
      */
-    async evalsRunDeterministicEval(requestParameters: EvalsRunDeterministicEvalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetEvalReport> {
-        const response = await this.evalsRunDeterministicEvalRaw(requestParameters, initOverrides);
+    async evalsRunDeterministic(requestParameters: EvalsRunDeterministicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetEvalReport> {
+        const response = await this.evalsRunDeterministicRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async evalsRunJudgeEvalRaw(requestParameters: EvalsRunJudgeEvalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetEvalReport>> {
+    async evalsRunJudgeRaw(requestParameters: EvalsRunJudgeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetEvalReport>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
-                'Required parameter "tenantId" was null or undefined when calling evalsRunJudgeEval().'
+                'Required parameter "tenantId" was null or undefined when calling evalsRunJudge().'
             );
         }
 
         if (requestParameters['projectId'] == null) {
             throw new runtime.RequiredError(
                 'projectId',
-                'Required parameter "projectId" was null or undefined when calling evalsRunJudgeEval().'
+                'Required parameter "projectId" was null or undefined when calling evalsRunJudge().'
             );
         }
 
         if (requestParameters['datasetId'] == null) {
             throw new runtime.RequiredError(
                 'datasetId',
-                'Required parameter "datasetId" was null or undefined when calling evalsRunJudgeEval().'
+                'Required parameter "datasetId" was null or undefined when calling evalsRunJudge().'
             );
         }
 
         if (requestParameters['versionId'] == null) {
             throw new runtime.RequiredError(
                 'versionId',
-                'Required parameter "versionId" was null or undefined when calling evalsRunJudgeEval().'
+                'Required parameter "versionId" was null or undefined when calling evalsRunJudge().'
             );
         }
 
         if (requestParameters['runJudgeDatasetEvalRequest'] == null) {
             throw new runtime.RequiredError(
                 'runJudgeDatasetEvalRequest',
-                'Required parameter "runJudgeDatasetEvalRequest" was null or undefined when calling evalsRunJudgeEval().'
+                'Required parameter "runJudgeDatasetEvalRequest" was null or undefined when calling evalsRunJudge().'
             );
         }
 
@@ -211,8 +211,8 @@ export class EvalsApi extends runtime.BaseAPI {
 
     /**
      */
-    async evalsRunJudgeEval(requestParameters: EvalsRunJudgeEvalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetEvalReport> {
-        const response = await this.evalsRunJudgeEvalRaw(requestParameters, initOverrides);
+    async evalsRunJudge(requestParameters: EvalsRunJudgeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetEvalReport> {
+        const response = await this.evalsRunJudgeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

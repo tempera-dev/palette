@@ -108,7 +108,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<IngestQueueStatus>> ingest_getIngestQueueStatus(
+    pplx::task<std::shared_ptr<IngestQueueStatus>> ingest_getQueueStatus(
         utility::string_t tenantId,
         utility::string_t projectId,
         boost::optional<utility::string_t> authorization,
@@ -150,7 +150,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<IngestOutcome>> ingest_ingestNative(
+    pplx::task<std::shared_ptr<IngestOutcome>> ingest_native(
         std::shared_ptr<NativeIngestRequest> nativeIngestRequest,
         boost::optional<utility::string_t> durability,
         boost::optional<utility::string_t> authorization,
@@ -172,7 +172,7 @@ public:
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<OtlpIngestOutcome>> ingest_ingestOtlp(
+    pplx::task<std::shared_ptr<OtlpIngestOutcome>> ingest_otlp(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t environmentId,
@@ -194,7 +194,7 @@ public:
     /// <param name="xPaletteTenantId">Tenant scope override for collector-style OTLP JSON (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Project scope override for collector-style OTLP JSON (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Environment scope override for collector-style OTLP JSON (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<OtlpIngestOutcome>> ingest_ingestOtlpJsonCollector(
+    pplx::task<std::shared_ptr<OtlpIngestOutcome>> ingest_otlpJsonCollector(
         boost::optional<utility::string_t> durability,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,

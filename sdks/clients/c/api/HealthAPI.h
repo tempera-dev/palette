@@ -9,6 +9,6 @@
 
 
 health_response_t*
-HealthAPI_healthHealth(apiClient_t *apiClient);
+HealthAPI_healthCheck(apiClient_t *apiClient);
 
 

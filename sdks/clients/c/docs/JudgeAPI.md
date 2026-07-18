@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**JudgeAPI_judgeEvaluateJudge**](JudgeAPI.md#JudgeAPI_judgeEvaluateJudge) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |
-[**JudgeAPI_judgeListJudgeLedger**](JudgeAPI.md#JudgeAPI_judgeListJudgeLedger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |
+[**JudgeAPI_judgeEvaluate**](JudgeAPI.md#JudgeAPI_judgeEvaluate) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |
+[**JudgeAPI_judgeListLedger**](JudgeAPI.md#JudgeAPI_judgeListLedger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |
 
 
-# **JudgeAPI_judgeEvaluateJudge**
+# **JudgeAPI_judgeEvaluate**
 ```c
-judge_broker_outcome_t* JudgeAPI_judgeEvaluateJudge(apiClient_t *apiClient, char *tenant_id, char *project_id, run_judge_eval_http_request_t *run_judge_eval_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+judge_broker_outcome_t* JudgeAPI_judgeEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id, run_judge_eval_http_request_t *run_judge_eval_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -41,9 +41,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **JudgeAPI_judgeListJudgeLedger**
+# **JudgeAPI_judgeListLedger**
 ```c
-list_t* JudgeAPI_judgeListJudgeLedger(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+list_t* JudgeAPI_judgeListLedger(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters

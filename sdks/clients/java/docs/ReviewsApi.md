@@ -4,22 +4,22 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**reviewsCreateReviewQueue**](ReviewsApi.md#reviewsCreateReviewQueue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |  |
-| [**reviewsCreateReviewQueueWithHttpInfo**](ReviewsApi.md#reviewsCreateReviewQueueWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id} |  |
-| [**reviewsEnqueueReviewTaskFromTrace**](ReviewsApi.md#reviewsEnqueueReviewTaskFromTrace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |  |
-| [**reviewsEnqueueReviewTaskFromTraceWithHttpInfo**](ReviewsApi.md#reviewsEnqueueReviewTaskFromTraceWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |  |
-| [**reviewsListReviewTasks**](ReviewsApi.md#reviewsListReviewTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |  |
-| [**reviewsListReviewTasksWithHttpInfo**](ReviewsApi.md#reviewsListReviewTasksWithHttpInfo) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |  |
-| [**reviewsPromoteReviewAnnotation**](ReviewsApi.md#reviewsPromoteReviewAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |  |
-| [**reviewsPromoteReviewAnnotationWithHttpInfo**](ReviewsApi.md#reviewsPromoteReviewAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |  |
-| [**reviewsSubmitReviewAnnotation**](ReviewsApi.md#reviewsSubmitReviewAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |  |
-| [**reviewsSubmitReviewAnnotationWithHttpInfo**](ReviewsApi.md#reviewsSubmitReviewAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |  |
+| [**reviewsCreateQueue**](ReviewsApi.md#reviewsCreateQueue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |  |
+| [**reviewsCreateQueueWithHttpInfo**](ReviewsApi.md#reviewsCreateQueueWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id} |  |
+| [**reviewsEnqueueTaskFromTrace**](ReviewsApi.md#reviewsEnqueueTaskFromTrace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |  |
+| [**reviewsEnqueueTaskFromTraceWithHttpInfo**](ReviewsApi.md#reviewsEnqueueTaskFromTraceWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |  |
+| [**reviewsListTasks**](ReviewsApi.md#reviewsListTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |  |
+| [**reviewsListTasksWithHttpInfo**](ReviewsApi.md#reviewsListTasksWithHttpInfo) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |  |
+| [**reviewsPromoteAnnotation**](ReviewsApi.md#reviewsPromoteAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |  |
+| [**reviewsPromoteAnnotationWithHttpInfo**](ReviewsApi.md#reviewsPromoteAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |  |
+| [**reviewsSubmitAnnotation**](ReviewsApi.md#reviewsSubmitAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |  |
+| [**reviewsSubmitAnnotationWithHttpInfo**](ReviewsApi.md#reviewsSubmitAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |  |
 
 
 
-## reviewsCreateReviewQueue
+## reviewsCreateQueue
 
-> ReviewQueue reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ReviewQueue reviewsCreateQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -47,10 +47,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ReviewQueue result = apiInstance.reviewsCreateReviewQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ReviewQueue result = apiInstance.reviewsCreateQueue(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsCreateReviewQueue");
+            System.err.println("Exception when calling ReviewsApi#reviewsCreateQueue");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -95,9 +95,9 @@ No authorization required
 | **401** | Missing or invalid credentials |  -  |
 | **403** | Credentials lack the required scope |  -  |
 
-## reviewsCreateReviewQueueWithHttpInfo
+## reviewsCreateQueueWithHttpInfo
 
-> ApiResponse<ReviewQueue> reviewsCreateReviewQueue reviewsCreateReviewQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ReviewQueue> reviewsCreateQueue reviewsCreateQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -126,12 +126,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ReviewQueue> response = apiInstance.reviewsCreateReviewQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ReviewQueue> response = apiInstance.reviewsCreateQueueWithHttpInfo(tenantId, projectId, createReviewQueueHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsCreateReviewQueue");
+            System.err.println("Exception when calling ReviewsApi#reviewsCreateQueue");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -177,9 +177,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 
 
-## reviewsEnqueueReviewTaskFromTrace
+## reviewsEnqueueTaskFromTrace
 
-> ReviewTask reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ReviewTask reviewsEnqueueTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -208,10 +208,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ReviewTask result = apiInstance.reviewsEnqueueReviewTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ReviewTask result = apiInstance.reviewsEnqueueTaskFromTrace(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsEnqueueReviewTaskFromTrace");
+            System.err.println("Exception when calling ReviewsApi#reviewsEnqueueTaskFromTrace");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -258,9 +258,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## reviewsEnqueueReviewTaskFromTraceWithHttpInfo
+## reviewsEnqueueTaskFromTraceWithHttpInfo
 
-> ApiResponse<ReviewTask> reviewsEnqueueReviewTaskFromTrace reviewsEnqueueReviewTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ReviewTask> reviewsEnqueueTaskFromTrace reviewsEnqueueTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -290,12 +290,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ReviewTask> response = apiInstance.reviewsEnqueueReviewTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ReviewTask> response = apiInstance.reviewsEnqueueTaskFromTraceWithHttpInfo(tenantId, projectId, queueId, enqueueReviewTaskFromTraceHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsEnqueueReviewTaskFromTrace");
+            System.err.println("Exception when calling ReviewsApi#reviewsEnqueueTaskFromTrace");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -343,9 +343,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## reviewsListReviewTasks
+## reviewsListTasks
 
-> List<ReviewTask> reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> List<ReviewTask> reviewsListTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -374,10 +374,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ReviewTask> result = apiInstance.reviewsListReviewTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            List<ReviewTask> result = apiInstance.reviewsListTasks(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsListReviewTasks");
+            System.err.println("Exception when calling ReviewsApi#reviewsListTasks");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -424,9 +424,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## reviewsListReviewTasksWithHttpInfo
+## reviewsListTasksWithHttpInfo
 
-> ApiResponse<List<ReviewTask>> reviewsListReviewTasks reviewsListReviewTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<List<ReviewTask>> reviewsListTasks reviewsListTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -456,12 +456,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ReviewTask>> response = apiInstance.reviewsListReviewTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<List<ReviewTask>> response = apiInstance.reviewsListTasksWithHttpInfo(tenantId, projectId, queueId, state, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsListReviewTasks");
+            System.err.println("Exception when calling ReviewsApi#reviewsListTasks");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -509,9 +509,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## reviewsPromoteReviewAnnotation
+## reviewsPromoteAnnotation
 
-> DatasetCase reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> DatasetCase reviewsPromoteAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -542,10 +542,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            DatasetCase result = apiInstance.reviewsPromoteReviewAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            DatasetCase result = apiInstance.reviewsPromoteAnnotation(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsPromoteReviewAnnotation");
+            System.err.println("Exception when calling ReviewsApi#reviewsPromoteAnnotation");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -594,9 +594,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## reviewsPromoteReviewAnnotationWithHttpInfo
+## reviewsPromoteAnnotationWithHttpInfo
 
-> ApiResponse<DatasetCase> reviewsPromoteReviewAnnotation reviewsPromoteReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<DatasetCase> reviewsPromoteAnnotation reviewsPromoteAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -628,12 +628,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<DatasetCase> response = apiInstance.reviewsPromoteReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<DatasetCase> response = apiInstance.reviewsPromoteAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, annotationId, promoteReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsPromoteReviewAnnotation");
+            System.err.println("Exception when calling ReviewsApi#reviewsPromoteAnnotation");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
@@ -683,9 +683,9 @@ No authorization required
 | **404** | Resource not found |  -  |
 
 
-## reviewsSubmitReviewAnnotation
+## reviewsSubmitAnnotation
 
-> ReviewAnnotation reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ReviewAnnotation reviewsSubmitAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -715,10 +715,10 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ReviewAnnotation result = apiInstance.reviewsSubmitReviewAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ReviewAnnotation result = apiInstance.reviewsSubmitAnnotation(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsSubmitReviewAnnotation");
+            System.err.println("Exception when calling ReviewsApi#reviewsSubmitAnnotation");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -766,9 +766,9 @@ No authorization required
 | **403** | Credentials lack the required scope |  -  |
 | **404** | Resource not found |  -  |
 
-## reviewsSubmitReviewAnnotationWithHttpInfo
+## reviewsSubmitAnnotationWithHttpInfo
 
-> ApiResponse<ReviewAnnotation> reviewsSubmitReviewAnnotation reviewsSubmitReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ReviewAnnotation> reviewsSubmitAnnotation reviewsSubmitAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -799,12 +799,12 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ReviewAnnotation> response = apiInstance.reviewsSubmitReviewAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ReviewAnnotation> response = apiInstance.reviewsSubmitAnnotationWithHttpInfo(tenantId, projectId, queueId, taskId, submitReviewAnnotationHttpRequest, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling ReviewsApi#reviewsSubmitReviewAnnotation");
+            System.err.println("Exception when calling ReviewsApi#reviewsSubmitAnnotation");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());
