@@ -1874,6 +1874,28 @@ export interface components {
             rotated_at?: string | null;
             tenant_id: components["schemas"]["TenantId"];
         };
+        /**
+         * @description Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`,
+         *     and our raw `provider_cost` are INTERNAL (staff-only) and must never reach a
+         *     customer — exposing `provider_cost` alongside `charged_cost` would also leak our
+         *     margin (billing-credits-contract §11). Only customer-facing fields appear here,
+         *     including `charged_cost` (the amount the customer actually pays).
+         */
+        PublicJudgeAuditRecord: {
+            cached: boolean;
+            charged_cost: components["schemas"]["Money"];
+            /** Format: date-time */
+            created_at: string;
+            evaluator_id: string;
+            judge_call_id: components["schemas"]["JudgeCallId"];
+            model: string;
+            project_id: components["schemas"]["ProjectId"];
+            request_hash: components["schemas"]["Sha256Hash"];
+            response_hash: components["schemas"]["Sha256Hash"];
+            /** Format: double */
+            score: number;
+            tenant_id: components["schemas"]["TenantId"];
+        };
         PublishAck: {
             accepted: boolean;
             duplicate: boolean;
@@ -4487,7 +4509,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JudgeAuditRecord"][];
+                    "application/json": components["schemas"]["PublicJudgeAuditRecord"][];
                 };
             };
             /** @description Invalid request, scope, or filter */

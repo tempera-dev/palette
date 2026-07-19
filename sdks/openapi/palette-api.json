@@ -4338,7 +4338,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/JudgeAuditRecord"
+                    "$ref": "#/components/schemas/PublicJudgeAuditRecord"
                   }
                 }
               }
@@ -11950,6 +11950,60 @@
               "null"
             ],
             "format": "date-time"
+          },
+          "tenant_id": {
+            "$ref": "#/components/schemas/TenantId"
+          }
+        }
+      },
+      "PublicJudgeAuditRecord": {
+        "type": "object",
+        "description": "Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`,\nand our raw `provider_cost` are INTERNAL (staff-only) and must never reach a\ncustomer — exposing `provider_cost` alongside `charged_cost` would also leak our\nmargin (billing-credits-contract §11). Only customer-facing fields appear here,\nincluding `charged_cost` (the amount the customer actually pays).",
+        "required": [
+          "judge_call_id",
+          "tenant_id",
+          "project_id",
+          "evaluator_id",
+          "model",
+          "request_hash",
+          "response_hash",
+          "score",
+          "charged_cost",
+          "cached",
+          "created_at"
+        ],
+        "properties": {
+          "cached": {
+            "type": "boolean"
+          },
+          "charged_cost": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evaluator_id": {
+            "type": "string"
+          },
+          "judge_call_id": {
+            "$ref": "#/components/schemas/JudgeCallId"
+          },
+          "model": {
+            "type": "string"
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "request_hash": {
+            "$ref": "#/components/schemas/Sha256Hash"
+          },
+          "response_hash": {
+            "$ref": "#/components/schemas/Sha256Hash"
+          },
+          "score": {
+            "type": "number",
+            "format": "double"
           },
           "tenant_id": {
             "$ref": "#/components/schemas/TenantId"

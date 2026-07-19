@@ -214,6 +214,8 @@ pub mod prompt_version_metadata;
 pub use self::prompt_version_metadata::PromptVersionMetadata;
 pub mod provider_secret_metadata;
 pub use self::provider_secret_metadata::ProviderSecretMetadata;
+pub mod public_judge_audit_record;
+pub use self::public_judge_audit_record::PublicJudgeAuditRecord;
 pub mod publish_ack;
 pub use self::publish_ack::PublishAck;
 pub mod queued_trace_work;

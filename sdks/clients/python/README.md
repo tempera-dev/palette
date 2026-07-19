@@ -263,6 +263,7 @@ Class | Method | HTTP request | Description
  - [PromptVersionListResponse](docs/PromptVersionListResponse.md)
  - [PromptVersionMetadata](docs/PromptVersionMetadata.md)
  - [ProviderSecretMetadata](docs/ProviderSecretMetadata.md)
+ - [PublicJudgeAuditRecord](docs/PublicJudgeAuditRecord.md)
  - [PublishAck](docs/PublishAck.md)
  - [QueuedTraceWork](docs/QueuedTraceWork.md)
  - [RedactionClass](docs/RedactionClass.md)

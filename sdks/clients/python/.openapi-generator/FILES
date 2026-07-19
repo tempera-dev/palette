@@ -129,6 +129,7 @@ docs/PromptVersionMetadata.md
 docs/PromptsApi.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsApi.md
+docs/PublicJudgeAuditRecord.md
 docs/PublishAck.md
 docs/QueuedTraceWork.md
 docs/RedactionClass.md
@@ -322,6 +323,7 @@ palette_client/models/prompt_version_diff.py
 palette_client/models/prompt_version_list_response.py
 palette_client/models/prompt_version_metadata.py
 palette_client/models/provider_secret_metadata.py
+palette_client/models/public_judge_audit_record.py
 palette_client/models/publish_ack.py
 palette_client/models/queued_trace_work.py
 palette_client/models/redaction_class.py
@@ -503,6 +505,7 @@ test/test_prompt_version_metadata.py
 test/test_prompts_api.py
 test/test_provider_secret_metadata.py
 test/test_provider_secrets_api.py
+test/test_public_judge_audit_record.py
 test/test_publish_ack.py
 test/test_queued_trace_work.py
 test/test_redaction_class.py

@@ -6,8 +6,8 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/error_response.h"
-#include "../model/judge_audit_record.h"
 #include "../model/judge_broker_outcome.h"
+#include "../model/public_judge_audit_record.h"
 #include "../model/run_judge_eval_http_request.h"
 
 

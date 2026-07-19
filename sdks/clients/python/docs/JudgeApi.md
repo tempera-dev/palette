@@ -90,7 +90,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **judge_list_ledger**
-> List[JudgeAuditRecord] judge_list_ledger(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+> List[PublicJudgeAuditRecord] judge_list_ledger(tenant_id, project_id, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -99,7 +99,7 @@ No authorization required
 
 ```python
 import palette_client
-from palette_client.models.judge_audit_record import JudgeAuditRecord
+from palette_client.models.public_judge_audit_record import PublicJudgeAuditRecord
 from palette_client.rest import ApiException
 from pprint import pprint
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List[JudgeAuditRecord]**](JudgeAuditRecord.md)
+[**List[PublicJudgeAuditRecord]**](PublicJudgeAuditRecord.md)
 
 ### Authorization
 

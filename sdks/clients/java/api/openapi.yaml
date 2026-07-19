@@ -3199,7 +3199,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/JudgeAuditRecord'
+                  $ref: '#/components/schemas/PublicJudgeAuditRecord'
                 type: array
           description: List judge ledger audit records
         "400":
@@ -9531,6 +9531,64 @@ components:
       - project_id
       - provider
       - provider_secret_id
+      - tenant_id
+    PublicJudgeAuditRecord:
+      description: |-
+        Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`,
+        and our raw `provider_cost` are INTERNAL (staff-only) and must never reach a
+        customer — exposing `provider_cost` alongside `charged_cost` would also leak our
+        margin (billing-credits-contract §11). Only customer-facing fields appear here,
+        including `charged_cost` (the amount the customer actually pays).
+      example:
+        tenant_id: tenant_id
+        score: 0.8008281904610115
+        judge_call_id: judge_call_id
+        project_id: project_id
+        request_hash: request_hash
+        cached: true
+        evaluator_id: evaluator_id
+        response_hash: response_hash
+        charged_cost:
+          currency: USD
+          amount_micros: 1
+        created_at: 2000-01-23T04:56:07.000+00:00
+        model: model
+      properties:
+        cached:
+          type: boolean
+        charged_cost:
+          $ref: '#/components/schemas/Money'
+        created_at:
+          format: date-time
+          type: string
+        evaluator_id:
+          type: string
+        judge_call_id:
+          type: string
+        model:
+          type: string
+        project_id:
+          type: string
+        request_hash:
+          type: string
+        response_hash:
+          type: string
+        score:
+          format: double
+          type: number
+        tenant_id:
+          type: string
+      required:
+      - cached
+      - charged_cost
+      - created_at
+      - evaluator_id
+      - judge_call_id
+      - model
+      - project_id
+      - request_hash
+      - response_hash
+      - score
       - tenant_id
     PublishAck:
       example:

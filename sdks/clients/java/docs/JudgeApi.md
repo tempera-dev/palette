@@ -173,7 +173,7 @@ No authorization required
 
 ## judgeListLedger
 
-> List<JudgeAuditRecord> judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> List<PublicJudgeAuditRecord> judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -200,7 +200,7 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<JudgeAuditRecord> result = apiInstance.judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            List<PublicJudgeAuditRecord> result = apiInstance.judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling JudgeApi#judgeListLedger");
@@ -227,7 +227,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;JudgeAuditRecord&gt;**](JudgeAuditRecord.md)
+[**List&lt;PublicJudgeAuditRecord&gt;**](PublicJudgeAuditRecord.md)
 
 
 ### Authorization
@@ -249,7 +249,7 @@ No authorization required
 
 ## judgeListLedgerWithHttpInfo
 
-> ApiResponse<List<JudgeAuditRecord>> judgeListLedger judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<List<PublicJudgeAuditRecord>> judgeListLedger judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -277,7 +277,7 @@ public class Example {
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<JudgeAuditRecord>> response = apiInstance.judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<List<PublicJudgeAuditRecord>> response = apiInstance.judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -306,7 +306,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;JudgeAuditRecord&gt;**](JudgeAuditRecord.md)>
+ApiResponse<[**List&lt;PublicJudgeAuditRecord&gt;**](PublicJudgeAuditRecord.md)>
 
 
 ### Authorization

@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[list_t](judge_audit_record.md) *
+[list_t](public_judge_audit_record.md) *
 
 
 ### Authorization

@@ -161,6 +161,7 @@ from palette_client.models.prompt_version_diff import PromptVersionDiff
 from palette_client.models.prompt_version_list_response import PromptVersionListResponse
 from palette_client.models.prompt_version_metadata import PromptVersionMetadata
 from palette_client.models.provider_secret_metadata import ProviderSecretMetadata
+from palette_client.models.public_judge_audit_record import PublicJudgeAuditRecord
 from palette_client.models.publish_ack import PublishAck
 from palette_client.models.queued_trace_work import QueuedTraceWork
 from palette_client.models.redaction_class import RedactionClass

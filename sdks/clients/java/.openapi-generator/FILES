@@ -131,6 +131,7 @@ docs/PromptVersionMetadata.md
 docs/PromptsApi.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsApi.md
+docs/PublicJudgeAuditRecord.md
 docs/PublishAck.md
 docs/QueuedTraceWork.md
 docs/RedactionClass.md
@@ -335,6 +336,7 @@ src/main/java/ai/palette/client/model/PromptVersionDiff.java
 src/main/java/ai/palette/client/model/PromptVersionListResponse.java
 src/main/java/ai/palette/client/model/PromptVersionMetadata.java
 src/main/java/ai/palette/client/model/ProviderSecretMetadata.java
+src/main/java/ai/palette/client/model/PublicJudgeAuditRecord.java
 src/main/java/ai/palette/client/model/PublishAck.java
 src/main/java/ai/palette/client/model/QueuedTraceWork.java
 src/main/java/ai/palette/client/model/RedactionClass.java
@@ -514,6 +516,7 @@ src/test/java/ai/palette/client/model/PromptVersionListResponseTest.java
 src/test/java/ai/palette/client/model/PromptVersionMetadataTest.java
 src/test/java/ai/palette/client/model/PromptVersionTest.java
 src/test/java/ai/palette/client/model/ProviderSecretMetadataTest.java
+src/test/java/ai/palette/client/model/PublicJudgeAuditRecordTest.java
 src/test/java/ai/palette/client/model/PublishAckTest.java
 src/test/java/ai/palette/client/model/QueuedTraceWorkTest.java
 src/test/java/ai/palette/client/model/RedactionClassTest.java

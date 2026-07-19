@@ -92,7 +92,7 @@ No authorization required
 
 ## JudgeListLedger
 
-> []JudgeAuditRecord JudgeListLedger(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> []PublicJudgeAuditRecord JudgeListLedger(ctx, tenantId, projectId).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -123,7 +123,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `JudgeAPI.JudgeListLedger``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `JudgeListLedger`: []JudgeAuditRecord
+	// response from `JudgeListLedger`: []PublicJudgeAuditRecord
 	fmt.Fprintf(os.Stdout, "Response from `JudgeAPI.JudgeListLedger`: %v\n", resp)
 }
 ```
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]JudgeAuditRecord**](JudgeAuditRecord.md)
+[**[]PublicJudgeAuditRecord**](PublicJudgeAuditRecord.md)
 
 ### Authorization
 

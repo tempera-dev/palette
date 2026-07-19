@@ -108,7 +108,7 @@ pub async fn judge_period_evaluate(configuration: &configuration::Configuration,
     }
 }
 
-pub async fn judge_period_list_ledger(configuration: &configuration::Configuration, params: JudgePeriodListLedgerParams) -> Result<Vec<models::JudgeAuditRecord>, Error<JudgePeriodListLedgerError>> {
+pub async fn judge_period_list_ledger(configuration: &configuration::Configuration, params: JudgePeriodListLedgerParams) -> Result<Vec<models::PublicJudgeAuditRecord>, Error<JudgePeriodListLedgerError>> {
 
     let uri_str = format!("{}/v1/judge/{tenant_id}/{project_id}/ledger", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);

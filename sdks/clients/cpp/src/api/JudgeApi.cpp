@@ -198,7 +198,7 @@ pplx::task<std::shared_ptr<JudgeBrokerOutcome>> JudgeApi::judge_evaluate(utility
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<JudgeAuditRecord>>> JudgeApi::judge_listLedger(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::vector<std::shared_ptr<PublicJudgeAuditRecord>>> JudgeApi::judge_listLedger(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -317,14 +317,14 @@ pplx::task<std::vector<std::shared_ptr<JudgeAuditRecord>>> JudgeApi::judge_listL
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<JudgeAuditRecord>> localVarResult;
+        std::vector<std::shared_ptr<PublicJudgeAuditRecord>> localVarResult;
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
             for( auto& localVarItem : localVarJson.as_array() )
             {
-                std::shared_ptr<JudgeAuditRecord> localVarItemObj;
+                std::shared_ptr<PublicJudgeAuditRecord> localVarItemObj;
                 ModelBase::fromJson(localVarItem, localVarItemObj);
                 localVarResult.push_back(localVarItemObj);
             }

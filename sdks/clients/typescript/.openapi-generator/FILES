@@ -136,6 +136,7 @@ src/models/PromptVersionDiff.ts
 src/models/PromptVersionListResponse.ts
 src/models/PromptVersionMetadata.ts
 src/models/ProviderSecretMetadata.ts
+src/models/PublicJudgeAuditRecord.ts
 src/models/PublishAck.ts
 src/models/QueuedTraceWork.ts
 src/models/RedactionClass.ts
