@@ -153,6 +153,7 @@ docs/PromptVersionMetadata.md
 docs/PromptsAPI.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsAPI.md
+docs/PublicJudgeAuditRecord.md
 docs/PublishAck.md
 docs/QueuedTraceWork.md
 docs/RedactionClass.md
@@ -318,6 +319,7 @@ model_prompt_version_diff.go
 model_prompt_version_list_response.go
 model_prompt_version_metadata.go
 model_provider_secret_metadata.go
+model_public_judge_audit_record.go
 model_publish_ack.go
 model_queued_trace_work.go
 model_redaction_class.go

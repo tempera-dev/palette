@@ -180,6 +180,7 @@ docs/prompt_version_diff.md
 docs/prompt_version_list_response.md
 docs/prompt_version_metadata.md
 docs/provider_secret_metadata.md
+docs/public_judge_audit_record.md
 docs/publish_ack.md
 docs/queued_trace_work.md
 docs/redaction_class.md
@@ -455,6 +456,8 @@ model/prompt_version_metadata.c
 model/prompt_version_metadata.h
 model/provider_secret_metadata.c
 model/provider_secret_metadata.h
+model/public_judge_audit_record.c
+model/public_judge_audit_record.h
 model/publish_ack.c
 model/publish_ack.h
 model/queued_trace_work.c
@@ -664,6 +667,7 @@ unit-test/test_prompt_version_diff.c
 unit-test/test_prompt_version_list_response.c
 unit-test/test_prompt_version_metadata.c
 unit-test/test_provider_secret_metadata.c
+unit-test/test_public_judge_audit_record.c
 unit-test/test_publish_ack.c
 unit-test/test_queued_trace_work.c
 unit-test/test_redaction_class.c

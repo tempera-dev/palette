@@ -246,7 +246,7 @@ func (r ApiJudgeListLedgerRequest) XPaletteEnvironmentId(xPaletteEnvironmentId s
 	return r
 }
 
-func (r ApiJudgeListLedgerRequest) Execute() ([]JudgeAuditRecord, *http.Response, error) {
+func (r ApiJudgeListLedgerRequest) Execute() ([]PublicJudgeAuditRecord, *http.Response, error) {
 	return r.ApiService.JudgeListLedgerExecute(r)
 }
 
@@ -268,13 +268,13 @@ func (a *JudgeAPIService) JudgeListLedger(ctx context.Context, tenantId string, 
 }
 
 // Execute executes the request
-//  @return []JudgeAuditRecord
-func (a *JudgeAPIService) JudgeListLedgerExecute(r ApiJudgeListLedgerRequest) ([]JudgeAuditRecord, *http.Response, error) {
+//  @return []PublicJudgeAuditRecord
+func (a *JudgeAPIService) JudgeListLedgerExecute(r ApiJudgeListLedgerRequest) ([]PublicJudgeAuditRecord, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []JudgeAuditRecord
+		localVarReturnValue  []PublicJudgeAuditRecord
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JudgeAPIService.JudgeListLedger")

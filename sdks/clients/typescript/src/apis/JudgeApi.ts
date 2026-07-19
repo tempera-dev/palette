@@ -16,17 +16,17 @@
 import * as runtime from '../runtime';
 import type {
   ErrorResponse,
-  JudgeAuditRecord,
   JudgeBrokerOutcome,
+  PublicJudgeAuditRecord,
   RunJudgeEvalHttpRequest,
 } from '../models/index';
 import {
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
-    JudgeAuditRecordFromJSON,
-    JudgeAuditRecordToJSON,
     JudgeBrokerOutcomeFromJSON,
     JudgeBrokerOutcomeToJSON,
+    PublicJudgeAuditRecordFromJSON,
+    PublicJudgeAuditRecordToJSON,
     RunJudgeEvalHttpRequestFromJSON,
     RunJudgeEvalHttpRequestToJSON,
 } from '../models/index';
@@ -121,7 +121,7 @@ export class JudgeApi extends runtime.BaseAPI {
 
     /**
      */
-    async judgeListLedgerRaw(requestParameters: JudgeListLedgerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<JudgeAuditRecord>>> {
+    async judgeListLedgerRaw(requestParameters: JudgeListLedgerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PublicJudgeAuditRecord>>> {
         if (requestParameters['tenantId'] == null) {
             throw new runtime.RequiredError(
                 'tenantId',
@@ -163,12 +163,12 @@ export class JudgeApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(JudgeAuditRecordFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PublicJudgeAuditRecordFromJSON));
     }
 
     /**
      */
-    async judgeListLedger(requestParameters: JudgeListLedgerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<JudgeAuditRecord>> {
+    async judgeListLedger(requestParameters: JudgeListLedgerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PublicJudgeAuditRecord>> {
         const response = await this.judgeListLedgerRaw(requestParameters, initOverrides);
         return await response.value();
     }

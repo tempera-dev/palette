@@ -1870,7 +1870,7 @@ async fn get_palette_connect_status_route(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List judge ledger audit records", body = Vec < palette_judge :: JudgeAuditRecord >),
+        (status = 200, description = "List judge ledger audit records", body = Vec < palette_judge :: PublicJudgeAuditRecord >),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -1880,13 +1880,17 @@ async fn list_judge_ledger_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
-) -> Result<Json<Vec<palette_judge::JudgeAuditRecord>>, ApiError> {
+) -> Result<Json<Vec<palette_judge::PublicJudgeAuditRecord>>, ApiError> {
     let judge_ledger = judge_ledger(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
     let records = judge_ledger.list_records(tenant_id, project_id).await?;
-    Ok(Json(records))
+    // Redact internal provider identity + our raw provider cost before returning to
+    // a client; the internal JudgeAuditRecord stays available for internal use.
+    let public: Vec<palette_judge::PublicJudgeAuditRecord> =
+        records.into_iter().map(Into::into).collect();
+    Ok(Json(public))
 }
 
 #[utoipa::path(

@@ -108,6 +108,7 @@ export * from './PromptVersionDiff';
 export * from './PromptVersionListResponse';
 export * from './PromptVersionMetadata';
 export * from './ProviderSecretMetadata';
+export * from './PublicJudgeAuditRecord';
 export * from './PublishAck';
 export * from './QueuedTraceWork';
 export * from './RedactionClass';

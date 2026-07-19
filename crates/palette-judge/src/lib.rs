@@ -237,6 +237,45 @@ pub struct JudgeAuditRecord {
     pub created_at: Timestamp,
 }
 
+/// Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`,
+/// and our raw `provider_cost` are INTERNAL (staff-only) and must never reach a
+/// customer — exposing `provider_cost` alongside `charged_cost` would also leak our
+/// margin (billing-credits-contract §11). Only customer-facing fields appear here,
+/// including `charged_cost` (the amount the customer actually pays).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+pub struct PublicJudgeAuditRecord {
+    pub judge_call_id: JudgeCallId,
+    pub tenant_id: TenantId,
+    pub project_id: ProjectId,
+    pub evaluator_id: String,
+    pub model: String,
+    pub request_hash: Sha256Hash,
+    pub response_hash: Sha256Hash,
+    pub score: f64,
+    pub charged_cost: Money,
+    pub cached: bool,
+    #[schema(value_type = String, format = DateTime)]
+    pub created_at: Timestamp,
+}
+
+impl From<JudgeAuditRecord> for PublicJudgeAuditRecord {
+    fn from(record: JudgeAuditRecord) -> Self {
+        Self {
+            judge_call_id: record.judge_call_id,
+            tenant_id: record.tenant_id,
+            project_id: record.project_id,
+            evaluator_id: record.evaluator_id,
+            model: record.model,
+            request_hash: record.request_hash,
+            response_hash: record.response_hash,
+            score: record.score,
+            charged_cost: record.charged_cost,
+            cached: record.cached,
+            created_at: record.created_at,
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CachedJudgeResponse {
     pub response: JudgeResponse,

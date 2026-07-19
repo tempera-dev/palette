@@ -15,8 +15,8 @@ package ai.palette.client.api;
 
 import ai.palette.client.ApiException;
 import ai.palette.client.model.ErrorResponse;
-import ai.palette.client.model.JudgeAuditRecord;
 import ai.palette.client.model.JudgeBrokerOutcome;
+import ai.palette.client.model.PublicJudgeAuditRecord;
 import ai.palette.client.model.RunJudgeEvalHttpRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -76,7 +76,7 @@ public class JudgeApiTest {
         String xPaletteApiKey = null;
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
-        List<JudgeAuditRecord> response = 
+        List<PublicJudgeAuditRecord> response = 
         api.judgeListLedger(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations

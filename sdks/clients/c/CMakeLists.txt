@@ -156,6 +156,7 @@ set(SRCS
     model/prompt_version_list_response.c
     model/prompt_version_metadata.c
     model/provider_secret_metadata.c
+    model/public_judge_audit_record.c
     model/publish_ack.c
     model/queued_trace_work.c
     model/redaction_class.c
@@ -346,6 +347,7 @@ set(HDRS
     model/prompt_version_list_response.h
     model/prompt_version_metadata.h
     model/provider_secret_metadata.h
+    model/public_judge_audit_record.h
     model/publish_ack.h
     model/queued_trace_work.h
     model/redaction_class.h

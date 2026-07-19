@@ -145,6 +145,7 @@ include/palette-client/model/PromptVersionDiff.h
 include/palette-client/model/PromptVersionListResponse.h
 include/palette-client/model/PromptVersionMetadata.h
 include/palette-client/model/ProviderSecretMetadata.h
+include/palette-client/model/PublicJudgeAuditRecord.h
 include/palette-client/model/PublishAck.h
 include/palette-client/model/QueuedTraceWork.h
 include/palette-client/model/RedactionClass.h
@@ -333,6 +334,7 @@ src/model/PromptVersionDiff.cpp
 src/model/PromptVersionListResponse.cpp
 src/model/PromptVersionMetadata.cpp
 src/model/ProviderSecretMetadata.cpp
+src/model/PublicJudgeAuditRecord.cpp
 src/model/PublishAck.cpp
 src/model/QueuedTraceWork.cpp
 src/model/RedactionClass.cpp

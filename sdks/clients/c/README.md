@@ -237,6 +237,7 @@ Category | Method | HTTP request | Description
  - [prompt_version_list_response_t](docs/prompt_version_list_response.md)
  - [prompt_version_metadata_t](docs/prompt_version_metadata.md)
  - [provider_secret_metadata_t](docs/provider_secret_metadata.md)
+ - [public_judge_audit_record_t](docs/public_judge_audit_record.md)
  - [publish_ack_t](docs/publish_ack.md)
  - [queued_trace_work_t](docs/queued_trace_work.md)
  - [redaction_class_t](docs/redaction_class.md)

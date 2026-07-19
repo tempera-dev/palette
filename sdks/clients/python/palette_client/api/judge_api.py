@@ -19,8 +19,8 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
-from palette_client.models.judge_audit_record import JudgeAuditRecord
 from palette_client.models.judge_broker_outcome import JudgeBrokerOutcome
+from palette_client.models.public_judge_audit_record import PublicJudgeAuditRecord
 from palette_client.models.run_judge_eval_http_request import RunJudgeEvalHttpRequest
 
 from palette_client.api_client import ApiClient, RequestSerialized
@@ -431,7 +431,7 @@ class JudgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[JudgeAuditRecord]:
+    ) -> List[PublicJudgeAuditRecord]:
         """judge_list_ledger
 
 
@@ -483,7 +483,7 @@ class JudgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[JudgeAuditRecord]",
+            '200': "List[PublicJudgeAuditRecord]",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -520,7 +520,7 @@ class JudgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[JudgeAuditRecord]]:
+    ) -> ApiResponse[List[PublicJudgeAuditRecord]]:
         """judge_list_ledger
 
 
@@ -572,7 +572,7 @@ class JudgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[JudgeAuditRecord]",
+            '200': "List[PublicJudgeAuditRecord]",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -661,7 +661,7 @@ class JudgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[JudgeAuditRecord]",
+            '200': "List[PublicJudgeAuditRecord]",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",

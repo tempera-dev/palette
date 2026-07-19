@@ -18,8 +18,8 @@ import ai.palette.client.ApiResponse;
 import ai.palette.client.Pair;
 
 import ai.palette.client.model.ErrorResponse;
-import ai.palette.client.model.JudgeAuditRecord;
 import ai.palette.client.model.JudgeBrokerOutcome;
+import ai.palette.client.model.PublicJudgeAuditRecord;
 import ai.palette.client.model.RunJudgeEvalHttpRequest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -216,11 +216,11 @@ public class JudgeApi {
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
    * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
-   * @return List&lt;JudgeAuditRecord&gt;
+   * @return List&lt;PublicJudgeAuditRecord&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<JudgeAuditRecord> judgeListLedger(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<List<JudgeAuditRecord>> localVarResponse = judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public List<PublicJudgeAuditRecord> judgeListLedger(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<List<PublicJudgeAuditRecord>> localVarResponse = judgeListLedgerWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -233,10 +233,10 @@ public class JudgeApi {
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
    * @param xPaletteEnvironmentId Strict-auth environment scope (optional)
-   * @return ApiResponse&lt;List&lt;JudgeAuditRecord&gt;&gt;
+   * @return ApiResponse&lt;List&lt;PublicJudgeAuditRecord&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<List<JudgeAuditRecord>> judgeListLedgerWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  public ApiResponse<List<PublicJudgeAuditRecord>> judgeListLedgerWithHttpInfo(String tenantId, String projectId, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = judgeListLedgerRequestBuilder(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -250,7 +250,7 @@ public class JudgeApi {
           throw getApiException("judgeListLedger", localVarResponse);
         }
         if (localVarResponse.body() == null) {
-          return new ApiResponse<List<JudgeAuditRecord>>(
+          return new ApiResponse<List<PublicJudgeAuditRecord>>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
               null
@@ -260,10 +260,10 @@ public class JudgeApi {
         String responseBody = new String(localVarResponse.body().readAllBytes());
         localVarResponse.body().close();
 
-        return new ApiResponse<List<JudgeAuditRecord>>(
+        return new ApiResponse<List<PublicJudgeAuditRecord>>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
-            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<JudgeAuditRecord>>() {})
+            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<List<PublicJudgeAuditRecord>>() {})
         );
       } finally {
       }

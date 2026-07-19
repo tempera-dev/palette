@@ -45,7 +45,7 @@ No authorization required
 
 ## judge_period_list_ledger
 
-> Vec<models::JudgeAuditRecord> judge_period_list_ledger(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> Vec<models::PublicJudgeAuditRecord> judge_period_list_ledger(tenant_id, project_id, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -62,7 +62,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<models::JudgeAuditRecord>**](JudgeAuditRecord.md)
+[**Vec<models::PublicJudgeAuditRecord>**](PublicJudgeAuditRecord.md)
 
 ### Authorization
 
