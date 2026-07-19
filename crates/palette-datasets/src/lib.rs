@@ -968,16 +968,20 @@ fn eval_result_from_judge_outcome(
             wasm_hash: None,
             wasi_abi_version: None,
             judge_model_id: Some(audit.model.clone()),
-            judge_provider: Some(audit.provider.clone()),
+            // Backing-provider identity is internal (staff-only); omit it from this
+            // client-reachable reproducibility record. The judge model id is retained.
+            judge_provider: None,
+            // Internal-only fields (`provider_secret_id`, our raw
+            // `provider_cost_micros`) are deliberately omitted: this reproducibility
+            // record is client-reachable, and exposing provider cost would leak our
+            // margin. `charged_cost_micros` (the customer price) is client-safe.
             judge_parameters: serde_json::json!({
                 "judge_call_id": audit.judge_call_id,
-                "provider_secret_id": audit.provider_secret_id,
                 "request_hash": audit.request_hash,
                 "response_hash": audit.response_hash,
                 "cached": audit.cached,
-                "provider_cost_micros": audit.provider_cost.amount_micros,
                 "charged_cost_micros": audit.charged_cost.amount_micros,
-                "currency": audit.provider_cost.currency.as_str()
+                "currency": audit.charged_cost.currency.as_str()
             }),
             judge_seed: None,
             judge_rubric_version: Some(spec.eval.evaluator_version_id.as_str().to_string()),
@@ -1261,10 +1265,14 @@ mod tests {
             judge_result.reproducibility.judge_model_id.as_deref(),
             Some("judge-model")
         );
-        assert_eq!(
-            judge_result.reproducibility.judge_provider.as_deref(),
-            Some("openai")
-        );
+        // Backing-provider identity is internal (staff-only) and redacted from this
+        // client-reachable reproducibility record; the judge model id is retained.
+        assert_eq!(judge_result.reproducibility.judge_provider, None);
+        // The internal judge_parameters must not carry provider cost or the secret id.
+        let params = &judge_result.reproducibility.judge_parameters;
+        assert!(params.get("provider_cost_micros").is_none());
+        assert!(params.get("provider_secret_id").is_none());
+        assert!(params.get("charged_cost_micros").is_some());
         assert!(judge_result.reproducibility.wasi_abi_version.is_none());
         assert!(judge_result.reproducibility.wasm_hash.is_none());
         assert_eq!(
