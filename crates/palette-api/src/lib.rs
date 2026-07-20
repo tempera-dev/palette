@@ -4927,6 +4927,290 @@ fn reject_unsafe_tempera_payload(value: &serde_json::Value, path: &str) -> Resul
     Ok(())
 }
 
+fn require_exact_tempera_fields(
+    value: &serde_json::Value,
+    expected: &[&str],
+    path: &str,
+) -> Result<(), ApiError> {
+    let object = value
+        .as_object()
+        .ok_or_else(|| ApiError::bad_request(format!("signed evidence requires object {path}")))?;
+    let observed = object.keys().map(String::as_str).collect::<BTreeSet<_>>();
+    let expected = expected.iter().copied().collect::<BTreeSet<_>>();
+    if observed != expected {
+        return Err(ApiError::bad_request(format!(
+            "signed evidence fields differ from the canonical contract at {path}"
+        )));
+    }
+    Ok(())
+}
+
+fn require_tempera_digest(value: &serde_json::Value, field: &str) -> Result<(), ApiError> {
+    if value
+        .get(field)
+        .and_then(serde_json::Value::as_str)
+        .is_none_or(|value| !valid_sha256_address(value))
+    {
+        return Err(ApiError::bad_request(format!(
+            "signed evidence requires sha256 content address {field}"
+        )));
+    }
+    Ok(())
+}
+
+fn validate_tempera_metric_observations(
+    result: &serde_json::Value,
+    case_count: u64,
+) -> Result<(), ApiError> {
+    let metrics = result
+        .get("metrics")
+        .and_then(serde_json::Value::as_object)
+        .filter(|metrics| !metrics.is_empty())
+        .ok_or_else(|| ApiError::bad_request("result bundle requires metrics".to_string()))?;
+    for (name, observation) in metrics {
+        validate_external_evidence_id(name)?;
+        require_exact_tempera_fields(
+            observation,
+            &["value", "sample_count", "missing_count", "error_count"],
+            &format!("$.result.metrics.{name}"),
+        )?;
+        let sample_count = observation
+            .get("sample_count")
+            .and_then(serde_json::Value::as_u64)
+            .ok_or_else(|| {
+                ApiError::bad_request(format!("metric {name} sample_count is invalid"))
+            })?;
+        let missing_count = observation
+            .get("missing_count")
+            .and_then(serde_json::Value::as_u64)
+            .ok_or_else(|| {
+                ApiError::bad_request(format!("metric {name} missing_count is invalid"))
+            })?;
+        let error_count = observation
+            .get("error_count")
+            .and_then(serde_json::Value::as_u64)
+            .ok_or_else(|| {
+                ApiError::bad_request(format!("metric {name} error_count is invalid"))
+            })?;
+        if sample_count + missing_count + error_count != case_count {
+            return Err(ApiError::bad_request(format!(
+                "metric {name} counts differ from the result population"
+            )));
+        }
+        let metric_value = observation.get("value");
+        if sample_count == 0 {
+            if metric_value != Some(&serde_json::Value::Null) {
+                return Err(ApiError::bad_request(format!(
+                    "metric {name} value must be null without samples"
+                )));
+            }
+        } else if metric_value
+            .and_then(serde_json::Value::as_f64)
+            .is_none_or(|value| !value.is_finite())
+        {
+            return Err(ApiError::bad_request(format!(
+                "metric {name} value must be finite when samples exist"
+            )));
+        }
+    }
+    Ok(())
+}
+
+fn validate_tempera_result_bundle_contract(value: &serde_json::Value) -> Result<(), ApiError> {
+    require_exact_tempera_fields(
+        value,
+        &[
+            "schema_version",
+            "bundle_id",
+            "created_at",
+            "plan",
+            "result",
+            "evidence",
+            "artifacts",
+            "claim",
+            "signing",
+            "bundle_sha256",
+        ],
+        "$",
+    )?;
+    let plan = value
+        .get("plan")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires plan".to_string()))?;
+    require_exact_tempera_fields(plan, &["id", "sha256", "official_ready"], "$.plan")?;
+    require_tempera_digest(plan, "sha256")?;
+    if plan
+        .get("official_ready")
+        .and_then(serde_json::Value::as_bool)
+        != Some(true)
+    {
+        return Err(ApiError::bad_request(
+            "result bundle plan must be official-ready".to_string(),
+        ));
+    }
+    let result = value
+        .get("result")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires result".to_string()))?;
+    require_exact_tempera_fields(
+        result,
+        &[
+            "schema_version",
+            "run_id",
+            "sha256",
+            "suite",
+            "population",
+            "metrics",
+            "adapter",
+        ],
+        "$.result",
+    )?;
+    if json_string(result, "schema_version")? != "tempera.external-adapter-import.v1" {
+        return Err(ApiError::bad_request(
+            "result bundle requires governed adapter import evidence".to_string(),
+        ));
+    }
+    require_tempera_digest(result, "sha256")?;
+    let population = result
+        .get("population")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires population".to_string()))?;
+    require_exact_tempera_fields(
+        population,
+        &[
+            "sha256",
+            "case_count",
+            "completed_count",
+            "missing_count",
+            "error_count",
+        ],
+        "$.result.population",
+    )?;
+    require_tempera_digest(population, "sha256")?;
+    let case_count = population
+        .get("case_count")
+        .and_then(serde_json::Value::as_u64)
+        .filter(|value| *value > 0)
+        .ok_or_else(|| {
+            ApiError::bad_request("result population case_count is invalid".to_string())
+        })?;
+    let completed = population
+        .get("completed_count")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            ApiError::bad_request("result population completed_count is invalid".to_string())
+        })?;
+    let missing = population
+        .get("missing_count")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            ApiError::bad_request("result population missing_count is invalid".to_string())
+        })?;
+    let errors = population
+        .get("error_count")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| {
+            ApiError::bad_request("result population error_count is invalid".to_string())
+        })?;
+    if completed + missing + errors != case_count {
+        return Err(ApiError::bad_request(
+            "result population counts are inconsistent".to_string(),
+        ));
+    }
+    validate_tempera_metric_observations(result, case_count)?;
+    let evidence = value
+        .get("evidence")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires evidence".to_string()))?;
+    require_exact_tempera_fields(
+        evidence,
+        &[
+            "adapter_import",
+            "release",
+            "exposure",
+            "redaction",
+            "guardrails",
+            "preregistration",
+        ],
+        "$.evidence",
+    )?;
+    let adapter_import = evidence.get("adapter_import").ok_or_else(|| {
+        ApiError::bad_request("result bundle requires signed adapter import receipt".to_string())
+    })?;
+    require_exact_tempera_fields(
+        adapter_import,
+        &["sha256", "details"],
+        "$.evidence.adapter_import",
+    )?;
+    require_tempera_digest(adapter_import, "sha256")?;
+    let details = adapter_import.get("details").ok_or_else(|| {
+        ApiError::bad_request("adapter import receipt requires signature details".to_string())
+    })?;
+    require_exact_tempera_fields(
+        details,
+        &[
+            "signed_payload_sha256",
+            "signature_sha256",
+            "public_key_sha256",
+        ],
+        "$.evidence.adapter_import.details",
+    )?;
+    for field in [
+        "signed_payload_sha256",
+        "signature_sha256",
+        "public_key_sha256",
+    ] {
+        require_tempera_digest(details, field)?;
+    }
+    Ok(())
+}
+
+fn validate_tempera_ab_decision_contract(value: &serde_json::Value) -> Result<(), ApiError> {
+    require_exact_tempera_fields(
+        value,
+        &[
+            "schema_version",
+            "experiment_id",
+            "comparison_plan_sha256",
+            "created_at",
+            "arms",
+            "analysis",
+            "guardrails",
+            "verdict",
+            "palette",
+            "signing",
+            "decision_sha256",
+        ],
+        "$",
+    )?;
+    require_tempera_digest(value, "comparison_plan_sha256")?;
+    let arms = value
+        .get("arms")
+        .ok_or_else(|| ApiError::bad_request("A/B decision requires arms".to_string()))?;
+    require_exact_tempera_fields(
+        arms,
+        &[
+            "baseline_bundle_sha256",
+            "baseline_run_plan_sha256",
+            "candidate_bundle_sha256",
+            "candidate_run_plan_sha256",
+        ],
+        "$.arms",
+    )?;
+    for field in [
+        "baseline_bundle_sha256",
+        "baseline_run_plan_sha256",
+        "candidate_bundle_sha256",
+        "candidate_run_plan_sha256",
+    ] {
+        require_tempera_digest(arms, field)?;
+    }
+    if arms.get("baseline_bundle_sha256") == arms.get("candidate_bundle_sha256")
+        || arms.get("baseline_run_plan_sha256") == arms.get("candidate_run_plan_sha256")
+    {
+        return Err(ApiError::bad_request(
+            "A/B decision baseline and candidate arms must differ".to_string(),
+        ));
+    }
+    Ok(())
+}
+
 fn verify_tempera_evidence(
     request: &ImportTemperaEvidenceRequest,
     kind: ExternalEvalEvidenceKind,
@@ -4976,6 +5260,14 @@ fn verify_tempera_evidence(
             "evidence schema must be {expected_schema}"
         )));
     }
+    match kind {
+        ExternalEvalEvidenceKind::ResultBundle => {
+            validate_tempera_result_bundle_contract(&value)?;
+        }
+        ExternalEvalEvidenceKind::AbDecision => {
+            validate_tempera_ab_decision_contract(&value)?;
+        }
+    }
     let external_id = json_string(&value, id_field)?.to_string();
     validate_external_evidence_id(&external_id)?;
     let declared_content_sha256 = json_string(&value, digest_field)?.to_string();
@@ -5018,6 +5310,16 @@ fn verify_tempera_evidence(
         .and_then(serde_json::Value::as_str)
         .filter(|value| valid_sha256_address(value))
         .ok_or_else(|| ApiError::bad_request("signing.public_key_sha256 is invalid".to_string()))?;
+    if kind == ExternalEvalEvidenceKind::ResultBundle
+        && value
+            .pointer("/evidence/adapter_import/details/public_key_sha256")
+            .and_then(serde_json::Value::as_str)
+            != Some(expected_public_key_sha256)
+    {
+        return Err(ApiError::bad_request(
+            "adapter import receipt key differs from the bundle signing policy".to_string(),
+        ));
+    }
     let public_key_sha256 = format!("sha256:{}", sha256_hex(request.public_key_pem.as_bytes()));
     if public_key_sha256 != expected_public_key_sha256 {
         return Err(ApiError::bad_request(
@@ -6395,6 +6697,12 @@ mod tests {
             "public_key_sha256": public_key_sha256,
             "detached_signature_required": true
         });
+        if let Some(details) = value
+            .pointer_mut("/evidence/adapter_import/details")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            details.insert("public_key_sha256".to_string(), json!(public_key_sha256));
+        }
         let unhashed =
             serde_json_canonicalizer::to_string(&value).unwrap_or_else(|err| panic!("{err}"));
         value[digest_field] = json!(format!("sha256:{}", sha256_hex(unhashed.as_bytes())));
@@ -6414,10 +6722,59 @@ mod tests {
             json!({
                 "schema_version": "tempera.eval-result-bundle.v1",
                 "bundle_id": "coding.run-001",
-                "claim": {"ready_for_signature": true, "limitations": []},
+                "created_at": "2026-07-20T10:00:00Z",
+                "plan": {
+                    "id": "coding.plan-001",
+                    "sha256": format!("sha256:{}", "1".repeat(64)),
+                    "official_ready": true
+                },
                 "result": {
+                    "schema_version": "tempera.external-adapter-import.v1",
                     "run_id": "run-001",
-                    "suite": {"id": "coding.verified", "version": "1.0.0", "split": "sealed"}
+                    "sha256": format!("sha256:{}", "2".repeat(64)),
+                    "suite": {"id": "coding.verified", "version": "1.0.0", "split": "sealed"},
+                    "population": {
+                        "sha256": format!("sha256:{}", "3".repeat(64)),
+                        "case_count": 2,
+                        "completed_count": 2,
+                        "missing_count": 0,
+                        "error_count": 0
+                    },
+                    "metrics": {
+                        "resolved_rate": {
+                            "value": 0.5,
+                            "sample_count": 2,
+                            "missing_count": 0,
+                            "error_count": 0
+                        }
+                    },
+                    "adapter": {
+                        "id": "github-evals.coding",
+                        "version": "1.0.0",
+                        "descriptor_sha256": format!("sha256:{}", "4".repeat(64)),
+                        "source_revision": "5".repeat(40)
+                    }
+                },
+                "evidence": {
+                    "adapter_import": {
+                        "sha256": format!("sha256:{}", "6".repeat(64)),
+                        "details": {
+                            "signed_payload_sha256": format!("sha256:{}", "7".repeat(64)),
+                            "signature_sha256": format!("sha256:{}", "8".repeat(64)),
+                            "public_key_sha256": format!("sha256:{}", "9".repeat(64))
+                        }
+                    },
+                    "release": {"sha256": format!("sha256:{}", "a".repeat(64)), "details": {}},
+                    "exposure": {"sha256": format!("sha256:{}", "b".repeat(64)), "details": {}},
+                    "redaction": {"sha256": format!("sha256:{}", "c".repeat(64)), "details": {}},
+                    "guardrails": {"sha256": format!("sha256:{}", "d".repeat(64)), "details": {}},
+                    "preregistration": {"sha256": format!("sha256:{}", "e".repeat(64)), "details": {}}
+                },
+                "artifacts": [],
+                "claim": {
+                    "level": "capability",
+                    "ready_for_signature": true,
+                    "limitations": []
                 }
             }),
             "bundle_sha256",
@@ -6429,11 +6786,35 @@ mod tests {
             json!({
                 "schema_version": "tempera.ab-decision.v1",
                 "experiment_id": "coding.ab-001",
+                "comparison_plan_sha256": format!("sha256:{}", "1".repeat(64)),
+                "created_at": "2026-07-20T10:00:00Z",
+                "arms": {
+                    "baseline_bundle_sha256": format!("sha256:{}", "2".repeat(64)),
+                    "baseline_run_plan_sha256": format!("sha256:{}", "3".repeat(64)),
+                    "candidate_bundle_sha256": format!("sha256:{}", "4".repeat(64)),
+                    "candidate_run_plan_sha256": format!("sha256:{}", "5".repeat(64))
+                },
+                "analysis": {
+                    "primary_metric": "resolved_rate",
+                    "direction": "higher",
+                    "baseline_estimate": 0.5,
+                    "candidate_estimate": 0.6,
+                    "improvement_effect": 0.1,
+                    "confidence_interval": {"low": 0.01, "high": 0.19, "confidence": 0.95},
+                    "paired_case_count": 100,
+                    "repetition_count": 3,
+                    "multiplicity_policy": "holm"
+                },
+                "guardrails": [],
                 "palette": {
                     "operation_id": "evalResults.recordTemperaDecision",
+                    "tenant_ref": "tenant.redacted",
+                    "project_ref": "project.coding",
+                    "experiment_ref": "experiment.agent-v2",
+                    "analysis_engine_revision": "palette.1.0.0",
                     "gate_execution_owner": "palette"
                 },
-                "verdict": {"outcome": "inconclusive"}
+                "verdict": {"outcome": "inconclusive", "reasons": ["fixture"]}
             }),
             "decision_sha256",
         )
@@ -6485,6 +6866,52 @@ mod tests {
         };
         assert_eq!(error.status, StatusCode::SERVICE_UNAVAILABLE);
 
+        let minimal_bundle = sign_tempera_value(
+            json!({
+                "schema_version": "tempera.eval-result-bundle.v1",
+                "bundle_id": "coding.run-minimal",
+                "claim": {"ready_for_signature": true, "limitations": []},
+                "result": {
+                    "run_id": "run-minimal",
+                    "suite": {"id": "coding.verified", "version": "1.0.0", "split": "sealed"}
+                }
+            }),
+            "bundle_sha256",
+        );
+        let error = match verify_tempera_evidence(
+            &minimal_bundle,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &trusted_keys,
+        ) {
+            Ok(_) => panic!("schema-incomplete result bundles must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("canonical contract"));
+
+        let complete_bundle = signed_tempera_bundle();
+        let mut missing_adapter_receipt: serde_json::Value =
+            serde_json::from_str(&complete_bundle.canonical_json)
+                .unwrap_or_else(|err| panic!("{err}"));
+        missing_adapter_receipt
+            .get_mut("evidence")
+            .and_then(serde_json::Value::as_object_mut)
+            .unwrap_or_else(|| panic!("bundle fixture requires evidence"))
+            .remove("adapter_import");
+        missing_adapter_receipt
+            .as_object_mut()
+            .unwrap_or_else(|| panic!("bundle fixture must be an object"))
+            .remove("bundle_sha256");
+        let missing_adapter_receipt = sign_tempera_value(missing_adapter_receipt, "bundle_sha256");
+        let error = match verify_tempera_evidence(
+            &missing_adapter_receipt,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &trusted_keys,
+        ) {
+            Ok(_) => panic!("unsigned adapter imports must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("canonical contract"));
+
         let unsafe_bundle = sign_tempera_value(
             json!({
                 "schema_version": "tempera.eval-result-bundle.v1",
@@ -6521,6 +6948,31 @@ mod tests {
         .unwrap_or_else(|err| panic!("{}", err.message));
         assert_eq!(verified.external_id, "coding.ab-001");
         assert_eq!(verified.summary.verdict.as_deref(), Some("inconclusive"));
+
+        let mut missing_run_plan: serde_json::Value =
+            serde_json::from_str(&request.canonical_json).unwrap_or_else(|err| panic!("{err}"));
+        missing_run_plan
+            .get_mut("arms")
+            .and_then(serde_json::Value::as_object_mut)
+            .unwrap_or_else(|| panic!("decision fixture requires arms"))
+            .remove("candidate_run_plan_sha256");
+        missing_run_plan
+            .as_object_mut()
+            .unwrap_or_else(|| panic!("decision fixture must be an object"))
+            .remove("decision_sha256");
+        let missing_run_plan = sign_tempera_value(missing_run_plan, "decision_sha256");
+        let error = match verify_tempera_evidence(
+            &missing_run_plan,
+            ExternalEvalEvidenceKind::AbDecision,
+            &BTreeSet::from([format!(
+                "sha256:{}",
+                sha256_hex(missing_run_plan.public_key_pem.as_bytes())
+            )]),
+        ) {
+            Ok(_) => panic!("A/B decisions without run-plan identity must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("canonical contract"));
     }
 
     #[tokio::test]
@@ -6561,7 +7013,10 @@ mod tests {
         .await
         .unwrap_or_else(|err| panic!("{}", err.message));
         assert!(!replay.0.created);
-        assert_eq!(replay.0.signed_payload_sha256, first.0.signed_payload_sha256);
+        assert_eq!(
+            replay.0.signed_payload_sha256,
+            first.0.signed_payload_sha256
+        );
         assert_eq!(replay.0.stored_at, first.0.stored_at);
     }
 
