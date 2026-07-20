@@ -3,7 +3,10 @@ use axum::extract::{Path, Query, State};
 use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use axum::{Json, Router};
+use base64::Engine as _;
 use chrono::Utc;
+use ed25519_dalek::pkcs8::DecodePublicKey;
+use ed25519_dalek::{Signature, Verifier, VerifyingKey};
 use http::header::{HeaderName, HeaderValue, RETRY_AFTER};
 use http::{HeaderMap, StatusCode};
 use palette_alerts::{
@@ -28,7 +31,7 @@ use palette_core::{
     AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId, DatasetVersionId,
     EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page, PageRequest, ProjectId,
     PromptId, PromptVersionId, ProviderSecretId, ReviewQueueId, ReviewTaskId, Sha256Hash, SpanId,
-    TenantId, TenantScope, TraceId, sha256_json_hash,
+    TenantId, TenantScope, TraceId, sha256_hex, sha256_json_hash,
 };
 use palette_datasets::{
     Dataset, DatasetEvalReport, DatasetEvalSpec, DatasetJudgeEvalSpec, DatasetStore,
@@ -38,7 +41,8 @@ use palette_datasets::{
 use palette_eval::{EvaluationCase, EvaluatorKind, EvaluatorSpec};
 use palette_experiments::{
     CaseOutputOverride, ExperimentRunReport, ExperimentRunSpec, ExperimentStore,
-    JudgeExperimentRunSpec, run_deterministic_experiment, run_judge_experiment,
+    ExternalEvalEvidenceKind, ExternalEvalEvidenceRecord, JudgeExperimentRunSpec,
+    run_deterministic_experiment, run_judge_experiment,
 };
 use palette_gates::{GateDefinition, GateRunReport, GateStore, InconclusivePolicy, run_gate};
 use palette_human::{
@@ -421,6 +425,10 @@ pub struct ApiState {
     oauth_metadata_url: Option<String>,
     /// OAuth resource indicator / intended audience for accepted access tokens.
     oauth_resource: Option<String>,
+    /// Exact SHA-256 digests of organization-approved Tempera evaluation release
+    /// public-key PEM bytes. Imports fail closed when this set is empty and never
+    /// accept a trust anchor merely because it is self-declared in the payload.
+    tempera_evidence_trusted_key_sha256: BTreeSet<String>,
 }
 
 impl ApiState {
@@ -457,6 +465,7 @@ impl ApiState {
             control_plane_usage_reporter: None,
             oauth_metadata_url: None,
             oauth_resource: None,
+            tempera_evidence_trusted_key_sha256: BTreeSet::new(),
         }
     }
 
@@ -489,6 +498,21 @@ impl ApiState {
     ) -> Self {
         self.control_plane_usage_reporter = Some(reporter);
         self
+    }
+
+    pub fn with_tempera_evidence_trusted_keys(
+        mut self,
+        keys: impl IntoIterator<Item = String>,
+    ) -> anyhow::Result<Self> {
+        for key in keys {
+            if !valid_sha256_address(&key) {
+                anyhow::bail!(
+                    "Tempera evaluation trust anchors must be lowercase sha256 content addresses"
+                );
+            }
+            self.tempera_evidence_trusted_key_sha256.insert(key);
+        }
+        Ok(self)
     }
 
     /// The OAuth protected-resource metadata URL, if configured (for the MCP
@@ -640,7 +664,7 @@ impl ApiState {
 ///
 /// The product API deliberately excludes billing/checkout/subscription routes;
 /// those are owned by the central Tempera control plane.
-pub const V1_ROUTE_COUNT: usize = 59;
+pub const V1_ROUTE_COUNT: usize = 62;
 
 /// See [`V1_ROUTE_COUNT`].
 pub fn v1_route_count() -> usize {
@@ -801,6 +825,18 @@ pub fn router(state: ApiState) -> Router {
         .route(
             "/v1/experiments/:tenant_id/:project_id/:dataset_id/versions/:version_id/judge",
             post(run_judge_experiment_route),
+        )
+        .route(
+            "/v1/eval-results/:tenant_id/:project_id/tempera/bundles",
+            post(import_tempera_bundle_route),
+        )
+        .route(
+            "/v1/eval-results/:tenant_id/:project_id/tempera/decisions",
+            post(record_tempera_decision_route),
+        )
+        .route(
+            "/v1/eval-results/:tenant_id/:project_id/tempera/:kind/:external_id",
+            get(get_tempera_evidence_route),
         )
         .route("/v1/gates/:tenant_id/:project_id", post(create_gate_route))
         .route(
@@ -3803,6 +3839,169 @@ async fn run_judge_experiment_route(
 
 #[utoipa::path(
     post,
+    path = "/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles",
+    tag = "evalResults",
+    operation_id = "importTemperaBundle",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = ImportTemperaEvidenceRequest,
+    responses(
+        (status = 200, description = "Idempotently store a verified official Tempera result bundle", body = TemperaEvidenceReceipt),
+        (status = 400, description = "Malformed, non-canonical, unsafe, or signature-invalid evidence", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope or the evidence key is not trusted", body = ErrorResponse),
+        (status = 409, description = "The external id already binds different content", body = ErrorResponse),
+        (status = 413, description = "Evidence exceeds the request limit", body = ErrorResponse),
+        (status = 422, description = "Request body does not match the schema", body = ErrorResponse),
+        (status = 503, description = "No Tempera evaluation release-key trust anchor is configured", body = ErrorResponse),
+    )
+)]
+async fn import_tempera_bundle_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Json(request): Json<ImportTemperaEvidenceRequest>,
+) -> Result<Json<TemperaEvidenceReceipt>, ApiError> {
+    import_tempera_evidence(
+        &state,
+        &headers,
+        tenant_id,
+        project_id,
+        request,
+        ExternalEvalEvidenceKind::ResultBundle,
+    )
+    .await
+}
+
+#[utoipa::path(
+    post,
+    path = "/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions",
+    tag = "evalResults",
+    operation_id = "recordTemperaDecision",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    request_body = ImportTemperaEvidenceRequest,
+    responses(
+        (status = 200, description = "Idempotently store a verified preregistered Tempera A/B decision", body = TemperaEvidenceReceipt),
+        (status = 400, description = "Malformed, non-canonical, unsafe, or signature-invalid evidence", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope or the evidence key is not trusted", body = ErrorResponse),
+        (status = 409, description = "The external id already binds different content", body = ErrorResponse),
+        (status = 413, description = "Evidence exceeds the request limit", body = ErrorResponse),
+        (status = 422, description = "Request body does not match the schema", body = ErrorResponse),
+        (status = 503, description = "No Tempera evaluation release-key trust anchor is configured", body = ErrorResponse),
+    )
+)]
+async fn record_tempera_decision_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id)): Path<(String, String)>,
+    Json(request): Json<ImportTemperaEvidenceRequest>,
+) -> Result<Json<TemperaEvidenceReceipt>, ApiError> {
+    import_tempera_evidence(
+        &state,
+        &headers,
+        tenant_id,
+        project_id,
+        request,
+        ExternalEvalEvidenceKind::AbDecision,
+    )
+    .await
+}
+
+#[utoipa::path(
+    get,
+    path = "/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}",
+    tag = "evalResults",
+    operation_id = "getTemperaEvidence",
+    params(
+        ("tenant_id" = String, Path, description = "tenant_id"),
+        ("project_id" = String, Path, description = "project_id"),
+        ("kind" = String, Path, description = "result_bundle or ab_decision"),
+        ("external_id" = String, Path, description = "Bundle or experiment id"),
+        ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
+        ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
+        ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
+        ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
+    ),
+    responses(
+        (status = 200, description = "Read a scoped external evidence receipt", body = TemperaEvidenceReceipt),
+        (status = 400, description = "Invalid evidence kind or identifier", body = ErrorResponse),
+        (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
+        (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
+        (status = 404, description = "Evidence not found in this tenant/project", body = ErrorResponse),
+    )
+)]
+async fn get_tempera_evidence_route(
+    State(state): State<ApiState>,
+    headers: HeaderMap,
+    Path((tenant_id, project_id, kind, external_id)): Path<(String, String, String, String)>,
+) -> Result<Json<TemperaEvidenceReceipt>, ApiError> {
+    let experiments = experiment_store(&state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
+    let kind = parse_tempera_evidence_kind(&kind)?;
+    validate_external_evidence_id(&external_id)?;
+    let record = experiments
+        .get_external_evidence(tenant_id, project_id, kind, external_id)
+        .await?;
+    Ok(Json(tempera_evidence_receipt(record, false)?))
+}
+
+async fn import_tempera_evidence(
+    state: &ApiState,
+    headers: &HeaderMap,
+    tenant_id: String,
+    project_id: String,
+    request: ImportTemperaEvidenceRequest,
+    kind: ExternalEvalEvidenceKind,
+) -> Result<Json<TemperaEvidenceReceipt>, ApiError> {
+    let experiments = experiment_store(state)?;
+    let tenant_id = TenantId::new(tenant_id)?;
+    let project_id = ProjectId::new(project_id)?;
+    authorize_project_route(state, headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
+    let verified = verify_tempera_evidence(
+        &request,
+        kind,
+        &state.tempera_evidence_trusted_key_sha256,
+    )?;
+    let write = experiments
+        .write_external_evidence(ExternalEvalEvidenceRecord {
+            tenant_id,
+            project_id,
+            kind,
+            external_id: verified.external_id,
+            source_schema_version: verified.source_schema_version,
+            declared_content_sha256: verified.declared_content_sha256,
+            signed_payload_sha256: verified.signed_payload_sha256,
+            signature_sha256: verified.signature_sha256,
+            public_key_sha256: verified.public_key_sha256,
+            canonical_json: request.canonical_json,
+            signature_base64: request.signature_base64,
+            public_key_pem: request.public_key_pem,
+            summary_json: serde_json::to_value(verified.summary)
+                .map_err(|error| ApiError::internal(error.to_string()))?,
+            stored_at: Utc::now(),
+        })
+        .await?;
+    Ok(Json(tempera_evidence_receipt(write.record, write.created)?))
+}
+
+#[utoipa::path(
+    post,
     path = "/v1/gates/{tenant_id}/{project_id}",
     tag = "gates",
     operation_id = "create",
@@ -4577,6 +4776,385 @@ struct RunJudgeExperimentRequest {
     baseline_outputs: Vec<CaseOutputOverrideRequest>,
     candidate_outputs: Vec<CaseOutputOverrideRequest>,
     provider_secret_id: ProviderSecretId,
+}
+
+#[derive(Clone, Debug, Deserialize, ToSchema)]
+struct ImportTemperaEvidenceRequest {
+    /// Canonical compact JSON signed by the release/decision key. The endpoint
+    /// rejects equivalent but non-canonical JSON so the verified bytes are
+    /// unambiguous across SDKs.
+    canonical_json: String,
+    /// Standard-base64 detached Ed25519 signature over `canonical_json` bytes.
+    signature_base64: String,
+    /// PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is
+    /// pinned inside the signed payload.
+    public_key_pem: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, ToSchema)]
+struct TemperaEvidenceSummary {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    suite_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    suite_version: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    split: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    run_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    experiment_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    verdict: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+struct TemperaEvidenceReceipt {
+    schema_version: String,
+    tenant_id: TenantId,
+    project_id: ProjectId,
+    kind: ExternalEvalEvidenceKind,
+    external_id: String,
+    source_schema_version: String,
+    declared_content_sha256: String,
+    signed_payload_sha256: String,
+    signature_sha256: String,
+    public_key_sha256: String,
+    summary: TemperaEvidenceSummary,
+    #[schema(value_type = String, format = DateTime)]
+    stored_at: chrono::DateTime<Utc>,
+    created: bool,
+}
+
+#[derive(Debug)]
+struct VerifiedTemperaEvidence {
+    external_id: String,
+    source_schema_version: String,
+    declared_content_sha256: String,
+    signed_payload_sha256: String,
+    signature_sha256: String,
+    public_key_sha256: String,
+    summary: TemperaEvidenceSummary,
+}
+
+fn parse_tempera_evidence_kind(value: &str) -> Result<ExternalEvalEvidenceKind, ApiError> {
+    match value {
+        "result_bundle" => Ok(ExternalEvalEvidenceKind::ResultBundle),
+        "ab_decision" => Ok(ExternalEvalEvidenceKind::AbDecision),
+        _ => Err(ApiError::bad_request(
+            "evidence kind must be result_bundle or ab_decision".to_string(),
+        )),
+    }
+}
+
+fn validate_external_evidence_id(value: &str) -> Result<(), ApiError> {
+    if value.len() < 3
+        || value.len() > 128
+        || !value.bytes().enumerate().all(|(index, byte)| {
+            byte.is_ascii_alphanumeric() || (index > 0 && matches!(byte, b'.' | b'_' | b':' | b'-'))
+        })
+    {
+        return Err(ApiError::bad_request(
+            "external evidence id must be a safe stable identifier".to_string(),
+        ));
+    }
+    Ok(())
+}
+
+fn json_string<'a>(value: &'a serde_json::Value, field: &str) -> Result<&'a str, ApiError> {
+    value
+        .get(field)
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| ApiError::bad_request(format!("signed evidence requires {field}")))
+}
+
+fn nested_json_string<'a>(
+    value: &'a serde_json::Value,
+    object: &str,
+    field: &str,
+) -> Result<&'a str, ApiError> {
+    value
+        .get(object)
+        .and_then(|value| value.get(field))
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| ApiError::bad_request(format!("signed evidence requires {object}.{field}")))
+}
+
+fn reject_unsafe_tempera_payload(value: &serde_json::Value, path: &str) -> Result<(), ApiError> {
+    const FORBIDDEN_KEYS: [&str; 10] = [
+        "target",
+        "solution",
+        "answer_key",
+        "reference_patch",
+        "hidden_test",
+        "credential",
+        "customer_evidence",
+        "sealed_content",
+        "raw_trace",
+        "private_key",
+    ];
+    match value {
+        serde_json::Value::Object(object) => {
+            for (key, nested) in object {
+                let normalized = key.to_ascii_lowercase().replace('-', "_");
+                if FORBIDDEN_KEYS
+                    .iter()
+                    .any(|forbidden| normalized.contains(forbidden))
+                {
+                    return Err(ApiError::bad_request(format!(
+                        "signed evidence contains forbidden field {path}.{key}"
+                    )));
+                }
+                reject_unsafe_tempera_payload(nested, &format!("{path}.{key}"))?;
+            }
+        }
+        serde_json::Value::Array(values) => {
+            for (index, nested) in values.iter().enumerate() {
+                reject_unsafe_tempera_payload(nested, &format!("{path}[{index}]"))?;
+            }
+        }
+        serde_json::Value::String(text) => {
+            let upper = text.to_ascii_uppercase();
+            if upper.contains("BEGIN PRIVATE KEY") || upper.contains("BEGIN OPENSSH PRIVATE KEY") {
+                return Err(ApiError::bad_request(format!(
+                    "signed evidence contains private key material at {path}"
+                )));
+            }
+        }
+        _ => {}
+    }
+    Ok(())
+}
+
+fn verify_tempera_evidence(
+    request: &ImportTemperaEvidenceRequest,
+    kind: ExternalEvalEvidenceKind,
+    trusted_key_sha256: &BTreeSet<String>,
+) -> Result<VerifiedTemperaEvidence, ApiError> {
+    if request.canonical_json.is_empty() || request.canonical_json.len() > 1024 * 1024 {
+        return Err(ApiError::with_status(
+            StatusCode::PAYLOAD_TOO_LARGE,
+            "canonical evidence must be between 1 byte and 1 MiB".to_string(),
+        ));
+    }
+    if request.signature_base64.len() > 256 || request.public_key_pem.len() > 16 * 1024 {
+        return Err(ApiError::with_status(
+            StatusCode::PAYLOAD_TOO_LARGE,
+            "signature or public key exceeds its evidence limit".to_string(),
+        ));
+    }
+    let value: serde_json::Value = serde_json::from_str(&request.canonical_json)
+        .map_err(|error| ApiError::bad_request(format!("invalid canonical_json: {error}")))?;
+    if !value.is_object() {
+        return Err(ApiError::bad_request(
+            "signed evidence must be a JSON object".to_string(),
+        ));
+    }
+    let rerendered = serde_json_canonicalizer::to_string(&value)
+        .map_err(|error| ApiError::bad_request(format!("cannot canonicalize evidence: {error}")))?;
+    if rerendered.as_bytes() != request.canonical_json.as_bytes() {
+        return Err(ApiError::bad_request(
+            "canonical_json must use RFC 8785 JSON Canonicalization Scheme bytes".to_string(),
+        ));
+    }
+    reject_unsafe_tempera_payload(&value, "$")?;
+
+    let (expected_schema, id_field, digest_field) = match kind {
+        ExternalEvalEvidenceKind::ResultBundle => (
+            "tempera.eval-result-bundle.v1",
+            "bundle_id",
+            "bundle_sha256",
+        ),
+        ExternalEvalEvidenceKind::AbDecision => {
+            ("tempera.ab-decision.v1", "experiment_id", "decision_sha256")
+        }
+    };
+    let source_schema_version = json_string(&value, "schema_version")?;
+    if source_schema_version != expected_schema {
+        return Err(ApiError::bad_request(format!(
+            "evidence schema must be {expected_schema}"
+        )));
+    }
+    let external_id = json_string(&value, id_field)?.to_string();
+    validate_external_evidence_id(&external_id)?;
+    let declared_content_sha256 = json_string(&value, digest_field)?.to_string();
+    if !valid_sha256_address(&declared_content_sha256) {
+        return Err(ApiError::bad_request(format!(
+            "{digest_field} must be a sha256 content address"
+        )));
+    }
+    let mut unhashed = value.clone();
+    if let Some(unhashed) = unhashed.as_object_mut() {
+        unhashed.remove(digest_field);
+    }
+    let unhashed_json = serde_json_canonicalizer::to_string(&unhashed)
+        .map_err(|error| ApiError::bad_request(format!("cannot hash evidence: {error}")))?;
+    let observed_declared = format!("sha256:{}", sha256_hex(unhashed_json.as_bytes()));
+    if declared_content_sha256 != observed_declared {
+        return Err(ApiError::bad_request(
+            "signed evidence self digest does not match its canonical content".to_string(),
+        ));
+    }
+
+    let signing = value
+        .get("signing")
+        .and_then(serde_json::Value::as_object)
+        .ok_or_else(|| {
+            ApiError::bad_request("signed evidence requires signing policy".to_string())
+        })?;
+    if signing.get("algorithm").and_then(serde_json::Value::as_str) != Some("ed25519")
+        || signing
+            .get("detached_signature_required")
+            .and_then(serde_json::Value::as_bool)
+            != Some(true)
+    {
+        return Err(ApiError::bad_request(
+            "signed evidence must require detached Ed25519".to_string(),
+        ));
+    }
+    let expected_public_key_sha256 = signing
+        .get("public_key_sha256")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| valid_sha256_address(value))
+        .ok_or_else(|| ApiError::bad_request("signing.public_key_sha256 is invalid".to_string()))?;
+    let public_key_sha256 = format!("sha256:{}", sha256_hex(request.public_key_pem.as_bytes()));
+    if public_key_sha256 != expected_public_key_sha256 {
+        return Err(ApiError::bad_request(
+            "public key digest differs from the signed evidence policy".to_string(),
+        ));
+    }
+    if trusted_key_sha256.is_empty() {
+        return Err(ApiError::with_status(
+            StatusCode::SERVICE_UNAVAILABLE,
+            "Tempera evaluation evidence imports require a configured release-key trust anchor"
+                .to_string(),
+        ));
+    }
+    if !trusted_key_sha256.contains(&public_key_sha256) {
+        return Err(ApiError::with_status(
+            StatusCode::FORBIDDEN,
+            "Tempera evaluation evidence signing key is not trusted".to_string(),
+        ));
+    }
+    let verifying_key = VerifyingKey::from_public_key_pem(&request.public_key_pem)
+        .map_err(|_| ApiError::bad_request("public key must be Ed25519 SPKI PEM".to_string()))?;
+    let signature_bytes = base64::engine::general_purpose::STANDARD
+        .decode(&request.signature_base64)
+        .map_err(|_| ApiError::bad_request("signature_base64 is invalid".to_string()))?;
+    let signature = Signature::from_slice(&signature_bytes)
+        .map_err(|_| ApiError::bad_request("detached signature must be 64 bytes".to_string()))?;
+    verifying_key
+        .verify(request.canonical_json.as_bytes(), &signature)
+        .map_err(|_| ApiError::bad_request("detached Ed25519 signature is invalid".to_string()))?;
+
+    let summary = match kind {
+        ExternalEvalEvidenceKind::ResultBundle => {
+            let ready = value
+                .get("claim")
+                .and_then(|claim| claim.get("ready_for_signature"))
+                .and_then(serde_json::Value::as_bool);
+            let limitations_empty = value
+                .get("claim")
+                .and_then(|claim| claim.get("limitations"))
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(Vec::is_empty);
+            if ready != Some(true) || !limitations_empty {
+                return Err(ApiError::bad_request(
+                    "Palette imports only signature-ready result bundles without readiness blockers"
+                        .to_string(),
+                ));
+            }
+            let result = value.get("result").ok_or_else(|| {
+                ApiError::bad_request("result bundle requires result".to_string())
+            })?;
+            let suite = result.get("suite").ok_or_else(|| {
+                ApiError::bad_request("result bundle requires result.suite".to_string())
+            })?;
+            TemperaEvidenceSummary {
+                suite_id: Some(json_string(suite, "id")?.to_string()),
+                suite_version: Some(json_string(suite, "version")?.to_string()),
+                split: Some(json_string(suite, "split")?.to_string()),
+                run_id: Some(json_string(result, "run_id")?.to_string()),
+                experiment_id: None,
+                verdict: None,
+            }
+        }
+        ExternalEvalEvidenceKind::AbDecision => {
+            if nested_json_string(&value, "palette", "operation_id")?
+                != "evalResults.recordTemperaDecision"
+                || nested_json_string(&value, "palette", "gate_execution_owner")? != "palette"
+            {
+                return Err(ApiError::bad_request(
+                    "A/B decision must preserve the Palette operation and gate boundary"
+                        .to_string(),
+                ));
+            }
+            let outcome = nested_json_string(&value, "verdict", "outcome")?;
+            if !matches!(
+                outcome,
+                "candidate_better"
+                    | "candidate_worse"
+                    | "no_material_change"
+                    | "inconclusive"
+                    | "invalid"
+            ) {
+                return Err(ApiError::bad_request(
+                    "A/B decision verdict is invalid".to_string(),
+                ));
+            }
+            TemperaEvidenceSummary {
+                suite_id: None,
+                suite_version: None,
+                split: None,
+                run_id: None,
+                experiment_id: Some(external_id.clone()),
+                verdict: Some(outcome.to_string()),
+            }
+        }
+    };
+    let signed_payload_sha256 = format!("sha256:{}", sha256_hex(request.canonical_json.as_bytes()));
+    let signature_sha256 = format!("sha256:{}", sha256_hex(&signature_bytes));
+    Ok(VerifiedTemperaEvidence {
+        external_id,
+        source_schema_version: source_schema_version.to_string(),
+        declared_content_sha256,
+        signed_payload_sha256,
+        signature_sha256,
+        public_key_sha256,
+        summary,
+    })
+}
+
+fn valid_sha256_address(value: &str) -> bool {
+    value.len() == 71
+        && value.starts_with("sha256:")
+        && value[7..]
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+}
+
+fn tempera_evidence_receipt(
+    record: ExternalEvalEvidenceRecord,
+    created: bool,
+) -> Result<TemperaEvidenceReceipt, ApiError> {
+    let summary = serde_json::from_value(record.summary_json)
+        .map_err(|error| ApiError::internal(format!("decode evidence summary: {error}")))?;
+    Ok(TemperaEvidenceReceipt {
+        schema_version: "palette.tempera-evidence-receipt.v1".to_string(),
+        tenant_id: record.tenant_id,
+        project_id: record.project_id,
+        kind: record.kind,
+        external_id: record.external_id,
+        source_schema_version: record.source_schema_version,
+        declared_content_sha256: record.declared_content_sha256,
+        signed_payload_sha256: record.signed_payload_sha256,
+        signature_sha256: record.signature_sha256,
+        public_key_sha256: record.public_key_sha256,
+        summary,
+        stored_at: record.stored_at,
+        created,
+    })
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
@@ -5777,6 +6355,8 @@ impl IntoResponse for ApiError {
 mod tests {
     use super::*;
     use axum::body::{Body, to_bytes};
+    use ed25519_dalek::pkcs8::EncodePublicKey;
+    use ed25519_dalek::{Signer, SigningKey};
     use http::{Request, StatusCode};
     use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
     use opentelemetry_proto::tonic::common::v1::{
@@ -5799,6 +6379,191 @@ mod tests {
     use serde_json::json;
     use std::collections::BTreeMap;
     use tower::ServiceExt;
+
+    fn sign_tempera_value(
+        mut value: serde_json::Value,
+        digest_field: &str,
+    ) -> ImportTemperaEvidenceRequest {
+        let signing_key = SigningKey::from_bytes(&[7_u8; 32]);
+        let public_key_pem = signing_key
+            .verifying_key()
+            .to_public_key_pem(Default::default())
+            .unwrap_or_else(|err| panic!("{err}"));
+        let public_key_sha256 = format!("sha256:{}", sha256_hex(public_key_pem.as_bytes()));
+        value["signing"] = json!({
+            "algorithm": "ed25519",
+            "public_key_sha256": public_key_sha256,
+            "detached_signature_required": true
+        });
+        let unhashed =
+            serde_json_canonicalizer::to_string(&value).unwrap_or_else(|err| panic!("{err}"));
+        value[digest_field] = json!(format!("sha256:{}", sha256_hex(unhashed.as_bytes())));
+        let canonical_json =
+            serde_json_canonicalizer::to_string(&value).unwrap_or_else(|err| panic!("{err}"));
+        let signature = signing_key.sign(canonical_json.as_bytes());
+        ImportTemperaEvidenceRequest {
+            canonical_json,
+            signature_base64: base64::engine::general_purpose::STANDARD
+                .encode(signature.to_bytes()),
+            public_key_pem,
+        }
+    }
+
+    fn signed_tempera_bundle() -> ImportTemperaEvidenceRequest {
+        sign_tempera_value(
+            json!({
+                "schema_version": "tempera.eval-result-bundle.v1",
+                "bundle_id": "coding.run-001",
+                "claim": {"ready_for_signature": true, "limitations": []},
+                "result": {
+                    "run_id": "run-001",
+                    "suite": {"id": "coding.verified", "version": "1.0.0", "split": "sealed"}
+                }
+            }),
+            "bundle_sha256",
+        )
+    }
+
+    fn signed_tempera_decision() -> ImportTemperaEvidenceRequest {
+        sign_tempera_value(
+            json!({
+                "schema_version": "tempera.ab-decision.v1",
+                "experiment_id": "coding.ab-001",
+                "palette": {
+                    "operation_id": "evalResults.recordTemperaDecision",
+                    "gate_execution_owner": "palette"
+                },
+                "verdict": {"outcome": "inconclusive"}
+            }),
+            "decision_sha256",
+        )
+    }
+
+    #[test]
+    fn tempera_bundle_verifier_checks_self_digest_key_pin_and_signature() {
+        let cross_language_probe = json!({"z": 1.0, "a": [0.000001, 0.0000001, "€"]});
+        assert_eq!(
+            serde_json_canonicalizer::to_string(&cross_language_probe)
+                .unwrap_or_else(|err| panic!("{err}")),
+            "{\"a\":[0.000001,1e-7,\"€\"],\"z\":1}"
+        );
+        let request = signed_tempera_bundle();
+        let key_digest = format!("sha256:{}", sha256_hex(request.public_key_pem.as_bytes()));
+        let trusted_keys = BTreeSet::from([key_digest]);
+        let verified = verify_tempera_evidence(
+            &request,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &trusted_keys,
+        )
+        .unwrap_or_else(|err| panic!("{}", err.message));
+        assert_eq!(verified.external_id, "coding.run-001");
+        assert_eq!(
+            verified.summary.suite_id.as_deref(),
+            Some("coding.verified")
+        );
+
+        let mut tampered = request;
+        tampered.signature_base64 = base64::engine::general_purpose::STANDARD.encode([0_u8; 64]);
+        let error = match verify_tempera_evidence(
+            &tampered,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &trusted_keys,
+        ) {
+            Ok(_) => panic!("tampered signature must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("signature is invalid"));
+
+        let untrusted = signed_tempera_bundle();
+        let error = match verify_tempera_evidence(
+            &untrusted,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &BTreeSet::new(),
+        ) {
+            Ok(_) => panic!("self-declared signing keys must never establish trust"),
+            Err(error) => error,
+        };
+        assert_eq!(error.status, StatusCode::SERVICE_UNAVAILABLE);
+
+        let unsafe_bundle = sign_tempera_value(
+            json!({
+                "schema_version": "tempera.eval-result-bundle.v1",
+                "bundle_id": "coding.run-unsafe",
+                "claim": {"ready_for_signature": true, "limitations": []},
+                "result": {
+                    "run_id": "run-unsafe",
+                    "suite": {"id": "coding.verified", "version": "1.0.0", "split": "sealed"}
+                },
+                "hidden_tests": ["must never enter Palette"]
+            }),
+            "bundle_sha256",
+        );
+        let error = match verify_tempera_evidence(
+            &unsafe_bundle,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &trusted_keys,
+        ) {
+            Ok(_) => panic!("forbidden evidence fields must fail closed before storage"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("forbidden field"));
+    }
+
+    #[test]
+    fn tempera_ab_decision_verifier_preserves_palette_ownership() {
+        let request = signed_tempera_decision();
+        let key_digest = format!("sha256:{}", sha256_hex(request.public_key_pem.as_bytes()));
+        let verified = verify_tempera_evidence(
+            &request,
+            ExternalEvalEvidenceKind::AbDecision,
+            &BTreeSet::from([key_digest]),
+        )
+        .unwrap_or_else(|err| panic!("{}", err.message));
+        assert_eq!(verified.external_id, "coding.ab-001");
+        assert_eq!(verified.summary.verdict.as_deref(), Some("inconclusive"));
+    }
+
+    #[tokio::test]
+    async fn tempera_bundle_import_is_durable_and_idempotent() {
+        let request = signed_tempera_bundle();
+        let key_digest = format!("sha256:{}", sha256_hex(request.public_key_pem.as_bytes()));
+        let (ingest, traces, _temporary) = api_state_fixture();
+        let experiments = Arc::new(
+            palette_experiments::SqliteExperimentStore::in_memory()
+                .unwrap_or_else(|err| panic!("{err}")),
+        );
+        let state = ApiState::new(ingest, traces)
+            .with_experiments(experiments)
+            .with_tempera_evidence_trusted_keys([key_digest])
+            .unwrap_or_else(|err| panic!("{err}"));
+
+        let first = import_tempera_evidence(
+            &state,
+            &HeaderMap::new(),
+            "tenant".to_string(),
+            "project".to_string(),
+            request,
+            ExternalEvalEvidenceKind::ResultBundle,
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{}", err.message));
+        assert!(first.0.created);
+        assert_eq!(first.0.external_id, "coding.run-001");
+
+        let replay = import_tempera_evidence(
+            &state,
+            &HeaderMap::new(),
+            "tenant".to_string(),
+            "project".to_string(),
+            signed_tempera_bundle(),
+            ExternalEvalEvidenceKind::ResultBundle,
+        )
+        .await
+        .unwrap_or_else(|err| panic!("{}", err.message));
+        assert!(!replay.0.created);
+        assert_eq!(replay.0.signed_payload_sha256, first.0.signed_payload_sha256);
+        assert_eq!(replay.0.stored_at, first.0.stored_at);
+    }
 
     fn introspection_body(value: serde_json::Value) -> IntrospectionResponse {
         serde_json::from_value(value).unwrap_or_else(|err| panic!("{err}"))

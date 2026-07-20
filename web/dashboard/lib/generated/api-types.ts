@@ -324,6 +324,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["evalResults.importTemperaBundle"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["evalResults.recordTemperaDecision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["evalResults.getTemperaEvidence"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic": {
         parameters: {
             query?: never;
@@ -1569,6 +1617,8 @@ export interface components {
             project_id: components["schemas"]["ProjectId"];
             tenant_id: components["schemas"]["TenantId"];
         };
+        /** @enum {string} */
+        ExternalEvalEvidenceKind: "result_bundle" | "ab_decision";
         /**
          * @description A deterministically-inferred class of failure.
          * @enum {string}
@@ -1637,6 +1687,21 @@ export interface components {
             payload?: unknown;
             /** @description Registered importer key, e.g. `temporal_history` or `native`. */
             source: string;
+        };
+        ImportTemperaEvidenceRequest: {
+            /**
+             * @description Canonical compact JSON signed by the release/decision key. The endpoint
+             *     rejects equivalent but non-canonical JSON so the verified bytes are
+             *     unambiguous across SDKs.
+             */
+            canonical_json: string;
+            /**
+             * @description PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is
+             *     pinned inside the signed payload.
+             */
+            public_key_pem: string;
+            /** @description Standard-base64 detached Ed25519 signature over `canonical_json` bytes. */
+            signature_base64: string;
         };
         /** @enum {string} */
         InconclusivePolicy: "pass" | "fail";
@@ -2179,6 +2244,30 @@ export interface components {
             payload: unknown;
             reviewer_id: string;
             verdict: components["schemas"]["ReviewVerdict"];
+        };
+        TemperaEvidenceReceipt: {
+            created: boolean;
+            declared_content_sha256: string;
+            external_id: string;
+            kind: components["schemas"]["ExternalEvalEvidenceKind"];
+            project_id: components["schemas"]["ProjectId"];
+            public_key_sha256: string;
+            schema_version: string;
+            signature_sha256: string;
+            signed_payload_sha256: string;
+            source_schema_version: string;
+            /** Format: date-time */
+            stored_at: string;
+            summary: components["schemas"]["TemperaEvidenceSummary"];
+            tenant_id: components["schemas"]["TenantId"];
+        };
+        TemperaEvidenceSummary: {
+            experiment_id?: string | null;
+            run_id?: string | null;
+            split?: string | null;
+            suite_id?: string | null;
+            suite_version?: string | null;
+            verdict?: string | null;
         };
         TenantId: string;
         TenantScope: {
@@ -3674,6 +3763,282 @@ export interface operations {
                 };
             };
             /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    "evalResults.importTemperaBundle": {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Bearer API token for strict auth */
+                authorization?: string | null;
+                /** @description API key alternative for strict auth */
+                "x-palette-api-key"?: string | null;
+                /** @description Strict-auth project scope */
+                "x-palette-project-id"?: string | null;
+                /** @description Strict-auth environment scope */
+                "x-palette-environment-id"?: string | null;
+            };
+            path: {
+                /** @description tenant_id */
+                tenant_id: string;
+                /** @description project_id */
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ImportTemperaEvidenceRequest"];
+            };
+        };
+        responses: {
+            /** @description Idempotently store a verified official Tempera result bundle */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemperaEvidenceReceipt"];
+                };
+            };
+            /** @description Malformed, non-canonical, unsafe, or signature-invalid evidence */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Credentials lack the required scope or the evidence key is not trusted */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description The external id already binds different content */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Evidence exceeds the request limit */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request body does not match the schema */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description No Tempera evaluation release-key trust anchor is configured */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    "evalResults.recordTemperaDecision": {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Bearer API token for strict auth */
+                authorization?: string | null;
+                /** @description API key alternative for strict auth */
+                "x-palette-api-key"?: string | null;
+                /** @description Strict-auth project scope */
+                "x-palette-project-id"?: string | null;
+                /** @description Strict-auth environment scope */
+                "x-palette-environment-id"?: string | null;
+            };
+            path: {
+                /** @description tenant_id */
+                tenant_id: string;
+                /** @description project_id */
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ImportTemperaEvidenceRequest"];
+            };
+        };
+        responses: {
+            /** @description Idempotently store a verified preregistered Tempera A/B decision */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemperaEvidenceReceipt"];
+                };
+            };
+            /** @description Malformed, non-canonical, unsafe, or signature-invalid evidence */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Credentials lack the required scope or the evidence key is not trusted */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description The external id already binds different content */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Evidence exceeds the request limit */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request body does not match the schema */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description No Tempera evaluation release-key trust anchor is configured */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    "evalResults.getTemperaEvidence": {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Bearer API token for strict auth */
+                authorization?: string | null;
+                /** @description API key alternative for strict auth */
+                "x-palette-api-key"?: string | null;
+                /** @description Strict-auth project scope */
+                "x-palette-project-id"?: string | null;
+                /** @description Strict-auth environment scope */
+                "x-palette-environment-id"?: string | null;
+            };
+            path: {
+                /** @description tenant_id */
+                tenant_id: string;
+                /** @description project_id */
+                project_id: string;
+                /** @description result_bundle or ab_decision */
+                kind: string;
+                /** @description Bundle or experiment id */
+                external_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read a scoped external evidence receipt */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemperaEvidenceReceipt"];
+                };
+            };
+            /** @description Invalid evidence kind or identifier */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Missing or invalid credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Credentials lack the required scope */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Evidence not found in this tenant/project */
             404: {
                 headers: {
                     [name: string]: unknown;

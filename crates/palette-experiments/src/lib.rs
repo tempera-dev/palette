@@ -49,6 +49,59 @@ pub trait ExperimentStore: Send + Sync {
         dataset_id: Option<DatasetId>,
         evaluator_version_id: Option<EvaluatorVersionId>,
     ) -> StoreResult<Option<ExperimentRunReport>>;
+
+    async fn write_external_evidence(
+        &self,
+        record: ExternalEvalEvidenceRecord,
+    ) -> StoreResult<ExternalEvidenceWrite>;
+
+    async fn get_external_evidence(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        kind: ExternalEvalEvidenceKind,
+        external_id: String,
+    ) -> StoreResult<ExternalEvalEvidenceRecord>;
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum ExternalEvalEvidenceKind {
+    ResultBundle,
+    AbDecision,
+}
+
+impl ExternalEvalEvidenceKind {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::ResultBundle => "result_bundle",
+            Self::AbDecision => "ab_decision",
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ExternalEvalEvidenceRecord {
+    pub tenant_id: TenantId,
+    pub project_id: ProjectId,
+    pub kind: ExternalEvalEvidenceKind,
+    pub external_id: String,
+    pub source_schema_version: String,
+    pub declared_content_sha256: String,
+    pub signed_payload_sha256: String,
+    pub signature_sha256: String,
+    pub public_key_sha256: String,
+    pub canonical_json: String,
+    pub signature_base64: String,
+    pub public_key_pem: String,
+    pub summary_json: Value,
+    pub stored_at: Timestamp,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ExternalEvidenceWrite {
+    pub record: ExternalEvalEvidenceRecord,
+    pub created: bool,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -292,6 +345,19 @@ impl SqliteExperimentStore {
                     report_json TEXT NOT NULL,
                     PRIMARY KEY (tenant_id, project_id, experiment_run_id)
                 );
+
+                CREATE TABLE IF NOT EXISTS external_eval_evidence (
+                    tenant_id TEXT NOT NULL,
+                    project_id TEXT NOT NULL,
+                    evidence_kind TEXT NOT NULL,
+                    external_id TEXT NOT NULL,
+                    declared_content_sha256 TEXT NOT NULL,
+                    signed_payload_sha256 TEXT NOT NULL,
+                    record_json TEXT NOT NULL,
+                    stored_at TEXT NOT NULL,
+                    PRIMARY KEY (tenant_id, project_id, evidence_kind, external_id),
+                    UNIQUE (tenant_id, project_id, evidence_kind, declared_content_sha256)
+                );
                 "#,
             )
             .context("initialize sqlite experiment store")?;
@@ -413,6 +479,112 @@ impl ExperimentStore for SqliteExperimentStore {
                 serde_json::from_str(&report_json).context("decode latest experiment run report")
             })
             .transpose()
+            .into_store()
+    }
+
+    async fn write_external_evidence(
+        &self,
+        record: ExternalEvalEvidenceRecord,
+    ) -> StoreResult<ExternalEvidenceWrite> {
+        let record_json = serde_json::to_string(&record)
+            .context("serialize external evaluation evidence")
+            .into_store()?;
+        let connection = self.lock().into_store()?;
+        let existing_json = connection
+            .query_row(
+                r#"
+                SELECT record_json
+                FROM external_eval_evidence
+                WHERE tenant_id = ?1 AND project_id = ?2
+                  AND evidence_kind = ?3 AND external_id = ?4
+                "#,
+                params![
+                    record.tenant_id.as_str(),
+                    record.project_id.as_str(),
+                    record.kind.as_str(),
+                    record.external_id,
+                ],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .context("query existing external evaluation evidence")
+            .into_store()?;
+        if let Some(existing_json) = existing_json {
+            let existing: ExternalEvalEvidenceRecord = serde_json::from_str(&existing_json)
+                .context("decode existing external evaluation evidence")
+                .into_store()?;
+            if existing.declared_content_sha256 != record.declared_content_sha256
+                || existing.signed_payload_sha256 != record.signed_payload_sha256
+            {
+                return Err(StoreError::Conflict(format!(
+                    "external evaluation evidence {} already exists with different content",
+                    record.external_id
+                )));
+            }
+            return Ok(ExternalEvidenceWrite {
+                record: existing,
+                created: false,
+            });
+        }
+        connection
+            .execute(
+                r#"
+                INSERT INTO external_eval_evidence
+                  (tenant_id, project_id, evidence_kind, external_id,
+                   declared_content_sha256, signed_payload_sha256, record_json, stored_at)
+                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
+                "#,
+                params![
+                    record.tenant_id.as_str(),
+                    record.project_id.as_str(),
+                    record.kind.as_str(),
+                    record.external_id,
+                    record.declared_content_sha256,
+                    record.signed_payload_sha256,
+                    record_json,
+                    record.stored_at.to_rfc3339(),
+                ],
+            )
+            .context("insert external evaluation evidence")
+            .into_store()?;
+        Ok(ExternalEvidenceWrite {
+            record,
+            created: true,
+        })
+    }
+
+    async fn get_external_evidence(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        kind: ExternalEvalEvidenceKind,
+        external_id: String,
+    ) -> StoreResult<ExternalEvalEvidenceRecord> {
+        let connection = self.lock().into_store()?;
+        let record_json = connection
+            .query_row(
+                r#"
+                SELECT record_json
+                FROM external_eval_evidence
+                WHERE tenant_id = ?1 AND project_id = ?2
+                  AND evidence_kind = ?3 AND external_id = ?4
+                "#,
+                params![
+                    tenant_id.as_str(),
+                    project_id.as_str(),
+                    kind.as_str(),
+                    external_id,
+                ],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .context("query external evaluation evidence")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound("external evaluation evidence not found".to_string())
+            })?;
+        serde_json::from_str(&record_json)
+            .context("decode external evaluation evidence")
             .into_store()
     }
 }
@@ -2789,6 +2961,94 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         assert_eq!(loaded.experiment_run_id, report.experiment_run_id);
         assert_eq!(loaded.case_scores.len(), 5);
+    }
+
+    fn external_evidence_record(
+        tenant: TenantId,
+        project: ProjectId,
+        declared_content_sha256: &str,
+    ) -> ExternalEvalEvidenceRecord {
+        ExternalEvalEvidenceRecord {
+            tenant_id: tenant,
+            project_id: project,
+            kind: ExternalEvalEvidenceKind::ResultBundle,
+            external_id: "coding.run-001".to_string(),
+            source_schema_version: "tempera.eval-result-bundle.v1".to_string(),
+            declared_content_sha256: declared_content_sha256.to_string(),
+            signed_payload_sha256:
+                "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                    .to_string(),
+            signature_sha256:
+                "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+                    .to_string(),
+            public_key_sha256:
+                "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                    .to_string(),
+            canonical_json: "{\"schema_version\":\"tempera.eval-result-bundle.v1\"}".to_string(),
+            signature_base64: "c2lnbmF0dXJl".to_string(),
+            public_key_pem: "-----BEGIN PUBLIC KEY-----\nfixture\n-----END PUBLIC KEY-----\n"
+                .to_string(),
+            summary_json: json!({"suite_id": "coding.verified"}),
+            stored_at: Utc::now(),
+        }
+    }
+
+    #[tokio::test]
+    async fn external_evidence_is_idempotent_scoped_and_conflict_safe() {
+        let store = SqliteExperimentStore::in_memory().unwrap_or_else(|err| panic!("{err}"));
+        let tenant = TenantId::new("tenant").unwrap_or_else(|err| panic!("{err}"));
+        let project = ProjectId::new("project").unwrap_or_else(|err| panic!("{err}"));
+        let record = external_evidence_record(
+            tenant.clone(),
+            project.clone(),
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        );
+
+        let first = store
+            .write_external_evidence(record.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(first.created);
+        let replay = store
+            .write_external_evidence(record.clone())
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert!(!replay.created);
+        assert_eq!(replay.record, first.record);
+
+        let loaded = store
+            .get_external_evidence(
+                tenant.clone(),
+                project.clone(),
+                ExternalEvalEvidenceKind::ResultBundle,
+                record.external_id.clone(),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(
+            loaded.declared_content_sha256,
+            record.declared_content_sha256
+        );
+
+        let other_tenant = TenantId::new("other-tenant").unwrap_or_else(|err| panic!("{err}"));
+        let missing = store
+            .get_external_evidence(
+                other_tenant,
+                project,
+                ExternalEvalEvidenceKind::ResultBundle,
+                record.external_id.clone(),
+            )
+            .await;
+        assert!(matches!(missing, Err(StoreError::NotFound(_))));
+
+        let conflict = store
+            .write_external_evidence(external_evidence_record(
+                tenant,
+                ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+                "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            ))
+            .await;
+        assert!(matches!(conflict, Err(StoreError::Conflict(_))));
     }
 
     #[tokio::test]

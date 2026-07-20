@@ -461,7 +461,10 @@ fn required_api_scope(operation_id: &str, method: &str) -> &'static str {
             "dataset:write"
         }
 
-        "calibrations.run" => "eval:run",
+        "calibrations.run"
+        | "evalResults.importTemperaBundle"
+        | "evalResults.recordTemperaDecision"
+        | "evalResults.getTemperaEvidence" => "eval:run",
 
         "scenarios.create" | "scenarios.mine" => "scenario:write",
         "scenarios.list" | "scenarios.get" => "scenario:read",
@@ -1404,6 +1407,9 @@ mod tests {
             ("usage.getSummary", "GET", "admin"),
             ("ingest.getQueueStatus", "GET", "admin"),
             ("calibrations.run", "POST", "eval:run"),
+            ("evalResults.importTemperaBundle", "POST", "eval:run"),
+            ("evalResults.recordTemperaDecision", "POST", "eval:run"),
+            ("evalResults.getTemperaEvidence", "GET", "eval:run"),
             ("reviews.createQueue", "POST", "dataset:write"),
             ("reviews.enqueueTaskFromTrace", "POST", "dataset:write"),
             ("reviews.submitAnnotation", "POST", "dataset:write"),

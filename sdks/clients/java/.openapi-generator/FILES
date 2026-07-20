@@ -66,6 +66,7 @@ docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
+docs/EvalResultsApi.md
 docs/EvalsApi.md
 docs/EvaluateAlertRequest.md
 docs/EvaluationCase.md
@@ -86,6 +87,7 @@ docs/EvaluatorSpec.md
 docs/ExperimentComparison.md
 docs/ExperimentRunReport.md
 docs/ExperimentsApi.md
+docs/ExternalEvalEvidenceKind.md
 docs/FailureMode.md
 docs/GateDecision.md
 docs/GateDefinition.md
@@ -95,6 +97,7 @@ docs/GatesApi.md
 docs/HealthApi.md
 docs/HealthResponse.md
 docs/ImportSourceHttpRequest.md
+docs/ImportTemperaEvidenceRequest.md
 docs/InconclusivePolicy.md
 docs/IngestApi.md
 docs/IngestOutcome.md
@@ -172,6 +175,8 @@ docs/SpanStatus.md
 docs/SpansApi.md
 docs/StatisticalTest.md
 docs/SubmitReviewAnnotationHttpRequest.md
+docs/TemperaEvidenceReceipt.md
+docs/TemperaEvidenceSummary.md
 docs/TenantScope.md
 docs/TokenCounts.md
 docs/ToolExecution.md
@@ -212,6 +217,7 @@ src/main/java/ai/palette/client/api/CalibrationsApi.java
 src/main/java/ai/palette/client/api/ConnectApi.java
 src/main/java/ai/palette/client/api/ConnectorsApi.java
 src/main/java/ai/palette/client/api/DatasetsApi.java
+src/main/java/ai/palette/client/api/EvalResultsApi.java
 src/main/java/ai/palette/client/api/EvalsApi.java
 src/main/java/ai/palette/client/api/ExperimentsApi.java
 src/main/java/ai/palette/client/api/GatesApi.java
@@ -298,6 +304,7 @@ src/main/java/ai/palette/client/model/EvaluatorLane.java
 src/main/java/ai/palette/client/model/EvaluatorSpec.java
 src/main/java/ai/palette/client/model/ExperimentComparison.java
 src/main/java/ai/palette/client/model/ExperimentRunReport.java
+src/main/java/ai/palette/client/model/ExternalEvalEvidenceKind.java
 src/main/java/ai/palette/client/model/FailureMode.java
 src/main/java/ai/palette/client/model/GateDecision.java
 src/main/java/ai/palette/client/model/GateDefinition.java
@@ -305,6 +312,7 @@ src/main/java/ai/palette/client/model/GatePolicy.java
 src/main/java/ai/palette/client/model/GateRunReport.java
 src/main/java/ai/palette/client/model/HealthResponse.java
 src/main/java/ai/palette/client/model/ImportSourceHttpRequest.java
+src/main/java/ai/palette/client/model/ImportTemperaEvidenceRequest.java
 src/main/java/ai/palette/client/model/InconclusivePolicy.java
 src/main/java/ai/palette/client/model/IngestOutcome.java
 src/main/java/ai/palette/client/model/IngestQueueStatus.java
@@ -373,6 +381,8 @@ src/main/java/ai/palette/client/model/SpanIoValueOneOf3.java
 src/main/java/ai/palette/client/model/SpanStatus.java
 src/main/java/ai/palette/client/model/StatisticalTest.java
 src/main/java/ai/palette/client/model/SubmitReviewAnnotationHttpRequest.java
+src/main/java/ai/palette/client/model/TemperaEvidenceReceipt.java
+src/main/java/ai/palette/client/model/TemperaEvidenceSummary.java
 src/main/java/ai/palette/client/model/TenantScope.java
 src/main/java/ai/palette/client/model/TokenCounts.java
 src/main/java/ai/palette/client/model/ToolExecution.java
@@ -393,6 +403,7 @@ src/test/java/ai/palette/client/api/CalibrationsApiTest.java
 src/test/java/ai/palette/client/api/ConnectApiTest.java
 src/test/java/ai/palette/client/api/ConnectorsApiTest.java
 src/test/java/ai/palette/client/api/DatasetsApiTest.java
+src/test/java/ai/palette/client/api/EvalResultsApiTest.java
 src/test/java/ai/palette/client/api/EvalsApiTest.java
 src/test/java/ai/palette/client/api/ExperimentsApiTest.java
 src/test/java/ai/palette/client/api/GatesApiTest.java
@@ -478,6 +489,7 @@ src/test/java/ai/palette/client/model/EvaluatorLaneTest.java
 src/test/java/ai/palette/client/model/EvaluatorSpecTest.java
 src/test/java/ai/palette/client/model/ExperimentComparisonTest.java
 src/test/java/ai/palette/client/model/ExperimentRunReportTest.java
+src/test/java/ai/palette/client/model/ExternalEvalEvidenceKindTest.java
 src/test/java/ai/palette/client/model/FailureModeTest.java
 src/test/java/ai/palette/client/model/GateDecisionTest.java
 src/test/java/ai/palette/client/model/GateDefinitionTest.java
@@ -485,6 +497,7 @@ src/test/java/ai/palette/client/model/GatePolicyTest.java
 src/test/java/ai/palette/client/model/GateRunReportTest.java
 src/test/java/ai/palette/client/model/HealthResponseTest.java
 src/test/java/ai/palette/client/model/ImportSourceHttpRequestTest.java
+src/test/java/ai/palette/client/model/ImportTemperaEvidenceRequestTest.java
 src/test/java/ai/palette/client/model/InconclusivePolicyTest.java
 src/test/java/ai/palette/client/model/IngestOutcomeTest.java
 src/test/java/ai/palette/client/model/IngestQueueStatusTest.java
@@ -553,6 +566,8 @@ src/test/java/ai/palette/client/model/SpanIoValueTest.java
 src/test/java/ai/palette/client/model/SpanStatusTest.java
 src/test/java/ai/palette/client/model/StatisticalTestTest.java
 src/test/java/ai/palette/client/model/SubmitReviewAnnotationHttpRequestTest.java
+src/test/java/ai/palette/client/model/TemperaEvidenceReceiptTest.java
+src/test/java/ai/palette/client/model/TemperaEvidenceSummaryTest.java
 src/test/java/ai/palette/client/model/TenantScopeTest.java
 src/test/java/ai/palette/client/model/TokenCountsTest.java
 src/test/java/ai/palette/client/model/ToolExecutionTest.java

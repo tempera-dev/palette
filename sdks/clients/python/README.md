@@ -108,6 +108,9 @@ Class | Method | HTTP request | Description
 *DatasetsApi* | [**datasets_create**](docs/DatasetsApi.md#datasets_create) | **POST** /v1/datasets/{tenant_id}/{project_id} |
 *DatasetsApi* | [**datasets_create_version**](docs/DatasetsApi.md#datasets_create_version) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
 *DatasetsApi* | [**datasets_promote_case_from_trace**](docs/DatasetsApi.md#datasets_promote_case_from_trace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+*EvalResultsApi* | [**eval_results_get_tempera_evidence**](docs/EvalResultsApi.md#eval_results_get_tempera_evidence) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |
+*EvalResultsApi* | [**eval_results_import_tempera_bundle**](docs/EvalResultsApi.md#eval_results_import_tempera_bundle) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |
+*EvalResultsApi* | [**eval_results_record_tempera_decision**](docs/EvalResultsApi.md#eval_results_record_tempera_decision) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |
 *EvalsApi* | [**evals_run_deterministic**](docs/EvalsApi.md#evals_run_deterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
 *EvalsApi* | [**evals_run_judge**](docs/EvalsApi.md#evals_run_judge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
 *ExperimentsApi* | [**experiments_run_deterministic**](docs/ExperimentsApi.md#experiments_run_deterministic) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
@@ -225,6 +228,7 @@ Class | Method | HTTP request | Description
  - [EvaluatorSpec](docs/EvaluatorSpec.md)
  - [ExperimentComparison](docs/ExperimentComparison.md)
  - [ExperimentRunReport](docs/ExperimentRunReport.md)
+ - [ExternalEvalEvidenceKind](docs/ExternalEvalEvidenceKind.md)
  - [FailureMode](docs/FailureMode.md)
  - [GateDecision](docs/GateDecision.md)
  - [GateDefinition](docs/GateDefinition.md)
@@ -232,6 +236,7 @@ Class | Method | HTTP request | Description
  - [GateRunReport](docs/GateRunReport.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImportSourceHttpRequest](docs/ImportSourceHttpRequest.md)
+ - [ImportTemperaEvidenceRequest](docs/ImportTemperaEvidenceRequest.md)
  - [InconclusivePolicy](docs/InconclusivePolicy.md)
  - [IngestOutcome](docs/IngestOutcome.md)
  - [IngestQueueStatus](docs/IngestQueueStatus.md)
@@ -300,6 +305,8 @@ Class | Method | HTTP request | Description
  - [SpanStatus](docs/SpanStatus.md)
  - [StatisticalTest](docs/StatisticalTest.md)
  - [SubmitReviewAnnotationHttpRequest](docs/SubmitReviewAnnotationHttpRequest.md)
+ - [TemperaEvidenceReceipt](docs/TemperaEvidenceReceipt.md)
+ - [TemperaEvidenceSummary](docs/TemperaEvidenceSummary.md)
  - [TenantScope](docs/TenantScope.md)
  - [TokenCounts](docs/TokenCounts.md)
  - [ToolExecution](docs/ToolExecution.md)

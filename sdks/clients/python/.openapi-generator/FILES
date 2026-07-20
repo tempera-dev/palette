@@ -64,6 +64,7 @@ docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
+docs/EvalResultsApi.md
 docs/EvalsApi.md
 docs/EvaluateAlertRequest.md
 docs/EvaluationCase.md
@@ -84,6 +85,7 @@ docs/EvaluatorSpec.md
 docs/ExperimentComparison.md
 docs/ExperimentRunReport.md
 docs/ExperimentsApi.md
+docs/ExternalEvalEvidenceKind.md
 docs/FailureMode.md
 docs/GateDecision.md
 docs/GateDefinition.md
@@ -93,6 +95,7 @@ docs/GatesApi.md
 docs/HealthApi.md
 docs/HealthResponse.md
 docs/ImportSourceHttpRequest.md
+docs/ImportTemperaEvidenceRequest.md
 docs/InconclusivePolicy.md
 docs/IngestApi.md
 docs/IngestOutcome.md
@@ -170,6 +173,8 @@ docs/SpanStatus.md
 docs/SpansApi.md
 docs/StatisticalTest.md
 docs/SubmitReviewAnnotationHttpRequest.md
+docs/TemperaEvidenceReceipt.md
+docs/TemperaEvidenceSummary.md
 docs/TenantScope.md
 docs/TokenCounts.md
 docs/ToolExecution.md
@@ -195,6 +200,7 @@ palette_client/api/calibrations_api.py
 palette_client/api/connect_api.py
 palette_client/api/connectors_api.py
 palette_client/api/datasets_api.py
+palette_client/api/eval_results_api.py
 palette_client/api/evals_api.py
 palette_client/api/experiments_api.py
 palette_client/api/gates_api.py
@@ -285,6 +291,7 @@ palette_client/models/evaluator_lane.py
 palette_client/models/evaluator_spec.py
 palette_client/models/experiment_comparison.py
 palette_client/models/experiment_run_report.py
+palette_client/models/external_eval_evidence_kind.py
 palette_client/models/failure_mode.py
 palette_client/models/gate_decision.py
 palette_client/models/gate_definition.py
@@ -292,6 +299,7 @@ palette_client/models/gate_policy.py
 palette_client/models/gate_run_report.py
 palette_client/models/health_response.py
 palette_client/models/import_source_http_request.py
+palette_client/models/import_tempera_evidence_request.py
 palette_client/models/inconclusive_policy.py
 palette_client/models/ingest_outcome.py
 palette_client/models/ingest_queue_status.py
@@ -360,6 +368,8 @@ palette_client/models/span_io_value_one_of3.py
 palette_client/models/span_status.py
 palette_client/models/statistical_test.py
 palette_client/models/submit_review_annotation_http_request.py
+palette_client/models/tempera_evidence_receipt.py
+palette_client/models/tempera_evidence_summary.py
 palette_client/models/tenant_scope.py
 palette_client/models/token_counts.py
 palette_client/models/tool_execution.py
@@ -440,6 +450,7 @@ test/test_enqueue_review_task_from_trace_http_request.py
 test/test_error_response.py
 test/test_eval_reproducibility.py
 test/test_eval_result.py
+test/test_eval_results_api.py
 test/test_evals_api.py
 test/test_evaluate_alert_request.py
 test/test_evaluation_case.py
@@ -460,6 +471,7 @@ test/test_evaluator_spec.py
 test/test_experiment_comparison.py
 test/test_experiment_run_report.py
 test/test_experiments_api.py
+test/test_external_eval_evidence_kind.py
 test/test_failure_mode.py
 test/test_gate_decision.py
 test/test_gate_definition.py
@@ -469,6 +481,7 @@ test/test_gates_api.py
 test/test_health_api.py
 test/test_health_response.py
 test/test_import_source_http_request.py
+test/test_import_tempera_evidence_request.py
 test/test_inconclusive_policy.py
 test/test_ingest_api.py
 test/test_ingest_outcome.py
@@ -546,6 +559,8 @@ test/test_span_status.py
 test/test_spans_api.py
 test/test_statistical_test.py
 test/test_submit_review_annotation_http_request.py
+test/test_tempera_evidence_receipt.py
+test/test_tempera_evidence_summary.py
 test/test_tenant_scope.py
 test/test_token_counts.py
 test/test_tool_execution.py

@@ -8,6 +8,7 @@ export * from './CalibrationsApi';
 export * from './ConnectApi';
 export * from './ConnectorsApi';
 export * from './DatasetsApi';
+export * from './EvalResultsApi';
 export * from './EvalsApi';
 export * from './ExperimentsApi';
 export * from './GatesApi';

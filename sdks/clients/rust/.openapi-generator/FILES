@@ -63,6 +63,7 @@ docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
+docs/EvalResultsApi.md
 docs/EvalsApi.md
 docs/EvaluateAlertRequest.md
 docs/EvaluationCase.md
@@ -83,6 +84,7 @@ docs/EvaluatorSpec.md
 docs/ExperimentComparison.md
 docs/ExperimentRunReport.md
 docs/ExperimentsApi.md
+docs/ExternalEvalEvidenceKind.md
 docs/FailureMode.md
 docs/GateDecision.md
 docs/GateDefinition.md
@@ -92,6 +94,7 @@ docs/GatesApi.md
 docs/HealthApi.md
 docs/HealthResponse.md
 docs/ImportSourceHttpRequest.md
+docs/ImportTemperaEvidenceRequest.md
 docs/InconclusivePolicy.md
 docs/IngestApi.md
 docs/IngestOutcome.md
@@ -169,6 +172,8 @@ docs/SpanStatus.md
 docs/SpansApi.md
 docs/StatisticalTest.md
 docs/SubmitReviewAnnotationHttpRequest.md
+docs/TemperaEvidenceReceipt.md
+docs/TemperaEvidenceSummary.md
 docs/TenantScope.md
 docs/TokenCounts.md
 docs/ToolExecution.md
@@ -193,6 +198,7 @@ src/apis/configuration.rs
 src/apis/connect_api.rs
 src/apis/connectors_api.rs
 src/apis/datasets_api.rs
+src/apis/eval_results_api.rs
 src/apis/evals_api.rs
 src/apis/experiments_api.rs
 src/apis/gates_api.rs
@@ -280,6 +286,7 @@ src/models/evaluator_lane.rs
 src/models/evaluator_spec.rs
 src/models/experiment_comparison.rs
 src/models/experiment_run_report.rs
+src/models/external_eval_evidence_kind.rs
 src/models/failure_mode.rs
 src/models/gate_decision.rs
 src/models/gate_definition.rs
@@ -287,6 +294,7 @@ src/models/gate_policy.rs
 src/models/gate_run_report.rs
 src/models/health_response.rs
 src/models/import_source_http_request.rs
+src/models/import_tempera_evidence_request.rs
 src/models/inconclusive_policy.rs
 src/models/ingest_outcome.rs
 src/models/ingest_queue_status.rs
@@ -356,6 +364,8 @@ src/models/span_io_value_one_of_3.rs
 src/models/span_status.rs
 src/models/statistical_test.rs
 src/models/submit_review_annotation_http_request.rs
+src/models/tempera_evidence_receipt.rs
+src/models/tempera_evidence_summary.rs
 src/models/tenant_scope.rs
 src/models/token_counts.rs
 src/models/tool_execution.rs
