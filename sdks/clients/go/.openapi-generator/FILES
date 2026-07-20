@@ -11,6 +11,7 @@ api_calibrations.go
 api_connect.go
 api_connectors.go
 api_datasets.go
+api_eval_results.go
 api_evals.go
 api_experiments.go
 api_gates.go
@@ -88,6 +89,7 @@ docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
+docs/EvalResultsAPI.md
 docs/EvalsAPI.md
 docs/EvaluateAlertRequest.md
 docs/EvaluationCase.md
@@ -108,6 +110,7 @@ docs/EvaluatorSpec.md
 docs/ExperimentComparison.md
 docs/ExperimentRunReport.md
 docs/ExperimentsAPI.md
+docs/ExternalEvalEvidenceKind.md
 docs/FailureMode.md
 docs/GateDecision.md
 docs/GateDefinition.md
@@ -117,6 +120,7 @@ docs/GatesAPI.md
 docs/HealthAPI.md
 docs/HealthResponse.md
 docs/ImportSourceHttpRequest.md
+docs/ImportTemperaEvidenceRequest.md
 docs/InconclusivePolicy.md
 docs/IngestAPI.md
 docs/IngestOutcome.md
@@ -194,6 +198,8 @@ docs/SpanStatus.md
 docs/SpansAPI.md
 docs/StatisticalTest.md
 docs/SubmitReviewAnnotationHttpRequest.md
+docs/TemperaEvidenceReceipt.md
+docs/TemperaEvidenceSummary.md
 docs/TenantScope.md
 docs/TokenCounts.md
 docs/ToolExecution.md
@@ -281,6 +287,7 @@ model_evaluator_lane.go
 model_evaluator_spec.go
 model_experiment_comparison.go
 model_experiment_run_report.go
+model_external_eval_evidence_kind.go
 model_failure_mode.go
 model_gate_decision.go
 model_gate_definition.go
@@ -288,6 +295,7 @@ model_gate_policy.go
 model_gate_run_report.go
 model_health_response.go
 model_import_source_http_request.go
+model_import_tempera_evidence_request.go
 model_inconclusive_policy.go
 model_ingest_outcome.go
 model_ingest_queue_status.go
@@ -356,6 +364,8 @@ model_span_io_value_one_of_3.go
 model_span_status.go
 model_statistical_test_.go
 model_submit_review_annotation_http_request.go
+model_tempera_evidence_receipt.go
+model_tempera_evidence_summary.go
 model_tenant_scope.go
 model_token_counts.go
 model_tool_execution.go
@@ -377,6 +387,7 @@ test/api_calibrations_test.go
 test/api_connect_test.go
 test/api_connectors_test.go
 test/api_datasets_test.go
+test/api_eval_results_test.go
 test/api_evals_test.go
 test/api_experiments_test.go
 test/api_gates_test.go

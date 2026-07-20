@@ -148,6 +148,12 @@ Class | Method | HTTP request | Description
 *DatasetsApi* | [**datasetsCreateVersionWithHttpInfo**](docs/DatasetsApi.md#datasetsCreateVersionWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
 *DatasetsApi* | [**datasetsPromoteCaseFromTrace**](docs/DatasetsApi.md#datasetsPromoteCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
 *DatasetsApi* | [**datasetsPromoteCaseFromTraceWithHttpInfo**](docs/DatasetsApi.md#datasetsPromoteCaseFromTraceWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+*EvalResultsApi* | [**evalResultsGetTemperaEvidence**](docs/EvalResultsApi.md#evalResultsGetTemperaEvidence) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |
+*EvalResultsApi* | [**evalResultsGetTemperaEvidenceWithHttpInfo**](docs/EvalResultsApi.md#evalResultsGetTemperaEvidenceWithHttpInfo) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |
+*EvalResultsApi* | [**evalResultsImportTemperaBundle**](docs/EvalResultsApi.md#evalResultsImportTemperaBundle) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |
+*EvalResultsApi* | [**evalResultsImportTemperaBundleWithHttpInfo**](docs/EvalResultsApi.md#evalResultsImportTemperaBundleWithHttpInfo) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |
+*EvalResultsApi* | [**evalResultsRecordTemperaDecision**](docs/EvalResultsApi.md#evalResultsRecordTemperaDecision) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |
+*EvalResultsApi* | [**evalResultsRecordTemperaDecisionWithHttpInfo**](docs/EvalResultsApi.md#evalResultsRecordTemperaDecisionWithHttpInfo) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |
 *EvalsApi* | [**evalsRunDeterministic**](docs/EvalsApi.md#evalsRunDeterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
 *EvalsApi* | [**evalsRunDeterministicWithHttpInfo**](docs/EvalsApi.md#evalsRunDeterministicWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
 *EvalsApi* | [**evalsRunJudge**](docs/EvalsApi.md#evalsRunJudge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
@@ -308,6 +314,7 @@ Class | Method | HTTP request | Description
  - [EvaluatorSpec](docs/EvaluatorSpec.md)
  - [ExperimentComparison](docs/ExperimentComparison.md)
  - [ExperimentRunReport](docs/ExperimentRunReport.md)
+ - [ExternalEvalEvidenceKind](docs/ExternalEvalEvidenceKind.md)
  - [FailureMode](docs/FailureMode.md)
  - [GateDecision](docs/GateDecision.md)
  - [GateDefinition](docs/GateDefinition.md)
@@ -315,6 +322,7 @@ Class | Method | HTTP request | Description
  - [GateRunReport](docs/GateRunReport.md)
  - [HealthResponse](docs/HealthResponse.md)
  - [ImportSourceHttpRequest](docs/ImportSourceHttpRequest.md)
+ - [ImportTemperaEvidenceRequest](docs/ImportTemperaEvidenceRequest.md)
  - [InconclusivePolicy](docs/InconclusivePolicy.md)
  - [IngestOutcome](docs/IngestOutcome.md)
  - [IngestQueueStatus](docs/IngestQueueStatus.md)
@@ -383,6 +391,8 @@ Class | Method | HTTP request | Description
  - [SpanStatus](docs/SpanStatus.md)
  - [StatisticalTest](docs/StatisticalTest.md)
  - [SubmitReviewAnnotationHttpRequest](docs/SubmitReviewAnnotationHttpRequest.md)
+ - [TemperaEvidenceReceipt](docs/TemperaEvidenceReceipt.md)
+ - [TemperaEvidenceSummary](docs/TemperaEvidenceSummary.md)
  - [TenantScope](docs/TenantScope.md)
  - [TokenCounts](docs/TokenCounts.md)
  - [ToolExecution](docs/ToolExecution.md)

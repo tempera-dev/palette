@@ -22,6 +22,7 @@ include/palette-client/api/CalibrationsApi.h
 include/palette-client/api/ConnectApi.h
 include/palette-client/api/ConnectorsApi.h
 include/palette-client/api/DatasetsApi.h
+include/palette-client/api/EvalResultsApi.h
 include/palette-client/api/EvalsApi.h
 include/palette-client/api/ExperimentsApi.h
 include/palette-client/api/GatesApi.h
@@ -107,6 +108,7 @@ include/palette-client/model/EvaluatorLane.h
 include/palette-client/model/EvaluatorSpec.h
 include/palette-client/model/ExperimentComparison.h
 include/palette-client/model/ExperimentRunReport.h
+include/palette-client/model/ExternalEvalEvidenceKind.h
 include/palette-client/model/FailureMode.h
 include/palette-client/model/GateDecision.h
 include/palette-client/model/GateDefinition.h
@@ -114,6 +116,7 @@ include/palette-client/model/GatePolicy.h
 include/palette-client/model/GateRunReport.h
 include/palette-client/model/HealthResponse.h
 include/palette-client/model/ImportSourceHttpRequest.h
+include/palette-client/model/ImportTemperaEvidenceRequest.h
 include/palette-client/model/InconclusivePolicy.h
 include/palette-client/model/IngestOutcome.h
 include/palette-client/model/IngestQueueStatus.h
@@ -182,6 +185,8 @@ include/palette-client/model/SpanIoValue_oneOf_3.h
 include/palette-client/model/SpanStatus.h
 include/palette-client/model/StatisticalTest.h
 include/palette-client/model/SubmitReviewAnnotationHttpRequest.h
+include/palette-client/model/TemperaEvidenceReceipt.h
+include/palette-client/model/TemperaEvidenceSummary.h
 include/palette-client/model/TenantScope.h
 include/palette-client/model/TokenCounts.h
 include/palette-client/model/ToolExecution.h
@@ -211,6 +216,7 @@ src/api/CalibrationsApi.cpp
 src/api/ConnectApi.cpp
 src/api/ConnectorsApi.cpp
 src/api/DatasetsApi.cpp
+src/api/EvalResultsApi.cpp
 src/api/EvalsApi.cpp
 src/api/ExperimentsApi.cpp
 src/api/GatesApi.cpp
@@ -296,6 +302,7 @@ src/model/EvaluatorLane.cpp
 src/model/EvaluatorSpec.cpp
 src/model/ExperimentComparison.cpp
 src/model/ExperimentRunReport.cpp
+src/model/ExternalEvalEvidenceKind.cpp
 src/model/FailureMode.cpp
 src/model/GateDecision.cpp
 src/model/GateDefinition.cpp
@@ -303,6 +310,7 @@ src/model/GatePolicy.cpp
 src/model/GateRunReport.cpp
 src/model/HealthResponse.cpp
 src/model/ImportSourceHttpRequest.cpp
+src/model/ImportTemperaEvidenceRequest.cpp
 src/model/InconclusivePolicy.cpp
 src/model/IngestOutcome.cpp
 src/model/IngestQueueStatus.cpp
@@ -371,6 +379,8 @@ src/model/SpanIoValue_oneOf_3.cpp
 src/model/SpanStatus.cpp
 src/model/StatisticalTest.cpp
 src/model/SubmitReviewAnnotationHttpRequest.cpp
+src/model/TemperaEvidenceReceipt.cpp
+src/model/TemperaEvidenceSummary.cpp
 src/model/TenantScope.cpp
 src/model/TokenCounts.cpp
 src/model/ToolExecution.cpp

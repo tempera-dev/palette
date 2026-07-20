@@ -118,6 +118,7 @@ set(SRCS
     model/evaluator_spec.c
     model/experiment_comparison.c
     model/experiment_run_report.c
+    model/external_eval_evidence_kind.c
     model/failure_mode.c
     model/gate_decision.c
     model/gate_definition.c
@@ -125,6 +126,7 @@ set(SRCS
     model/gate_run_report.c
     model/health_response.c
     model/import_source_http_request.c
+    model/import_tempera_evidence_request.c
     model/inconclusive_policy.c
     model/ingest_outcome.c
     model/ingest_queue_status.c
@@ -193,6 +195,8 @@ set(SRCS
     model/span_status.c
     model/statistical_test.c
     model/submit_review_annotation_http_request.c
+    model/tempera_evidence_receipt.c
+    model/tempera_evidence_summary.c
     model/tenant_scope.c
     model/token_counts.c
     model/tool_execution.c
@@ -213,6 +217,7 @@ set(SRCS
     api/ConnectAPI.c
     api/ConnectorsAPI.c
     api/DatasetsAPI.c
+    api/EvalResultsAPI.c
     api/EvalsAPI.c
     api/ExperimentsAPI.c
     api/GatesAPI.c
@@ -309,6 +314,7 @@ set(HDRS
     model/evaluator_spec.h
     model/experiment_comparison.h
     model/experiment_run_report.h
+    model/external_eval_evidence_kind.h
     model/failure_mode.h
     model/gate_decision.h
     model/gate_definition.h
@@ -316,6 +322,7 @@ set(HDRS
     model/gate_run_report.h
     model/health_response.h
     model/import_source_http_request.h
+    model/import_tempera_evidence_request.h
     model/inconclusive_policy.h
     model/ingest_outcome.h
     model/ingest_queue_status.h
@@ -384,6 +391,8 @@ set(HDRS
     model/span_status.h
     model/statistical_test.h
     model/submit_review_annotation_http_request.h
+    model/tempera_evidence_receipt.h
+    model/tempera_evidence_summary.h
     model/tenant_scope.h
     model/token_counts.h
     model/tool_execution.h
@@ -404,6 +413,7 @@ set(HDRS
     api/ConnectAPI.h
     api/ConnectorsAPI.h
     api/DatasetsAPI.h
+    api/EvalResultsAPI.h
     api/EvalsAPI.h
     api/ExperimentsAPI.h
     api/GatesAPI.h
@@ -508,6 +518,7 @@ set(HDRS "")
 #    unit-tests/manual-ConnectAPI.c
 #    unit-tests/manual-ConnectorsAPI.c
 #    unit-tests/manual-DatasetsAPI.c
+#    unit-tests/manual-EvalResultsAPI.c
 #    unit-tests/manual-EvalsAPI.c
 #    unit-tests/manual-ExperimentsAPI.c
 #    unit-tests/manual-GatesAPI.c

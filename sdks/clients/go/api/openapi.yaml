@@ -31,6 +31,8 @@ tags:
   name: evals
 - description: Baseline/candidate experiments
   name: experiments
+- description: Official external evaluation evidence
+  name: evalResults
 - description: Evaluator calibration runs
   name: calibrations
 - description: Release gates
@@ -1980,6 +1982,339 @@ paths:
           description: Resource not found
       tags:
       - evals
+  /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles:
+    post:
+      operationId: evalResults.importTemperaBundle
+      parameters:
+      - description: tenant_id
+        explode: false
+        in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: project_id
+        explode: false
+        in: path
+        name: project_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Bearer API token for strict auth
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: API key alternative for strict auth
+        explode: false
+        in: header
+        name: x-palette-api-key
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: Strict-auth project scope
+        explode: false
+        in: header
+        name: x-palette-project-id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: Strict-auth environment scope
+        explode: false
+        in: header
+        name: x-palette-environment-id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportTemperaEvidenceRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemperaEvidenceReceipt'
+          description: Idempotently store a verified official Tempera result bundle
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: "Malformed, non-canonical, unsafe, or signature-invalid evidence"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Missing or invalid credentials
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Credentials lack the required scope or the evidence key is
+            not trusted
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The external id already binds different content
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Evidence exceeds the request limit
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Request body does not match the schema
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: No Tempera evaluation release-key trust anchor is configured
+      tags:
+      - evalResults
+  /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions:
+    post:
+      operationId: evalResults.recordTemperaDecision
+      parameters:
+      - description: tenant_id
+        explode: false
+        in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: project_id
+        explode: false
+        in: path
+        name: project_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Bearer API token for strict auth
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: API key alternative for strict auth
+        explode: false
+        in: header
+        name: x-palette-api-key
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: Strict-auth project scope
+        explode: false
+        in: header
+        name: x-palette-project-id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: Strict-auth environment scope
+        explode: false
+        in: header
+        name: x-palette-environment-id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportTemperaEvidenceRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemperaEvidenceReceipt'
+          description: Idempotently store a verified preregistered Tempera A/B decision
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: "Malformed, non-canonical, unsafe, or signature-invalid evidence"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Missing or invalid credentials
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Credentials lack the required scope or the evidence key is
+            not trusted
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: The external id already binds different content
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Evidence exceeds the request limit
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Request body does not match the schema
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: No Tempera evaluation release-key trust anchor is configured
+      tags:
+      - evalResults
+  /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}:
+    get:
+      operationId: evalResults.getTemperaEvidence
+      parameters:
+      - description: tenant_id
+        explode: false
+        in: path
+        name: tenant_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: project_id
+        explode: false
+        in: path
+        name: project_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: result_bundle or ab_decision
+        explode: false
+        in: path
+        name: kind
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Bundle or experiment id
+        explode: false
+        in: path
+        name: external_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Bearer API token for strict auth
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: API key alternative for strict auth
+        explode: false
+        in: header
+        name: x-palette-api-key
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: Strict-auth project scope
+        explode: false
+        in: header
+        name: x-palette-project-id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - description: Strict-auth environment scope
+        explode: false
+        in: header
+        name: x-palette-environment-id
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemperaEvidenceReceipt'
+          description: Read a scoped external evidence receipt
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Invalid evidence kind or identifier
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Missing or invalid credentials
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Credentials lack the required scope
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Evidence not found in this tenant/project
+      tags:
+      - evalResults
   /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic:
     post:
       operationId: experiments.runDeterministic
@@ -8224,6 +8559,11 @@ components:
       - experiment_run_id
       - project_id
       - tenant_id
+    ExternalEvalEvidenceKind:
+      enum:
+      - result_bundle
+      - ab_decision
+      type: string
     FailureMode:
       description: A deterministically-inferred class of failure.
       enum:
@@ -8429,6 +8769,31 @@ components:
           type: string
       required:
       - source
+    ImportTemperaEvidenceRequest:
+      example:
+        signature_base64: signature_base64
+        canonical_json: canonical_json
+        public_key_pem: public_key_pem
+      properties:
+        canonical_json:
+          description: |-
+            Canonical compact JSON signed by the release/decision key. The endpoint
+            rejects equivalent but non-canonical JSON so the verified bytes are
+            unambiguous across SDKs.
+          type: string
+        public_key_pem:
+          description: |-
+            PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is
+            pinned inside the signed payload.
+          type: string
+        signature_base64:
+          description: Standard-base64 detached Ed25519 signature over `canonical_json`
+            bytes.
+          type: string
+      required:
+      - canonical_json
+      - public_key_pem
+      - signature_base64
     InconclusivePolicy:
       enum:
       - pass
@@ -10300,6 +10665,96 @@ components:
       - payload
       - reviewer_id
       - verdict
+    TemperaEvidenceReceipt:
+      example:
+        summary:
+          run_id: run_id
+          split: split
+          suite_version: suite_version
+          experiment_id: experiment_id
+          verdict: verdict
+          suite_id: suite_id
+        tenant_id: tenant_id
+        created: true
+        kind: result_bundle
+        external_id: external_id
+        stored_at: 2000-01-23T04:56:07.000+00:00
+        schema_version: schema_version
+        source_schema_version: source_schema_version
+        public_key_sha256: public_key_sha256
+        project_id: project_id
+        signed_payload_sha256: signed_payload_sha256
+        declared_content_sha256: declared_content_sha256
+        signature_sha256: signature_sha256
+      properties:
+        created:
+          type: boolean
+        declared_content_sha256:
+          type: string
+        external_id:
+          type: string
+        kind:
+          $ref: '#/components/schemas/ExternalEvalEvidenceKind'
+        project_id:
+          type: string
+        public_key_sha256:
+          type: string
+        schema_version:
+          type: string
+        signature_sha256:
+          type: string
+        signed_payload_sha256:
+          type: string
+        source_schema_version:
+          type: string
+        stored_at:
+          format: date-time
+          type: string
+        summary:
+          $ref: '#/components/schemas/TemperaEvidenceSummary'
+        tenant_id:
+          type: string
+      required:
+      - created
+      - declared_content_sha256
+      - external_id
+      - kind
+      - project_id
+      - public_key_sha256
+      - schema_version
+      - signature_sha256
+      - signed_payload_sha256
+      - source_schema_version
+      - stored_at
+      - summary
+      - tenant_id
+    TemperaEvidenceSummary:
+      example:
+        run_id: run_id
+        split: split
+        suite_version: suite_version
+        experiment_id: experiment_id
+        verdict: verdict
+        suite_id: suite_id
+      properties:
+        experiment_id:
+          nullable: true
+          type: string
+        run_id:
+          nullable: true
+          type: string
+        split:
+          nullable: true
+          type: string
+        suite_id:
+          nullable: true
+          type: string
+        suite_version:
+          nullable: true
+          type: string
+        verdict:
+          nullable: true
+          type: string
     TenantId:
       type: string
     TenantScope:

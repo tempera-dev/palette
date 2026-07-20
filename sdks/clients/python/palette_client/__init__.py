@@ -25,6 +25,7 @@ from palette_client.api.calibrations_api import CalibrationsApi
 from palette_client.api.connect_api import ConnectApi
 from palette_client.api.connectors_api import ConnectorsApi
 from palette_client.api.datasets_api import DatasetsApi
+from palette_client.api.eval_results_api import EvalResultsApi
 from palette_client.api.evals_api import EvalsApi
 from palette_client.api.experiments_api import ExperimentsApi
 from palette_client.api.gates_api import GatesApi
@@ -123,6 +124,7 @@ from palette_client.models.evaluator_lane import EvaluatorLane
 from palette_client.models.evaluator_spec import EvaluatorSpec
 from palette_client.models.experiment_comparison import ExperimentComparison
 from palette_client.models.experiment_run_report import ExperimentRunReport
+from palette_client.models.external_eval_evidence_kind import ExternalEvalEvidenceKind
 from palette_client.models.failure_mode import FailureMode
 from palette_client.models.gate_decision import GateDecision
 from palette_client.models.gate_definition import GateDefinition
@@ -130,6 +132,7 @@ from palette_client.models.gate_policy import GatePolicy
 from palette_client.models.gate_run_report import GateRunReport
 from palette_client.models.health_response import HealthResponse
 from palette_client.models.import_source_http_request import ImportSourceHttpRequest
+from palette_client.models.import_tempera_evidence_request import ImportTemperaEvidenceRequest
 from palette_client.models.inconclusive_policy import InconclusivePolicy
 from palette_client.models.ingest_outcome import IngestOutcome
 from palette_client.models.ingest_queue_status import IngestQueueStatus
@@ -198,6 +201,8 @@ from palette_client.models.span_io_value_one_of3 import SpanIoValueOneOf3
 from palette_client.models.span_status import SpanStatus
 from palette_client.models.statistical_test import StatisticalTest
 from palette_client.models.submit_review_annotation_http_request import SubmitReviewAnnotationHttpRequest
+from palette_client.models.tempera_evidence_receipt import TemperaEvidenceReceipt
+from palette_client.models.tempera_evidence_summary import TemperaEvidenceSummary
 from palette_client.models.tenant_scope import TenantScope
 from palette_client.models.token_counts import TokenCounts
 from palette_client.models.tool_execution import ToolExecution

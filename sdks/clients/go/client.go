@@ -65,6 +65,8 @@ type APIClient struct {
 
 	DatasetsAPI *DatasetsAPIService
 
+	EvalResultsAPI *EvalResultsAPIService
+
 	EvalsAPI *EvalsAPIService
 
 	ExperimentsAPI *ExperimentsAPIService
@@ -120,6 +122,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ConnectAPI = (*ConnectAPIService)(&c.common)
 	c.ConnectorsAPI = (*ConnectorsAPIService)(&c.common)
 	c.DatasetsAPI = (*DatasetsAPIService)(&c.common)
+	c.EvalResultsAPI = (*EvalResultsAPIService)(&c.common)
 	c.EvalsAPI = (*EvalsAPIService)(&c.common)
 	c.ExperimentsAPI = (*ExperimentsAPIService)(&c.common)
 	c.GatesAPI = (*GatesAPIService)(&c.common)
