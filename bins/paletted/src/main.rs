@@ -511,9 +511,7 @@ async fn main() -> anyhow::Result<()> {
                     .with_allowed_tools(args.connector_allow_tools.clone())
                     .with_denied_tools(args.connector_deny_tools.clone()),
             )
-            .with_tempera_evidence_trusted_keys(
-                args.tempera_eval_trusted_key_sha256.clone(),
-            )?;
+            .with_tempera_evidence_trusted_keys(args.tempera_eval_trusted_key_sha256.clone())?;
     if let (Some(endpoint), Some(token)) = (
         args.usage_events_url
             .as_deref()

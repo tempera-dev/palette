@@ -3973,11 +3973,8 @@ async fn import_tempera_evidence(
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(state, headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
-    let verified = verify_tempera_evidence(
-        &request,
-        kind,
-        &state.tempera_evidence_trusted_key_sha256,
-    )?;
+    let verified =
+        verify_tempera_evidence(&request, kind, &state.tempera_evidence_trusted_key_sha256)?;
     let write = experiments
         .write_external_evidence(ExternalEvalEvidenceRecord {
             tenant_id,
