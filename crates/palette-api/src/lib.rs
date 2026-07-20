@@ -5879,8 +5879,9 @@ mod tests {
         body.as_object_mut()
             .unwrap_or_else(|| panic!("object"))
             .remove("exp");
-        let error = claims_from_introspection_response(introspection_body(body))
-            .expect_err("jwt shape without exp must fail closed");
+        let Err(error) = claims_from_introspection_response(introspection_body(body)) else {
+            panic!("jwt shape without exp must fail closed");
+        };
         assert!(error.to_string().contains("exp"));
     }
 
@@ -5907,8 +5908,9 @@ mod tests {
         for aud in ["tempo", "cradle", "remi", "human-data", "tempera-mcp"] {
             let mut body = jwt_introspection_json();
             body["aud"] = json!(aud);
-            let err = claims_from_introspection_response(introspection_body(body))
-                .expect_err("wrong audience must be rejected");
+            let Err(err) = claims_from_introspection_response(introspection_body(body)) else {
+                panic!("wrong audience must be rejected");
+            };
             assert!(err.to_string().contains("is not palette"), "{err}");
         }
     }
@@ -5917,8 +5919,9 @@ mod tests {
     fn introspection_rejects_inactive_token() {
         let mut body = jwt_introspection_json();
         body["active"] = json!(false);
-        let err = claims_from_introspection_response(introspection_body(body))
-            .expect_err("inactive token must be rejected");
+        let Err(err) = claims_from_introspection_response(introspection_body(body)) else {
+            panic!("inactive token must be rejected");
+        };
         assert!(err.to_string().contains("inactive token"), "{err}");
     }
 
@@ -5928,8 +5931,9 @@ mod tests {
         body.as_object_mut()
             .unwrap_or_else(|| panic!("object body"))
             .remove("jti");
-        let err = claims_from_introspection_response(introspection_body(body))
-            .expect_err("missing jti must be rejected for non api_key tokens");
+        let Err(err) = claims_from_introspection_response(introspection_body(body)) else {
+            panic!("missing jti must be rejected for non api_key tokens");
+        };
         assert!(err.to_string().contains("missing jti"), "{err}");
     }
 
@@ -5939,8 +5943,9 @@ mod tests {
         body.as_object_mut()
             .unwrap_or_else(|| panic!("object body"))
             .remove("api_key_id");
-        let err = claims_from_introspection_response(introspection_body(body))
-            .expect_err("api_key response without api_key_id must be rejected");
+        let Err(err) = claims_from_introspection_response(introspection_body(body)) else {
+            panic!("api_key response without api_key_id must be rejected");
+        };
         assert!(err.to_string().contains("missing api_key_id"), "{err}");
     }
 
@@ -5951,7 +5956,9 @@ mod tests {
             body.as_object_mut()
                 .unwrap_or_else(|| panic!("object body"))
                 .remove(field);
-            let err = claims_from_introspection_response(introspection_body(body)).unwrap_err();
+            let Err(err) = claims_from_introspection_response(introspection_body(body)) else {
+                panic!("missing tenant scope field must be rejected");
+            };
             assert!(err.to_string().contains(field), "{field}: {err}");
         }
     }
