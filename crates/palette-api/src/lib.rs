@@ -3,6 +3,9 @@ use axum::extract::{Path, Query, State};
 use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use axum::{Json, Router};
+use chrono::Utc;
+use http::header::{HeaderName, HeaderValue, RETRY_AFTER};
+use http::{HeaderMap, StatusCode};
 use palette_alerts::{
     AlertDecision, AlertEngine, AlertInput, AlertPolicy, OnlineSamplingPolicy, SamplingDecision,
     decide_trace_sampling, validate_webhook_endpoint_url,
@@ -85,9 +88,6 @@ use palette_usage::{
     judge_usage_from_dataset_eval_report, judge_usage_from_experiment_report,
     judge_usage_from_outcome, record_usage_batch,
 };
-use chrono::Utc;
-use http::header::{HeaderName, HeaderValue, RETRY_AFTER};
-use http::{HeaderMap, StatusCode};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fmt::{Display, Formatter};
@@ -5777,6 +5777,15 @@ impl IntoResponse for ApiError {
 mod tests {
     use super::*;
     use axum::body::{Body, to_bytes};
+    use http::{Request, StatusCode};
+    use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
+    use opentelemetry_proto::tonic::common::v1::{
+        AnyValue, InstrumentationScope, KeyValue, any_value,
+    };
+    use opentelemetry_proto::tonic::resource::v1::Resource;
+    use opentelemetry_proto::tonic::trace::v1::{
+        ResourceSpans, ScopeSpans, Span, Status, span, status,
+    };
     use palette_bus::InMemoryBus;
     use palette_core::sha256_hex;
     use palette_core::{EnvironmentId, IdempotencyKey, ProjectId, SpanId, TenantScope, TraceId};
@@ -5787,15 +5796,6 @@ mod tests {
     use palette_store::ArtifactStore;
     use palette_store_obj::FsArtifactStore;
     use palette_store_sql::SqliteTraceStore;
-    use http::{Request, StatusCode};
-    use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
-    use opentelemetry_proto::tonic::common::v1::{
-        AnyValue, InstrumentationScope, KeyValue, any_value,
-    };
-    use opentelemetry_proto::tonic::resource::v1::Resource;
-    use opentelemetry_proto::tonic::trace::v1::{
-        ResourceSpans, ScopeSpans, Span, Status, span, status,
-    };
     use serde_json::json;
     use std::collections::BTreeMap;
     use tower::ServiceExt;
@@ -6790,7 +6790,9 @@ mod tests {
         assert_eq!(trace.spans[0].kind, AgentSpanKind::AgentRun);
         assert_eq!(trace.spans[0].raw_ref.uri, "artifact://redacted");
         assert_eq!(
-            trace.spans[0].attributes.get("paletteos.payment_mandate_id"),
+            trace.spans[0]
+                .attributes
+                .get("paletteos.payment_mandate_id"),
             Some(&json!("[redacted]"))
         );
         assert_eq!(

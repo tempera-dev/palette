@@ -654,13 +654,13 @@ fn value_to_text(value: &JsonValue) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Utc;
     use palette_core::{EnvironmentId, ProjectId, TenantId};
     use palette_schema::CanonicalTraceBatch;
     use palette_schema::{
         AgentSpanKind, CANONICAL_SCHEMA_VERSION, ModelRef, RedactionClass, SpanStatus,
     };
     use palette_store_memory::InMemoryTraceStore;
-    use chrono::Utc;
     use serde_json::json;
     use std::collections::BTreeMap;
 

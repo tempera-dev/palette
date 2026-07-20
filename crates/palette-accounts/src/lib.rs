@@ -18,9 +18,9 @@
 
 use argon2::Argon2;
 use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
+use chrono::{DateTime, Duration, Utc};
 use palette_core::{OrganizationId, SessionId, Timestamp, UserId};
 use palette_store::StoreError;
-use chrono::{DateTime, Duration, Utc};
 use rand_core::{OsRng, RngCore};
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};

@@ -434,9 +434,9 @@ pub fn page_vec<T>(mut items: Vec<T>, page: PageRequest) -> Page<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::{TimeZone, Utc};
     use palette_core::SpanId;
     use palette_schema::roll_up_runs;
-    use chrono::{TimeZone, Utc};
     use std::collections::BTreeMap;
 
     fn ts(seconds: i64) -> Timestamp {

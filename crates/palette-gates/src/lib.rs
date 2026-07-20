@@ -1,5 +1,6 @@
 use anyhow::{Context, anyhow};
 use async_trait::async_trait;
+use chrono::Utc;
 use palette_core::{
     AgentReleaseId, DatasetId, EvaluatorVersionId, ExperimentRunId, GateId, GateRunId, ProjectId,
     TenantId, Timestamp,
@@ -7,7 +8,6 @@ use palette_core::{
 use palette_eval::{ExperimentComparison, GateDecision, GatePolicy};
 use palette_experiments::{ExperimentRunReport, ExperimentStore};
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use std::fs;

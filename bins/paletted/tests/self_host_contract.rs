@@ -284,7 +284,8 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(gate1_live_workflow.contains("timeout-minutes: 20"));
     assert!(gate1_live_workflow.contains("Gate 1 live runtime smoke"));
     assert!(
-        gate1_live_workflow.contains("cargo test -p paletted --test live_smoke -- --test-threads=1")
+        gate1_live_workflow
+            .contains("cargo test -p paletted --test live_smoke -- --test-threads=1")
     );
     let live_smoke = read(root.join("bins/paletted/tests/live_smoke.rs"));
     for proof in [

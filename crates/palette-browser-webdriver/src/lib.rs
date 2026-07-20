@@ -19,12 +19,12 @@
 //! transport/driver failures.
 
 use async_trait::async_trait;
+use fantoccini::error::CmdError;
+use fantoccini::{Client, ClientBuilder, Locator};
 use palette_browser::{
     BrowserAction, BrowserDriver, BrowserEngine, BrowserError, Grounding, Observation, StepOutcome,
     StepStatus, UrlPolicy,
 };
-use fantoccini::error::CmdError;
-use fantoccini::{Client, ClientBuilder, Locator};
 
 /// Default WebDriver endpoint (matches `safaridriver` / `chromedriver --port 4444`).
 pub const DEFAULT_WEBDRIVER_URL: &str = "http://localhost:4444";

@@ -1,4 +1,5 @@
 use async_trait::async_trait;
+use chrono::DateTime;
 use palette_core::{
     Clock, EnvironmentId, IdempotencyKey, Money, OrganizationId, Page, PageRequest, ProjectId,
     SystemClock, TenantId, Timestamp, TraceId, sha256_hex,
@@ -12,7 +13,6 @@ use palette_store::{
     QuotaLimiter, QuotaReservationRequest, RoleBinding, RunAggregateRow, StoreError, StoreResult,
     TraceStore, finalize_run_aggregates, lock_poisoned,
 };
-use chrono::DateTime;
 use rusqlite::{Connection, OptionalExtension, TransactionBehavior, params};
 use std::collections::BTreeSet;
 use std::fs;
@@ -1437,6 +1437,7 @@ fn parse_kinds(value: &serde_json::Value) -> StoreResult<BTreeSet<AgentSpanKind>
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::{TimeZone, Utc};
     use palette_core::FixedClock;
     use palette_store_conformance::{
         assert_metadata_store_conformance, assert_quota_limiter_concurrency_conformance,
@@ -1445,7 +1446,6 @@ mod tests {
         assert_span_pagination_tenant_wide_tiebreak, assert_trace_store_conformance,
     };
     use palette_store_memory::{InMemoryMetadataStore, InMemoryQuotaLimiter, InMemoryTraceStore};
-    use chrono::{TimeZone, Utc};
 
     #[test]
     fn local_sqlite_migration_executes_and_is_idempotent() {

@@ -632,8 +632,8 @@ fn kill_scope_target(scope: &KillScope) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use palette_core::{Clock, FixedClock};
     use chrono::{TimeZone, Utc};
+    use palette_core::{Clock, FixedClock};
 
     fn ts(secs: i64) -> Timestamp {
         Utc.timestamp_opt(secs, 0)

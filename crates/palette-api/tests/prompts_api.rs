@@ -8,13 +8,13 @@ use std::sync::Arc;
 
 use axum::Router;
 use axum::body::{Body, to_bytes};
+use http::{Request, StatusCode};
 use palette_api::{ApiState, router};
 use palette_bus::InMemoryBus;
 use palette_ingest::{IngestPolicy, IngestService};
 use palette_prompts::InMemoryPromptRegistry;
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
-use http::{Request, StatusCode};
 use serde_json::{Value, json};
 use tower::ServiceExt;
 

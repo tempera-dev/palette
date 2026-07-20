@@ -1,10 +1,10 @@
 pub mod reproject;
 
 use anyhow::{Context, anyhow};
+use chrono::Utc;
 use palette_core::{ProjectId, Sha256Hash, SpanId, TenantId, Timestamp, TraceId, sha256_json_hash};
 use palette_schema::{CanonicalSpan, ReplayCassette, SpanStatus};
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -856,9 +856,9 @@ pub fn attribute_failure(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Utc;
     use palette_core::{EnvironmentId, ProjectId, TenantId};
     use palette_schema::{AgentSpanKind, CANONICAL_SCHEMA_VERSION};
-    use chrono::Utc;
     use serde_json::json;
     use std::collections::BTreeMap;
 

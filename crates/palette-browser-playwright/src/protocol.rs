@@ -344,7 +344,10 @@ mod tests {
         assert_eq!(outcome.status, StepStatus::Ok);
         assert!(outcome.grounding.selector_existed);
         assert!(outcome.grounding.matched_element);
-        assert_eq!(outcome.grounding.selector.as_deref(), Some("#palette-known"));
+        assert_eq!(
+            outcome.grounding.selector.as_deref(),
+            Some("#palette-known")
+        );
         assert_eq!(outcome.observation.url, "http://localhost/");
         assert!(outcome.error.is_none());
     }

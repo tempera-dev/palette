@@ -8,6 +8,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::Arc;
 
+use chrono::{TimeZone, Utc};
 use palette_archive::{OrphanedArtifactSweeper, SweepConfig};
 use palette_core::{EnvironmentId, IdempotencyKey, ProjectId, SpanId, TenantId, TraceId};
 use palette_schema::{
@@ -18,7 +19,6 @@ use palette_schema::{
 use palette_store::{ArtifactStore, TraceStore};
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
-use chrono::{TimeZone, Utc};
 use serde_json::json;
 
 #[tokio::test]

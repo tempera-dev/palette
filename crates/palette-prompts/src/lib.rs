@@ -530,8 +530,8 @@ fn diff_lines(old: &str, new: &str) -> Vec<DiffLine> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use palette_core::FixedClock;
     use chrono::{TimeZone, Utc};
+    use palette_core::FixedClock;
 
     fn tenant(value: &str) -> TenantId {
         TenantId::new(value).unwrap_or_else(|err| panic!("{err}"))

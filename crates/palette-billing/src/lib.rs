@@ -733,8 +733,8 @@ fn new_adjustment_id() -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use palette_core::{ProjectId, TenantId};
     use chrono::{TimeZone, Utc};
+    use palette_core::{ProjectId, TenantId};
 
     fn org() -> Result<OrganizationId, BillingError> {
         OrganizationId::new("org-1").map_err(|e| BillingError::Backend(e.to_string()))

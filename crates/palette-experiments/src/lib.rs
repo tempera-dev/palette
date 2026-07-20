@@ -2,6 +2,7 @@ pub mod rsi;
 
 use anyhow::{Context, anyhow};
 use async_trait::async_trait;
+use chrono::Utc;
 use palette_core::{
     AgentReleaseId, DatasetCaseId, DatasetId, DatasetVersionId, EvaluatorVersionId,
     ExperimentRunId, JudgeCallId, Money, ProjectId, ProviderSecretId, TenantId, Timestamp,
@@ -21,7 +22,6 @@ use palette_stats::{
     GapAssessment, assess_generalization_gap, benjamini_hochberg, hoeffding_race, holm_bonferroni,
 };
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;

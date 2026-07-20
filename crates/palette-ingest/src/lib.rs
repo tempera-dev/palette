@@ -1,3 +1,4 @@
+use chrono::{DateTime, Duration, TimeZone, Utc};
 use palette_bus::{BusError, BusMessage, DeadLetter, DurableBus, PublishAck};
 use palette_core::{
     Clock, EnvironmentId, IdempotencyKey, Money, ProjectId, Sha256Hash, SpanId, SystemClock,
@@ -10,7 +11,6 @@ use palette_schema::{
 };
 use palette_store::{ArtifactStore, QuotaLimiter, QuotaReservationRequest, StoreError, TraceStore};
 use palette_store_memory::InMemoryQuotaLimiter;
-use chrono::{DateTime, Duration, TimeZone, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
@@ -2191,13 +2191,13 @@ pub async fn smoke_trace(service: &IngestService) -> Result<IngestOutcome, Inges
 mod tests {
     use super::*;
     use async_trait::async_trait;
+    use chrono::TimeZone;
     use palette_bus::{BusError, DurableBus, InMemoryBus, PublishAck, SqliteDurableBus};
     use palette_core::FixedClock;
     use palette_core::{Page, PageRequest};
     use palette_schema::{RunFilter, RunSummary, SpanFilter, SpanSummary, TraceView};
     use palette_store_obj::FsArtifactStore;
     use palette_store_sql::{SqliteQuotaLimiter, SqliteTraceStore};
-    use chrono::TimeZone;
     use std::sync::atomic::{AtomicUsize, Ordering};
 
     struct FailInitialPublishBus {

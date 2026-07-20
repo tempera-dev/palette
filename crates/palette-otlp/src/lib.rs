@@ -20,17 +20,6 @@
 //! The `standards_projection_is_lossy_and_requires_raw_artifact` test pins this
 //! invariant.
 
-use palette_core::{
-    Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId, TenantScope,
-    Timestamp, TokenCounts, TraceId, lower_hex,
-};
-use palette_ingest::{
-    CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest, RawTraceIngestRequest,
-    anonymous_auth_context,
-};
-use palette_schema::{
-    AgentSpanKind, AuthContext, CanonicalAttrs, ModelRef, RedactionClass, SourceDialect, SpanStatus,
-};
 use chrono::{TimeZone, Utc};
 use opentelemetry_proto::tonic::collector::trace::v1::{
     ExportTraceServiceRequest, ExportTraceServiceResponse, trace_service_server::TraceService,
@@ -41,6 +30,17 @@ use opentelemetry_proto::tonic::common::v1::{
 use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
     ResourceSpans, ScopeSpans, Span, Status as OtlpStatus, span,
+};
+use palette_core::{
+    Currency, EnvironmentId, IdempotencyKey, Money, ProjectId, SpanId, TenantId, TenantScope,
+    Timestamp, TokenCounts, TraceId, lower_hex,
+};
+use palette_ingest::{
+    CanonicalSpanDraft, IngestError, IngestService, NativeIngestRequest, RawTraceIngestRequest,
+    anonymous_auth_context,
+};
+use palette_schema::{
+    AgentSpanKind, AuthContext, CanonicalAttrs, ModelRef, RedactionClass, SourceDialect, SpanStatus,
 };
 use prost::Message;
 use serde_json::{Map, Value, json};
@@ -1251,14 +1251,14 @@ fn timestamp_to_unix_nano(timestamp: &Timestamp) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use opentelemetry_proto::tonic::common::v1::{AnyValue, KeyValue, any_value};
+    use opentelemetry_proto::tonic::resource::v1::Resource;
+    use opentelemetry_proto::tonic::trace::v1::{ResourceSpans, ScopeSpans, Span, Status, status};
     use palette_bus::{DurableBus, InMemoryBus};
     use palette_core::{EnvironmentId, ProjectId, TenantId};
     use palette_ingest::{IngestPolicy, TRACE_WRITE_BATCH_KIND};
     use palette_store_obj::FsArtifactStore;
     use palette_store_sql::SqliteTraceStore;
-    use opentelemetry_proto::tonic::common::v1::{AnyValue, KeyValue, any_value};
-    use opentelemetry_proto::tonic::resource::v1::Resource;
-    use opentelemetry_proto::tonic::trace::v1::{ResourceSpans, ScopeSpans, Span, Status, status};
     use std::collections::{BTreeMap, BTreeSet};
     use std::sync::Arc;
 

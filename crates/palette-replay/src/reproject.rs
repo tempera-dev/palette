@@ -191,6 +191,7 @@ pub enum ReprojectError {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Utc;
     use palette_core::{
         ArtifactId, EnvironmentId, IdempotencyKey, ProjectId, Sha256Hash, SpanId, TenantId,
     };
@@ -198,7 +199,6 @@ mod tests {
         ArtifactRef, AuthContext, CANONICAL_SCHEMA_VERSION, RAW_SCHEMA_VERSION, RedactionClass,
         SourceDialect,
     };
-    use chrono::Utc;
     use serde_json::json;
     use std::collections::BTreeSet;
 

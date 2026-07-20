@@ -6,6 +6,7 @@ pub use split::{
 
 use anyhow::{Context, anyhow};
 use async_trait::async_trait;
+use chrono::Utc;
 use palette_core::{
     AgentReleaseId, CorpusRoot, DatasetCaseId, DatasetId, DatasetVersionId, EnvironmentId,
     EvalResultId, EvaluatorVersionId, MerkleLeaf, ProjectId, PromptVersionId, ProviderSecretId,
@@ -15,7 +16,6 @@ use palette_eval::{EvaluationCase, EvaluatorSpec, ScoreResult, evaluate_determin
 use palette_judge::{JudgeBroker, JudgeBrokerOutcome, JudgeBrokerRequest};
 use palette_schema::{CanonicalSpan, EvalReproducibility, EvalResult, TraceView};
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;

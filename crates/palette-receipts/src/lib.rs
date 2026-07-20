@@ -460,8 +460,8 @@ impl ReceiptFilter {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use palette_core::{EnvironmentId, FixedClock, ProjectId, TenantId};
     use chrono::TimeZone;
+    use palette_core::{EnvironmentId, FixedClock, ProjectId, TenantId};
 
     fn clock() -> FixedClock {
         FixedClock::new(

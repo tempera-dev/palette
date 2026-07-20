@@ -1,5 +1,6 @@
 use anyhow::{Context, anyhow};
 use async_trait::async_trait;
+use chrono::Utc;
 use palette_core::{
     CalibrationReportId, DatasetCaseId, DatasetId, DatasetVersionId, EvaluatorVersionId, ProjectId,
     TenantId, Timestamp,
@@ -7,7 +8,6 @@ use palette_core::{
 use palette_datasets::{DatasetEvalReport, DatasetVersionSnapshot};
 use palette_schema::EvalResult;
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -367,9 +367,12 @@ pub fn calibrate_eval_report(
     // bootstrap interval for kappa. A calibration verdict over a small
     // human-labelled sample without a width is exactly the kind of
     // point-estimate over-reading the report exists to prevent.
-    let agreement_ci =
-        palette_stats::wilson_interval(agreed_count as u64, sample_count as u64, palette_stats::Z_95)
-            .map_err(|err| anyhow!("agreement interval: {err}"))?;
+    let agreement_ci = palette_stats::wilson_interval(
+        agreed_count as u64,
+        sample_count as u64,
+        palette_stats::Z_95,
+    )
+    .map_err(|err| anyhow!("agreement interval: {err}"))?;
     let kappa_ci = palette_stats::cohen_kappa_ci(
         agreement_counts(&confusion),
         0.05,
