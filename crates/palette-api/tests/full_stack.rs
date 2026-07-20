@@ -610,10 +610,9 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         judge_result.reproducibility.judge_model_id.as_deref(),
         Some("judge-model")
     );
-    assert_eq!(
-        judge_result.reproducibility.judge_provider.as_deref(),
-        Some("openai")
-    );
+    // Backing-provider identity is internal and must stay redacted from this
+    // client-reachable reproducibility record.
+    assert_eq!(judge_result.reproducibility.judge_provider, None);
     assert!(judge_result.reproducibility.wasi_abi_version.is_none());
     assert_eq!(
         judge_result.reproducibility.judge_parameters["cached"],
