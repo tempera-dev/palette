@@ -1213,7 +1213,7 @@ fn gate2_outside_readiness_rejects_extra_unprofiled_service() {
 
     assert_failure(
         output,
-        "docker-compose.prebuilt.yml default services must be exactly ['paletted', 'dashboard']",
+        "docker-compose.prebuilt.yml default services must be exactly ['dashboard', 'paletted']",
     );
 }
 
