@@ -4,6 +4,7 @@
 //!   push to (mock) Stripe idempotently -> deliver the same webhook twice ->
 //!   assert state changed exactly once.
 
+use chrono::{Duration, Utc};
 use palette_billing::store::BillingStore;
 use palette_billing::stripe::{
     EventApplication, StripeClient, StripeError, StripeSync, StripeUsagePush,
@@ -17,7 +18,6 @@ use palette_security::sign_webhook;
 use palette_usage::{
     SqliteUsageLedger, UsageLedgerStore, UsageMeter, UsageRecordInsert, UsageRecordSourceKind,
 };
-use chrono::{Duration, Utc};
 use std::collections::{BTreeMap, HashSet};
 use std::sync::{Arc, Mutex};
 

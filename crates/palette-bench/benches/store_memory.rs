@@ -5,12 +5,12 @@
 //! compiles quickly in CI while proving the future p95/SLO harness has a real
 //! `TraceStore` target.
 
+use criterion::{BatchSize, Criterion, Throughput, black_box, criterion_group, criterion_main};
 use palette_bench::{SpanFixtureConfig, canonical_trace_batch};
 use palette_core::PageRequest;
 use palette_schema::SpanFilter;
 use palette_store::TraceStore;
 use palette_store_memory::InMemoryTraceStore;
-use criterion::{BatchSize, Criterion, Throughput, black_box, criterion_group, criterion_main};
 use tokio::runtime::Runtime;
 
 const SPAN_COUNT: usize = 1_000;

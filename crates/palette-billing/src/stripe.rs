@@ -21,9 +21,9 @@
 
 use crate::{AdjustmentKind, BillingAdjustment, BillingStore, InvoiceStatus, SubscriptionStatus};
 use async_trait::async_trait;
+use chrono::Duration;
 use palette_core::{Clock, Money, OrganizationId, SystemClock};
 use palette_security::SecurityError;
-use chrono::Duration;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -312,9 +312,9 @@ impl<C: Clock> StripeSync<C> {
 mod tests {
     use super::*;
     use crate::SqliteBillingStore;
+    use chrono::{TimeZone, Utc};
     use palette_core::FixedClock;
     use palette_security::sign_webhook;
-    use chrono::{TimeZone, Utc};
     use std::collections::HashSet;
     use std::sync::Mutex;
 

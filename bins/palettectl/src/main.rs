@@ -1,4 +1,14 @@
 use anyhow::Context;
+use chrono::Utc;
+use clap::{Parser, Subcommand, ValueEnum};
+use opentelemetry_proto::tonic::collector::trace::v1::{
+    ExportTraceServiceRequest, trace_service_client::TraceServiceClient,
+};
+use opentelemetry_proto::tonic::common::v1::{AnyValue, InstrumentationScope, KeyValue, any_value};
+use opentelemetry_proto::tonic::resource::v1::Resource;
+use opentelemetry_proto::tonic::trace::v1::{
+    ResourceSpans, ScopeSpans, Span, Status, span, status,
+};
 use palette_alerts::{
     AlertEngine, AlertInput, AlertLinks, AlertPolicy, AlertSeverity, OnlineSamplingPolicy,
     decide_trace_sampling,
@@ -65,16 +75,6 @@ use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
 use palette_usage::{
     SqliteUsageLedger, UsageLedgerStore, UsageMeter, judge_usage_from_outcome, record_usage_batch,
-};
-use chrono::Utc;
-use clap::{Parser, Subcommand, ValueEnum};
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, trace_service_client::TraceServiceClient,
-};
-use opentelemetry_proto::tonic::common::v1::{AnyValue, InstrumentationScope, KeyValue, any_value};
-use opentelemetry_proto::tonic::resource::v1::Resource;
-use opentelemetry_proto::tonic::trace::v1::{
-    ResourceSpans, ScopeSpans, Span, Status, span, status,
 };
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};

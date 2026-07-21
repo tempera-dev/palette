@@ -2,6 +2,7 @@ mod metrics;
 mod metrics_http;
 
 use anyhow::Context;
+use clap::{Parser, Subcommand, ValueEnum};
 use palette_accounts::SqliteAccountStore;
 use palette_api::{ApiState, HttpCentralTokenIntrospector, HttpControlPlaneUsageReporter, router};
 use palette_archive::ParquetTraceArchive;
@@ -40,7 +41,6 @@ use palette_store_sql::{
     SqliteMetadataStore, SqliteQuotaLimiter, SqliteTraceStore, migrate_local_paletted_sqlite,
 };
 use palette_usage::SqliteUsageLedger;
-use clap::{Parser, Subcommand, ValueEnum};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use serde_json::json;
@@ -1278,9 +1278,9 @@ mod artifact_cap_tests {
 #[cfg(test)]
 mod queue_stats_tests {
     use super::*;
+    use chrono::{Duration as ChronoDuration, Utc};
     use palette_bus::BusMessage;
     use palette_core::{IdempotencyKey, ProjectId, TenantId};
-    use chrono::{Duration as ChronoDuration, Utc};
 
     fn dead_letter_for(
         tenant: &str,

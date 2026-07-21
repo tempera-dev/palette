@@ -14,6 +14,7 @@
 //! run's triples into the `{"browser_steps": [...]}` shape the browser
 //! evaluators in `palette-eval` read.
 
+use chrono::{Duration, Utc};
 use palette_browser::{
     BrowserAction, BrowserDriver, LlmDecision, Observation, StepStatus, StepTriple, semconv,
 };
@@ -26,7 +27,6 @@ use palette_schema::{
     SpanStatus,
 };
 use palette_store::ArtifactStore;
-use chrono::{Duration, Utc};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
 

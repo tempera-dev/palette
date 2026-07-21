@@ -1,6 +1,9 @@
 use async_trait::async_trait;
 use axum::Router;
 use axum::body::{Body, to_bytes};
+use chrono::{Duration, TimeZone, Utc};
+use http::header::RETRY_AFTER;
+use http::{Request, StatusCode};
 use palette_alerts::{AlertDecision, SamplingDecision, SamplingReason};
 use palette_api::{ApiState, router};
 use palette_archive::{ArchiveManifest, ParquetTraceArchive};
@@ -47,9 +50,6 @@ use palette_store_memory::InMemoryMetadataStore;
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::{SqliteQuotaLimiter, SqliteTraceStore};
 use palette_usage::{SqliteUsageLedger, UsageMeter, UsageSummary};
-use chrono::{Duration, TimeZone, Utc};
-use http::header::RETRY_AFTER;
-use http::{Request, StatusCode};
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -610,10 +610,9 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         judge_result.reproducibility.judge_model_id.as_deref(),
         Some("judge-model")
     );
-    assert_eq!(
-        judge_result.reproducibility.judge_provider.as_deref(),
-        Some("openai")
-    );
+    // Backing-provider identity is internal and must stay redacted from this
+    // client-reachable reproducibility record.
+    assert_eq!(judge_result.reproducibility.judge_provider, None);
     assert!(judge_result.reproducibility.wasi_abi_version.is_none());
     assert_eq!(
         judge_result.reproducibility.judge_parameters["cached"],

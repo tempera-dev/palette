@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use axum::body::{Body, to_bytes};
+use http::{Request, StatusCode};
 use palette_api::{ApiState, router};
 use palette_bus::InMemoryBus;
 use palette_core::{TenantId, TraceId};
@@ -9,7 +10,6 @@ use palette_schema::{AgentSpanKind, SpanStatus, TraceView};
 use palette_store::TraceStore;
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
-use http::{Request, StatusCode};
 use serde_json::json;
 use tower::ServiceExt;
 

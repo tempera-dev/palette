@@ -1,9 +1,4 @@
 use axum::{Json, Router, extract::State, http::StatusCode, routing::post};
-use palette_core::{ProjectId, TenantId, TraceId, lower_hex};
-use palette_otlp::encode_export_trace_request;
-use palette_schema::{CanonicalTraceBatch, TraceView, WriteAck};
-use palette_store::{StoreError, TraceStore};
-use palette_store_sql::SqliteTraceStore;
 use opentelemetry_proto::tonic::collector::trace::v1::{
     ExportTraceServiceRequest, trace_service_client::TraceServiceClient,
 };
@@ -12,6 +7,11 @@ use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
     ResourceSpans, ScopeSpans, Span, Status, span, status,
 };
+use palette_core::{ProjectId, TenantId, TraceId, lower_hex};
+use palette_otlp::encode_export_trace_request;
+use palette_schema::{CanonicalTraceBatch, TraceView, WriteAck};
+use palette_store::{StoreError, TraceStore};
+use palette_store_sql::SqliteTraceStore;
 use serde::Deserialize;
 use std::net::{SocketAddr, TcpListener};
 use std::path::{Path, PathBuf};

@@ -10,8 +10,8 @@ use std::path::Path;
 use std::sync::{Arc, Mutex, MutexGuard};
 
 use anyhow::{Context, anyhow};
-use palette_core::{Clock, ProjectId, PromptId, PromptVersionId, SystemClock, TenantId, Timestamp};
 use chrono::{DateTime, Utc};
+use palette_core::{Clock, ProjectId, PromptId, PromptVersionId, SystemClock, TenantId, Timestamp};
 use rusqlite::{Connection, OptionalExtension, Row, params};
 
 use crate::{
@@ -482,8 +482,8 @@ impl PromptRegistry for SqlitePromptRegistry {
 mod tests {
     use super::*;
     use crate::PromptVariable;
-    use palette_core::FixedClock;
     use chrono::TimeZone;
+    use palette_core::FixedClock;
 
     fn tenant(value: &str) -> TenantId {
         TenantId::new(value).unwrap_or_else(|err| panic!("{err}"))

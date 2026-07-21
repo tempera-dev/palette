@@ -19,9 +19,9 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+use chrono::Utc;
 use palette_core::{AgentId, SpanId, TraceId};
 use palette_schema::{ArtifactRef, RedactionClass};
-use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 

@@ -16,15 +16,15 @@
 
 use std::time::Duration;
 
-use palette_browser::{
-    BrowserAction, BrowserDriver, BrowserEngine, BrowserError, Grounding, Observation, StepOutcome,
-    StepStatus, UrlPolicy,
-};
 use chromiumoxide::browser::{Browser, BrowserConfig, HeadlessMode};
 use chromiumoxide::cdp::browser_protocol::page::CaptureScreenshotFormat;
 use chromiumoxide::error::CdpError;
 use chromiumoxide::page::{Page, ScreenshotParams};
 use futures::StreamExt;
+use palette_browser::{
+    BrowserAction, BrowserDriver, BrowserEngine, BrowserError, Grounding, Observation, StepOutcome,
+    StepStatus, UrlPolicy,
+};
 use tokio::task::JoinHandle;
 
 /// Map a [`chromiumoxide`] error to the crate's transport-level error type.

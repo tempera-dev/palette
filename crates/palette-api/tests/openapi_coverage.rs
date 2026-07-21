@@ -27,8 +27,8 @@ use palette_usage::SqliteUsageLedger;
 
 use axum::Router;
 use axum::body::{Body, to_bytes};
-use palette_archive::ParquetTraceArchive;
 use http::{Request, StatusCode};
+use palette_archive::ParquetTraceArchive;
 use tower::ServiceExt;
 
 fn unwrap<T, E: std::fmt::Display>(result: Result<T, E>) -> T {
