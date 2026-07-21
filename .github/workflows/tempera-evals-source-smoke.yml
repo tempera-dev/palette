@@ -29,14 +29,14 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           repository: tempera-dev/tempera-evals
-          ref: fc392baed97b6cfb9b03d69c21288aac4ae614b1
+          ref: 726f178f52bb924fbda0f14a4b83eff1100b1d4c
           path: .tempera-evals-source
           fetch-depth: 0
           token: ${{ steps.contract-reader.outputs.token }}
 
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          ref: 8cb7a9409f671bc0baa2ce2b80a72a3efbef9ee3
+          ref: fe9227c4a1162fd079a3ee9ac0355666eae5d856
           path: .palette-pinned-source
           fetch-depth: 0
 
