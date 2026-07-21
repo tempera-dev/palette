@@ -1,0 +1,104 @@
+name: Tempera Evals source smoke
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-source-handoff:
+    name: exact-source Evals handoff
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Mint private contract reader token
+        id: contract-reader
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.TEMPERA_CONTRACT_READER_CLIENT_ID }}
+          private-key: ${{ secrets.TEMPERA_CONTRACT_READER_PRIVATE_KEY }}
+          owner: tempera-dev
+          repositories: tempera-evals
+
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: tempera-dev/tempera-evals
+          ref: fc392baed97b6cfb9b03d69c21288aac4ae614b1
+          path: .tempera-evals-source
+          fetch-depth: 0
+          token: ${{ steps.contract-reader.outputs.token }}
+
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: 8cb7a9409f671bc0baa2ce2b80a72a3efbef9ee3
+          path: .palette-pinned-source
+          fetch-depth: 0
+
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: .tempera-evals-source/pyproject.toml
+
+      - name: Build an ephemeral exact-source signed handoff
+        working-directory: .tempera-evals-source
+        env:
+          TEMPERA_EVALS_HANDOFF: ${{ runner.temp }}/tempera-evals-handoff.json
+          PALETTE_PINNED_SOURCE: ${{ github.workspace }}/.palette-pinned-source
+        run: |
+          python -m pip install -e .
+          PYTHONPATH=src:tests python - <<'PY'
+          import json
+          import os
+          import shutil
+          import subprocess
+          import tempfile
+          from pathlib import Path
+
+          from tempera_evals import palette_handoff
+          from tempera_evals.models import canonical_jcs
+          from test_result_bundle import ResultBundleTests
+
+          output = Path(os.environ["TEMPERA_EVALS_HANDOFF"])
+          pinned_source = Path(os.environ["PALETTE_PINNED_SOURCE"])
+          with tempfile.TemporaryDirectory() as directory:
+              root = Path(directory)
+              helper = ResultBundleTests(methodName="test_signed_bundle_is_official_eligible")
+              fixture = helper._fixture(root)
+              bundle = helper._build(root, fixture)
+              bundle_path = root / "bundle.json"
+              bundle_path.write_text(json.dumps(bundle, sort_keys=True), encoding="utf-8")
+              signature = root / "bundle.sig"
+              message = root / "bundle.canonical.json"
+              message.write_bytes(canonical_jcs(bundle))
+              subprocess.run(
+                  [
+                      shutil.which("openssl"), "pkeyutl", "-sign", "-inkey",
+                      str(fixture["private_key"]), "-rawin", "-in", str(message),
+                      "-out", str(signature),
+                  ],
+                  check=True,
+              )
+              handoff = palette_handoff.build_palette_evidence_handoff(
+                  bundle_path,
+                  kind="result_bundle",
+                  signature_path=signature,
+                  public_key_path=fixture["public_key"],
+                  tenant_id="tenant.alpha",
+                  project_id="project.coding",
+                  palette_openapi_path=pinned_source / palette_handoff.PALETTE_OPENAPI_PATH,
+                  palette_source_checkout_path=pinned_source,
+              )
+              output.write_text(json.dumps(handoff, sort_keys=True), encoding="utf-8")
+          PY
+
+      - name: Accept and replay the exact-source handoff through Palette
+        env:
+          TEMPERA_EVALS_HANDOFF: ${{ runner.temp }}/tempera-evals-handoff.json
+        run: cargo test -p palette-api --test tempera_evals_source_smoke
