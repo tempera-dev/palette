@@ -4940,6 +4940,26 @@ async fn validate_tempera_decision_arm_bundles(
             .ok_or_else(|| {
                 ApiError::internal(format!("retained {arm} metric sample count is invalid"))
             })?;
+        let observed_estimate = observation
+            .get("value")
+            .and_then(serde_json::Value::as_f64)
+            .filter(|value| value.is_finite())
+            .ok_or_else(|| {
+                ApiError::internal(format!("retained {arm} metric estimate is invalid"))
+            })?;
+        let declared_estimate = analysis
+            .get(format!("{arm}_estimate"))
+            .and_then(serde_json::Value::as_f64)
+            .filter(|value| value.is_finite())
+            .ok_or_else(|| {
+                ApiError::bad_request(format!("A/B decision {arm}_estimate is invalid"))
+            })?;
+        let tolerance = 1e-12 * (1.0 + observed_estimate.abs().max(declared_estimate.abs()));
+        if (observed_estimate - declared_estimate).abs() > tolerance {
+            return Err(ApiError::bad_request(format!(
+                "A/B decision {arm}_estimate differs from its imported result bundle"
+            )));
+        }
         if paired_count > sample_count {
             return Err(ApiError::bad_request(format!(
                 "A/B decision paired_case_count exceeds the {arm} metric sample count"
@@ -5138,7 +5158,11 @@ fn validate_tempera_metric_observations(
             .ok_or_else(|| {
                 ApiError::bad_request(format!("metric {name} error_count is invalid"))
             })?;
-        if sample_count + missing_count + error_count != case_count {
+        if sample_count
+            .checked_add(missing_count)
+            .and_then(|count| count.checked_add(error_count))
+            != Some(case_count)
+        {
             return Err(ApiError::bad_request(format!(
                 "metric {name} counts differ from the result population"
             )));
@@ -5179,10 +5203,14 @@ fn validate_tempera_result_bundle_contract(value: &serde_json::Value) -> Result<
         ],
         "$",
     )?;
+    chrono::DateTime::parse_from_rfc3339(json_string(value, "created_at")?).map_err(|_| {
+        ApiError::bad_request("result bundle created_at must be RFC 3339".to_string())
+    })?;
     let plan = value
         .get("plan")
         .ok_or_else(|| ApiError::bad_request("result bundle requires plan".to_string()))?;
     require_exact_tempera_fields(plan, &["id", "sha256", "official_ready"], "$.plan")?;
+    json_string(plan, "id")?;
     require_tempera_digest(plan, "sha256")?;
     if plan
         .get("official_ready")
@@ -5215,6 +5243,14 @@ fn validate_tempera_result_bundle_contract(value: &serde_json::Value) -> Result<
         ));
     }
     require_tempera_digest(result, "sha256")?;
+    json_string(result, "run_id")?;
+    let suite = result
+        .get("suite")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires suite".to_string()))?;
+    require_exact_tempera_fields(suite, &["id", "version", "split"], "$.result.suite")?;
+    for field in ["id", "version", "split"] {
+        json_string(suite, field)?;
+    }
     let population = result
         .get("population")
         .ok_or_else(|| ApiError::bad_request("result bundle requires population".to_string()))?;
@@ -5255,12 +5291,28 @@ fn validate_tempera_result_bundle_contract(value: &serde_json::Value) -> Result<
         .ok_or_else(|| {
             ApiError::bad_request("result population error_count is invalid".to_string())
         })?;
-    if completed + missing + errors != case_count {
+    if completed
+        .checked_add(missing)
+        .and_then(|count| count.checked_add(errors))
+        != Some(case_count)
+    {
         return Err(ApiError::bad_request(
             "result population counts are inconsistent".to_string(),
         ));
     }
     validate_tempera_metric_observations(result, case_count)?;
+    let adapter = result
+        .get("adapter")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires adapter".to_string()))?;
+    require_exact_tempera_fields(
+        adapter,
+        &["id", "version", "descriptor_sha256", "source_revision"],
+        "$.result.adapter",
+    )?;
+    for field in ["id", "version", "source_revision"] {
+        json_string(adapter, field)?;
+    }
+    require_tempera_digest(adapter, "descriptor_sha256")?;
     let evidence = value
         .get("evidence")
         .ok_or_else(|| ApiError::bad_request("result bundle requires evidence".to_string()))?;
@@ -5276,15 +5328,40 @@ fn validate_tempera_result_bundle_contract(value: &serde_json::Value) -> Result<
         ],
         "$.evidence",
     )?;
-    let adapter_import = evidence.get("adapter_import").ok_or_else(|| {
-        ApiError::bad_request("result bundle requires signed adapter import receipt".to_string())
-    })?;
-    require_exact_tempera_fields(
-        adapter_import,
-        &["sha256", "details"],
-        "$.evidence.adapter_import",
-    )?;
-    require_tempera_digest(adapter_import, "sha256")?;
+    for name in [
+        "adapter_import",
+        "release",
+        "exposure",
+        "redaction",
+        "guardrails",
+        "preregistration",
+    ] {
+        let receipt = evidence.get(name).ok_or_else(|| {
+            ApiError::bad_request(format!("result bundle requires {name} evidence receipt"))
+        })?;
+        require_exact_tempera_fields(
+            receipt,
+            &["sha256", "details"],
+            &format!("$.evidence.{name}"),
+        )?;
+        require_tempera_digest(receipt, "sha256")?;
+        if !receipt
+            .get("details")
+            .is_some_and(serde_json::Value::is_object)
+        {
+            return Err(ApiError::bad_request(format!(
+                "result bundle evidence {name} details must be an object"
+            )));
+        }
+    }
+    let adapter_import = evidence
+        .get("adapter_import")
+        .unwrap_or_else(|| unreachable!("adapter import receipt checked above"));
+    if adapter_import.get("sha256") != result.get("sha256") {
+        return Err(ApiError::bad_request(
+            "result bundle adapter import receipt differs from result.sha256".to_string(),
+        ));
+    }
     let details = adapter_import.get("details").ok_or_else(|| {
         ApiError::bad_request("adapter import receipt requires signature details".to_string())
     })?;
@@ -5304,6 +5381,124 @@ fn validate_tempera_result_bundle_contract(value: &serde_json::Value) -> Result<
     ] {
         require_tempera_digest(details, field)?;
     }
+
+    let artifacts = value
+        .get("artifacts")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| {
+            ApiError::bad_request("result bundle artifacts must be an array".to_string())
+        })?;
+    let mut artifact_names = BTreeSet::new();
+    for (index, artifact) in artifacts.iter().enumerate() {
+        require_exact_tempera_fields(
+            artifact,
+            &["name", "sha256", "size_bytes", "classification", "owner"],
+            &format!("$.artifacts[{index}]"),
+        )?;
+        let name = json_string(artifact, "name")?;
+        validate_external_evidence_id(name)?;
+        if !artifact_names.insert(name) {
+            return Err(ApiError::bad_request(
+                "result bundle artifact names must be unique".to_string(),
+            ));
+        }
+        require_tempera_digest(artifact, "sha256")?;
+        if artifact
+            .get("size_bytes")
+            .and_then(serde_json::Value::as_u64)
+            .is_none()
+        {
+            return Err(ApiError::bad_request(format!(
+                "result bundle artifact {name} size_bytes is invalid"
+            )));
+        }
+        if !matches!(
+            json_string(artifact, "classification")?,
+            "public" | "internal" | "sealed_reference"
+        ) {
+            return Err(ApiError::bad_request(format!(
+                "result bundle artifact {name} classification is invalid"
+            )));
+        }
+        json_string(artifact, "owner")?;
+    }
+
+    let claim = value
+        .get("claim")
+        .ok_or_else(|| ApiError::bad_request("result bundle requires claim".to_string()))?;
+    require_exact_tempera_fields(
+        claim,
+        &["level", "ready_for_signature", "limitations"],
+        "$.claim",
+    )?;
+    if !matches!(
+        json_string(claim, "level")?,
+        "protocol_only" | "diagnostic" | "capability" | "security"
+    ) {
+        return Err(ApiError::bad_request(
+            "result bundle claim level is invalid".to_string(),
+        ));
+    }
+    let ready = claim
+        .get("ready_for_signature")
+        .and_then(serde_json::Value::as_bool)
+        .ok_or_else(|| {
+            ApiError::bad_request("result bundle readiness must be boolean".to_string())
+        })?;
+    let limitations = claim
+        .get("limitations")
+        .and_then(serde_json::Value::as_array)
+        .filter(|items| {
+            items.iter().all(|item| {
+                item.as_str()
+                    .is_some_and(|limitation| !limitation.is_empty())
+            })
+        })
+        .ok_or_else(|| {
+            ApiError::bad_request("result bundle limitations must be strings".to_string())
+        })?;
+    if ready && (!limitations.is_empty() || missing != 0 || errors != 0) {
+        return Err(ApiError::bad_request(
+            "signature-ready result bundles require complete population evidence without limitations"
+                .to_string(),
+        ));
+    }
+    if ready {
+        let metrics = result
+            .get("metrics")
+            .and_then(serde_json::Value::as_object)
+            .unwrap_or_else(|| unreachable!("metrics checked above"));
+        if metrics.values().any(|observation| {
+            observation
+                .get("missing_count")
+                .and_then(serde_json::Value::as_u64)
+                .unwrap_or(u64::MAX)
+                != 0
+                || observation
+                    .get("error_count")
+                    .and_then(serde_json::Value::as_u64)
+                    .unwrap_or(u64::MAX)
+                    != 0
+        }) {
+            return Err(ApiError::bad_request(
+                "signature-ready result bundles require complete metric evidence".to_string(),
+            ));
+        }
+    }
+
+    let signing = value.get("signing").ok_or_else(|| {
+        ApiError::bad_request("result bundle requires signing policy".to_string())
+    })?;
+    require_exact_tempera_fields(
+        signing,
+        &[
+            "algorithm",
+            "public_key_sha256",
+            "detached_signature_required",
+        ],
+        "$.signing",
+    )?;
+    require_tempera_digest(signing, "public_key_sha256")?;
     Ok(())
 }
 
@@ -5600,6 +5795,19 @@ fn validate_tempera_ab_decision_contract(value: &serde_json::Value) -> Result<()
     ] {
         validate_external_evidence_id(json_string(palette, field)?)?;
     }
+    let signing = value
+        .get("signing")
+        .ok_or_else(|| ApiError::bad_request("A/B decision requires signing policy".to_string()))?;
+    require_exact_tempera_fields(
+        signing,
+        &[
+            "algorithm",
+            "public_key_sha256",
+            "detached_signature_required",
+        ],
+        "$.signing",
+    )?;
+    require_tempera_digest(signing, "public_key_sha256")?;
     Ok(())
 }
 
@@ -7156,7 +7364,7 @@ mod tests {
                 },
                 "evidence": {
                     "adapter_import": {
-                        "sha256": format!("sha256:{}", "6".repeat(64)),
+                        "sha256": result_sha256,
                         "details": {
                             "signed_payload_sha256": format!("sha256:{}", "7".repeat(64)),
                             "signature_sha256": format!("sha256:{}", "8".repeat(64)),
@@ -7357,6 +7565,84 @@ mod tests {
         assert!(error.message.contains("canonical contract"));
 
         let complete_bundle = signed_tempera_bundle();
+        let incomplete_ready = resign_tempera_bundle(&complete_bundle, |value| {
+            value["result"]["population"]["completed_count"] = json!(1);
+            value["result"]["population"]["missing_count"] = json!(1);
+            value["result"]["metrics"]["resolved_rate"]["sample_count"] = json!(1);
+            value["result"]["metrics"]["resolved_rate"]["missing_count"] = json!(1);
+        });
+        let key_digest = format!(
+            "sha256:{}",
+            sha256_hex(incomplete_ready.public_key_pem.as_bytes())
+        );
+        let error = match verify_tempera_evidence(
+            &incomplete_ready,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &BTreeSet::from([key_digest]),
+        ) {
+            Ok(_) => panic!("signature-ready incomplete bundles must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("complete population evidence"));
+
+        let mismatched_adapter_receipt = resign_tempera_bundle(&complete_bundle, |value| {
+            value["evidence"]["adapter_import"]["sha256"] =
+                json!(format!("sha256:{}", "f".repeat(64)));
+        });
+        let key_digest = format!(
+            "sha256:{}",
+            sha256_hex(mismatched_adapter_receipt.public_key_pem.as_bytes())
+        );
+        let error = match verify_tempera_evidence(
+            &mismatched_adapter_receipt,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &BTreeSet::from([key_digest]),
+        ) {
+            Ok(_) => panic!("mismatched adapter import receipts must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("differs from result.sha256"));
+
+        let extra_claim_field = resign_tempera_bundle(&complete_bundle, |value| {
+            value["claim"]["unreviewed_override"] = json!(true);
+        });
+        let key_digest = format!(
+            "sha256:{}",
+            sha256_hex(extra_claim_field.public_key_pem.as_bytes())
+        );
+        let error = match verify_tempera_evidence(
+            &extra_claim_field,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &BTreeSet::from([key_digest]),
+        ) {
+            Ok(_) => panic!("extra claim fields must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.message.contains("canonical contract at $.claim"));
+
+        let overflowed_counts = resign_tempera_bundle(&complete_bundle, |value| {
+            value["result"]["population"]["case_count"] = json!(u64::MAX);
+            value["result"]["population"]["completed_count"] = json!(u64::MAX);
+            value["result"]["population"]["missing_count"] = json!(1);
+        });
+        let key_digest = format!(
+            "sha256:{}",
+            sha256_hex(overflowed_counts.public_key_pem.as_bytes())
+        );
+        let error = match verify_tempera_evidence(
+            &overflowed_counts,
+            ExternalEvalEvidenceKind::ResultBundle,
+            &BTreeSet::from([key_digest]),
+        ) {
+            Ok(_) => panic!("overflowed population counts must fail closed"),
+            Err(error) => error,
+        };
+        assert!(
+            error.message.contains("population"),
+            "unexpected overflow rejection: {}",
+            error.message
+        );
+
         let mut missing_adapter_receipt: serde_json::Value =
             serde_json::from_str(&complete_bundle.canonical_json)
                 .unwrap_or_else(|err| panic!("{err}"));
@@ -7691,6 +7977,34 @@ mod tests {
         .unwrap_or_else(|| panic!("overstated paired sample must fail closed"));
         assert!(error.message.contains("paired_case_count exceeds"));
 
+        let mismatched_estimate = resign_tempera_decision(
+            &signed_tempera_decision_for(
+                &baseline_digest,
+                &baseline_plan,
+                &candidate_digest,
+                &candidate_plan,
+                "candidate_better",
+                json!([]),
+                2,
+            ),
+            |value| {
+                value["analysis"]["baseline_estimate"] = json!(0.4);
+                value["analysis"]["improvement_effect"] = json!(0.2);
+            },
+        );
+        let error = import_tempera_evidence(
+            &state,
+            &HeaderMap::new(),
+            "tenant".to_string(),
+            "project".to_string(),
+            mismatched_estimate,
+            ExternalEvalEvidenceKind::AbDecision,
+        )
+        .await
+        .err()
+        .unwrap_or_else(|| panic!("decision estimates must bind imported arm metrics"));
+        assert!(error.message.contains("baseline_estimate differs"));
+
         let incomplete_candidate = resign_tempera_bundle(
             &signed_tempera_bundle_for(
                 "coding.candidate-incomplete-001",
@@ -7706,8 +8020,7 @@ mod tests {
                 value["result"]["metrics"]["resolved_rate"]["missing_count"] = json!(1);
             },
         );
-        let incomplete_digest = declared_tempera_digest(&incomplete_candidate, "bundle_sha256");
-        let _ = import_tempera_evidence(
+        let error = import_tempera_evidence(
             &state,
             &HeaderMap::new(),
             "tenant".to_string(),
@@ -7716,28 +8029,9 @@ mod tests {
             ExternalEvalEvidenceKind::ResultBundle,
         )
         .await
-        .unwrap_or_else(|err| panic!("{}", err.message));
-        let incomplete_promotion = signed_tempera_decision_for(
-            &baseline_digest,
-            &baseline_plan,
-            &incomplete_digest,
-            &candidate_plan,
-            "candidate_better",
-            json!([]),
-            1,
-        );
-        let error = import_tempera_evidence(
-            &state,
-            &HeaderMap::new(),
-            "tenant".to_string(),
-            "project".to_string(),
-            incomplete_promotion,
-            ExternalEvalEvidenceKind::AbDecision,
-        )
-        .await
         .err()
-        .unwrap_or_else(|| panic!("candidate_better with missing evidence must fail closed"));
-        assert!(error.message.contains("requires complete paired evidence"));
+        .unwrap_or_else(|| panic!("signature-ready incomplete bundle must fail closed"));
+        assert!(error.message.contains("complete population evidence"));
     }
 
     fn introspection_body(value: serde_json::Value) -> IntrospectionResponse {
