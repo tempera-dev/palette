@@ -3,11 +3,11 @@ use arrow_array::{
     Array, ArrayRef, LargeStringArray, RecordBatch, StringArray, StringViewArray, UInt64Array,
 };
 use arrow_schema::{DataType, Field, Schema, SchemaRef};
-use palette_core::{EnvironmentId, ProjectId, SpanId, TenantId, Timestamp, TraceId};
-use palette_schema::{AgentSpanKind, CanonicalSpan, SpanStatus};
 use chrono::Utc;
 use datafusion::dataframe::DataFrame;
 use datafusion::prelude::{ParquetReadOptions, SessionContext, col, lit};
+use palette_core::{EnvironmentId, ProjectId, SpanId, TenantId, Timestamp, TraceId};
+use palette_schema::{AgentSpanKind, CanonicalSpan, SpanStatus};
 use parquet::arrow::ArrowWriter;
 use serde::{Deserialize, Serialize};
 use std::fs;

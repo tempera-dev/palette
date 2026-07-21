@@ -27,6 +27,7 @@ use axum::routing::{get, post};
 use axum::{Json, Router};
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
+use chrono::Utc;
 use palette_accounts::{AccountError, AccountStore, OrgMembership, OrgRole, default_session_ttl};
 use palette_auth::{ApiKeyStore, CreateApiKeyRequest};
 use palette_core::{
@@ -38,7 +39,6 @@ use palette_oauth::{
     OAuthStore, validate_redirect_uri,
 };
 use palette_security::ApiScope;
-use chrono::Utc;
 use percent_encoding::{AsciiSet, CONTROLS, NON_ALPHANUMERIC, utf8_percent_encode};
 use rand_core::{OsRng, RngCore};
 use serde::{Deserialize, Serialize};
@@ -1353,10 +1353,10 @@ mod tests {
     use super::*;
     use axum::body::Body;
     use axum::http::Request;
-    use palette_accounts::SqliteAccountStore;
-    use palette_oauth::{OAuthClient, SqliteOAuthStore};
     use http::header::LOCATION;
     use http::header::SET_COOKIE;
+    use palette_accounts::SqliteAccountStore;
+    use palette_oauth::{OAuthClient, SqliteOAuthStore};
     use tower::ServiceExt;
 
     fn ok<T, E: std::fmt::Debug>(result: std::result::Result<T, E>) -> T {
@@ -2261,8 +2261,14 @@ mod tests {
             palette_accounts::OrgRole::Member,
             &scopes
         ));
-        assert!(role_allows_scopes(palette_accounts::OrgRole::Admin, &scopes));
-        assert!(role_allows_scopes(palette_accounts::OrgRole::Owner, &scopes));
+        assert!(role_allows_scopes(
+            palette_accounts::OrgRole::Admin,
+            &scopes
+        ));
+        assert!(role_allows_scopes(
+            palette_accounts::OrgRole::Owner,
+            &scopes
+        ));
         assert_eq!(
             required_role_for_scope("admin"),
             palette_accounts::OrgRole::Admin

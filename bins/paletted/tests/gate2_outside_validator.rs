@@ -377,7 +377,9 @@ fn gate2_outside_docs_use_fail_fast_clone_command() {
     assert!(runner_card.contains("scripts/generate-gate2-outside-proof.py --print-command"));
     assert!(runner_card.contains("Run `cd ./palette`"));
     assert!(runner_card.contains("From the same `palette/` clone"));
-    assert!(!runner_card.contains("cd ./palette\ngit add docs/demos/gate2-outside-person-proof.md"));
+    assert!(
+        !runner_card.contains("cd ./palette\ngit add docs/demos/gate2-outside-person-proof.md")
+    );
     assert!(runner_card.contains("Replace every"));
     assert!(runner_card.contains("`...` field"));
     assert!(runner_card.contains("fresh quickstart release ID"));

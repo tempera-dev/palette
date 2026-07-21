@@ -1,11 +1,11 @@
 use anyhow::{Context, anyhow};
 use async_trait::async_trait;
+use chrono::Utc;
 use palette_core::{
     ApiKeyId, AuditEventId, EnvironmentId, ProjectId, Sha256Hash, TenantId, Timestamp, TraceId,
     sha256_json_hash,
 };
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;

@@ -142,8 +142,9 @@ impl SqliteBillingStore {
     }
 
     fn init(&self) -> anyhow::Result<()> {
-        let connection = palette_store::lock_poisoned(&self.connection, "sqlite billing connection")
-            .map_err(|err| anyhow::anyhow!(err.to_string()))?;
+        let connection =
+            palette_store::lock_poisoned(&self.connection, "sqlite billing connection")
+                .map_err(|err| anyhow::anyhow!(err.to_string()))?;
         connection.execute_batch(
             r#"
             PRAGMA journal_mode = WAL;
@@ -705,8 +706,8 @@ pub fn adjustment_kind_str(kind: AdjustmentKind) -> &'static str {
 mod tests {
     use super::*;
     use crate::{InvoiceLineItem, PlanTier};
-    use palette_core::Money;
     use chrono::Utc;
+    use palette_core::Money;
     use std::collections::BTreeMap;
 
     fn store() -> anyhow::Result<SqliteBillingStore> {

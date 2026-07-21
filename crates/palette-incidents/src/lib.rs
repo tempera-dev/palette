@@ -444,10 +444,10 @@ pub fn incident_timeline(incident: &AgentIncident) -> Vec<TimelineEntry> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::{Duration, TimeZone, Utc};
     use palette_core::{
         AgentId, EnvironmentId, ProjectId, SessionId, SpanId, TenantId, TraceId, UserId,
     };
-    use chrono::{Duration, TimeZone, Utc};
 
     fn scope() -> TenantScope {
         TenantScope::new(

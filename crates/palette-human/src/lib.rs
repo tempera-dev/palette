@@ -1,5 +1,6 @@
 use anyhow::{Context, anyhow};
 use async_trait::async_trait;
+use chrono::Utc;
 use palette_core::{
     AnnotationId, DatasetCaseId, DatasetId, ProjectId, ReviewQueueId, ReviewTaskId, SpanId,
     TenantId, Timestamp, TraceId,
@@ -7,7 +8,6 @@ use palette_core::{
 use palette_datasets::{DatasetCase, promote_trace_span_to_case};
 use palette_schema::TraceView;
 use palette_store::{IntoStoreResult, StoreError, StoreResult};
-use chrono::Utc;
 use rusqlite::{Connection, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;

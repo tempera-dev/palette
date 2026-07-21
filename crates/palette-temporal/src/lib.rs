@@ -16,12 +16,12 @@
 //! unclassified, so a Temporal schema change surfaces as a loud test failure rather
 //! than silent data loss. See `scripts/check-gate0-foundations.py::check_temporal_contract`.
 
+use chrono::{DateTime, Utc};
 use palette_core::{SpanId, TenantScope, Timestamp, TraceId};
 use palette_ingest::{CanonicalSpanDraft, ImportError, RawTraceIngestRequest, SourceImporter};
 use palette_schema::{
     AgentSpanKind, AuthContext, CanonicalAttrs, RedactionClass, SourceDialect, SpanStatus,
 };
-use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
 

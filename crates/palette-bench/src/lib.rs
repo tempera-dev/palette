@@ -38,6 +38,7 @@
 //! 4. Wire the SLO assertion as a `criterion` throughput target or a custom
 //!    post-bench assertion so CI fails on regression.
 
+use chrono::{DateTime, Duration, Utc};
 use palette_core::{
     ArtifactId, EnvironmentId, IdempotencyKey, Money, ProjectId, Sha256Hash, SpanId, TenantId,
     Timestamp, TokenCounts, TraceId, sha256_hex,
@@ -47,7 +48,6 @@ use palette_schema::{
     CanonicalSpan, CanonicalTraceBatch, ModelRef, RAW_SCHEMA_VERSION, RawEnvelope, RedactionClass,
     SourceDialect, SpanStatus, conventions,
 };
-use chrono::{DateTime, Duration, Utc};
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use std::time::SystemTime;

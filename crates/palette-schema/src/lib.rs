@@ -911,8 +911,8 @@ fn run_model_matches(run: &RunSummary, model: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use palette_core::{EnvironmentId, ProjectId, TenantId};
     use chrono::{TimeZone, Utc};
+    use palette_core::{EnvironmentId, ProjectId, TenantId};
 
     #[test]
     fn span_taxonomy_is_agent_native() {

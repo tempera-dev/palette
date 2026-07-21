@@ -1,8 +1,8 @@
 use anyhow::Context;
+use chrono::Duration;
 use palette_core::{ProjectId, TenantId, Timestamp, TraceId};
 use palette_schema::{CanonicalSpan, SpanStatus, TraceView};
 use palette_security::{WEBHOOK_IDEMPOTENCY_KEY_HEADER, sign_webhook, webhook_idempotency_key};
-use chrono::Duration;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
@@ -997,8 +997,8 @@ mod tests {
             .collect()
     }
 
-    use palette_schema::{AgentSpanKind, ArtifactRef, CANONICAL_SCHEMA_VERSION, RedactionClass};
     use chrono::Utc;
+    use palette_schema::{AgentSpanKind, ArtifactRef, CANONICAL_SCHEMA_VERSION, RedactionClass};
 
     #[test]
     fn sampling_keeps_errors_slow_and_high_cost_traces() {

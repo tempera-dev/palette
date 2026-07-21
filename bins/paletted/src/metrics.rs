@@ -731,11 +731,9 @@ mod tests {
         m.record_normalizer_failure("temporal", "v1.2");
         m.record_normalizer_failure("temporal", "v1.2");
         let out = m.render();
-        assert!(
-            out.contains(
-                "palette_normalizer_failures_total{dialect=\"temporal\",version=\"v1.2\"} 2"
-            )
-        );
+        assert!(out.contains(
+            "palette_normalizer_failures_total{dialect=\"temporal\",version=\"v1.2\"} 2"
+        ));
     }
 
     #[test]

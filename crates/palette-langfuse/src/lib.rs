@@ -57,13 +57,13 @@
 //! persisted by the ingest pipeline as the immutable raw copy, so the import is
 //! re-projectable as conventions evolve (ARCHITECTURE §1 #2/#3, §9).
 
+use chrono::{DateTime, Utc};
 use palette_core::{Money, SpanId, TenantScope, Timestamp, TokenCounts, TraceId};
 use palette_ingest::{CanonicalSpanDraft, ImportError, RawTraceIngestRequest, SourceImporter};
 use palette_schema::{
     AgentSpanKind, AuthContext, CanonicalAttrs, ModelRef, RedactionClass, SourceDialect,
     SpanStatus, conventions::attr,
 };
-use chrono::{DateTime, Utc};
 use serde_json::{Value, json};
 
 /// Pinned Langfuse export schema this normalizer targets. Stamped onto every

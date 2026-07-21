@@ -14,6 +14,7 @@ use std::sync::Arc;
 
 use axum::Router;
 use axum::body::{Body, to_bytes};
+use http::{Request, StatusCode};
 use palette_api::{
     ApiState, CentralTokenIntrospector, IntrospectedTokenClaims, router, v1_route_count,
 };
@@ -38,7 +39,6 @@ use palette_security::ApiScope;
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
 use palette_usage::SqliteUsageLedger;
-use http::{Request, StatusCode};
 use serde_json::{Value, json};
 use tower::ServiceExt;
 
@@ -1241,11 +1241,7 @@ async fn tools_list_exposes_output_schema_and_annotations() {
         let expect_read_only = method == "GET";
         let expect_idempotent = matches!(method.as_str(), "GET" | "PUT" | "DELETE");
         let expect_destructive = matches!(method.as_str(), "PUT" | "DELETE")
-            || (method == "POST"
-                && matches!(
-                    name,
-                    "apiKeys.revoke" | "providerSecrets.revoke"
-                ));
+            || (method == "POST" && matches!(name, "apiKeys.revoke" | "providerSecrets.revoke"));
         let expect_open_world = method == "POST"
             && matches!(
                 name,
@@ -1551,11 +1547,7 @@ async fn help_query_filters_catalog() {
         );
     }
     // A representative dataset op is present.
-    assert!(
-        listed
-            .iter()
-            .any(|t| t["name"] == "datasets.create")
-    );
+    assert!(listed.iter().any(|t| t["name"] == "datasets.create"));
 }
 
 /// `help` with a `tool` returns that operation's full descriptor; an unknown

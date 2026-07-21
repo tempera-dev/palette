@@ -1,6 +1,6 @@
 use async_trait::async_trait;
-use palette_core::{IdempotencyKey, ProjectId, TenantId, Timestamp};
 use chrono::Utc;
+use palette_core::{IdempotencyKey, ProjectId, TenantId, Timestamp};
 use rusqlite::{Connection, params};
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;

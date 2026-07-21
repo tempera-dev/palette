@@ -9,6 +9,7 @@
 
 use async_trait::async_trait;
 use axum::body::{Body, to_bytes};
+use http::{HeaderName, HeaderValue, Request, StatusCode};
 use palette_api::{ApiState, router};
 use palette_audit::{AuditAction, AuditOutcome, AuditStore, SqliteAuditStore};
 use palette_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
@@ -22,7 +23,6 @@ use palette_ingest::{IngestPolicy, IngestService};
 use palette_security::ApiScope;
 use palette_store_obj::FsArtifactStore;
 use palette_store_sql::SqliteTraceStore;
-use http::{HeaderName, HeaderValue, Request, StatusCode};
 use serde_json::{Value, json};
 use std::collections::BTreeSet;
 use std::sync::{Arc, Mutex};

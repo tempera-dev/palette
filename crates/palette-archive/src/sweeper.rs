@@ -527,12 +527,12 @@ fn retain_referenced(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Utc;
     use palette_core::{ArtifactId, EnvironmentId, IdempotencyKey, Sha256Hash, SpanId, TraceId};
     use palette_schema::{
         AgentSpanKind, CanonicalTraceBatch, RawEnvelope, RedactionClass, RunFilter, RunSummary,
         SpanStatus, SpanSummary, TraceView, WriteAck,
     };
-    use chrono::Utc;
     use std::collections::BTreeMap;
     use std::sync::Mutex;
 

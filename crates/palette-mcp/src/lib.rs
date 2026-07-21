@@ -31,8 +31,8 @@ use axum::body::{Body, to_bytes};
 use axum::extract::State;
 use axum::response::{IntoResponse, Response};
 use axum::routing::post;
-use palette_api::{ApiState, openapi::urlencode, router as api_router};
 use http::{HeaderMap, Method, Request, StatusCode};
+use palette_api::{ApiState, openapi::urlencode, router as api_router};
 use serde_json::{Map, Value, json};
 use std::collections::{BTreeSet, VecDeque};
 use std::sync::OnceLock;
@@ -395,10 +395,7 @@ fn tool_to_json(tool: &ToolSpec, advertise_oauth: bool) -> Value {
 /// always destructive; these are the `POST`s that are too. Membership is keyed on
 /// `operationId` (validated against the live spec in tests), not the HTTP method,
 /// because most `POST`s are additive writes that are *not* destructive.
-const DESTRUCTIVE_POST_OPERATIONS: &[&str] = &[
-    "apiKeys.revoke",
-    "providerSecrets.revoke",
-];
+const DESTRUCTIVE_POST_OPERATIONS: &[&str] = &["apiKeys.revoke", "providerSecrets.revoke"];
 
 /// `POST` operations that reach an **open world** of external entities — the
 /// judge broker's model providers, or an external source import — so a client
@@ -460,9 +457,9 @@ fn required_api_scope(operation_id: &str, method: &str) -> &'static str {
         | "reviews.submitAnnotation"
         | "reviews.promoteAnnotation" => "dataset:write",
 
-        "datasets.create"
-        | "datasets.createVersion"
-        | "datasets.promoteCaseFromTrace" => "dataset:write",
+        "datasets.create" | "datasets.createVersion" | "datasets.promoteCaseFromTrace" => {
+            "dataset:write"
+        }
 
         "calibrations.run" => "eval:run",
 
@@ -1152,10 +1149,7 @@ mod tests {
     /// is not.
     #[test]
     fn destructive_post_operations_are_flagged() {
-        for op in [
-            "apiKeys.revoke",
-            "providerSecrets.revoke",
-        ] {
+        for op in ["apiKeys.revoke", "providerSecrets.revoke"] {
             let a = annotations_for("POST", op, "t");
             assert_eq!(a["destructiveHint"], Value::Bool(true), "{op} destructive");
         }
@@ -1411,11 +1405,7 @@ mod tests {
             ("ingest.getQueueStatus", "GET", "admin"),
             ("calibrations.run", "POST", "eval:run"),
             ("reviews.createQueue", "POST", "dataset:write"),
-            (
-                "reviews.enqueueTaskFromTrace",
-                "POST",
-                "dataset:write",
-            ),
+            ("reviews.enqueueTaskFromTrace", "POST", "dataset:write"),
             ("reviews.submitAnnotation", "POST", "dataset:write"),
             ("reviews.promoteAnnotation", "POST", "dataset:write"),
             ("online.decideSampling", "POST", "trace:read"),
