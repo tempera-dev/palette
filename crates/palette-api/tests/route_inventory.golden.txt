@@ -5,6 +5,7 @@ GET /v1/connectors/{tenant_id}/{project_id}
 GET /v1/connectors/{tenant_id}/{project_id}/skills
 GET /v1/connectors/{tenant_id}/{project_id}/status
 GET /v1/connectors/{tenant_id}/{project_id}/tools
+GET /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}
 GET /v1/ingest/{tenant_id}/{project_id}/queue
 GET /v1/judge/{tenant_id}/{project_id}/ledger
 GET /v1/prompts/{tenant_id}/{project_id}
@@ -33,6 +34,8 @@ POST /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace
 POST /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions
 POST /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic
 POST /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge
+POST /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles
+POST /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions
 POST /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic
 POST /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge
 POST /v1/gates/{tenant_id}/{project_id}

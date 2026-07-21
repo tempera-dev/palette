@@ -142,6 +142,26 @@ pass / fail / **inconclusive** verdict — with effect size, CI, $p$-value, and
 comment, with no server and no API keys. See
 [`docs/eval-gate-action.md`](docs/eval-gate-action.md).
 
+### Official Tempera evaluation evidence
+
+Palette is the execution and evidence owner for official evaluations specified by
+`tempera-dev/tempera-evals`; it does not replace that repository's suite, release,
+leakage, or attestation rules. Three tenant/project-scoped `/v1/eval-results/...`
+operations accept an Ed25519-signed result bundle, accept a signed preregistered A/B
+decision, and return a minimal durable receipt. Imports require `eval:run`, reject
+non-RFC-8785-JCS or unsafe payloads, verify the signed self-digest and pinned public key,
+and are idempotent only when the external identifier still names identical bytes.
+The server also requires the exact public-key PEM digest in
+`PALETTE_TEMPERA_EVAL_TRUSTED_KEY_SHA256` (comma-separated for rotation); an empty
+allowlist or a key declared only inside its own payload fails closed.
+
+The receipt exposes content and signature digests plus a non-sensitive summary; it
+does not return raw traces, hidden cases, reference answers, customer evidence, or
+sealed inputs. Palette continues to own experiments, online evaluation, monitoring,
+and deployment-gate execution. The canonical eval repository owns the offline
+specification and signed release evidence, while product runtimes remain in their
+product repositories.
+
 ## Repository map
 
 | Path | Purpose |

@@ -82,6 +82,9 @@ Category | Method | HTTP request | Description
 *DatasetsAPI* | [**DatasetsAPI_datasetsCreate**](docs/DatasetsAPI.md#DatasetsAPI_datasetsCreate) | **POST** /v1/datasets/{tenant_id}/{project_id} |
 *DatasetsAPI* | [**DatasetsAPI_datasetsCreateVersion**](docs/DatasetsAPI.md#DatasetsAPI_datasetsCreateVersion) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
 *DatasetsAPI* | [**DatasetsAPI_datasetsPromoteCaseFromTrace**](docs/DatasetsAPI.md#DatasetsAPI_datasetsPromoteCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+*EvalResultsAPI* | [**EvalResultsAPI_evalResultsGetTemperaEvidence**](docs/EvalResultsAPI.md#EvalResultsAPI_evalResultsGetTemperaEvidence) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |
+*EvalResultsAPI* | [**EvalResultsAPI_evalResultsImportTemperaBundle**](docs/EvalResultsAPI.md#EvalResultsAPI_evalResultsImportTemperaBundle) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |
+*EvalResultsAPI* | [**EvalResultsAPI_evalResultsRecordTemperaDecision**](docs/EvalResultsAPI.md#EvalResultsAPI_evalResultsRecordTemperaDecision) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |
 *EvalsAPI* | [**EvalsAPI_evalsRunDeterministic**](docs/EvalsAPI.md#EvalsAPI_evalsRunDeterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
 *EvalsAPI* | [**EvalsAPI_evalsRunJudge**](docs/EvalsAPI.md#EvalsAPI_evalsRunJudge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
 *ExperimentsAPI* | [**ExperimentsAPI_experimentsRunDeterministic**](docs/ExperimentsAPI.md#ExperimentsAPI_experimentsRunDeterministic) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |
@@ -199,6 +202,7 @@ Category | Method | HTTP request | Description
  - [evaluator_spec_t](docs/evaluator_spec.md)
  - [experiment_comparison_t](docs/experiment_comparison.md)
  - [experiment_run_report_t](docs/experiment_run_report.md)
+ - [external_eval_evidence_kind_t](docs/external_eval_evidence_kind.md)
  - [failure_mode_t](docs/failure_mode.md)
  - [gate_decision_t](docs/gate_decision.md)
  - [gate_definition_t](docs/gate_definition.md)
@@ -206,6 +210,7 @@ Category | Method | HTTP request | Description
  - [gate_run_report_t](docs/gate_run_report.md)
  - [health_response_t](docs/health_response.md)
  - [import_source_http_request_t](docs/import_source_http_request.md)
+ - [import_tempera_evidence_request_t](docs/import_tempera_evidence_request.md)
  - [inconclusive_policy_t](docs/inconclusive_policy.md)
  - [ingest_outcome_t](docs/ingest_outcome.md)
  - [ingest_queue_status_t](docs/ingest_queue_status.md)
@@ -274,6 +279,8 @@ Category | Method | HTTP request | Description
  - [span_status_t](docs/span_status.md)
  - [statistical_test_t](docs/statistical_test.md)
  - [submit_review_annotation_http_request_t](docs/submit_review_annotation_http_request.md)
+ - [tempera_evidence_receipt_t](docs/tempera_evidence_receipt.md)
+ - [tempera_evidence_summary_t](docs/tempera_evidence_summary.md)
  - [tenant_scope_t](docs/tenant_scope.md)
  - [token_counts_t](docs/token_counts.md)
  - [tool_execution_t](docs/tool_execution.md)

@@ -98,6 +98,7 @@ pub mod calibrations_api;
 pub mod connect_api;
 pub mod connectors_api;
 pub mod datasets_api;
+pub mod eval_results_api;
 pub mod evals_api;
 pub mod experiments_api;
 pub mod gates_api;

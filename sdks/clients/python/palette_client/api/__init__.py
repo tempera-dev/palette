@@ -9,6 +9,7 @@ from palette_client.api.calibrations_api import CalibrationsApi
 from palette_client.api.connect_api import ConnectApi
 from palette_client.api.connectors_api import ConnectorsApi
 from palette_client.api.datasets_api import DatasetsApi
+from palette_client.api.eval_results_api import EvalResultsApi
 from palette_client.api.evals_api import EvalsApi
 from palette_client.api.experiments_api import ExperimentsApi
 from palette_client.api.gates_api import GatesApi

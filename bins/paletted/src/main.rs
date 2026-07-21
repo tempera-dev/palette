@@ -145,6 +145,15 @@ struct Args {
     /// Comma-separated connector tool slugs that must never execute.
     #[arg(long, env = "PALETTE_CONNECTOR_DENY_TOOLS", value_delimiter = ',')]
     connector_deny_tools: Vec<String>,
+    /// Comma-separated lowercase `sha256:...` digests of exact organization-
+    /// approved Tempera evaluation release public-key PEM bytes. Evidence
+    /// imports fail closed while this allowlist is empty.
+    #[arg(
+        long,
+        env = "PALETTE_TEMPERA_EVAL_TRUSTED_KEY_SHA256",
+        value_delimiter = ','
+    )]
+    tempera_eval_trusted_key_sha256: Vec<String>,
     #[arg(long, value_enum, default_value_t = JudgeProviderArg::Keyword)]
     judge_provider: JudgeProviderArg,
     #[arg(long, env = "PALETTE_JUDGE_BUDGET_MICROS", default_value_t = 1_000_000)]
@@ -501,7 +510,8 @@ async fn main() -> anyhow::Result<()> {
                 ConnectorToolPolicy::default()
                     .with_allowed_tools(args.connector_allow_tools.clone())
                     .with_denied_tools(args.connector_deny_tools.clone()),
-            );
+            )
+            .with_tempera_evidence_trusted_keys(args.tempera_eval_trusted_key_sha256.clone())?;
     if let (Some(endpoint), Some(token)) = (
         args.usage_events_url
             .as_deref()

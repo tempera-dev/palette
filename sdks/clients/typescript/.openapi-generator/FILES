@@ -11,6 +11,7 @@ src/apis/CalibrationsApi.ts
 src/apis/ConnectApi.ts
 src/apis/ConnectorsApi.ts
 src/apis/DatasetsApi.ts
+src/apis/EvalResultsApi.ts
 src/apis/EvalsApi.ts
 src/apis/ExperimentsApi.ts
 src/apis/GatesApi.ts
@@ -98,6 +99,7 @@ src/models/EvaluatorLane.ts
 src/models/EvaluatorSpec.ts
 src/models/ExperimentComparison.ts
 src/models/ExperimentRunReport.ts
+src/models/ExternalEvalEvidenceKind.ts
 src/models/FailureMode.ts
 src/models/GateDecision.ts
 src/models/GateDefinition.ts
@@ -105,6 +107,7 @@ src/models/GatePolicy.ts
 src/models/GateRunReport.ts
 src/models/HealthResponse.ts
 src/models/ImportSourceHttpRequest.ts
+src/models/ImportTemperaEvidenceRequest.ts
 src/models/InconclusivePolicy.ts
 src/models/IngestOutcome.ts
 src/models/IngestQueueStatus.ts
@@ -173,6 +176,8 @@ src/models/SpanIoValueOneOf3.ts
 src/models/SpanStatus.ts
 src/models/StatisticalTest.ts
 src/models/SubmitReviewAnnotationHttpRequest.ts
+src/models/TemperaEvidenceReceipt.ts
+src/models/TemperaEvidenceSummary.ts
 src/models/TenantScope.ts
 src/models/TokenCounts.ts
 src/models/ToolExecution.ts
