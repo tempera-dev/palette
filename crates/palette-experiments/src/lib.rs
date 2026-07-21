@@ -62,6 +62,14 @@ pub trait ExperimentStore: Send + Sync {
         kind: ExternalEvalEvidenceKind,
         external_id: String,
     ) -> StoreResult<ExternalEvalEvidenceRecord>;
+
+    async fn get_external_evidence_by_content_sha256(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        kind: ExternalEvalEvidenceKind,
+        declared_content_sha256: String,
+    ) -> StoreResult<ExternalEvalEvidenceRecord>;
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
@@ -585,6 +593,43 @@ impl ExperimentStore for SqliteExperimentStore {
             })?;
         serde_json::from_str(&record_json)
             .context("decode external evaluation evidence")
+            .into_store()
+    }
+
+    async fn get_external_evidence_by_content_sha256(
+        &self,
+        tenant_id: TenantId,
+        project_id: ProjectId,
+        kind: ExternalEvalEvidenceKind,
+        declared_content_sha256: String,
+    ) -> StoreResult<ExternalEvalEvidenceRecord> {
+        let connection = self.lock().into_store()?;
+        let record_json = connection
+            .query_row(
+                r#"
+                SELECT record_json
+                FROM external_eval_evidence
+                WHERE tenant_id = ?1 AND project_id = ?2
+                  AND evidence_kind = ?3 AND declared_content_sha256 = ?4
+                "#,
+                params![
+                    tenant_id.as_str(),
+                    project_id.as_str(),
+                    kind.as_str(),
+                    declared_content_sha256,
+                ],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()
+            .context("query external evaluation evidence by content digest")
+            .into_store()?
+            .ok_or_else(|| {
+                StoreError::NotFound(
+                    "external evaluation evidence content digest not found".to_string(),
+                )
+            })?;
+        serde_json::from_str(&record_json)
+            .context("decode external evaluation evidence by content digest")
             .into_store()
     }
 }
@@ -3029,6 +3074,16 @@ mod tests {
             loaded.declared_content_sha256,
             record.declared_content_sha256
         );
+        let loaded_by_digest = store
+            .get_external_evidence_by_content_sha256(
+                tenant.clone(),
+                project.clone(),
+                ExternalEvalEvidenceKind::ResultBundle,
+                record.declared_content_sha256.clone(),
+            )
+            .await
+            .unwrap_or_else(|err| panic!("{err}"));
+        assert_eq!(loaded_by_digest.external_id, record.external_id);
 
         let other_tenant = TenantId::new("other-tenant").unwrap_or_else(|err| panic!("{err}"));
         let missing = store
@@ -3040,6 +3095,15 @@ mod tests {
             )
             .await;
         assert!(matches!(missing, Err(StoreError::NotFound(_))));
+        let missing_by_digest = store
+            .get_external_evidence_by_content_sha256(
+                TenantId::new("other-tenant").unwrap_or_else(|err| panic!("{err}")),
+                ProjectId::new("project").unwrap_or_else(|err| panic!("{err}")),
+                ExternalEvalEvidenceKind::ResultBundle,
+                record.declared_content_sha256.clone(),
+            )
+            .await;
+        assert!(matches!(missing_by_digest, Err(StoreError::NotFound(_))));
 
         let conflict = store
             .write_external_evidence(external_evidence_record(
