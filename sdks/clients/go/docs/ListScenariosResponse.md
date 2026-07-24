@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NextCursor** | Pointer to **NullableString** |  | [optional]
+**NextPageToken** | Pointer to **NullableString** |  | [optional]
 **Scenarios** | [**[]Scenario**](Scenario.md) |  |
 
 ## Methods
@@ -26,41 +26,41 @@ NewListScenariosResponseWithDefaults instantiates a new ListScenariosResponse ob
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetNextCursor
+### GetNextPageToken
 
-`func (o *ListScenariosResponse) GetNextCursor() string`
+`func (o *ListScenariosResponse) GetNextPageToken() string`
 
-GetNextCursor returns the NextCursor field if non-nil, zero value otherwise.
+GetNextPageToken returns the NextPageToken field if non-nil, zero value otherwise.
 
-### GetNextCursorOk
+### GetNextPageTokenOk
 
-`func (o *ListScenariosResponse) GetNextCursorOk() (*string, bool)`
+`func (o *ListScenariosResponse) GetNextPageTokenOk() (*string, bool)`
 
-GetNextCursorOk returns a tuple with the NextCursor field if it's non-nil, zero value otherwise
+GetNextPageTokenOk returns a tuple with the NextPageToken field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetNextCursor
+### SetNextPageToken
 
-`func (o *ListScenariosResponse) SetNextCursor(v string)`
+`func (o *ListScenariosResponse) SetNextPageToken(v string)`
 
-SetNextCursor sets NextCursor field to given value.
+SetNextPageToken sets NextPageToken field to given value.
 
-### HasNextCursor
+### HasNextPageToken
 
-`func (o *ListScenariosResponse) HasNextCursor() bool`
+`func (o *ListScenariosResponse) HasNextPageToken() bool`
 
-HasNextCursor returns a boolean if a field has been set.
+HasNextPageToken returns a boolean if a field has been set.
 
-### SetNextCursorNil
+### SetNextPageTokenNil
 
-`func (o *ListScenariosResponse) SetNextCursorNil(b bool)`
+`func (o *ListScenariosResponse) SetNextPageTokenNil(b bool)`
 
- SetNextCursorNil sets the value for NextCursor to be an explicit nil
+ SetNextPageTokenNil sets the value for NextPageToken to be an explicit nil
 
-### UnsetNextCursor
-`func (o *ListScenariosResponse) UnsetNextCursor()`
+### UnsetNextPageToken
+`func (o *ListScenariosResponse) UnsetNextPageToken()`
 
-UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
+UnsetNextPageToken ensures that no value is present for NextPageToken, not even an explicit nil
 ### GetScenarios
 
 `func (o *ListScenariosResponse) GetScenarios() []Scenario`

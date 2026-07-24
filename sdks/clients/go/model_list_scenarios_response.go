@@ -21,7 +21,7 @@ var _ MappedNullable = &ListScenariosResponse{}
 
 // ListScenariosResponse struct for ListScenariosResponse
 type ListScenariosResponse struct {
-	NextCursor NullableString `json:"next_cursor,omitempty"`
+	NextPageToken NullableString `json:"nextPageToken,omitempty"`
 	Scenarios []Scenario `json:"scenarios"`
 }
 
@@ -45,46 +45,46 @@ func NewListScenariosResponseWithDefaults() *ListScenariosResponse {
 	return &this
 }
 
-// GetNextCursor returns the NextCursor field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ListScenariosResponse) GetNextCursor() string {
-	if o == nil || IsNil(o.NextCursor.Get()) {
+// GetNextPageToken returns the NextPageToken field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ListScenariosResponse) GetNextPageToken() string {
+	if o == nil || IsNil(o.NextPageToken.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.NextCursor.Get()
+	return *o.NextPageToken.Get()
 }
 
-// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
+// GetNextPageTokenOk returns a tuple with the NextPageToken field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ListScenariosResponse) GetNextCursorOk() (*string, bool) {
+func (o *ListScenariosResponse) GetNextPageTokenOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.NextCursor.Get(), o.NextCursor.IsSet()
+	return o.NextPageToken.Get(), o.NextPageToken.IsSet()
 }
 
-// HasNextCursor returns a boolean if a field has been set.
-func (o *ListScenariosResponse) HasNextCursor() bool {
-	if o != nil && o.NextCursor.IsSet() {
+// HasNextPageToken returns a boolean if a field has been set.
+func (o *ListScenariosResponse) HasNextPageToken() bool {
+	if o != nil && o.NextPageToken.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetNextCursor gets a reference to the given NullableString and assigns it to the NextCursor field.
-func (o *ListScenariosResponse) SetNextCursor(v string) {
-	o.NextCursor.Set(&v)
+// SetNextPageToken gets a reference to the given NullableString and assigns it to the NextPageToken field.
+func (o *ListScenariosResponse) SetNextPageToken(v string) {
+	o.NextPageToken.Set(&v)
 }
-// SetNextCursorNil sets the value for NextCursor to be an explicit nil
-func (o *ListScenariosResponse) SetNextCursorNil() {
-	o.NextCursor.Set(nil)
+// SetNextPageTokenNil sets the value for NextPageToken to be an explicit nil
+func (o *ListScenariosResponse) SetNextPageTokenNil() {
+	o.NextPageToken.Set(nil)
 }
 
-// UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
-func (o *ListScenariosResponse) UnsetNextCursor() {
-	o.NextCursor.Unset()
+// UnsetNextPageToken ensures that no value is present for NextPageToken, not even an explicit nil
+func (o *ListScenariosResponse) UnsetNextPageToken() {
+	o.NextPageToken.Unset()
 }
 
 // GetScenarios returns the Scenarios field value
@@ -121,8 +121,8 @@ func (o ListScenariosResponse) MarshalJSON() ([]byte, error) {
 
 func (o ListScenariosResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.NextCursor.IsSet() {
-		toSerialize["next_cursor"] = o.NextCursor.Get()
+	if o.NextPageToken.IsSet() {
+		toSerialize["nextPageToken"] = o.NextPageToken.Get()
 	}
 	toSerialize["scenarios"] = o.Scenarios
 	return toSerialize, nil

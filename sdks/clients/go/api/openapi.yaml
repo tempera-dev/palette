@@ -5082,18 +5082,22 @@ paths:
         schema:
           type: string
         style: simple
-      - explode: true
+      - description: |-
+          Maximum number of scenarios to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
         in: query
-        name: limit
+        name: pageSize
         required: false
         schema:
           format: int32
           minimum: 0
           type: integer
         style: form
-      - explode: true
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
         in: query
-        name: cursor
+        name: pageToken
         required: false
         schema:
           type: string
@@ -8998,7 +9002,7 @@ components:
       type: string
     ListScenariosResponse:
       example:
-        next_cursor: next_cursor
+        nextPageToken: nextPageToken
         scenarios:
         - perturbation_knobs:
             contradictory_source: true
@@ -9045,7 +9049,7 @@ components:
           expected_outcome: expected_outcome
           redaction_class: public
       properties:
-        next_cursor:
+        nextPageToken:
           nullable: true
           type: string
         scenarios:

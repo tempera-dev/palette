@@ -6,7 +6,9 @@ Enforces the conventions that keep the API/MCP/CLI/SDKs nice and in-sync:
   - every operation has exactly one resource tag
   - every operation documents a uniform error body (ApiErrorBody) for failures
   - success responses reference a NAMED schema (no anonymous/inline objects)
-  - list operations expose pagination (cursor/next_cursor)
+  - migrated list operations expose complete AIP-158 pagination
+    (pageSize/pageToken/nextPageToken); legacy list operations remain accepted
+    until their inventoried breaking migrations land
 Exit 1 on any violation.
 """
 
@@ -136,10 +138,39 @@ def audit_spec(spec: dict[str, Any]) -> AuditResult:
         )
         if is_list and oid not in LIST_PAGINATION_EXEMPTIONS:
             params = {p.get("name") for p in op.get("parameters", [])}
-            if "cursor" not in params and "limit" not in params:
+            aip_params = {"pageSize", "pageToken"}
+            has_aip_pagination = aip_params.issubset(params)
+            has_legacy_pagination = "cursor" in params or "limit" in params
+            if not has_aip_pagination and not has_legacy_pagination:
                 violations.append(
                     f"{method} {path}: list op '{oid}' lacks pagination params"
                 )
+            if params.intersection(aip_params) and not has_aip_pagination:
+                missing = sorted(aip_params.difference(params))
+                violations.append(
+                    f"{method} {path}: AIP-158 list op '{oid}' lacks {missing}"
+                )
+            if has_aip_pagination:
+                success_schemas = [
+                    response.get("content", {})
+                    .get("application/json", {})
+                    .get("schema", {})
+                    for code, response in op.get("responses", {}).items()
+                    if code.startswith("2")
+                ]
+                response_has_next_token = False
+                for schema in success_schemas:
+                    ref = schema.get("$ref", "")
+                    if ref.startswith("#/components/schemas/"):
+                        schema_name = ref.rsplit("/", 1)[-1]
+                        schema = spec["components"]["schemas"].get(schema_name, {})
+                    if "nextPageToken" in schema.get("properties", {}):
+                        response_has_next_token = True
+                        break
+                if not response_has_next_token:
+                    violations.append(
+                        f"{method} {path}: AIP-158 list op '{oid}' response lacks nextPageToken"
+                    )
 
     return AuditResult(
         operation_count=len(ops),

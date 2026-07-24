@@ -78,7 +78,7 @@ No authorization required
 
 # **ScenariosAPI_scenariosList**
 ```c
-list_scenarios_response_t* ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+list_scenarios_response_t* ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -87,8 +87,8 @@ Name | Type | Description  | Notes
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
 **tenant_id** | **char \*** | tenant_id |
 **project_id** | **char \*** | project_id |
-**limit** | **int \*** |  | [optional]
-**cursor** | **char \*** |  | [optional]
+**pageSize** | **int \*** | Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional]
+**pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]

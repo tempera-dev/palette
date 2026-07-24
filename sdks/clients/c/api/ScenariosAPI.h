@@ -22,7 +22,7 @@ ScenariosAPI_scenariosGet(apiClient_t *apiClient, char *tenant_id, char *project
 
 
 list_scenarios_response_t*
-ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 mine_scenarios_response_t*

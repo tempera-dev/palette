@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.scenario import Scenario
 from typing import Optional, Set
@@ -27,9 +27,9 @@ class ListScenariosResponse(BaseModel):
     """
     ListScenariosResponse
     """ # noqa: E501
-    next_cursor: Optional[StrictStr] = None
+    next_page_token: Optional[StrictStr] = Field(default=None, alias="nextPageToken")
     scenarios: List[Scenario]
-    __properties: ClassVar[List[str]] = ["next_cursor", "scenarios"]
+    __properties: ClassVar[List[str]] = ["nextPageToken", "scenarios"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,10 +77,10 @@ class ListScenariosResponse(BaseModel):
                 if _item_scenarios:
                     _items.append(_item_scenarios.to_dict())
             _dict['scenarios'] = _items
-        # set to None if next_cursor (nullable) is None
+        # set to None if next_page_token (nullable) is None
         # and model_fields_set contains the field
-        if self.next_cursor is None and "next_cursor" in self.model_fields_set:
-            _dict['next_cursor'] = None
+        if self.next_page_token is None and "next_page_token" in self.model_fields_set:
+            _dict['nextPageToken'] = None
 
         return _dict
 
@@ -94,7 +94,7 @@ class ListScenariosResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "next_cursor": obj.get("next_cursor"),
+            "nextPageToken": obj.get("nextPageToken"),
             "scenarios": [Scenario.from_dict(_item) for _item in obj["scenarios"]] if obj.get("scenarios") is not None else None
         })
         return _obj

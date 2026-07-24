@@ -6,14 +6,14 @@
 
 
 static list_scenarios_response_t *list_scenarios_response_create_internal(
-    char *next_cursor,
+    char *next_page_token,
     list_t *scenarios
     ) {
     list_scenarios_response_t *list_scenarios_response_local_var = malloc(sizeof(list_scenarios_response_t));
     if (!list_scenarios_response_local_var) {
         return NULL;
     }
-    list_scenarios_response_local_var->next_cursor = next_cursor;
+    list_scenarios_response_local_var->next_page_token = next_page_token;
     list_scenarios_response_local_var->scenarios = scenarios;
 
     list_scenarios_response_local_var->_library_owned = 1;
@@ -21,11 +21,11 @@ static list_scenarios_response_t *list_scenarios_response_create_internal(
 }
 
 __attribute__((deprecated)) list_scenarios_response_t *list_scenarios_response_create(
-    char *next_cursor,
+    char *next_page_token,
     list_t *scenarios
     ) {
     return list_scenarios_response_create_internal (
-        next_cursor,
+        next_page_token,
         scenarios
         );
 }
@@ -39,9 +39,9 @@ void list_scenarios_response_free(list_scenarios_response_t *list_scenarios_resp
         return ;
     }
     listEntry_t *listEntry;
-    if (list_scenarios_response->next_cursor) {
-        free(list_scenarios_response->next_cursor);
-        list_scenarios_response->next_cursor = NULL;
+    if (list_scenarios_response->next_page_token) {
+        free(list_scenarios_response->next_page_token);
+        list_scenarios_response->next_page_token = NULL;
     }
     if (list_scenarios_response->scenarios) {
         list_ForEach(listEntry, list_scenarios_response->scenarios) {
@@ -56,9 +56,9 @@ void list_scenarios_response_free(list_scenarios_response_t *list_scenarios_resp
 cJSON *list_scenarios_response_convertToJSON(list_scenarios_response_t *list_scenarios_response) {
     cJSON *item = cJSON_CreateObject();
 
-    // list_scenarios_response->next_cursor
-    if(list_scenarios_response->next_cursor) {
-    if(cJSON_AddStringToObject(item, "next_cursor", list_scenarios_response->next_cursor) == NULL) {
+    // list_scenarios_response->next_page_token
+    if(list_scenarios_response->next_page_token) {
+    if(cJSON_AddStringToObject(item, "nextPageToken", list_scenarios_response->next_page_token) == NULL) {
     goto fail; //String
     }
     }
@@ -99,13 +99,13 @@ list_scenarios_response_t *list_scenarios_response_parseFromJSON(cJSON *list_sce
     // define the local list for list_scenarios_response->scenarios
     list_t *scenariosList = NULL;
 
-    // list_scenarios_response->next_cursor
-    cJSON *next_cursor = cJSON_GetObjectItemCaseSensitive(list_scenarios_responseJSON, "next_cursor");
-    if (cJSON_IsNull(next_cursor)) {
-        next_cursor = NULL;
+    // list_scenarios_response->next_page_token
+    cJSON *next_page_token = cJSON_GetObjectItemCaseSensitive(list_scenarios_responseJSON, "nextPageToken");
+    if (cJSON_IsNull(next_page_token)) {
+        next_page_token = NULL;
     }
-    if (next_cursor) { 
-    if(!cJSON_IsString(next_cursor) && !cJSON_IsNull(next_cursor))
+    if (next_page_token) {
+    if(!cJSON_IsString(next_page_token) && !cJSON_IsNull(next_page_token))
     {
     goto end; //String
     }
@@ -120,7 +120,7 @@ list_scenarios_response_t *list_scenarios_response_parseFromJSON(cJSON *list_sce
         goto end;
     }
 
-    
+
     cJSON *scenarios_local_nonprimitive = NULL;
     if(!cJSON_IsArray(scenarios)){
         goto end; //nonprimitive container
@@ -140,7 +140,7 @@ list_scenarios_response_t *list_scenarios_response_parseFromJSON(cJSON *list_sce
 
 
     list_scenarios_response_local_var = list_scenarios_response_create_internal (
-        next_cursor && !cJSON_IsNull(next_cursor) ? strdup(next_cursor->valuestring) : NULL,
+        next_page_token && !cJSON_IsNull(next_page_token) ? strdup(next_page_token->valuestring) : NULL,
         scenariosList
         );
 

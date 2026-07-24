@@ -60,8 +60,8 @@ export interface ScenariosGetRequest {
 export interface ScenariosListRequest {
     tenantId: string;
     projectId: string;
-    limit?: number;
-    cursor?: string;
+    pageSize?: number;
+    pageToken?: string;
     authorization?: string | null;
     xPaletteApiKey?: string | null;
     xPaletteProjectId?: string | null;
@@ -227,12 +227,12 @@ export class ScenariosApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['pageSize'] = requestParameters['pageSize'];
         }
 
-        if (requestParameters['cursor'] != null) {
-            queryParameters['cursor'] = requestParameters['cursor'];
+        if (requestParameters['pageToken'] != null) {
+            queryParameters['pageToken'] = requestParameters['pageToken'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
