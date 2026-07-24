@@ -7894,15 +7894,16 @@ mod tests {
                 "not-a-token",
             ),
         ] {
-            let error = paginate_aip158(
+            let Err(error) = paginate_aip158(
                 "resources.list",
                 &binding,
                 page_size,
                 Some(token),
                 resources.clone(),
                 Clone::clone,
-            )
-            .expect_err("cross-request or malformed token must fail");
+            ) else {
+                panic!("cross-request or malformed token must fail");
+            };
             assert_eq!(error.status, StatusCode::BAD_REQUEST);
         }
     }
@@ -7943,8 +7944,10 @@ mod tests {
             ("search.spans", binding, token.as_str()),
             ("traces.list", binding, "not-a-token"),
         ] {
-            let error = decode_backend_page_token(collection, &request_binding, candidate)
-                .expect_err("cross-request or malformed backend token must fail");
+            let Err(error) = decode_backend_page_token(collection, &request_binding, candidate)
+            else {
+                panic!("cross-request or malformed backend token must fail");
+            };
             assert_eq!(error.status, StatusCode::BAD_REQUEST);
         }
 
@@ -7962,8 +7965,9 @@ mod tests {
             base64::engine::general_purpose::URL_SAFE_NO_PAD
                 .encode(serde_json::to_vec(&payload).unwrap_or_else(|err| panic!("{err}")))
         );
-        let error = decode_backend_page_token("traces.list", &binding, &tampered)
-            .expect_err("tampered cursor must fail binding validation");
+        let Err(error) = decode_backend_page_token("traces.list", &binding, &tampered) else {
+            panic!("tampered cursor must fail binding validation");
+        };
         assert_eq!(error.status, StatusCode::BAD_REQUEST);
     }
 
