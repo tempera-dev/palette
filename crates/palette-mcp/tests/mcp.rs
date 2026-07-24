@@ -1119,7 +1119,7 @@ async fn tools_call_rejects_non_scalar_query_param() {
                 "name": "traces.list",
                 "arguments": {
                     "tenant_id": "tenant-1",
-                    "limit": { "bad": true }
+                    "pageSize": { "bad": true }
                 }
             }
         }),
@@ -1132,7 +1132,7 @@ async fn tools_call_rejects_non_scalar_query_param() {
         .as_str()
         .expect("error message is a string");
     assert!(
-        message.contains("query parameter limit must be a scalar"),
+        message.contains("query parameter pageSize must be a scalar"),
         "unexpected error message: {message}"
     );
 }
@@ -1408,10 +1408,10 @@ async fn get_mcp_without_sse_returns_method_not_allowed() {
     assert_eq!(json["error"], "method_not_allowed");
 }
 
-/// A list endpoint that returns a top-level JSON array surfaces its body via the
-/// text `content` but omits `structuredContent` (which MCP requires be an object).
+/// AIP-158 list wrappers surface both text content and object-rooted
+/// `structuredContent`.
 #[tokio::test]
-async fn array_result_omits_structured_content() {
+async fn list_wrapper_includes_structured_content() {
     let (state, _tempdir) = build_state();
     let app = palette_mcp::router(state);
 
@@ -1432,14 +1432,18 @@ async fn array_result_omits_structured_content() {
     assert_eq!(status, StatusCode::OK);
     let result = &rpc["result"];
     assert_eq!(result["isError"], false, "list call should succeed: {rpc}");
-    // Body is a JSON array -> no structuredContent, but the text content carries it.
+    let structured = &result["structuredContent"];
     assert!(
-        result.get("structuredContent").is_none(),
-        "array result must not set structuredContent: {rpc}"
+        structured.is_object(),
+        "list wrapper must be an object: {rpc}"
     );
+    assert_eq!(structured["providerSecrets"], json!([]));
     let text = result["content"][0]["text"].as_str().expect("text content");
     let parsed: Value = serde_json::from_str(text).expect("content is JSON");
-    assert!(parsed.is_array(), "the underlying body is a JSON array");
+    assert_eq!(
+        &parsed, structured,
+        "text and structured content must match"
+    );
 }
 
 /// `tools/list` is deterministic and stable across repeated calls (the catalog

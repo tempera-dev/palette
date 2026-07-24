@@ -1006,9 +1006,10 @@ async fn call_tool(
         "content".to_string(),
         json!([{ "type": "text", "text": text }]),
     );
-    // MCP requires `structuredContent` to be a JSON object; array/scalar bodies
-    // (e.g. list endpoints) are conveyed via the text content only. The full
-    // body is always present in `content` regardless.
+    // MCP requires `structuredContent` to be a JSON object; protocol-native
+    // array/scalar bodies are conveyed via the text content only. Public list
+    // operations use named AIP-158 object wrappers. The full body is always
+    // present in `content` regardless.
     if structured.is_object() {
         result.insert("structuredContent".to_string(), structured);
     }
