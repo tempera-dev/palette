@@ -45,7 +45,7 @@ services:
       retries: 20
 
   paletted:
-    image: ${PALETTED_IMAGE:-ghcr.io/jadenfix/palette/paletted:main}
+    image: ${PALETTED_IMAGE:-ghcr.io/tempera-dev/palette/paletted:main}
     # The image default (auth-mode required, #127) refuses anonymous access.
     # This dev stack opts INTO the insecure local mode explicitly. We must
     # repeat the image CMD args because compose `command` overrides them.
@@ -79,7 +79,7 @@ services:
       retries: 30
 
   dashboard:
-    image: ${PALETTE_DASHBOARD_IMAGE:-ghcr.io/jadenfix/palette/dashboard:main}
+    image: ${PALETTE_DASHBOARD_IMAGE:-ghcr.io/tempera-dev/palette/dashboard:main}
     depends_on:
       paletted:
         condition: service_healthy
@@ -104,7 +104,7 @@ services:
       retries: 30
 
   dashboard-e2e:
-    image: ${PALETTE_DASHBOARD_E2E_IMAGE:-ghcr.io/jadenfix/palette/dashboard-e2e:main}
+    image: ${PALETTE_DASHBOARD_E2E_IMAGE:-ghcr.io/tempera-dev/palette/dashboard-e2e:main}
     profiles: ["proof"]
     depends_on:
       dashboard:
@@ -116,7 +116,7 @@ services:
       - ./docs/demos:/workspace/docs/demos
 
   otel-python-smoke:
-    image: ${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/palette/otel-python:main}
+    image: ${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/tempera-dev/palette/otel-python:main}
     profiles: ["tools"]
     depends_on:
       paletted:
@@ -129,7 +129,7 @@ services:
     command: ["python", "/examples/otel_smoke.py"]
 
   otel-python-quickstart:
-    image: ${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/jadenfix/palette/otel-python:main}
+    image: ${PALETTE_OTEL_PYTHON_IMAGE:-ghcr.io/tempera-dev/palette/otel-python:main}
     profiles: ["tools"]
     depends_on:
       paletted:

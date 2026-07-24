@@ -126,7 +126,7 @@ import urllib.parse
 import urllib.request
 
 expected_commit = sys.argv[1]
-owner_repo = "jadenfix/palette"
+owner_repo = "tempera-dev/palette"
 images = ("paletted", "dashboard", "dashboard-e2e", "otel-python")
 expected_platforms = {("linux", "amd64"), ("linux", "arm64")}
 accept = ", ".join(

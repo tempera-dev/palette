@@ -4,7 +4,7 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 dry_run="${PALETTE_GATE2_OUTSIDE_RUN_DRY_RUN:-0}"
-expected_origin="https://github.com/jadenfix/palette.git"
+expected_origin="https://github.com/tempera-dev/palette.git"
 if [[ "$dry_run" == "1" && -n "${PALETTE_GATE2_EXPECTED_ORIGIN:-}" ]]; then
   expected_origin="$PALETTE_GATE2_EXPECTED_ORIGIN"
 fi

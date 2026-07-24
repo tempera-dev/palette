@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/jadenfix/palette/actions/workflows/backend.yml"><img alt="backend" src="https://github.com/jadenfix/palette/actions/workflows/backend.yml/badge.svg?branch=main"></a>
-  <a href="https://github.com/jadenfix/palette/actions/workflows/sdk-contract.yml"><img alt="sdk-contract" src="https://github.com/jadenfix/palette/actions/workflows/sdk-contract.yml/badge.svg?branch=main"></a>
-  <a href="https://github.com/jadenfix/palette/actions/workflows/frontend.yml"><img alt="frontend" src="https://github.com/jadenfix/palette/actions/workflows/frontend.yml/badge.svg?branch=main"></a>
+  <a href="https://github.com/tempera-dev/palette/actions/workflows/backend.yml"><img alt="backend" src="https://github.com/tempera-dev/palette/actions/workflows/backend.yml/badge.svg?branch=main"></a>
+  <a href="https://github.com/tempera-dev/palette/actions/workflows/sdk-contract.yml"><img alt="sdk-contract" src="https://github.com/tempera-dev/palette/actions/workflows/sdk-contract.yml/badge.svg?branch=main"></a>
+  <a href="https://github.com/tempera-dev/palette/actions/workflows/frontend.yml"><img alt="frontend" src="https://github.com/tempera-dev/palette/actions/workflows/frontend.yml/badge.svg?branch=main"></a>
   <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-3fb5ff"></a>
 </p>
 
@@ -34,7 +34,7 @@ OpenAPI contract, so they never drift.
 ## Quickstart
 
 ```bash
-git clone https://github.com/jadenfix/palette.git && cd palette
+git clone https://github.com/tempera-dev/palette.git && cd palette
 docker compose up
 ```
 
@@ -136,7 +136,7 @@ $t$ / exact McNemar, bootstrap CIs, sequential e-values, CUPED) live in
 [`crates/palette-stats`](crates/palette-stats/src/lib.rs); the gate wiring is in
 [`crates/palette-experiments/src/rsi.rs`](crates/palette-experiments/src/rsi.rs).
 
-The same gate runs as a GitHub Action: `uses: jadenfix/palette@main` posts a
+The same gate runs as a GitHub Action: `uses: tempera-dev/palette@main` posts a
 pass / fail / **inconclusive** verdict — with effect size, CI, $p$-value, and
 "how many more cases would make this conclusive" when underpowered — as a PR
 comment, with no server and no API keys. See

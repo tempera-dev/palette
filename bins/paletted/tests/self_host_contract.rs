@@ -99,10 +99,10 @@ fn self_host_files_define_gate_two_compose_surface() {
     assert!(otel_python_dockerfile.contains("COPY five_line_otel.py otel_smoke.py"));
 
     let prebuilt_compose = read(root.join("docker-compose.prebuilt.yml"));
-    assert!(prebuilt_compose.contains("ghcr.io/jadenfix/palette/paletted:main"));
-    assert!(prebuilt_compose.contains("ghcr.io/jadenfix/palette/dashboard:main"));
-    assert!(prebuilt_compose.contains("ghcr.io/jadenfix/palette/dashboard-e2e:main"));
-    assert!(prebuilt_compose.contains("ghcr.io/jadenfix/palette/otel-python:main"));
+    assert!(prebuilt_compose.contains("ghcr.io/tempera-dev/palette/paletted:main"));
+    assert!(prebuilt_compose.contains("ghcr.io/tempera-dev/palette/dashboard:main"));
+    assert!(prebuilt_compose.contains("ghcr.io/tempera-dev/palette/dashboard-e2e:main"));
+    assert!(prebuilt_compose.contains("ghcr.io/tempera-dev/palette/otel-python:main"));
     assert!(prebuilt_compose.contains("dashboard-e2e:"));
     assert!(prebuilt_compose.contains("otel-python-quickstart:"));
     assert!(prebuilt_compose.contains("otel-python-smoke:"));
@@ -671,10 +671,10 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(stopwatch_script.contains("PALETTE_GATE2_LOCAL_BUILD"));
     assert!(stopwatch_script.contains("PALETTE_GATE2_OUTSIDE_WRAPPER"));
     assert!(stopwatch_script.contains("Outside-run wrapper"));
-    assert!(stopwatch_script.contains("ghcr.io/jadenfix/palette/paletted:$git_sha"));
-    assert!(stopwatch_script.contains("ghcr.io/jadenfix/palette/dashboard:$git_sha"));
-    assert!(stopwatch_script.contains("ghcr.io/jadenfix/palette/dashboard-e2e:$git_sha"));
-    assert!(stopwatch_script.contains("ghcr.io/jadenfix/palette/otel-python:$git_sha"));
+    assert!(stopwatch_script.contains("ghcr.io/tempera-dev/palette/paletted:$git_sha"));
+    assert!(stopwatch_script.contains("ghcr.io/tempera-dev/palette/dashboard:$git_sha"));
+    assert!(stopwatch_script.contains("ghcr.io/tempera-dev/palette/dashboard-e2e:$git_sha"));
+    assert!(stopwatch_script.contains("ghcr.io/tempera-dev/palette/otel-python:$git_sha"));
     assert!(stopwatch_script.contains("run_with_step_timeout"));
     assert!(stopwatch_script.contains("service_image_digest"));
     assert!(stopwatch_script.contains("docker image inspect"));
@@ -1016,8 +1016,8 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(public_handoff.contains("raw_public_preflight_command_for_sha"));
     assert!(!public_handoff.contains("gate2-outside-local-preflight.sh | bash"));
     let gate2_proof_contract = read(root.join("scripts/gate2_proof_contract.py"));
-    assert!(gate2_proof_contract.contains("https://github.com/jadenfix/palette.git"));
-    assert!(gate2_proof_contract.contains("https://raw.githubusercontent.com/jadenfix/palette"));
+    assert!(gate2_proof_contract.contains("https://github.com/tempera-dev/palette.git"));
+    assert!(gate2_proof_contract.contains("https://raw.githubusercontent.com/tempera-dev/palette"));
     assert!(gate2_proof_contract.contains("refs/heads/main"));
     assert!(gate2_proof_contract.contains("git ls-remote --exit-code"));
     assert!(gate2_proof_contract.contains("-o \"$preflight\""));
@@ -1444,7 +1444,7 @@ fn clean_clone_smoke_uses_stock_otel_and_browser_visible_trace() {
     assert!(readme.contains("matching quickstart release ID"));
     assert!(readme.contains("describe the full recorded flow"));
     assert!(readme.contains("hash that does not match the committed file"));
-    assert!(readme.contains("`https://github.com/jadenfix/palette.git` for exact-commit"));
+    assert!(readme.contains("`https://github.com/tempera-dev/palette.git` for exact-commit"));
     assert!(readme.contains("cloned readiness"));
     assert!(readme.contains("wrapper dry-run checks"));
     assert!(readme.contains("immediately before that second `git clone`"));

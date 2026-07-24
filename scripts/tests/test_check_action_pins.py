@@ -74,7 +74,7 @@ jobs:
   ok:
     steps:
       - uses: ../shared/actions/build
-      - uses: docker://ghcr.io/jadenfix/palette/demo-runner:latest
+      - uses: docker://ghcr.io/tempera-dev/palette/demo-runner:latest
       - uses: vendor/tool@{PIN.upper()} # v1
 """,
         )

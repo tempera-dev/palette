@@ -23,7 +23,7 @@ For the short unaided runner instructions, use
 
 ## Repository
 
-- Clone URL: `https://github.com/jadenfix/palette.git`
+- Clone URL: `https://github.com/tempera-dev/palette.git`
 - Commit SHA:
 - Branch:
 - Worktree clean:
@@ -60,7 +60,7 @@ For the short unaided runner instructions, use
 ## Commands
 
 ```bash
-bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/jadenfix/palette.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/jadenfix/palette/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/jadenfix/palette.git && cd ./palette && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && PALETTE_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
+bash -o pipefail -lc 'sha_line="$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git ls-remote --exit-code https://github.com/tempera-dev/palette.git refs/heads/main)" && sha="${sha_line%%[[:space:]]*}" && test -n "$sha" && preflight="$(mktemp "${TMPDIR:-/tmp}/palette-gate2-preflight.XXXXXX")" && curl -fsSL "https://raw.githubusercontent.com/tempera-dev/palette/$sha/scripts/gate2-outside-local-preflight.sh" -o "$preflight" && PALETTE_GATE2_EXPECTED_COMMIT="$sha" bash "$preflight" && t="$(date +%s)" && GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git clone https://github.com/tempera-dev/palette.git && cd ./palette && test "$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 git rev-parse HEAD)" = "$sha" && PALETTE_GATE2_CLONE_STARTED_EPOCH="$t" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_COUNT=0 scripts/gate2-outside-run.sh'
 ```
 
 No project maintainer may provide step-by-step help beyond public repo docs
@@ -137,7 +137,7 @@ transcript and compose logs as repo-relative, committed/clean, non-symlink files
 under `docs/demos/` (for example `docs/demos/gate2-outside-terminal.log` and
 `docs/demos/gate2-outside-compose.log`), or use an immutable GitHub Actions
 run/job URL for compose logs such as
-`https://github.com/jadenfix/palette/actions/runs/<run_id>`. The outside-run
+`https://github.com/tempera-dev/palette/actions/runs/<run_id>`. The outside-run
 wrapper writes `docs/demos/gate2-outside-compose.log` automatically and
 pre-fills that path with `--compose-logs-saved`; it also writes
 `docs/demos/gate2-outside-terminal.log` and pre-fills
@@ -204,7 +204,7 @@ It then downloads the raw public preflight from the expected immutable commit
 and runs it under `bash -o pipefail -lc` before any clone. Remote `DOCKER_HOST` values and
 remote Docker contexts fail before clone or Compose cleanup. It runs
 `scripts/check-gate2-outside-readiness.py`, uses one fresh clone from
-`https://github.com/jadenfix/palette.git` for exact-commit, cloned readiness, and
+`https://github.com/tempera-dev/palette.git` for exact-commit, cloned readiness, and
 wrapper dry-run checks, then uses a second fresh clone for the timed runtime
 path. The readiness check verifies clean `main`, the expected
 GitHub remote, this proof file's structure, and public multi-arch GHCR images
@@ -257,7 +257,7 @@ Stopwatch, recording, notes, saved outside-run terminal transcript, and saved
 compose-log paths must be repo-relative paths under `docs/demos/` and must not
 resolve through symlinks. Saved compose-log evidence must be a committed/clean
 file at closure, or an immutable GitHub Actions run/job URL under
-`https://github.com/jadenfix/palette/actions/runs/`. Local compose-log files must
+`https://github.com/tempera-dev/palette/actions/runs/`. Local compose-log files must
 contain the stopwatch-written header, canonical project, prebuilt startup mode,
 and timestamped compose logs command.
 

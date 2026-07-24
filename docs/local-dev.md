@@ -19,7 +19,7 @@ requirement **R12.4** (a contributing path exists) and complements
 ## One-time bootstrap
 
 ```sh
-git clone https://github.com/jadenfix/palette.git
+git clone https://github.com/tempera-dev/palette.git
 cd palette
 
 # Rust: build and test the whole workspace.

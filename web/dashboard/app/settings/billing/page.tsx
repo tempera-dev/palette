@@ -117,7 +117,7 @@ export default async function BillingPage() {
             </div>
             <div className="panel-foot">
               <span>Want early access?</span>
-              <a className="btn-link" href="https://github.com/jadenfix/palette" target="_blank" rel="noreferrer">
+              <a className="btn-link" href="https://github.com/tempera-dev/palette" target="_blank" rel="noreferrer">
                 Follow on GitHub
               </a>
             </div>
