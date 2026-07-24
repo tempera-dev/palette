@@ -191,6 +191,43 @@ def test_requires_pagination_for_list_contracts() -> None:
     ) in violations
 
 
+def test_accepts_complete_aip158_pagination() -> None:
+    spec = valid_contract_spec()
+    spec["paths"]["/v1/traces"]["get"]["parameters"] = [
+        {"name": "pageSize", "in": "query", "schema": {"type": "integer"}},
+        {"name": "pageToken", "in": "query", "schema": {"type": "string"}},
+    ]
+    spec["components"]["schemas"]["TraceListResponse"]["properties"] = {
+        "items": {"type": "array"},
+        "nextPageToken": {"type": "string"},
+    }
+
+    assert violations_for(spec) == []
+
+
+def test_rejects_partial_aip158_pagination_or_missing_response_token() -> None:
+    spec = valid_contract_spec()
+    spec["paths"]["/v1/traces"]["get"]["parameters"] = [
+        {"name": "pageSize", "in": "query", "schema": {"type": "integer"}},
+    ]
+
+    violations = violations_for(spec)
+
+    assert (
+        "GET /v1/traces: AIP-158 list op 'traces.list' lacks ['pageToken']"
+        in violations
+    )
+
+    spec["paths"]["/v1/traces"]["get"]["parameters"].append(
+        {"name": "pageToken", "in": "query", "schema": {"type": "string"}}
+    )
+    violations = violations_for(spec)
+    assert (
+        "GET /v1/traces: AIP-158 list op 'traces.list' response lacks nextPageToken"
+        in violations
+    )
+
+
 def test_keeps_documented_list_pagination_exemptions() -> None:
     spec = valid_contract_spec()
     list_op = spec["paths"]["/v1/traces"]["get"]
@@ -226,6 +263,8 @@ def main() -> None:
         test_rejects_duplicate_operation_ids,
         test_rejects_non_shared_error_and_inline_success_shapes,
         test_requires_pagination_for_list_contracts,
+        test_accepts_complete_aip158_pagination,
+        test_rejects_partial_aip158_pagination_or_missing_response_token,
         test_keeps_documented_list_pagination_exemptions,
         test_main_reports_failure_for_cli_gate,
     ):

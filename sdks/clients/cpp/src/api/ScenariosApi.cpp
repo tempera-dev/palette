@@ -339,7 +339,7 @@ pplx::task<std::shared_ptr<Scenario>> ScenariosApi::scenarios_get(utility::strin
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> cursor, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -382,13 +382,13 @@ pplx::task<std::shared_ptr<ListScenariosResponse>> ScenariosApi::scenarios_list(
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
-    if (limit)
+    if (pageSize)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
     }
-    if (cursor)
+    if (pageToken)
     {
-        localVarQueryParams[utility::conversions::to_string_t("cursor")] = ApiClient::parameterToString(*cursor);
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {

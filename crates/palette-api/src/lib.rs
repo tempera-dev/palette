@@ -104,6 +104,8 @@ const API_KEY_HEADER: &str = "x-palette-api-key";
 const TENANT_ID_HEADER: &str = "x-palette-tenant-id";
 const PROJECT_ID_HEADER: &str = "x-palette-project-id";
 const ENVIRONMENT_ID_HEADER: &str = "x-palette-environment-id";
+const DEFAULT_PAGE_SIZE: usize = 50;
+const MAX_PAGE_SIZE: usize = 200;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct IntrospectedTokenClaims {
@@ -3231,27 +3233,42 @@ async fn list_scenarios(
         ApiScope::ScenarioRead,
     )
     .await?;
-    // Store returns scenarios ordered by (created_at, scenario_id); paginate with
-    // an opaque cursor equal to the last scenario_id returned on the prior page.
-    let limit = params.limit.unwrap_or(50).clamp(1, 200) as usize;
+    // The store orders scenarios by (created_at, scenario_id). The public token
+    // is a digest of the collection, complete request binding, and last item
+    // rather than the raw scenario id. Clients must treat it as opaque, and a
+    // token from another tenant, project, or page size fails closed.
+    let page_size = aip_page_size(params.page_size);
     let all = scenarios.list_scenarios(&tenant_id, &project_id).await?;
-    let start = match params.cursor.as_deref() {
-        Some(cursor) => all
+    let page_size_binding = page_size.to_string();
+    let token_binding = [
+        tenant_id.as_str(),
+        project_id.as_str(),
+        page_size_binding.as_str(),
+    ];
+    let start = match params.page_token.as_deref() {
+        Some(page_token) => all
             .iter()
-            .position(|s| s.scenario_id == cursor)
+            .position(|scenario| {
+                opaque_page_token("scenarios", &token_binding, &scenario.scenario_id) == page_token
+            })
             .map(|i| i + 1)
-            .unwrap_or(all.len()),
+            .ok_or_else(|| {
+                ApiError::bad_request(
+                    "pageToken is invalid or does not match the list request".to_string(),
+                )
+            })?,
         None => 0,
     };
-    let page: Vec<Scenario> = all.iter().skip(start).take(limit).cloned().collect();
-    let next_cursor = if start + page.len() < all.len() {
-        page.last().map(|s| s.scenario_id.clone())
+    let page: Vec<Scenario> = all.iter().skip(start).take(page_size).cloned().collect();
+    let next_page_token = if start + page.len() < all.len() {
+        page.last()
+            .map(|scenario| opaque_page_token("scenarios", &token_binding, &scenario.scenario_id))
     } else {
         None
     };
     Ok(Json(ListScenariosResponse {
         scenarios: page,
-        next_cursor,
+        next_page_token,
     }))
 }
 
@@ -4690,17 +4707,22 @@ struct MineScenariosRequest {
 }
 
 #[derive(Clone, Debug, Default, Deserialize, IntoParams)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct ListScenariosQuery {
-    limit: Option<u32>,
-    cursor: Option<String>,
+    /// Maximum number of scenarios to return. Zero selects the server default;
+    /// values above the service maximum are coerced to that maximum.
+    page_size: Option<u32>,
+    /// Opaque continuation token returned by the preceding list request.
+    page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct ListScenariosResponse {
     scenarios: Vec<Scenario>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    next_cursor: Option<String>,
+    next_page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
@@ -7082,6 +7104,36 @@ impl ApiError {
 fn parse_span_kind(value: String) -> Result<AgentSpanKind, ApiError> {
     AgentSpanKind::parse(&value)
         .ok_or_else(|| ApiError::bad_request(format!("unsupported span kind: {value}")))
+}
+
+fn aip_page_size(requested: Option<u32>) -> usize {
+    match requested {
+        None | Some(0) => DEFAULT_PAGE_SIZE,
+        Some(page_size) => (page_size as usize).min(MAX_PAGE_SIZE),
+    }
+}
+
+/// Build a stateless AIP-158 page token without exposing a storage cursor.
+///
+/// Each value is length-framed before hashing so different request tuples
+/// cannot collide through delimiter ambiguity. The resulting digest is bound
+/// to the collection and all request fields supplied by the caller. It is not
+/// an authorization credential; normal tenant and scope authorization still
+/// runs before a token is accepted.
+fn opaque_page_token(collection: &str, request_binding: &[&str], cursor: &str) -> String {
+    fn frame(bytes: &mut Vec<u8>, value: &str) {
+        bytes.extend_from_slice(&(value.len() as u64).to_be_bytes());
+        bytes.extend_from_slice(value.as_bytes());
+    }
+
+    let mut material = Vec::new();
+    frame(&mut material, "palette.aip158.page-token/v1");
+    frame(&mut material, collection);
+    for value in request_binding {
+        frame(&mut material, value);
+    }
+    frame(&mut material, cursor);
+    format!("aip158_v1_{}", sha256_hex(&material))
 }
 
 fn parse_optional_timestamp(

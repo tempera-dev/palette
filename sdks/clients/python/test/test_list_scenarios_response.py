@@ -35,7 +35,7 @@ class TestListScenariosResponse(unittest.TestCase):
         model = ListScenariosResponse()
         if include_optional:
             return ListScenariosResponse(
-                next_cursor = '',
+                next_page_token = '',
                 scenarios = [
                     palette_client.models.scenario.Scenario(
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 

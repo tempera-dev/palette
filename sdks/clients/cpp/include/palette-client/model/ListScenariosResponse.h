@@ -56,10 +56,10 @@ public:
     /// ListScenariosResponse members
 
 
-    utility::string_t getNextCursor() const;
-    bool nextCursorIsSet() const;
-    void unsetNext_cursor();
-    void setNextCursor(const utility::string_t& value);
+    utility::string_t getNextPageToken() const;
+    bool nextPageTokenIsSet() const;
+    void unsetNextPageToken();
+    void setNextPageToken(const utility::string_t& value);
 
     std::vector<std::shared_ptr<Scenario>> getScenarios() const;
     bool scenariosIsSet() const;
@@ -68,8 +68,8 @@ public:
 
 
 protected:
-    utility::string_t m_Next_cursor;
-    bool m_Next_cursorIsSet;
+    utility::string_t m_NextPageToken;
+    bool m_NextPageTokenIsSet;
 
     std::vector<std::shared_ptr<Scenario>> m_Scenarios;
     bool m_ScenariosIsSet;

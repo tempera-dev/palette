@@ -417,7 +417,7 @@ end:
 }
 
 list_scenarios_response_t*
-ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *cursor, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -510,28 +510,28 @@ ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *projec
 
 
     // query parameters
-    char *keyQuery_limit = NULL;
-    char * valueQuery_limit = NULL;
-    keyValuePair_t *keyPairQuery_limit = 0;
-    if (limit)
+    char *keyQuery_pageSize = NULL;
+    char * valueQuery_pageSize = NULL;
+    keyValuePair_t *keyPairQuery_pageSize = 0;
+    if (pageSize)
     {
-        keyQuery_limit = strdup("limit");
-        valueQuery_limit = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_limit, MAX_NUMBER_LENGTH, "%d", *limit);
-        keyPairQuery_limit = keyValuePair_create(keyQuery_limit, valueQuery_limit);
-        list_addElement(localVarQueryParameters,keyPairQuery_limit);
+        keyQuery_pageSize = strdup("pageSize");
+        valueQuery_pageSize = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_pageSize, MAX_NUMBER_LENGTH, "%d", *pageSize);
+        keyPairQuery_pageSize = keyValuePair_create(keyQuery_pageSize, valueQuery_pageSize);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageSize);
     }
 
     // query parameters
-    char *keyQuery_cursor = NULL;
-    char * valueQuery_cursor = NULL;
-    keyValuePair_t *keyPairQuery_cursor = 0;
-    if (cursor)
+    char *keyQuery_pageToken = NULL;
+    char * valueQuery_pageToken = NULL;
+    keyValuePair_t *keyPairQuery_pageToken = 0;
+    if (pageToken)
     {
-        keyQuery_cursor = strdup("cursor");
-        valueQuery_cursor = strdup((cursor));
-        keyPairQuery_cursor = keyValuePair_create(keyQuery_cursor, valueQuery_cursor);
-        list_addElement(localVarQueryParameters,keyPairQuery_cursor);
+        keyQuery_pageToken = strdup("pageToken");
+        valueQuery_pageToken = strdup((pageToken));
+        keyPairQuery_pageToken = keyValuePair_create(keyQuery_pageToken, valueQuery_pageToken);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageToken);
     }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
@@ -622,29 +622,29 @@ ScenariosAPI_scenariosList(apiClient_t *apiClient, char *tenant_id, char *projec
         valueHeader_x_palette_environment_id = NULL;
     }
     free(keyPairHeader_x_palette_environment_id);
-    if(keyQuery_limit){
-        free(keyQuery_limit);
-        keyQuery_limit = NULL;
+    if(keyQuery_pageSize){
+        free(keyQuery_pageSize);
+        keyQuery_pageSize = NULL;
     }
-    if(valueQuery_limit){
-        free(valueQuery_limit);
-        valueQuery_limit = NULL;
+    if(valueQuery_pageSize){
+        free(valueQuery_pageSize);
+        valueQuery_pageSize = NULL;
     }
-    if(keyPairQuery_limit){
-        keyValuePair_free(keyPairQuery_limit);
-        keyPairQuery_limit = NULL;
+    if(keyPairQuery_pageSize){
+        keyValuePair_free(keyPairQuery_pageSize);
+        keyPairQuery_pageSize = NULL;
     }
-    if(keyQuery_cursor){
-        free(keyQuery_cursor);
-        keyQuery_cursor = NULL;
+    if(keyQuery_pageToken){
+        free(keyQuery_pageToken);
+        keyQuery_pageToken = NULL;
     }
-    if(valueQuery_cursor){
-        free(valueQuery_cursor);
-        valueQuery_cursor = NULL;
+    if(valueQuery_pageToken){
+        free(valueQuery_pageToken);
+        valueQuery_pageToken = NULL;
     }
-    if(keyPairQuery_cursor){
-        keyValuePair_free(keyPairQuery_cursor);
-        keyPairQuery_cursor = NULL;
+    if(keyPairQuery_pageToken){
+        keyValuePair_free(keyPairQuery_pageToken);
+        keyPairQuery_pageToken = NULL;
     }
     return elementToReturn;
 end:

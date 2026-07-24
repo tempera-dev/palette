@@ -7,5 +7,5 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**nextCursor** | **String** |  |  [optional] |
+|**nextPageToken** | **String** |  |  [optional] |
 |**scenarios** | [**List&lt;Scenario&gt;**](Scenario.md) |  |  |

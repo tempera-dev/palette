@@ -1748,7 +1748,7 @@ export interface components {
         };
         JudgeCallId: string;
         ListScenariosResponse: {
-            next_cursor?: string | null;
+            nextPageToken?: string | null;
             scenarios: components["schemas"]["Scenario"][];
         };
         MaintenanceWindow: {
@@ -6051,8 +6051,13 @@ export interface operations {
     "scenarios.list": {
         parameters: {
             query?: {
-                limit?: number;
-                cursor?: string;
+                /**
+                 * @description Maximum number of scenarios to return. Zero selects the server default;
+                 *     values above the service maximum are coerced to that maximum.
+                 */
+                pageSize?: number;
+                /** @description Opaque continuation token returned by the preceding list request. */
+                pageToken?: string;
             };
             header?: {
                 /** @description Bearer API token for strict auth */

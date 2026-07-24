@@ -58,8 +58,10 @@ pub struct ScenariosPeriodListParams {
     pub tenant_id: String,
     /// project_id
     pub project_id: String,
-    pub limit: Option<i32>,
-    pub cursor: Option<String>,
+    /// Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+    pub page_size: Option<i32>,
+    /// Opaque continuation token returned by the preceding list request.
+    pub page_token: Option<String>,
     /// Bearer API token for strict auth
     pub authorization: Option<String>,
     /// API key alternative for strict auth
@@ -210,11 +212,11 @@ pub async fn scenarios_period_list(configuration: &configuration::Configuration,
     let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = params.limit {
-        req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
+    if let Some(ref param_value) = params.page_size {
+        req_builder = req_builder.query(&[("pageSize", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = params.cursor {
-        req_builder = req_builder.query(&[("cursor", &param_value.to_string())]);
+    if let Some(ref param_value) = params.page_token {
+        req_builder = req_builder.query(&[("pageToken", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

@@ -339,7 +339,7 @@ No authorization required
 
 ## scenariosList
 
-> ListScenariosResponse scenariosList(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ListScenariosResponse scenariosList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -361,14 +361,14 @@ public class Example {
         ScenariosApi apiInstance = new ScenariosApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
-        Integer limit = 56; // Integer |
-        String cursor = "cursor_example"; // String |
+        Integer pageSize = 56; // Integer | Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ListScenariosResponse result = apiInstance.scenariosList(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ListScenariosResponse result = apiInstance.scenariosList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ScenariosApi#scenariosList");
@@ -388,8 +388,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
-| **limit** | **Integer**|  | [optional] |
-| **cursor** | **String**|  | [optional] |
+| **pageSize** | **Integer**| Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -419,7 +419,7 @@ No authorization required
 
 ## scenariosListWithHttpInfo
 
-> ApiResponse<ListScenariosResponse> scenariosList scenariosListWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ListScenariosResponse> scenariosList scenariosListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -442,14 +442,14 @@ public class Example {
         ScenariosApi apiInstance = new ScenariosApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
-        Integer limit = 56; // Integer |
-        String cursor = "cursor_example"; // String |
+        Integer pageSize = 56; // Integer | Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ListScenariosResponse> response = apiInstance.scenariosListWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ListScenariosResponse> response = apiInstance.scenariosListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -471,8 +471,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
-| **limit** | **Integer**|  | [optional] |
-| **cursor** | **String**|  | [optional] |
+| **pageSize** | **Integer**| Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |

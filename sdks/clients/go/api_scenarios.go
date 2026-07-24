@@ -408,21 +408,23 @@ type ApiScenariosListRequest struct {
 	ApiService *ScenariosAPIService
 	tenantId string
 	projectId string
-	limit *int32
-	cursor *string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
 }
 
-func (r ApiScenariosListRequest) Limit(limit int32) ApiScenariosListRequest {
-	r.limit = &limit
+// Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiScenariosListRequest) PageSize(pageSize int32) ApiScenariosListRequest {
+	r.pageSize = &pageSize
 	return r
 }
 
-func (r ApiScenariosListRequest) Cursor(cursor string) ApiScenariosListRequest {
-	r.cursor = &cursor
+// Opaque continuation token returned by the preceding list request.
+func (r ApiScenariosListRequest) PageToken(pageToken string) ApiScenariosListRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -494,11 +496,11 @@ func (a *ScenariosAPIService) ScenariosListExecute(r ApiScenariosListRequest) (*
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
 	}
-	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

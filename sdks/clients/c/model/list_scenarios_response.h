@@ -20,14 +20,14 @@ typedef struct list_scenarios_response_t list_scenarios_response_t;
 
 
 typedef struct list_scenarios_response_t {
-    char *next_cursor; // string
+    char *next_page_token; // string
     list_t *scenarios; //nonprimitive container
 
     int _library_owned; // Is the library responsible for freeing this object?
 } list_scenarios_response_t;
 
 __attribute__((deprecated)) list_scenarios_response_t *list_scenarios_response_create(
-    char *next_cursor,
+    char *next_page_token,
     list_t *scenarios
 );
 

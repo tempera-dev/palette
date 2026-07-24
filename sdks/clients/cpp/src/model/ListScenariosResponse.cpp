@@ -20,8 +20,8 @@ namespace model {
 
 ListScenariosResponse::ListScenariosResponse()
 {
-    m_Next_cursor = utility::conversions::to_string_t("");
-    m_Next_cursorIsSet = false;
+    m_NextPageToken = utility::conversions::to_string_t("");
+    m_NextPageTokenIsSet = false;
     m_ScenariosIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void ListScenariosResponse::validate()
 web::json::value ListScenariosResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Next_cursorIsSet)
+    if(m_NextPageTokenIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("next_cursor"))] = ModelBase::toJson(m_Next_cursor);
+        val[utility::conversions::to_string_t(U("nextPageToken"))] = ModelBase::toJson(m_NextPageToken);
     }
     if(m_ScenariosIsSet)
     {   
@@ -54,14 +54,14 @@ web::json::value ListScenariosResponse::toJson() const
 bool ListScenariosResponse::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("next_cursor"))))
+    if(val.has_field(utility::conversions::to_string_t(U("nextPageToken"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("next_cursor")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("nextPageToken")));
         if(!fieldValue.is_null())
         {
-            utility::string_t refVal_setNextCursor;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setNextCursor);
-            setNextCursor(refVal_setNextCursor);
+            utility::string_t refVal_setNextPageToken;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setNextPageToken);
+            setNextPageToken(refVal_setNextPageToken);
             
         }
     }
@@ -86,9 +86,9 @@ void ListScenariosResponse::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Next_cursorIsSet)
+    if(m_NextPageTokenIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("next_cursor")), m_Next_cursor));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("nextPageToken")), m_NextPageToken));
     }
     if(m_ScenariosIsSet)
     {
@@ -105,11 +105,11 @@ bool ListScenariosResponse::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("next_cursor"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("nextPageToken"))))
     {
-        utility::string_t refVal_setNextCursor;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("next_cursor"))), refVal_setNextCursor );
-        setNextCursor(refVal_setNextCursor);
+        utility::string_t refVal_setNextPageToken;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("nextPageToken"))), refVal_setNextPageToken );
+        setNextPageToken(refVal_setNextPageToken);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("scenarios"))))
     {
@@ -121,26 +121,26 @@ bool ListScenariosResponse::fromMultiPart(std::shared_ptr<MultipartFormData> mul
 }
 
 
-utility::string_t ListScenariosResponse::getNextCursor() const
+utility::string_t ListScenariosResponse::getNextPageToken() const
 {
-    return m_Next_cursor;
+    return m_NextPageToken;
 }
 
 
-void ListScenariosResponse::setNextCursor(const utility::string_t& value)
+void ListScenariosResponse::setNextPageToken(const utility::string_t& value)
 {
-    m_Next_cursor = value;
-    m_Next_cursorIsSet = true;
+    m_NextPageToken = value;
+    m_NextPageTokenIsSet = true;
 }
 
-bool ListScenariosResponse::nextCursorIsSet() const
+bool ListScenariosResponse::nextPageTokenIsSet() const
 {
-    return m_Next_cursorIsSet;
+    return m_NextPageTokenIsSet;
 }
 
-void ListScenariosResponse::unsetNext_cursor()
+void ListScenariosResponse::unsetNextPageToken()
 {
-    m_Next_cursorIsSet = false;
+    m_NextPageTokenIsSet = false;
 }
 std::vector<std::shared_ptr<Scenario>> ListScenariosResponse::getScenarios() const
 {

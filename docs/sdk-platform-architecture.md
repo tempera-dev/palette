@@ -34,11 +34,40 @@ and `oasdiff` blocks breaking changes. Drift is a merge-blocker, not a hope.
 - **Typed everything.** No bare `object`/`any` responses; every response is a
   named schema. Discriminated unions use an internal `type` tag (e.g.
   `EvaluatorKind`) so they generate cleanly in strict languages.
-- **Cursor pagination** for list endpoints (`limit` + `next_cursor`).
+- **AIP-158 pagination** for migrated list endpoints: lower-camel
+  `pageSize`/`pageToken` requests and `nextPageToken` responses. Tokens are
+  opaque and bound to the complete list request; malformed, stale, or
+  cross-scope tokens fail with `400`. The scenarios collection is the first
+  migrated family.
 - **Explicit tenancy.** `tenant`/`project`/`environment` are path-scoped; the SDK
   ergonomic layer binds them once at `init()` so callers never repeat them.
 - **Versioned.** All routes under `/v1`; `info.version` tracks the workspace
   version; SDKs publish in lockstep.
+
+### AIP-158 migration inventory
+
+The scenarios family (`GET /v1/scenarios/{tenant_id}/{project_id}`) uses the
+standard contract above. The remaining public collection/search operations
+still require a deliberately sequenced breaking migration:
+
+- `archive.querySpans` — `GET /v1/archive/{tenant_id}/{project_id}/spans`
+- `audit.list` — `GET /v1/audit/{tenant_id}/{project_id}`
+- `connectors.list` — `GET /v1/connectors/{tenant_id}/{project_id}`
+- `connectors.listTools` —
+  `GET /v1/connectors/{tenant_id}/{project_id}/tools`
+- `judge.listLedger` — `GET /v1/judge/{tenant_id}/{project_id}/ledger`
+- `prompts.list` — `GET /v1/prompts/{tenant_id}/{project_id}`
+- `prompts.listVersions` —
+  `GET /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions`
+- `providerSecrets.list` —
+  `GET /v1/provider-secrets/{tenant_id}/{project_id}`
+- `reviews.listTasks` —
+  `GET /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks`
+- `search.spans` — `GET /v1/search/{tenant_id}/spans`
+- `traces.list` — `GET /v1/traces/{tenant_id}`
+
+Raw OTLP collection endpoints and MCP protocol pagination are protocol-native
+surfaces and are not rewritten by this HTTP API migration.
 
 ## Two SDK layers (simple by default, powerful when needed)
 

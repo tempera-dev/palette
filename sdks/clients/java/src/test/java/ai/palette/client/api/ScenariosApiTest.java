@@ -97,14 +97,14 @@ public class ScenariosApiTest {
     public void scenariosListTest() throws ApiException {
         String tenantId = null;
         String projectId = null;
-        Integer limit = null;
-        String cursor = null;
+        Integer pageSize = null;
+        String pageToken = null;
         String authorization = null;
         String xPaletteApiKey = null;
         String xPaletteProjectId = null;
         String xPaletteEnvironmentId = null;
         ListScenariosResponse response = 
-        api.scenariosList(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+        api.scenariosList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
         
         // TODO: test validations
     }

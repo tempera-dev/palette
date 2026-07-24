@@ -332,8 +332,8 @@ public class ScenariosApi {
    * 
    * @param tenantId tenant_id (required)
    * @param projectId project_id (required)
-   * @param limit  (optional)
-   * @param cursor  (optional)
+   * @param pageSize Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional)
+   * @param pageToken Opaque continuation token returned by the preceding list request. (optional)
    * @param authorization Bearer API token for strict auth (optional)
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
@@ -341,8 +341,8 @@ public class ScenariosApi {
    * @return ListScenariosResponse
    * @throws ApiException if fails to make API call
    */
-  public ListScenariosResponse scenariosList(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    ApiResponse<ListScenariosResponse> localVarResponse = scenariosListWithHttpInfo(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ListScenariosResponse scenariosList(String tenantId, String projectId, Integer pageSize, String pageToken, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    ApiResponse<ListScenariosResponse> localVarResponse = scenariosListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     return localVarResponse.getData();
   }
 
@@ -351,8 +351,8 @@ public class ScenariosApi {
    * 
    * @param tenantId tenant_id (required)
    * @param projectId project_id (required)
-   * @param limit  (optional)
-   * @param cursor  (optional)
+   * @param pageSize Maximum number of scenarios to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional)
+   * @param pageToken Opaque continuation token returned by the preceding list request. (optional)
    * @param authorization Bearer API token for strict auth (optional)
    * @param xPaletteApiKey API key alternative for strict auth (optional)
    * @param xPaletteProjectId Strict-auth project scope (optional)
@@ -360,8 +360,8 @@ public class ScenariosApi {
    * @return ApiResponse&lt;ListScenariosResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ListScenariosResponse> scenariosListWithHttpInfo(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = scenariosListRequestBuilder(tenantId, projectId, limit, cursor, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+  public ApiResponse<ListScenariosResponse> scenariosListWithHttpInfo(String tenantId, String projectId, Integer pageSize, String pageToken, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = scenariosListRequestBuilder(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -400,7 +400,7 @@ public class ScenariosApi {
     }
   }
 
-  private HttpRequest.Builder scenariosListRequestBuilder(String tenantId, String projectId, Integer limit, String cursor, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
+  private HttpRequest.Builder scenariosListRequestBuilder(String tenantId, String projectId, Integer pageSize, String pageToken, String authorization, String xPaletteApiKey, String xPaletteProjectId, String xPaletteEnvironmentId) throws ApiException {
     // verify the required parameter 'tenantId' is set
     if (tenantId == null) {
       throw new ApiException(400, "Missing the required parameter 'tenantId' when calling scenariosList");
@@ -419,10 +419,10 @@ public class ScenariosApi {
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "limit";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("limit", limit));
-    localVarQueryParameterBaseName = "cursor";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("cursor", cursor));
+    localVarQueryParameterBaseName = "pageSize";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("pageSize", pageSize));
+    localVarQueryParameterBaseName = "pageToken";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("pageToken", pageToken));
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
