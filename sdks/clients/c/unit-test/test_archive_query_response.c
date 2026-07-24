@@ -22,10 +22,12 @@ archive_query_response_t* instantiate_archive_query_response(int include_optiona
   archive_query_response_t* archive_query_response = NULL;
   if (include_optional) {
     archive_query_response = archive_query_response_create(
+      "0",
       list_createList()
     );
   } else {
     archive_query_response = archive_query_response_create(
+      "0",
       list_createList()
     );
   }

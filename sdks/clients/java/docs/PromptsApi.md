@@ -679,7 +679,7 @@ No authorization required
 
 ## promptsList
 
-> PromptListResponse promptsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PromptListResponse promptsList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -701,12 +701,14 @@ public class Example {
         PromptsApi apiInstance = new PromptsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PromptListResponse result = apiInstance.promptsList(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PromptListResponse result = apiInstance.promptsList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PromptsApi#promptsList");
@@ -726,6 +728,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -755,7 +759,7 @@ No authorization required
 
 ## promptsListWithHttpInfo
 
-> ApiResponse<PromptListResponse> promptsList promptsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PromptListResponse> promptsList promptsListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -778,12 +782,14 @@ public class Example {
         PromptsApi apiInstance = new PromptsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PromptListResponse> response = apiInstance.promptsListWithHttpInfo(tenantId, projectId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PromptListResponse> response = apiInstance.promptsListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -805,6 +811,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -835,7 +843,7 @@ No authorization required
 
 ## promptsListVersions
 
-> PromptVersionListResponse promptsListVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> PromptVersionListResponse promptsListVersions(tenantId, projectId, promptId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -858,12 +866,14 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String promptId = "promptId_example"; // String | prompt_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            PromptVersionListResponse result = apiInstance.promptsListVersions(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            PromptVersionListResponse result = apiInstance.promptsListVersions(tenantId, projectId, promptId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PromptsApi#promptsListVersions");
@@ -884,6 +894,8 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **promptId** | **String**| prompt_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -914,7 +926,7 @@ No authorization required
 
 ## promptsListVersionsWithHttpInfo
 
-> ApiResponse<PromptVersionListResponse> promptsListVersions promptsListVersionsWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<PromptVersionListResponse> promptsListVersions promptsListVersionsWithHttpInfo(tenantId, projectId, promptId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -938,12 +950,14 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String promptId = "promptId_example"; // String | prompt_id
+        Integer pageSize = 56; // Integer | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<PromptVersionListResponse> response = apiInstance.promptsListVersionsWithHttpInfo(tenantId, projectId, promptId, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<PromptVersionListResponse> response = apiInstance.promptsListVersionsWithHttpInfo(tenantId, projectId, promptId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -966,6 +980,8 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **promptId** | **String**| prompt_id | |
+| **pageSize** | **Integer**| Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |

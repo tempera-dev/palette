@@ -21,6 +21,7 @@ var _ MappedNullable = &PromptListResponse{}
 
 // PromptListResponse struct for PromptListResponse
 type PromptListResponse struct {
+	NextPageToken NullableString `json:"nextPageToken,omitempty"`
 	Prompts []Prompt `json:"prompts"`
 }
 
@@ -42,6 +43,48 @@ func NewPromptListResponse(prompts []Prompt) *PromptListResponse {
 func NewPromptListResponseWithDefaults() *PromptListResponse {
 	this := PromptListResponse{}
 	return &this
+}
+
+// GetNextPageToken returns the NextPageToken field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PromptListResponse) GetNextPageToken() string {
+	if o == nil || IsNil(o.NextPageToken.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.NextPageToken.Get()
+}
+
+// GetNextPageTokenOk returns a tuple with the NextPageToken field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PromptListResponse) GetNextPageTokenOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.NextPageToken.Get(), o.NextPageToken.IsSet()
+}
+
+// HasNextPageToken returns a boolean if a field has been set.
+func (o *PromptListResponse) HasNextPageToken() bool {
+	if o != nil && o.NextPageToken.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetNextPageToken gets a reference to the given NullableString and assigns it to the NextPageToken field.
+func (o *PromptListResponse) SetNextPageToken(v string) {
+	o.NextPageToken.Set(&v)
+}
+// SetNextPageTokenNil sets the value for NextPageToken to be an explicit nil
+func (o *PromptListResponse) SetNextPageTokenNil() {
+	o.NextPageToken.Set(nil)
+}
+
+// UnsetNextPageToken ensures that no value is present for NextPageToken, not even an explicit nil
+func (o *PromptListResponse) UnsetNextPageToken() {
+	o.NextPageToken.Unset()
 }
 
 // GetPrompts returns the Prompts field value
@@ -78,6 +121,9 @@ func (o PromptListResponse) MarshalJSON() ([]byte, error) {
 
 func (o PromptListResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.NextPageToken.IsSet() {
+		toSerialize["nextPageToken"] = o.NextPageToken.Get()
+	}
 	toSerialize["prompts"] = o.Prompts
 	return toSerialize, nil
 }
@@ -154,5 +200,3 @@ func (v *NullablePromptListResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

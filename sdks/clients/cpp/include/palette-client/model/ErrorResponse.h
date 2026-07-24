@@ -12,7 +12,7 @@
 /*
  * ErrorResponse.h
  *
- * Error envelope returned by every fallible endpoint.
+ * AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_ErrorResponse_H_
@@ -21,17 +21,18 @@
 
 #include "palette-client/ModelBase.h"
 
-#include <cpprest/details/basic_types.h>
+#include "palette-client/model/ErrorStatus.h"
 
 namespace org {
 namespace openapitools {
 namespace client {
 namespace model {
 
+class ErrorStatus;
 
 
 /// <summary>
-/// Error envelope returned by every fallible endpoint.
+/// AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
 /// </summary>
 class  ErrorResponse
     : public ModelBase
@@ -56,40 +57,15 @@ public:
     /// ErrorResponse members
 
 
-    /// <summary>
-    /// Stable machine-readable error code.
-    /// </summary>
-    utility::string_t getError() const;
+    std::shared_ptr<ErrorStatus> getError() const;
     bool errorIsSet() const;
     void unsetError();
-    void setError(const utility::string_t& value);
-
-    /// <summary>
-    /// Human-readable error message.
-    /// </summary>
-    utility::string_t getMessage() const;
-    bool messageIsSet() const;
-    void unsetMessage();
-    void setMessage(const utility::string_t& value);
-
-    /// <summary>
-    /// Deprecated compatibility HTTP status code for older &#x60;/v1&#x60; clients.
-    /// </summary>
-    int32_t getStatus() const;
-    bool statusIsSet() const;
-    void unsetStatus();
-    void setStatus(int32_t value);
+    void setError(const std::shared_ptr<ErrorStatus>& value);
 
 
 protected:
-    utility::string_t m_Error;
+    std::shared_ptr<ErrorStatus> m_Error;
     bool m_ErrorIsSet;
-
-    utility::string_t m_Message;
-    bool m_MessageIsSet;
-
-    int32_t m_Status;
-    bool m_StatusIsSet;
 
 };
 

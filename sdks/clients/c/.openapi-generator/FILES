@@ -89,6 +89,7 @@ docs/archived_span_row.md
 docs/artifact_ref.md
 docs/audit_action.md
 docs/audit_event.md
+docs/audit_event_list_response.md
 docs/audit_outcome.md
 docs/auth_context.md
 docs/bus_message.md
@@ -103,8 +104,10 @@ docs/case_output_override_request.md
 docs/connect_connector_request.md
 docs/connection_link.md
 docs/connection_status.md
+docs/connector_list_response.md
 docs/connector_skills_response.md
 docs/connector_tool.md
+docs/connector_tool_list_response.md
 docs/create_api_key_http_request.md
 docs/create_dataset_request.md
 docs/create_dataset_version_request.md
@@ -125,6 +128,7 @@ docs/diff_line.md
 docs/diff_line_kind.md
 docs/enqueue_review_task_from_trace_http_request.md
 docs/error_response.md
+docs/error_status.md
 docs/eval_reproducibility.md
 docs/eval_result.md
 docs/evaluate_alert_request.md
@@ -160,6 +164,7 @@ docs/ingest_queue_status.md
 docs/invoke_connector_request.md
 docs/judge_audit_record.md
 docs/judge_broker_outcome.md
+docs/judge_ledger_list_response.md
 docs/list_scenarios_response.md
 docs/maintenance_window.md
 docs/mine_scenarios_request.md
@@ -169,8 +174,6 @@ docs/money.md
 docs/native_ingest_request.md
 docs/online_sampling_policy.md
 docs/otlp_ingest_outcome.md
-docs/page_run_summary.md
-docs/page_run_summary_items_inner.md
 docs/palette_connect_status.md
 docs/palette_connect_status_response.md
 docs/perturbation_knobs.md
@@ -184,6 +187,7 @@ docs/prompt_version.md
 docs/prompt_version_diff.md
 docs/prompt_version_list_response.md
 docs/prompt_version_metadata.md
+docs/provider_secret_list_response.md
 docs/provider_secret_metadata.md
 docs/public_judge_audit_record.md
 docs/publish_ack.md
@@ -193,6 +197,7 @@ docs/reliability_bin.md
 docs/review_annotation.md
 docs/review_queue.md
 docs/review_task.md
+docs/review_task_list_response.md
 docs/review_task_state.md
 docs/review_verdict.md
 docs/revoked_api_key.md
@@ -211,7 +216,7 @@ docs/scenario.md
 docs/scenario_cluster.md
 docs/score_result.md
 docs/search_hit.md
-docs/search_response.md
+docs/search_span_list_response.md
 docs/signature.md
 docs/span_io_response.md
 docs/span_io_value.md
@@ -230,6 +235,7 @@ docs/tool_execution.md
 docs/toolkit.md
 docs/trace_ingested_drain_report.md
 docs/trace_ingested_reconcile_report.md
+docs/trace_list_response.md
 docs/trace_view.md
 docs/trace_write_drain_report.md
 docs/usage_summary.md
@@ -273,6 +279,8 @@ model/audit_action.c
 model/audit_action.h
 model/audit_event.c
 model/audit_event.h
+model/audit_event_list_response.c
+model/audit_event_list_response.h
 model/audit_outcome.c
 model/audit_outcome.h
 model/auth_context.c
@@ -301,10 +309,14 @@ model/connection_link.c
 model/connection_link.h
 model/connection_status.c
 model/connection_status.h
+model/connector_list_response.c
+model/connector_list_response.h
 model/connector_skills_response.c
 model/connector_skills_response.h
 model/connector_tool.c
 model/connector_tool.h
+model/connector_tool_list_response.c
+model/connector_tool_list_response.h
 model/create_api_key_http_request.c
 model/create_api_key_http_request.h
 model/create_dataset_request.c
@@ -345,6 +357,8 @@ model/enqueue_review_task_from_trace_http_request.c
 model/enqueue_review_task_from_trace_http_request.h
 model/error_response.c
 model/error_response.h
+model/error_status.c
+model/error_status.h
 model/eval_reproducibility.c
 model/eval_reproducibility.h
 model/eval_result.c
@@ -415,6 +429,8 @@ model/judge_audit_record.c
 model/judge_audit_record.h
 model/judge_broker_outcome.c
 model/judge_broker_outcome.h
+model/judge_ledger_list_response.c
+model/judge_ledger_list_response.h
 model/list_scenarios_response.c
 model/list_scenarios_response.h
 model/maintenance_window.c
@@ -435,10 +451,6 @@ model/online_sampling_policy.c
 model/online_sampling_policy.h
 model/otlp_ingest_outcome.c
 model/otlp_ingest_outcome.h
-model/page_run_summary.c
-model/page_run_summary.h
-model/page_run_summary_items_inner.c
-model/page_run_summary_items_inner.h
 model/palette_connect_status.c
 model/palette_connect_status.h
 model/palette_connect_status_response.c
@@ -465,6 +477,8 @@ model/prompt_version_list_response.c
 model/prompt_version_list_response.h
 model/prompt_version_metadata.c
 model/prompt_version_metadata.h
+model/provider_secret_list_response.c
+model/provider_secret_list_response.h
 model/provider_secret_metadata.c
 model/provider_secret_metadata.h
 model/public_judge_audit_record.c
@@ -483,6 +497,8 @@ model/review_queue.c
 model/review_queue.h
 model/review_task.c
 model/review_task.h
+model/review_task_list_response.c
+model/review_task_list_response.h
 model/review_task_state.c
 model/review_task_state.h
 model/review_verdict.c
@@ -519,8 +535,8 @@ model/score_result.c
 model/score_result.h
 model/search_hit.c
 model/search_hit.h
-model/search_response.c
-model/search_response.h
+model/search_span_list_response.c
+model/search_span_list_response.h
 model/signature.c
 model/signature.h
 model/span_io_response.c
@@ -557,6 +573,8 @@ model/trace_ingested_drain_report.c
 model/trace_ingested_drain_report.h
 model/trace_ingested_reconcile_report.c
 model/trace_ingested_reconcile_report.h
+model/trace_list_response.c
+model/trace_list_response.h
 model/trace_view.c
 model/trace_view.h
 model/trace_write_drain_report.c
@@ -588,6 +606,7 @@ unit-test/test_archived_span_row.c
 unit-test/test_artifact_ref.c
 unit-test/test_audit_action.c
 unit-test/test_audit_event.c
+unit-test/test_audit_event_list_response.c
 unit-test/test_audit_outcome.c
 unit-test/test_auth_context.c
 unit-test/test_bus_message.c
@@ -602,8 +621,10 @@ unit-test/test_case_output_override_request.c
 unit-test/test_connect_connector_request.c
 unit-test/test_connection_link.c
 unit-test/test_connection_status.c
+unit-test/test_connector_list_response.c
 unit-test/test_connector_skills_response.c
 unit-test/test_connector_tool.c
+unit-test/test_connector_tool_list_response.c
 unit-test/test_create_api_key_http_request.c
 unit-test/test_create_dataset_request.c
 unit-test/test_create_dataset_version_request.c
@@ -624,6 +645,7 @@ unit-test/test_diff_line.c
 unit-test/test_diff_line_kind.c
 unit-test/test_enqueue_review_task_from_trace_http_request.c
 unit-test/test_error_response.c
+unit-test/test_error_status.c
 unit-test/test_eval_reproducibility.c
 unit-test/test_eval_result.c
 unit-test/test_evaluate_alert_request.c
@@ -659,6 +681,7 @@ unit-test/test_ingest_queue_status.c
 unit-test/test_invoke_connector_request.c
 unit-test/test_judge_audit_record.c
 unit-test/test_judge_broker_outcome.c
+unit-test/test_judge_ledger_list_response.c
 unit-test/test_list_scenarios_response.c
 unit-test/test_maintenance_window.c
 unit-test/test_mine_scenarios_request.c
@@ -668,8 +691,6 @@ unit-test/test_money.c
 unit-test/test_native_ingest_request.c
 unit-test/test_online_sampling_policy.c
 unit-test/test_otlp_ingest_outcome.c
-unit-test/test_page_run_summary.c
-unit-test/test_page_run_summary_items_inner.c
 unit-test/test_palette_connect_status.c
 unit-test/test_palette_connect_status_response.c
 unit-test/test_perturbation_knobs.c
@@ -683,6 +704,7 @@ unit-test/test_prompt_version.c
 unit-test/test_prompt_version_diff.c
 unit-test/test_prompt_version_list_response.c
 unit-test/test_prompt_version_metadata.c
+unit-test/test_provider_secret_list_response.c
 unit-test/test_provider_secret_metadata.c
 unit-test/test_public_judge_audit_record.c
 unit-test/test_publish_ack.c
@@ -692,6 +714,7 @@ unit-test/test_reliability_bin.c
 unit-test/test_review_annotation.c
 unit-test/test_review_queue.c
 unit-test/test_review_task.c
+unit-test/test_review_task_list_response.c
 unit-test/test_review_task_state.c
 unit-test/test_review_verdict.c
 unit-test/test_revoked_api_key.c
@@ -710,7 +733,7 @@ unit-test/test_scenario.c
 unit-test/test_scenario_cluster.c
 unit-test/test_score_result.c
 unit-test/test_search_hit.c
-unit-test/test_search_response.c
+unit-test/test_search_span_list_response.c
 unit-test/test_signature.c
 unit-test/test_span_io_response.c
 unit-test/test_span_io_value.c
@@ -729,6 +752,7 @@ unit-test/test_tool_execution.c
 unit-test/test_toolkit.c
 unit-test/test_trace_ingested_drain_report.c
 unit-test/test_trace_ingested_reconcile_report.c
+unit-test/test_trace_list_response.c
 unit-test/test_trace_view.c
 unit-test/test_trace_write_drain_report.c
 unit-test/test_usage_summary.c

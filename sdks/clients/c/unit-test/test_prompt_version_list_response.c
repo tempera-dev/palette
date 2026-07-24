@@ -22,10 +22,12 @@ prompt_version_list_response_t* instantiate_prompt_version_list_response(int inc
   prompt_version_list_response_t* prompt_version_list_response = NULL;
   if (include_optional) {
     prompt_version_list_response = prompt_version_list_response_create(
+      "0",
       list_createList()
     );
   } else {
     prompt_version_list_response = prompt_version_list_response_create(
+      "0",
       list_createList()
     );
   }

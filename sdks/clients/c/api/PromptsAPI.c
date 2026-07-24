@@ -171,9 +171,9 @@ PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenant_id, char *proj
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
@@ -376,9 +376,9 @@ PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenant_id, char *project_
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
@@ -611,9 +611,9 @@ PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenant_id, char *pr
     }
     list_freeList(localVarQueryParameters);
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
-    
+
     free(localVarPath);
     free(localVarToReplace_tenant_id);
     free(localVarToReplace_project_id);
@@ -838,11 +838,11 @@ PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenant_id, char *project_id,
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
-    
+
     free(localVarPath);
     free(localVarToReplace_tenant_id);
     free(localVarToReplace_project_id);
@@ -891,9 +891,9 @@ end:
 }
 
 prompt_list_response_t*
-PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
-    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = list_createList();
@@ -982,6 +982,31 @@ PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id
         list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
+
+    // query parameters
+    char *keyQuery_pageSize = NULL;
+    char * valueQuery_pageSize = NULL;
+    keyValuePair_t *keyPairQuery_pageSize = 0;
+    if (pageSize)
+    {
+        keyQuery_pageSize = strdup("pageSize");
+        valueQuery_pageSize = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_pageSize, MAX_NUMBER_LENGTH, "%d", *pageSize);
+        keyPairQuery_pageSize = keyValuePair_create(keyQuery_pageSize, valueQuery_pageSize);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageSize);
+    }
+
+    // query parameters
+    char *keyQuery_pageToken = NULL;
+    char * valueQuery_pageToken = NULL;
+    keyValuePair_t *keyPairQuery_pageToken = 0;
+    if (pageToken)
+    {
+        keyQuery_pageToken = strdup("pageToken");
+        valueQuery_pageToken = strdup((pageToken));
+        keyPairQuery_pageToken = keyValuePair_create(keyQuery_pageToken, valueQuery_pageToken);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageToken);
+    }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -1027,11 +1052,11 @@ PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+    list_freeList(localVarQueryParameters);
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
-    
+
     free(localVarPath);
     free(localVarToReplace_tenant_id);
     free(localVarToReplace_project_id);
@@ -1071,6 +1096,30 @@ PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id
         valueHeader_x_palette_environment_id = NULL;
     }
     free(keyPairHeader_x_palette_environment_id);
+    if(keyQuery_pageSize){
+        free(keyQuery_pageSize);
+        keyQuery_pageSize = NULL;
+    }
+    if(valueQuery_pageSize){
+        free(valueQuery_pageSize);
+        valueQuery_pageSize = NULL;
+    }
+    if(keyPairQuery_pageSize){
+        keyValuePair_free(keyPairQuery_pageSize);
+        keyPairQuery_pageSize = NULL;
+    }
+    if(keyQuery_pageToken){
+        free(keyQuery_pageToken);
+        keyQuery_pageToken = NULL;
+    }
+    if(valueQuery_pageToken){
+        free(valueQuery_pageToken);
+        valueQuery_pageToken = NULL;
+    }
+    if(keyPairQuery_pageToken){
+        keyValuePair_free(keyPairQuery_pageToken);
+        keyPairQuery_pageToken = NULL;
+    }
     return elementToReturn;
 end:
     free(localVarPath);
@@ -1079,9 +1128,9 @@ end:
 }
 
 prompt_version_list_response_t*
-PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
-    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = list_createList();
@@ -1182,6 +1231,31 @@ PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *pr
         list_addElement(localVarHeaderParameters,keyPairHeader_x_palette_environment_id);
     }
 
+
+    // query parameters
+    char *keyQuery_pageSize = NULL;
+    char * valueQuery_pageSize = NULL;
+    keyValuePair_t *keyPairQuery_pageSize = 0;
+    if (pageSize)
+    {
+        keyQuery_pageSize = strdup("pageSize");
+        valueQuery_pageSize = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_pageSize, MAX_NUMBER_LENGTH, "%d", *pageSize);
+        keyPairQuery_pageSize = keyValuePair_create(keyQuery_pageSize, valueQuery_pageSize);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageSize);
+    }
+
+    // query parameters
+    char *keyQuery_pageToken = NULL;
+    char * valueQuery_pageToken = NULL;
+    keyValuePair_t *keyPairQuery_pageToken = 0;
+    if (pageToken)
+    {
+        keyQuery_pageToken = strdup("pageToken");
+        valueQuery_pageToken = strdup((pageToken));
+        keyPairQuery_pageToken = keyValuePair_create(keyQuery_pageToken, valueQuery_pageToken);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageToken);
+    }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -1231,11 +1305,11 @@ PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *pr
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    
+    list_freeList(localVarQueryParameters);
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
-    
+
     free(localVarPath);
     free(localVarToReplace_tenant_id);
     free(localVarToReplace_project_id);
@@ -1276,10 +1350,33 @@ PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *pr
         valueHeader_x_palette_environment_id = NULL;
     }
     free(keyPairHeader_x_palette_environment_id);
+    if(keyQuery_pageSize){
+        free(keyQuery_pageSize);
+        keyQuery_pageSize = NULL;
+    }
+    if(valueQuery_pageSize){
+        free(valueQuery_pageSize);
+        valueQuery_pageSize = NULL;
+    }
+    if(keyPairQuery_pageSize){
+        keyValuePair_free(keyPairQuery_pageSize);
+        keyPairQuery_pageSize = NULL;
+    }
+    if(keyQuery_pageToken){
+        free(keyQuery_pageToken);
+        keyQuery_pageToken = NULL;
+    }
+    if(valueQuery_pageToken){
+        free(valueQuery_pageToken);
+        valueQuery_pageToken = NULL;
+    }
+    if(keyPairQuery_pageToken){
+        keyValuePair_free(keyPairQuery_pageToken);
+        keyPairQuery_pageToken = NULL;
+    }
     return elementToReturn;
 end:
     free(localVarPath);
     return NULL;
 
 }
-

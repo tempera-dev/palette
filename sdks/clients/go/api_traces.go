@@ -246,8 +246,8 @@ type ApiTracesListRequest struct {
 	maxCostMicros *int64
 	minLatencyMs *int64
 	maxLatencyMs *int64
-	limit *int32
-	cursor *string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
@@ -319,13 +319,13 @@ func (r ApiTracesListRequest) MaxLatencyMs(maxLatencyMs int64) ApiTracesListRequ
 	return r
 }
 
-func (r ApiTracesListRequest) Limit(limit int32) ApiTracesListRequest {
-	r.limit = &limit
+func (r ApiTracesListRequest) PageSize(pageSize int32) ApiTracesListRequest {
+	r.pageSize = &pageSize
 	return r
 }
 
-func (r ApiTracesListRequest) Cursor(cursor string) ApiTracesListRequest {
-	r.cursor = &cursor
+func (r ApiTracesListRequest) PageToken(pageToken string) ApiTracesListRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -353,7 +353,7 @@ func (r ApiTracesListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string
 	return r
 }
 
-func (r ApiTracesListRequest) Execute() (*PageRunSummary, *http.Response, error) {
+func (r ApiTracesListRequest) Execute() (*TraceListResponse, *http.Response, error) {
 	return r.ApiService.TracesListExecute(r)
 }
 
@@ -373,13 +373,13 @@ func (a *TracesAPIService) TracesList(ctx context.Context, tenantId string) ApiT
 }
 
 // Execute executes the request
-//  @return PageRunSummary
-func (a *TracesAPIService) TracesListExecute(r ApiTracesListRequest) (*PageRunSummary, *http.Response, error) {
+//  @return TraceListResponse
+func (a *TracesAPIService) TracesListExecute(r ApiTracesListRequest) (*TraceListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *PageRunSummary
+		localVarReturnValue  *TraceListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.TracesList")
@@ -433,11 +433,11 @@ func (a *TracesAPIService) TracesListExecute(r ApiTracesListRequest) (*PageRunSu
 	if r.maxLatencyMs != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "max_latency_ms", r.maxLatencyMs, "form", "")
 	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
 	}
-	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

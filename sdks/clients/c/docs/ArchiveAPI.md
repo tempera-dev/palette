@@ -43,7 +43,7 @@ No authorization required
 
 # **ArchiveAPI_archiveQuerySpans**
 ```c
-archive_query_response_t* ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+archive_query_response_t* ArchiveAPI_archiveQuerySpans(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -57,7 +57,8 @@ Name | Type | Description  | Notes
 **span_id** | **char \*** |  | [optional]
 **kind** | **char \*** |  | [optional]
 **status** | **char \*** |  | [optional]
-**limit** | **int \*** |  | [optional]
+**pageSize** | **int \*** |  | [optional]
+**pageToken** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]

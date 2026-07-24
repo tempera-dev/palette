@@ -12,7 +12,7 @@
 /*
  * ReviewsApi.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_ReviewsApi_H_
@@ -30,9 +30,9 @@
 #include "palette-client/model/ReviewAnnotation.h"
 #include "palette-client/model/ReviewQueue.h"
 #include "palette-client/model/ReviewTask.h"
+#include "palette-client/model/ReviewTaskListResponse.h"
 #include "palette-client/model/ReviewTaskState.h"
 #include "palette-client/model/SubmitReviewAnnotationHttpRequest.h"
-#include <vector>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
@@ -45,7 +45,7 @@ using namespace org::openapitools::client::model;
 
 
 
-class  ReviewsApi 
+class  ReviewsApi
 {
 public:
 
@@ -54,10 +54,10 @@ public:
     virtual ~ReviewsApi();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -76,10 +76,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -100,34 +100,38 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
     /// <param name="queueId">queue_id</param>
     /// <param name="state"> (optional, default to new ReviewTaskState())</param>
+    /// <param name="pageSize">Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional, default to 0)</param>
+    /// <param name="pageToken">Opaque continuation token returned by the preceding list request. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<ReviewTask>>> reviews_listTasks(
+    pplx::task<std::shared_ptr<ReviewTaskListResponse>> reviews_listTasks(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t queueId,
         boost::optional<std::shared_ptr<ReviewTaskState>> state,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -152,10 +156,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -188,4 +192,3 @@ protected:
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ReviewsApi_H_ */
-

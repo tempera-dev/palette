@@ -211,10 +211,14 @@ async fn paletted_quota_is_shared_across_two_replicas_and_resets_on_window() -> 
         .ok_or_else(|| anyhow::anyhow!("missing x-ratelimit-reset"))?
         .parse::<i64>()?;
     let error = second.json::<serde_json::Value>().await?;
-    assert_eq!(error["error"], "too_many_requests");
-    assert_eq!(error["status"], 429);
+    assert_eq!(error["error"]["code"], 429);
+    assert_eq!(error["error"]["status"], "RESOURCE_EXHAUSTED");
+    assert_eq!(
+        error["error"]["details"][0]["reason"],
+        "HTTP_RESOURCE_EXHAUSTED"
+    );
     assert!(
-        error["message"]
+        error["error"]["message"]
             .as_str()
             .unwrap_or_default()
             .contains("quota exceeded")
@@ -458,10 +462,14 @@ async fn paletted_storage_failure_accounts_every_event_without_silent_drop() -> 
         reqwest::StatusCode::INTERNAL_SERVER_ERROR
     );
     let explicit_error = explicit_response.json::<serde_json::Value>().await?;
-    assert_eq!(explicit_error["error"], "internal_server_error");
-    assert_eq!(explicit_error["status"], 500);
+    assert_eq!(explicit_error["error"]["code"], 500);
+    assert_eq!(explicit_error["error"]["status"], "INTERNAL");
+    assert_eq!(
+        explicit_error["error"]["details"][0]["reason"],
+        "HTTP_INTERNAL"
+    );
     assert!(
-        explicit_error["message"]
+        explicit_error["error"]["message"]
             .as_str()
             .unwrap_or_default()
             .contains("test trace store write failure")

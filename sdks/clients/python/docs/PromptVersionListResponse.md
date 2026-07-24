@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**next_page_token** | **str** |  | [optional]
 **versions** | [**List[PromptVersion]**](PromptVersion.md) |  |
 
 ## Example

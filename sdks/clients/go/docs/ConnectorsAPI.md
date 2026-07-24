@@ -258,7 +258,7 @@ No authorization required
 
 ## ConnectorsList
 
-> []Toolkit ConnectorsList(ctx, tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ConnectorListResponse ConnectorsList(ctx, tenantId, projectId).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -277,7 +277,8 @@ import (
 func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
-	limit := int32(56) // int32 | Maximum number of apps to return (page size). (optional)
+	pageSize := int32(56) // int32 | Maximum number of apps to return. Zero selects the server default. (optional)
+	pageToken := "pageToken_example" // string | Opaque continuation token returned by the preceding list request. (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -285,12 +286,12 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsList(context.Background(), tenantId, projectId).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsList(context.Background(), tenantId, projectId).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsList`: []Toolkit
+	// response from `ConnectorsList`: ConnectorListResponse
 	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsList`: %v\n", resp)
 }
 ```
@@ -313,7 +314,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **limit** | **int32** | Maximum number of apps to return (page size). |
+ **pageSize** | **int32** | Maximum number of apps to return. Zero selects the server default. |
+ **pageToken** | **string** | Opaque continuation token returned by the preceding list request. |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -321,7 +323,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]Toolkit**](Toolkit.md)
+[**ConnectorListResponse**](ConnectorListResponse.md)
 
 ### Authorization
 
@@ -339,7 +341,7 @@ No authorization required
 
 ## ConnectorsListTools
 
-> []ConnectorTool ConnectorsListTools(ctx, tenantId, projectId).Toolkit(toolkit).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+> ConnectorToolListResponse ConnectorsListTools(ctx, tenantId, projectId).Toolkit(toolkit).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 
 
 
@@ -359,7 +361,8 @@ func main() {
 	tenantId := "tenantId_example" // string | tenant_id
 	projectId := "projectId_example" // string | project_id
 	toolkit := "toolkit_example" // string | Toolkit slug to list tools for.
-	limit := int32(56) // int32 | Maximum number of tools to return (page size). (optional)
+	pageSize := int32(56) // int32 | Maximum number of tools to return. Zero selects the server default. (optional)
+	pageToken := "pageToken_example" // string | Opaque continuation token returned by the preceding list request. (optional)
 	authorization := "authorization_example" // string | Bearer API token for strict auth (optional)
 	xPaletteApiKey := "xPaletteApiKey_example" // string | API key alternative for strict auth (optional)
 	xPaletteProjectId := "xPaletteProjectId_example" // string | Strict-auth project scope (optional)
@@ -367,12 +370,12 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ConnectorsAPI.ConnectorsListTools(context.Background(), tenantId, projectId).Toolkit(toolkit).Limit(limit).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
+	resp, r, err := apiClient.ConnectorsAPI.ConnectorsListTools(context.Background(), tenantId, projectId).Toolkit(toolkit).PageSize(pageSize).PageToken(pageToken).Authorization(authorization).XPaletteApiKey(xPaletteApiKey).XPaletteProjectId(xPaletteProjectId).XPaletteEnvironmentId(xPaletteEnvironmentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ConnectorsAPI.ConnectorsListTools``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `ConnectorsListTools`: []ConnectorTool
+	// response from `ConnectorsListTools`: ConnectorToolListResponse
 	fmt.Fprintf(os.Stdout, "Response from `ConnectorsAPI.ConnectorsListTools`: %v\n", resp)
 }
 ```
@@ -396,7 +399,8 @@ Name | Type | Description  | Notes
 
 
  **toolkit** | **string** | Toolkit slug to list tools for. |
- **limit** | **int32** | Maximum number of tools to return (page size). |
+ **pageSize** | **int32** | Maximum number of tools to return. Zero selects the server default. |
+ **pageToken** | **string** | Opaque continuation token returned by the preceding list request. |
  **authorization** | **string** | Bearer API token for strict auth |
  **xPaletteApiKey** | **string** | API key alternative for strict auth |
  **xPaletteProjectId** | **string** | Strict-auth project scope |
@@ -404,7 +408,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]ConnectorTool**](ConnectorTool.md)
+[**ConnectorToolListResponse**](ConnectorToolListResponse.md)
 
 ### Authorization
 

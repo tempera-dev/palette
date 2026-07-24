@@ -112,7 +112,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createQueue(utility
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(createReviewQueueHttpRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -126,7 +126,7 @@ pplx::task<std::shared_ptr<ReviewQueue>> ReviewsApi::reviews_createQueue(utility
         {
             createReviewQueueHttpRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createReviewQueueHttpRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -276,7 +276,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueTaskFromTrace
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(enqueueReviewTaskFromTraceHttpRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -290,7 +290,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueTaskFromTrace
         {
             enqueueReviewTaskFromTraceHttpRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("enqueueReviewTaskFromTraceHttpRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -362,7 +362,7 @@ pplx::task<std::shared_ptr<ReviewTask>> ReviewsApi::reviews_enqueueTaskFromTrace
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listTasks(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, boost::optional<std::shared_ptr<ReviewTaskState>> state, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ReviewTaskListResponse>> ReviewsApi::reviews_listTasks(utility::string_t tenantId, utility::string_t projectId, utility::string_t queueId, boost::optional<std::shared_ptr<ReviewTaskState>> state, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -409,6 +409,14 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listTas
     if (state && *state != nullptr)
     {
         localVarQueryParams[utility::conversions::to_string_t("state")] = ApiClient::parameterToString(*state);
+    }
+    if (pageSize)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {
@@ -486,17 +494,13 @@ pplx::task<std::vector<std::shared_ptr<ReviewTask>>> ReviewsApi::reviews_listTas
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<ReviewTask>> localVarResult;
+        std::shared_ptr<ReviewTaskListResponse> localVarResult(new ReviewTaskListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-            for( auto& localVarItem : localVarJson.as_array() )
-            {
-                std::shared_ptr<ReviewTask> localVarItemObj;
-                ModelBase::fromJson(localVarItem, localVarItemObj);
-                localVarResult.push_back(localVarItemObj);
-            }
+
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -591,7 +595,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteAnnotation(u
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(promoteReviewAnnotationHttpRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -605,7 +609,7 @@ pplx::task<std::shared_ptr<DatasetCase>> ReviewsApi::reviews_promoteAnnotation(u
         {
             promoteReviewAnnotationHttpRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("promoteReviewAnnotationHttpRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -756,7 +760,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitAnnotati
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(submitReviewAnnotationHttpRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -770,7 +774,7 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitAnnotati
         {
             submitReviewAnnotationHttpRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("submitReviewAnnotationHttpRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -847,4 +851,3 @@ pplx::task<std::shared_ptr<ReviewAnnotation>> ReviewsApi::reviews_submitAnnotati
 }
 }
 }
-

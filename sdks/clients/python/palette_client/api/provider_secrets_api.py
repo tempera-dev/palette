@@ -17,9 +17,10 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated
 from palette_client.models.create_provider_secret_http_request import CreateProviderSecretHttpRequest
+from palette_client.models.provider_secret_list_response import ProviderSecretListResponse
 from palette_client.models.provider_secret_metadata import ProviderSecretMetadata
 from palette_client.models.revoked_provider_secret import RevokedProviderSecret
 
@@ -415,6 +416,8 @@ class ProviderSecretsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -431,7 +434,7 @@ class ProviderSecretsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProviderSecretMetadata]:
+    ) -> ProviderSecretListResponse:
         """provider_secrets_list
 
 
@@ -439,6 +442,10 @@ class ProviderSecretsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -472,6 +479,8 @@ class ProviderSecretsApi:
         _param = self._provider_secrets_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -483,7 +492,7 @@ class ProviderSecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProviderSecretMetadata]",
+            '200': "ProviderSecretListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -504,6 +513,8 @@ class ProviderSecretsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -520,7 +531,7 @@ class ProviderSecretsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProviderSecretMetadata]]:
+    ) -> ApiResponse[ProviderSecretListResponse]:
         """provider_secrets_list
 
 
@@ -528,6 +539,10 @@ class ProviderSecretsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -561,6 +576,8 @@ class ProviderSecretsApi:
         _param = self._provider_secrets_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -572,7 +589,7 @@ class ProviderSecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProviderSecretMetadata]",
+            '200': "ProviderSecretListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -593,6 +610,8 @@ class ProviderSecretsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -617,6 +636,10 @@ class ProviderSecretsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -650,6 +673,8 @@ class ProviderSecretsApi:
         _param = self._provider_secrets_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -661,7 +686,7 @@ class ProviderSecretsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProviderSecretMetadata]",
+            '200': "ProviderSecretListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -677,6 +702,8 @@ class ProviderSecretsApi:
         self,
         tenant_id,
         project_id,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -707,6 +734,14 @@ class ProviderSecretsApi:
         if project_id is not None:
             _path_params['project_id'] = project_id
         # process the query parameters
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1106,5 +1141,3 @@ class ProviderSecretsApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

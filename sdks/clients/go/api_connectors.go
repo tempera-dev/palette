@@ -625,16 +625,23 @@ type ApiConnectorsListRequest struct {
 	ApiService *ConnectorsAPIService
 	tenantId string
 	projectId string
-	limit *int32
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
 }
 
-// Maximum number of apps to return (page size).
-func (r ApiConnectorsListRequest) Limit(limit int32) ApiConnectorsListRequest {
-	r.limit = &limit
+// Maximum number of apps to return. Zero selects the server default.
+func (r ApiConnectorsListRequest) PageSize(pageSize int32) ApiConnectorsListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiConnectorsListRequest) PageToken(pageToken string) ApiConnectorsListRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -662,7 +669,7 @@ func (r ApiConnectorsListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId st
 	return r
 }
 
-func (r ApiConnectorsListRequest) Execute() ([]Toolkit, *http.Response, error) {
+func (r ApiConnectorsListRequest) Execute() (*ConnectorListResponse, *http.Response, error) {
 	return r.ApiService.ConnectorsListExecute(r)
 }
 
@@ -684,13 +691,13 @@ func (a *ConnectorsAPIService) ConnectorsList(ctx context.Context, tenantId stri
 }
 
 // Execute executes the request
-//  @return []Toolkit
-func (a *ConnectorsAPIService) ConnectorsListExecute(r ApiConnectorsListRequest) ([]Toolkit, *http.Response, error) {
+//  @return ConnectorListResponse
+func (a *ConnectorsAPIService) ConnectorsListExecute(r ApiConnectorsListRequest) (*ConnectorListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []Toolkit
+		localVarReturnValue  *ConnectorListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsList")
@@ -706,8 +713,11 @@ func (a *ConnectorsAPIService) ConnectorsListExecute(r ApiConnectorsListRequest)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -824,7 +834,8 @@ type ApiConnectorsListToolsRequest struct {
 	tenantId string
 	projectId string
 	toolkit *string
-	limit *int32
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
@@ -837,9 +848,15 @@ func (r ApiConnectorsListToolsRequest) Toolkit(toolkit string) ApiConnectorsList
 	return r
 }
 
-// Maximum number of tools to return (page size).
-func (r ApiConnectorsListToolsRequest) Limit(limit int32) ApiConnectorsListToolsRequest {
-	r.limit = &limit
+// Maximum number of tools to return. Zero selects the server default.
+func (r ApiConnectorsListToolsRequest) PageSize(pageSize int32) ApiConnectorsListToolsRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiConnectorsListToolsRequest) PageToken(pageToken string) ApiConnectorsListToolsRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -867,7 +884,7 @@ func (r ApiConnectorsListToolsRequest) XPaletteEnvironmentId(xPaletteEnvironment
 	return r
 }
 
-func (r ApiConnectorsListToolsRequest) Execute() ([]ConnectorTool, *http.Response, error) {
+func (r ApiConnectorsListToolsRequest) Execute() (*ConnectorToolListResponse, *http.Response, error) {
 	return r.ApiService.ConnectorsListToolsExecute(r)
 }
 
@@ -889,13 +906,13 @@ func (a *ConnectorsAPIService) ConnectorsListTools(ctx context.Context, tenantId
 }
 
 // Execute executes the request
-//  @return []ConnectorTool
-func (a *ConnectorsAPIService) ConnectorsListToolsExecute(r ApiConnectorsListToolsRequest) ([]ConnectorTool, *http.Response, error) {
+//  @return ConnectorToolListResponse
+func (a *ConnectorsAPIService) ConnectorsListToolsExecute(r ApiConnectorsListToolsRequest) (*ConnectorToolListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []ConnectorTool
+		localVarReturnValue  *ConnectorToolListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ConnectorsAPIService.ConnectorsListTools")
@@ -915,8 +932,11 @@ func (a *ConnectorsAPIService) ConnectorsListToolsExecute(r ApiConnectorsListToo
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "toolkit", r.toolkit, "form", "")
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

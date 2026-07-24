@@ -1144,13 +1144,13 @@ class PromptsApi:
             _path_params['prompt_id'] = prompt_id
         # process the query parameters
         if var_from is not None:
-            
+
             _query_params.append(('from', var_from))
-            
+
         if to is not None:
-            
+
             _query_params.append(('to', to))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1559,6 +1559,8 @@ class PromptsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1583,6 +1585,10 @@ class PromptsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1616,6 +1622,8 @@ class PromptsApi:
         _param = self._prompts_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1648,6 +1656,8 @@ class PromptsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1672,6 +1682,10 @@ class PromptsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1705,6 +1719,8 @@ class PromptsApi:
         _param = self._prompts_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1737,6 +1753,8 @@ class PromptsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1761,6 +1779,10 @@ class PromptsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1794,6 +1816,8 @@ class PromptsApi:
         _param = self._prompts_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1821,6 +1845,8 @@ class PromptsApi:
         self,
         tenant_id,
         project_id,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -1851,6 +1877,14 @@ class PromptsApi:
         if project_id is not None:
             _path_params['project_id'] = project_id
         # process the query parameters
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1901,6 +1935,8 @@ class PromptsApi:
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
         prompt_id: Annotated[StrictStr, Field(description="prompt_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1927,6 +1963,10 @@ class PromptsApi:
         :type project_id: str
         :param prompt_id: prompt_id (required)
         :type prompt_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1961,6 +2001,8 @@ class PromptsApi:
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1995,6 +2037,8 @@ class PromptsApi:
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
         prompt_id: Annotated[StrictStr, Field(description="prompt_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -2021,6 +2065,10 @@ class PromptsApi:
         :type project_id: str
         :param prompt_id: prompt_id (required)
         :type prompt_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -2055,6 +2103,8 @@ class PromptsApi:
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -2089,6 +2139,8 @@ class PromptsApi:
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
         prompt_id: Annotated[StrictStr, Field(description="prompt_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -2115,6 +2167,10 @@ class PromptsApi:
         :type project_id: str
         :param prompt_id: prompt_id (required)
         :type prompt_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -2149,6 +2205,8 @@ class PromptsApi:
             tenant_id=tenant_id,
             project_id=project_id,
             prompt_id=prompt_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -2178,6 +2236,8 @@ class PromptsApi:
         tenant_id,
         project_id,
         prompt_id,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -2210,6 +2270,14 @@ class PromptsApi:
         if prompt_id is not None:
             _path_params['prompt_id'] = prompt_id
         # process the query parameters
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -2250,5 +2318,3 @@ class PromptsApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

@@ -20,6 +20,8 @@ namespace model {
 
 PromptVersionListResponse::PromptVersionListResponse()
 {
+    m_NextPageToken = utility::conversions::to_string_t("");
+    m_NextPageTokenIsSet = false;
     m_VersionsIsSet = false;
 }
 
@@ -35,9 +37,14 @@ void PromptVersionListResponse::validate()
 web::json::value PromptVersionListResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
+    if(m_NextPageTokenIsSet)
+    {
+
+        val[utility::conversions::to_string_t(U("nextPageToken"))] = ModelBase::toJson(m_NextPageToken);
+    }
     if(m_VersionsIsSet)
-    {   
-        
+    {
+
         val[utility::conversions::to_string_t(U("versions"))] = ModelBase::toJson(m_Versions);
     }
 
@@ -47,6 +54,17 @@ web::json::value PromptVersionListResponse::toJson() const
 bool PromptVersionListResponse::fromJson(const web::json::value& val)
 {
     bool ok = true;
+    if(val.has_field(utility::conversions::to_string_t(U("nextPageToken"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("nextPageToken")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setNextPageToken;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setNextPageToken);
+            setNextPageToken(refVal_setNextPageToken);
+
+        }
+    }
     if(val.has_field(utility::conversions::to_string_t(U("versions"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("versions")));
@@ -55,7 +73,7 @@ bool PromptVersionListResponse::fromJson(const web::json::value& val)
             std::vector<std::shared_ptr<PromptVersion>> refVal_setVersions;
             ok &= ModelBase::fromJson(fieldValue, refVal_setVersions);
             setVersions(refVal_setVersions);
-            
+
         }
     }
     return ok;
@@ -67,6 +85,10 @@ void PromptVersionListResponse::toMultipart(std::shared_ptr<MultipartFormData> m
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
         namePrefix += utility::conversions::to_string_t(U("."));
+    }
+    if(m_NextPageTokenIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("nextPageToken")), m_NextPageToken));
     }
     if(m_VersionsIsSet)
     {
@@ -83,6 +105,12 @@ bool PromptVersionListResponse::fromMultiPart(std::shared_ptr<MultipartFormData>
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
+    if(multipart->hasContent(utility::conversions::to_string_t(U("nextPageToken"))))
+    {
+        utility::string_t refVal_setNextPageToken;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("nextPageToken"))), refVal_setNextPageToken );
+        setNextPageToken(refVal_setNextPageToken);
+    }
     if(multipart->hasContent(utility::conversions::to_string_t(U("versions"))))
     {
         std::vector<std::shared_ptr<PromptVersion>> refVal_setVersions;
@@ -93,6 +121,27 @@ bool PromptVersionListResponse::fromMultiPart(std::shared_ptr<MultipartFormData>
 }
 
 
+utility::string_t PromptVersionListResponse::getNextPageToken() const
+{
+    return m_NextPageToken;
+}
+
+
+void PromptVersionListResponse::setNextPageToken(const utility::string_t& value)
+{
+    m_NextPageToken = value;
+    m_NextPageTokenIsSet = true;
+}
+
+bool PromptVersionListResponse::nextPageTokenIsSet() const
+{
+    return m_NextPageTokenIsSet;
+}
+
+void PromptVersionListResponse::unsetNextPageToken()
+{
+    m_NextPageTokenIsSet = false;
+}
 std::vector<std::shared_ptr<PromptVersion>> PromptVersionListResponse::getVersions() const
 {
     return m_Versions;
@@ -119,5 +168,3 @@ void PromptVersionListResponse::unsetVersions()
 }
 }
 }
-
-

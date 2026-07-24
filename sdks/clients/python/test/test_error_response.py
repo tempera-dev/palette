@@ -35,15 +35,23 @@ class TestErrorResponse(unittest.TestCase):
         model = ErrorResponse()
         if include_optional:
             return ErrorResponse(
-                error = '',
-                message = '',
-                status = 56
+                error = palette_client.models.error_status.ErrorStatus(
+                    code = 56,
+                    details = [
+                        None
+                        ],
+                    message = '',
+                    status = '', )
             )
         else:
             return ErrorResponse(
-                error = '',
-                message = '',
-                status = 56,
+                error = palette_client.models.error_status.ErrorStatus(
+                    code = 56,
+                    details = [
+                        None
+                        ],
+                    message = '',
+                    status = '', ),
         )
         """
 

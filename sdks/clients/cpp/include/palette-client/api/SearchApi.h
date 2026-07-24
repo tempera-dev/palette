@@ -12,7 +12,7 @@
 /*
  * SearchApi.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_SearchApi_H_
@@ -23,7 +23,7 @@
 #include "palette-client/ApiClient.h"
 
 #include "palette-client/model/ErrorResponse.h"
-#include "palette-client/model/SearchResponse.h"
+#include "palette-client/model/SearchSpanListResponse.h"
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
@@ -36,7 +36,7 @@ using namespace org::openapitools::client::model;
 
 
 
-class  SearchApi 
+class  SearchApi
 {
 public:
 
@@ -45,10 +45,10 @@ public:
     virtual ~SearchApi();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="q"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
@@ -60,12 +60,13 @@ public:
     /// <param name="status"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="model"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="tool"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="limit"> (optional, default to 0)</param>
+    /// <param name="pageSize"> (optional, default to 0)</param>
+    /// <param name="pageToken"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<SearchResponse>> search_spans(
+    pplx::task<std::shared_ptr<SearchSpanListResponse>> search_spans(
         utility::string_t tenantId,
         boost::optional<utility::string_t> q,
         boost::optional<utility::string_t> projectId,
@@ -76,7 +77,8 @@ public:
         boost::optional<utility::string_t> status,
         boost::optional<utility::string_t> model,
         boost::optional<utility::string_t> tool,
-        boost::optional<int32_t> limit,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
@@ -93,4 +95,3 @@ protected:
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_SearchApi_H_ */
-

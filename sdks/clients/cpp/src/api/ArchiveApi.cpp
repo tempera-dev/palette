@@ -176,7 +176,7 @@ pplx::task<std::shared_ptr<ArchiveManifest>> ArchiveApi::archive_archiveTrace(ut
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ArchiveQueryResponse>> ArchiveApi::archive_querySpans(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> spanId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ArchiveQueryResponse>> ArchiveApi::archive_querySpans(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> spanId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -239,9 +239,13 @@ pplx::task<std::shared_ptr<ArchiveQueryResponse>> ArchiveApi::archive_querySpans
     {
         localVarQueryParams[utility::conversions::to_string_t("status")] = ApiClient::parameterToString(*status);
     }
-    if (limit)
+    if (pageSize)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {
@@ -345,4 +349,3 @@ pplx::task<std::shared_ptr<ArchiveQueryResponse>> ArchiveApi::archive_querySpans
 }
 }
 }
-

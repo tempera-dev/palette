@@ -28,10 +28,24 @@ type ApiAuditListRequest struct {
 	ApiService *AuditAPIService
 	tenantId string
 	projectId string
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
 	xPaletteEnvironmentId *string
+}
+
+// Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+func (r ApiAuditListRequest) PageSize(pageSize int32) ApiAuditListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// Opaque continuation token returned by the preceding list request.
+func (r ApiAuditListRequest) PageToken(pageToken string) ApiAuditListRequest {
+	r.pageToken = &pageToken
+	return r
 }
 
 // Bearer API token for strict auth
@@ -58,7 +72,7 @@ func (r ApiAuditListRequest) XPaletteEnvironmentId(xPaletteEnvironmentId string)
 	return r
 }
 
-func (r ApiAuditListRequest) Execute() ([]AuditEvent, *http.Response, error) {
+func (r ApiAuditListRequest) Execute() (*AuditEventListResponse, *http.Response, error) {
 	return r.ApiService.AuditListExecute(r)
 }
 
@@ -80,13 +94,13 @@ func (a *AuditAPIService) AuditList(ctx context.Context, tenantId string, projec
 }
 
 // Execute executes the request
-//  @return []AuditEvent
-func (a *AuditAPIService) AuditListExecute(r ApiAuditListRequest) ([]AuditEvent, *http.Response, error) {
+//  @return AuditEventListResponse
+func (a *AuditAPIService) AuditListExecute(r ApiAuditListRequest) (*AuditEventListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []AuditEvent
+		localVarReturnValue  *AuditEventListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuditAPIService.AuditList")
@@ -102,6 +116,12 @@ func (a *AuditAPIService) AuditListExecute(r ApiAuditListRequest) ([]AuditEvent,
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

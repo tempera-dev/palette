@@ -21,6 +21,7 @@ docs/ArtifactRef.md
 docs/AuditAction.md
 docs/AuditApi.md
 docs/AuditEvent.md
+docs/AuditEventListResponse.md
 docs/AuditOutcome.md
 docs/AuthContext.md
 docs/BusMessage.md
@@ -37,8 +38,10 @@ docs/ConnectApi.md
 docs/ConnectConnectorRequest.md
 docs/ConnectionLink.md
 docs/ConnectionStatus.md
+docs/ConnectorListResponse.md
 docs/ConnectorSkillsResponse.md
 docs/ConnectorTool.md
+docs/ConnectorToolListResponse.md
 docs/ConnectorsApi.md
 docs/CreateApiKeyHttpRequest.md
 docs/CreateDatasetRequest.md
@@ -61,6 +64,7 @@ docs/DiffLine.md
 docs/DiffLineKind.md
 docs/EnqueueReviewTaskFromTraceHttpRequest.md
 docs/ErrorResponse.md
+docs/ErrorStatus.md
 docs/EvalReproducibility.md
 docs/EvalResult.md
 docs/EvalResultsApi.md
@@ -103,6 +107,7 @@ docs/InvokeConnectorRequest.md
 docs/JudgeApi.md
 docs/JudgeAuditRecord.md
 docs/JudgeBrokerOutcome.md
+docs/JudgeLedgerListResponse.md
 docs/ListScenariosResponse.md
 docs/MaintenanceWindow.md
 docs/MineScenariosRequest.md
@@ -113,8 +118,6 @@ docs/NativeIngestRequest.md
 docs/OnlineApi.md
 docs/OnlineSamplingPolicy.md
 docs/OtlpIngestOutcome.md
-docs/PageRunSummary.md
-docs/PageRunSummaryItemsInner.md
 docs/PaletteConnectStatus.md
 docs/PaletteConnectStatusResponse.md
 docs/PerturbationKnobs.md
@@ -129,6 +132,7 @@ docs/PromptVersionDiff.md
 docs/PromptVersionListResponse.md
 docs/PromptVersionMetadata.md
 docs/PromptsApi.md
+docs/ProviderSecretListResponse.md
 docs/ProviderSecretMetadata.md
 docs/ProviderSecretsApi.md
 docs/PublicJudgeAuditRecord.md
@@ -139,6 +143,7 @@ docs/ReliabilityBin.md
 docs/ReviewAnnotation.md
 docs/ReviewQueue.md
 docs/ReviewTask.md
+docs/ReviewTaskListResponse.md
 docs/ReviewTaskState.md
 docs/ReviewVerdict.md
 docs/ReviewsApi.md
@@ -160,7 +165,7 @@ docs/ScenariosApi.md
 docs/ScoreResult.md
 docs/SearchApi.md
 docs/SearchHit.md
-docs/SearchResponse.md
+docs/SearchSpanListResponse.md
 docs/Signature.md
 docs/SpanIoResponse.md
 docs/SpanIoValue.md
@@ -180,6 +185,7 @@ docs/ToolExecution.md
 docs/Toolkit.md
 docs/TraceIngestedDrainReport.md
 docs/TraceIngestedReconcileReport.md
+docs/TraceListResponse.md
 docs/TraceView.md
 docs/TraceWriteDrainReport.md
 docs/TracesApi.md
@@ -230,6 +236,7 @@ src/models/archived_span_row.rs
 src/models/artifact_ref.rs
 src/models/audit_action.rs
 src/models/audit_event.rs
+src/models/audit_event_list_response.rs
 src/models/audit_outcome.rs
 src/models/auth_context.rs
 src/models/bus_message.rs
@@ -244,8 +251,10 @@ src/models/case_output_override_request.rs
 src/models/connect_connector_request.rs
 src/models/connection_link.rs
 src/models/connection_status.rs
+src/models/connector_list_response.rs
 src/models/connector_skills_response.rs
 src/models/connector_tool.rs
+src/models/connector_tool_list_response.rs
 src/models/create_api_key_http_request.rs
 src/models/create_dataset_request.rs
 src/models/create_dataset_version_request.rs
@@ -266,6 +275,7 @@ src/models/diff_line.rs
 src/models/diff_line_kind.rs
 src/models/enqueue_review_task_from_trace_http_request.rs
 src/models/error_response.rs
+src/models/error_status.rs
 src/models/eval_reproducibility.rs
 src/models/eval_result.rs
 src/models/evaluate_alert_request.rs
@@ -301,6 +311,7 @@ src/models/ingest_queue_status.rs
 src/models/invoke_connector_request.rs
 src/models/judge_audit_record.rs
 src/models/judge_broker_outcome.rs
+src/models/judge_ledger_list_response.rs
 src/models/list_scenarios_response.rs
 src/models/maintenance_window.rs
 src/models/mine_scenarios_request.rs
@@ -311,8 +322,6 @@ src/models/money.rs
 src/models/native_ingest_request.rs
 src/models/online_sampling_policy.rs
 src/models/otlp_ingest_outcome.rs
-src/models/page_run_summary.rs
-src/models/page_run_summary_items_inner.rs
 src/models/palette_connect_status.rs
 src/models/palette_connect_status_response.rs
 src/models/perturbation_knobs.rs
@@ -326,6 +335,7 @@ src/models/prompt_version.rs
 src/models/prompt_version_diff.rs
 src/models/prompt_version_list_response.rs
 src/models/prompt_version_metadata.rs
+src/models/provider_secret_list_response.rs
 src/models/provider_secret_metadata.rs
 src/models/public_judge_audit_record.rs
 src/models/publish_ack.rs
@@ -335,6 +345,7 @@ src/models/reliability_bin.rs
 src/models/review_annotation.rs
 src/models/review_queue.rs
 src/models/review_task.rs
+src/models/review_task_list_response.rs
 src/models/review_task_state.rs
 src/models/review_verdict.rs
 src/models/revoked_api_key.rs
@@ -353,7 +364,7 @@ src/models/scenario.rs
 src/models/scenario_cluster.rs
 src/models/score_result.rs
 src/models/search_hit.rs
-src/models/search_response.rs
+src/models/search_span_list_response.rs
 src/models/signature.rs
 src/models/span_io_response.rs
 src/models/span_io_value.rs
@@ -372,6 +383,7 @@ src/models/tool_execution.rs
 src/models/toolkit.rs
 src/models/trace_ingested_drain_report.rs
 src/models/trace_ingested_reconcile_report.rs
+src/models/trace_list_response.rs
 src/models/trace_view.rs
 src/models/trace_write_drain_report.rs
 src/models/usage_summary.rs

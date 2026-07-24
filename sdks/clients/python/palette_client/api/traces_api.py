@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from palette_client.models.page_run_summary import PageRunSummary
+from palette_client.models.trace_list_response import TraceListResponse
 from palette_client.models.trace_view import TraceView
 
 from palette_client.api_client import ApiClient, RequestSerialized
@@ -367,13 +367,13 @@ class TracesApi:
             _path_params['trace_id'] = trace_id
         # process the query parameters
         if unmask is not None:
-            
+
             _query_params.append(('unmask', unmask))
-            
+
         if reason is not None:
-            
+
             _query_params.append(('reason', reason))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -435,8 +435,8 @@ class TracesApi:
         max_cost_micros: Optional[StrictInt] = None,
         min_latency_ms: Optional[StrictInt] = None,
         max_latency_ms: Optional[StrictInt] = None,
-        limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
-        cursor: Optional[StrictStr] = None,
+        page_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_token: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -453,7 +453,7 @@ class TracesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PageRunSummary:
+    ) -> TraceListResponse:
         """traces_list
 
 
@@ -485,10 +485,10 @@ class TracesApi:
         :type min_latency_ms: int
         :param max_latency_ms:
         :type max_latency_ms: int
-        :param limit:
-        :type limit: int
-        :param cursor:
-        :type cursor: str
+        :param page_size:
+        :type page_size: int
+        :param page_token:
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -534,8 +534,8 @@ class TracesApi:
             max_cost_micros=max_cost_micros,
             min_latency_ms=min_latency_ms,
             max_latency_ms=max_latency_ms,
-            limit=limit,
-            cursor=cursor,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -547,7 +547,7 @@ class TracesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PageRunSummary",
+            '200': "TraceListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -580,8 +580,8 @@ class TracesApi:
         max_cost_micros: Optional[StrictInt] = None,
         min_latency_ms: Optional[StrictInt] = None,
         max_latency_ms: Optional[StrictInt] = None,
-        limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
-        cursor: Optional[StrictStr] = None,
+        page_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_token: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -598,7 +598,7 @@ class TracesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PageRunSummary]:
+    ) -> ApiResponse[TraceListResponse]:
         """traces_list
 
 
@@ -630,10 +630,10 @@ class TracesApi:
         :type min_latency_ms: int
         :param max_latency_ms:
         :type max_latency_ms: int
-        :param limit:
-        :type limit: int
-        :param cursor:
-        :type cursor: str
+        :param page_size:
+        :type page_size: int
+        :param page_token:
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -679,8 +679,8 @@ class TracesApi:
             max_cost_micros=max_cost_micros,
             min_latency_ms=min_latency_ms,
             max_latency_ms=max_latency_ms,
-            limit=limit,
-            cursor=cursor,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -692,7 +692,7 @@ class TracesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PageRunSummary",
+            '200': "TraceListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -725,8 +725,8 @@ class TracesApi:
         max_cost_micros: Optional[StrictInt] = None,
         min_latency_ms: Optional[StrictInt] = None,
         max_latency_ms: Optional[StrictInt] = None,
-        limit: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
-        cursor: Optional[StrictStr] = None,
+        page_size: Optional[Annotated[int, Field(strict=True, ge=0)]] = None,
+        page_token: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -775,10 +775,10 @@ class TracesApi:
         :type min_latency_ms: int
         :param max_latency_ms:
         :type max_latency_ms: int
-        :param limit:
-        :type limit: int
-        :param cursor:
-        :type cursor: str
+        :param page_size:
+        :type page_size: int
+        :param page_token:
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -824,8 +824,8 @@ class TracesApi:
             max_cost_micros=max_cost_micros,
             min_latency_ms=min_latency_ms,
             max_latency_ms=max_latency_ms,
-            limit=limit,
-            cursor=cursor,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -837,7 +837,7 @@ class TracesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PageRunSummary",
+            '200': "TraceListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -865,8 +865,8 @@ class TracesApi:
         max_cost_micros,
         min_latency_ms,
         max_latency_ms,
-        limit,
-        cursor,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -896,65 +896,65 @@ class TracesApi:
             _path_params['tenant_id'] = tenant_id
         # process the query parameters
         if project_id is not None:
-            
+
             _query_params.append(('project_id', project_id))
-            
+
         if environment_id is not None:
-            
+
             _query_params.append(('environment_id', environment_id))
-            
+
         if trace_id is not None:
-            
+
             _query_params.append(('trace_id', trace_id))
-            
+
         if kind is not None:
-            
+
             _query_params.append(('kind', kind))
-            
+
         if status is not None:
-            
+
             _query_params.append(('status', status))
-            
+
         if started_after is not None:
-            
+
             _query_params.append(('started_after', started_after))
-            
+
         if started_before is not None:
-            
+
             _query_params.append(('started_before', started_before))
-            
+
         if model is not None:
-            
+
             _query_params.append(('model', model))
-            
+
         if release is not None:
-            
+
             _query_params.append(('release', release))
-            
+
         if min_cost_micros is not None:
-            
+
             _query_params.append(('min_cost_micros', min_cost_micros))
-            
+
         if max_cost_micros is not None:
-            
+
             _query_params.append(('max_cost_micros', max_cost_micros))
-            
+
         if min_latency_ms is not None:
-            
+
             _query_params.append(('min_latency_ms', min_latency_ms))
-            
+
         if max_latency_ms is not None:
-            
+
             _query_params.append(('max_latency_ms', max_latency_ms))
-            
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
-        if cursor is not None:
-            
-            _query_params.append(('cursor', cursor))
-            
+
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -995,5 +995,3 @@ class TracesApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

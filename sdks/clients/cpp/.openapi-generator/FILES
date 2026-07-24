@@ -52,6 +52,7 @@ include/palette-client/model/ArchivedSpanRow.h
 include/palette-client/model/ArtifactRef.h
 include/palette-client/model/AuditAction.h
 include/palette-client/model/AuditEvent.h
+include/palette-client/model/AuditEventListResponse.h
 include/palette-client/model/AuditOutcome.h
 include/palette-client/model/AuthContext.h
 include/palette-client/model/BusMessage.h
@@ -66,8 +67,10 @@ include/palette-client/model/CaseOutputOverrideRequest.h
 include/palette-client/model/ConnectConnectorRequest.h
 include/palette-client/model/ConnectionLink.h
 include/palette-client/model/ConnectionStatus.h
+include/palette-client/model/ConnectorListResponse.h
 include/palette-client/model/ConnectorSkillsResponse.h
 include/palette-client/model/ConnectorTool.h
+include/palette-client/model/ConnectorToolListResponse.h
 include/palette-client/model/CreateApiKeyHttpRequest.h
 include/palette-client/model/CreateDatasetRequest.h
 include/palette-client/model/CreateDatasetVersionRequest.h
@@ -88,6 +91,7 @@ include/palette-client/model/DiffLine.h
 include/palette-client/model/DiffLineKind.h
 include/palette-client/model/EnqueueReviewTaskFromTraceHttpRequest.h
 include/palette-client/model/ErrorResponse.h
+include/palette-client/model/ErrorStatus.h
 include/palette-client/model/EvalReproducibility.h
 include/palette-client/model/EvalResult.h
 include/palette-client/model/EvaluateAlertRequest.h
@@ -123,6 +127,7 @@ include/palette-client/model/IngestQueueStatus.h
 include/palette-client/model/InvokeConnectorRequest.h
 include/palette-client/model/JudgeAuditRecord.h
 include/palette-client/model/JudgeBrokerOutcome.h
+include/palette-client/model/JudgeLedgerListResponse.h
 include/palette-client/model/ListScenariosResponse.h
 include/palette-client/model/MaintenanceWindow.h
 include/palette-client/model/MineScenariosRequest.h
@@ -132,8 +137,6 @@ include/palette-client/model/Money.h
 include/palette-client/model/NativeIngestRequest.h
 include/palette-client/model/OnlineSamplingPolicy.h
 include/palette-client/model/OtlpIngestOutcome.h
-include/palette-client/model/Page_RunSummary.h
-include/palette-client/model/Page_RunSummary_items_inner.h
 include/palette-client/model/PaletteConnectStatus.h
 include/palette-client/model/PaletteConnectStatusResponse.h
 include/palette-client/model/PerturbationKnobs.h
@@ -147,6 +150,7 @@ include/palette-client/model/PromptVersion.h
 include/palette-client/model/PromptVersionDiff.h
 include/palette-client/model/PromptVersionListResponse.h
 include/palette-client/model/PromptVersionMetadata.h
+include/palette-client/model/ProviderSecretListResponse.h
 include/palette-client/model/ProviderSecretMetadata.h
 include/palette-client/model/PublicJudgeAuditRecord.h
 include/palette-client/model/PublishAck.h
@@ -156,6 +160,7 @@ include/palette-client/model/ReliabilityBin.h
 include/palette-client/model/ReviewAnnotation.h
 include/palette-client/model/ReviewQueue.h
 include/palette-client/model/ReviewTask.h
+include/palette-client/model/ReviewTaskListResponse.h
 include/palette-client/model/ReviewTaskState.h
 include/palette-client/model/ReviewVerdict.h
 include/palette-client/model/RevokedApiKey.h
@@ -174,7 +179,7 @@ include/palette-client/model/Scenario.h
 include/palette-client/model/ScenarioCluster.h
 include/palette-client/model/ScoreResult.h
 include/palette-client/model/SearchHit.h
-include/palette-client/model/SearchResponse.h
+include/palette-client/model/SearchSpanListResponse.h
 include/palette-client/model/Signature.h
 include/palette-client/model/SpanIoResponse.h
 include/palette-client/model/SpanIoValue.h
@@ -193,6 +198,7 @@ include/palette-client/model/ToolExecution.h
 include/palette-client/model/Toolkit.h
 include/palette-client/model/TraceIngestedDrainReport.h
 include/palette-client/model/TraceIngestedReconcileReport.h
+include/palette-client/model/TraceListResponse.h
 include/palette-client/model/TraceView.h
 include/palette-client/model/TraceWriteDrainReport.h
 include/palette-client/model/UsageSummary.h
@@ -246,6 +252,7 @@ src/model/ArchivedSpanRow.cpp
 src/model/ArtifactRef.cpp
 src/model/AuditAction.cpp
 src/model/AuditEvent.cpp
+src/model/AuditEventListResponse.cpp
 src/model/AuditOutcome.cpp
 src/model/AuthContext.cpp
 src/model/BusMessage.cpp
@@ -260,8 +267,10 @@ src/model/CaseOutputOverrideRequest.cpp
 src/model/ConnectConnectorRequest.cpp
 src/model/ConnectionLink.cpp
 src/model/ConnectionStatus.cpp
+src/model/ConnectorListResponse.cpp
 src/model/ConnectorSkillsResponse.cpp
 src/model/ConnectorTool.cpp
+src/model/ConnectorToolListResponse.cpp
 src/model/CreateApiKeyHttpRequest.cpp
 src/model/CreateDatasetRequest.cpp
 src/model/CreateDatasetVersionRequest.cpp
@@ -282,6 +291,7 @@ src/model/DiffLine.cpp
 src/model/DiffLineKind.cpp
 src/model/EnqueueReviewTaskFromTraceHttpRequest.cpp
 src/model/ErrorResponse.cpp
+src/model/ErrorStatus.cpp
 src/model/EvalReproducibility.cpp
 src/model/EvalResult.cpp
 src/model/EvaluateAlertRequest.cpp
@@ -317,6 +327,7 @@ src/model/IngestQueueStatus.cpp
 src/model/InvokeConnectorRequest.cpp
 src/model/JudgeAuditRecord.cpp
 src/model/JudgeBrokerOutcome.cpp
+src/model/JudgeLedgerListResponse.cpp
 src/model/ListScenariosResponse.cpp
 src/model/MaintenanceWindow.cpp
 src/model/MineScenariosRequest.cpp
@@ -326,8 +337,6 @@ src/model/Money.cpp
 src/model/NativeIngestRequest.cpp
 src/model/OnlineSamplingPolicy.cpp
 src/model/OtlpIngestOutcome.cpp
-src/model/Page_RunSummary.cpp
-src/model/Page_RunSummary_items_inner.cpp
 src/model/PaletteConnectStatus.cpp
 src/model/PaletteConnectStatusResponse.cpp
 src/model/PerturbationKnobs.cpp
@@ -341,6 +350,7 @@ src/model/PromptVersion.cpp
 src/model/PromptVersionDiff.cpp
 src/model/PromptVersionListResponse.cpp
 src/model/PromptVersionMetadata.cpp
+src/model/ProviderSecretListResponse.cpp
 src/model/ProviderSecretMetadata.cpp
 src/model/PublicJudgeAuditRecord.cpp
 src/model/PublishAck.cpp
@@ -350,6 +360,7 @@ src/model/ReliabilityBin.cpp
 src/model/ReviewAnnotation.cpp
 src/model/ReviewQueue.cpp
 src/model/ReviewTask.cpp
+src/model/ReviewTaskListResponse.cpp
 src/model/ReviewTaskState.cpp
 src/model/ReviewVerdict.cpp
 src/model/RevokedApiKey.cpp
@@ -368,7 +379,7 @@ src/model/Scenario.cpp
 src/model/ScenarioCluster.cpp
 src/model/ScoreResult.cpp
 src/model/SearchHit.cpp
-src/model/SearchResponse.cpp
+src/model/SearchSpanListResponse.cpp
 src/model/Signature.cpp
 src/model/SpanIoResponse.cpp
 src/model/SpanIoValue.cpp
@@ -387,6 +398,7 @@ src/model/ToolExecution.cpp
 src/model/Toolkit.cpp
 src/model/TraceIngestedDrainReport.cpp
 src/model/TraceIngestedReconcileReport.cpp
+src/model/TraceListResponse.cpp
 src/model/TraceView.cpp
 src/model/TraceWriteDrainReport.cpp
 src/model/UsageSummary.cpp

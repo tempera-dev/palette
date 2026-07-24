@@ -37,8 +37,8 @@ and `oasdiff` blocks breaking changes. Drift is a merge-blocker, not a hope.
 - **AIP-158 pagination** for migrated list endpoints: lower-camel
   `pageSize`/`pageToken` requests and `nextPageToken` responses. Tokens are
   opaque and bound to the complete list request; malformed, stale, or
-  cross-scope tokens fail with `400`. The scenarios collection is the first
-  migrated family.
+  cross-scope tokens fail with `400`. Scenario and control-plane collection
+  families use this contract consistently.
 - **Explicit tenancy.** `tenant`/`project`/`environment` are path-scoped; the SDK
   ergonomic layer binds them once at `init()` so callers never repeat them.
 - **Versioned.** All routes under `/v1`; `info.version` tracks the workspace
@@ -46,12 +46,11 @@ and `oasdiff` blocks breaking changes. Drift is a merge-blocker, not a hope.
 
 ### AIP-158 migration inventory
 
-The scenarios family (`GET /v1/scenarios/{tenant_id}/{project_id}`) uses the
-standard contract above. The remaining public collection/search operations
-still require a deliberately sequenced breaking migration:
+The following families use the standard contract above:
 
-- `archive.querySpans` — `GET /v1/archive/{tenant_id}/{project_id}/spans`
+- `scenarios.list` — `GET /v1/scenarios/{tenant_id}/{project_id}`
 - `audit.list` — `GET /v1/audit/{tenant_id}/{project_id}`
+- `archive.querySpans` — `GET /v1/archive/{tenant_id}/{project_id}/spans`
 - `connectors.list` — `GET /v1/connectors/{tenant_id}/{project_id}`
 - `connectors.listTools` —
   `GET /v1/connectors/{tenant_id}/{project_id}/tools`
@@ -66,8 +65,40 @@ still require a deliberately sequenced breaking migration:
 - `search.spans` — `GET /v1/search/{tenant_id}/spans`
 - `traces.list` — `GET /v1/traces/{tenant_id}`
 
+The migration debt ratchet is empty. Adding a public list/search operation
+without the complete contract fails the API-shape audit.
+
 Raw OTLP collection endpoints and MCP protocol pagination are protocol-native
 surfaces and are not rewritten by this HTTP API migration.
+
+### AIP-127 and AIP-193 migration boundary
+
+The shared application-error response now uses the core AIP-193 HTTP/JSON
+shape: an outer `error` object containing HTTP `code`, developer-facing
+`message`, canonical RPC `status`, and `details` with `google.rpc.ErrorInfo`.
+The shape audit rejects contract drift from that envelope.
+
+The ordinary JSON field-name migration is not yet complete. The contract audit
+records an exact ratchet of **493 legacy snake_case fields across 98 schemas**;
+each schema has a fixed debt budget that may only decrease, and new schemas
+receive a zero-debt budget. Completing this work requires HTTP DTOs to be split
+from persisted domain/store models so changing public JSON names does not
+silently rewrite durable records.
+
+The organization-wide route-aware checker at tempera-sdk PR #41 head
+`15b1e276d8c058b2b06841cdb708a18abf9eab7a` reports **120** remaining semantic
+violations for this contract: 59 operations with non-lowerCamel path/query
+parameters, 59 operations whose reachable JSON schemas contain non-lowerCamel
+fields, and two AIP-193 error violations. The latter are the partial-success
+HTTP 422 payloads returned by the `trace-ingested/drain` and
+`trace-writes/drain` operations; they are domain results rather than standard
+error envelopes. Axum extractor-generated errors also remain a runtime
+AIP-193 gap until request rejection is mapped through the shared application
+envelope. These residuals are reported explicitly rather than being hidden
+behind the now-zero pagination score.
+
+Raw OTLP request bodies and MCP protocol payloads remain governed by their
+protocol schemas and are outside the ordinary JSON-field ratchet.
 
 ## Two SDK layers (simple by default, powerful when needed)
 

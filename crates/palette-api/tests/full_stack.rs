@@ -12,7 +12,7 @@ use palette_auth::{ApiKeyStore, CreateApiKeyRequest, SqliteApiKeyStore};
 use palette_bus::{BusMessage, DurableBus, InMemoryBus};
 use palette_calibration::{CalibrationReport, SqliteCalibrationStore};
 use palette_core::{
-    ApiKeyId, Clock, EnvironmentId, IdempotencyKey, Money, OrganizationId, Page, ProjectId, SpanId,
+    ApiKeyId, Clock, EnvironmentId, IdempotencyKey, Money, OrganizationId, ProjectId, SpanId,
     TenantId, TenantScope, Timestamp, TraceId,
 };
 use palette_datasets::{
@@ -974,8 +974,10 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     let body = to_bytes(response.into_body(), 1024 * 1024)
         .await
         .unwrap_or_else(|err| panic!("{err}"));
-    let submitted_tasks: Vec<ReviewTask> =
+    let submitted_tasks: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    let submitted_tasks: Vec<ReviewTask> = serde_json::from_value(submitted_tasks["tasks"].clone())
+        .unwrap_or_else(|err| panic!("{err}"));
     assert_eq!(submitted_tasks.len(), 1);
     assert_eq!(submitted_tasks[0].state, ReviewTaskState::Submitted);
 
@@ -1151,7 +1153,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     let error_body: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert!(
-        error_body["message"]
+        error_body["error"]["message"]
             .as_str()
             .is_some_and(|message| message.contains("webhook endpoint_url")),
         "blocked endpoint error should identify endpoint_url: {error_body}"
@@ -1647,7 +1649,7 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/traces/tenant?project_id=project&environment_id=prod&limit=10")
+                .uri("/v1/traces/tenant?project_id=project&environment_id=prod&pageSize=10")
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -1657,16 +1659,18 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
     let body = to_bytes(response.into_body(), 1024 * 1024)
         .await
         .unwrap_or_else(|err| panic!("{err}"));
-    let runs: Page<RunSummary> =
+    let runs: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(runs.items.len(), 1);
-    assert_eq!(runs.items[0].trace_id, request.trace_id);
-    assert_eq!(runs.items[0].span_count, 1);
-    assert_eq!(runs.items[0].duration_ms, Some(1000));
-    assert_eq!(runs.items[0].total_cost, Some(Money::usd_micros(200)));
-    assert_eq!(runs.items[0].models.len(), 1);
-    assert_eq!(runs.items[0].models[0].name, "gpt-dashboard");
-    assert_eq!(runs.items[0].release_ids, vec!["release-a".to_string()]);
+    let runs: Vec<RunSummary> =
+        serde_json::from_value(runs["runs"].clone()).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(runs.len(), 1);
+    assert_eq!(runs[0].trace_id, request.trace_id);
+    assert_eq!(runs[0].span_count, 1);
+    assert_eq!(runs[0].duration_ms, Some(1000));
+    assert_eq!(runs[0].total_cost, Some(Money::usd_micros(200)));
+    assert_eq!(runs[0].models.len(), 1);
+    assert_eq!(runs[0].models[0].name, "gpt-dashboard");
+    assert_eq!(runs[0].release_ids, vec!["release-a".to_string()]);
 
     let response = app
         .clone()
@@ -1685,17 +1689,19 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
     let body = to_bytes(response.into_body(), 1024 * 1024)
         .await
         .unwrap_or_else(|err| panic!("{err}"));
-    let filtered_runs: Page<RunSummary> =
+    let filtered_runs: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(filtered_runs.items.len(), 1);
-    assert_eq!(filtered_runs.items[0].trace_id, request.trace_id);
+    let filtered_runs: Vec<RunSummary> =
+        serde_json::from_value(filtered_runs["runs"].clone()).unwrap_or_else(|err| panic!("{err}"));
+    assert_eq!(filtered_runs.len(), 1);
+    assert_eq!(filtered_runs[0].trace_id, request.trace_id);
 
     let response = app
         .clone()
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/traces/tenant?project_id=other-project&environment_id=prod&limit=10")
+                .uri("/v1/traces/tenant?project_id=other-project&environment_id=prod&pageSize=10")
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -1705,9 +1711,13 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
     let body = to_bytes(response.into_body(), 1024 * 1024)
         .await
         .unwrap_or_else(|err| panic!("{err}"));
-    let wrong_project_runs: Page<RunSummary> =
+    let wrong_project_runs: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert!(wrong_project_runs.items.is_empty());
+    assert!(
+        wrong_project_runs["runs"]
+            .as_array()
+            .is_some_and(Vec::is_empty)
+    );
 
     let response = app
         .clone()
@@ -2162,7 +2172,7 @@ async fn reconcile_trace_ingested_recovers_direct_write_after_publish_outage_thr
     let error: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
     assert!(
-        error["message"]
+        error["error"]["message"]
             .as_str()
             .unwrap_or_default()
             .contains("capacity 0")
@@ -2362,10 +2372,10 @@ async fn buffered_ingest_backpressure_returns_429() {
         .unwrap_or_else(|err| panic!("{err}"));
     let error: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(error["error"], json!("too_many_requests"));
-    assert_eq!(error["status"], json!(429));
+    assert_eq!(error["error"]["code"], json!(429));
+    assert_eq!(error["error"]["status"], json!("RESOURCE_EXHAUSTED"));
     assert!(
-        error["message"]
+        error["error"]["message"]
             .as_str()
             .unwrap_or_default()
             .contains("capacity 0")
@@ -2458,10 +2468,10 @@ async fn api_quota_429_includes_reset_headers() {
         .unwrap_or_else(|err| panic!("{err}"));
     let error: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(error["error"], json!("too_many_requests"));
-    assert_eq!(error["status"], json!(429));
+    assert_eq!(error["error"]["code"], json!(429));
+    assert_eq!(error["error"]["status"], json!("RESOURCE_EXHAUSTED"));
     assert!(
-        error["message"]
+        error["error"]["message"]
             .as_str()
             .unwrap_or_default()
             .contains("quota exceeded")
@@ -2525,10 +2535,10 @@ async fn api_quota_is_shared_across_replicas_and_resets_on_window() {
             .and_then(|value| value.to_str().ok()),
         Some(reset_at_header.as_str())
     );
-    assert_eq!(error["error"], json!("too_many_requests"));
-    assert_eq!(error["status"], json!(429));
+    assert_eq!(error["error"]["code"], json!(429));
+    assert_eq!(error["error"]["status"], json!("RESOURCE_EXHAUSTED"));
     assert!(
-        error["message"]
+        error["error"]["message"]
             .as_str()
             .unwrap_or_default()
             .contains("quota exceeded")
@@ -2685,7 +2695,7 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
     assert!(!body_text.contains(fixture_secret));
     let ledger: serde_json::Value =
         serde_json::from_str(&body_text).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(ledger.as_array().map(Vec::len), Some(2));
+    assert_eq!(ledger["records"].as_array().map(Vec::len), Some(2));
     let usage_summary = get_usage_summary(&app, Some(&admin_key.secret)).await;
     assert_eq!(
         usage_summary
@@ -2737,9 +2747,9 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
     assert!(!body_text.contains(fixture_secret));
     let audit_events: serde_json::Value =
         serde_json::from_str(&body_text).unwrap_or_else(|err| panic!("{err}"));
-    let audit_events = audit_events
+    let audit_events = audit_events["events"]
         .as_array()
-        .unwrap_or_else(|| panic!("audit events response must be an array"));
+        .unwrap_or_else(|| panic!("audit events response must contain an events array"));
     assert_eq!(audit_events.len(), 2);
     assert_eq!(audit_events[0]["action"], "provider_secret_create");
     assert_eq!(audit_events[0]["resource_type"], "provider_secret");
@@ -3023,7 +3033,7 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/traces/tenant?project_id=project&environment_id=prod&limit=10")
+                .uri("/v1/traces/tenant?project_id=project&environment_id=prod&pageSize=10")
                 .header("authorization", format!("Bearer {trace_secret}"))
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
@@ -3034,12 +3044,12 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
     let body = to_bytes(response.into_body(), 1024 * 1024)
         .await
         .unwrap_or_else(|err| panic!("{err}"));
-    let runs: Page<RunSummary> =
+    let runs: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
+    let runs: Vec<RunSummary> =
+        serde_json::from_value(runs["runs"].clone()).unwrap_or_else(|err| panic!("{err}"));
     assert!(
-        runs.items
-            .iter()
-            .any(|run| run.trace_id == request.trace_id),
+        runs.iter().any(|run| run.trace_id == request.trace_id),
         "authorized scoped trace listing must include the native ingested trace"
     );
 
@@ -3233,9 +3243,9 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
     assert!(!audit_body.contains(&unmask_secret));
     let audit_events: serde_json::Value =
         serde_json::from_str(&audit_body).unwrap_or_else(|err| panic!("{err}"));
-    let audit_events = audit_events
+    let audit_events = audit_events["events"]
         .as_array()
-        .unwrap_or_else(|| panic!("audit events response must be an array"));
+        .unwrap_or_else(|| panic!("audit events response must contain an events array"));
     assert_eq!(audit_events.len(), 4);
     assert_eq!(audit_events[0]["action"], "api_key_create");
     assert_eq!(audit_events[0]["resource_type"], "api_key");
@@ -3386,9 +3396,9 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
     assert!(!audit_body.contains(&trace_secret));
     let audit_events: serde_json::Value =
         serde_json::from_str(&audit_body).unwrap_or_else(|err| panic!("{err}"));
-    let audit_events = audit_events
+    let audit_events = audit_events["events"]
         .as_array()
-        .unwrap_or_else(|| panic!("audit events response must be an array"));
+        .unwrap_or_else(|| panic!("audit events response must contain an events array"));
     assert_eq!(audit_events.len(), 5);
     assert_eq!(audit_events[4]["action"], "api_key_revoke");
     assert_eq!(audit_events[4]["resource_type"], "api_key");

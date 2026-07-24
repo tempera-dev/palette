@@ -35,7 +35,7 @@ AuditApi::~AuditApi()
 {
 }
 
-pplx::task<std::vector<std::shared_ptr<AuditEvent>>> AuditApi::audit_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<AuditEventListResponse>> AuditApi::audit_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -78,6 +78,14 @@ pplx::task<std::vector<std::shared_ptr<AuditEvent>>> AuditApi::audit_list(utilit
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
+    if (pageSize)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
+    }
     if (authorization)
     {
         localVarHeaderParams[utility::conversions::to_string_t("authorization")] = ApiClient::parameterToString(*authorization);
@@ -154,17 +162,13 @@ pplx::task<std::vector<std::shared_ptr<AuditEvent>>> AuditApi::audit_list(utilit
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<AuditEvent>> localVarResult;
+        std::shared_ptr<AuditEventListResponse> localVarResult(new AuditEventListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-            for( auto& localVarItem : localVarJson.as_array() )
-            {
-                std::shared_ptr<AuditEvent> localVarItemObj;
-                ModelBase::fromJson(localVarItem, localVarItemObj);
-                localVarResult.push_back(localVarItemObj);
-            }
+
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -184,4 +188,3 @@ pplx::task<std::vector<std::shared_ptr<AuditEvent>>> AuditApi::audit_list(utilit
 }
 }
 }
-

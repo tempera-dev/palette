@@ -436,11 +436,19 @@ paths:
         style: form
       - explode: true
         in: query
-        name: limit
+        name: pageSize
         required: false
         schema:
+          format: int32
           minimum: 0
           type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
         style: form
       - description: Bearer API token for strict auth
         explode: false
@@ -626,6 +634,26 @@ paths:
         schema:
           type: string
         style: simple
+      - description: |-
+          Maximum number of resources to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Bearer API token for strict auth
         explode: false
         in: header
@@ -667,9 +695,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/AuditEvent'
-                type: array
+                $ref: '#/components/schemas/AuditEventListResponse'
           description: List audit events
         "400":
           content:
@@ -912,15 +938,23 @@ paths:
         schema:
           type: string
         style: simple
-      - description: Maximum number of apps to return (page size).
+      - description: Maximum number of apps to return. Zero selects the server default.
         explode: true
         in: query
-        name: limit
+        name: pageSize
         required: false
         schema:
           format: int32
           minimum: 0
           type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
         style: form
       - description: Bearer API token for strict auth
         explode: false
@@ -963,9 +997,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Toolkit'
-                type: array
+                $ref: '#/components/schemas/ConnectorListResponse'
           description: List connectable third-party apps (catalog)
         "400":
           content:
@@ -1417,15 +1449,23 @@ paths:
         schema:
           type: string
         style: form
-      - description: Maximum number of tools to return (page size).
+      - description: Maximum number of tools to return. Zero selects the server default.
         explode: true
         in: query
-        name: limit
+        name: pageSize
         required: false
         schema:
           format: int32
           minimum: 0
           type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
         style: form
       - description: Bearer API token for strict auth
         explode: false
@@ -1468,9 +1508,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/ConnectorTool'
-                type: array
+                $ref: '#/components/schemas/ConnectorToolListResponse'
           description: List a toolkit's executable tools with input schemas
         "400":
           content:
@@ -3500,6 +3538,26 @@ paths:
         schema:
           type: string
         style: simple
+      - description: |-
+          Maximum number of resources to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Bearer API token for strict auth
         explode: false
         in: header
@@ -3541,9 +3599,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/PublicJudgeAuditRecord'
-                type: array
+                $ref: '#/components/schemas/JudgeLedgerListResponse'
           description: List judge ledger audit records
         "400":
           content:
@@ -3799,6 +3855,26 @@ paths:
         schema:
           type: string
         style: simple
+      - description: |-
+          Maximum number of resources to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Bearer API token for strict auth
         explode: false
         in: header
@@ -4195,6 +4271,26 @@ paths:
         schema:
           type: string
         style: simple
+      - description: |-
+          Maximum number of resources to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Bearer API token for strict auth
         explode: false
         in: header
@@ -4391,6 +4487,26 @@ paths:
         schema:
           type: string
         style: simple
+      - description: |-
+          Maximum number of resources to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Bearer API token for strict auth
         explode: false
         in: header
@@ -4432,9 +4548,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/ProviderSecretMetadata'
-                type: array
+                $ref: '#/components/schemas/ProviderSecretListResponse'
           description: List provider secret metadata
         "400":
           content:
@@ -4775,6 +4889,26 @@ paths:
         schema:
           $ref: '#/components/schemas/ReviewTaskState'
         style: form
+      - description: |-
+          Maximum number of review tasks to return. Zero selects the server default;
+          values above the service maximum are coerced to that maximum.
+        explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: Opaque continuation token returned by the preceding list request.
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
       - description: Bearer API token for strict auth
         explode: false
         in: header
@@ -4816,9 +4950,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/ReviewTask'
-                type: array
+                $ref: '#/components/schemas/ReviewTaskListResponse'
           description: List review tasks
         "400":
           content:
@@ -5660,12 +5792,19 @@ paths:
         style: form
       - explode: true
         in: query
-        name: limit
+        name: pageSize
         required: false
         schema:
           format: int32
           minimum: 0
           type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
         style: form
       - description: Bearer API token for strict auth
         explode: false
@@ -5708,7 +5847,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SearchResponse'
+                $ref: '#/components/schemas/SearchSpanListResponse'
           description: Search spans
         "400":
           content:
@@ -6259,7 +6398,7 @@ paths:
         style: form
       - explode: true
         in: query
-        name: limit
+        name: pageSize
         required: false
         schema:
           format: int32
@@ -6268,7 +6407,7 @@ paths:
         style: form
       - explode: true
         in: query
-        name: cursor
+        name: pageToken
         required: false
         schema:
           type: string
@@ -6314,7 +6453,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page_RunSummary'
+                $ref: '#/components/schemas/TraceListResponse'
           description: List trace run summaries
         "400":
           content:
@@ -6784,6 +6923,7 @@ components:
       - tenant_id
     ArchiveQueryResponse:
       example:
+        nextPageToken: nextPageToken
         rows:
         - tenant_id: tenant_id
           parent_span_id: parent_span_id
@@ -6834,6 +6974,9 @@ components:
           unmapped_json: unmapped_json
           status: status
       properties:
+        nextPageToken:
+          nullable: true
+          type: string
         rows:
           items:
             $ref: '#/components/schemas/ArchivedSpanRow'
@@ -7035,6 +7178,44 @@ components:
       - tenant_id
     AuditEventId:
       type: string
+    AuditEventListResponse:
+      example:
+        nextPageToken: nextPageToken
+        events:
+        - tenant_id: tenant_id
+          reason: reason
+          environment_id: environment_id
+          project_id: project_id
+          resource_type: resource_type
+          action: pii_unmask
+          audit_event_id: audit_event_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          resource_id: resource_id
+          attributes: ""
+          actor_api_key_id: actor_api_key_id
+          outcome: allowed
+        - tenant_id: tenant_id
+          reason: reason
+          environment_id: environment_id
+          project_id: project_id
+          resource_type: resource_type
+          action: pii_unmask
+          audit_event_id: audit_event_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          resource_id: resource_id
+          attributes: ""
+          actor_api_key_id: actor_api_key_id
+          outcome: allowed
+      properties:
+        events:
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+          type: array
+        nextPageToken:
+          nullable: true
+          type: string
+      required:
+      - events
     AuditOutcome:
       enum:
       - allowed
@@ -7581,6 +7762,36 @@ components:
       - connected
       - status
       - toolkit
+    ConnectorListResponse:
+      example:
+        nextPageToken: nextPageToken
+        toolkits:
+        - name: name
+          auth_schemes:
+          - auth_schemes
+          - auth_schemes
+          description: description
+          no_auth: true
+          slug: slug
+          tools_count: 0
+        - name: name
+          auth_schemes:
+          - auth_schemes
+          - auth_schemes
+          description: description
+          no_auth: true
+          slug: slug
+          tools_count: 0
+      properties:
+        nextPageToken:
+          nullable: true
+          type: string
+        toolkits:
+          items:
+            $ref: '#/components/schemas/Toolkit'
+          type: array
+      required:
+      - toolkits
     ConnectorSkillsResponse:
       description: Generated prompting scaffold ("skills.md") for a toolkit's tools.
       example:
@@ -7646,6 +7857,38 @@ components:
       required:
       - name
       - slug
+    ConnectorToolListResponse:
+      example:
+        nextPageToken: nextPageToken
+        tools:
+        - input_schema: "{}"
+          toolkit: toolkit
+          name: name
+          description: description
+          no_auth: true
+          slug: slug
+          tags:
+          - tags
+          - tags
+        - input_schema: "{}"
+          toolkit: toolkit
+          name: name
+          description: description
+          no_auth: true
+          slug: slug
+          tags:
+          - tags
+          - tags
+      properties:
+        nextPageToken:
+          nullable: true
+          type: string
+        tools:
+          items:
+            $ref: '#/components/schemas/ConnectorTool'
+          type: array
+      required:
+      - tools
     CorpusRoot:
       description: |-
         A content-addressed Merkle root naming the exact contents of a corpus.
@@ -8258,24 +8501,47 @@ components:
     EnvironmentId:
       type: string
     ErrorResponse:
-      description: Error envelope returned by every fallible endpoint.
+      description: AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
       example:
-        error: error
-        message: message
-        status: 0
+        error:
+          code: 0
+          details:
+          - "{}"
+          - "{}"
+          message: message
+          status: status
       properties:
         error:
-          description: Stable machine-readable error code.
-          type: string
-        message:
-          description: Human-readable error message.
-          type: string
-        status:
-          description: Deprecated compatibility HTTP status code for older `/v1` clients.
-          format: int32
-          type: integer
+          $ref: '#/components/schemas/ErrorStatus'
       required:
       - error
+    ErrorStatus:
+      example:
+        code: 0
+        details:
+        - "{}"
+        - "{}"
+        message: message
+        status: status
+      properties:
+        code:
+          description: HTTP status code corresponding to the canonical RPC status.
+          format: int32
+          type: integer
+        details:
+          description: Machine-readable standard error details.
+          items:
+            type: object
+          type: array
+        message:
+          description: Developer-facing English problem description.
+          type: string
+        status:
+          description: Canonical `google.rpc.Code` enum name.
+          type: string
+      required:
+      - code
+      - details
       - message
       - status
     EvalReproducibility:
@@ -9155,6 +9421,46 @@ components:
       - result
     JudgeCallId:
       type: string
+    JudgeLedgerListResponse:
+      example:
+        records:
+        - tenant_id: tenant_id
+          score: 0.8008281904610115
+          judge_call_id: judge_call_id
+          project_id: project_id
+          request_hash: request_hash
+          cached: true
+          evaluator_id: evaluator_id
+          response_hash: response_hash
+          charged_cost:
+            currency: USD
+            amount_micros: 1
+          created_at: 2000-01-23T04:56:07.000+00:00
+          model: model
+        - tenant_id: tenant_id
+          score: 0.8008281904610115
+          judge_call_id: judge_call_id
+          project_id: project_id
+          request_hash: request_hash
+          cached: true
+          evaluator_id: evaluator_id
+          response_hash: response_hash
+          charged_cost:
+            currency: USD
+            amount_micros: 1
+          created_at: 2000-01-23T04:56:07.000+00:00
+          model: model
+        nextPageToken: nextPageToken
+      properties:
+        nextPageToken:
+          nullable: true
+          type: string
+        records:
+          items:
+            $ref: '#/components/schemas/PublicJudgeAuditRecord'
+          type: array
+      required:
+      - records
     ListScenariosResponse:
       example:
         nextPageToken: nextPageToken
@@ -9445,60 +9751,6 @@ components:
       - downstream_queued
       - duplicate_raw
       - duplicate_spans
-    Page_RunSummary:
-      example:
-        next_cursor: next_cursor
-        items:
-        - duration_ms: 0
-          tenant_id: tenant_id
-          models:
-          - provider: provider
-            name: name
-          - provider: provider
-            name: name
-          trace_id: trace_id
-          total_cost:
-            currency: USD
-            amount_micros: 1
-          project_id: project_id
-          started_at: 2000-01-23T04:56:07.000+00:00
-          span_count: 0
-          first_span_name: first_span_name
-          release_ids:
-          - release_ids
-          - release_ids
-          ended_at: 2000-01-23T04:56:07.000+00:00
-          status: ok
-        - duration_ms: 0
-          tenant_id: tenant_id
-          models:
-          - provider: provider
-            name: name
-          - provider: provider
-            name: name
-          trace_id: trace_id
-          total_cost:
-            currency: USD
-            amount_micros: 1
-          project_id: project_id
-          started_at: 2000-01-23T04:56:07.000+00:00
-          span_count: 0
-          first_span_name: first_span_name
-          release_ids:
-          - release_ids
-          - release_ids
-          ended_at: 2000-01-23T04:56:07.000+00:00
-          status: ok
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Page_RunSummary_items_inner'
-          type: array
-        next_cursor:
-          nullable: true
-          type: string
-      required:
-      - items
     PaletteConnectStatus:
       enum:
       - connected
@@ -9646,6 +9898,7 @@ components:
       type: string
     PromptListResponse:
       example:
+        nextPageToken: nextPageToken
         prompts:
         - tenant_id: tenant_id
           updated_at: 2000-01-23T04:56:07.000+00:00
@@ -9662,6 +9915,9 @@ components:
           description: description
           prompt_id: prompt_id
       properties:
+        nextPageToken:
+          nullable: true
+          type: string
         prompts:
           items:
             $ref: '#/components/schemas/Prompt'
@@ -9845,7 +10101,11 @@ components:
           version_number: 0
           version_id: version_id
           prompt_id: prompt_id
+        nextPageToken: nextPageToken
       properties:
+        nextPageToken:
+          nullable: true
+          type: string
         versions:
           items:
             $ref: '#/components/schemas/PromptVersion'
@@ -9871,6 +10131,36 @@ components:
       - created_at
     ProviderSecretId:
       type: string
+    ProviderSecretListResponse:
+      example:
+        nextPageToken: nextPageToken
+        providerSecrets:
+        - tenant_id: tenant_id
+          project_id: project_id
+          provider: provider
+          provider_secret_id: provider_secret_id
+          active: true
+          created_at: 2000-01-23T04:56:07.000+00:00
+          display_name: display_name
+          rotated_at: 2000-01-23T04:56:07.000+00:00
+        - tenant_id: tenant_id
+          project_id: project_id
+          provider: provider
+          provider_secret_id: provider_secret_id
+          active: true
+          created_at: 2000-01-23T04:56:07.000+00:00
+          display_name: display_name
+          rotated_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        nextPageToken:
+          nullable: true
+          type: string
+        providerSecrets:
+          items:
+            $ref: '#/components/schemas/ProviderSecretMetadata'
+          type: array
+      required:
+      - providerSecrets
     ProviderSecretMetadata:
       example:
         tenant_id: tenant_id
@@ -10165,6 +10455,44 @@ components:
       - updated_at
     ReviewTaskId:
       type: string
+    ReviewTaskListResponse:
+      example:
+        nextPageToken: nextPageToken
+        tasks:
+        - tenant_id: tenant_id
+          trace_id: trace_id
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          project_id: project_id
+          span_id: span_id
+          dataset_id: dataset_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          task_id: task_id
+          dataset_case_id: dataset_case_id
+          state: open
+          priority: 0
+          queue_id: queue_id
+        - tenant_id: tenant_id
+          trace_id: trace_id
+          updated_at: 2000-01-23T04:56:07.000+00:00
+          project_id: project_id
+          span_id: span_id
+          dataset_id: dataset_id
+          created_at: 2000-01-23T04:56:07.000+00:00
+          task_id: task_id
+          dataset_case_id: dataset_case_id
+          state: open
+          priority: 0
+          queue_id: queue_id
+      properties:
+        nextPageToken:
+          nullable: true
+          type: string
+        tasks:
+          items:
+            $ref: '#/components/schemas/ReviewTask'
+          type: array
+      required:
+      - tasks
     ReviewTaskState:
       enum:
       - open
@@ -10449,6 +10777,27 @@ components:
       - kind
       - provider_secret_id
     RunSummary:
+      example:
+        duration_ms: 0
+        tenant_id: tenant_id
+        models:
+        - provider: provider
+          name: name
+        - provider: provider
+          name: name
+        trace_id: trace_id
+        total_cost:
+          currency: USD
+          amount_micros: 1
+        project_id: project_id
+        started_at: 2000-01-23T04:56:07.000+00:00
+        span_count: 0
+        first_span_name: first_span_name
+        release_ids:
+        - release_ids
+        - release_ids
+        ended_at: 2000-01-23T04:56:07.000+00:00
+        status: ok
       properties:
         duration_ms:
           format: int64
@@ -10691,7 +11040,7 @@ components:
       - tenant_id
       - tool
       - trace_id
-    SearchResponse:
+    SearchSpanListResponse:
       example:
         hits:
         - tenant_id: tenant_id
@@ -10716,11 +11065,15 @@ components:
           model: model
           tool: tool
           status: status
+        nextPageToken: nextPageToken
       properties:
         hits:
           items:
             $ref: '#/components/schemas/SearchHit'
           type: array
+        nextPageToken:
+          nullable: true
+          type: string
       required:
       - hits
     Sha256Hash:
@@ -11109,6 +11462,60 @@ components:
       - span_count
       - tenant_id
       - trace_id
+    TraceListResponse:
+      example:
+        nextPageToken: nextPageToken
+        runs:
+        - duration_ms: 0
+          tenant_id: tenant_id
+          models:
+          - provider: provider
+            name: name
+          - provider: provider
+            name: name
+          trace_id: trace_id
+          total_cost:
+            currency: USD
+            amount_micros: 1
+          project_id: project_id
+          started_at: 2000-01-23T04:56:07.000+00:00
+          span_count: 0
+          first_span_name: first_span_name
+          release_ids:
+          - release_ids
+          - release_ids
+          ended_at: 2000-01-23T04:56:07.000+00:00
+          status: ok
+        - duration_ms: 0
+          tenant_id: tenant_id
+          models:
+          - provider: provider
+            name: name
+          - provider: provider
+            name: name
+          trace_id: trace_id
+          total_cost:
+            currency: USD
+            amount_micros: 1
+          project_id: project_id
+          started_at: 2000-01-23T04:56:07.000+00:00
+          span_count: 0
+          first_span_name: first_span_name
+          release_ids:
+          - release_ids
+          - release_ids
+          ended_at: 2000-01-23T04:56:07.000+00:00
+          status: ok
+      properties:
+        nextPageToken:
+          nullable: true
+          type: string
+        runs:
+          items:
+            $ref: '#/components/schemas/RunSummary'
+          type: array
+      required:
+      - runs
     TraceView:
       example:
         tenant_id: tenant_id
@@ -11522,73 +11929,6 @@ components:
           type: string
       required:
       - type
-    Page_RunSummary_items_inner:
-      example:
-        duration_ms: 0
-        tenant_id: tenant_id
-        models:
-        - provider: provider
-          name: name
-        - provider: provider
-          name: name
-        trace_id: trace_id
-        total_cost:
-          currency: USD
-          amount_micros: 1
-        project_id: project_id
-        started_at: 2000-01-23T04:56:07.000+00:00
-        span_count: 0
-        first_span_name: first_span_name
-        release_ids:
-        - release_ids
-        - release_ids
-        ended_at: 2000-01-23T04:56:07.000+00:00
-        status: ok
-      properties:
-        duration_ms:
-          format: int64
-          nullable: true
-          type: integer
-        ended_at:
-          format: date-time
-          nullable: true
-          type: string
-        first_span_name:
-          type: string
-        models:
-          items:
-            $ref: '#/components/schemas/ModelRef'
-          type: array
-        project_id:
-          type: string
-        release_ids:
-          items:
-            type: string
-          type: array
-        span_count:
-          minimum: 0
-          type: integer
-        started_at:
-          format: date-time
-          type: string
-        status:
-          $ref: '#/components/schemas/SpanStatus'
-        tenant_id:
-          type: string
-        total_cost:
-          $ref: '#/components/schemas/Money'
-        trace_id:
-          type: string
-      required:
-      - first_span_name
-      - models
-      - project_id
-      - release_ids
-      - span_count
-      - started_at
-      - status
-      - tenant_id
-      - trace_id
     SpanIoValue_oneOf:
       example:
         kind: inline

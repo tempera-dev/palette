@@ -6,12 +6,14 @@
 
 
 static prompt_list_response_t *prompt_list_response_create_internal(
+    char *next_page_token,
     list_t *prompts
     ) {
     prompt_list_response_t *prompt_list_response_local_var = malloc(sizeof(prompt_list_response_t));
     if (!prompt_list_response_local_var) {
         return NULL;
     }
+    prompt_list_response_local_var->next_page_token = next_page_token;
     prompt_list_response_local_var->prompts = prompts;
 
     prompt_list_response_local_var->_library_owned = 1;
@@ -19,9 +21,11 @@ static prompt_list_response_t *prompt_list_response_create_internal(
 }
 
 __attribute__((deprecated)) prompt_list_response_t *prompt_list_response_create(
+    char *next_page_token,
     list_t *prompts
     ) {
     return prompt_list_response_create_internal (
+        next_page_token,
         prompts
         );
 }
@@ -35,6 +39,10 @@ void prompt_list_response_free(prompt_list_response_t *prompt_list_response) {
         return ;
     }
     listEntry_t *listEntry;
+    if (prompt_list_response->next_page_token) {
+        free(prompt_list_response->next_page_token);
+        prompt_list_response->next_page_token = NULL;
+    }
     if (prompt_list_response->prompts) {
         list_ForEach(listEntry, prompt_list_response->prompts) {
             prompt_free(listEntry->data);
@@ -47,6 +55,14 @@ void prompt_list_response_free(prompt_list_response_t *prompt_list_response) {
 
 cJSON *prompt_list_response_convertToJSON(prompt_list_response_t *prompt_list_response) {
     cJSON *item = cJSON_CreateObject();
+
+    // prompt_list_response->next_page_token
+    if(prompt_list_response->next_page_token) {
+    if(cJSON_AddStringToObject(item, "nextPageToken", prompt_list_response->next_page_token) == NULL) {
+    goto fail; //String
+    }
+    }
+
 
     // prompt_list_response->prompts
     if (!prompt_list_response->prompts) {
@@ -83,6 +99,18 @@ prompt_list_response_t *prompt_list_response_parseFromJSON(cJSON *prompt_list_re
     // define the local list for prompt_list_response->prompts
     list_t *promptsList = NULL;
 
+    // prompt_list_response->next_page_token
+    cJSON *next_page_token = cJSON_GetObjectItemCaseSensitive(prompt_list_responseJSON, "nextPageToken");
+    if (cJSON_IsNull(next_page_token)) {
+        next_page_token = NULL;
+    }
+    if (next_page_token) {
+    if(!cJSON_IsString(next_page_token) && !cJSON_IsNull(next_page_token))
+    {
+    goto end; //String
+    }
+    }
+
     // prompt_list_response->prompts
     cJSON *prompts = cJSON_GetObjectItemCaseSensitive(prompt_list_responseJSON, "prompts");
     if (cJSON_IsNull(prompts)) {
@@ -92,7 +120,7 @@ prompt_list_response_t *prompt_list_response_parseFromJSON(cJSON *prompt_list_re
         goto end;
     }
 
-    
+
     cJSON *prompts_local_nonprimitive = NULL;
     if(!cJSON_IsArray(prompts)){
         goto end; //nonprimitive container
@@ -112,6 +140,7 @@ prompt_list_response_t *prompt_list_response_parseFromJSON(cJSON *prompt_list_re
 
 
     prompt_list_response_local_var = prompt_list_response_create_internal (
+        next_page_token && !cJSON_IsNull(next_page_token) ? strdup(next_page_token->valuestring) : NULL,
         promptsList
         );
 

@@ -17,16 +17,16 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated
 from palette_client.models.connect_connector_request import ConnectConnectorRequest
 from palette_client.models.connection_link import ConnectionLink
 from palette_client.models.connection_status import ConnectionStatus
+from palette_client.models.connector_list_response import ConnectorListResponse
 from palette_client.models.connector_skills_response import ConnectorSkillsResponse
-from palette_client.models.connector_tool import ConnectorTool
+from palette_client.models.connector_tool_list_response import ConnectorToolListResponse
 from palette_client.models.invoke_connector_request import InvokeConnectorRequest
 from palette_client.models.tool_execution import ToolExecution
-from palette_client.models.toolkit import Toolkit
 
 from palette_client.api_client import ApiClient, RequestSerialized
 from palette_client.api_response import ApiResponse
@@ -732,9 +732,9 @@ class ConnectorsApi:
             _path_params['project_id'] = project_id
         # process the query parameters
         if toolkit is not None:
-            
+
             _query_params.append(('toolkit', toolkit))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1156,7 +1156,8 @@ class ConnectorsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return. Zero selects the server default.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1173,7 +1174,7 @@ class ConnectorsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Toolkit]:
+    ) -> ConnectorListResponse:
         """connectors_list
 
 
@@ -1181,8 +1182,10 @@ class ConnectorsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
-        :param limit: Maximum number of apps to return (page size).
-        :type limit: int
+        :param page_size: Maximum number of apps to return. Zero selects the server default.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1216,7 +1219,8 @@ class ConnectorsApi:
         _param = self._connectors_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1228,7 +1232,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Toolkit]",
+            '200': "ConnectorListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1250,7 +1254,8 @@ class ConnectorsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return. Zero selects the server default.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1267,7 +1272,7 @@ class ConnectorsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Toolkit]]:
+    ) -> ApiResponse[ConnectorListResponse]:
         """connectors_list
 
 
@@ -1275,8 +1280,10 @@ class ConnectorsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
-        :param limit: Maximum number of apps to return (page size).
-        :type limit: int
+        :param page_size: Maximum number of apps to return. Zero selects the server default.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1310,7 +1317,8 @@ class ConnectorsApi:
         _param = self._connectors_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1322,7 +1330,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Toolkit]",
+            '200': "ConnectorListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1344,7 +1352,8 @@ class ConnectorsApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return (page size).")] = None,
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of apps to return. Zero selects the server default.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1369,8 +1378,10 @@ class ConnectorsApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
-        :param limit: Maximum number of apps to return (page size).
-        :type limit: int
+        :param page_size: Maximum number of apps to return. Zero selects the server default.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1404,7 +1415,8 @@ class ConnectorsApi:
         _param = self._connectors_list_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1416,7 +1428,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Toolkit]",
+            '200': "ConnectorListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1433,7 +1445,8 @@ class ConnectorsApi:
         self,
         tenant_id,
         project_id,
-        limit,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -1464,10 +1477,14 @@ class ConnectorsApi:
         if project_id is not None:
             _path_params['project_id'] = project_id
         # process the query parameters
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1518,7 +1535,8 @@ class ConnectorsApi:
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
         toolkit: Annotated[StrictStr, Field(description="Toolkit slug to list tools for.")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of tools to return (page size).")] = None,
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of tools to return. Zero selects the server default.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1535,7 +1553,7 @@ class ConnectorsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ConnectorTool]:
+    ) -> ConnectorToolListResponse:
         """connectors_list_tools
 
 
@@ -1545,8 +1563,10 @@ class ConnectorsApi:
         :type project_id: str
         :param toolkit: Toolkit slug to list tools for. (required)
         :type toolkit: str
-        :param limit: Maximum number of tools to return (page size).
-        :type limit: int
+        :param page_size: Maximum number of tools to return. Zero selects the server default.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1581,7 +1601,8 @@ class ConnectorsApi:
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1593,7 +1614,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ConnectorTool]",
+            '200': "ConnectorToolListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1616,7 +1637,8 @@ class ConnectorsApi:
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
         toolkit: Annotated[StrictStr, Field(description="Toolkit slug to list tools for.")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of tools to return (page size).")] = None,
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of tools to return. Zero selects the server default.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1633,7 +1655,7 @@ class ConnectorsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ConnectorTool]]:
+    ) -> ApiResponse[ConnectorToolListResponse]:
         """connectors_list_tools
 
 
@@ -1643,8 +1665,10 @@ class ConnectorsApi:
         :type project_id: str
         :param toolkit: Toolkit slug to list tools for. (required)
         :type toolkit: str
-        :param limit: Maximum number of tools to return (page size).
-        :type limit: int
+        :param page_size: Maximum number of tools to return. Zero selects the server default.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1679,7 +1703,8 @@ class ConnectorsApi:
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1691,7 +1716,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ConnectorTool]",
+            '200': "ConnectorToolListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1714,7 +1739,8 @@ class ConnectorsApi:
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
         toolkit: Annotated[StrictStr, Field(description="Toolkit slug to list tools for.")],
-        limit: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of tools to return (page size).")] = None,
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of tools to return. Zero selects the server default.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -1741,8 +1767,10 @@ class ConnectorsApi:
         :type project_id: str
         :param toolkit: Toolkit slug to list tools for. (required)
         :type toolkit: str
-        :param limit: Maximum number of tools to return (page size).
-        :type limit: int
+        :param page_size: Maximum number of tools to return. Zero selects the server default.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -1777,7 +1805,8 @@ class ConnectorsApi:
             tenant_id=tenant_id,
             project_id=project_id,
             toolkit=toolkit,
-            limit=limit,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -1789,7 +1818,7 @@ class ConnectorsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ConnectorTool]",
+            '200': "ConnectorToolListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -1807,7 +1836,8 @@ class ConnectorsApi:
         tenant_id,
         project_id,
         toolkit,
-        limit,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -1839,13 +1869,17 @@ class ConnectorsApi:
             _path_params['project_id'] = project_id
         # process the query parameters
         if toolkit is not None:
-            
+
             _query_params.append(('toolkit', toolkit))
-            
-        if limit is not None:
-            
-            _query_params.append(('limit', limit))
-            
+
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -2204,9 +2238,9 @@ class ConnectorsApi:
             _path_params['project_id'] = project_id
         # process the query parameters
         if toolkit is not None:
-            
+
             _query_params.append(('toolkit', toolkit))
-            
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -2247,5 +2281,3 @@ class ConnectorsApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

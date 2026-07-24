@@ -654,7 +654,7 @@ test("dashboard search page uses generated span search", () => {
   assert.match(api, /type SearchOperation = operations\["search\.spans"\]/);
   assert.match(api, /type SearchQueryParams = NonNullable<SearchOperation\["parameters"\]\["query"\]>/);
   assert.match(api, /export type SearchHit = components\["schemas"\]\["SearchHit"\]/);
-  assert.match(api, /export type SearchResponse = components\["schemas"\]\["SearchResponse"\]/);
+  assert.match(api, /export type SearchResponse = components\["schemas"\]\["SearchSpanListResponse"\]/);
   assert.match(api, /searchParamsForSpanSearch/);
   assert.match(api, /searchSpansPath/);
   assert.match(api, /\/v1\/search\/\$\{encodeURIComponent\(path\.tenant_id\)\}\/spans/);
@@ -731,9 +731,9 @@ test("dashboard search URLs use generated search.spans params", () => {
       status: "error",
       model: "gpt-4.1",
       tool: "browser",
-      limit: 25
+      pageSize: 25
     }),
-    "/v1/search/tenant%2F1/spans?q=prompt+error&project_id=demo&environment_id=local&trace_id=trace-1&span_id=span-1&kind=llm.call&status=error&model=gpt-4.1&tool=browser&limit=25"
+    "/v1/search/tenant%2F1/spans?q=prompt+error&project_id=demo&environment_id=local&trace_id=trace-1&span_id=span-1&kind=llm.call&status=error&model=gpt-4.1&tool=browser&pageSize=25"
   );
 });
 
@@ -910,8 +910,8 @@ test("dashboard read URLs send unmask reason only with unmask=true", () => {
 
 test("dashboard loader preserves trace context when span I/O fails", async () => {
   const runs = {
-    items: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 1 }],
-    next_cursor: null
+    runs: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 1 }],
+    nextPageToken: null
   };
   const span = {
     trace_id: "trace-1",
@@ -946,7 +946,7 @@ test("dashboard loader preserves trace context when span I/O fails", async () =>
 
   const data = await loadDashboardData({ tenantId: "demo" });
 
-  assert.equal(data.runs.items.length, 1);
+  assert.equal(data.runs.runs.length, 1);
   assert.equal(data.trace?.trace_id, "trace-1");
   assert.equal(data.selectedSpan?.span_id, "span-1");
   assert.equal(data.selectedIo, null);
@@ -955,8 +955,8 @@ test("dashboard loader preserves trace context when span I/O fails", async () =>
 
 test("dashboard loader selects the ordered root span when trace spans arrive unsorted", async () => {
   const runs = {
-    items: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 2 }],
-    next_cursor: null
+    runs: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 2 }],
+    nextPageToken: null
   };
   const child = {
     ...spanFixture("child", "root", "2026-01-01T00:00:00.002Z", 2),
@@ -994,8 +994,8 @@ test("dashboard loader selects the ordered root span when trace spans arrive uns
 
 test("dashboard loader does not select a fallback span for stale span URLs", async () => {
   const runs = {
-    items: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 1 }],
-    next_cursor: null
+    runs: [{ tenant_id: "demo", project_id: "demo", trace_id: "trace-1", first_span_name: "run", span_count: 1 }],
+    nextPageToken: null
   };
   const span = {
     trace_id: "trace-1",
@@ -1041,7 +1041,7 @@ test("dashboard loader does not select a fallback span for stale span URLs", asy
 
 test("dashboard loader scopes tenant-wide trace details to the selected run project", async () => {
   const runs = {
-    items: [
+    runs: [
       {
         tenant_id: "demo",
         project_id: "project-b",
@@ -1050,7 +1050,7 @@ test("dashboard loader scopes tenant-wide trace details to the selected run proj
         span_count: 1
       }
     ],
-    next_cursor: null
+    nextPageToken: null
   };
   const span = {
     ...spanFixture("span-1", null, "2026-01-01T00:00:00Z", 1),
@@ -1088,7 +1088,7 @@ test("dashboard loader scopes tenant-wide trace details to the selected run proj
 
 test("dashboard loader does not scope explicit trace details to an unrelated fallback run", async () => {
   const runs = {
-    items: [
+    runs: [
       {
         tenant_id: "demo",
         project_id: "project-b",
@@ -1097,7 +1097,7 @@ test("dashboard loader does not scope explicit trace details to an unrelated fal
         span_count: 1
       }
     ],
-    next_cursor: null
+    nextPageToken: null
   };
   const span = {
     ...spanFixture("span-1", null, "2026-01-01T00:00:00Z", 1),
@@ -1795,7 +1795,7 @@ test("dashboard query searchParamsForTraceList includes all filter fields", () =
   assert.equal(params.get("max_cost_micros"), "200");
   assert.equal(params.get("min_latency_ms"), "50");
   assert.equal(params.get("max_latency_ms"), "2000");
-  assert.equal(params.get("limit"), "50");
+  assert.equal(params.get("pageSize"), "50");
 });
 
 test("dashboard query module is table-driven and delegates contract to api.ts", () => {

@@ -36,7 +36,8 @@ type ApiSearchSpansRequest struct {
 	status *string
 	model *string
 	tool *string
-	limit *int32
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
@@ -88,8 +89,13 @@ func (r ApiSearchSpansRequest) Tool(tool string) ApiSearchSpansRequest {
 	return r
 }
 
-func (r ApiSearchSpansRequest) Limit(limit int32) ApiSearchSpansRequest {
-	r.limit = &limit
+func (r ApiSearchSpansRequest) PageSize(pageSize int32) ApiSearchSpansRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+func (r ApiSearchSpansRequest) PageToken(pageToken string) ApiSearchSpansRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -117,7 +123,7 @@ func (r ApiSearchSpansRequest) XPaletteEnvironmentId(xPaletteEnvironmentId strin
 	return r
 }
 
-func (r ApiSearchSpansRequest) Execute() (*SearchResponse, *http.Response, error) {
+func (r ApiSearchSpansRequest) Execute() (*SearchSpanListResponse, *http.Response, error) {
 	return r.ApiService.SearchSpansExecute(r)
 }
 
@@ -137,13 +143,13 @@ func (a *SearchAPIService) SearchSpans(ctx context.Context, tenantId string) Api
 }
 
 // Execute executes the request
-//  @return SearchResponse
-func (a *SearchAPIService) SearchSpansExecute(r ApiSearchSpansRequest) (*SearchResponse, *http.Response, error) {
+//  @return SearchSpanListResponse
+func (a *SearchAPIService) SearchSpansExecute(r ApiSearchSpansRequest) (*SearchSpanListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SearchResponse
+		localVarReturnValue  *SearchSpanListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SearchAPIService.SearchSpans")
@@ -185,8 +191,11 @@ func (a *SearchAPIService) SearchSpansExecute(r ApiSearchSpansRequest) (*SearchR
 	if r.tool != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "tool", r.tool, "form", "")
 	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

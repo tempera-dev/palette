@@ -12,7 +12,7 @@
 /*
  * ConnectorsApi.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_ConnectorsApi_H_
@@ -25,13 +25,12 @@
 #include "palette-client/model/ConnectConnectorRequest.h"
 #include "palette-client/model/ConnectionLink.h"
 #include "palette-client/model/ConnectionStatus.h"
+#include "palette-client/model/ConnectorListResponse.h"
 #include "palette-client/model/ConnectorSkillsResponse.h"
-#include "palette-client/model/ConnectorTool.h"
+#include "palette-client/model/ConnectorToolListResponse.h"
 #include "palette-client/model/ErrorResponse.h"
 #include "palette-client/model/InvokeConnectorRequest.h"
 #include "palette-client/model/ToolExecution.h"
-#include "palette-client/model/Toolkit.h"
-#include <vector>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
@@ -44,7 +43,7 @@ using namespace org::openapitools::client::model;
 
 
 
-class  ConnectorsApi 
+class  ConnectorsApi
 {
 public:
 
@@ -53,10 +52,10 @@ public:
     virtual ~ConnectorsApi();
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -75,10 +74,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -97,10 +96,10 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -119,56 +118,60 @@ public:
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
-    /// <param name="limit">Maximum number of apps to return (page size). (optional, default to 0)</param>
+    /// <param name="pageSize">Maximum number of apps to return. Zero selects the server default. (optional, default to 0)</param>
+    /// <param name="pageToken">Opaque continuation token returned by the preceding list request. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<Toolkit>>> connectors_list(
+    pplx::task<std::shared_ptr<ConnectorListResponse>> connectors_list(
         utility::string_t tenantId,
         utility::string_t projectId,
-        boost::optional<int32_t> limit,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
     /// <param name="toolkit">Toolkit slug to list tools for.</param>
-    /// <param name="limit">Maximum number of tools to return (page size). (optional, default to 0)</param>
+    /// <param name="pageSize">Maximum number of tools to return. Zero selects the server default. (optional, default to 0)</param>
+    /// <param name="pageToken">Opaque continuation token returned by the preceding list request. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="authorization">Bearer API token for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteApiKey">API key alternative for strict auth (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteProjectId">Strict-auth project scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="xPaletteEnvironmentId">Strict-auth environment scope (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> connectors_listTools(
+    pplx::task<std::shared_ptr<ConnectorToolListResponse>> connectors_listTools(
         utility::string_t tenantId,
         utility::string_t projectId,
         utility::string_t toolkit,
-        boost::optional<int32_t> limit,
+        boost::optional<int32_t> pageSize,
+        boost::optional<utility::string_t> pageToken,
         boost::optional<utility::string_t> authorization,
         boost::optional<utility::string_t> xPaletteApiKey,
         boost::optional<utility::string_t> xPaletteProjectId,
         boost::optional<utility::string_t> xPaletteEnvironmentId
     ) const;
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <remarks>
-    /// 
+    ///
     /// </remarks>
     /// <param name="tenantId">tenant_id</param>
     /// <param name="projectId">project_id</param>
@@ -197,4 +200,3 @@ protected:
 }
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ConnectorsApi_H_ */
-

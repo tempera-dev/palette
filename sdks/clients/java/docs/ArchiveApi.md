@@ -175,7 +175,7 @@ No authorization required
 
 ## archiveQuerySpans
 
-> ArchiveQueryResponse archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ArchiveQueryResponse archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -202,13 +202,14 @@ public class Example {
         String spanId = "spanId_example"; // String |
         String kind = "kind_example"; // String |
         String status = "status_example"; // String |
-        Integer limit = 56; // Integer |
+        Integer pageSize = 56; // Integer |
+        String pageToken = "pageToken_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ArchiveQueryResponse result = apiInstance.archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ArchiveQueryResponse result = apiInstance.archiveQuerySpans(tenantId, projectId, environmentId, traceId, spanId, kind, status, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArchiveApi#archiveQuerySpans");
@@ -233,7 +234,8 @@ public class Example {
 | **spanId** | **String**|  | [optional] |
 | **kind** | **String**|  | [optional] |
 | **status** | **String**|  | [optional] |
-| **limit** | **Integer**|  | [optional] |
+| **pageSize** | **Integer**|  | [optional] |
+| **pageToken** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -263,7 +265,7 @@ No authorization required
 
 ## archiveQuerySpansWithHttpInfo
 
-> ApiResponse<ArchiveQueryResponse> archiveQuerySpans archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ArchiveQueryResponse> archiveQuerySpans archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -291,13 +293,14 @@ public class Example {
         String spanId = "spanId_example"; // String |
         String kind = "kind_example"; // String |
         String status = "status_example"; // String |
-        Integer limit = 56; // Integer |
+        Integer pageSize = 56; // Integer |
+        String pageToken = "pageToken_example"; // String |
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<ArchiveQueryResponse> response = apiInstance.archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ArchiveQueryResponse> response = apiInstance.archiveQuerySpansWithHttpInfo(tenantId, projectId, environmentId, traceId, spanId, kind, status, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -324,7 +327,8 @@ public class Example {
 | **spanId** | **String**|  | [optional] |
 | **kind** | **String**|  | [optional] |
 | **status** | **String**|  | [optional] |
-| **limit** | **Integer**|  | [optional] |
+| **pageSize** | **Integer**|  | [optional] |
+| **pageToken** | **String**|  | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |

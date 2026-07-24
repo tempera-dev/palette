@@ -29,9 +29,9 @@ use palette_composio::{
 };
 use palette_core::{
     AgentReleaseId, AnnotationId, ApiKeyId, ArtifactId, DatasetCaseId, DatasetId, DatasetVersionId,
-    EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, Page, PageRequest, ProjectId,
-    PromptId, PromptVersionId, ProviderSecretId, ReviewQueueId, ReviewTaskId, Sha256Hash, SpanId,
-    TenantId, TenantScope, TraceId, sha256_hex, sha256_json_hash,
+    EnvironmentId, EvaluatorVersionId, ExperimentRunId, GateId, PageRequest, ProjectId, PromptId,
+    PromptVersionId, ProviderSecretId, ReviewQueueId, ReviewTaskId, Sha256Hash, SpanId, TenantId,
+    TenantScope, TraceId, sha256_hex, sha256_json_hash,
 };
 use palette_datasets::{
     Dataset, DatasetEvalReport, DatasetEvalSpec, DatasetJudgeEvalSpec, DatasetStore,
@@ -77,7 +77,7 @@ use palette_schema::{
     SpanStatus, TraceView,
 };
 use palette_search::{
-    NoopSearchIndex, SearchIndex, SearchRequest, SearchResponse, TraceIngestedSearchProcessor,
+    NoopSearchIndex, SearchHit, SearchIndex, SearchRequest, TraceIngestedSearchProcessor,
 };
 use palette_secrets::{
     ProviderSecretMetadata, ProviderSecretStore, PutProviderSecretRequest, RevokedProviderSecret,
@@ -1190,13 +1190,14 @@ async fn create_provider_secret_route(
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
+        AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List provider secret metadata", body = Vec < ProviderSecretMetadata >),
+        (status = 200, description = "List provider secret metadata", body = ProviderSecretListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -1206,15 +1207,34 @@ async fn list_provider_secrets_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
-) -> Result<Json<Vec<ProviderSecretMetadata>>, ApiError> {
+    Query(query): Query<AipListQuery>,
+) -> Result<Json<ProviderSecretListResponse>, ApiError> {
     let provider_secrets = provider_secret_store(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
-    let secrets = provider_secrets
-        .list_secret_metadata(tenant_id, project_id)
+    let mut secrets = provider_secrets
+        .list_secret_metadata(tenant_id.clone(), project_id.clone())
         .await?;
-    Ok(Json(secrets))
+    secrets.sort_by(|left, right| {
+        right.created_at.cmp(&left.created_at).then_with(|| {
+            left.provider_secret_id
+                .as_str()
+                .cmp(right.provider_secret_id.as_str())
+        })
+    });
+    let (secrets, next_page_token) = paginate_aip158(
+        "providerSecrets.list",
+        &[tenant_id.as_str(), project_id.as_str()],
+        query.page_size,
+        query.page_token.as_deref(),
+        secrets,
+        |secret| secret.provider_secret_id.as_str().to_string(),
+    )?;
+    Ok(Json(ProviderSecretListResponse {
+        provider_secrets: secrets,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -1351,19 +1371,25 @@ struct ToolkitQuery {
 }
 
 #[derive(Clone, Debug, Deserialize, IntoParams)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct CatalogQuery {
-    /// Maximum number of apps to return (page size).
-    limit: Option<u32>,
+    /// Maximum number of apps to return. Zero selects the server default.
+    page_size: Option<u32>,
+    /// Opaque continuation token returned by the preceding list request.
+    page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, IntoParams)]
-#[into_params(parameter_in = Query)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct ToolListQuery {
     /// Toolkit slug to list tools for.
     toolkit: String,
-    /// Maximum number of tools to return (page size).
-    limit: Option<u32>,
+    /// Maximum number of tools to return. Zero selects the server default.
+    page_size: Option<u32>,
+    /// Opaque continuation token returned by the preceding list request.
+    page_token: Option<String>,
 }
 
 /// Generated prompting scaffold ("skills.md") for a toolkit's tools.
@@ -1391,7 +1417,7 @@ struct ConnectorSkillsResponse {
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List connectable third-party apps (catalog)", body = Vec < Toolkit >),
+        (status = 200, description = "List connectable third-party apps (catalog)", body = ConnectorListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -1403,7 +1429,7 @@ async fn list_connectors_route(
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
     Query(query): Query<CatalogQuery>,
-) -> Result<Json<Vec<Toolkit>>, ApiError> {
+) -> Result<Json<ConnectorListResponse>, ApiError> {
     let connectors = connector_client(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
@@ -1415,12 +1441,23 @@ async fn list_connectors_route(
         ApiScope::TraceRead,
     )
     .await?;
-    let limit = query.limit.unwrap_or(CONNECTOR_CATALOG_LIMIT);
-    let toolkits = connectors
-        .list_toolkits(limit)
+    let mut toolkits = connectors
+        .list_toolkits(CONNECTOR_CATALOG_LIMIT)
         .await
         .map_err(map_composio_err)?;
-    Ok(Json(toolkits))
+    toolkits.sort_by(|left, right| left.slug.cmp(&right.slug));
+    let (toolkits, next_page_token) = paginate_aip158(
+        "connectors.list",
+        &[tenant_id.as_str(), project_id.as_str()],
+        query.page_size,
+        query.page_token.as_deref(),
+        toolkits,
+        |toolkit| toolkit.slug.clone(),
+    )?;
+    Ok(Json(ConnectorListResponse {
+        toolkits,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -1438,7 +1475,7 @@ async fn list_connectors_route(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List a toolkit's executable tools with input schemas", body = Vec < ConnectorTool >),
+        (status = 200, description = "List a toolkit's executable tools with input schemas", body = ConnectorToolListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -1450,7 +1487,7 @@ async fn list_connector_tools_route(
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
     Query(query): Query<ToolListQuery>,
-) -> Result<Json<Vec<ConnectorTool>>, ApiError> {
+) -> Result<Json<ConnectorToolListResponse>, ApiError> {
     let connectors = connector_client(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
@@ -1462,12 +1499,27 @@ async fn list_connector_tools_route(
         ApiScope::TraceRead,
     )
     .await?;
-    let limit = query.limit.unwrap_or(CONNECTOR_TOOL_LIMIT);
-    let tools = connectors
-        .list_tools(&query.toolkit, limit)
+    let mut tools = connectors
+        .list_tools(&query.toolkit, CONNECTOR_TOOL_LIMIT)
         .await
         .map_err(map_composio_err)?;
-    Ok(Json(tools))
+    tools.sort_by(|left, right| left.slug.cmp(&right.slug));
+    let (tools, next_page_token) = paginate_aip158(
+        "connectors.listTools",
+        &[
+            tenant_id.as_str(),
+            project_id.as_str(),
+            query.toolkit.as_str(),
+        ],
+        query.page_size,
+        query.page_token.as_deref(),
+        tools,
+        |tool| tool.slug.clone(),
+    )?;
+    Ok(Json(ConnectorToolListResponse {
+        tools,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -1902,13 +1954,14 @@ async fn get_palette_connect_status_route(
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
+        AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List judge ledger audit records", body = Vec < palette_judge :: PublicJudgeAuditRecord >),
+        (status = 200, description = "List judge ledger audit records", body = JudgeLedgerListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -1918,17 +1971,38 @@ async fn list_judge_ledger_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
-) -> Result<Json<Vec<palette_judge::PublicJudgeAuditRecord>>, ApiError> {
+    Query(query): Query<AipListQuery>,
+) -> Result<Json<JudgeLedgerListResponse>, ApiError> {
     let judge_ledger = judge_ledger(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::EvalRun).await?;
-    let records = judge_ledger.list_records(tenant_id, project_id).await?;
+    let mut records = judge_ledger
+        .list_records(tenant_id.clone(), project_id.clone())
+        .await?;
+    records.sort_by(|left, right| {
+        left.created_at.cmp(&right.created_at).then_with(|| {
+            left.judge_call_id
+                .as_str()
+                .cmp(right.judge_call_id.as_str())
+        })
+    });
     // Redact internal provider identity + our raw provider cost before returning to
     // a client; the internal JudgeAuditRecord stays available for internal use.
     let public: Vec<palette_judge::PublicJudgeAuditRecord> =
         records.into_iter().map(Into::into).collect();
-    Ok(Json(public))
+    let (records, next_page_token) = paginate_aip158(
+        "judge.listLedger",
+        &[tenant_id.as_str(), project_id.as_str()],
+        query.page_size,
+        query.page_token.as_deref(),
+        public,
+        |record| record.judge_call_id.as_str().to_string(),
+    )?;
+    Ok(Json(JudgeLedgerListResponse {
+        records,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -2361,7 +2435,7 @@ async fn import_source_route(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "Search spans", body = SearchResponse),
+        (status = 200, description = "Search spans", body = SearchSpanListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -2372,7 +2446,7 @@ async fn search_spans(
     headers: HeaderMap,
     Path(tenant_id): Path<String>,
     axum::extract::Query(params): axum::extract::Query<SearchQueryParams>,
-) -> Result<Json<SearchResponse>, ApiError> {
+) -> Result<Json<SearchSpanListResponse>, ApiError> {
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = params.project_id.clone().map(ProjectId::new).transpose()?;
     let environment_id = params
@@ -2380,7 +2454,7 @@ async fn search_spans(
         .clone()
         .map(EnvironmentId::new)
         .transpose()?;
-    authorize_query_scope(
+    let auth = authorize_query_scope(
         &state,
         &headers,
         &tenant_id,
@@ -2389,11 +2463,26 @@ async fn search_spans(
         ApiScope::TraceRead,
     )
     .await?;
+    let effective_project_id = auth.project_id.or(project_id);
+    let effective_environment_id = auth.environment_id.or(environment_id);
+    let request_binding = serde_json::json!({
+        "tenantId": tenant_id.as_str(),
+        "q": params.q.as_deref(),
+        "projectId": effective_project_id.as_ref().map(ProjectId::as_str),
+        "environmentId": effective_environment_id.as_ref().map(EnvironmentId::as_str),
+        "traceId": params.trace_id.as_deref(),
+        "spanId": params.span_id.as_deref(),
+        "kind": params.kind.as_deref(),
+        "status": params.status.as_deref(),
+        "model": params.model.as_deref(),
+        "tool": params.tool.as_deref(),
+    })
+    .to_string();
     let request = SearchRequest {
         tenant_id,
         text: params.q.unwrap_or_default(),
-        project_id,
-        environment_id: params.environment_id,
+        project_id: effective_project_id,
+        environment_id: effective_environment_id.map(|value| value.as_str().to_string()),
         trace_id: params.trace_id.map(TraceId::new).transpose()?,
         span_id: params.span_id.map(palette_core::SpanId::new).transpose()?,
         kind: params
@@ -2408,9 +2497,41 @@ async fn search_spans(
             .map(|status| status.as_str().to_string()),
         model: params.model,
         tool: params.tool,
-        limit: params.limit,
+        // The search backend exposes at most 200 hits. Fetch that stable
+        // universe once and apply the common request-bound AIP-158 pager.
+        limit: Some(MAX_PAGE_SIZE as u32),
     };
-    Ok(Json(state.search.search(request).await?))
+    let mut hits = state.search.search(request).await?.hits;
+    hits.sort_by(|left, right| {
+        right
+            .score
+            .total_cmp(&left.score)
+            .then_with(|| left.project_id.cmp(&right.project_id))
+            .then_with(|| left.environment_id.cmp(&right.environment_id))
+            .then_with(|| left.trace_id.cmp(&right.trace_id))
+            .then_with(|| left.span_id.cmp(&right.span_id))
+    });
+    let (hits, next_page_token) = paginate_aip158(
+        "search.spans",
+        &[request_binding.as_str()],
+        params.page_size,
+        params.page_token.as_deref(),
+        hits,
+        |hit| {
+            format!(
+                "{:08x}:{}:{}:{}:{}",
+                hit.score.to_bits(),
+                hit.project_id,
+                hit.environment_id,
+                hit.trace_id,
+                hit.span_id
+            )
+        },
+    )?;
+    Ok(Json(SearchSpanListResponse {
+        hits,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -2427,7 +2548,7 @@ async fn search_spans(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List trace run summaries", body = Page < RunSummary >),
+        (status = 200, description = "List trace run summaries", body = TraceListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -2438,10 +2559,14 @@ async fn list_traces(
     headers: HeaderMap,
     Path(tenant_id): Path<String>,
     axum::extract::Query(params): axum::extract::Query<ListTracesQuery>,
-) -> Result<Json<Page<RunSummary>>, ApiError> {
+) -> Result<Json<TraceListResponse>, ApiError> {
     let tenant_id = TenantId::new(tenant_id)?;
-    let project_id = params.project_id.map(ProjectId::new).transpose()?;
-    let environment_id = params.environment_id.map(EnvironmentId::new).transpose()?;
+    let project_id = params.project_id.clone().map(ProjectId::new).transpose()?;
+    let environment_id = params
+        .environment_id
+        .clone()
+        .map(EnvironmentId::new)
+        .transpose()?;
     let auth = authorize_query_scope(
         &state,
         &headers,
@@ -2451,9 +2576,28 @@ async fn list_traces(
         ApiScope::TraceRead,
     )
     .await?;
+    let effective_project_id = auth.project_id.or(project_id);
+    let effective_environment_id = auth.environment_id.or(environment_id);
+    let request_binding = serde_json::json!({
+        "tenantId": tenant_id.as_str(),
+        "projectId": effective_project_id.as_ref().map(ProjectId::as_str),
+        "environmentId": effective_environment_id.as_ref().map(EnvironmentId::as_str),
+        "traceId": params.trace_id.as_deref(),
+        "kind": params.kind.as_deref(),
+        "status": params.status.as_deref(),
+        "startedAfter": params.started_after.as_deref(),
+        "startedBefore": params.started_before.as_deref(),
+        "model": params.model.as_deref(),
+        "release": params.release.as_deref(),
+        "minCostMicros": params.min_cost_micros,
+        "maxCostMicros": params.max_cost_micros,
+        "minLatencyMs": params.min_latency_ms,
+        "maxLatencyMs": params.max_latency_ms,
+    })
+    .to_string();
     let filter = RunFilter {
-        project_id: auth.project_id.or(project_id),
-        environment_id: auth.environment_id.or(environment_id),
+        project_id: effective_project_id,
+        environment_id: effective_environment_id,
         trace_id: params.trace_id.map(TraceId::new).transpose()?,
         kind: params.kind.map(parse_span_kind).transpose()?,
         status: params.status.map(parse_span_status).transpose()?,
@@ -2466,13 +2610,33 @@ async fn list_traces(
         min_latency_ms: params.min_latency_ms,
         max_latency_ms: params.max_latency_ms,
     };
-    let page = PageRequest {
-        limit: params.limit.unwrap_or(50).clamp(1, 200),
-        cursor: params.cursor,
-    };
-    Ok(Json(
-        state.traces.query_runs(tenant_id, filter, page).await?,
-    ))
+    let page_size = aip_page_size(params.page_size);
+    let page_size_binding = page_size.to_string();
+    let token_binding = [request_binding.as_str(), page_size_binding.as_str()];
+    let cursor = params
+        .page_token
+        .as_deref()
+        .map(|token| decode_backend_page_token("traces.list", &token_binding, token))
+        .transpose()?;
+    let page = state
+        .traces
+        .query_runs(
+            tenant_id,
+            filter,
+            PageRequest {
+                limit: page_size as u32,
+                cursor,
+            },
+        )
+        .await?;
+    let next_page_token = page
+        .next_cursor
+        .as_deref()
+        .map(|cursor| encode_backend_page_token("traces.list", &token_binding, cursor));
+    Ok(Json(TraceListResponse {
+        runs: page.items,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -2602,13 +2766,14 @@ async fn get_span_io_route(
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
+        AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List audit events", body = Vec < AuditEvent >),
+        (status = 200, description = "List audit events", body = AuditEventListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -2618,13 +2783,34 @@ async fn list_audit_events_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
-) -> Result<Json<Vec<AuditEvent>>, ApiError> {
+    Query(query): Query<AipListQuery>,
+) -> Result<Json<AuditEventListResponse>, ApiError> {
     let audit = audit_store(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
     authorize_project_route(&state, &headers, &tenant_id, &project_id, ApiScope::Admin).await?;
-    let events = audit.list_events(tenant_id, project_id).await?;
-    Ok(Json(events))
+    let mut events = audit
+        .list_events(tenant_id.clone(), project_id.clone())
+        .await?;
+    events.sort_by(|left, right| {
+        left.created_at.cmp(&right.created_at).then_with(|| {
+            left.audit_event_id
+                .as_str()
+                .cmp(right.audit_event_id.as_str())
+        })
+    });
+    let (events, next_page_token) = paginate_aip158(
+        "audit.list",
+        &[tenant_id.as_str(), project_id.as_str()],
+        query.page_size,
+        query.page_token.as_deref(),
+        events,
+        |event| event.audit_event_id.as_str().to_string(),
+    )?;
+    Ok(Json(AuditEventListResponse {
+        events,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -2729,7 +2915,11 @@ async fn query_archive_spans(
         ApiScope::TraceRead,
     )
     .await?;
-    let requested_environment_id = params.environment_id.map(EnvironmentId::new).transpose()?;
+    let requested_environment_id = params
+        .environment_id
+        .clone()
+        .map(EnvironmentId::new)
+        .transpose()?;
     let environment_id = match (&auth.environment_id, requested_environment_id) {
         (Some(auth_environment_id), Some(requested_environment_id)) => {
             if auth_environment_id.as_str() != requested_environment_id.as_str() {
@@ -2743,6 +2933,16 @@ async fn query_archive_spans(
         (Some(auth_environment_id), None) => Some(auth_environment_id.clone()),
         (None, requested_environment_id) => requested_environment_id,
     };
+    let request_binding = serde_json::json!({
+        "tenantId": tenant_id.as_str(),
+        "projectId": project_id.as_str(),
+        "environmentId": environment_id.as_ref().map(EnvironmentId::as_str),
+        "traceId": params.trace_id.as_deref(),
+        "spanId": params.span_id.as_deref(),
+        "kind": params.kind.as_deref(),
+        "status": params.status.as_deref(),
+    })
+    .to_string();
     let query = ArchiveQuery {
         tenant_id: tenant_id.clone(),
         project_id: Some(project_id.clone()),
@@ -2751,12 +2951,37 @@ async fn query_archive_spans(
         span_id: params.span_id.map(SpanId::new).transpose()?,
         kind: params.kind.map(parse_span_kind).transpose()?,
         status: params.status.map(parse_span_status).transpose()?,
-        limit: params.limit,
+        // The archive service's existing public maximum is 1,000 rows. Fetch
+        // that stable universe and page it through the common AIP-158 contract.
+        limit: Some(1_000),
     };
-    let rows = archive
+    let mut rows = archive
         .query_project(&tenant_id, &project_id, query)
         .await?;
-    Ok(Json(ArchiveQueryResponse { rows }))
+    rows.sort_by(|left, right| {
+        left.start_time
+            .cmp(&right.start_time)
+            .then_with(|| left.seq.cmp(&right.seq))
+            .then_with(|| left.trace_id.cmp(&right.trace_id))
+            .then_with(|| left.span_id.cmp(&right.span_id))
+    });
+    let (rows, next_page_token) = paginate_aip158(
+        "archive.querySpans",
+        &[request_binding.as_str()],
+        params.page_size,
+        params.page_token.as_deref(),
+        rows,
+        |row| {
+            format!(
+                "{}:{}:{}:{}",
+                row.start_time, row.seq, row.trace_id, row.span_id
+            )
+        },
+    )?;
+    Ok(Json(ArchiveQueryResponse {
+        rows,
+        next_page_token,
+    }))
 }
 
 /// Request body for `createPrompt`: the new prompt's metadata plus its initial
@@ -2784,13 +3009,19 @@ struct AddPromptVersionRequest {
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct PromptListResponse {
     prompts: Vec<Prompt>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct PromptVersionListResponse {
     versions: Vec<PromptVersion>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
 }
 
 /// Query parameters for `diffPromptVersions`: the two version ids to compare.
@@ -2859,6 +3090,7 @@ async fn create_prompt_route(
     params(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
+        AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -2875,6 +3107,7 @@ async fn list_prompts_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
     Path((tenant_id, project_id)): Path<(String, String)>,
+    Query(query): Query<AipListQuery>,
 ) -> Result<Json<PromptListResponse>, ApiError> {
     let prompts = prompt_registry(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
@@ -2887,8 +3120,24 @@ async fn list_prompts_route(
         ApiScope::TraceRead,
     )
     .await?;
-    let prompts = prompts.list_prompts(&tenant_id, &project_id)?;
-    Ok(Json(PromptListResponse { prompts }))
+    let mut prompts = prompts.list_prompts(&tenant_id, &project_id)?;
+    prompts.sort_by(|left, right| {
+        left.created_at
+            .cmp(&right.created_at)
+            .then_with(|| left.prompt_id.as_str().cmp(right.prompt_id.as_str()))
+    });
+    let (prompts, next_page_token) = paginate_aip158(
+        "prompts.list",
+        &[tenant_id.as_str(), project_id.as_str()],
+        query.page_size,
+        query.page_token.as_deref(),
+        prompts,
+        |prompt| prompt.prompt_id.as_str().to_string(),
+    )?;
+    Ok(Json(PromptListResponse {
+        prompts,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -2995,6 +3244,7 @@ async fn add_prompt_version_route(
         ("tenant_id" = String, Path, description = "tenant_id"),
         ("project_id" = String, Path, description = "project_id"),
         ("prompt_id" = String, Path, description = "prompt_id"),
+        AipListQuery,
         ("authorization" = Option<String>, Header, description = "Bearer API token for strict auth"),
         ("x-palette-api-key" = Option<String>, Header, description = "API key alternative for strict auth"),
         ("x-palette-project-id" = Option<String>, Header, description = "Strict-auth project scope"),
@@ -3012,6 +3262,7 @@ async fn list_prompt_versions_route(
     State(state): State<ApiState>,
     headers: HeaderMap,
     Path((tenant_id, project_id, prompt_id)): Path<(String, String, String)>,
+    Query(query): Query<AipListQuery>,
 ) -> Result<Json<PromptVersionListResponse>, ApiError> {
     let prompts = prompt_registry(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
@@ -3025,8 +3276,24 @@ async fn list_prompt_versions_route(
         ApiScope::TraceRead,
     )
     .await?;
-    let versions = prompts.list_versions(&tenant_id, &project_id, &prompt_id)?;
-    Ok(Json(PromptVersionListResponse { versions }))
+    let mut versions = prompts.list_versions(&tenant_id, &project_id, &prompt_id)?;
+    versions.sort_by(|left, right| {
+        left.version_number
+            .cmp(&right.version_number)
+            .then_with(|| left.version_id.as_str().cmp(right.version_id.as_str()))
+    });
+    let (versions, next_page_token) = paginate_aip158(
+        "prompts.listVersions",
+        &[tenant_id.as_str(), project_id.as_str(), prompt_id.as_str()],
+        query.page_size,
+        query.page_token.as_deref(),
+        versions,
+        |version| version.version_id.as_str().to_string(),
+    )?;
+    Ok(Json(PromptVersionListResponse {
+        versions,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -3233,39 +3500,15 @@ async fn list_scenarios(
         ApiScope::ScenarioRead,
     )
     .await?;
-    // The store orders scenarios by (created_at, scenario_id). The public token
-    // is a digest of the collection, complete request binding, and last item
-    // rather than the raw scenario id. Clients must treat it as opaque, and a
-    // token from another tenant, project, or page size fails closed.
-    let page_size = aip_page_size(params.page_size);
     let all = scenarios.list_scenarios(&tenant_id, &project_id).await?;
-    let page_size_binding = page_size.to_string();
-    let token_binding = [
-        tenant_id.as_str(),
-        project_id.as_str(),
-        page_size_binding.as_str(),
-    ];
-    let start = match params.page_token.as_deref() {
-        Some(page_token) => all
-            .iter()
-            .position(|scenario| {
-                opaque_page_token("scenarios", &token_binding, &scenario.scenario_id) == page_token
-            })
-            .map(|i| i + 1)
-            .ok_or_else(|| {
-                ApiError::bad_request(
-                    "pageToken is invalid or does not match the list request".to_string(),
-                )
-            })?,
-        None => 0,
-    };
-    let page: Vec<Scenario> = all.iter().skip(start).take(page_size).cloned().collect();
-    let next_page_token = if start + page.len() < all.len() {
-        page.last()
-            .map(|scenario| opaque_page_token("scenarios", &token_binding, &scenario.scenario_id))
-    } else {
-        None
-    };
+    let (page, next_page_token) = paginate_aip158(
+        "scenarios.list",
+        &[tenant_id.as_str(), project_id.as_str()],
+        params.page_size,
+        params.page_token.as_deref(),
+        all,
+        |scenario| scenario.scenario_id.as_str().to_string(),
+    )?;
     Ok(Json(ListScenariosResponse {
         scenarios: page,
         next_page_token,
@@ -4187,7 +4430,7 @@ async fn create_review_queue_route(
         ("x-palette-environment-id" = Option<String>, Header, description = "Strict-auth environment scope"),
     ),
     responses(
-        (status = 200, description = "List review tasks", body = Vec < ReviewTask >),
+        (status = 200, description = "List review tasks", body = ReviewTaskListResponse),
         (status = 400, description = "Invalid request, scope, or filter", body = ErrorResponse),
         (status = 401, description = "Missing or invalid credentials", body = ErrorResponse),
         (status = 403, description = "Credentials lack the required scope", body = ErrorResponse),
@@ -4199,7 +4442,7 @@ async fn list_review_tasks_route(
     headers: HeaderMap,
     Path((tenant_id, project_id, queue_id)): Path<(String, String, String)>,
     Query(query): Query<ListReviewTasksQuery>,
-) -> Result<Json<Vec<ReviewTask>>, ApiError> {
+) -> Result<Json<ReviewTaskListResponse>, ApiError> {
     let reviews = human_review_store(&state)?;
     let tenant_id = TenantId::new(tenant_id)?;
     let project_id = ProjectId::new(project_id)?;
@@ -4211,15 +4454,41 @@ async fn list_review_tasks_route(
         ApiScope::DatasetWrite,
     )
     .await?;
-    let tasks = reviews
+    let queue_id = ReviewQueueId::new(queue_id)?;
+    let mut tasks = reviews
         .list_tasks(
-            tenant_id,
-            project_id,
-            ReviewQueueId::new(queue_id)?,
-            query.state,
+            tenant_id.clone(),
+            project_id.clone(),
+            queue_id.clone(),
+            query.state.clone(),
         )
         .await?;
-    Ok(Json(tasks))
+    tasks.sort_by(|left, right| {
+        right
+            .priority
+            .cmp(&left.priority)
+            .then_with(|| left.created_at.cmp(&right.created_at))
+            .then_with(|| left.task_id.as_str().cmp(right.task_id.as_str()))
+    });
+    let state_binding = serde_json::to_string(&query.state)
+        .map_err(|error| ApiError::internal(format!("encode review state filter: {error}")))?;
+    let (tasks, next_page_token) = paginate_aip158(
+        "reviews.listTasks",
+        &[
+            tenant_id.as_str(),
+            project_id.as_str(),
+            queue_id.as_str(),
+            state_binding.as_str(),
+        ],
+        query.page_size,
+        query.page_token.as_deref(),
+        tasks,
+        |task| task.task_id.as_str().to_string(),
+    )?;
+    Ok(Json(ReviewTaskListResponse {
+        tasks,
+        next_page_token,
+    }))
 }
 
 #[utoipa::path(
@@ -4661,15 +4930,23 @@ struct HealthResponse {
     ok: bool,
 }
 
-/// Error envelope returned by every fallible endpoint.
+/// AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
 #[derive(Clone, Debug, Serialize, ToSchema)]
 struct ErrorResponse {
-    /// Stable machine-readable error code.
-    error: String,
-    /// Human-readable error message.
+    error: ErrorStatus,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+struct ErrorStatus {
+    /// HTTP status code corresponding to the canonical RPC status.
+    code: i32,
+    /// Developer-facing English problem description.
     message: String,
-    /// Deprecated compatibility HTTP status code for older `/v1` clients.
-    status: i32,
+    /// Canonical `google.rpc.Code` enum name.
+    status: String,
+    /// Machine-readable standard error details.
+    #[schema(value_type = Vec<Object>)]
+    details: Vec<serde_json::Value>,
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
@@ -4682,8 +4959,75 @@ struct OtlpIngestOutcome {
 }
 
 #[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 struct ArchiveQueryResponse {
     rows: Vec<ArchivedSpanRow>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct ConnectorListResponse {
+    toolkits: Vec<Toolkit>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct ConnectorToolListResponse {
+    tools: Vec<ConnectorTool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct SearchSpanListResponse {
+    hits: Vec<SearchHit>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct TraceListResponse {
+    runs: Vec<RunSummary>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct AuditEventListResponse {
+    events: Vec<AuditEvent>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct JudgeLedgerListResponse {
+    records: Vec<palette_judge::PublicJudgeAuditRecord>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct ProviderSecretListResponse {
+    provider_secrets: Vec<ProviderSecretMetadata>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+struct ReviewTaskListResponse {
+    tasks: Vec<ReviewTask>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    next_page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
@@ -6104,10 +6448,27 @@ struct CreateReviewQueueHttpRequest {
     annotation_schema: serde_json::Value,
 }
 
-#[derive(Clone, Debug, Deserialize, IntoParams)]
-#[into_params(parameter_in = Query)]
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
+struct AipListQuery {
+    /// Maximum number of resources to return. Zero selects the server default;
+    /// values above the service maximum are coerced to that maximum.
+    page_size: Option<u32>,
+    /// Opaque continuation token returned by the preceding list request.
+    page_token: Option<String>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[into_params(parameter_in = Query, rename_all = "camelCase")]
 struct ListReviewTasksQuery {
     state: Option<ReviewTaskState>,
+    /// Maximum number of review tasks to return. Zero selects the server default;
+    /// values above the service maximum are coerced to that maximum.
+    page_size: Option<u32>,
+    /// Opaque continuation token returned by the preceding list request.
+    page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, ToSchema)]
@@ -6194,6 +6555,7 @@ impl ApiKeyCreatedResponse {
 }
 
 #[derive(Clone, Debug, Deserialize, IntoParams)]
+#[serde(deny_unknown_fields)]
 #[into_params(parameter_in = Query)]
 struct SearchQueryParams {
     q: Option<String>,
@@ -6205,10 +6567,16 @@ struct SearchQueryParams {
     status: Option<String>,
     model: Option<String>,
     tool: Option<String>,
-    limit: Option<u32>,
+    #[serde(rename = "pageSize")]
+    #[param(rename = "pageSize")]
+    page_size: Option<u32>,
+    #[serde(rename = "pageToken")]
+    #[param(rename = "pageToken")]
+    page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, IntoParams)]
+#[serde(deny_unknown_fields)]
 #[into_params(parameter_in = Query)]
 struct ListTracesQuery {
     project_id: Option<String>,
@@ -6224,8 +6592,12 @@ struct ListTracesQuery {
     max_cost_micros: Option<i64>,
     min_latency_ms: Option<i64>,
     max_latency_ms: Option<i64>,
-    limit: Option<u32>,
-    cursor: Option<String>,
+    #[serde(rename = "pageSize")]
+    #[param(rename = "pageSize")]
+    page_size: Option<u32>,
+    #[serde(rename = "pageToken")]
+    #[param(rename = "pageToken")]
+    page_token: Option<String>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, IntoParams)]
@@ -6279,6 +6651,7 @@ enum SpanIoValue {
 }
 
 #[derive(Clone, Debug, Deserialize, IntoParams)]
+#[serde(deny_unknown_fields)]
 #[into_params(parameter_in = Query)]
 struct ArchiveQueryParams {
     environment_id: Option<String>,
@@ -6286,7 +6659,12 @@ struct ArchiveQueryParams {
     span_id: Option<String>,
     kind: Option<String>,
     status: Option<String>,
-    limit: Option<usize>,
+    #[serde(rename = "pageSize")]
+    #[param(rename = "pageSize")]
+    page_size: Option<u32>,
+    #[serde(rename = "pageToken")]
+    #[param(rename = "pageToken")]
+    page_token: Option<String>,
 }
 
 #[derive(Clone, Debug)]
@@ -7136,6 +7514,104 @@ fn opaque_page_token(collection: &str, request_binding: &[&str], cursor: &str) -
     format!("aip158_v1_{}", sha256_hex(&material))
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct BackendPageToken {
+    version: u8,
+    cursor: String,
+    binding_digest: String,
+}
+
+/// Wrap a backend continuation cursor in a request-bound opaque AIP token.
+///
+/// Trace stores already page efficiently with internal cursors. The public
+/// token carries that cursor only inside a versioned base64url envelope and
+/// binds it to every request field plus the effective page size. Clients must
+/// treat the representation as opaque.
+fn encode_backend_page_token(collection: &str, request_binding: &[&str], cursor: &str) -> String {
+    let token = BackendPageToken {
+        version: 1,
+        cursor: cursor.to_string(),
+        binding_digest: opaque_page_token(collection, request_binding, cursor),
+    };
+    let encoded = serde_json::to_vec(&token)
+        .map(|bytes| base64::engine::general_purpose::URL_SAFE_NO_PAD.encode(bytes))
+        .unwrap_or_default();
+    format!("aip158_v1_{encoded}")
+}
+
+fn decode_backend_page_token(
+    collection: &str,
+    request_binding: &[&str],
+    page_token: &str,
+) -> Result<String, ApiError> {
+    let invalid = || {
+        ApiError::bad_request("pageToken is invalid or does not match the list request".to_string())
+    };
+    let encoded = page_token.strip_prefix("aip158_v1_").ok_or_else(invalid)?;
+    let bytes = base64::engine::general_purpose::URL_SAFE_NO_PAD
+        .decode(encoded)
+        .map_err(|_| invalid())?;
+    let token: BackendPageToken = serde_json::from_slice(&bytes).map_err(|_| invalid())?;
+    if token.version != 1
+        || token.binding_digest
+            != opaque_page_token(collection, request_binding, token.cursor.as_str())
+    {
+        return Err(invalid());
+    }
+    Ok(token.cursor)
+}
+
+/// Page an already-stably-ordered collection with an opaque AIP-158 token.
+///
+/// The cursor is the resource's immutable key, but only its request-bound digest
+/// crosses the public API. This keeps the common list behavior identical across
+/// control-plane stores while allowing each store to retain its canonical order.
+fn paginate_aip158<T, F>(
+    collection: &str,
+    request_binding: &[&str],
+    requested_page_size: Option<u32>,
+    page_token: Option<&str>,
+    all: Vec<T>,
+    cursor_of: F,
+) -> Result<(Vec<T>, Option<String>), ApiError>
+where
+    F: Fn(&T) -> String,
+{
+    let page_size = aip_page_size(requested_page_size);
+    let page_size_binding = page_size.to_string();
+    let mut token_binding = Vec::with_capacity(request_binding.len() + 1);
+    token_binding.extend_from_slice(request_binding);
+    token_binding.push(page_size_binding.as_str());
+
+    let start = match page_token {
+        Some(page_token) => all
+            .iter()
+            .position(|item| {
+                let cursor = cursor_of(item);
+                opaque_page_token(collection, &token_binding, cursor.as_str()) == page_token
+            })
+            .map(|index| index + 1)
+            .ok_or_else(|| {
+                ApiError::bad_request(
+                    "pageToken is invalid or does not match the list request".to_string(),
+                )
+            })?,
+        None => 0,
+    };
+    let total = all.len();
+    let page: Vec<T> = all.into_iter().skip(start).take(page_size).collect();
+    let next_page_token = if start + page.len() < total {
+        page.last().map(|item| {
+            let cursor = cursor_of(item);
+            opaque_page_token(collection, &token_binding, cursor.as_str())
+        })
+    } else {
+        None
+    };
+    Ok((page, next_page_token))
+}
+
 fn parse_optional_timestamp(
     value: Option<String>,
     field_name: &str,
@@ -7291,18 +7767,40 @@ impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let status = self.status;
         let message = self.message;
-        let reason = status.canonical_reason().unwrap_or("Error");
-        let error = reason.to_ascii_lowercase().replace(' ', "_");
+        let rpc_status = aip193_rpc_status(status);
         let body = Json(serde_json::json!({
-            "error": error,
-            "message": message,
-            "status": i32::from(status.as_u16())
+            "error": {
+                "code": i32::from(status.as_u16()),
+                "message": message,
+                "status": rpc_status,
+                "details": [{
+                    "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+                    "reason": format!("HTTP_{rpc_status}"),
+                    "domain": "palette.dev",
+                    "metadata": {}
+                }]
+            }
         }));
         let mut response = (status, body).into_response();
         for (name, value) in self.headers {
             response.headers_mut().insert(name, value);
         }
         response
+    }
+}
+
+fn aip193_rpc_status(status: StatusCode) -> &'static str {
+    match status {
+        StatusCode::BAD_REQUEST | StatusCode::UNPROCESSABLE_ENTITY => "INVALID_ARGUMENT",
+        StatusCode::UNAUTHORIZED => "UNAUTHENTICATED",
+        StatusCode::FORBIDDEN => "PERMISSION_DENIED",
+        StatusCode::NOT_FOUND => "NOT_FOUND",
+        StatusCode::CONFLICT => "ALREADY_EXISTS",
+        StatusCode::PAYLOAD_TOO_LARGE | StatusCode::TOO_MANY_REQUESTS => "RESOURCE_EXHAUSTED",
+        StatusCode::NOT_IMPLEMENTED => "UNIMPLEMENTED",
+        StatusCode::SERVICE_UNAVAILABLE => "UNAVAILABLE",
+        _ if status.is_server_error() => "INTERNAL",
+        _ => "UNKNOWN",
     }
 }
 
@@ -7334,6 +7832,144 @@ mod tests {
     use serde_json::json;
     use std::collections::BTreeMap;
     use tower::ServiceExt;
+
+    #[test]
+    fn aip158_pages_are_opaque_stable_and_bound_to_the_complete_request() {
+        let resources = vec![
+            "resource-a".to_string(),
+            "resource-b".to_string(),
+            "resource-c".to_string(),
+        ];
+        let (first, first_token) = paginate_aip158(
+            "resources.list",
+            &["tenant-a", "project-a", "filter-open"],
+            Some(1),
+            None,
+            resources.clone(),
+            Clone::clone,
+        )
+        .unwrap_or_else(|err| panic!("{err:?}"));
+        assert_eq!(first, vec!["resource-a"]);
+        let first_token = first_token.unwrap_or_else(|| panic!("first page token"));
+        assert!(first_token.starts_with("aip158_v1_"));
+        assert_eq!(first_token.len(), "aip158_v1_".len() + 64);
+        assert!(!first_token.contains("resource-a"));
+
+        let (second, second_token) = paginate_aip158(
+            "resources.list",
+            &["tenant-a", "project-a", "filter-open"],
+            Some(1),
+            Some(&first_token),
+            resources.clone(),
+            Clone::clone,
+        )
+        .unwrap_or_else(|err| panic!("{err:?}"));
+        assert_eq!(second, vec!["resource-b"]);
+        assert!(second_token.is_some());
+
+        for (binding, page_size, token) in [
+            (
+                ["tenant-b", "project-a", "filter-open"],
+                Some(1),
+                first_token.as_str(),
+            ),
+            (
+                ["tenant-a", "project-b", "filter-open"],
+                Some(1),
+                first_token.as_str(),
+            ),
+            (
+                ["tenant-a", "project-a", "filter-closed"],
+                Some(1),
+                first_token.as_str(),
+            ),
+            (
+                ["tenant-a", "project-a", "filter-open"],
+                Some(2),
+                first_token.as_str(),
+            ),
+            (
+                ["tenant-a", "project-a", "filter-open"],
+                Some(1),
+                "not-a-token",
+            ),
+        ] {
+            let Err(error) = paginate_aip158(
+                "resources.list",
+                &binding,
+                page_size,
+                Some(token),
+                resources.clone(),
+                Clone::clone,
+            ) else {
+                panic!("cross-request or malformed token must fail");
+            };
+            assert_eq!(error.status, StatusCode::BAD_REQUEST);
+        }
+    }
+
+    #[test]
+    fn backend_page_tokens_are_opaque_and_bound_to_scope_filters_and_page_size() {
+        let binding = ["tenant-a", "project-a", "filter-open", "50"];
+        let token = encode_backend_page_token("traces.list", &binding, "150");
+        assert!(token.starts_with("aip158_v1_"));
+        assert!(!token.contains("150"));
+        assert_eq!(
+            decode_backend_page_token("traces.list", &binding, &token)
+                .unwrap_or_else(|err| panic!("{err:?}")),
+            "150"
+        );
+
+        for (collection, request_binding, candidate) in [
+            (
+                "traces.list",
+                ["tenant-b", "project-a", "filter-open", "50"],
+                token.as_str(),
+            ),
+            (
+                "traces.list",
+                ["tenant-a", "project-b", "filter-open", "50"],
+                token.as_str(),
+            ),
+            (
+                "traces.list",
+                ["tenant-a", "project-a", "filter-closed", "50"],
+                token.as_str(),
+            ),
+            (
+                "traces.list",
+                ["tenant-a", "project-a", "filter-open", "25"],
+                token.as_str(),
+            ),
+            ("search.spans", binding, token.as_str()),
+            ("traces.list", binding, "not-a-token"),
+        ] {
+            let Err(error) = decode_backend_page_token(collection, &request_binding, candidate)
+            else {
+                panic!("cross-request or malformed backend token must fail");
+            };
+            assert_eq!(error.status, StatusCode::BAD_REQUEST);
+        }
+
+        let encoded = token
+            .strip_prefix("aip158_v1_")
+            .unwrap_or_else(|| panic!("token prefix"));
+        let bytes = base64::engine::general_purpose::URL_SAFE_NO_PAD
+            .decode(encoded)
+            .unwrap_or_else(|err| panic!("{err}"));
+        let mut payload: serde_json::Value =
+            serde_json::from_slice(&bytes).unwrap_or_else(|err| panic!("{err}"));
+        payload["cursor"] = json!("151");
+        let tampered = format!(
+            "aip158_v1_{}",
+            base64::engine::general_purpose::URL_SAFE_NO_PAD
+                .encode(serde_json::to_vec(&payload).unwrap_or_else(|err| panic!("{err}")))
+        );
+        let Err(error) = decode_backend_page_token("traces.list", &binding, &tampered) else {
+            panic!("tampered cursor must fail binding validation");
+        };
+        assert_eq!(error.status, StatusCode::BAD_REQUEST);
+    }
 
     fn sign_tempera_value(
         mut value: serde_json::Value,
@@ -9173,10 +9809,17 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         let error: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-        assert_eq!(error["error"], serde_json::json!("bad_request"));
-        assert_eq!(error["status"], serde_json::json!(400));
+        assert_eq!(error["error"]["code"], serde_json::json!(400));
+        assert_eq!(
+            error["error"]["status"],
+            serde_json::json!("INVALID_ARGUMENT")
+        );
+        assert_eq!(
+            error["error"]["details"][0]["@type"],
+            serde_json::json!("type.googleapis.com/google.rpc.ErrorInfo")
+        );
         assert!(
-            error["message"]
+            error["error"]["message"]
                 .as_str()
                 .unwrap_or_default()
                 .contains("invalid OTLP trace export")
@@ -9211,10 +9854,13 @@ mod tests {
             .unwrap_or_else(|err| panic!("{err}"));
         let error: serde_json::Value =
             serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-        assert_eq!(error["error"], serde_json::json!("bad_request"));
-        assert_eq!(error["status"], serde_json::json!(400));
+        assert_eq!(error["error"]["code"], serde_json::json!(400));
+        assert_eq!(
+            error["error"]["status"],
+            serde_json::json!("INVALID_ARGUMENT")
+        );
         assert!(
-            error["message"]
+            error["error"]["message"]
                 .as_str()
                 .unwrap_or_default()
                 .contains("invalid OTLP trace export")

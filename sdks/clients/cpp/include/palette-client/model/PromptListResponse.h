@@ -12,7 +12,7 @@
 /*
  * PromptListResponse.h
  *
- * 
+ *
  */
 
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_PromptListResponse_H_
@@ -22,6 +22,7 @@
 #include "palette-client/ModelBase.h"
 
 #include "palette-client/model/Prompt.h"
+#include <cpprest/details/basic_types.h>
 #include <vector>
 
 namespace org {
@@ -55,6 +56,11 @@ public:
     /// PromptListResponse members
 
 
+    utility::string_t getNextPageToken() const;
+    bool nextPageTokenIsSet() const;
+    void unsetNextPageToken();
+    void setNextPageToken(const utility::string_t& value);
+
     std::vector<std::shared_ptr<Prompt>> getPrompts() const;
     bool promptsIsSet() const;
     void unsetPrompts();
@@ -62,6 +68,9 @@ public:
 
 
 protected:
+    utility::string_t m_NextPageToken;
+    bool m_NextPageTokenIsSet;
+
     std::vector<std::shared_ptr<Prompt>> m_Prompts;
     bool m_PromptsIsSet;
 

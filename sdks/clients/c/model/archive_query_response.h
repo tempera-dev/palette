@@ -1,7 +1,7 @@
 /*
  * archive_query_response.h
  *
- * 
+ *
  */
 
 #ifndef _archive_query_response_H_
@@ -20,12 +20,14 @@ typedef struct archive_query_response_t archive_query_response_t;
 
 
 typedef struct archive_query_response_t {
+    char *next_page_token; // string
     list_t *rows; //nonprimitive container
 
     int _library_owned; // Is the library responsible for freeing this object?
 } archive_query_response_t;
 
 __attribute__((deprecated)) archive_query_response_t *archive_query_response_create(
+    char *next_page_token,
     list_t *rows
 );
 
@@ -36,4 +38,3 @@ archive_query_response_t *archive_query_response_parseFromJSON(cJSON *archive_qu
 cJSON *archive_query_response_convertToJSON(archive_query_response_t *archive_query_response);
 
 #endif /* _archive_query_response_H_ */
-

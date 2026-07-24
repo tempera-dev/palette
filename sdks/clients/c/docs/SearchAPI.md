@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **SearchAPI_searchSpans**
 ```c
-search_response_t* SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+search_span_list_response_t* SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
@@ -26,7 +26,8 @@ Name | Type | Description  | Notes
 **status** | **char \*** |  | [optional]
 **model** | **char \*** |  | [optional]
 **tool** | **char \*** |  | [optional]
-**limit** | **int \*** |  | [optional]
+**pageSize** | **int \*** |  | [optional]
+**pageToken** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -34,7 +35,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[search_response_t](search_response.md) *
+[search_span_list_response_t](search_span_list_response.md) *
 
 
 ### Authorization

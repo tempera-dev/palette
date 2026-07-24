@@ -5,11 +5,9 @@
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
-#include "../model/audit_event.h"
+#include "../model/audit_event_list_response.h"
 #include "../model/error_response.h"
 
 
-list_t*
-AuditAPI_auditList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
-
-
+audit_event_list_response_t*
+AuditAPI_auditList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);

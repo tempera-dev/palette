@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.prompt import Prompt
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,8 +27,9 @@ class PromptListResponse(BaseModel):
     """
     PromptListResponse
     """ # noqa: E501
+    next_page_token: Optional[StrictStr] = Field(default=None, alias="nextPageToken")
     prompts: List[Prompt]
-    __properties: ClassVar[List[str]] = ["prompts"]
+    __properties: ClassVar[List[str]] = ["nextPageToken", "prompts"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,6 +77,11 @@ class PromptListResponse(BaseModel):
                 if _item_prompts:
                     _items.append(_item_prompts.to_dict())
             _dict['prompts'] = _items
+        # set to None if next_page_token (nullable) is None
+        # and model_fields_set contains the field
+        if self.next_page_token is None and "next_page_token" in self.model_fields_set:
+            _dict['nextPageToken'] = None
+
         return _dict
 
     @classmethod
@@ -88,8 +94,7 @@ class PromptListResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "nextPageToken": obj.get("nextPageToken"),
             "prompts": [Prompt.from_dict(_item) for _item in obj["prompts"]] if obj.get("prompts") is not None else None
         })
         return _obj
-
-

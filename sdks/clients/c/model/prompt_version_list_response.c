@@ -6,12 +6,14 @@
 
 
 static prompt_version_list_response_t *prompt_version_list_response_create_internal(
+    char *next_page_token,
     list_t *versions
     ) {
     prompt_version_list_response_t *prompt_version_list_response_local_var = malloc(sizeof(prompt_version_list_response_t));
     if (!prompt_version_list_response_local_var) {
         return NULL;
     }
+    prompt_version_list_response_local_var->next_page_token = next_page_token;
     prompt_version_list_response_local_var->versions = versions;
 
     prompt_version_list_response_local_var->_library_owned = 1;
@@ -19,9 +21,11 @@ static prompt_version_list_response_t *prompt_version_list_response_create_inter
 }
 
 __attribute__((deprecated)) prompt_version_list_response_t *prompt_version_list_response_create(
+    char *next_page_token,
     list_t *versions
     ) {
     return prompt_version_list_response_create_internal (
+        next_page_token,
         versions
         );
 }
@@ -35,6 +39,10 @@ void prompt_version_list_response_free(prompt_version_list_response_t *prompt_ve
         return ;
     }
     listEntry_t *listEntry;
+    if (prompt_version_list_response->next_page_token) {
+        free(prompt_version_list_response->next_page_token);
+        prompt_version_list_response->next_page_token = NULL;
+    }
     if (prompt_version_list_response->versions) {
         list_ForEach(listEntry, prompt_version_list_response->versions) {
             prompt_version_free(listEntry->data);
@@ -47,6 +55,14 @@ void prompt_version_list_response_free(prompt_version_list_response_t *prompt_ve
 
 cJSON *prompt_version_list_response_convertToJSON(prompt_version_list_response_t *prompt_version_list_response) {
     cJSON *item = cJSON_CreateObject();
+
+    // prompt_version_list_response->next_page_token
+    if(prompt_version_list_response->next_page_token) {
+    if(cJSON_AddStringToObject(item, "nextPageToken", prompt_version_list_response->next_page_token) == NULL) {
+    goto fail; //String
+    }
+    }
+
 
     // prompt_version_list_response->versions
     if (!prompt_version_list_response->versions) {
@@ -83,6 +99,18 @@ prompt_version_list_response_t *prompt_version_list_response_parseFromJSON(cJSON
     // define the local list for prompt_version_list_response->versions
     list_t *versionsList = NULL;
 
+    // prompt_version_list_response->next_page_token
+    cJSON *next_page_token = cJSON_GetObjectItemCaseSensitive(prompt_version_list_responseJSON, "nextPageToken");
+    if (cJSON_IsNull(next_page_token)) {
+        next_page_token = NULL;
+    }
+    if (next_page_token) {
+    if(!cJSON_IsString(next_page_token) && !cJSON_IsNull(next_page_token))
+    {
+    goto end; //String
+    }
+    }
+
     // prompt_version_list_response->versions
     cJSON *versions = cJSON_GetObjectItemCaseSensitive(prompt_version_list_responseJSON, "versions");
     if (cJSON_IsNull(versions)) {
@@ -92,7 +120,7 @@ prompt_version_list_response_t *prompt_version_list_response_parseFromJSON(cJSON
         goto end;
     }
 
-    
+
     cJSON *versions_local_nonprimitive = NULL;
     if(!cJSON_IsArray(versions)){
         goto end; //nonprimitive container
@@ -112,6 +140,7 @@ prompt_version_list_response_t *prompt_version_list_response_parseFromJSON(cJSON
 
 
     prompt_version_list_response_local_var = prompt_version_list_response_create_internal (
+        next_page_token && !cJSON_IsNull(next_page_token) ? strdup(next_page_token->valuestring) : NULL,
         versionsList
         );
 

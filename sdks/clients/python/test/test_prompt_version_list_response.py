@@ -35,28 +35,29 @@ class TestPromptVersionListResponse(unittest.TestCase):
         model = PromptVersionListResponse()
         if include_optional:
             return PromptVersionListResponse(
+                next_page_token = '',
                 versions = [
                     palette_client.models.prompt_version.PromptVersion(
                         metadata = palette_client.models.prompt_version_metadata.PromptVersionMetadata(
-                            created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                            created_by = '', 
-                            message = '', ), 
-                        project_id = '', 
-                        prompt_id = '', 
+                            created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                            created_by = '',
+                            message = '', ),
+                        project_id = '',
+                        prompt_id = '',
                         template = palette_client.models.prompt_template.PromptTemplate(
-                            body = '', 
+                            body = '',
                             tags = [
                                 ''
-                                ], 
+                                ],
                             variables = [
                                 palette_client.models.prompt_variable.PromptVariable(
-                                    default = '', 
-                                    description = '', 
-                                    name = '', 
+                                    default = '',
+                                    description = '',
+                                    name = '',
                                     required = True, )
-                                ], ), 
-                        tenant_id = '', 
-                        version_id = '', 
+                                ], ),
+                        tenant_id = '',
+                        version_id = '',
                         version_number = 0, )
                     ]
             )
@@ -65,25 +66,25 @@ class TestPromptVersionListResponse(unittest.TestCase):
                 versions = [
                     palette_client.models.prompt_version.PromptVersion(
                         metadata = palette_client.models.prompt_version_metadata.PromptVersionMetadata(
-                            created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                            created_by = '', 
-                            message = '', ), 
-                        project_id = '', 
-                        prompt_id = '', 
+                            created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                            created_by = '',
+                            message = '', ),
+                        project_id = '',
+                        prompt_id = '',
                         template = palette_client.models.prompt_template.PromptTemplate(
-                            body = '', 
+                            body = '',
                             tags = [
                                 ''
-                                ], 
+                                ],
                             variables = [
                                 palette_client.models.prompt_variable.PromptVariable(
-                                    default = '', 
-                                    description = '', 
-                                    name = '', 
+                                    default = '',
+                                    description = '',
+                                    name = '',
                                     required = True, )
-                                ], ), 
-                        tenant_id = '', 
-                        version_id = '', 
+                                ], ),
+                        tenant_id = '',
+                        version_id = '',
                         version_number = 0, )
                     ],
         )

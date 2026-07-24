@@ -6,12 +6,14 @@
 
 
 static archive_query_response_t *archive_query_response_create_internal(
+    char *next_page_token,
     list_t *rows
     ) {
     archive_query_response_t *archive_query_response_local_var = malloc(sizeof(archive_query_response_t));
     if (!archive_query_response_local_var) {
         return NULL;
     }
+    archive_query_response_local_var->next_page_token = next_page_token;
     archive_query_response_local_var->rows = rows;
 
     archive_query_response_local_var->_library_owned = 1;
@@ -19,9 +21,11 @@ static archive_query_response_t *archive_query_response_create_internal(
 }
 
 __attribute__((deprecated)) archive_query_response_t *archive_query_response_create(
+    char *next_page_token,
     list_t *rows
     ) {
     return archive_query_response_create_internal (
+        next_page_token,
         rows
         );
 }
@@ -35,6 +39,10 @@ void archive_query_response_free(archive_query_response_t *archive_query_respons
         return ;
     }
     listEntry_t *listEntry;
+    if (archive_query_response->next_page_token) {
+        free(archive_query_response->next_page_token);
+        archive_query_response->next_page_token = NULL;
+    }
     if (archive_query_response->rows) {
         list_ForEach(listEntry, archive_query_response->rows) {
             archived_span_row_free(listEntry->data);
@@ -47,6 +55,14 @@ void archive_query_response_free(archive_query_response_t *archive_query_respons
 
 cJSON *archive_query_response_convertToJSON(archive_query_response_t *archive_query_response) {
     cJSON *item = cJSON_CreateObject();
+
+    // archive_query_response->next_page_token
+    if(archive_query_response->next_page_token) {
+    if(cJSON_AddStringToObject(item, "nextPageToken", archive_query_response->next_page_token) == NULL) {
+    goto fail; //String
+    }
+    }
+
 
     // archive_query_response->rows
     if (!archive_query_response->rows) {
@@ -83,6 +99,18 @@ archive_query_response_t *archive_query_response_parseFromJSON(cJSON *archive_qu
     // define the local list for archive_query_response->rows
     list_t *rowsList = NULL;
 
+    // archive_query_response->next_page_token
+    cJSON *next_page_token = cJSON_GetObjectItemCaseSensitive(archive_query_responseJSON, "nextPageToken");
+    if (cJSON_IsNull(next_page_token)) {
+        next_page_token = NULL;
+    }
+    if (next_page_token) {
+    if(!cJSON_IsString(next_page_token) && !cJSON_IsNull(next_page_token))
+    {
+    goto end; //String
+    }
+    }
+
     // archive_query_response->rows
     cJSON *rows = cJSON_GetObjectItemCaseSensitive(archive_query_responseJSON, "rows");
     if (cJSON_IsNull(rows)) {
@@ -92,7 +120,7 @@ archive_query_response_t *archive_query_response_parseFromJSON(cJSON *archive_qu
         goto end;
     }
 
-    
+
     cJSON *rows_local_nonprimitive = NULL;
     if(!cJSON_IsArray(rows)){
         goto end; //nonprimitive container
@@ -112,6 +140,7 @@ archive_query_response_t *archive_query_response_parseFromJSON(cJSON *archive_qu
 
 
     archive_query_response_local_var = archive_query_response_create_internal (
+        next_page_token && !cJSON_IsNull(next_page_token) ? strdup(next_page_token->valuestring) : NULL,
         rowsList
         );
 

@@ -13,6 +13,7 @@
 #include "../model/review_annotation.h"
 #include "../model/review_queue.h"
 #include "../model/review_task.h"
+#include "../model/review_task_list_response.h"
 #include "../model/review_task_state.h"
 #include "../model/submit_review_annotation_http_request.h"
 
@@ -28,8 +29,8 @@ review_task_t*
 ReviewsAPI_reviewsEnqueueTaskFromTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, enqueue_review_task_from_trace_http_request_t *enqueue_review_task_from_trace_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
-list_t*
-ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+review_task_list_response_t*
+ReviewsAPI_reviewsListTasks(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, review_task_state_e state, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 dataset_case_t*
@@ -38,5 +39,3 @@ ReviewsAPI_reviewsPromoteAnnotation(apiClient_t *apiClient, char *tenant_id, cha
 
 review_annotation_t*
 ReviewsAPI_reviewsSubmitAnnotation(apiClient_t *apiClient, char *tenant_id, char *project_id, char *queue_id, char *task_id, submit_review_annotation_http_request_t *submit_review_annotation_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
-
-

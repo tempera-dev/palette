@@ -7,8 +7,8 @@
 #define MAX_BUFFER_LENGTH 4096
 
 
-search_response_t*
-SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+search_span_list_response_t*
+SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -197,16 +197,28 @@ SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *pr
     }
 
     // query parameters
-    char *keyQuery_limit = NULL;
-    char * valueQuery_limit = NULL;
-    keyValuePair_t *keyPairQuery_limit = 0;
-    if (limit)
+    char *keyQuery_pageSize = NULL;
+    char * valueQuery_pageSize = NULL;
+    keyValuePair_t *keyPairQuery_pageSize = 0;
+    if (pageSize)
     {
-        keyQuery_limit = strdup("limit");
-        valueQuery_limit = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_limit, MAX_NUMBER_LENGTH, "%d", *limit);
-        keyPairQuery_limit = keyValuePair_create(keyQuery_limit, valueQuery_limit);
-        list_addElement(localVarQueryParameters,keyPairQuery_limit);
+        keyQuery_pageSize = strdup("pageSize");
+        valueQuery_pageSize = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_pageSize, MAX_NUMBER_LENGTH, "%d", *pageSize);
+        keyPairQuery_pageSize = keyValuePair_create(keyQuery_pageSize, valueQuery_pageSize);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageSize);
+    }
+
+    // query parameters
+    char *keyQuery_pageToken = NULL;
+    char * valueQuery_pageToken = NULL;
+    keyValuePair_t *keyPairQuery_pageToken = 0;
+    if (pageToken)
+    {
+        keyQuery_pageToken = strdup("pageToken");
+        valueQuery_pageToken = strdup((pageToken));
+        keyPairQuery_pageToken = keyValuePair_create(keyQuery_pageToken, valueQuery_pageToken);
+        list_addElement(localVarQueryParameters,keyPairQuery_pageToken);
     }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
@@ -237,10 +249,10 @@ SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *pr
     //    printf("%s\n","Credentials lack the required scope");
     //}
     //nonprimitive not container
-    search_response_t *elementToReturn = NULL;
+    search_span_list_response_t *elementToReturn = NULL;
     if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
         cJSON *SearchAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-        elementToReturn = search_response_parseFromJSON(SearchAPIlocalVarJSON);
+        elementToReturn = search_span_list_response_parseFromJSON(SearchAPIlocalVarJSON);
         cJSON_Delete(SearchAPIlocalVarJSON);
         if(elementToReturn == NULL) {
             // return 0;
@@ -255,9 +267,9 @@ SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *pr
     }
     list_freeList(localVarQueryParameters);
     list_freeList(localVarHeaderParameters);
-    
+
     list_freeList(localVarHeaderType);
-    
+
     free(localVarPath);
     free(localVarToReplace_tenant_id);
     if (keyHeader_authorization) {
@@ -404,17 +416,29 @@ SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *pr
         keyValuePair_free(keyPairQuery_tool);
         keyPairQuery_tool = NULL;
     }
-    if(keyQuery_limit){
-        free(keyQuery_limit);
-        keyQuery_limit = NULL;
+    if(keyQuery_pageSize){
+        free(keyQuery_pageSize);
+        keyQuery_pageSize = NULL;
     }
-    if(valueQuery_limit){
-        free(valueQuery_limit);
-        valueQuery_limit = NULL;
+    if(valueQuery_pageSize){
+        free(valueQuery_pageSize);
+        valueQuery_pageSize = NULL;
     }
-    if(keyPairQuery_limit){
-        keyValuePair_free(keyPairQuery_limit);
-        keyPairQuery_limit = NULL;
+    if(keyPairQuery_pageSize){
+        keyValuePair_free(keyPairQuery_pageSize);
+        keyPairQuery_pageSize = NULL;
+    }
+    if(keyQuery_pageToken){
+        free(keyQuery_pageToken);
+        keyQuery_pageToken = NULL;
+    }
+    if(valueQuery_pageToken){
+        free(valueQuery_pageToken);
+        valueQuery_pageToken = NULL;
+    }
+    if(keyPairQuery_pageToken){
+        keyValuePair_free(keyPairQuery_pageToken);
+        keyPairQuery_pageToken = NULL;
     }
     return elementToReturn;
 end:
@@ -422,4 +446,3 @@ end:
     return NULL;
 
 }
-

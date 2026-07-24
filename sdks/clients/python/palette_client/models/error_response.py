@@ -17,19 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
+from palette_client.models.error_status import ErrorStatus
 from typing import Optional, Set
 from typing_extensions import Self
 
 class ErrorResponse(BaseModel):
     """
-    Error envelope returned by every fallible endpoint.
+    AIP-193 HTTP/JSON error envelope returned by every fallible endpoint.
     """ # noqa: E501
-    error: StrictStr = Field(description="Stable machine-readable error code.")
-    message: StrictStr = Field(description="Human-readable error message.")
-    status: StrictInt = Field(description="Deprecated compatibility HTTP status code for older `/v1` clients.")
-    __properties: ClassVar[List[str]] = ["error", "message", "status"]
+    error: ErrorStatus
+    __properties: ClassVar[List[str]] = ["error"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -70,6 +69,9 @@ class ErrorResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of error
+        if self.error:
+            _dict['error'] = self.error.to_dict()
         return _dict
 
     @classmethod
@@ -82,10 +84,6 @@ class ErrorResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "error": obj.get("error"),
-            "message": obj.get("message"),
-            "status": obj.get("status")
+            "error": ErrorStatus.from_dict(obj["error"]) if obj.get("error") is not None else None
         })
         return _obj
-
-

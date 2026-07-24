@@ -112,7 +112,7 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connect(ut
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(connectConnectorRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -126,7 +126,7 @@ pplx::task<std::shared_ptr<ConnectionLink>> ConnectorsApi::connectors_connect(ut
         {
             connectConnectorRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("connectConnectorRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -418,7 +418,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeTool(
         web::json::value localVarJson;
 
         localVarJson = ModelBase::toJson(invokeConnectorRequest);
-        
+
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -432,7 +432,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeTool(
         {
             invokeConnectorRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("invokeConnectorRequest"));
         }
-        
+
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -504,7 +504,7 @@ pplx::task<std::shared_ptr<ToolExecution>> ConnectorsApi::connectors_invokeTool(
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ConnectorListResponse>> ConnectorsApi::connectors_list(utility::string_t tenantId, utility::string_t projectId, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -547,9 +547,13 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
-    if (limit)
+    if (pageSize)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {
@@ -627,17 +631,13 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<Toolkit>> localVarResult;
+        std::shared_ptr<ConnectorListResponse> localVarResult(new ConnectorListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-            for( auto& localVarItem : localVarJson.as_array() )
-            {
-                std::shared_ptr<Toolkit> localVarItemObj;
-                ModelBase::fromJson(localVarItem, localVarItemObj);
-                localVarResult.push_back(localVarItemObj);
-            }
+
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -652,7 +652,7 @@ pplx::task<std::vector<std::shared_ptr<Toolkit>>> ConnectorsApi::connectors_list
         return localVarResult;
     });
 }
-pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connectors_listTools(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<int32_t> limit, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<ConnectorToolListResponse>> ConnectorsApi::connectors_listTools(utility::string_t tenantId, utility::string_t projectId, utility::string_t toolkit, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -698,9 +698,13 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
     {
         localVarQueryParams[utility::conversions::to_string_t("toolkit")] = ApiClient::parameterToString(toolkit);
     }
-    if (limit)
+    if (pageSize)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
+    }
+    if (pageToken)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {
@@ -778,17 +782,13 @@ pplx::task<std::vector<std::shared_ptr<ConnectorTool>>> ConnectorsApi::connector
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::vector<std::shared_ptr<ConnectorTool>> localVarResult;
+        std::shared_ptr<ConnectorToolListResponse> localVarResult(new ConnectorToolListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-            for( auto& localVarItem : localVarJson.as_array() )
-            {
-                std::shared_ptr<ConnectorTool> localVarItemObj;
-                ModelBase::fromJson(localVarItem, localVarItemObj);
-                localVarResult.push_back(localVarItemObj);
-            }
+
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -951,4 +951,3 @@ pplx::task<std::shared_ptr<ConnectionStatus>> ConnectorsApi::connectors_status(u
 }
 }
 }
-

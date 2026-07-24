@@ -249,28 +249,72 @@ async fn lists_connector_catalog() {
     )
     .await;
     assert_eq!(status, StatusCode::OK);
-    let toolkits: Vec<Toolkit> = serde_json::from_value(body).unwrap();
+    let toolkits: Vec<Toolkit> = serde_json::from_value(body["toolkits"].clone()).unwrap();
     assert_eq!(toolkits[0].slug, "github");
     assert_eq!(toolkits[0].tools_count, Some(61));
 }
 
 #[tokio::test]
 async fn lists_tools_with_input_schema() {
+    let fake = Arc::new(FakeComposio::default());
     let (status, body) = send(
-        state_with(Some(Arc::new(FakeComposio::default()))),
+        state_with(Some(fake.clone())),
         "GET",
-        "/v1/connectors/acme/proj/tools?toolkit=github",
+        "/v1/connectors/acme/proj/tools?toolkit=github&pageSize=1",
         None,
     )
     .await;
     assert_eq!(status, StatusCode::OK);
-    let tools: Vec<ConnectorTool> = serde_json::from_value(body).unwrap();
-    assert_eq!(tools[0].slug, "GITHUB_GET_REPOSITORY");
+    let first: Vec<ConnectorTool> = serde_json::from_value(body["tools"].clone()).unwrap();
+    assert_eq!(first.len(), 1);
+    let token = body["nextPageToken"]
+        .as_str()
+        .unwrap_or_else(|| panic!("first page continuation"));
+    assert!(token.starts_with("aip158_v1_"));
+    assert!(!token.contains(&first[0].slug));
+
+    let (status, body) = send(
+        state_with(Some(fake.clone())),
+        "GET",
+        &format!("/v1/connectors/acme/proj/tools?toolkit=github&pageSize=1&pageToken={token}"),
+        None,
+    )
+    .await;
+    assert_eq!(status, StatusCode::OK);
+    let second: Vec<ConnectorTool> = serde_json::from_value(body["tools"].clone()).unwrap();
+    assert_eq!(second.len(), 1);
+    assert!(body.get("nextPageToken").is_none());
+    assert_ne!(first[0].slug, second[0].slug);
+    let tools = [first[0].clone(), second[0].clone()];
     // The agent loop needs the schema to construct a valid call.
     assert_eq!(
-        tools[1].input_schema.as_ref().unwrap()["properties"]["title"]["type"],
+        tools
+            .iter()
+            .find(|tool| tool.slug == "GITHUB_CREATE_AN_ISSUE")
+            .and_then(|tool| tool.input_schema.as_ref())
+            .unwrap()["properties"]["title"]["type"],
         "string"
     );
+
+    let (status, _) = send(
+        state_with(Some(fake.clone())),
+        "GET",
+        &format!("/v1/connectors/acme/proj/tools?toolkit=github&pageSize=2&pageToken={token}"),
+        None,
+    )
+    .await;
+    assert_eq!(status, StatusCode::BAD_REQUEST);
+
+    for legacy in ["limit=1", "cursor=1", "page_size=1"] {
+        let (status, _) = send(
+            state_with(Some(fake.clone())),
+            "GET",
+            &format!("/v1/connectors/acme/proj/tools?toolkit=github&{legacy}"),
+            None,
+        )
+        .await;
+        assert_eq!(status, StatusCode::BAD_REQUEST, "{legacy}");
+    }
 }
 
 #[tokio::test]
@@ -521,7 +565,7 @@ async fn rsi_tool_add_then_execute_flow() {
     )
     .await;
     assert_eq!(status, StatusCode::OK);
-    let tools: Vec<ConnectorTool> = serde_json::from_value(body).unwrap();
+    let tools: Vec<ConnectorTool> = serde_json::from_value(body["tools"].clone()).unwrap();
     let chosen = tools
         .iter()
         .find(|tool| tool.slug == "GITHUB_CREATE_AN_ISSUE")

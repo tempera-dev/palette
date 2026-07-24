@@ -66,9 +66,14 @@ def valid_contract_spec() -> dict:
                     "operationId": "traces.list",
                     "parameters": [
                         {
-                            "name": "limit",
+                            "name": "pageSize",
                             "in": "query",
                             "schema": {"type": "integer"},
+                        },
+                        {
+                            "name": "pageToken",
+                            "in": "query",
+                            "schema": {"type": "string"},
                         }
                     ],
                     "responses": {
@@ -92,9 +97,31 @@ def valid_contract_spec() -> dict:
                 "ApiErrorBody": {},
                 "CreateTraceResponse": {},
                 "DrainPartialSuccess": {},
-                "ErrorResponse": {},
+                "ErrorResponse": {
+                    "properties": {
+                        "error": {
+                            "$ref": "#/components/schemas/ErrorStatus"
+                        }
+                    }
+                },
+                "ErrorStatus": {
+                    "properties": {
+                        "code": {"type": "integer"},
+                        "message": {"type": "string"},
+                        "status": {"type": "string"},
+                        "details": {
+                            "type": "array",
+                            "items": {"type": "object"},
+                        },
+                    }
+                },
                 "HealthResponse": {},
-                "TraceListResponse": {},
+                "TraceListResponse": {
+                    "properties": {
+                        "items": {"type": "array"},
+                        "nextPageToken": {"type": "string"},
+                    }
+                },
             }
         },
     }
@@ -121,7 +148,8 @@ def test_accepts_contract_shapes_required_for_drift_gate() -> None:
     assert result.violations == []
     assert result.operation_count == 3
     assert result.unique_operation_id_count == 3
-    assert result.schema_count == 6
+    assert result.schema_count == 7
+    assert result.aip127_debt_field_count == 0
 
 
 def test_rejects_operation_identity_and_tag_drift() -> None:
@@ -187,7 +215,7 @@ def test_requires_pagination_for_list_contracts() -> None:
     violations = violations_for(spec)
 
     assert (
-        "GET /v1/traces: list op 'traces.list' lacks pagination params"
+        "GET /v1/traces: collection op 'traces.list' lacks pagination params"
     ) in violations
 
 
@@ -221,6 +249,9 @@ def test_rejects_partial_aip158_pagination_or_missing_response_token() -> None:
     spec["paths"]["/v1/traces"]["get"]["parameters"].append(
         {"name": "pageToken", "in": "query", "schema": {"type": "string"}}
     )
+    spec["components"]["schemas"]["TraceListResponse"]["properties"].pop(
+        "nextPageToken"
+    )
     violations = violations_for(spec)
     assert (
         "GET /v1/traces: AIP-158 list op 'traces.list' response lacks nextPageToken"
@@ -228,13 +259,69 @@ def test_rejects_partial_aip158_pagination_or_missing_response_token() -> None:
     )
 
 
-def test_keeps_documented_list_pagination_exemptions() -> None:
+def test_keeps_only_the_exact_ratcheted_migration_debt() -> None:
+    module = load_module()
+    assert module.AIP158_MIGRATION_DEBT == set()
+
     spec = valid_contract_spec()
     list_op = spec["paths"]["/v1/traces"]["get"]
-    list_op["operationId"] = "audit.list"
-    list_op.pop("parameters")
+    list_op["parameters"] = [{"name": "cursor"}]
 
-    assert violations_for(spec) == []
+    violations = violations_for(spec)
+    assert (
+        "GET /v1/traces: migrated collection op 'traces.list' must use AIP-158"
+        in violations
+    )
+    assert (
+        "GET /v1/traces: migrated collection op 'traces.list' retains legacy ['cursor']"
+        in violations
+    )
+
+
+def test_rejects_legacy_aliases_after_a_collection_is_migrated() -> None:
+    spec = valid_contract_spec()
+    list_op = spec["paths"]["/v1/traces"]["get"]
+    list_op["parameters"] = [
+        {"name": "pageSize", "in": "query", "schema": {"type": "integer"}},
+        {"name": "pageToken", "in": "query", "schema": {"type": "string"}},
+        {"name": "limit", "in": "query", "schema": {"type": "integer"}},
+    ]
+    spec["components"]["schemas"]["TraceListResponse"]["properties"] = {
+        "items": {"type": "array"},
+        "nextPageToken": {"type": "string"},
+    }
+
+    violations = violations_for(spec)
+    assert (
+        "GET /v1/traces: migrated collection op 'traces.list' retains legacy ['limit']"
+        in violations
+    )
+
+def test_rejects_aip193_envelope_drift() -> None:
+    spec = valid_contract_spec()
+    del spec["components"]["schemas"]["ErrorStatus"]["properties"]["details"]
+
+    violations = violations_for(spec)
+
+    assert "AIP-193 ErrorStatus lacks ['details']" in violations
+    assert (
+        "AIP-193 ErrorStatus.details must contain standard detail objects"
+        in violations
+    )
+
+
+def test_rejects_new_aip127_property_debt() -> None:
+    spec = valid_contract_spec()
+    spec["components"]["schemas"]["NewResource"] = {
+        "properties": {"legacy_field": {"type": "string"}}
+    }
+
+    violations = violations_for(spec)
+
+    assert (
+        "AIP-127 schema 'NewResource' has 1 non-lowerCamel properties, "
+        "above budget 0: ['legacy_field']"
+    ) in violations
 
 
 def test_main_reports_failure_for_cli_gate() -> None:
@@ -250,9 +337,9 @@ def test_main_reports_failure_for_cli_gate() -> None:
         code = module.main([str(spec_path)], stream=stdout)
 
     assert code == 1
-    assert "audited 3 operations, 3 unique operationIds, 6 schemas" in stdout.getvalue()
+    assert "audited 3 operations, 3 unique operationIds, 7 schemas" in stdout.getvalue()
     assert "CONSISTENCY VIOLATIONS" in stdout.getvalue()
-    assert "list op 'traces.list' lacks pagination params" in stdout.getvalue()
+    assert "collection op 'traces.list' lacks pagination params" in stdout.getvalue()
 
 
 def main() -> None:
@@ -265,7 +352,10 @@ def main() -> None:
         test_requires_pagination_for_list_contracts,
         test_accepts_complete_aip158_pagination,
         test_rejects_partial_aip158_pagination_or_missing_response_token,
-        test_keeps_documented_list_pagination_exemptions,
+        test_keeps_only_the_exact_ratcheted_migration_debt,
+        test_rejects_legacy_aliases_after_a_collection_is_migrated,
+        test_rejects_aip193_envelope_drift,
+        test_rejects_new_aip127_property_debt,
         test_main_reports_failure_for_cli_gate,
     ):
         test()

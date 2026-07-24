@@ -21,6 +21,7 @@ var _ MappedNullable = &PromptVersionListResponse{}
 
 // PromptVersionListResponse struct for PromptVersionListResponse
 type PromptVersionListResponse struct {
+	NextPageToken NullableString `json:"nextPageToken,omitempty"`
 	Versions []PromptVersion `json:"versions"`
 }
 
@@ -42,6 +43,48 @@ func NewPromptVersionListResponse(versions []PromptVersion) *PromptVersionListRe
 func NewPromptVersionListResponseWithDefaults() *PromptVersionListResponse {
 	this := PromptVersionListResponse{}
 	return &this
+}
+
+// GetNextPageToken returns the NextPageToken field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PromptVersionListResponse) GetNextPageToken() string {
+	if o == nil || IsNil(o.NextPageToken.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.NextPageToken.Get()
+}
+
+// GetNextPageTokenOk returns a tuple with the NextPageToken field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PromptVersionListResponse) GetNextPageTokenOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.NextPageToken.Get(), o.NextPageToken.IsSet()
+}
+
+// HasNextPageToken returns a boolean if a field has been set.
+func (o *PromptVersionListResponse) HasNextPageToken() bool {
+	if o != nil && o.NextPageToken.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetNextPageToken gets a reference to the given NullableString and assigns it to the NextPageToken field.
+func (o *PromptVersionListResponse) SetNextPageToken(v string) {
+	o.NextPageToken.Set(&v)
+}
+// SetNextPageTokenNil sets the value for NextPageToken to be an explicit nil
+func (o *PromptVersionListResponse) SetNextPageTokenNil() {
+	o.NextPageToken.Set(nil)
+}
+
+// UnsetNextPageToken ensures that no value is present for NextPageToken, not even an explicit nil
+func (o *PromptVersionListResponse) UnsetNextPageToken() {
+	o.NextPageToken.Unset()
 }
 
 // GetVersions returns the Versions field value
@@ -78,6 +121,9 @@ func (o PromptVersionListResponse) MarshalJSON() ([]byte, error) {
 
 func (o PromptVersionListResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.NextPageToken.IsSet() {
+		toSerialize["nextPageToken"] = o.NextPageToken.Get()
+	}
 	toSerialize["versions"] = o.Versions
 	return toSerialize, nil
 }
@@ -154,5 +200,3 @@ func (v *NullablePromptVersionListResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

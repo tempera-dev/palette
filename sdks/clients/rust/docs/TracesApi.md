@@ -46,7 +46,7 @@ No authorization required
 
 ## traces_period_list
 
-> models::PageRunSummary traces_period_list(tenant_id, project_id, environment_id, trace_id, kind, status, started_after, started_before, model, release, min_cost_micros, max_cost_micros, min_latency_ms, max_latency_ms, limit, cursor, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::TraceListResponse traces_period_list(tenant_id, project_id, environment_id, trace_id, kind, status, started_after, started_before, model, release, min_cost_micros, max_cost_micros, min_latency_ms, max_latency_ms, page_size, page_token, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -68,8 +68,8 @@ Name | Type | Description  | Required | Notes
 **max_cost_micros** | Option<**i64**> |  |  |
 **min_latency_ms** | Option<**i64**> |  |  |
 **max_latency_ms** | Option<**i64**> |  |  |
-**limit** | Option<**i32**> |  |  |
-**cursor** | Option<**String**> |  |  |
+**page_size** | Option<**i32**> |  |  |
+**page_token** | Option<**String**> |  |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
 **x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
 **x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
@@ -77,7 +77,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**models::PageRunSummary**](Page_RunSummary.md)
+[**models::TraceListResponse**](TraceListResponse.md)
 
 ### Authorization
 

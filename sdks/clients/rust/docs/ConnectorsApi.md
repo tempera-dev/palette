@@ -117,7 +117,7 @@ No authorization required
 
 ## connectors_period_list
 
-> Vec<models::Toolkit> connectors_period_list(tenant_id, project_id, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ConnectorListResponse connectors_period_list(tenant_id, project_id, page_size, page_token, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -127,7 +127,8 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **tenant_id** | **String** | tenant_id | [required] |
 **project_id** | **String** | project_id | [required] |
-**limit** | Option<**i32**> | Maximum number of apps to return (page size). |  |
+**page_size** | Option<**i32**> | Maximum number of apps to return. Zero selects the server default. |  |
+**page_token** | Option<**String**> | Opaque continuation token returned by the preceding list request. |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
 **x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
 **x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
@@ -135,7 +136,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<models::Toolkit>**](Toolkit.md)
+[**models::ConnectorListResponse**](ConnectorListResponse.md)
 
 ### Authorization
 
@@ -151,7 +152,7 @@ No authorization required
 
 ## connectors_period_list_tools
 
-> Vec<models::ConnectorTool> connectors_period_list_tools(tenant_id, project_id, toolkit, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::ConnectorToolListResponse connectors_period_list_tools(tenant_id, project_id, toolkit, page_size, page_token, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -162,7 +163,8 @@ Name | Type | Description  | Required | Notes
 **tenant_id** | **String** | tenant_id | [required] |
 **project_id** | **String** | project_id | [required] |
 **toolkit** | **String** | Toolkit slug to list tools for. | [required] |
-**limit** | Option<**i32**> | Maximum number of tools to return (page size). |  |
+**page_size** | Option<**i32**> | Maximum number of tools to return. Zero selects the server default. |  |
+**page_token** | Option<**String**> | Opaque continuation token returned by the preceding list request. |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
 **x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
 **x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
@@ -170,7 +172,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<models::ConnectorTool>**](ConnectorTool.md)
+[**models::ConnectorToolListResponse**](ConnectorToolListResponse.md)
 
 ### Authorization
 

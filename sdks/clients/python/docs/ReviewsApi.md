@@ -177,7 +177,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **reviews_list_tasks**
-> List[ReviewTask] reviews_list_tasks(tenant_id, project_id, queue_id, state=state, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+> ReviewTaskListResponse reviews_list_tasks(tenant_id, project_id, queue_id, state=state, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -186,7 +186,7 @@ No authorization required
 
 ```python
 import palette_client
-from palette_client.models.review_task import ReviewTask
+from palette_client.models.review_task_list_response import ReviewTaskListResponse
 from palette_client.models.review_task_state import ReviewTaskState
 from palette_client.rest import ApiException
 from pprint import pprint
@@ -206,13 +206,15 @@ with palette_client.ApiClient(configuration) as api_client:
     project_id = 'project_id_example' # str | project_id
     queue_id = 'queue_id_example' # str | queue_id
     state = palette_client.ReviewTaskState() # ReviewTaskState |  (optional)
+    page_size = 56 # int | Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. (optional)
+    page_token = 'page_token_example' # str | Opaque continuation token returned by the preceding list request. (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
     x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
     x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.reviews_list_tasks(tenant_id, project_id, queue_id, state=state, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        api_response = api_instance.reviews_list_tasks(tenant_id, project_id, queue_id, state=state, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of ReviewsApi->reviews_list_tasks:\n")
         pprint(api_response)
     except Exception as e:
@@ -230,6 +232,8 @@ Name | Type | Description  | Notes
  **project_id** | **str**| project_id |
  **queue_id** | **str**| queue_id |
  **state** | [**ReviewTaskState**](.md)|  | [optional]
+ **page_size** | **int**| Maximum number of review tasks to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional]
+ **page_token** | **str**| Opaque continuation token returned by the preceding list request. | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
  **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
  **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
@@ -237,7 +241,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List[ReviewTask]**](ReviewTask.md)
+[**ReviewTaskListResponse**](ReviewTaskListResponse.md)
 
 ### Authorization
 

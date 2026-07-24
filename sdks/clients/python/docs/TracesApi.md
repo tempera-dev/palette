@@ -92,7 +92,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **traces_list**
-> PageRunSummary traces_list(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+> TraceListResponse traces_list(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
 
 
 
@@ -101,7 +101,7 @@ No authorization required
 
 ```python
 import palette_client
-from palette_client.models.page_run_summary import PageRunSummary
+from palette_client.models.trace_list_response import TraceListResponse
 from palette_client.rest import ApiException
 from pprint import pprint
 
@@ -130,15 +130,15 @@ with palette_client.ApiClient(configuration) as api_client:
     max_cost_micros = 56 # int |  (optional)
     min_latency_ms = 56 # int |  (optional)
     max_latency_ms = 56 # int |  (optional)
-    limit = 56 # int |  (optional)
-    cursor = 'cursor_example' # str |  (optional)
+    page_size = 56 # int |  (optional)
+    page_token = 'page_token_example' # str |  (optional)
     authorization = 'authorization_example' # str | Bearer API token for strict auth (optional)
     x_palette_api_key = 'x_palette_api_key_example' # str | API key alternative for strict auth (optional)
     x_palette_project_id = 'x_palette_project_id_example' # str | Strict-auth project scope (optional)
     x_palette_environment_id = 'x_palette_environment_id_example' # str | Strict-auth environment scope (optional)
 
     try:
-        api_response = api_instance.traces_list(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, limit=limit, cursor=cursor, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
+        api_response = api_instance.traces_list(tenant_id, project_id=project_id, environment_id=environment_id, trace_id=trace_id, kind=kind, status=status, started_after=started_after, started_before=started_before, model=model, release=release, min_cost_micros=min_cost_micros, max_cost_micros=max_cost_micros, min_latency_ms=min_latency_ms, max_latency_ms=max_latency_ms, page_size=page_size, page_token=page_token, authorization=authorization, x_palette_api_key=x_palette_api_key, x_palette_project_id=x_palette_project_id, x_palette_environment_id=x_palette_environment_id)
         print("The response of TracesApi->traces_list:\n")
         pprint(api_response)
     except Exception as e:
@@ -166,8 +166,8 @@ Name | Type | Description  | Notes
  **max_cost_micros** | **int**|  | [optional]
  **min_latency_ms** | **int**|  | [optional]
  **max_latency_ms** | **int**|  | [optional]
- **limit** | **int**|  | [optional]
- **cursor** | **str**|  | [optional]
+ **page_size** | **int**|  | [optional]
+ **page_token** | **str**|  | [optional]
  **authorization** | **str**| Bearer API token for strict auth | [optional]
  **x_palette_api_key** | **str**| API key alternative for strict auth | [optional]
  **x_palette_project_id** | **str**| Strict-auth project scope | [optional]
@@ -175,7 +175,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PageRunSummary**](PageRunSummary.md)
+[**TraceListResponse**](TraceListResponse.md)
 
 ### Authorization
 

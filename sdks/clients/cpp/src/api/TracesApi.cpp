@@ -183,7 +183,7 @@ pplx::task<std::shared_ptr<TraceView>> TracesApi::traces_get(utility::string_t t
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<Page_RunSummary>> TracesApi::traces_list(utility::string_t tenantId, boost::optional<utility::string_t> projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<utility::string_t> startedAfter, boost::optional<utility::string_t> startedBefore, boost::optional<utility::string_t> model, boost::optional<utility::string_t> release, boost::optional<int64_t> minCostMicros, boost::optional<int64_t> maxCostMicros, boost::optional<int64_t> minLatencyMs, boost::optional<int64_t> maxLatencyMs, boost::optional<int32_t> limit, boost::optional<utility::string_t> cursor, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
+pplx::task<std::shared_ptr<TraceListResponse>> TracesApi::traces_list(utility::string_t tenantId, boost::optional<utility::string_t> projectId, boost::optional<utility::string_t> environmentId, boost::optional<utility::string_t> traceId, boost::optional<utility::string_t> kind, boost::optional<utility::string_t> status, boost::optional<utility::string_t> startedAfter, boost::optional<utility::string_t> startedBefore, boost::optional<utility::string_t> model, boost::optional<utility::string_t> release, boost::optional<int64_t> minCostMicros, boost::optional<int64_t> maxCostMicros, boost::optional<int64_t> minLatencyMs, boost::optional<int64_t> maxLatencyMs, boost::optional<int32_t> pageSize, boost::optional<utility::string_t> pageToken, boost::optional<utility::string_t> authorization, boost::optional<utility::string_t> xPaletteApiKey, boost::optional<utility::string_t> xPaletteProjectId, boost::optional<utility::string_t> xPaletteEnvironmentId) const
 {
 
 
@@ -277,13 +277,13 @@ pplx::task<std::shared_ptr<Page_RunSummary>> TracesApi::traces_list(utility::str
     {
         localVarQueryParams[utility::conversions::to_string_t("max_latency_ms")] = ApiClient::parameterToString(*maxLatencyMs);
     }
-    if (limit)
+    if (pageSize)
     {
-        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+        localVarQueryParams[utility::conversions::to_string_t("pageSize")] = ApiClient::parameterToString(*pageSize);
     }
-    if (cursor)
+    if (pageToken)
     {
-        localVarQueryParams[utility::conversions::to_string_t("cursor")] = ApiClient::parameterToString(*cursor);
+        localVarQueryParams[utility::conversions::to_string_t("pageToken")] = ApiClient::parameterToString(*pageToken);
     }
     if (authorization)
     {
@@ -361,7 +361,7 @@ pplx::task<std::shared_ptr<Page_RunSummary>> TracesApi::traces_list(utility::str
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::shared_ptr<Page_RunSummary> localVarResult(new Page_RunSummary());
+        std::shared_ptr<TraceListResponse> localVarResult(new TraceListResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
@@ -387,4 +387,3 @@ pplx::task<std::shared_ptr<Page_RunSummary>> TracesApi::traces_list(utility::str
 }
 }
 }
-

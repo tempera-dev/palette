@@ -225,7 +225,8 @@ type ApiArchiveQuerySpansRequest struct {
 	spanId *string
 	kind *string
 	status *string
-	limit *int32
+	pageSize *int32
+	pageToken *string
 	authorization *string
 	xPaletteApiKey *string
 	xPaletteProjectId *string
@@ -257,8 +258,13 @@ func (r ApiArchiveQuerySpansRequest) Status(status string) ApiArchiveQuerySpansR
 	return r
 }
 
-func (r ApiArchiveQuerySpansRequest) Limit(limit int32) ApiArchiveQuerySpansRequest {
-	r.limit = &limit
+func (r ApiArchiveQuerySpansRequest) PageSize(pageSize int32) ApiArchiveQuerySpansRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+func (r ApiArchiveQuerySpansRequest) PageToken(pageToken string) ApiArchiveQuerySpansRequest {
+	r.pageToken = &pageToken
 	return r
 }
 
@@ -345,8 +351,11 @@ func (a *ArchiveAPIService) ArchiveQuerySpansExecute(r ApiArchiveQuerySpansReque
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
 	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageToken", r.pageToken, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

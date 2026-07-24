@@ -17,10 +17,10 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated
 from palette_client.models.judge_broker_outcome import JudgeBrokerOutcome
-from palette_client.models.public_judge_audit_record import PublicJudgeAuditRecord
+from palette_client.models.judge_ledger_list_response import JudgeLedgerListResponse
 from palette_client.models.run_judge_eval_http_request import RunJudgeEvalHttpRequest
 
 from palette_client.api_client import ApiClient, RequestSerialized
@@ -415,6 +415,8 @@ class JudgeApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -431,7 +433,7 @@ class JudgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[PublicJudgeAuditRecord]:
+    ) -> JudgeLedgerListResponse:
         """judge_list_ledger
 
 
@@ -439,6 +441,10 @@ class JudgeApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -472,6 +478,8 @@ class JudgeApi:
         _param = self._judge_list_ledger_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -483,7 +491,7 @@ class JudgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[PublicJudgeAuditRecord]",
+            '200': "JudgeLedgerListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -504,6 +512,8 @@ class JudgeApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -520,7 +530,7 @@ class JudgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[PublicJudgeAuditRecord]]:
+    ) -> ApiResponse[JudgeLedgerListResponse]:
         """judge_list_ledger
 
 
@@ -528,6 +538,10 @@ class JudgeApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -561,6 +575,8 @@ class JudgeApi:
         _param = self._judge_list_ledger_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -572,7 +588,7 @@ class JudgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[PublicJudgeAuditRecord]",
+            '200': "JudgeLedgerListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -593,6 +609,8 @@ class JudgeApi:
         self,
         tenant_id: Annotated[StrictStr, Field(description="tenant_id")],
         project_id: Annotated[StrictStr, Field(description="project_id")],
+        page_size: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.")] = None,
+        page_token: Annotated[Optional[StrictStr], Field(description="Opaque continuation token returned by the preceding list request.")] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Bearer API token for strict auth")] = None,
         x_palette_api_key: Annotated[Optional[StrictStr], Field(description="API key alternative for strict auth")] = None,
         x_palette_project_id: Annotated[Optional[StrictStr], Field(description="Strict-auth project scope")] = None,
@@ -617,6 +635,10 @@ class JudgeApi:
         :type tenant_id: str
         :param project_id: project_id (required)
         :type project_id: str
+        :param page_size: Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum.
+        :type page_size: int
+        :param page_token: Opaque continuation token returned by the preceding list request.
+        :type page_token: str
         :param authorization: Bearer API token for strict auth
         :type authorization: str
         :param x_palette_api_key: API key alternative for strict auth
@@ -650,6 +672,8 @@ class JudgeApi:
         _param = self._judge_list_ledger_serialize(
             tenant_id=tenant_id,
             project_id=project_id,
+            page_size=page_size,
+            page_token=page_token,
             authorization=authorization,
             x_palette_api_key=x_palette_api_key,
             x_palette_project_id=x_palette_project_id,
@@ -661,7 +685,7 @@ class JudgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[PublicJudgeAuditRecord]",
+            '200': "JudgeLedgerListResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
             '403': "ErrorResponse",
@@ -677,6 +701,8 @@ class JudgeApi:
         self,
         tenant_id,
         project_id,
+        page_size,
+        page_token,
         authorization,
         x_palette_api_key,
         x_palette_project_id,
@@ -707,6 +733,14 @@ class JudgeApi:
         if project_id is not None:
             _path_params['project_id'] = project_id
         # process the query parameters
+        if page_size is not None:
+
+            _query_params.append(('pageSize', page_size))
+
+        if page_token is not None:
+
+            _query_params.append(('pageToken', page_token))
+
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -747,5 +781,3 @@ class JudgeApi:
             _host=_host,
             _request_auth=_request_auth
         )
-
-

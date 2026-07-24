@@ -24,7 +24,12 @@ semantic conventions, MCP/CLI/docs contract surfaces, and then runs
 `scripts/check-contract-sync.sh` plus the `sdk-contract` CI gate before merge.
 The only pre-1.0 breaking exceptions allowed in CI are explicit contract
 alignment breaks filtered by `scripts/filter-oasdiff-breaking.py`; unexpected
-`oasdiff` errors still fail the merge gate.
+`oasdiff` errors still fail the merge gate. The current reviewed exceptions are
+the AIP-158 migration from bare list bodies to named paginated response objects,
+the AIP-193 migration to the standard application-error envelope, and removal
+of the legacy authorization-scope spellings. The filter matches only the
+specific operations, fields, statuses, and type transitions required by those
+migrations; it is not a general bypass for breaking changes.
 
 ## Stability guarantee for `/v1`
 
@@ -37,15 +42,18 @@ While the API is at `/v1`:
 - **Additive changes are allowed without a version bump.** New endpoints, new
   optional request fields, and new response fields are backward compatible and
   may ship under `/v1`. Clients must tolerate unknown response fields.
-- **Error shape is stable.** All error responses use the shared `ErrorResponse`
-  body. `error` is the stable snake_case machine code and `message` is the
-  human-readable detail. `/v1` also retains the deprecated numeric `status`
-  code as a compatibility field. New error codes may be added;
-  existing codes keep their meaning.
+- **Error shape is stable after the reviewed pre-1.0 alignment.** Ordinary
+  application errors use the shared AIP-193 `ErrorResponse` body:
+  `{error: {code, message, status, details}}`. `code` is the HTTP status,
+  `message` is the developer-facing detail, `status` is the canonical RPC
+  status string, and `details` contains standard detail objects such as
+  `google.rpc.ErrorInfo`. New detail types and error reasons may be added;
+  existing meanings remain stable.
 
 ## Versioning model
 
-- The path prefix (`/v1`) is the major version. A breaking change that cannot be
+- The path prefix (`/v1`) is the major version. After the enumerated pre-1.0
+  alignment exceptions above are complete, a breaking change that cannot be
   made additive ships under a **new prefix** (`/v2`) — `/v1` is not mutated.
 - During any `/v1` -> `/v2` transition, `/v1` remains served and supported for
   the deprecation window below.

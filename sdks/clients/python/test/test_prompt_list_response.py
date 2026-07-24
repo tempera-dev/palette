@@ -35,14 +35,15 @@ class TestPromptListResponse(unittest.TestCase):
         model = PromptListResponse()
         if include_optional:
             return PromptListResponse(
+                next_page_token = '',
                 prompts = [
                     palette_client.models.prompt.Prompt(
-                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        description = '', 
-                        name = '', 
-                        project_id = '', 
-                        prompt_id = '', 
-                        tenant_id = '', 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                        description = '',
+                        name = '',
+                        project_id = '',
+                        prompt_id = '',
+                        tenant_id = '',
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ]
             )
@@ -50,12 +51,12 @@ class TestPromptListResponse(unittest.TestCase):
             return PromptListResponse(
                 prompts = [
                     palette_client.models.prompt.Prompt(
-                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                        description = '', 
-                        name = '', 
-                        project_id = '', 
-                        prompt_id = '', 
-                        tenant_id = '', 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                        description = '',
+                        name = '',
+                        project_id = '',
+                        prompt_id = '',
+                        tenant_id = '',
                         updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
                     ],
         )

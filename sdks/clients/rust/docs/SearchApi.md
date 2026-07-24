@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## search_period_spans
 
-> models::SearchResponse search_period_spans(tenant_id, q, project_id, environment_id, trace_id, span_id, kind, status, model, tool, limit, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
+> models::SearchSpanListResponse search_period_spans(tenant_id, q, project_id, environment_id, trace_id, span_id, kind, status, model, tool, page_size, page_token, authorization, x_palette_api_key, x_palette_project_id, x_palette_environment_id)
 
 
 ### Parameters
@@ -28,7 +28,8 @@ Name | Type | Description  | Required | Notes
 **status** | Option<**String**> |  |  |
 **model** | Option<**String**> |  |  |
 **tool** | Option<**String**> |  |  |
-**limit** | Option<**i32**> |  |  |
+**page_size** | Option<**i32**> |  |  |
+**page_token** | Option<**String**> |  |  |
 **authorization** | Option<**String**> | Bearer API token for strict auth |  |
 **x_palette_api_key** | Option<**String**> | API key alternative for strict auth |  |
 **x_palette_project_id** | Option<**String**> | Strict-auth project scope |  |
@@ -36,7 +37,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**models::SearchResponse**](SearchResponse.md)
+[**models::SearchSpanListResponse**](SearchSpanListResponse.md)
 
 ### Authorization
 

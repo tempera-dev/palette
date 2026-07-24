@@ -507,7 +507,7 @@ No authorization required
 
 ## connectorsList
 
-> List<Toolkit> connectorsList(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ConnectorListResponse connectorsList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -529,13 +529,14 @@ public class Example {
         ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
-        Integer limit = 56; // Integer | Maximum number of apps to return (page size).
+        Integer pageSize = 56; // Integer | Maximum number of apps to return. Zero selects the server default.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<Toolkit> result = apiInstance.connectorsList(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ConnectorListResponse result = apiInstance.connectorsList(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ConnectorsApi#connectorsList");
@@ -555,7 +556,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
-| **limit** | **Integer**| Maximum number of apps to return (page size). | [optional] |
+| **pageSize** | **Integer**| Maximum number of apps to return. Zero selects the server default. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -563,7 +565,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;Toolkit&gt;**](Toolkit.md)
+[**ConnectorListResponse**](ConnectorListResponse.md)
 
 
 ### Authorization
@@ -586,7 +588,7 @@ No authorization required
 
 ## connectorsListWithHttpInfo
 
-> ApiResponse<List<Toolkit>> connectorsList connectorsListWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ConnectorListResponse> connectorsList connectorsListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -609,13 +611,14 @@ public class Example {
         ConnectorsApi apiInstance = new ConnectorsApi(defaultClient);
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
-        Integer limit = 56; // Integer | Maximum number of apps to return (page size).
+        Integer pageSize = 56; // Integer | Maximum number of apps to return. Zero selects the server default.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<Toolkit>> response = apiInstance.connectorsListWithHttpInfo(tenantId, projectId, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ConnectorListResponse> response = apiInstance.connectorsListWithHttpInfo(tenantId, projectId, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -637,7 +640,8 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
-| **limit** | **Integer**| Maximum number of apps to return (page size). | [optional] |
+| **pageSize** | **Integer**| Maximum number of apps to return. Zero selects the server default. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -645,7 +649,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;Toolkit&gt;**](Toolkit.md)>
+ApiResponse<[**ConnectorListResponse**](ConnectorListResponse.md)>
 
 
 ### Authorization
@@ -669,7 +673,7 @@ No authorization required
 
 ## connectorsListTools
 
-> List<ConnectorTool> connectorsListTools(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ConnectorToolListResponse connectorsListTools(tenantId, projectId, toolkit, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -692,13 +696,14 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String toolkit = "toolkit_example"; // String | Toolkit slug to list tools for.
-        Integer limit = 56; // Integer | Maximum number of tools to return (page size).
+        Integer pageSize = 56; // Integer | Maximum number of tools to return. Zero selects the server default.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            List<ConnectorTool> result = apiInstance.connectorsListTools(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ConnectorToolListResponse result = apiInstance.connectorsListTools(tenantId, projectId, toolkit, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ConnectorsApi#connectorsListTools");
@@ -719,7 +724,8 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **toolkit** | **String**| Toolkit slug to list tools for. | |
-| **limit** | **Integer**| Maximum number of tools to return (page size). | [optional] |
+| **pageSize** | **Integer**| Maximum number of tools to return. Zero selects the server default. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -727,7 +733,7 @@ public class Example {
 
 ### Return type
 
-[**List&lt;ConnectorTool&gt;**](ConnectorTool.md)
+[**ConnectorToolListResponse**](ConnectorToolListResponse.md)
 
 
 ### Authorization
@@ -750,7 +756,7 @@ No authorization required
 
 ## connectorsListToolsWithHttpInfo
 
-> ApiResponse<List<ConnectorTool>> connectorsListTools connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
+> ApiResponse<ConnectorToolListResponse> connectorsListTools connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId)
 
 
 
@@ -774,13 +780,14 @@ public class Example {
         String tenantId = "tenantId_example"; // String | tenant_id
         String projectId = "projectId_example"; // String | project_id
         String toolkit = "toolkit_example"; // String | Toolkit slug to list tools for.
-        Integer limit = 56; // Integer | Maximum number of tools to return (page size).
+        Integer pageSize = 56; // Integer | Maximum number of tools to return. Zero selects the server default.
+        String pageToken = "pageToken_example"; // String | Opaque continuation token returned by the preceding list request.
         String authorization = "authorization_example"; // String | Bearer API token for strict auth
         String xPaletteApiKey = "xPaletteApiKey_example"; // String | API key alternative for strict auth
         String xPaletteProjectId = "xPaletteProjectId_example"; // String | Strict-auth project scope
         String xPaletteEnvironmentId = "xPaletteEnvironmentId_example"; // String | Strict-auth environment scope
         try {
-            ApiResponse<List<ConnectorTool>> response = apiInstance.connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, limit, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
+            ApiResponse<ConnectorToolListResponse> response = apiInstance.connectorsListToolsWithHttpInfo(tenantId, projectId, toolkit, pageSize, pageToken, authorization, xPaletteApiKey, xPaletteProjectId, xPaletteEnvironmentId);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
@@ -803,7 +810,8 @@ public class Example {
 | **tenantId** | **String**| tenant_id | |
 | **projectId** | **String**| project_id | |
 | **toolkit** | **String**| Toolkit slug to list tools for. | |
-| **limit** | **Integer**| Maximum number of tools to return (page size). | [optional] |
+| **pageSize** | **Integer**| Maximum number of tools to return. Zero selects the server default. | [optional] |
+| **pageToken** | **String**| Opaque continuation token returned by the preceding list request. | [optional] |
 | **authorization** | **String**| Bearer API token for strict auth | [optional] |
 | **xPaletteApiKey** | **String**| API key alternative for strict auth | [optional] |
 | **xPaletteProjectId** | **String**| Strict-auth project scope | [optional] |
@@ -811,7 +819,7 @@ public class Example {
 
 ### Return type
 
-ApiResponse<[**List&lt;ConnectorTool&gt;**](ConnectorTool.md)>
+ApiResponse<[**ConnectorToolListResponse**](ConnectorToolListResponse.md)>
 
 
 ### Authorization
