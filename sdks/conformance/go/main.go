@@ -10,8 +10,8 @@ import (
 	bc "github.com/GIT_USER_ID/GIT_REPO_ID/paletteclient"
 )
 
-func fail(msg string, err error) {
-	fmt.Printf("FAIL: %s: %v\n", msg, err)
+func fail(msg string) {
+	fmt.Printf("FAIL: %s\n", msg)
 	os.Exit(1)
 }
 
@@ -27,20 +27,20 @@ func main() {
 
 	h, _, err := client.HealthAPI.HealthCheck(ctx).Execute()
 	if err != nil {
-		fail("health", err)
+		fail("health")
 	}
 	fmt.Printf("  health ok=%v\n", h.GetOk())
 
 	_, _, err = client.DatasetsAPI.DatasetsCreate(ctx, tenant, project).
 		CreateDatasetRequest(*bc.NewCreateDatasetRequest("conformance-go")).Execute()
 	if err != nil {
-		fail("createDataset", err)
+		fail("createDataset")
 	}
 	fmt.Println("  createDataset -> ok")
 
 	page, _, err := client.TracesAPI.TracesList(ctx, tenant).Execute()
 	if err != nil {
-		fail("traces.list", err)
+		fail("traces.list")
 	}
 	fmt.Printf("  traces.list items=%d\n", len(page.Items))
 

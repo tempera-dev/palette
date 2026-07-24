@@ -5160,11 +5160,14 @@ struct ImportTemperaEvidenceRequest {
     /// Canonical compact JSON signed by the release/decision key. The endpoint
     /// rejects equivalent but non-canonical JSON so the verified bytes are
     /// unambiguous across SDKs.
+    #[serde(alias = "canonical_json")]
     canonical_json: String,
     /// Standard-base64 detached Ed25519 signature over `canonical_json` bytes.
+    #[serde(alias = "signature_base64")]
     signature_base64: String,
     /// PEM SubjectPublicKeyInfo for the Ed25519 key whose exact byte digest is
     /// pinned inside the signed payload.
+    #[serde(alias = "public_key_pem")]
     public_key_pem: String,
 }
 

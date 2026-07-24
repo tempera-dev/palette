@@ -999,7 +999,7 @@ mod tests {
 
     fn required_link_keys(delivery: &WebhookDelivery) -> BTreeSet<&'static str> {
         let links = &delivery.body["links"];
-        ["trace_url", "cluster_url", "dataset_url", "gate_url"]
+        ["traceUrl", "clusterUrl", "datasetUrl", "gateUrl"]
             .into_iter()
             .filter(|key| links.get(key).and_then(|value| value.as_str()).is_some())
             .collect()
@@ -1066,7 +1066,7 @@ mod tests {
             .unwrap_or_else(|| panic!("expected delivery"));
         assert_eq!(
             required_link_keys(delivery),
-            BTreeSet::from(["cluster_url", "dataset_url", "gate_url", "trace_url"])
+            BTreeSet::from(["clusterUrl", "datasetUrl", "gateUrl", "traceUrl"])
         );
         let body = serde_json::to_vec(&delivery.body).unwrap_or_else(|err| panic!("{err}"));
         palette_security::verify_webhook(

@@ -167,7 +167,7 @@ for lang in "${LANGS[@]}"; do
   fi
 
   # Reproducibly re-apply committed fixes for known openapi-generator output bugs
-  # (C/C++ only). This keeps the generated clients buildable WITHOUT hand-editing
+  # and unsafe defaults. This keeps the generated clients safe/buildable WITHOUT hand-editing
   # after each regen -- the patch is the single source of those fixes. Fail loudly
   # (no fuzz, no backups) if the patch no longer applies cleanly to fresh output.
   if [[ -f "sdks/patches/$lang.patch" ]]; then
