@@ -13,15 +13,15 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ArtifactRef {
-    #[serde(rename = "artifact_id")]
+    #[serde(rename = "artifactId")]
     pub artifact_id: String,
-    #[serde(rename = "mime_type")]
+    #[serde(rename = "mimeType")]
     pub mime_type: String,
-    #[serde(rename = "redaction_class")]
+    #[serde(rename = "redactionClass")]
     pub redaction_class: models::RedactionClass,
     #[serde(rename = "sha256")]
     pub sha256: String,
-    #[serde(rename = "size_bytes")]
+    #[serde(rename = "sizeBytes")]
     pub size_bytes: i64,
     #[serde(rename = "uri")]
     pub uri: String,

@@ -28,12 +28,12 @@ class ArchiveManifest(BaseModel):
     """
     ArchiveManifest
     """ # noqa: E501
-    created_at: datetime
+    created_at: datetime = Field(alias="createdAt")
     path: StrictStr
-    project_id: StrictStr
-    span_count: Annotated[int, Field(strict=True, ge=0)]
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["created_at", "path", "project_id", "span_count", "tenant_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    span_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="spanCount")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["createdAt", "path", "projectId", "spanCount", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,11 +86,11 @@ class ArchiveManifest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_at": obj.get("created_at"),
+            "createdAt": obj.get("createdAt"),
             "path": obj.get("path"),
-            "project_id": obj.get("project_id"),
-            "span_count": obj.get("span_count"),
-            "tenant_id": obj.get("tenant_id")
+            "projectId": obj.get("projectId"),
+            "spanCount": obj.get("spanCount"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

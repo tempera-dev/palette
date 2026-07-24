@@ -47,11 +47,11 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ReviewAnnotation {
-  public static final String JSON_PROPERTY_ANNOTATION_ID = "annotation_id";
+  public static final String JSON_PROPERTY_ANNOTATION_ID = "annotationId";
   @javax.annotation.Nonnull
   private String annotationId;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
@@ -59,23 +59,23 @@ public class ReviewAnnotation {
   @javax.annotation.Nullable
   private Object payload = null;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_QUEUE_ID = "queue_id";
+  public static final String JSON_PROPERTY_QUEUE_ID = "queueId";
   @javax.annotation.Nonnull
   private String queueId;
 
-  public static final String JSON_PROPERTY_REVIEWER_ID = "reviewer_id";
+  public static final String JSON_PROPERTY_REVIEWER_ID = "reviewerId";
   @javax.annotation.Nonnull
   private String reviewerId;
 
-  public static final String JSON_PROPERTY_TASK_ID = "task_id";
+  public static final String JSON_PROPERTY_TASK_ID = "taskId";
   @javax.annotation.Nonnull
   private String taskId;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -390,14 +390,14 @@ public class ReviewAnnotation {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `annotation_id` to the URL query string
+    // add `annotationId` to the URL query string
     if (getAnnotationId() != null) {
-      joiner.add(String.format("%sannotation_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnnotationId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sannotationId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnnotationId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `payload` to the URL query string
@@ -405,29 +405,29 @@ public class ReviewAnnotation {
       joiner.add(String.format("%spayload%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPayload()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `queue_id` to the URL query string
+    // add `queueId` to the URL query string
     if (getQueueId() != null) {
-      joiner.add(String.format("%squeue_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQueueId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squeueId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQueueId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `reviewer_id` to the URL query string
+    // add `reviewerId` to the URL query string
     if (getReviewerId() != null) {
-      joiner.add(String.format("%sreviewer_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReviewerId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreviewerId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReviewerId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `task_id` to the URL query string
+    // add `taskId` to the URL query string
     if (getTaskId() != null) {
-      joiner.add(String.format("%stask_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTaskId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%staskId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTaskId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `verdict` to the URL query string

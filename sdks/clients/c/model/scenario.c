@@ -120,7 +120,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if (!scenario->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", scenario->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", scenario->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -129,14 +129,14 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if (!scenario->exemplar_trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "exemplar_trace_id", scenario->exemplar_trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "exemplarTraceId", scenario->exemplar_trace_id) == NULL) {
     goto fail; //String
     }
 
 
     // scenario->expected_outcome
     if(scenario->expected_outcome) {
-    if(cJSON_AddStringToObject(item, "expected_outcome", scenario->expected_outcome) == NULL) {
+    if(cJSON_AddStringToObject(item, "expectedOutcome", scenario->expected_outcome) == NULL) {
     goto fail; //String
     }
     }
@@ -150,7 +150,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if(failure_mode_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "failure_mode", failure_mode_local_JSON);
+    cJSON_AddItemToObject(item, "failureMode", failure_mode_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -164,7 +164,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if(perturbation_knobs_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "perturbation_knobs", perturbation_knobs_local_JSON);
+    cJSON_AddItemToObject(item, "perturbationKnobs", perturbation_knobs_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -174,7 +174,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if (!scenario->recurrence_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "recurrence_count", scenario->recurrence_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "recurrenceCount", scenario->recurrence_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -187,7 +187,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if(redaction_class_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "redaction_class", redaction_class_local_JSON);
+    cJSON_AddItemToObject(item, "redactionClass", redaction_class_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -197,7 +197,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if (!scenario->scenario_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "scenario_id", scenario->scenario_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "scenarioId", scenario->scenario_id) == NULL) {
     goto fail; //String
     }
 
@@ -220,7 +220,7 @@ cJSON *scenario_convertToJSON(scenario_t *scenario) {
     if (!scenario->source_trace_ids) {
         goto fail;
     }
-    cJSON *source_trace_ids = cJSON_AddArrayToObject(item, "source_trace_ids");
+    cJSON *source_trace_ids = cJSON_AddArrayToObject(item, "sourceTraceIds");
     if(source_trace_ids == NULL) {
         goto fail; //primitive container
     }
@@ -270,7 +270,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     list_t *source_trace_idsList = NULL;
 
     // scenario->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -285,7 +285,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     }
 
     // scenario->exemplar_trace_id
-    cJSON *exemplar_trace_id = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "exemplar_trace_id");
+    cJSON *exemplar_trace_id = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "exemplarTraceId");
     if (cJSON_IsNull(exemplar_trace_id)) {
         exemplar_trace_id = NULL;
     }
@@ -300,7 +300,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     }
 
     // scenario->expected_outcome
-    cJSON *expected_outcome = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "expected_outcome");
+    cJSON *expected_outcome = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "expectedOutcome");
     if (cJSON_IsNull(expected_outcome)) {
         expected_outcome = NULL;
     }
@@ -312,7 +312,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     }
 
     // scenario->failure_mode
-    cJSON *failure_mode = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "failure_mode");
+    cJSON *failure_mode = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "failureMode");
     if (cJSON_IsNull(failure_mode)) {
         failure_mode = NULL;
     }
@@ -324,7 +324,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     failure_mode_local_nonprim = failure_mode_parseFromJSON(failure_mode); //custom
 
     // scenario->perturbation_knobs
-    cJSON *perturbation_knobs = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "perturbation_knobs");
+    cJSON *perturbation_knobs = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "perturbationKnobs");
     if (cJSON_IsNull(perturbation_knobs)) {
         perturbation_knobs = NULL;
     }
@@ -336,7 +336,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     perturbation_knobs_local_nonprim = perturbation_knobs_parseFromJSON(perturbation_knobs); //nonprimitive
 
     // scenario->recurrence_count
-    cJSON *recurrence_count = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "recurrence_count");
+    cJSON *recurrence_count = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "recurrenceCount");
     if (cJSON_IsNull(recurrence_count)) {
         recurrence_count = NULL;
     }
@@ -351,7 +351,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     }
 
     // scenario->redaction_class
-    cJSON *redaction_class = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "redaction_class");
+    cJSON *redaction_class = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "redactionClass");
     if (cJSON_IsNull(redaction_class)) {
         redaction_class = NULL;
     }
@@ -363,7 +363,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     redaction_class_local_nonprim = redaction_class_parseFromJSON(redaction_class); //custom
 
     // scenario->scenario_id
-    cJSON *scenario_id = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "scenario_id");
+    cJSON *scenario_id = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "scenarioId");
     if (cJSON_IsNull(scenario_id)) {
         scenario_id = NULL;
     }
@@ -390,7 +390,7 @@ scenario_t *scenario_parseFromJSON(cJSON *scenarioJSON){
     scope_local_nonprim = tenant_scope_parseFromJSON(scope); //nonprimitive
 
     // scenario->source_trace_ids
-    cJSON *source_trace_ids = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "source_trace_ids");
+    cJSON *source_trace_ids = cJSON_GetObjectItemCaseSensitive(scenarioJSON, "sourceTraceIds");
     if (cJSON_IsNull(source_trace_ids)) {
         source_trace_ids = NULL;
     }

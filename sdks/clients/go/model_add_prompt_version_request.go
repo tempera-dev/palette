@@ -21,7 +21,7 @@ var _ MappedNullable = &AddPromptVersionRequest{}
 
 // AddPromptVersionRequest Request body for `addPromptVersion`: a new immutable template revision.
 type AddPromptVersionRequest struct {
-	CreatedBy NullableString `json:"created_by,omitempty"`
+	CreatedBy NullableString `json:"createdBy,omitempty"`
 	Message NullableString `json:"message,omitempty"`
 	Template PromptTemplate `json:"template"`
 }
@@ -165,7 +165,7 @@ func (o AddPromptVersionRequest) MarshalJSON() ([]byte, error) {
 func (o AddPromptVersionRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.CreatedBy.IsSet() {
-		toSerialize["created_by"] = o.CreatedBy.Get()
+		toSerialize["createdBy"] = o.CreatedBy.Get()
 	}
 	if o.Message.IsSet() {
 		toSerialize["message"] = o.Message.Get()

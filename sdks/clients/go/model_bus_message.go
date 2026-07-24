@@ -23,14 +23,14 @@ var _ MappedNullable = &BusMessage{}
 // BusMessage struct for BusMessage
 type BusMessage struct {
 	Attempts int32 `json:"attempts"`
-	EnqueuedAt time.Time `json:"enqueued_at"`
-	IdempotencyKey string `json:"idempotency_key"`
+	EnqueuedAt time.Time `json:"enqueuedAt"`
+	IdempotencyKey string `json:"idempotencyKey"`
 	Kind string `json:"kind"`
-	MaxAttempts int32 `json:"max_attempts"`
-	MessageId string `json:"message_id"`
+	MaxAttempts int32 `json:"maxAttempts"`
+	MessageId string `json:"messageId"`
 	Payload []int32 `json:"payload"`
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
 }
 
 type _BusMessage BusMessage
@@ -288,14 +288,14 @@ func (o BusMessage) MarshalJSON() ([]byte, error) {
 func (o BusMessage) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["attempts"] = o.Attempts
-	toSerialize["enqueued_at"] = o.EnqueuedAt
-	toSerialize["idempotency_key"] = o.IdempotencyKey
+	toSerialize["enqueuedAt"] = o.EnqueuedAt
+	toSerialize["idempotencyKey"] = o.IdempotencyKey
 	toSerialize["kind"] = o.Kind
-	toSerialize["max_attempts"] = o.MaxAttempts
-	toSerialize["message_id"] = o.MessageId
+	toSerialize["maxAttempts"] = o.MaxAttempts
+	toSerialize["messageId"] = o.MessageId
 	toSerialize["payload"] = o.Payload
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -305,14 +305,14 @@ func (o *BusMessage) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"attempts",
-		"enqueued_at",
-		"idempotency_key",
+		"enqueuedAt",
+		"idempotencyKey",
 		"kind",
-		"max_attempts",
-		"message_id",
+		"maxAttempts",
+		"messageId",
 		"payload",
-		"project_id",
-		"tenant_id",
+		"projectId",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

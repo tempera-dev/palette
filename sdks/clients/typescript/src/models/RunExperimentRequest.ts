@@ -115,13 +115,13 @@ export function RunExperimentRequestFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'baselineOutputs': ((json['baseline_outputs'] as Array<any>).map(CaseOutputOverrideRequestFromJSON)),
-        'baselineReleaseId': json['baseline_release_id'],
-        'candidateOutputs': ((json['candidate_outputs'] as Array<any>).map(CaseOutputOverrideRequestFromJSON)),
-        'candidateReleaseId': json['candidate_release_id'],
-        'evaluatorId': json['evaluator_id'],
-        'evaluatorVersionId': json['evaluator_version_id'],
-        'gatePolicy': json['gate_policy'] == null ? undefined : GatePolicyFromJSON(json['gate_policy']),
+        'baselineOutputs': ((json['baselineOutputs'] as Array<any>).map(CaseOutputOverrideRequestFromJSON)),
+        'baselineReleaseId': json['baselineReleaseId'],
+        'candidateOutputs': ((json['candidateOutputs'] as Array<any>).map(CaseOutputOverrideRequestFromJSON)),
+        'candidateReleaseId': json['candidateReleaseId'],
+        'evaluatorId': json['evaluatorId'],
+        'evaluatorVersionId': json['evaluatorVersionId'],
+        'gatePolicy': json['gatePolicy'] == null ? undefined : GatePolicyFromJSON(json['gatePolicy']),
         'kind': EvaluatorKindFromJSON(json['kind']),
     };
 }
@@ -137,13 +137,13 @@ export function RunExperimentRequestToJSONTyped(value?: RunExperimentRequest | n
 
     return {
         
-        'baseline_outputs': ((value['baselineOutputs'] as Array<any>).map(CaseOutputOverrideRequestToJSON)),
-        'baseline_release_id': value['baselineReleaseId'],
-        'candidate_outputs': ((value['candidateOutputs'] as Array<any>).map(CaseOutputOverrideRequestToJSON)),
-        'candidate_release_id': value['candidateReleaseId'],
-        'evaluator_id': value['evaluatorId'],
-        'evaluator_version_id': value['evaluatorVersionId'],
-        'gate_policy': GatePolicyToJSON(value['gatePolicy']),
+        'baselineOutputs': ((value['baselineOutputs'] as Array<any>).map(CaseOutputOverrideRequestToJSON)),
+        'baselineReleaseId': value['baselineReleaseId'],
+        'candidateOutputs': ((value['candidateOutputs'] as Array<any>).map(CaseOutputOverrideRequestToJSON)),
+        'candidateReleaseId': value['candidateReleaseId'],
+        'evaluatorId': value['evaluatorId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
+        'gatePolicy': GatePolicyToJSON(value['gatePolicy']),
         'kind': EvaluatorKindToJSON(value['kind']),
     };
 }

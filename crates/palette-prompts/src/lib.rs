@@ -65,6 +65,7 @@ impl PromptVariable {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct Prompt {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -78,6 +79,7 @@ pub struct Prompt {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct PromptVersion {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -89,6 +91,7 @@ pub struct PromptVersion {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct PromptVersionMetadata {
     #[schema(value_type = String, format = DateTime)]
     pub created_at: Timestamp,
@@ -124,6 +127,7 @@ pub struct CreatedPrompt {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct PromptVersionDiff {
     pub from_version_id: PromptVersionId,
     pub to_version_id: PromptVersionId,
@@ -131,6 +135,7 @@ pub struct PromptVersionDiff {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct DiffLine {
     pub kind: DiffLineKind,
     pub old_line: Option<usize>,

@@ -81,10 +81,10 @@ export function RunJudgeEvalHttpRequestFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'cacheNamespace': json['cache_namespace'] == null ? undefined : json['cache_namespace'],
+        'cacheNamespace': json['cacheNamespace'] == null ? undefined : json['cacheNamespace'],
         '_case': EvaluationCaseFromJSON(json['case']),
         'evaluator': EvaluatorSpecFromJSON(json['evaluator']),
-        'providerSecretId': json['provider_secret_id'],
+        'providerSecretId': json['providerSecretId'],
     };
 }
 
@@ -99,10 +99,10 @@ export function RunJudgeEvalHttpRequestToJSONTyped(value?: RunJudgeEvalHttpReque
 
     return {
         
-        'cache_namespace': value['cacheNamespace'],
+        'cacheNamespace': value['cacheNamespace'],
         'case': EvaluationCaseToJSON(value['_case']),
         'evaluator': EvaluatorSpecToJSON(value['evaluator']),
-        'provider_secret_id': value['providerSecretId'],
+        'providerSecretId': value['providerSecretId'],
     };
 }
 

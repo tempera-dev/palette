@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SpanIoValueOneOf1 {
-    #[serde(rename = "artifact_ref")]
+    #[serde(rename = "artifactRef")]
     pub artifact_ref: Box<models::ArtifactRef>,
     #[serde(rename = "kind")]
     pub kind: Kind,

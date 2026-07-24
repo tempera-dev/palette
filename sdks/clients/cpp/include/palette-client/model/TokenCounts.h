@@ -54,7 +54,7 @@ public:
 
     int64_t getCacheRead() const;
     bool cacheReadIsSet() const;
-    void unsetCache_read();
+    void unsetCacheRead();
     void setCacheRead(int64_t value);
 
     int64_t getInput() const;
@@ -74,8 +74,8 @@ public:
 
 
 protected:
-    int64_t m_Cache_read;
-    bool m_Cache_readIsSet;
+    int64_t m_CacheRead;
+    bool m_CacheReadIsSet;
 
     int64_t m_Input;
     bool m_InputIsSet;

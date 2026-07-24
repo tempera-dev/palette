@@ -61,7 +61,7 @@ public:
 
     bool isDownstreamQueued() const;
     bool downstreamQueuedIsSet() const;
-    void unsetDownstream_queued();
+    void unsetDownstreamQueued();
     void setDownstreamQueued(bool value);
 
 
@@ -69,8 +69,8 @@ protected:
     std::shared_ptr<WriteAck> m_Ack;
     bool m_AckIsSet;
 
-    bool m_Downstream_queued;
-    bool m_Downstream_queuedIsSet;
+    bool m_DownstreamQueued;
+    bool m_DownstreamQueuedIsSet;
 
 };
 

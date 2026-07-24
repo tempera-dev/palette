@@ -87,7 +87,7 @@ def valid_contract_spec() -> dict:
                     "responses": {
                         "201": json_response("CreateTraceResponse"),
                         "400": json_response("ErrorResponse"),
-                        "422": json_response("DrainPartialSuccess"),
+                        "422": json_response("ErrorResponse"),
                     },
                 },
             },
@@ -145,6 +145,7 @@ def test_accepts_contract_shapes_required_for_drift_gate() -> None:
 
     result = module.audit_spec(valid_contract_spec())
 
+    assert module.AIP127_PROPERTY_DEBT_BUDGET == {}
     assert result.violations == []
     assert result.operation_count == 3
     assert result.unique_operation_id_count == 3
@@ -205,6 +206,20 @@ def test_rejects_non_shared_error_and_inline_success_shapes() -> None:
     ) in violations
     assert (
         "GET /v1/traces: success 200 uses an inline anonymous object (name it)"
+    ) in violations
+
+
+def test_rejects_partial_success_body_at_http_error_status() -> None:
+    spec = valid_contract_spec()
+    spec["paths"]["/v1/traces"]["post"]["responses"]["422"] = json_response(
+        "DrainPartialSuccess"
+    )
+
+    violations = violations_for(spec)
+
+    assert (
+        "POST /v1/traces: error 422 body is not the shared error schema "
+        "(got #/components/schemas/DrainPartialSuccess)"
     ) in violations
 
 
@@ -349,6 +364,7 @@ def main() -> None:
         test_rejects_operation_identity_and_tag_drift,
         test_rejects_duplicate_operation_ids,
         test_rejects_non_shared_error_and_inline_success_shapes,
+        test_rejects_partial_success_body_at_http_error_status,
         test_requires_pagination_for_list_contracts,
         test_accepts_complete_aip158_pagination,
         test_rejects_partial_aip158_pagination_or_missing_response_token,

@@ -55,21 +55,21 @@ public:
 
     utility::datetime getEndsAt() const;
     bool endsAtIsSet() const;
-    void unsetEnds_at();
+    void unsetEndsAt();
     void setEndsAt(const utility::datetime& value);
 
     utility::datetime getStartsAt() const;
     bool startsAtIsSet() const;
-    void unsetStarts_at();
+    void unsetStartsAt();
     void setStartsAt(const utility::datetime& value);
 
 
 protected:
-    utility::datetime m_Ends_at;
-    bool m_Ends_atIsSet;
+    utility::datetime m_EndsAt;
+    bool m_EndsAtIsSet;
 
-    utility::datetime m_Starts_at;
-    bool m_Starts_atIsSet;
+    utility::datetime m_StartsAt;
+    bool m_StartsAtIsSet;
 
 };
 

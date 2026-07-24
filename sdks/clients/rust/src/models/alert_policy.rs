@@ -13,19 +13,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AlertPolicy {
-    #[serde(rename = "dedupe_window_seconds")]
+    #[serde(rename = "dedupeWindowSeconds")]
     pub dedupe_window_seconds: i64,
-    #[serde(rename = "endpoint_url")]
+    #[serde(rename = "endpointUrl")]
     pub endpoint_url: String,
-    #[serde(rename = "fire_when_score_at_or_below")]
+    #[serde(rename = "fireWhenScoreAtOrBelow")]
     pub fire_when_score_at_or_below: f64,
-    #[serde(rename = "maintenance_windows")]
+    #[serde(rename = "maintenanceWindows")]
     pub maintenance_windows: Vec<models::MaintenanceWindow>,
-    #[serde(rename = "policy_id")]
+    #[serde(rename = "policyId")]
     pub policy_id: String,
     #[serde(rename = "severity")]
     pub severity: models::AlertSeverity,
-    #[serde(rename = "signing_secret")]
+    #[serde(rename = "signingSecret")]
     pub signing_secret: String,
 }
 

@@ -20,17 +20,17 @@ namespace model {
 
 RunExperimentRequest::RunExperimentRequest()
 {
-    m_Baseline_outputsIsSet = false;
-    m_Baseline_release_id = utility::conversions::to_string_t("");
-    m_Baseline_release_idIsSet = false;
-    m_Candidate_outputsIsSet = false;
-    m_Candidate_release_id = utility::conversions::to_string_t("");
-    m_Candidate_release_idIsSet = false;
-    m_Evaluator_id = utility::conversions::to_string_t("");
-    m_Evaluator_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Gate_policyIsSet = false;
+    m_BaselineOutputsIsSet = false;
+    m_BaselineReleaseId = utility::conversions::to_string_t("");
+    m_BaselineReleaseIdIsSet = false;
+    m_CandidateOutputsIsSet = false;
+    m_CandidateReleaseId = utility::conversions::to_string_t("");
+    m_CandidateReleaseIdIsSet = false;
+    m_EvaluatorId = utility::conversions::to_string_t("");
+    m_EvaluatorIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_GatePolicyIsSet = false;
     m_KindIsSet = false;
 }
 
@@ -46,40 +46,40 @@ void RunExperimentRequest::validate()
 web::json::value RunExperimentRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Baseline_outputsIsSet)
+    if(m_BaselineOutputsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_outputs"))] = ModelBase::toJson(m_Baseline_outputs);
+        val[utility::conversions::to_string_t(U("baselineOutputs"))] = ModelBase::toJson(m_BaselineOutputs);
     }
-    if(m_Baseline_release_idIsSet)
+    if(m_BaselineReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_release_id"))] = ModelBase::toJson(m_Baseline_release_id);
+        val[utility::conversions::to_string_t(U("baselineReleaseId"))] = ModelBase::toJson(m_BaselineReleaseId);
     }
-    if(m_Candidate_outputsIsSet)
+    if(m_CandidateOutputsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_outputs"))] = ModelBase::toJson(m_Candidate_outputs);
+        val[utility::conversions::to_string_t(U("candidateOutputs"))] = ModelBase::toJson(m_CandidateOutputs);
     }
-    if(m_Candidate_release_idIsSet)
+    if(m_CandidateReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_release_id"))] = ModelBase::toJson(m_Candidate_release_id);
+        val[utility::conversions::to_string_t(U("candidateReleaseId"))] = ModelBase::toJson(m_CandidateReleaseId);
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_id"))] = ModelBase::toJson(m_Evaluator_id);
+        val[utility::conversions::to_string_t(U("evaluatorId"))] = ModelBase::toJson(m_EvaluatorId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Gate_policyIsSet)
+    if(m_GatePolicyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_policy"))] = ModelBase::toJson(m_Gate_policy);
+        val[utility::conversions::to_string_t(U("gatePolicy"))] = ModelBase::toJson(m_GatePolicy);
     }
     if(m_KindIsSet)
     {   
@@ -93,9 +93,9 @@ web::json::value RunExperimentRequest::toJson() const
 bool RunExperimentRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_outputs"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineOutputs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_outputs")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineOutputs")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<CaseOutputOverrideRequest>> refVal_setBaselineOutputs;
@@ -104,9 +104,9 @@ bool RunExperimentRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setBaselineReleaseId;
@@ -115,9 +115,9 @@ bool RunExperimentRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_outputs"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateOutputs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_outputs")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateOutputs")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<CaseOutputOverrideRequest>> refVal_setCandidateOutputs;
@@ -126,9 +126,9 @@ bool RunExperimentRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCandidateReleaseId;
@@ -137,9 +137,9 @@ bool RunExperimentRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorId;
@@ -148,9 +148,9 @@ bool RunExperimentRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -159,9 +159,9 @@ bool RunExperimentRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_policy"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gatePolicy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_policy")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gatePolicy")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<GatePolicy> refVal_setGatePolicy;
@@ -191,33 +191,33 @@ void RunExperimentRequest::toMultipart(std::shared_ptr<MultipartFormData> multip
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Baseline_outputsIsSet)
+    if(m_BaselineOutputsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_outputs")), m_Baseline_outputs));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineOutputs")), m_BaselineOutputs));
     }
-    if(m_Baseline_release_idIsSet)
+    if(m_BaselineReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_release_id")), m_Baseline_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineReleaseId")), m_BaselineReleaseId));
     }
-    if(m_Candidate_outputsIsSet)
+    if(m_CandidateOutputsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_outputs")), m_Candidate_outputs));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateOutputs")), m_CandidateOutputs));
     }
-    if(m_Candidate_release_idIsSet)
+    if(m_CandidateReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_release_id")), m_Candidate_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateReleaseId")), m_CandidateReleaseId));
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_id")), m_Evaluator_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorId")), m_EvaluatorId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Gate_policyIsSet)
+    if(m_GatePolicyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_policy")), m_Gate_policy));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gatePolicy")), m_GatePolicy));
     }
     if(m_KindIsSet)
     {
@@ -234,46 +234,46 @@ bool RunExperimentRequest::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_outputs"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineOutputs"))))
     {
         std::vector<std::shared_ptr<CaseOutputOverrideRequest>> refVal_setBaselineOutputs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_outputs"))), refVal_setBaselineOutputs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineOutputs"))), refVal_setBaselineOutputs );
         setBaselineOutputs(refVal_setBaselineOutputs);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineReleaseId"))))
     {
         utility::string_t refVal_setBaselineReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_release_id"))), refVal_setBaselineReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineReleaseId"))), refVal_setBaselineReleaseId );
         setBaselineReleaseId(refVal_setBaselineReleaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_outputs"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateOutputs"))))
     {
         std::vector<std::shared_ptr<CaseOutputOverrideRequest>> refVal_setCandidateOutputs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_outputs"))), refVal_setCandidateOutputs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateOutputs"))), refVal_setCandidateOutputs );
         setCandidateOutputs(refVal_setCandidateOutputs);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateReleaseId"))))
     {
         utility::string_t refVal_setCandidateReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_release_id"))), refVal_setCandidateReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateReleaseId"))), refVal_setCandidateReleaseId );
         setCandidateReleaseId(refVal_setCandidateReleaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorId"))))
     {
         utility::string_t refVal_setEvaluatorId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_id"))), refVal_setEvaluatorId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorId"))), refVal_setEvaluatorId );
         setEvaluatorId(refVal_setEvaluatorId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_policy"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gatePolicy"))))
     {
         std::shared_ptr<GatePolicy> refVal_setGatePolicy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_policy"))), refVal_setGatePolicy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gatePolicy"))), refVal_setGatePolicy );
         setGatePolicy(refVal_setGatePolicy);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -288,150 +288,150 @@ bool RunExperimentRequest::fromMultiPart(std::shared_ptr<MultipartFormData> mult
 
 std::vector<std::shared_ptr<CaseOutputOverrideRequest>> RunExperimentRequest::getBaselineOutputs() const
 {
-    return m_Baseline_outputs;
+    return m_BaselineOutputs;
 }
 
 
 void RunExperimentRequest::setBaselineOutputs(const std::vector<std::shared_ptr<CaseOutputOverrideRequest>>& value)
 {
-    m_Baseline_outputs = value;
-    m_Baseline_outputsIsSet = true;
+    m_BaselineOutputs = value;
+    m_BaselineOutputsIsSet = true;
 }
 
 bool RunExperimentRequest::baselineOutputsIsSet() const
 {
-    return m_Baseline_outputsIsSet;
+    return m_BaselineOutputsIsSet;
 }
 
-void RunExperimentRequest::unsetBaseline_outputs()
+void RunExperimentRequest::unsetBaselineOutputs()
 {
-    m_Baseline_outputsIsSet = false;
+    m_BaselineOutputsIsSet = false;
 }
 utility::string_t RunExperimentRequest::getBaselineReleaseId() const
 {
-    return m_Baseline_release_id;
+    return m_BaselineReleaseId;
 }
 
 
 void RunExperimentRequest::setBaselineReleaseId(const utility::string_t& value)
 {
-    m_Baseline_release_id = value;
-    m_Baseline_release_idIsSet = true;
+    m_BaselineReleaseId = value;
+    m_BaselineReleaseIdIsSet = true;
 }
 
 bool RunExperimentRequest::baselineReleaseIdIsSet() const
 {
-    return m_Baseline_release_idIsSet;
+    return m_BaselineReleaseIdIsSet;
 }
 
-void RunExperimentRequest::unsetBaseline_release_id()
+void RunExperimentRequest::unsetBaselineReleaseId()
 {
-    m_Baseline_release_idIsSet = false;
+    m_BaselineReleaseIdIsSet = false;
 }
 std::vector<std::shared_ptr<CaseOutputOverrideRequest>> RunExperimentRequest::getCandidateOutputs() const
 {
-    return m_Candidate_outputs;
+    return m_CandidateOutputs;
 }
 
 
 void RunExperimentRequest::setCandidateOutputs(const std::vector<std::shared_ptr<CaseOutputOverrideRequest>>& value)
 {
-    m_Candidate_outputs = value;
-    m_Candidate_outputsIsSet = true;
+    m_CandidateOutputs = value;
+    m_CandidateOutputsIsSet = true;
 }
 
 bool RunExperimentRequest::candidateOutputsIsSet() const
 {
-    return m_Candidate_outputsIsSet;
+    return m_CandidateOutputsIsSet;
 }
 
-void RunExperimentRequest::unsetCandidate_outputs()
+void RunExperimentRequest::unsetCandidateOutputs()
 {
-    m_Candidate_outputsIsSet = false;
+    m_CandidateOutputsIsSet = false;
 }
 utility::string_t RunExperimentRequest::getCandidateReleaseId() const
 {
-    return m_Candidate_release_id;
+    return m_CandidateReleaseId;
 }
 
 
 void RunExperimentRequest::setCandidateReleaseId(const utility::string_t& value)
 {
-    m_Candidate_release_id = value;
-    m_Candidate_release_idIsSet = true;
+    m_CandidateReleaseId = value;
+    m_CandidateReleaseIdIsSet = true;
 }
 
 bool RunExperimentRequest::candidateReleaseIdIsSet() const
 {
-    return m_Candidate_release_idIsSet;
+    return m_CandidateReleaseIdIsSet;
 }
 
-void RunExperimentRequest::unsetCandidate_release_id()
+void RunExperimentRequest::unsetCandidateReleaseId()
 {
-    m_Candidate_release_idIsSet = false;
+    m_CandidateReleaseIdIsSet = false;
 }
 utility::string_t RunExperimentRequest::getEvaluatorId() const
 {
-    return m_Evaluator_id;
+    return m_EvaluatorId;
 }
 
 
 void RunExperimentRequest::setEvaluatorId(const utility::string_t& value)
 {
-    m_Evaluator_id = value;
-    m_Evaluator_idIsSet = true;
+    m_EvaluatorId = value;
+    m_EvaluatorIdIsSet = true;
 }
 
 bool RunExperimentRequest::evaluatorIdIsSet() const
 {
-    return m_Evaluator_idIsSet;
+    return m_EvaluatorIdIsSet;
 }
 
-void RunExperimentRequest::unsetEvaluator_id()
+void RunExperimentRequest::unsetEvaluatorId()
 {
-    m_Evaluator_idIsSet = false;
+    m_EvaluatorIdIsSet = false;
 }
 utility::string_t RunExperimentRequest::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void RunExperimentRequest::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool RunExperimentRequest::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void RunExperimentRequest::unsetEvaluator_version_id()
+void RunExperimentRequest::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 std::shared_ptr<GatePolicy> RunExperimentRequest::getGatePolicy() const
 {
-    return m_Gate_policy;
+    return m_GatePolicy;
 }
 
 
 void RunExperimentRequest::setGatePolicy(const std::shared_ptr<GatePolicy>& value)
 {
-    m_Gate_policy = value;
-    m_Gate_policyIsSet = true;
+    m_GatePolicy = value;
+    m_GatePolicyIsSet = true;
 }
 
 bool RunExperimentRequest::gatePolicyIsSet() const
 {
-    return m_Gate_policyIsSet;
+    return m_GatePolicyIsSet;
 }
 
-void RunExperimentRequest::unsetGate_policy()
+void RunExperimentRequest::unsetGatePolicy()
 {
-    m_Gate_policyIsSet = false;
+    m_GatePolicyIsSet = false;
 }
 std::shared_ptr<EvaluatorKind> RunExperimentRequest::getKind() const
 {

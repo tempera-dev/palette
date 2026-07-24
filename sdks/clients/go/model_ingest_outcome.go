@@ -22,7 +22,7 @@ var _ MappedNullable = &IngestOutcome{}
 // IngestOutcome struct for IngestOutcome
 type IngestOutcome struct {
 	Ack WriteAck `json:"ack"`
-	DownstreamQueued bool `json:"downstream_queued"`
+	DownstreamQueued bool `json:"downstreamQueued"`
 }
 
 type _IngestOutcome IngestOutcome
@@ -105,7 +105,7 @@ func (o IngestOutcome) MarshalJSON() ([]byte, error) {
 func (o IngestOutcome) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["ack"] = o.Ack
-	toSerialize["downstream_queued"] = o.DownstreamQueued
+	toSerialize["downstreamQueued"] = o.DownstreamQueued
 	return toSerialize, nil
 }
 
@@ -115,7 +115,7 @@ func (o *IngestOutcome) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"ack",
-		"downstream_queued",
+		"downstreamQueued",
 	}
 
 	allProperties := make(map[string]interface{})

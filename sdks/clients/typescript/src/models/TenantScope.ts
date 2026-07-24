@@ -59,9 +59,9 @@ export function TenantScopeFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'environmentId': json['environment_id'],
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
+        'environmentId': json['environmentId'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -76,9 +76,9 @@ export function TenantScopeToJSONTyped(value?: TenantScope | null, ignoreDiscrim
 
     return {
         
-        'environment_id': value['environmentId'],
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
+        'environmentId': value['environmentId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
     };
 }
 

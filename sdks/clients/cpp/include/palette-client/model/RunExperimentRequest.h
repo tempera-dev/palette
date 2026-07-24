@@ -62,37 +62,37 @@ public:
 
     std::vector<std::shared_ptr<CaseOutputOverrideRequest>> getBaselineOutputs() const;
     bool baselineOutputsIsSet() const;
-    void unsetBaseline_outputs();
+    void unsetBaselineOutputs();
     void setBaselineOutputs(const std::vector<std::shared_ptr<CaseOutputOverrideRequest>>& value);
 
     utility::string_t getBaselineReleaseId() const;
     bool baselineReleaseIdIsSet() const;
-    void unsetBaseline_release_id();
+    void unsetBaselineReleaseId();
     void setBaselineReleaseId(const utility::string_t& value);
 
     std::vector<std::shared_ptr<CaseOutputOverrideRequest>> getCandidateOutputs() const;
     bool candidateOutputsIsSet() const;
-    void unsetCandidate_outputs();
+    void unsetCandidateOutputs();
     void setCandidateOutputs(const std::vector<std::shared_ptr<CaseOutputOverrideRequest>>& value);
 
     utility::string_t getCandidateReleaseId() const;
     bool candidateReleaseIdIsSet() const;
-    void unsetCandidate_release_id();
+    void unsetCandidateReleaseId();
     void setCandidateReleaseId(const utility::string_t& value);
 
     utility::string_t getEvaluatorId() const;
     bool evaluatorIdIsSet() const;
-    void unsetEvaluator_id();
+    void unsetEvaluatorId();
     void setEvaluatorId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     std::shared_ptr<GatePolicy> getGatePolicy() const;
     bool gatePolicyIsSet() const;
-    void unsetGate_policy();
+    void unsetGatePolicy();
     void setGatePolicy(const std::shared_ptr<GatePolicy>& value);
 
     std::shared_ptr<EvaluatorKind> getKind() const;
@@ -102,26 +102,26 @@ public:
 
 
 protected:
-    std::vector<std::shared_ptr<CaseOutputOverrideRequest>> m_Baseline_outputs;
-    bool m_Baseline_outputsIsSet;
+    std::vector<std::shared_ptr<CaseOutputOverrideRequest>> m_BaselineOutputs;
+    bool m_BaselineOutputsIsSet;
 
-    utility::string_t m_Baseline_release_id;
-    bool m_Baseline_release_idIsSet;
+    utility::string_t m_BaselineReleaseId;
+    bool m_BaselineReleaseIdIsSet;
 
-    std::vector<std::shared_ptr<CaseOutputOverrideRequest>> m_Candidate_outputs;
-    bool m_Candidate_outputsIsSet;
+    std::vector<std::shared_ptr<CaseOutputOverrideRequest>> m_CandidateOutputs;
+    bool m_CandidateOutputsIsSet;
 
-    utility::string_t m_Candidate_release_id;
-    bool m_Candidate_release_idIsSet;
+    utility::string_t m_CandidateReleaseId;
+    bool m_CandidateReleaseIdIsSet;
 
-    utility::string_t m_Evaluator_id;
-    bool m_Evaluator_idIsSet;
+    utility::string_t m_EvaluatorId;
+    bool m_EvaluatorIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    std::shared_ptr<GatePolicy> m_Gate_policy;
-    bool m_Gate_policyIsSet;
+    std::shared_ptr<GatePolicy> m_GatePolicy;
+    bool m_GatePolicyIsSet;
 
     std::shared_ptr<EvaluatorKind> m_Kind;
     bool m_KindIsSet;

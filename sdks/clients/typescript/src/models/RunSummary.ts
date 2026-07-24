@@ -143,18 +143,18 @@ export function RunSummaryFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'durationMs': json['duration_ms'] == null ? undefined : json['duration_ms'],
-        'endedAt': json['ended_at'] == null ? undefined : (new Date(json['ended_at'])),
-        'firstSpanName': json['first_span_name'],
+        'durationMs': json['durationMs'] == null ? undefined : json['durationMs'],
+        'endedAt': json['endedAt'] == null ? undefined : (new Date(json['endedAt'])),
+        'firstSpanName': json['firstSpanName'],
         'models': ((json['models'] as Array<any>).map(ModelRefFromJSON)),
-        'projectId': json['project_id'],
-        'releaseIds': json['release_ids'],
-        'spanCount': json['span_count'],
-        'startedAt': (new Date(json['started_at'])),
+        'projectId': json['projectId'],
+        'releaseIds': json['releaseIds'],
+        'spanCount': json['spanCount'],
+        'startedAt': (new Date(json['startedAt'])),
         'status': SpanStatusFromJSON(json['status']),
-        'tenantId': json['tenant_id'],
-        'totalCost': json['total_cost'] == null ? undefined : MoneyFromJSON(json['total_cost']),
-        'traceId': json['trace_id'],
+        'tenantId': json['tenantId'],
+        'totalCost': json['totalCost'] == null ? undefined : MoneyFromJSON(json['totalCost']),
+        'traceId': json['traceId'],
     };
 }
 
@@ -169,18 +169,18 @@ export function RunSummaryToJSONTyped(value?: RunSummary | null, ignoreDiscrimin
 
     return {
         
-        'duration_ms': value['durationMs'],
-        'ended_at': value['endedAt'] == null ? undefined : ((value['endedAt'] as any).toISOString()),
-        'first_span_name': value['firstSpanName'],
+        'durationMs': value['durationMs'],
+        'endedAt': value['endedAt'] == null ? undefined : ((value['endedAt'] as any).toISOString()),
+        'firstSpanName': value['firstSpanName'],
         'models': ((value['models'] as Array<any>).map(ModelRefToJSON)),
-        'project_id': value['projectId'],
-        'release_ids': value['releaseIds'],
-        'span_count': value['spanCount'],
-        'started_at': ((value['startedAt']).toISOString()),
+        'projectId': value['projectId'],
+        'releaseIds': value['releaseIds'],
+        'spanCount': value['spanCount'],
+        'startedAt': ((value['startedAt']).toISOString()),
         'status': SpanStatusToJSON(value['status']),
-        'tenant_id': value['tenantId'],
-        'total_cost': MoneyToJSON(value['totalCost']),
-        'trace_id': value['traceId'],
+        'tenantId': value['tenantId'],
+        'totalCost': MoneyToJSON(value['totalCost']),
+        'traceId': value['traceId'],
     };
 }
 

@@ -55,37 +55,37 @@ public:
 
     utility::string_t getAttributesJson() const;
     bool attributesJsonIsSet() const;
-    void unsetAttributes_json();
+    void unsetAttributesJson();
     void setAttributesJson(const utility::string_t& value);
 
     utility::string_t getCostAmountMicros() const;
     bool costAmountMicrosIsSet() const;
-    void unsetCost_amount_micros();
+    void unsetCostAmountMicros();
     void setCostAmountMicros(const utility::string_t& value);
 
     utility::string_t getCostCurrency() const;
     bool costCurrencyIsSet() const;
-    void unsetCost_currency();
+    void unsetCostCurrency();
     void setCostCurrency(const utility::string_t& value);
 
     utility::string_t getEndTime() const;
     bool endTimeIsSet() const;
-    void unsetEnd_time();
+    void unsetEndTime();
     void setEndTime(const utility::string_t& value);
 
     utility::string_t getEnvironmentId() const;
     bool environmentIdIsSet() const;
-    void unsetEnvironment_id();
+    void unsetEnvironmentId();
     void setEnvironmentId(const utility::string_t& value);
 
     utility::string_t getInputTokens() const;
     bool inputTokensIsSet() const;
-    void unsetInput_tokens();
+    void unsetInputTokens();
     void setInputTokens(const utility::string_t& value);
 
     utility::string_t getInputUri() const;
     bool inputUriIsSet() const;
-    void unsetInput_uri();
+    void unsetInputUri();
     void setInputUri(const utility::string_t& value);
 
     utility::string_t getKind() const;
@@ -95,12 +95,12 @@ public:
 
     utility::string_t getModelName() const;
     bool modelNameIsSet() const;
-    void unsetModel_name();
+    void unsetModelName();
     void setModelName(const utility::string_t& value);
 
     utility::string_t getModelProvider() const;
     bool modelProviderIsSet() const;
-    void unsetModel_provider();
+    void unsetModelProvider();
     void setModelProvider(const utility::string_t& value);
 
     utility::string_t getName() const;
@@ -110,32 +110,32 @@ public:
 
     utility::string_t getOutputTokens() const;
     bool outputTokensIsSet() const;
-    void unsetOutput_tokens();
+    void unsetOutputTokens();
     void setOutputTokens(const utility::string_t& value);
 
     utility::string_t getOutputUri() const;
     bool outputUriIsSet() const;
-    void unsetOutput_uri();
+    void unsetOutputUri();
     void setOutputUri(const utility::string_t& value);
 
     utility::string_t getParentSpanId() const;
     bool parentSpanIdIsSet() const;
-    void unsetParent_span_id();
+    void unsetParentSpanId();
     void setParentSpanId(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getRawUri() const;
     bool rawUriIsSet() const;
-    void unsetRaw_uri();
+    void unsetRawUri();
     void setRawUri(const utility::string_t& value);
 
     utility::string_t getReasoningTokens() const;
     bool reasoningTokensIsSet() const;
-    void unsetReasoning_tokens();
+    void unsetReasoningTokens();
     void setReasoningTokens(const utility::string_t& value);
 
     int64_t getSeq() const;
@@ -145,12 +145,12 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::string_t getStartTime() const;
     bool startTimeIsSet() const;
-    void unsetStart_time();
+    void unsetStartTime();
     void setStartTime(const utility::string_t& value);
 
     utility::string_t getStatus() const;
@@ -160,92 +160,92 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
     utility::string_t getUnmappedJson() const;
     bool unmappedJsonIsSet() const;
-    void unsetUnmapped_json();
+    void unsetUnmappedJson();
     void setUnmappedJson(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Attributes_json;
-    bool m_Attributes_jsonIsSet;
+    utility::string_t m_AttributesJson;
+    bool m_AttributesJsonIsSet;
 
-    utility::string_t m_Cost_amount_micros;
-    bool m_Cost_amount_microsIsSet;
+    utility::string_t m_CostAmountMicros;
+    bool m_CostAmountMicrosIsSet;
 
-    utility::string_t m_Cost_currency;
-    bool m_Cost_currencyIsSet;
+    utility::string_t m_CostCurrency;
+    bool m_CostCurrencyIsSet;
 
-    utility::string_t m_End_time;
-    bool m_End_timeIsSet;
+    utility::string_t m_EndTime;
+    bool m_EndTimeIsSet;
 
-    utility::string_t m_Environment_id;
-    bool m_Environment_idIsSet;
+    utility::string_t m_EnvironmentId;
+    bool m_EnvironmentIdIsSet;
 
-    utility::string_t m_Input_tokens;
-    bool m_Input_tokensIsSet;
+    utility::string_t m_InputTokens;
+    bool m_InputTokensIsSet;
 
-    utility::string_t m_Input_uri;
-    bool m_Input_uriIsSet;
+    utility::string_t m_InputUri;
+    bool m_InputUriIsSet;
 
     utility::string_t m_Kind;
     bool m_KindIsSet;
 
-    utility::string_t m_Model_name;
-    bool m_Model_nameIsSet;
+    utility::string_t m_ModelName;
+    bool m_ModelNameIsSet;
 
-    utility::string_t m_Model_provider;
-    bool m_Model_providerIsSet;
+    utility::string_t m_ModelProvider;
+    bool m_ModelProviderIsSet;
 
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    utility::string_t m_Output_tokens;
-    bool m_Output_tokensIsSet;
+    utility::string_t m_OutputTokens;
+    bool m_OutputTokensIsSet;
 
-    utility::string_t m_Output_uri;
-    bool m_Output_uriIsSet;
+    utility::string_t m_OutputUri;
+    bool m_OutputUriIsSet;
 
-    utility::string_t m_Parent_span_id;
-    bool m_Parent_span_idIsSet;
+    utility::string_t m_ParentSpanId;
+    bool m_ParentSpanIdIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Raw_uri;
-    bool m_Raw_uriIsSet;
+    utility::string_t m_RawUri;
+    bool m_RawUriIsSet;
 
-    utility::string_t m_Reasoning_tokens;
-    bool m_Reasoning_tokensIsSet;
+    utility::string_t m_ReasoningTokens;
+    bool m_ReasoningTokensIsSet;
 
     int64_t m_Seq;
     bool m_SeqIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
-    utility::string_t m_Start_time;
-    bool m_Start_timeIsSet;
+    utility::string_t m_StartTime;
+    bool m_StartTimeIsSet;
 
     utility::string_t m_Status;
     bool m_StatusIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
-    utility::string_t m_Unmapped_json;
-    bool m_Unmapped_jsonIsSet;
+    utility::string_t m_UnmappedJson;
+    bool m_UnmappedJsonIsSet;
 
 };
 

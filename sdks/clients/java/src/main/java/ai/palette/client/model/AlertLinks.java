@@ -44,16 +44,16 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class AlertLinks {
-  public static final String JSON_PROPERTY_CLUSTER_URL = "cluster_url";
+  public static final String JSON_PROPERTY_CLUSTER_URL = "clusterUrl";
   private JsonNullable<String> clusterUrl = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_DATASET_URL = "dataset_url";
+  public static final String JSON_PROPERTY_DATASET_URL = "datasetUrl";
   private JsonNullable<String> datasetUrl = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_GATE_URL = "gate_url";
+  public static final String JSON_PROPERTY_GATE_URL = "gateUrl";
   private JsonNullable<String> gateUrl = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_URL = "trace_url";
+  public static final String JSON_PROPERTY_TRACE_URL = "traceUrl";
   @javax.annotation.Nonnull
   private String traceUrl;
 
@@ -269,24 +269,24 @@ public class AlertLinks {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `cluster_url` to the URL query string
+    // add `clusterUrl` to the URL query string
     if (getClusterUrl() != null) {
-      joiner.add(String.format("%scluster_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClusterUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclusterUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClusterUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_url` to the URL query string
+    // add `datasetUrl` to the URL query string
     if (getDatasetUrl() != null) {
-      joiner.add(String.format("%sdataset_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `gate_url` to the URL query string
+    // add `gateUrl` to the URL query string
     if (getGateUrl() != null) {
-      joiner.add(String.format("%sgate_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGateUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sgateUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGateUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_url` to the URL query string
+    // add `traceUrl` to the URL query string
     if (getTraceUrl() != null) {
-      joiner.add(String.format("%strace_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

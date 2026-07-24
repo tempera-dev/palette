@@ -76,7 +76,7 @@ cJSON *connection_status_convertToJSON(connection_status_t *connection_status) {
 
     // connection_status->connected_account_id
     if(connection_status->connected_account_id) {
-    if(cJSON_AddStringToObject(item, "connected_account_id", connection_status->connected_account_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "connectedAccountId", connection_status->connected_account_id) == NULL) {
     goto fail; //String
     }
     }
@@ -127,7 +127,7 @@ connection_status_t *connection_status_parseFromJSON(cJSON *connection_statusJSO
     }
 
     // connection_status->connected_account_id
-    cJSON *connected_account_id = cJSON_GetObjectItemCaseSensitive(connection_statusJSON, "connected_account_id");
+    cJSON *connected_account_id = cJSON_GetObjectItemCaseSensitive(connection_statusJSON, "connectedAccountId");
     if (cJSON_IsNull(connected_account_id)) {
         connected_account_id = NULL;
     }

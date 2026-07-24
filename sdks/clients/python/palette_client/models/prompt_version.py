@@ -30,13 +30,13 @@ class PromptVersion(BaseModel):
     PromptVersion
     """ # noqa: E501
     metadata: PromptVersionMetadata
-    project_id: StrictStr
-    prompt_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
+    prompt_id: StrictStr = Field(alias="promptId")
     template: PromptTemplate
-    tenant_id: StrictStr
-    version_id: StrictStr
-    version_number: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["metadata", "project_id", "prompt_id", "template", "tenant_id", "version_id", "version_number"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    version_id: StrictStr = Field(alias="versionId")
+    version_number: Annotated[int, Field(strict=True, ge=0)] = Field(alias="versionNumber")
+    __properties: ClassVar[List[str]] = ["metadata", "projectId", "promptId", "template", "tenantId", "versionId", "versionNumber"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,12 +96,12 @@ class PromptVersion(BaseModel):
 
         _obj = cls.model_validate({
             "metadata": PromptVersionMetadata.from_dict(obj["metadata"]) if obj.get("metadata") is not None else None,
-            "project_id": obj.get("project_id"),
-            "prompt_id": obj.get("prompt_id"),
+            "projectId": obj.get("projectId"),
+            "promptId": obj.get("promptId"),
             "template": PromptTemplate.from_dict(obj["template"]) if obj.get("template") is not None else None,
-            "tenant_id": obj.get("tenant_id"),
-            "version_id": obj.get("version_id"),
-            "version_number": obj.get("version_number")
+            "tenantId": obj.get("tenantId"),
+            "versionId": obj.get("versionId"),
+            "versionNumber": obj.get("versionNumber")
         })
         return _obj
 

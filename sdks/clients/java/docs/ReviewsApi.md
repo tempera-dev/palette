@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**reviewsCreateQueue**](ReviewsApi.md#reviewsCreateQueue) | **POST** /v1/review-queues/{tenant_id}/{project_id} |  |
-| [**reviewsCreateQueueWithHttpInfo**](ReviewsApi.md#reviewsCreateQueueWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id} |  |
-| [**reviewsEnqueueTaskFromTrace**](ReviewsApi.md#reviewsEnqueueTaskFromTrace) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |  |
-| [**reviewsEnqueueTaskFromTraceWithHttpInfo**](ReviewsApi.md#reviewsEnqueueTaskFromTraceWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace |  |
-| [**reviewsListTasks**](ReviewsApi.md#reviewsListTasks) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |  |
-| [**reviewsListTasksWithHttpInfo**](ReviewsApi.md#reviewsListTasksWithHttpInfo) | **GET** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks |  |
-| [**reviewsPromoteAnnotation**](ReviewsApi.md#reviewsPromoteAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |  |
-| [**reviewsPromoteAnnotationWithHttpInfo**](ReviewsApi.md#reviewsPromoteAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote |  |
-| [**reviewsSubmitAnnotation**](ReviewsApi.md#reviewsSubmitAnnotation) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |  |
-| [**reviewsSubmitAnnotationWithHttpInfo**](ReviewsApi.md#reviewsSubmitAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations |  |
+| [**reviewsCreateQueue**](ReviewsApi.md#reviewsCreateQueue) | **POST** /v1/review-queues/{tenantId}/{projectId} |  |
+| [**reviewsCreateQueueWithHttpInfo**](ReviewsApi.md#reviewsCreateQueueWithHttpInfo) | **POST** /v1/review-queues/{tenantId}/{projectId} |  |
+| [**reviewsEnqueueTaskFromTrace**](ReviewsApi.md#reviewsEnqueueTaskFromTrace) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace |  |
+| [**reviewsEnqueueTaskFromTraceWithHttpInfo**](ReviewsApi.md#reviewsEnqueueTaskFromTraceWithHttpInfo) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace |  |
+| [**reviewsListTasks**](ReviewsApi.md#reviewsListTasks) | **GET** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks |  |
+| [**reviewsListTasksWithHttpInfo**](ReviewsApi.md#reviewsListTasksWithHttpInfo) | **GET** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks |  |
+| [**reviewsPromoteAnnotation**](ReviewsApi.md#reviewsPromoteAnnotation) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote |  |
+| [**reviewsPromoteAnnotationWithHttpInfo**](ReviewsApi.md#reviewsPromoteAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote |  |
+| [**reviewsSubmitAnnotation**](ReviewsApi.md#reviewsSubmitAnnotation) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations |  |
+| [**reviewsSubmitAnnotationWithHttpInfo**](ReviewsApi.md#reviewsSubmitAnnotationWithHttpInfo) | **POST** /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations |  |
 
 
 

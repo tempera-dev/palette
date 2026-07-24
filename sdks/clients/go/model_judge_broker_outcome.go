@@ -22,7 +22,7 @@ var _ MappedNullable = &JudgeBrokerOutcome{}
 // JudgeBrokerOutcome struct for JudgeBrokerOutcome
 type JudgeBrokerOutcome struct {
 	Audit JudgeAuditRecord `json:"audit"`
-	RemainingBudget Money `json:"remaining_budget"`
+	RemainingBudget Money `json:"remainingBudget"`
 	Result ScoreResult `json:"result"`
 }
 
@@ -131,7 +131,7 @@ func (o JudgeBrokerOutcome) MarshalJSON() ([]byte, error) {
 func (o JudgeBrokerOutcome) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["audit"] = o.Audit
-	toSerialize["remaining_budget"] = o.RemainingBudget
+	toSerialize["remainingBudget"] = o.RemainingBudget
 	toSerialize["result"] = o.Result
 	return toSerialize, nil
 }
@@ -142,7 +142,7 @@ func (o *JudgeBrokerOutcome) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"audit",
-		"remaining_budget",
+		"remainingBudget",
 		"result",
 	}
 

@@ -15,11 +15,11 @@ use serde::{Deserialize, Serialize};
 pub struct GatePolicy {
     #[serde(rename = "alpha")]
     pub alpha: f64,
-    #[serde(rename = "comparison_count")]
+    #[serde(rename = "comparisonCount")]
     pub comparison_count: i32,
-    #[serde(rename = "max_regression")]
+    #[serde(rename = "maxRegression")]
     pub max_regression: f64,
-    #[serde(rename = "min_sample_size")]
+    #[serde(rename = "minSampleSize")]
     pub min_sample_size: i32,
 }
 

@@ -28,9 +28,9 @@ class ToolExecution(BaseModel):
     """ # noqa: E501
     data: Optional[Dict[str, Any]] = Field(default=None, description="Tool output payload (shape is tool-specific).")
     error: Optional[StrictStr] = Field(default=None, description="Error message when `successful` is false.")
-    log_id: Optional[StrictStr] = Field(default=None, description="Composio execution log id, for tracing.")
+    log_id: Optional[StrictStr] = Field(default=None, description="Composio execution log id, for tracing.", alias="logId")
     successful: StrictBool = Field(description="Whether the tool reported success.")
-    __properties: ClassVar[List[str]] = ["data", "error", "log_id", "successful"]
+    __properties: ClassVar[List[str]] = ["data", "error", "logId", "successful"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,7 +79,7 @@ class ToolExecution(BaseModel):
         # set to None if log_id (nullable) is None
         # and model_fields_set contains the field
         if self.log_id is None and "log_id" in self.model_fields_set:
-            _dict['log_id'] = None
+            _dict['logId'] = None
 
         return _dict
 
@@ -95,7 +95,7 @@ class ToolExecution(BaseModel):
         _obj = cls.model_validate({
             "data": obj.get("data"),
             "error": obj.get("error"),
-            "log_id": obj.get("log_id"),
+            "logId": obj.get("logId"),
             "successful": obj.get("successful")
         })
         return _obj

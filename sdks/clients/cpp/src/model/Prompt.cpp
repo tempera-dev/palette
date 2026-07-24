@@ -20,20 +20,20 @@ namespace model {
 
 Prompt::Prompt()
 {
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
     m_Description = utility::conversions::to_string_t("");
     m_DescriptionIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Prompt_id = utility::conversions::to_string_t("");
-    m_Prompt_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Updated_at = utility::datetime();
-    m_Updated_atIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_PromptId = utility::conversions::to_string_t("");
+    m_PromptIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_UpdatedAt = utility::datetime();
+    m_UpdatedAtIsSet = false;
 }
 
 Prompt::~Prompt()
@@ -48,10 +48,10 @@ void Prompt::validate()
 web::json::value Prompt::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
     if(m_DescriptionIsSet)
     {   
@@ -63,25 +63,25 @@ web::json::value Prompt::toJson() const
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Prompt_idIsSet)
+    if(m_PromptIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("prompt_id"))] = ModelBase::toJson(m_Prompt_id);
+        val[utility::conversions::to_string_t(U("promptId"))] = ModelBase::toJson(m_PromptId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Updated_atIsSet)
+    if(m_UpdatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("updated_at"))] = ModelBase::toJson(m_Updated_at);
+        val[utility::conversions::to_string_t(U("updatedAt"))] = ModelBase::toJson(m_UpdatedAt);
     }
 
     return val;
@@ -90,9 +90,9 @@ web::json::value Prompt::toJson() const
 bool Prompt::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -123,9 +123,9 @@ bool Prompt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -134,9 +134,9 @@ bool Prompt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("prompt_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("promptId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("prompt_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("promptId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPromptId;
@@ -145,9 +145,9 @@ bool Prompt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -156,9 +156,9 @@ bool Prompt::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("updated_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("updatedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("updated_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("updatedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setUpdatedAt;
@@ -177,9 +177,9 @@ void Prompt::toMultipart(std::shared_ptr<MultipartFormData> multipart, const uti
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
     if(m_DescriptionIsSet)
     {
@@ -189,21 +189,21 @@ void Prompt::toMultipart(std::shared_ptr<MultipartFormData> multipart, const uti
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Prompt_idIsSet)
+    if(m_PromptIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("prompt_id")), m_Prompt_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("promptId")), m_PromptId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Updated_atIsSet)
+    if(m_UpdatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("updated_at")), m_Updated_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("updatedAt")), m_UpdatedAt));
     }
 }
 
@@ -216,10 +216,10 @@ bool Prompt::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const u
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("description"))))
@@ -234,28 +234,28 @@ bool Prompt::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const u
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("prompt_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("promptId"))))
     {
         utility::string_t refVal_setPromptId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("prompt_id"))), refVal_setPromptId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("promptId"))), refVal_setPromptId );
         setPromptId(refVal_setPromptId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("updated_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("updatedAt"))))
     {
         utility::datetime refVal_setUpdatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("updated_at"))), refVal_setUpdatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("updatedAt"))), refVal_setUpdatedAt );
         setUpdatedAt(refVal_setUpdatedAt);
     }
     return ok;
@@ -264,24 +264,24 @@ bool Prompt::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const u
 
 utility::datetime Prompt::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void Prompt::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool Prompt::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void Prompt::unsetCreated_at()
+void Prompt::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t Prompt::getDescription() const
 {
@@ -327,87 +327,87 @@ void Prompt::unsetName()
 }
 utility::string_t Prompt::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void Prompt::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool Prompt::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void Prompt::unsetProject_id()
+void Prompt::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t Prompt::getPromptId() const
 {
-    return m_Prompt_id;
+    return m_PromptId;
 }
 
 
 void Prompt::setPromptId(const utility::string_t& value)
 {
-    m_Prompt_id = value;
-    m_Prompt_idIsSet = true;
+    m_PromptId = value;
+    m_PromptIdIsSet = true;
 }
 
 bool Prompt::promptIdIsSet() const
 {
-    return m_Prompt_idIsSet;
+    return m_PromptIdIsSet;
 }
 
-void Prompt::unsetPrompt_id()
+void Prompt::unsetPromptId()
 {
-    m_Prompt_idIsSet = false;
+    m_PromptIdIsSet = false;
 }
 utility::string_t Prompt::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void Prompt::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool Prompt::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void Prompt::unsetTenant_id()
+void Prompt::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::datetime Prompt::getUpdatedAt() const
 {
-    return m_Updated_at;
+    return m_UpdatedAt;
 }
 
 
 void Prompt::setUpdatedAt(const utility::datetime& value)
 {
-    m_Updated_at = value;
-    m_Updated_atIsSet = true;
+    m_UpdatedAt = value;
+    m_UpdatedAtIsSet = true;
 }
 
 bool Prompt::updatedAtIsSet() const
 {
-    return m_Updated_atIsSet;
+    return m_UpdatedAtIsSet;
 }
 
-void Prompt::unsetUpdated_at()
+void Prompt::unsetUpdatedAt()
 {
-    m_Updated_atIsSet = false;
+    m_UpdatedAtIsSet = false;
 }
 
 }

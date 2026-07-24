@@ -183,11 +183,11 @@ public class EvalsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{dataset_id}", ApiClient.urlEncode(datasetId.toString()))
-        .replace("{version_id}", ApiClient.urlEncode(versionId.toString()));
+    String localVarPath = "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{datasetId}", ApiClient.urlEncode(datasetId.toString()))
+        .replace("{versionId}", ApiClient.urlEncode(versionId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -320,11 +320,11 @@ public class EvalsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{dataset_id}", ApiClient.urlEncode(datasetId.toString()))
-        .replace("{version_id}", ApiClient.urlEncode(versionId.toString()));
+    String localVarPath = "/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{datasetId}", ApiClient.urlEncode(datasetId.toString()))
+        .replace("{versionId}", ApiClient.urlEncode(versionId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

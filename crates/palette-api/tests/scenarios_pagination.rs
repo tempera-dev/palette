@@ -68,21 +68,21 @@ async fn create_scenario(app: &Router, suffix: &str) -> String {
         "/v1/scenarios/tenant-a/project-a",
         Some(json!({
             "title": format!("scenario-{suffix}"),
-            "failure_mode": "wrong_output",
-            "source_trace_ids": [format!("trace-{suffix}")],
-            "expected_outcome": "pass"
+            "failureMode": "wrong_output",
+            "sourceTraceIds": [format!("trace-{suffix}")],
+            "expectedOutcome": "pass"
         })),
     )
     .await;
     assert_eq!(status, StatusCode::OK, "create response: {body}");
-    body.pointer("/scenario_id")
+    body.pointer("/scenarioId")
         .and_then(Value::as_str)
-        .unwrap_or_else(|| panic!("missing scenario_id: {body}"))
+        .unwrap_or_else(|| panic!("missing scenarioId: {body}"))
         .to_string()
 }
 
 fn first_scenario_id(body: &Value) -> String {
-    body.pointer("/scenarios/0/scenario_id")
+    body.pointer("/scenarios/0/scenarioId")
         .and_then(Value::as_str)
         .unwrap_or_else(|| panic!("missing paged scenario: {body}"))
         .to_string()
@@ -185,7 +185,7 @@ async fn openapi_matches_the_scenario_pagination_wire_contract() {
     let (status, spec) = send(&app, "GET", "/openapi.json", None).await;
     assert_eq!(status, StatusCode::OK);
 
-    let operation = &spec["paths"]["/v1/scenarios/{tenant_id}/{project_id}"]["get"];
+    let operation = &spec["paths"]["/v1/scenarios/{tenantId}/{projectId}"]["get"];
     let parameter_names: BTreeSet<&str> = operation["parameters"]
         .as_array()
         .unwrap_or_else(|| panic!("scenario parameters must be an array"))

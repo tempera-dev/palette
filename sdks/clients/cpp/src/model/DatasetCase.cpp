@@ -20,31 +20,31 @@ namespace model {
 
 DatasetCase::DatasetCase()
 {
-    m_Case_id = utility::conversions::to_string_t("");
-    m_Case_idIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
+    m_CaseId = utility::conversions::to_string_t("");
+    m_CaseIdIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
     m_InputIsSet = false;
-    m_Input_artifact_hashesIsSet = false;
-    m_Normalizer_version = utility::conversions::to_string_t("");
-    m_Normalizer_versionIsSet = false;
+    m_InputArtifactHashesIsSet = false;
+    m_NormalizerVersion = utility::conversions::to_string_t("");
+    m_NormalizerVersionIsSet = false;
     m_OutputIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_ReferenceIsSet = false;
-    m_Source_environment_id = utility::conversions::to_string_t("");
-    m_Source_environment_idIsSet = false;
-    m_Source_span_id = utility::conversions::to_string_t("");
-    m_Source_span_idIsSet = false;
-    m_Source_trace_id = utility::conversions::to_string_t("");
-    m_Source_trace_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_SourceEnvironmentId = utility::conversions::to_string_t("");
+    m_SourceEnvironmentIdIsSet = false;
+    m_SourceSpanId = utility::conversions::to_string_t("");
+    m_SourceSpanIdIsSet = false;
+    m_SourceTraceId = utility::conversions::to_string_t("");
+    m_SourceTraceIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_TraceIsSet = false;
-    m_Trace_schema_version = 0;
-    m_Trace_schema_versionIsSet = false;
+    m_TraceSchemaVersion = 0;
+    m_TraceSchemaVersionIsSet = false;
 }
 
 DatasetCase::~DatasetCase()
@@ -59,80 +59,80 @@ void DatasetCase::validate()
 web::json::value DatasetCase::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Case_idIsSet)
+    if(m_CaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("case_id"))] = ModelBase::toJson(m_Case_id);
+        val[utility::conversions::to_string_t(U("caseId"))] = ModelBase::toJson(m_CaseId);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
     if(m_InputIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("input"))] = ModelBase::toJson(m_Input);
     }
-    if(m_Input_artifact_hashesIsSet)
+    if(m_InputArtifactHashesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("input_artifact_hashes"))] = ModelBase::toJson(m_Input_artifact_hashes);
+        val[utility::conversions::to_string_t(U("inputArtifactHashes"))] = ModelBase::toJson(m_InputArtifactHashes);
     }
-    if(m_Normalizer_versionIsSet)
+    if(m_NormalizerVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("normalizer_version"))] = ModelBase::toJson(m_Normalizer_version);
+        val[utility::conversions::to_string_t(U("normalizerVersion"))] = ModelBase::toJson(m_NormalizerVersion);
     }
     if(m_OutputIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("output"))] = ModelBase::toJson(m_Output);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ReferenceIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("reference"))] = ModelBase::toJson(m_Reference);
     }
-    if(m_Source_environment_idIsSet)
+    if(m_SourceEnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("source_environment_id"))] = ModelBase::toJson(m_Source_environment_id);
+        val[utility::conversions::to_string_t(U("sourceEnvironmentId"))] = ModelBase::toJson(m_SourceEnvironmentId);
     }
-    if(m_Source_span_idIsSet)
+    if(m_SourceSpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("source_span_id"))] = ModelBase::toJson(m_Source_span_id);
+        val[utility::conversions::to_string_t(U("sourceSpanId"))] = ModelBase::toJson(m_SourceSpanId);
     }
-    if(m_Source_trace_idIsSet)
+    if(m_SourceTraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("source_trace_id"))] = ModelBase::toJson(m_Source_trace_id);
+        val[utility::conversions::to_string_t(U("sourceTraceId"))] = ModelBase::toJson(m_SourceTraceId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TraceIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("trace"))] = ModelBase::toJson(m_Trace);
     }
-    if(m_Trace_schema_versionIsSet)
+    if(m_TraceSchemaVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_schema_version"))] = ModelBase::toJson(m_Trace_schema_version);
+        val[utility::conversions::to_string_t(U("traceSchemaVersion"))] = ModelBase::toJson(m_TraceSchemaVersion);
     }
 
     return val;
@@ -141,9 +141,9 @@ web::json::value DatasetCase::toJson() const
 bool DatasetCase::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("caseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("caseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCaseId;
@@ -152,9 +152,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -163,9 +163,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -185,9 +185,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("input_artifact_hashes"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inputArtifactHashes"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("input_artifact_hashes")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inputArtifactHashes")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<utility::string_t>> refVal_setInputArtifactHashes;
@@ -196,9 +196,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("normalizer_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("normalizerVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("normalizer_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("normalizerVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setNormalizerVersion;
@@ -218,9 +218,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -240,9 +240,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("source_environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sourceEnvironmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("source_environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sourceEnvironmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSourceEnvironmentId;
@@ -251,9 +251,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("source_span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sourceSpanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("source_span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sourceSpanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSourceSpanId;
@@ -262,9 +262,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("source_trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sourceTraceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("source_trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sourceTraceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSourceTraceId;
@@ -273,9 +273,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -295,9 +295,9 @@ bool DatasetCase::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_schema_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceSchemaVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_schema_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceSchemaVersion")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setTraceSchemaVersion;
@@ -316,65 +316,65 @@ void DatasetCase::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Case_idIsSet)
+    if(m_CaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("case_id")), m_Case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("caseId")), m_CaseId));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
     if(m_InputIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input")), m_Input));
     }
-    if(m_Input_artifact_hashesIsSet)
+    if(m_InputArtifactHashesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input_artifact_hashes")), m_Input_artifact_hashes));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inputArtifactHashes")), m_InputArtifactHashes));
     }
-    if(m_Normalizer_versionIsSet)
+    if(m_NormalizerVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("normalizer_version")), m_Normalizer_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("normalizerVersion")), m_NormalizerVersion));
     }
     if(m_OutputIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("output")), m_Output));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ReferenceIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reference")), m_Reference));
     }
-    if(m_Source_environment_idIsSet)
+    if(m_SourceEnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("source_environment_id")), m_Source_environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sourceEnvironmentId")), m_SourceEnvironmentId));
     }
-    if(m_Source_span_idIsSet)
+    if(m_SourceSpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("source_span_id")), m_Source_span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sourceSpanId")), m_SourceSpanId));
     }
-    if(m_Source_trace_idIsSet)
+    if(m_SourceTraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("source_trace_id")), m_Source_trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sourceTraceId")), m_SourceTraceId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_TraceIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace")), m_Trace));
     }
-    if(m_Trace_schema_versionIsSet)
+    if(m_TraceSchemaVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_schema_version")), m_Trace_schema_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceSchemaVersion")), m_TraceSchemaVersion));
     }
 }
 
@@ -387,22 +387,22 @@ bool DatasetCase::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("caseId"))))
     {
         utility::string_t refVal_setCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("case_id"))), refVal_setCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("caseId"))), refVal_setCaseId );
         setCaseId(refVal_setCaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("input"))))
@@ -411,16 +411,16 @@ bool DatasetCase::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input"))), refVal_setInput );
         setInput(refVal_setInput);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("input_artifact_hashes"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inputArtifactHashes"))))
     {
         std::vector<std::shared_ptr<utility::string_t>> refVal_setInputArtifactHashes;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input_artifact_hashes"))), refVal_setInputArtifactHashes );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inputArtifactHashes"))), refVal_setInputArtifactHashes );
         setInputArtifactHashes(refVal_setInputArtifactHashes);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("normalizer_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("normalizerVersion"))))
     {
         utility::string_t refVal_setNormalizerVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("normalizer_version"))), refVal_setNormalizerVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("normalizerVersion"))), refVal_setNormalizerVersion );
         setNormalizerVersion(refVal_setNormalizerVersion);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("output"))))
@@ -429,10 +429,10 @@ bool DatasetCase::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("output"))), refVal_setOutput );
         setOutput(refVal_setOutput);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("reference"))))
@@ -441,28 +441,28 @@ bool DatasetCase::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reference"))), refVal_setReference );
         setReference(refVal_setReference);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("source_environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sourceEnvironmentId"))))
     {
         utility::string_t refVal_setSourceEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("source_environment_id"))), refVal_setSourceEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sourceEnvironmentId"))), refVal_setSourceEnvironmentId );
         setSourceEnvironmentId(refVal_setSourceEnvironmentId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("source_span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sourceSpanId"))))
     {
         utility::string_t refVal_setSourceSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("source_span_id"))), refVal_setSourceSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sourceSpanId"))), refVal_setSourceSpanId );
         setSourceSpanId(refVal_setSourceSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("source_trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sourceTraceId"))))
     {
         utility::string_t refVal_setSourceTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("source_trace_id"))), refVal_setSourceTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sourceTraceId"))), refVal_setSourceTraceId );
         setSourceTraceId(refVal_setSourceTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("trace"))))
@@ -471,10 +471,10 @@ bool DatasetCase::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace"))), refVal_setTrace );
         setTrace(refVal_setTrace);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_schema_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceSchemaVersion"))))
     {
         int32_t refVal_setTraceSchemaVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_schema_version"))), refVal_setTraceSchemaVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceSchemaVersion"))), refVal_setTraceSchemaVersion );
         setTraceSchemaVersion(refVal_setTraceSchemaVersion);
     }
     return ok;
@@ -483,66 +483,66 @@ bool DatasetCase::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 
 utility::string_t DatasetCase::getCaseId() const
 {
-    return m_Case_id;
+    return m_CaseId;
 }
 
 
 void DatasetCase::setCaseId(const utility::string_t& value)
 {
-    m_Case_id = value;
-    m_Case_idIsSet = true;
+    m_CaseId = value;
+    m_CaseIdIsSet = true;
 }
 
 bool DatasetCase::caseIdIsSet() const
 {
-    return m_Case_idIsSet;
+    return m_CaseIdIsSet;
 }
 
-void DatasetCase::unsetCase_id()
+void DatasetCase::unsetCaseId()
 {
-    m_Case_idIsSet = false;
+    m_CaseIdIsSet = false;
 }
 utility::datetime DatasetCase::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void DatasetCase::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool DatasetCase::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void DatasetCase::unsetCreated_at()
+void DatasetCase::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t DatasetCase::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void DatasetCase::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool DatasetCase::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void DatasetCase::unsetDataset_id()
+void DatasetCase::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 std::shared_ptr<AnyType> DatasetCase::getInput() const
 {
@@ -567,45 +567,45 @@ void DatasetCase::unsetInput()
 }
 std::vector<std::shared_ptr<utility::string_t>> DatasetCase::getInputArtifactHashes() const
 {
-    return m_Input_artifact_hashes;
+    return m_InputArtifactHashes;
 }
 
 
 void DatasetCase::setInputArtifactHashes(const std::vector<std::shared_ptr<utility::string_t>>& value)
 {
-    m_Input_artifact_hashes = value;
-    m_Input_artifact_hashesIsSet = true;
+    m_InputArtifactHashes = value;
+    m_InputArtifactHashesIsSet = true;
 }
 
 bool DatasetCase::inputArtifactHashesIsSet() const
 {
-    return m_Input_artifact_hashesIsSet;
+    return m_InputArtifactHashesIsSet;
 }
 
-void DatasetCase::unsetInput_artifact_hashes()
+void DatasetCase::unsetInputArtifactHashes()
 {
-    m_Input_artifact_hashesIsSet = false;
+    m_InputArtifactHashesIsSet = false;
 }
 utility::string_t DatasetCase::getNormalizerVersion() const
 {
-    return m_Normalizer_version;
+    return m_NormalizerVersion;
 }
 
 
 void DatasetCase::setNormalizerVersion(const utility::string_t& value)
 {
-    m_Normalizer_version = value;
-    m_Normalizer_versionIsSet = true;
+    m_NormalizerVersion = value;
+    m_NormalizerVersionIsSet = true;
 }
 
 bool DatasetCase::normalizerVersionIsSet() const
 {
-    return m_Normalizer_versionIsSet;
+    return m_NormalizerVersionIsSet;
 }
 
-void DatasetCase::unsetNormalizer_version()
+void DatasetCase::unsetNormalizerVersion()
 {
-    m_Normalizer_versionIsSet = false;
+    m_NormalizerVersionIsSet = false;
 }
 std::shared_ptr<AnyType> DatasetCase::getOutput() const
 {
@@ -630,24 +630,24 @@ void DatasetCase::unsetOutput()
 }
 utility::string_t DatasetCase::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void DatasetCase::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool DatasetCase::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void DatasetCase::unsetProject_id()
+void DatasetCase::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::shared_ptr<AnyType> DatasetCase::getReference() const
 {
@@ -672,87 +672,87 @@ void DatasetCase::unsetReference()
 }
 utility::string_t DatasetCase::getSourceEnvironmentId() const
 {
-    return m_Source_environment_id;
+    return m_SourceEnvironmentId;
 }
 
 
 void DatasetCase::setSourceEnvironmentId(const utility::string_t& value)
 {
-    m_Source_environment_id = value;
-    m_Source_environment_idIsSet = true;
+    m_SourceEnvironmentId = value;
+    m_SourceEnvironmentIdIsSet = true;
 }
 
 bool DatasetCase::sourceEnvironmentIdIsSet() const
 {
-    return m_Source_environment_idIsSet;
+    return m_SourceEnvironmentIdIsSet;
 }
 
-void DatasetCase::unsetSource_environment_id()
+void DatasetCase::unsetSourceEnvironmentId()
 {
-    m_Source_environment_idIsSet = false;
+    m_SourceEnvironmentIdIsSet = false;
 }
 utility::string_t DatasetCase::getSourceSpanId() const
 {
-    return m_Source_span_id;
+    return m_SourceSpanId;
 }
 
 
 void DatasetCase::setSourceSpanId(const utility::string_t& value)
 {
-    m_Source_span_id = value;
-    m_Source_span_idIsSet = true;
+    m_SourceSpanId = value;
+    m_SourceSpanIdIsSet = true;
 }
 
 bool DatasetCase::sourceSpanIdIsSet() const
 {
-    return m_Source_span_idIsSet;
+    return m_SourceSpanIdIsSet;
 }
 
-void DatasetCase::unsetSource_span_id()
+void DatasetCase::unsetSourceSpanId()
 {
-    m_Source_span_idIsSet = false;
+    m_SourceSpanIdIsSet = false;
 }
 utility::string_t DatasetCase::getSourceTraceId() const
 {
-    return m_Source_trace_id;
+    return m_SourceTraceId;
 }
 
 
 void DatasetCase::setSourceTraceId(const utility::string_t& value)
 {
-    m_Source_trace_id = value;
-    m_Source_trace_idIsSet = true;
+    m_SourceTraceId = value;
+    m_SourceTraceIdIsSet = true;
 }
 
 bool DatasetCase::sourceTraceIdIsSet() const
 {
-    return m_Source_trace_idIsSet;
+    return m_SourceTraceIdIsSet;
 }
 
-void DatasetCase::unsetSource_trace_id()
+void DatasetCase::unsetSourceTraceId()
 {
-    m_Source_trace_idIsSet = false;
+    m_SourceTraceIdIsSet = false;
 }
 utility::string_t DatasetCase::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void DatasetCase::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool DatasetCase::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void DatasetCase::unsetTenant_id()
+void DatasetCase::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 std::shared_ptr<AnyType> DatasetCase::getTrace() const
 {
@@ -777,23 +777,23 @@ void DatasetCase::unsetTrace()
 }
 int32_t DatasetCase::getTraceSchemaVersion() const
 {
-    return m_Trace_schema_version;
+    return m_TraceSchemaVersion;
 }
 
 void DatasetCase::setTraceSchemaVersion(int32_t value)
 {
-    m_Trace_schema_version = value;
-    m_Trace_schema_versionIsSet = true;
+    m_TraceSchemaVersion = value;
+    m_TraceSchemaVersionIsSet = true;
 }
 
 bool DatasetCase::traceSchemaVersionIsSet() const
 {
-    return m_Trace_schema_versionIsSet;
+    return m_TraceSchemaVersionIsSet;
 }
 
-void DatasetCase::unsetTrace_schema_version()
+void DatasetCase::unsetTraceSchemaVersion()
 {
-    m_Trace_schema_versionIsSet = false;
+    m_TraceSchemaVersionIsSet = false;
 }
 
 }

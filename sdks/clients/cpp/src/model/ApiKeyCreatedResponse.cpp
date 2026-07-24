@@ -22,19 +22,19 @@ ApiKeyCreatedResponse::ApiKeyCreatedResponse()
 {
     m_Active = false;
     m_ActiveIsSet = false;
-    m_Api_key_id = utility::conversions::to_string_t("");
-    m_Api_key_idIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Environment_id = utility::conversions::to_string_t("");
-    m_Environment_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ApiKeyId = utility::conversions::to_string_t("");
+    m_ApiKeyIdIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_EnvironmentId = utility::conversions::to_string_t("");
+    m_EnvironmentIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_ScopesIsSet = false;
     m_Secret = utility::conversions::to_string_t("");
     m_SecretIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 ApiKeyCreatedResponse::~ApiKeyCreatedResponse()
@@ -54,25 +54,25 @@ web::json::value ApiKeyCreatedResponse::toJson() const
         
         val[utility::conversions::to_string_t(U("active"))] = ModelBase::toJson(m_Active);
     }
-    if(m_Api_key_idIsSet)
+    if(m_ApiKeyIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("api_key_id"))] = ModelBase::toJson(m_Api_key_id);
+        val[utility::conversions::to_string_t(U("apiKeyId"))] = ModelBase::toJson(m_ApiKeyId);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("environment_id"))] = ModelBase::toJson(m_Environment_id);
+        val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ScopesIsSet)
     {   
@@ -84,10 +84,10 @@ web::json::value ApiKeyCreatedResponse::toJson() const
         
         val[utility::conversions::to_string_t(U("secret"))] = ModelBase::toJson(m_Secret);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -107,9 +107,9 @@ bool ApiKeyCreatedResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("api_key_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("apiKeyId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("api_key_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("apiKeyId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setApiKeyId;
@@ -118,9 +118,9 @@ bool ApiKeyCreatedResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -129,9 +129,9 @@ bool ApiKeyCreatedResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEnvironmentId;
@@ -140,9 +140,9 @@ bool ApiKeyCreatedResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -173,9 +173,9 @@ bool ApiKeyCreatedResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -198,21 +198,21 @@ void ApiKeyCreatedResponse::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("active")), m_Active));
     }
-    if(m_Api_key_idIsSet)
+    if(m_ApiKeyIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("api_key_id")), m_Api_key_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("apiKeyId")), m_ApiKeyId));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environment_id")), m_Environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environmentId")), m_EnvironmentId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ScopesIsSet)
     {
@@ -222,9 +222,9 @@ void ApiKeyCreatedResponse::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("secret")), m_Secret));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -243,28 +243,28 @@ bool ApiKeyCreatedResponse::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("active"))), refVal_setActive );
         setActive(refVal_setActive);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("api_key_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("apiKeyId"))))
     {
         utility::string_t refVal_setApiKeyId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("api_key_id"))), refVal_setApiKeyId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("apiKeyId"))), refVal_setApiKeyId );
         setApiKeyId(refVal_setApiKeyId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("environmentId"))))
     {
         utility::string_t refVal_setEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environment_id"))), refVal_setEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environmentId"))), refVal_setEnvironmentId );
         setEnvironmentId(refVal_setEnvironmentId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("scopes"))))
@@ -279,10 +279,10 @@ bool ApiKeyCreatedResponse::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("secret"))), refVal_setSecret );
         setSecret(refVal_setSecret);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -311,87 +311,87 @@ void ApiKeyCreatedResponse::unsetActive()
 }
 utility::string_t ApiKeyCreatedResponse::getApiKeyId() const
 {
-    return m_Api_key_id;
+    return m_ApiKeyId;
 }
 
 
 void ApiKeyCreatedResponse::setApiKeyId(const utility::string_t& value)
 {
-    m_Api_key_id = value;
-    m_Api_key_idIsSet = true;
+    m_ApiKeyId = value;
+    m_ApiKeyIdIsSet = true;
 }
 
 bool ApiKeyCreatedResponse::apiKeyIdIsSet() const
 {
-    return m_Api_key_idIsSet;
+    return m_ApiKeyIdIsSet;
 }
 
-void ApiKeyCreatedResponse::unsetApi_key_id()
+void ApiKeyCreatedResponse::unsetApiKeyId()
 {
-    m_Api_key_idIsSet = false;
+    m_ApiKeyIdIsSet = false;
 }
 utility::datetime ApiKeyCreatedResponse::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void ApiKeyCreatedResponse::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool ApiKeyCreatedResponse::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void ApiKeyCreatedResponse::unsetCreated_at()
+void ApiKeyCreatedResponse::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t ApiKeyCreatedResponse::getEnvironmentId() const
 {
-    return m_Environment_id;
+    return m_EnvironmentId;
 }
 
 
 void ApiKeyCreatedResponse::setEnvironmentId(const utility::string_t& value)
 {
-    m_Environment_id = value;
-    m_Environment_idIsSet = true;
+    m_EnvironmentId = value;
+    m_EnvironmentIdIsSet = true;
 }
 
 bool ApiKeyCreatedResponse::environmentIdIsSet() const
 {
-    return m_Environment_idIsSet;
+    return m_EnvironmentIdIsSet;
 }
 
-void ApiKeyCreatedResponse::unsetEnvironment_id()
+void ApiKeyCreatedResponse::unsetEnvironmentId()
 {
-    m_Environment_idIsSet = false;
+    m_EnvironmentIdIsSet = false;
 }
 utility::string_t ApiKeyCreatedResponse::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void ApiKeyCreatedResponse::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool ApiKeyCreatedResponse::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void ApiKeyCreatedResponse::unsetProject_id()
+void ApiKeyCreatedResponse::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::set<std::shared_ptr<ApiScope>> ApiKeyCreatedResponse::getScopes() const
 {
@@ -437,24 +437,24 @@ void ApiKeyCreatedResponse::unsetSecret()
 }
 utility::string_t ApiKeyCreatedResponse::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void ApiKeyCreatedResponse::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool ApiKeyCreatedResponse::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void ApiKeyCreatedResponse::unsetTenant_id()
+void ApiKeyCreatedResponse::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

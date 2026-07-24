@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.write_ack import WriteAck
 from typing import Optional, Set
@@ -28,8 +28,8 @@ class IngestOutcome(BaseModel):
     IngestOutcome
     """ # noqa: E501
     ack: WriteAck
-    downstream_queued: StrictBool
-    __properties: ClassVar[List[str]] = ["ack", "downstream_queued"]
+    downstream_queued: StrictBool = Field(alias="downstreamQueued")
+    __properties: ClassVar[List[str]] = ["ack", "downstreamQueued"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +86,7 @@ class IngestOutcome(BaseModel):
 
         _obj = cls.model_validate({
             "ack": WriteAck.from_dict(obj["ack"]) if obj.get("ack") is not None else None,
-            "downstream_queued": obj.get("downstream_queued")
+            "downstreamQueued": obj.get("downstreamQueued")
         })
         return _obj
 

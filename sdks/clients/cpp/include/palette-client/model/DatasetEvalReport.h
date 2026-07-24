@@ -58,42 +58,42 @@ public:
 
     double getAggregateScore() const;
     bool aggregateScoreIsSet() const;
-    void unsetAggregate_score();
+    void unsetAggregateScore();
     void setAggregateScore(double value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     utility::string_t getDatasetVersionId() const;
     bool datasetVersionIdIsSet() const;
-    void unsetDataset_version_id();
+    void unsetDatasetVersionId();
     void setDatasetVersionId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getReportId() const;
     bool reportIdIsSet() const;
-    void unsetReport_id();
+    void unsetReportId();
     void setReportId(const utility::string_t& value);
 
     int32_t getResultCount() const;
     bool resultCountIsSet() const;
-    void unsetResult_count();
+    void unsetResultCount();
     void setResultCount(int32_t value);
 
     std::vector<std::shared_ptr<EvalResult>> getResults() const;
@@ -103,40 +103,40 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
 protected:
-    double m_Aggregate_score;
-    bool m_Aggregate_scoreIsSet;
+    double m_AggregateScore;
+    bool m_AggregateScoreIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
-    utility::string_t m_Dataset_version_id;
-    bool m_Dataset_version_idIsSet;
+    utility::string_t m_DatasetVersionId;
+    bool m_DatasetVersionIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Report_id;
-    bool m_Report_idIsSet;
+    utility::string_t m_ReportId;
+    bool m_ReportIdIsSet;
 
-    int32_t m_Result_count;
-    bool m_Result_countIsSet;
+    int32_t m_ResultCount;
+    bool m_ResultCountIsSet;
 
     std::vector<std::shared_ptr<EvalResult>> m_Results;
     bool m_ResultsIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

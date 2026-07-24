@@ -75,9 +75,9 @@ export function SubmitReviewAnnotationHttpRequestFromJSONTyped(json: any, ignore
     }
     return {
         
-        'annotationId': json['annotation_id'] == null ? undefined : json['annotation_id'],
+        'annotationId': json['annotationId'] == null ? undefined : json['annotationId'],
         'payload': json['payload'],
-        'reviewerId': json['reviewer_id'],
+        'reviewerId': json['reviewerId'],
         'verdict': ReviewVerdictFromJSON(json['verdict']),
     };
 }
@@ -93,9 +93,9 @@ export function SubmitReviewAnnotationHttpRequestToJSONTyped(value?: SubmitRevie
 
     return {
         
-        'annotation_id': value['annotationId'],
+        'annotationId': value['annotationId'],
         'payload': value['payload'],
-        'reviewer_id': value['reviewerId'],
+        'reviewerId': value['reviewerId'],
         'verdict': ReviewVerdictToJSON(value['verdict']),
     };
 }

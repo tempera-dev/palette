@@ -97,12 +97,12 @@ export function CalibrationItemFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'agreed': json['agreed'],
-        'datasetCaseId': json['dataset_case_id'],
+        'datasetCaseId': json['datasetCaseId'],
         'evidence': json['evidence'],
-        'humanLabel': CalibrationLabelFromJSON(json['human_label']),
-        'judgeLabel': CalibrationLabelFromJSON(json['judge_label']),
-        'judgeResultLabel': json['judge_result_label'] == null ? undefined : json['judge_result_label'],
-        'judgeScore': json['judge_score'],
+        'humanLabel': CalibrationLabelFromJSON(json['humanLabel']),
+        'judgeLabel': CalibrationLabelFromJSON(json['judgeLabel']),
+        'judgeResultLabel': json['judgeResultLabel'] == null ? undefined : json['judgeResultLabel'],
+        'judgeScore': json['judgeScore'],
     };
 }
 
@@ -118,12 +118,12 @@ export function CalibrationItemToJSONTyped(value?: CalibrationItem | null, ignor
     return {
         
         'agreed': value['agreed'],
-        'dataset_case_id': value['datasetCaseId'],
+        'datasetCaseId': value['datasetCaseId'],
         'evidence': value['evidence'],
-        'human_label': CalibrationLabelToJSON(value['humanLabel']),
-        'judge_label': CalibrationLabelToJSON(value['judgeLabel']),
-        'judge_result_label': value['judgeResultLabel'],
-        'judge_score': value['judgeScore'],
+        'humanLabel': CalibrationLabelToJSON(value['humanLabel']),
+        'judgeLabel': CalibrationLabelToJSON(value['judgeLabel']),
+        'judgeResultLabel': value['judgeResultLabel'],
+        'judgeScore': value['judgeScore'],
     };
 }
 

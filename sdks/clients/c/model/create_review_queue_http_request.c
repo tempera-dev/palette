@@ -69,7 +69,7 @@ cJSON *create_review_queue_http_request_convertToJSON(create_review_queue_http_r
     if(annotation_schema_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "annotation_schema", annotation_schema_local_JSON);
+    cJSON_AddItemToObject(item, "annotationSchema", annotation_schema_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -86,7 +86,7 @@ cJSON *create_review_queue_http_request_convertToJSON(create_review_queue_http_r
 
     // create_review_queue_http_request->queue_id
     if(create_review_queue_http_request->queue_id) {
-    if(cJSON_AddStringToObject(item, "queue_id", create_review_queue_http_request->queue_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "queueId", create_review_queue_http_request->queue_id) == NULL) {
     goto fail; //String
     }
     }
@@ -107,7 +107,7 @@ create_review_queue_http_request_t *create_review_queue_http_request_parseFromJS
     _t *annotation_schema_local_nonprim = NULL;
 
     // create_review_queue_http_request->annotation_schema
-    cJSON *annotation_schema = cJSON_GetObjectItemCaseSensitive(create_review_queue_http_requestJSON, "annotation_schema");
+    cJSON *annotation_schema = cJSON_GetObjectItemCaseSensitive(create_review_queue_http_requestJSON, "annotationSchema");
     if (cJSON_IsNull(annotation_schema)) {
         annotation_schema = NULL;
     }
@@ -134,7 +134,7 @@ create_review_queue_http_request_t *create_review_queue_http_request_parseFromJS
     }
 
     // create_review_queue_http_request->queue_id
-    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(create_review_queue_http_requestJSON, "queue_id");
+    cJSON *queue_id = cJSON_GetObjectItemCaseSensitive(create_review_queue_http_requestJSON, "queueId");
     if (cJSON_IsNull(queue_id)) {
         queue_id = NULL;
     }

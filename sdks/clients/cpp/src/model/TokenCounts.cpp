@@ -20,8 +20,8 @@ namespace model {
 
 TokenCounts::TokenCounts()
 {
-    m_Cache_read = 0L;
-    m_Cache_readIsSet = false;
+    m_CacheRead = 0L;
+    m_CacheReadIsSet = false;
     m_Input = 0L;
     m_InputIsSet = false;
     m_Output = 0L;
@@ -42,10 +42,10 @@ void TokenCounts::validate()
 web::json::value TokenCounts::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Cache_readIsSet)
+    if(m_CacheReadIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cache_read"))] = ModelBase::toJson(m_Cache_read);
+        val[utility::conversions::to_string_t(U("cacheRead"))] = ModelBase::toJson(m_CacheRead);
     }
     if(m_InputIsSet)
     {   
@@ -69,9 +69,9 @@ web::json::value TokenCounts::toJson() const
 bool TokenCounts::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("cache_read"))))
+    if(val.has_field(utility::conversions::to_string_t(U("cacheRead"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cache_read")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cacheRead")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setCacheRead;
@@ -123,9 +123,9 @@ void TokenCounts::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Cache_readIsSet)
+    if(m_CacheReadIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cache_read")), m_Cache_read));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cacheRead")), m_CacheRead));
     }
     if(m_InputIsSet)
     {
@@ -150,10 +150,10 @@ bool TokenCounts::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cache_read"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("cacheRead"))))
     {
         int64_t refVal_setCacheRead;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cache_read"))), refVal_setCacheRead );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cacheRead"))), refVal_setCacheRead );
         setCacheRead(refVal_setCacheRead);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("input"))))
@@ -180,23 +180,23 @@ bool TokenCounts::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 
 int64_t TokenCounts::getCacheRead() const
 {
-    return m_Cache_read;
+    return m_CacheRead;
 }
 
 void TokenCounts::setCacheRead(int64_t value)
 {
-    m_Cache_read = value;
-    m_Cache_readIsSet = true;
+    m_CacheRead = value;
+    m_CacheReadIsSet = true;
 }
 
 bool TokenCounts::cacheReadIsSet() const
 {
-    return m_Cache_readIsSet;
+    return m_CacheReadIsSet;
 }
 
-void TokenCounts::unsetCache_read()
+void TokenCounts::unsetCacheRead()
 {
-    m_Cache_readIsSet = false;
+    m_CacheReadIsSet = false;
 }
 int64_t TokenCounts::getInput() const
 {

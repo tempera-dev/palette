@@ -65,7 +65,7 @@ cJSON *queued_trace_work_convertToJSON(queued_trace_work_t *queued_trace_work) {
     if (!queued_trace_work->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", queued_trace_work->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", queued_trace_work->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -74,7 +74,7 @@ cJSON *queued_trace_work_convertToJSON(queued_trace_work_t *queued_trace_work) {
     if (!queued_trace_work->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", queued_trace_work->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", queued_trace_work->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -83,7 +83,7 @@ cJSON *queued_trace_work_convertToJSON(queued_trace_work_t *queued_trace_work) {
     if (!queued_trace_work->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", queued_trace_work->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", queued_trace_work->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -100,7 +100,7 @@ queued_trace_work_t *queued_trace_work_parseFromJSON(cJSON *queued_trace_workJSO
     queued_trace_work_t *queued_trace_work_local_var = NULL;
 
     // queued_trace_work->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(queued_trace_workJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(queued_trace_workJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -115,7 +115,7 @@ queued_trace_work_t *queued_trace_work_parseFromJSON(cJSON *queued_trace_workJSO
     }
 
     // queued_trace_work->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(queued_trace_workJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(queued_trace_workJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -130,7 +130,7 @@ queued_trace_work_t *queued_trace_work_parseFromJSON(cJSON *queued_trace_workJSO
     }
 
     // queued_trace_work->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(queued_trace_workJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(queued_trace_workJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

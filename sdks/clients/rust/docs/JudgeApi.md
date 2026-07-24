@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**judge_period_evaluate**](JudgeApi.md#judge_period_evaluate) | **POST** /v1/judge/{tenant_id}/{project_id}/evaluate |
-[**judge_period_list_ledger**](JudgeApi.md#judge_period_list_ledger) | **GET** /v1/judge/{tenant_id}/{project_id}/ledger |
+[**judge_period_evaluate**](JudgeApi.md#judge_period_evaluate) | **POST** /v1/judge/{tenantId}/{projectId}/evaluate |
+[**judge_period_list_ledger**](JudgeApi.md#judge_period_list_ledger) | **GET** /v1/judge/{tenantId}/{projectId}/ledger |
 
 
 

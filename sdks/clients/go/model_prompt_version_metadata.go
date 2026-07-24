@@ -22,8 +22,8 @@ var _ MappedNullable = &PromptVersionMetadata{}
 
 // PromptVersionMetadata struct for PromptVersionMetadata
 type PromptVersionMetadata struct {
-	CreatedAt time.Time `json:"created_at"`
-	CreatedBy NullableString `json:"created_by,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	CreatedBy NullableString `json:"createdBy,omitempty"`
 	Message NullableString `json:"message,omitempty"`
 }
 
@@ -165,9 +165,9 @@ func (o PromptVersionMetadata) MarshalJSON() ([]byte, error) {
 
 func (o PromptVersionMetadata) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	if o.CreatedBy.IsSet() {
-		toSerialize["created_by"] = o.CreatedBy.Get()
+		toSerialize["createdBy"] = o.CreatedBy.Get()
 	}
 	if o.Message.IsSet() {
 		toSerialize["message"] = o.Message.Get()
@@ -180,7 +180,7 @@ func (o *PromptVersionMetadata) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
+		"createdAt",
 	}
 
 	allProperties := make(map[string]interface{})

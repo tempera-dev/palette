@@ -91,7 +91,7 @@ cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_resp
     if (!palette_connect_status_response->first_eval_run) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "first_eval_run", palette_connect_status_response->first_eval_run) == NULL) {
+    if(cJSON_AddBoolToObject(item, "firstEvalRun", palette_connect_status_response->first_eval_run) == NULL) {
     goto fail; //Bool
     }
 
@@ -100,7 +100,7 @@ cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_resp
     if (!palette_connect_status_response->first_trace_received) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "first_trace_received", palette_connect_status_response->first_trace_received) == NULL) {
+    if(cJSON_AddBoolToObject(item, "firstTraceReceived", palette_connect_status_response->first_trace_received) == NULL) {
     goto fail; //Bool
     }
 
@@ -118,7 +118,7 @@ cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_resp
     if (!palette_connect_status_response->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", palette_connect_status_response->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", palette_connect_status_response->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -141,7 +141,7 @@ cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_resp
     if (!palette_connect_status_response->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", palette_connect_status_response->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", palette_connect_status_response->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -167,7 +167,7 @@ cJSON *palette_connect_status_response_convertToJSON(palette_connect_status_resp
     if (!palette_connect_status_response->usage_configured) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "usage_configured", palette_connect_status_response->usage_configured) == NULL) {
+    if(cJSON_AddBoolToObject(item, "usageConfigured", palette_connect_status_response->usage_configured) == NULL) {
     goto fail; //Bool
     }
 
@@ -190,7 +190,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
     list_t *totalsList = NULL;
 
     // palette_connect_status_response->first_eval_run
-    cJSON *first_eval_run = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "first_eval_run");
+    cJSON *first_eval_run = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "firstEvalRun");
     if (cJSON_IsNull(first_eval_run)) {
         first_eval_run = NULL;
     }
@@ -205,7 +205,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
     }
 
     // palette_connect_status_response->first_trace_received
-    cJSON *first_trace_received = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "first_trace_received");
+    cJSON *first_trace_received = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "firstTraceReceived");
     if (cJSON_IsNull(first_trace_received)) {
         first_trace_received = NULL;
     }
@@ -235,7 +235,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
     }
 
     // palette_connect_status_response->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -262,7 +262,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
     status_local_nonprim = palette_connect_status_parseFromJSON(status); //custom
 
     // palette_connect_status_response->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -303,7 +303,7 @@ palette_connect_status_response_t *palette_connect_status_response_parseFromJSON
     }
 
     // palette_connect_status_response->usage_configured
-    cJSON *usage_configured = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "usage_configured");
+    cJSON *usage_configured = cJSON_GetObjectItemCaseSensitive(palette_connect_status_responseJSON, "usageConfigured");
     if (cJSON_IsNull(usage_configured)) {
         usage_configured = NULL;
     }

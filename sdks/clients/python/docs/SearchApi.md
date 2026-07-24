@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**search_spans**](SearchApi.md#search_spans) | **GET** /v1/search/{tenant_id}/spans |
+[**search_spans**](SearchApi.md#search_spans) | **GET** /v1/search/{tenantId}/spans |
 
 
 # **search_spans**

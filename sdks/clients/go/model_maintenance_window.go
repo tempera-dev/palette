@@ -22,8 +22,8 @@ var _ MappedNullable = &MaintenanceWindow{}
 
 // MaintenanceWindow struct for MaintenanceWindow
 type MaintenanceWindow struct {
-	EndsAt time.Time `json:"ends_at"`
-	StartsAt time.Time `json:"starts_at"`
+	EndsAt time.Time `json:"endsAt"`
+	StartsAt time.Time `json:"startsAt"`
 }
 
 type _MaintenanceWindow MaintenanceWindow
@@ -105,8 +105,8 @@ func (o MaintenanceWindow) MarshalJSON() ([]byte, error) {
 
 func (o MaintenanceWindow) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["ends_at"] = o.EndsAt
-	toSerialize["starts_at"] = o.StartsAt
+	toSerialize["endsAt"] = o.EndsAt
+	toSerialize["startsAt"] = o.StartsAt
 	return toSerialize, nil
 }
 
@@ -115,8 +115,8 @@ func (o *MaintenanceWindow) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"ends_at",
-		"starts_at",
+		"endsAt",
+		"startsAt",
 	}
 
 	allProperties := make(map[string]interface{})

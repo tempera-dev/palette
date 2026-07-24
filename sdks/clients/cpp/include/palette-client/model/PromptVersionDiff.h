@@ -58,7 +58,7 @@ public:
 
     utility::string_t getFromVersionId() const;
     bool fromVersionIdIsSet() const;
-    void unsetFrom_version_id();
+    void unsetFromVersionId();
     void setFromVersionId(const utility::string_t& value);
 
     std::vector<std::shared_ptr<DiffLine>> getLines() const;
@@ -68,19 +68,19 @@ public:
 
     utility::string_t getToVersionId() const;
     bool toVersionIdIsSet() const;
-    void unsetTo_version_id();
+    void unsetToVersionId();
     void setToVersionId(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_From_version_id;
-    bool m_From_version_idIsSet;
+    utility::string_t m_FromVersionId;
+    bool m_FromVersionIdIsSet;
 
     std::vector<std::shared_ptr<DiffLine>> m_Lines;
     bool m_LinesIsSet;
 
-    utility::string_t m_To_version_id;
-    bool m_To_version_idIsSet;
+    utility::string_t m_ToVersionId;
+    bool m_ToVersionIdIsSet;
 
 };
 

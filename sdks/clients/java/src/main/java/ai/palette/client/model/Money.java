@@ -39,7 +39,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class Money {
-  public static final String JSON_PROPERTY_AMOUNT_MICROS = "amount_micros";
+  public static final String JSON_PROPERTY_AMOUNT_MICROS = "amountMicros";
   @javax.annotation.Nonnull
   private Long amountMicros;
 
@@ -172,9 +172,9 @@ public class Money {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `amount_micros` to the URL query string
+    // add `amountMicros` to the URL query string
     if (getAmountMicros() != null) {
-      joiner.add(String.format("%samount_micros%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmountMicros()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%samountMicros%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAmountMicros()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `currency` to the URL query string

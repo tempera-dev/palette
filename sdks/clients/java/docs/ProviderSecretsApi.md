@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**providerSecretsCreate**](ProviderSecretsApi.md#providerSecretsCreate) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |  |
-| [**providerSecretsCreateWithHttpInfo**](ProviderSecretsApi.md#providerSecretsCreateWithHttpInfo) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |  |
-| [**providerSecretsList**](ProviderSecretsApi.md#providerSecretsList) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |  |
-| [**providerSecretsListWithHttpInfo**](ProviderSecretsApi.md#providerSecretsListWithHttpInfo) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |  |
-| [**providerSecretsRevoke**](ProviderSecretsApi.md#providerSecretsRevoke) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |  |
-| [**providerSecretsRevokeWithHttpInfo**](ProviderSecretsApi.md#providerSecretsRevokeWithHttpInfo) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |  |
+| [**providerSecretsCreate**](ProviderSecretsApi.md#providerSecretsCreate) | **POST** /v1/provider-secrets/{tenantId}/{projectId} |  |
+| [**providerSecretsCreateWithHttpInfo**](ProviderSecretsApi.md#providerSecretsCreateWithHttpInfo) | **POST** /v1/provider-secrets/{tenantId}/{projectId} |  |
+| [**providerSecretsList**](ProviderSecretsApi.md#providerSecretsList) | **GET** /v1/provider-secrets/{tenantId}/{projectId} |  |
+| [**providerSecretsListWithHttpInfo**](ProviderSecretsApi.md#providerSecretsListWithHttpInfo) | **GET** /v1/provider-secrets/{tenantId}/{projectId} |  |
+| [**providerSecretsRevoke**](ProviderSecretsApi.md#providerSecretsRevoke) | **POST** /v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke |  |
+| [**providerSecretsRevokeWithHttpInfo**](ProviderSecretsApi.md#providerSecretsRevokeWithHttpInfo) | **POST** /v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke |  |
 
 
 

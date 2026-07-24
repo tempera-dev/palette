@@ -239,7 +239,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
 
     // canonical_span->end_time
     if(canonical_span->end_time) {
-    if(cJSON_AddStringToObject(item, "end_time", canonical_span->end_time) == NULL) {
+    if(cJSON_AddStringToObject(item, "endTime", canonical_span->end_time) == NULL) {
     goto fail; //Date-Time
     }
     }
@@ -249,7 +249,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->environment_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "environment_id", canonical_span->environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "environmentId", canonical_span->environment_id) == NULL) {
     goto fail; //String
     }
 
@@ -260,7 +260,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if(input_ref_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "input_ref", input_ref_local_JSON);
+    cJSON_AddItemToObject(item, "inputRef", input_ref_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -302,7 +302,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->normalizer_version) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "normalizer_version", canonical_span->normalizer_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "normalizerVersion", canonical_span->normalizer_version) == NULL) {
     goto fail; //String
     }
 
@@ -313,7 +313,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if(output_ref_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "output_ref", output_ref_local_JSON);
+    cJSON_AddItemToObject(item, "outputRef", output_ref_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -322,7 +322,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
 
     // canonical_span->parent_span_id
     if(canonical_span->parent_span_id) {
-    if(cJSON_AddStringToObject(item, "parent_span_id", canonical_span->parent_span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "parentSpanId", canonical_span->parent_span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -332,7 +332,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", canonical_span->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", canonical_span->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -345,7 +345,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if(raw_ref_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "raw_ref", raw_ref_local_JSON);
+    cJSON_AddItemToObject(item, "rawRef", raw_ref_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -355,7 +355,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->schema_version) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "schema_version", canonical_span->schema_version) == NULL) {
+    if(cJSON_AddNumberToObject(item, "schemaVersion", canonical_span->schema_version) == NULL) {
     goto fail; //Numeric
     }
 
@@ -373,7 +373,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->span_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "span_id", canonical_span->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", canonical_span->span_id) == NULL) {
     goto fail; //String
     }
 
@@ -382,7 +382,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->start_time) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "start_time", canonical_span->start_time) == NULL) {
+    if(cJSON_AddStringToObject(item, "startTime", canonical_span->start_time) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -405,7 +405,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", canonical_span->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", canonical_span->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -427,7 +427,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if (!canonical_span->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", canonical_span->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", canonical_span->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -440,7 +440,7 @@ cJSON *canonical_span_convertToJSON(canonical_span_t *canonical_span) {
     if(unmapped_attrs_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "unmapped_attrs", unmapped_attrs_local_JSON);
+    cJSON_AddItemToObject(item, "unmappedAttrs", unmapped_attrs_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -520,7 +520,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->end_time
-    cJSON *end_time = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "end_time");
+    cJSON *end_time = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "endTime");
     if (cJSON_IsNull(end_time)) {
         end_time = NULL;
     }
@@ -532,7 +532,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->environment_id
-    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "environment_id");
+    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "environmentId");
     if (cJSON_IsNull(environment_id)) {
         environment_id = NULL;
     }
@@ -547,7 +547,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->input_ref
-    cJSON *input_ref = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "input_ref");
+    cJSON *input_ref = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "inputRef");
     if (cJSON_IsNull(input_ref)) {
         input_ref = NULL;
     }
@@ -595,7 +595,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->normalizer_version
-    cJSON *normalizer_version = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "normalizer_version");
+    cJSON *normalizer_version = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "normalizerVersion");
     if (cJSON_IsNull(normalizer_version)) {
         normalizer_version = NULL;
     }
@@ -610,7 +610,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->output_ref
-    cJSON *output_ref = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "output_ref");
+    cJSON *output_ref = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "outputRef");
     if (cJSON_IsNull(output_ref)) {
         output_ref = NULL;
     }
@@ -619,7 +619,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->parent_span_id
-    cJSON *parent_span_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "parent_span_id");
+    cJSON *parent_span_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "parentSpanId");
     if (cJSON_IsNull(parent_span_id)) {
         parent_span_id = NULL;
     }
@@ -631,7 +631,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -646,7 +646,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->raw_ref
-    cJSON *raw_ref = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "raw_ref");
+    cJSON *raw_ref = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "rawRef");
     if (cJSON_IsNull(raw_ref)) {
         raw_ref = NULL;
     }
@@ -658,7 +658,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     raw_ref_local_nonprim = artifact_ref_parseFromJSON(raw_ref); //nonprimitive
 
     // canonical_span->schema_version
-    cJSON *schema_version = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "schema_version");
+    cJSON *schema_version = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "schemaVersion");
     if (cJSON_IsNull(schema_version)) {
         schema_version = NULL;
     }
@@ -688,7 +688,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -703,7 +703,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->start_time
-    cJSON *start_time = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "start_time");
+    cJSON *start_time = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "startTime");
     if (cJSON_IsNull(start_time)) {
         start_time = NULL;
     }
@@ -730,7 +730,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     status_local_nonprim = span_status_parseFromJSON(status); //custom
 
     // canonical_span->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -754,7 +754,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }
@@ -769,7 +769,7 @@ canonical_span_t *canonical_span_parseFromJSON(cJSON *canonical_spanJSON){
     }
 
     // canonical_span->unmapped_attrs
-    cJSON *unmapped_attrs = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "unmapped_attrs");
+    cJSON *unmapped_attrs = cJSON_GetObjectItemCaseSensitive(canonical_spanJSON, "unmappedAttrs");
     if (cJSON_IsNull(unmapped_attrs)) {
         unmapped_attrs = NULL;
     }

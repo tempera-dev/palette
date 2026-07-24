@@ -40,19 +40,19 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class WriteAck {
-  public static final String JSON_PROPERTY_ACCEPTED_RAW = "accepted_raw";
+  public static final String JSON_PROPERTY_ACCEPTED_RAW = "acceptedRaw";
   @javax.annotation.Nonnull
   private Integer acceptedRaw;
 
-  public static final String JSON_PROPERTY_ACCEPTED_SPANS = "accepted_spans";
+  public static final String JSON_PROPERTY_ACCEPTED_SPANS = "acceptedSpans";
   @javax.annotation.Nonnull
   private Integer acceptedSpans;
 
-  public static final String JSON_PROPERTY_DUPLICATE_RAW = "duplicate_raw";
+  public static final String JSON_PROPERTY_DUPLICATE_RAW = "duplicateRaw";
   @javax.annotation.Nonnull
   private Integer duplicateRaw;
 
-  public static final String JSON_PROPERTY_DUPLICATE_SPANS = "duplicate_spans";
+  public static final String JSON_PROPERTY_DUPLICATE_SPANS = "duplicateSpans";
   @javax.annotation.Nonnull
   private Integer duplicateSpans;
 
@@ -237,24 +237,24 @@ public class WriteAck {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `accepted_raw` to the URL query string
+    // add `acceptedRaw` to the URL query string
     if (getAcceptedRaw() != null) {
-      joiner.add(String.format("%saccepted_raw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAcceptedRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sacceptedRaw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAcceptedRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `accepted_spans` to the URL query string
+    // add `acceptedSpans` to the URL query string
     if (getAcceptedSpans() != null) {
-      joiner.add(String.format("%saccepted_spans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAcceptedSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sacceptedSpans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAcceptedSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `duplicate_raw` to the URL query string
+    // add `duplicateRaw` to the URL query string
     if (getDuplicateRaw() != null) {
-      joiner.add(String.format("%sduplicate_raw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sduplicateRaw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `duplicate_spans` to the URL query string
+    // add `duplicateSpans` to the URL query string
     if (getDuplicateSpans() != null) {
-      joiner.add(String.format("%sduplicate_spans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sduplicateSpans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

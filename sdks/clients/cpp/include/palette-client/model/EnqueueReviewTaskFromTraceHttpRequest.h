@@ -55,12 +55,12 @@ public:
 
     utility::string_t getDatasetCaseId() const;
     bool datasetCaseIdIsSet() const;
-    void unsetDataset_case_id();
+    void unsetDatasetCaseId();
     void setDatasetCaseId(const utility::string_t& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     int64_t getPriority() const;
@@ -70,38 +70,38 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::string_t getTaskId() const;
     bool taskIdIsSet() const;
-    void unsetTask_id();
+    void unsetTaskId();
     void setTaskId(const utility::string_t& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Dataset_case_id;
-    bool m_Dataset_case_idIsSet;
+    utility::string_t m_DatasetCaseId;
+    bool m_DatasetCaseIdIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
     int64_t m_Priority;
     bool m_PriorityIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
-    utility::string_t m_Task_id;
-    bool m_Task_idIsSet;
+    utility::string_t m_TaskId;
+    bool m_TaskIdIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

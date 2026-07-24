@@ -79,7 +79,7 @@ cJSON *create_prompt_request_convertToJSON(create_prompt_request_t *create_promp
 
     // create_prompt_request->created_by
     if(create_prompt_request->created_by) {
-    if(cJSON_AddStringToObject(item, "created_by", create_prompt_request->created_by) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdBy", create_prompt_request->created_by) == NULL) {
     goto fail; //String
     }
     }
@@ -139,7 +139,7 @@ create_prompt_request_t *create_prompt_request_parseFromJSON(cJSON *create_promp
     prompt_template_t *_template_local_nonprim = NULL;
 
     // create_prompt_request->created_by
-    cJSON *created_by = cJSON_GetObjectItemCaseSensitive(create_prompt_requestJSON, "created_by");
+    cJSON *created_by = cJSON_GetObjectItemCaseSensitive(create_prompt_requestJSON, "createdBy");
     if (cJSON_IsNull(created_by)) {
         created_by = NULL;
     }

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.usage_total import UsageTotal
 from typing import Optional, Set
@@ -27,10 +27,10 @@ class UsageSummary(BaseModel):
     """
     UsageSummary
     """ # noqa: E501
-    project_id: StrictStr
-    tenant_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
     totals: Dict[str, UsageTotal]
-    __properties: ClassVar[List[str]] = ["project_id", "tenant_id", "totals"]
+    __properties: ClassVar[List[str]] = ["projectId", "tenantId", "totals"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,8 +90,8 @@ class UsageSummary(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id"),
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId"),
             "totals": dict(
                 (_k, UsageTotal.from_dict(_v))
                 for _k, _v in obj["totals"].items()

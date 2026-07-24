@@ -147,18 +147,18 @@ export function EvalResultFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'cost': json['cost'] == null ? undefined : MoneyFromJSON(json['cost']),
-        'createdAt': (new Date(json['created_at'])),
-        'evalResultId': json['eval_result_id'],
+        'createdAt': (new Date(json['createdAt'])),
+        'evalResultId': json['evalResultId'],
         'evidence': json['evidence'],
         'label': json['label'] == null ? undefined : json['label'],
-        'nonReproducibleReason': json['non_reproducible_reason'] == null ? undefined : json['non_reproducible_reason'],
-        'projectId': json['project_id'],
+        'nonReproducibleReason': json['nonReproducibleReason'] == null ? undefined : json['nonReproducibleReason'],
+        'projectId': json['projectId'],
         'reproducibility': EvalReproducibilityFromJSON(json['reproducibility']),
         'score': json['score'],
-        'spanId': json['span_id'] == null ? undefined : json['span_id'],
-        'tenantId': json['tenant_id'],
+        'spanId': json['spanId'] == null ? undefined : json['spanId'],
+        'tenantId': json['tenantId'],
         'tokens': json['tokens'] == null ? undefined : TokenCountsFromJSON(json['tokens']),
-        'traceId': json['trace_id'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -174,18 +174,18 @@ export function EvalResultToJSONTyped(value?: EvalResult | null, ignoreDiscrimin
     return {
         
         'cost': MoneyToJSON(value['cost']),
-        'created_at': ((value['createdAt']).toISOString()),
-        'eval_result_id': value['evalResultId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'evalResultId': value['evalResultId'],
         'evidence': value['evidence'],
         'label': value['label'],
-        'non_reproducible_reason': value['nonReproducibleReason'],
-        'project_id': value['projectId'],
+        'nonReproducibleReason': value['nonReproducibleReason'],
+        'projectId': value['projectId'],
         'reproducibility': EvalReproducibilityToJSON(value['reproducibility']),
         'score': value['score'],
-        'span_id': value['spanId'],
-        'tenant_id': value['tenantId'],
+        'spanId': value['spanId'],
+        'tenantId': value['tenantId'],
         'tokens': TokenCountsToJSON(value['tokens']),
-        'trace_id': value['traceId'],
+        'traceId': value['traceId'],
     };
 }
 

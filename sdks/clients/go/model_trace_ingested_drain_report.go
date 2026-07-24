@@ -23,11 +23,11 @@ var _ MappedNullable = &TraceIngestedDrainReport{}
 type TraceIngestedDrainReport struct {
 	Completed int32 `json:"completed"`
 	Consumed int32 `json:"consumed"`
-	DeadLettered int32 `json:"dead_lettered"`
-	FailedWork int32 `json:"failed_work"`
-	InvalidMessages int32 `json:"invalid_messages"`
+	DeadLettered int32 `json:"deadLettered"`
+	FailedWork int32 `json:"failedWork"`
+	InvalidMessages int32 `json:"invalidMessages"`
 	Retried int32 `json:"retried"`
-	TraceRefs []QueuedTraceWork `json:"trace_refs"`
+	TraceRefs []QueuedTraceWork `json:"traceRefs"`
 }
 
 type _TraceIngestedDrainReport TraceIngestedDrainReport
@@ -236,11 +236,11 @@ func (o TraceIngestedDrainReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["completed"] = o.Completed
 	toSerialize["consumed"] = o.Consumed
-	toSerialize["dead_lettered"] = o.DeadLettered
-	toSerialize["failed_work"] = o.FailedWork
-	toSerialize["invalid_messages"] = o.InvalidMessages
+	toSerialize["deadLettered"] = o.DeadLettered
+	toSerialize["failedWork"] = o.FailedWork
+	toSerialize["invalidMessages"] = o.InvalidMessages
 	toSerialize["retried"] = o.Retried
-	toSerialize["trace_refs"] = o.TraceRefs
+	toSerialize["traceRefs"] = o.TraceRefs
 	return toSerialize, nil
 }
 
@@ -251,11 +251,11 @@ func (o *TraceIngestedDrainReport) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"completed",
 		"consumed",
-		"dead_lettered",
-		"failed_work",
-		"invalid_messages",
+		"deadLettered",
+		"failedWork",
+		"invalidMessages",
 		"retried",
-		"trace_refs",
+		"traceRefs",
 	}
 
 	allProperties := make(map[string]interface{})

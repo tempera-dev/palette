@@ -24,27 +24,27 @@ var _ MappedNullable = &CanonicalSpan{}
 type CanonicalSpan struct {
 	Attributes map[string]interface{} `json:"attributes"`
 	Cost NullableMoney `json:"cost,omitempty"`
-	EndTime NullableTime `json:"end_time,omitempty"`
-	EnvironmentId string `json:"environment_id"`
-	InputRef NullableArtifactRef `json:"input_ref,omitempty"`
+	EndTime NullableTime `json:"endTime,omitempty"`
+	EnvironmentId string `json:"environmentId"`
+	InputRef NullableArtifactRef `json:"inputRef,omitempty"`
 	// Canonical agent span kind such as agent.run or llm.call
 	Kind string `json:"kind"`
 	Model NullableModelRef `json:"model,omitempty"`
 	Name string `json:"name"`
-	NormalizerVersion string `json:"normalizer_version"`
-	OutputRef NullableArtifactRef `json:"output_ref,omitempty"`
-	ParentSpanId *string `json:"parent_span_id,omitempty"`
-	ProjectId string `json:"project_id"`
-	RawRef ArtifactRef `json:"raw_ref"`
-	SchemaVersion int32 `json:"schema_version"`
+	NormalizerVersion string `json:"normalizerVersion"`
+	OutputRef NullableArtifactRef `json:"outputRef,omitempty"`
+	ParentSpanId *string `json:"parentSpanId,omitempty"`
+	ProjectId string `json:"projectId"`
+	RawRef ArtifactRef `json:"rawRef"`
+	SchemaVersion int32 `json:"schemaVersion"`
 	Seq int64 `json:"seq"`
-	SpanId string `json:"span_id"`
-	StartTime time.Time `json:"start_time"`
+	SpanId string `json:"spanId"`
+	StartTime time.Time `json:"startTime"`
 	Status SpanStatus `json:"status"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 	Tokens NullableTokenCounts `json:"tokens,omitempty"`
-	TraceId string `json:"trace_id"`
-	UnmappedAttrs interface{} `json:"unmapped_attrs"`
+	TraceId string `json:"traceId"`
+	UnmappedAttrs interface{} `json:"unmappedAttrs"`
 }
 
 type _CanonicalSpan CanonicalSpan
@@ -742,38 +742,38 @@ func (o CanonicalSpan) ToMap() (map[string]interface{}, error) {
 		toSerialize["cost"] = o.Cost.Get()
 	}
 	if o.EndTime.IsSet() {
-		toSerialize["end_time"] = o.EndTime.Get()
+		toSerialize["endTime"] = o.EndTime.Get()
 	}
-	toSerialize["environment_id"] = o.EnvironmentId
+	toSerialize["environmentId"] = o.EnvironmentId
 	if o.InputRef.IsSet() {
-		toSerialize["input_ref"] = o.InputRef.Get()
+		toSerialize["inputRef"] = o.InputRef.Get()
 	}
 	toSerialize["kind"] = o.Kind
 	if o.Model.IsSet() {
 		toSerialize["model"] = o.Model.Get()
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["normalizer_version"] = o.NormalizerVersion
+	toSerialize["normalizerVersion"] = o.NormalizerVersion
 	if o.OutputRef.IsSet() {
-		toSerialize["output_ref"] = o.OutputRef.Get()
+		toSerialize["outputRef"] = o.OutputRef.Get()
 	}
 	if !IsNil(o.ParentSpanId) {
-		toSerialize["parent_span_id"] = o.ParentSpanId
+		toSerialize["parentSpanId"] = o.ParentSpanId
 	}
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["raw_ref"] = o.RawRef
-	toSerialize["schema_version"] = o.SchemaVersion
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["rawRef"] = o.RawRef
+	toSerialize["schemaVersion"] = o.SchemaVersion
 	toSerialize["seq"] = o.Seq
-	toSerialize["span_id"] = o.SpanId
-	toSerialize["start_time"] = o.StartTime
+	toSerialize["spanId"] = o.SpanId
+	toSerialize["startTime"] = o.StartTime
 	toSerialize["status"] = o.Status
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	if o.Tokens.IsSet() {
 		toSerialize["tokens"] = o.Tokens.Get()
 	}
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	if o.UnmappedAttrs != nil {
-		toSerialize["unmapped_attrs"] = o.UnmappedAttrs
+		toSerialize["unmappedAttrs"] = o.UnmappedAttrs
 	}
 	return toSerialize, nil
 }
@@ -784,20 +784,20 @@ func (o *CanonicalSpan) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"attributes",
-		"environment_id",
+		"environmentId",
 		"kind",
 		"name",
-		"normalizer_version",
-		"project_id",
-		"raw_ref",
-		"schema_version",
+		"normalizerVersion",
+		"projectId",
+		"rawRef",
+		"schemaVersion",
 		"seq",
-		"span_id",
-		"start_time",
+		"spanId",
+		"startTime",
 		"status",
-		"tenant_id",
-		"trace_id",
-		"unmapped_attrs",
+		"tenantId",
+		"traceId",
+		"unmappedAttrs",
 	}
 
 	allProperties := make(map[string]interface{})

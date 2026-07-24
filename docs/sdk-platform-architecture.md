@@ -18,6 +18,9 @@ crates/palette-api handlers  ──#[utoipa::path] + ToSchema on the REAL types�
 Nothing re-describes the API by hand. A handler change regenerates the spec; CI
 (`sdk-contract.yml`) fails if the spec, any SDK client, or MCP tool set is stale,
 and `oasdiff` blocks breaking changes. Drift is a merge-blocker, not a hope.
+The dashboard projection at `web/dashboard/openapi/palette-read-api.json` is a
+byte-identical generated copy of this same first-party contract, and the
+contract-sync gate compares both snapshots on every change.
 
 ## Modern API design conventions (enforced)
 
@@ -27,10 +30,10 @@ and `oasdiff` blocks breaking changes. Drift is a merge-blocker, not a hope.
   operationIds -> method names. Uniqueness avoids single-package collisions
   (Go/C/Java) so names are consistent across all 7 languages without per-language
   hacks.
-- **Uniform error model.** Every non-2xx is one
-  `ErrorResponse { error, message, status }` -> one typed error per SDK.
-  `error` is the stable snake_case machine code; `status` is retained only as a
-  deprecated `/v1` compatibility HTTP status code.
+- **Uniform error model.** Every non-2xx is one AIP-193
+  `ErrorResponse { error: { code, message, status, details } }` -> one typed
+  error per SDK. Partial-success drain reports remain domain results and are
+  returned with HTTP 200.
 - **Typed everything.** No bare `object`/`any` responses; every response is a
   named schema. Discriminated unions use an internal `type` tag (e.g.
   `EvaluatorKind`) so they generate cleanly in strict languages.
@@ -48,22 +51,22 @@ and `oasdiff` blocks breaking changes. Drift is a merge-blocker, not a hope.
 
 The following families use the standard contract above:
 
-- `scenarios.list` — `GET /v1/scenarios/{tenant_id}/{project_id}`
-- `audit.list` — `GET /v1/audit/{tenant_id}/{project_id}`
-- `archive.querySpans` — `GET /v1/archive/{tenant_id}/{project_id}/spans`
-- `connectors.list` — `GET /v1/connectors/{tenant_id}/{project_id}`
+- `scenarios.list` — `GET /v1/scenarios/{tenantId}/{projectId}`
+- `audit.list` — `GET /v1/audit/{tenantId}/{projectId}`
+- `archive.querySpans` — `GET /v1/archive/{tenantId}/{projectId}/spans`
+- `connectors.list` — `GET /v1/connectors/{tenantId}/{projectId}`
 - `connectors.listTools` —
-  `GET /v1/connectors/{tenant_id}/{project_id}/tools`
-- `judge.listLedger` — `GET /v1/judge/{tenant_id}/{project_id}/ledger`
-- `prompts.list` — `GET /v1/prompts/{tenant_id}/{project_id}`
+  `GET /v1/connectors/{tenantId}/{projectId}/tools`
+- `judge.listLedger` — `GET /v1/judge/{tenantId}/{projectId}/ledger`
+- `prompts.list` — `GET /v1/prompts/{tenantId}/{projectId}`
 - `prompts.listVersions` —
-  `GET /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions`
+  `GET /v1/prompts/{tenantId}/{projectId}/{promptId}/versions`
 - `providerSecrets.list` —
-  `GET /v1/provider-secrets/{tenant_id}/{project_id}`
+  `GET /v1/provider-secrets/{tenantId}/{projectId}`
 - `reviews.listTasks` —
-  `GET /v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks`
-- `search.spans` — `GET /v1/search/{tenant_id}/spans`
-- `traces.list` — `GET /v1/traces/{tenant_id}`
+  `GET /v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks`
+- `search.spans` — `GET /v1/search/{tenantId}/spans`
+- `traces.list` — `GET /v1/traces/{tenantId}`
 
 The migration debt ratchet is empty. Adding a public list/search operation
 without the complete contract fails the API-shape audit.
@@ -78,27 +81,23 @@ shape: an outer `error` object containing HTTP `code`, developer-facing
 `message`, canonical RPC `status`, and `details` with `google.rpc.ErrorInfo`.
 The shape audit rejects contract drift from that envelope.
 
-The ordinary JSON field-name migration is not yet complete. The contract audit
-records an exact ratchet of **493 legacy snake_case fields across 98 schemas**;
-each schema has a fixed debt budget that may only decrease, and new schemas
-receive a zero-debt budget. Completing this work requires HTTP DTOs to be split
-from persisted domain/store models so changing public JSON names does not
-silently rewrite durable records.
+The AIP-127 migration is complete: public path and query parameters and
+ordinary JSON schema properties are lowerCamel, and the contract audit has a
+zero-debt budget. The organization-wide route-aware checker reports zero
+parameter, reachable-JSON-field, and AIP-193 response violations. The
+`trace-ingested/drain` and `trace-writes/drain` operations return their domain
+partial-success reports with HTTP 200, while every HTTP error response uses the
+shared AIP-193 envelope.
 
-The organization-wide route-aware checker at tempera-sdk PR #41 head
-`15b1e276d8c058b2b06841cdb708a18abf9eab7a` reports **120** remaining semantic
-violations for this contract: 59 operations with non-lowerCamel path/query
-parameters, 59 operations whose reachable JSON schemas contain non-lowerCamel
-fields, and two AIP-193 error violations. The latter are the partial-success
-HTTP 422 payloads returned by the `trace-ingested/drain` and
-`trace-writes/drain` operations; they are domain results rather than standard
-error envelopes. Axum extractor-generated errors also remain a runtime
-AIP-193 gap until request rejection is mapped through the shared application
-envelope. These residuals are reported explicitly rather than being hidden
-behind the now-zero pagination score.
+Persisted database columns and protocol-owned payloads are not public Palette
+JSON names and retain their native spellings. Axum extractor-generated errors
+remain a runtime AIP-193 gap until request rejection is mapped through the
+shared application envelope.
 
 Raw OTLP request bodies and MCP protocol payloads remain governed by their
-protocol schemas and are outside the ordinary JSON-field ratchet.
+protocol schemas and are outside the ordinary JSON-field ratchet. Palette-owned
+path parameters around those payloads are still lowerCamel; the protocol
+exception applies only to the protocol-defined message body.
 
 ## Two SDK layers (simple by default, powerful when needed)
 

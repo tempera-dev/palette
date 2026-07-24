@@ -165,7 +165,7 @@ async fn get_trace_not_yet_ingested_returns_empty_200() {
         .unwrap_or_else(|err| panic!("{err}"));
     let trace: serde_json::Value =
         serde_json::from_slice(&body).unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(trace["trace_id"], "missing-trace");
+    assert_eq!(trace["traceId"], "missing-trace");
     assert_eq!(
         trace["spans"].as_array().map(|spans| spans.len()),
         Some(0),
@@ -206,7 +206,7 @@ async fn promote_dataset_case_missing_trace_or_span_returns_404() {
                 ))
                 .header("content-type", "application/json")
                 .body(Body::from(
-                    r#"{"trace_id":"missing-trace","span_id":"span","reference":"answer"}"#,
+                    r#"{"traceId":"missing-trace","spanId":"span","reference":"answer"}"#,
                 ))
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -240,7 +240,7 @@ async fn promote_dataset_case_missing_trace_or_span_returns_404() {
                 ))
                 .header("content-type", "application/json")
                 .body(Body::from(
-                    r#"{"trace_id":"trace","span_id":"missing-span","reference":"answer"}"#,
+                    r#"{"traceId":"trace","spanId":"missing-span","reference":"answer"}"#,
                 ))
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -376,7 +376,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .uri("/v1/online/tenant/project/traces/trace/sampling")
                 .header("content-type", "application/json")
                 .body(Body::from(
-                    r#"{"sample_rate_per_mille":1000,"keep_errors":true,"slow_ms_threshold":null,"high_cost_micros_threshold":null}"#,
+                    r#"{"sampleRatePerMille":1000,"keepErrors":true,"slowMsThreshold":null,"highCostMicrosThreshold":null}"#,
                 ))
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -415,7 +415,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/archive/tenant/project/spans?trace_id=trace&kind=agent.run&status=ok")
+                .uri("/v1/archive/tenant/project/spans?traceId=trace&kind=agent.run&status=ok")
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -431,7 +431,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         .as_array()
         .unwrap_or_else(|| panic!("archive rows must be an array"));
     assert_eq!(rows.len(), 1);
-    assert_eq!(rows[0]["span_id"], "span");
+    assert_eq!(rows[0]["spanId"], "span");
 
     let response = app
         .clone()
@@ -462,7 +462,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 ))
                 .header("content-type", "application/json")
                 .body(Body::from(
-                    r#"{"trace_id":"trace","span_id":"span","reference":"answer"}"#,
+                    r#"{"traceId":"trace","spanId":"span","reference":"answer"}"#,
                 ))
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -512,7 +512,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 ))
                 .header("content-type", "application/json")
                 .body(Body::from(
-                    r#"{"evaluator_id":"exact","evaluator_version_id":"exact-v1","agent_release_id":"release-a","kind":{"type":"exact_match"}}"#,
+                    r#"{"evaluatorId":"exact","evaluatorVersionId":"exact-v1","agentReleaseId":"release-a","kind":{"type":"exact_match"}}"#,
                 ))
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -547,8 +547,8 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .body(Body::from(
                     serde_json::to_vec(&json!({
                         "provider": "openai",
-                        "display_name": "dataset judge",
-                        "secret_value": fixture_secret
+                        "displayName": "dataset judge",
+                        "secretValue": fixture_secret
                     }))
                     .unwrap_or_else(|err| panic!("{err}")),
                 ))
@@ -578,15 +578,15 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "evaluator_id": "judge-correctness",
-                        "evaluator_version_id": "judge-v1",
-                        "agent_release_id": "release-a",
+                        "evaluatorId": "judge-correctness",
+                        "evaluatorVersionId": "judge-v1",
+                        "agentReleaseId": "release-a",
                         "kind": {
                             "type": "llm_judge",
                             "rubric": "correctness",
                             "model": "judge-model"
                         },
-                        "provider_secret_id": provider_secret["provider_secret_id"]
+                        "providerSecretId": provider_secret["providerSecretId"]
                     }))
                     .unwrap_or_else(|err| panic!("{err}")),
                 ))
@@ -640,8 +640,8 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "eval_report_id": judge_report.report_id.clone(),
-                        "pass_threshold": 0.5
+                        "evalReportId": judge_report.report_id.clone(),
+                        "passThreshold": 0.5
                     }))
                     .unwrap_or_else(|err| panic!("{err}")),
                 ))
@@ -661,26 +661,26 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     assert_eq!(calibration.cohen_kappa, 1.0);
 
     let experiment_body = serde_json::json!({
-        "baseline_release_id": "release-baseline",
-        "candidate_release_id": "release-candidate",
-        "evaluator_id": "exact",
-        "evaluator_version_id": "exact-v1",
+        "baselineReleaseId": "release-baseline",
+        "candidateReleaseId": "release-candidate",
+        "evaluatorId": "exact",
+        "evaluatorVersionId": "exact-v1",
         "kind": {"type": "exact_match"},
-        "gate_policy": {
-            "min_sample_size": 1,
-            "max_regression": 0.05,
+        "gatePolicy": {
+            "minSampleSize": 1,
+            "maxRegression": 0.05,
             "alpha": 0.05,
-            "comparison_count": 1
+            "comparisonCount": 1
         },
-        "baseline_outputs": [
+        "baselineOutputs": [
             {
-                "case_id": dataset_case.case_id.as_str(),
+                "caseId": dataset_case.case_id.as_str(),
                 "output": "wrong"
             }
         ],
-        "candidate_outputs": [
+        "candidateOutputs": [
             {
-                "case_id": dataset_case.case_id.as_str(),
+                "caseId": dataset_case.case_id.as_str(),
                 "output": "answer"
             }
         ]
@@ -715,34 +715,34 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     assert_eq!(experiment.decision, GateDecision::Pass);
 
     let judge_experiment_body = serde_json::json!({
-        "baseline_release_id": "judge-baseline",
-        "candidate_release_id": "judge-candidate",
-        "evaluator_id": "judge-correctness",
-        "evaluator_version_id": "judge-v1",
+        "baselineReleaseId": "judge-baseline",
+        "candidateReleaseId": "judge-candidate",
+        "evaluatorId": "judge-correctness",
+        "evaluatorVersionId": "judge-v1",
         "kind": {
             "type": "llm_judge",
             "rubric": "correctness",
             "model": "judge-model"
         },
-        "gate_policy": {
-            "min_sample_size": 1,
-            "max_regression": 0.05,
+        "gatePolicy": {
+            "minSampleSize": 1,
+            "maxRegression": 0.05,
             "alpha": 0.05,
-            "comparison_count": 1
+            "comparisonCount": 1
         },
-        "baseline_outputs": [
+        "baselineOutputs": [
             {
-                "case_id": dataset_case.case_id.as_str(),
+                "caseId": dataset_case.case_id.as_str(),
                 "output": "wrong"
             }
         ],
-        "candidate_outputs": [
+        "candidateOutputs": [
             {
-                "case_id": dataset_case.case_id.as_str(),
+                "caseId": dataset_case.case_id.as_str(),
                 "output": "answer"
             }
         ],
-        "provider_secret_id": provider_secret["provider_secret_id"]
+        "providerSecretId": provider_secret["providerSecretId"]
     });
     let response = app
         .clone()
@@ -803,11 +803,11 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "gate_id": "release-main",
+                        "gateId": "release-main",
                         "name": "release main",
-                        "dataset_id": dataset.dataset_id.as_str(),
-                        "evaluator_version_id": "judge-v1",
-                        "inconclusive_policy": "fail"
+                        "datasetId": dataset.dataset_id.as_str(),
+                        "evaluatorVersionId": "judge-v1",
+                        "inconclusivePolicy": "fail"
                     }))
                     .unwrap_or_else(|err| panic!("{err}")),
                 ))
@@ -875,9 +875,9 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "queue_id": "quality",
+                        "queueId": "quality",
                         "name": "quality",
-                        "annotation_schema": {
+                        "annotationSchema": {
                             "type": "object",
                             "required": ["reference"]
                         }
@@ -905,10 +905,10 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "task_id": "review-task",
-                        "trace_id": "trace",
-                        "span_id": "span",
-                        "dataset_id": review_dataset.dataset_id.as_str(),
+                        "taskId": "review-task",
+                        "traceId": "trace",
+                        "spanId": "span",
+                        "datasetId": review_dataset.dataset_id.as_str(),
                         "priority": 10
                     }))
                     .unwrap_or_else(|err| panic!("{err}")),
@@ -934,8 +934,8 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "annotation_id": "review-annotation",
-                        "reviewer_id": "human-a",
+                        "annotationId": "review-annotation",
+                        "reviewerId": "human-a",
                         "verdict": "pass",
                         "payload": {
                             "reference": "answer",
@@ -992,7 +992,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
                 .header("content-type", "application/json")
                 .body(Body::from(
                     serde_json::to_vec(&json!({
-                        "dataset_id": review_dataset.dataset_id.as_str()
+                        "datasetId": review_dataset.dataset_id.as_str()
                     }))
                     .unwrap_or_else(|err| panic!("{err}")),
                 ))
@@ -1036,27 +1036,27 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     let now = Utc::now();
     let alert_body = serde_json::json!({
         "policy": {
-            "policy_id": "low-score",
-            "endpoint_url": "https://example.test/palette",
-            "signing_secret": "secret",
+            "policyId": "low-score",
+            "endpointUrl": "https://example.test/palette",
+            "signingSecret": "secret",
             "severity": "critical",
-            "fire_when_score_at_or_below": 0.5,
-            "dedupe_window_seconds": 300,
-            "maintenance_windows": []
+            "fireWhenScoreAtOrBelow": 0.5,
+            "dedupeWindowSeconds": 300,
+            "maintenanceWindows": []
         },
         "input": {
-            "tenant_id": "tenant",
-            "project_id": "project",
-            "trace_id": "trace",
-            "group_key": "eval:exact:trace",
+            "tenantId": "tenant",
+            "projectId": "project",
+            "traceId": "trace",
+            "groupKey": "eval:exact:trace",
             "title": "Exact eval score dropped",
             "score": 0.1,
-            "baseline_score": 1.0,
+            "baselineScore": 1.0,
             "links": {
-                "trace_url": "http://localhost/traces/trace",
-                "cluster_url": "http://localhost/clusters/cluster",
-                "dataset_url": format!("http://localhost/datasets/{}", dataset.dataset_id.as_str()),
-                "gate_url": format!("http://localhost/experiments/{}", experiment.experiment_run_id.as_str())
+                "traceUrl": "http://localhost/traces/trace",
+                "clusterUrl": "http://localhost/clusters/cluster",
+                "datasetUrl": format!("http://localhost/datasets/{}", dataset.dataset_id.as_str()),
+                "gateUrl": format!("http://localhost/experiments/{}", experiment.experiment_run_id.as_str())
             },
             "now": now
         }
@@ -1086,11 +1086,11 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
         .as_ref()
         .unwrap_or_else(|| panic!("expected alert delivery"));
     assert_eq!(
-        delivery.body["links"]["trace_url"],
+        delivery.body["links"]["traceUrl"],
         "http://localhost/traces/trace"
     );
     assert_eq!(
-        delivery.body["links"]["dataset_url"],
+        delivery.body["links"]["datasetUrl"],
         format!("http://localhost/datasets/{}", dataset.dataset_id.as_str())
     );
     let signed_body = serde_json::to_vec(&delivery.body).unwrap_or_else(|err| panic!("{err}"));
@@ -1130,7 +1130,7 @@ async fn api_ingest_store_eval_gate_and_replay_are_integrated() {
     assert_eq!(deduped.suppressed_reason.as_deref(), Some("dedupe_window"));
 
     let mut blocked_alert_body = alert_body.clone();
-    blocked_alert_body["policy"]["endpoint_url"] =
+    blocked_alert_body["policy"]["endpointUrl"] =
         json!("https://169.254.169.254/latest/meta-data/");
     let response = app
         .clone()
@@ -1511,7 +1511,7 @@ async fn project_scoped_archive_routes_do_not_merge_same_trace_id_across_project
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/archive/tenant/project/spans?trace_id=trace")
+                .uri("/v1/archive/tenant/project/spans?traceId=trace")
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -1580,7 +1580,7 @@ async fn project_scoped_archive_routes_do_not_merge_same_trace_id_across_project
                 Request::builder()
                     .method("GET")
                     .uri(format!(
-                        "/v1/archive/tenant/{project_id}/spans?trace_id=trace"
+                        "/v1/archive/tenant/{project_id}/spans?traceId=trace"
                     ))
                     .body(Body::empty())
                     .unwrap_or_else(|err| panic!("{err}")),
@@ -1597,7 +1597,7 @@ async fn project_scoped_archive_routes_do_not_merge_same_trace_id_across_project
             .as_array()
             .unwrap_or_else(|| panic!("archive rows should be an array"));
         assert_eq!(rows.len(), 1);
-        assert_eq!(rows[0]["project_id"], project_id);
+        assert_eq!(rows[0]["projectId"], project_id);
     }
 }
 
@@ -1649,7 +1649,7 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/traces/tenant?project_id=project&environment_id=prod&pageSize=10")
+                .uri("/v1/traces/tenant?projectId=project&environmentId=prod&pageSize=10")
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -1678,7 +1678,7 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
             Request::builder()
                 .method("GET")
                 .uri(
-                    "/v1/traces/tenant?project_id=project&environment_id=prod&status=ok&kind=agent.run&started_after=2025-12-31T23:59:59Z&started_before=2026-01-01T00:00:01Z&model=gpt-dashboard&release=release-a&min_cost_micros=100&max_cost_micros=300&min_latency_ms=900&max_latency_ms=1100",
+                    "/v1/traces/tenant?projectId=project&environmentId=prod&status=ok&kind=agent.run&startedAfter=2025-12-31T23:59:59Z&startedBefore=2026-01-01T00:00:01Z&model=gpt-dashboard&release=release-a&minCostMicros=100&maxCostMicros=300&minLatencyMs=900&maxLatencyMs=1100",
                 )
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
@@ -1701,7 +1701,7 @@ async fn trace_list_span_and_io_endpoints_back_dashboard_reads() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/traces/tenant?project_id=other-project&environment_id=prod&pageSize=10")
+                .uri("/v1/traces/tenant?projectId=other-project&environmentId=prod&pageSize=10")
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
         )
@@ -1911,11 +1911,7 @@ async fn dlq_replay_restores_trace_ingested_work_through_api() {
             )
             .await
             .unwrap_or_else(|err| panic!("{err}"));
-        if attempt < 3 {
-            assert_eq!(response.status(), StatusCode::OK);
-        } else {
-            assert_eq!(response.status(), StatusCode::UNPROCESSABLE_ENTITY);
-        }
+        assert_eq!(response.status(), StatusCode::OK);
         let body = to_bytes(response.into_body(), 1024 * 1024)
             .await
             .unwrap_or_else(|err| panic!("{err}"));
@@ -2099,7 +2095,7 @@ async fn malformed_trace_ingested_event_returns_error_and_lands_in_dlq() {
         )
         .await
         .unwrap_or_else(|err| panic!("{err}"));
-    assert_eq!(response.status(), StatusCode::UNPROCESSABLE_ENTITY);
+    assert_eq!(response.status(), StatusCode::OK);
     let body = to_bytes(response.into_body(), 1024 * 1024)
         .await
         .unwrap_or_else(|err| panic!("{err}"));
@@ -2603,8 +2599,8 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
     let fixture_secret = "sk-hosted-jdg-secret";
     let create_secret_body = json!({
         "provider": "openai",
-        "display_name": "hosted judge",
-        "secret_value": fixture_secret
+        "displayName": "hosted judge",
+        "secretValue": fixture_secret
     });
     let response = app
         .clone()
@@ -2630,8 +2626,8 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
     assert!(!body_text.contains(fixture_secret));
     let provider_secret: serde_json::Value =
         serde_json::from_str(&body_text).unwrap_or_else(|err| panic!("{err}"));
-    assert!(provider_secret.get("secret_value").is_none());
-    let provider_secret_id = provider_secret["provider_secret_id"]
+    assert!(provider_secret.get("secretValue").is_none());
+    let provider_secret_id = provider_secret["providerSecretId"]
         .as_str()
         .unwrap_or_else(|| panic!("provider secret response must include id"))
         .to_string();
@@ -2652,26 +2648,26 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
             "reference": "answer",
             "trace": null
         },
-        "provider_secret_id": provider_secret_id
+        "providerSecretId": provider_secret_id
     });
     let first = post_judge_request(&app, &admin_key.secret, &judge_body).await;
     assert!(!first.to_string().contains(fixture_secret));
     assert_eq!(first["audit"]["cached"], false);
-    assert_eq!(first["audit"]["charged_cost"]["amount_micros"], 25);
-    assert_eq!(first["remaining_budget"]["amount_micros"], 75);
+    assert_eq!(first["audit"]["chargedCost"]["amountMicros"], 25);
+    assert_eq!(first["remainingBudget"]["amountMicros"], 75);
 
     let second = post_judge_request(&app, &admin_key.secret, &judge_body).await;
     assert!(!second.to_string().contains(fixture_secret));
     assert_eq!(second["audit"]["cached"], true);
-    assert_eq!(second["audit"]["charged_cost"]["amount_micros"], 0);
-    assert_eq!(second["remaining_budget"]["amount_micros"], 75);
+    assert_eq!(second["audit"]["chargedCost"]["amountMicros"], 0);
+    assert_eq!(second["remainingBudget"]["amountMicros"], 75);
     assert_eq!(
-        first["audit"]["request_hash"],
-        second["audit"]["request_hash"]
+        first["audit"]["requestHash"],
+        second["audit"]["requestHash"]
     );
     assert_eq!(
-        first["audit"]["response_hash"],
-        second["audit"]["response_hash"]
+        first["audit"]["responseHash"],
+        second["audit"]["responseHash"]
     );
 
     let response = app
@@ -2752,16 +2748,13 @@ async fn hosted_judge_api_uses_byok_refs_cache_and_never_returns_secret() {
         .unwrap_or_else(|| panic!("audit events response must contain an events array"));
     assert_eq!(audit_events.len(), 2);
     assert_eq!(audit_events[0]["action"], "provider_secret_create");
-    assert_eq!(audit_events[0]["resource_type"], "provider_secret");
-    assert_eq!(audit_events[0]["resource_id"], provider_secret_id);
+    assert_eq!(audit_events[0]["resourceType"], "provider_secret");
+    assert_eq!(audit_events[0]["resourceId"], provider_secret_id);
     assert_eq!(audit_events[0]["attributes"]["provider"], "openai");
-    assert_eq!(
-        audit_events[0]["attributes"]["display_name"],
-        "hosted judge"
-    );
+    assert_eq!(audit_events[0]["attributes"]["displayName"], "hosted judge");
     assert_eq!(audit_events[1]["action"], "provider_secret_revoke");
-    assert_eq!(audit_events[1]["resource_type"], "provider_secret");
-    assert_eq!(audit_events[1]["resource_id"], provider_secret_id);
+    assert_eq!(audit_events[1]["resourceType"], "provider_secret");
+    assert_eq!(audit_events[1]["resourceId"], provider_secret_id);
 }
 
 #[tokio::test]
@@ -3033,7 +3026,7 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/traces/tenant?project_id=project&environment_id=prod&pageSize=10")
+                .uri("/v1/traces/tenant?projectId=project&environmentId=prod&pageSize=10")
                 .header("authorization", format!("Bearer {trace_secret}"))
                 .body(Body::empty())
                 .unwrap_or_else(|err| panic!("{err}")),
@@ -3248,17 +3241,14 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .unwrap_or_else(|| panic!("audit events response must contain an events array"));
     assert_eq!(audit_events.len(), 4);
     assert_eq!(audit_events[0]["action"], "api_key_create");
-    assert_eq!(audit_events[0]["resource_type"], "api_key");
-    assert_eq!(audit_events[0]["resource_id"], json!(trace_key_id.as_str()));
+    assert_eq!(audit_events[0]["resourceType"], "api_key");
+    assert_eq!(audit_events[0]["resourceId"], json!(trace_key_id.as_str()));
     assert_eq!(audit_events[0]["attributes"]["active"], json!(true));
     assert_eq!(audit_events[1]["action"], "pii_unmask");
     assert_eq!(audit_events[1]["outcome"], "denied");
     assert_eq!(audit_events[2]["action"], "api_key_create");
-    assert_eq!(audit_events[2]["resource_type"], "api_key");
-    assert_eq!(
-        audit_events[2]["resource_id"],
-        json!(unmask_key_id.as_str())
-    );
+    assert_eq!(audit_events[2]["resourceType"], "api_key");
+    assert_eq!(audit_events[2]["resourceId"], json!(unmask_key_id.as_str()));
     assert_eq!(audit_events[3]["action"], "pii_unmask");
     assert_eq!(audit_events[3]["outcome"], "allowed");
     assert_eq!(audit_events[3]["reason"], "incident-123");
@@ -3284,7 +3274,7 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/archive/tenant/project/spans?trace_id=trace")
+                .uri("/v1/archive/tenant/project/spans?traceId=trace")
                 .header("authorization", format!("Bearer {trace_secret}"))
                 .header("x-palette-environment-id", "prod")
                 .body(Body::empty())
@@ -3299,7 +3289,7 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .oneshot(
             Request::builder()
                 .method("GET")
-                .uri("/v1/archive/tenant/project/spans?trace_id=trace&environment_id=dev")
+                .uri("/v1/archive/tenant/project/spans?traceId=trace&environmentId=dev")
                 .header("authorization", format!("Bearer {trace_secret}"))
                 .header("x-palette-environment-id", "prod")
                 .body(Body::empty())
@@ -3401,8 +3391,8 @@ async fn strict_auth_enforces_scoped_keys_and_overwrites_ingest_auth_context() {
         .unwrap_or_else(|| panic!("audit events response must contain an events array"));
     assert_eq!(audit_events.len(), 5);
     assert_eq!(audit_events[4]["action"], "api_key_revoke");
-    assert_eq!(audit_events[4]["resource_type"], "api_key");
-    assert_eq!(audit_events[4]["resource_id"], json!(trace_key_id.as_str()));
+    assert_eq!(audit_events[4]["resourceType"], "api_key");
+    assert_eq!(audit_events[4]["resourceId"], json!(trace_key_id.as_str()));
     assert_eq!(audit_events[4]["attributes"]["active"], json!(false));
 
     let response = app

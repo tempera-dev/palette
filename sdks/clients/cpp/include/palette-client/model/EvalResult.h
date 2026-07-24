@@ -67,12 +67,12 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getEvalResultId() const;
     bool evalResultIdIsSet() const;
-    void unsetEval_result_id();
+    void unsetEvalResultId();
     void setEvalResultId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getEvidence() const;
@@ -87,12 +87,12 @@ public:
 
     utility::string_t getNonReproducibleReason() const;
     bool nonReproducibleReasonIsSet() const;
-    void unsetNon_reproducible_reason();
+    void unsetNonReproducibleReason();
     void setNonReproducibleReason(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::shared_ptr<EvalReproducibility> getReproducibility() const;
@@ -107,12 +107,12 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     std::shared_ptr<TokenCounts> getTokens() const;
@@ -122,7 +122,7 @@ public:
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
@@ -130,11 +130,11 @@ protected:
     std::shared_ptr<Money> m_Cost;
     bool m_CostIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Eval_result_id;
-    bool m_Eval_result_idIsSet;
+    utility::string_t m_EvalResultId;
+    bool m_EvalResultIdIsSet;
 
     std::shared_ptr<AnyType> m_Evidence;
     bool m_EvidenceIsSet;
@@ -142,11 +142,11 @@ protected:
     utility::string_t m_Label;
     bool m_LabelIsSet;
 
-    utility::string_t m_Non_reproducible_reason;
-    bool m_Non_reproducible_reasonIsSet;
+    utility::string_t m_NonReproducibleReason;
+    bool m_NonReproducibleReasonIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     std::shared_ptr<EvalReproducibility> m_Reproducibility;
     bool m_ReproducibilityIsSet;
@@ -154,17 +154,17 @@ protected:
     double m_Score;
     bool m_ScoreIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     std::shared_ptr<TokenCounts> m_Tokens;
     bool m_TokensIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

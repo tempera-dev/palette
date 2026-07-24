@@ -15,9 +15,9 @@ use serde::{Deserialize, Serialize};
 pub struct TraceView {
     #[serde(rename = "spans")]
     pub spans: Vec<models::CanonicalSpan>,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

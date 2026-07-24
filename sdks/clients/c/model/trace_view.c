@@ -89,7 +89,7 @@ cJSON *trace_view_convertToJSON(trace_view_t *trace_view) {
     if (!trace_view->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", trace_view->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", trace_view->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -98,7 +98,7 @@ cJSON *trace_view_convertToJSON(trace_view_t *trace_view) {
     if (!trace_view->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", trace_view->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", trace_view->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -145,7 +145,7 @@ trace_view_t *trace_view_parseFromJSON(cJSON *trace_viewJSON){
     }
 
     // trace_view->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(trace_viewJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(trace_viewJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -160,7 +160,7 @@ trace_view_t *trace_view_parseFromJSON(cJSON *trace_viewJSON){
     }
 
     // trace_view->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(trace_viewJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(trace_viewJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

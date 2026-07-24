@@ -80,7 +80,7 @@ cJSON *scenario_cluster_convertToJSON(scenario_cluster_t *scenario_cluster) {
     if(dominant_failure_mode_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "dominant_failure_mode", dominant_failure_mode_local_JSON);
+    cJSON_AddItemToObject(item, "dominantFailureMode", dominant_failure_mode_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -90,7 +90,7 @@ cJSON *scenario_cluster_convertToJSON(scenario_cluster_t *scenario_cluster) {
     if (!scenario_cluster->exemplar_trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "exemplar_trace_id", scenario_cluster->exemplar_trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "exemplarTraceId", scenario_cluster->exemplar_trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -99,7 +99,7 @@ cJSON *scenario_cluster_convertToJSON(scenario_cluster_t *scenario_cluster) {
     if (!scenario_cluster->member_trace_ids) {
         goto fail;
     }
-    cJSON *member_trace_ids = cJSON_AddArrayToObject(item, "member_trace_ids");
+    cJSON *member_trace_ids = cJSON_AddArrayToObject(item, "memberTraceIds");
     if(member_trace_ids == NULL) {
         goto fail; //primitive container
     }
@@ -157,7 +157,7 @@ scenario_cluster_t *scenario_cluster_parseFromJSON(cJSON *scenario_clusterJSON){
     signature_t *signature_local_nonprim = NULL;
 
     // scenario_cluster->dominant_failure_mode
-    cJSON *dominant_failure_mode = cJSON_GetObjectItemCaseSensitive(scenario_clusterJSON, "dominant_failure_mode");
+    cJSON *dominant_failure_mode = cJSON_GetObjectItemCaseSensitive(scenario_clusterJSON, "dominantFailureMode");
     if (cJSON_IsNull(dominant_failure_mode)) {
         dominant_failure_mode = NULL;
     }
@@ -169,7 +169,7 @@ scenario_cluster_t *scenario_cluster_parseFromJSON(cJSON *scenario_clusterJSON){
     dominant_failure_mode_local_nonprim = failure_mode_parseFromJSON(dominant_failure_mode); //custom
 
     // scenario_cluster->exemplar_trace_id
-    cJSON *exemplar_trace_id = cJSON_GetObjectItemCaseSensitive(scenario_clusterJSON, "exemplar_trace_id");
+    cJSON *exemplar_trace_id = cJSON_GetObjectItemCaseSensitive(scenario_clusterJSON, "exemplarTraceId");
     if (cJSON_IsNull(exemplar_trace_id)) {
         exemplar_trace_id = NULL;
     }
@@ -184,7 +184,7 @@ scenario_cluster_t *scenario_cluster_parseFromJSON(cJSON *scenario_clusterJSON){
     }
 
     // scenario_cluster->member_trace_ids
-    cJSON *member_trace_ids = cJSON_GetObjectItemCaseSensitive(scenario_clusterJSON, "member_trace_ids");
+    cJSON *member_trace_ids = cJSON_GetObjectItemCaseSensitive(scenario_clusterJSON, "memberTraceIds");
     if (cJSON_IsNull(member_trace_ids)) {
         member_trace_ids = NULL;
     }

@@ -15,19 +15,19 @@ use serde::{Deserialize, Serialize};
 pub struct ProviderSecretMetadata {
     #[serde(rename = "active")]
     pub active: bool,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "display_name")]
+    #[serde(rename = "displayName")]
     pub display_name: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "provider")]
     pub provider: String,
-    #[serde(rename = "provider_secret_id")]
+    #[serde(rename = "providerSecretId")]
     pub provider_secret_id: String,
-    #[serde(rename = "rotated_at", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "rotatedAt", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub rotated_at: Option<Option<String>>,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

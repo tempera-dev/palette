@@ -20,7 +20,7 @@ namespace model {
 
 CreateDatasetVersionRequest::CreateDatasetVersionRequest()
 {
-    m_Case_idsIsSet = false;
+    m_CaseIdsIsSet = false;
 }
 
 CreateDatasetVersionRequest::~CreateDatasetVersionRequest()
@@ -35,10 +35,10 @@ void CreateDatasetVersionRequest::validate()
 web::json::value CreateDatasetVersionRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Case_idsIsSet)
+    if(m_CaseIdsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("case_ids"))] = ModelBase::toJson(m_Case_ids);
+        val[utility::conversions::to_string_t(U("caseIds"))] = ModelBase::toJson(m_CaseIds);
     }
 
     return val;
@@ -47,9 +47,9 @@ web::json::value CreateDatasetVersionRequest::toJson() const
 bool CreateDatasetVersionRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("case_ids"))))
+    if(val.has_field(utility::conversions::to_string_t(U("caseIds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("case_ids")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("caseIds")));
         if(!fieldValue.is_null())
         {
             std::vector<utility::string_t> refVal_setCaseIds;
@@ -68,9 +68,9 @@ void CreateDatasetVersionRequest::toMultipart(std::shared_ptr<MultipartFormData>
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Case_idsIsSet)
+    if(m_CaseIdsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("case_ids")), m_Case_ids));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("caseIds")), m_CaseIds));
     }
 }
 
@@ -83,10 +83,10 @@ bool CreateDatasetVersionRequest::fromMultiPart(std::shared_ptr<MultipartFormDat
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("case_ids"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("caseIds"))))
     {
         std::vector<utility::string_t> refVal_setCaseIds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("case_ids"))), refVal_setCaseIds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("caseIds"))), refVal_setCaseIds );
         setCaseIds(refVal_setCaseIds);
     }
     return ok;
@@ -95,24 +95,24 @@ bool CreateDatasetVersionRequest::fromMultiPart(std::shared_ptr<MultipartFormDat
 
 std::vector<utility::string_t> CreateDatasetVersionRequest::getCaseIds() const
 {
-    return m_Case_ids;
+    return m_CaseIds;
 }
 
 
 void CreateDatasetVersionRequest::setCaseIds(const std::vector<utility::string_t>& value)
 {
-    m_Case_ids = value;
-    m_Case_idsIsSet = true;
+    m_CaseIds = value;
+    m_CaseIdsIsSet = true;
 }
 
 bool CreateDatasetVersionRequest::caseIdsIsSet() const
 {
-    return m_Case_idsIsSet;
+    return m_CaseIdsIsSet;
 }
 
-void CreateDatasetVersionRequest::unsetCase_ids()
+void CreateDatasetVersionRequest::unsetCaseIds()
 {
-    m_Case_idsIsSet = false;
+    m_CaseIdsIsSet = false;
 }
 
 }

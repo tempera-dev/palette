@@ -15,13 +15,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ConnectionLink {
     /// Composio connection id (`ca_…`) created for this handshake.
-    #[serde(rename = "connected_account_id")]
+    #[serde(rename = "connectedAccountId")]
     pub connected_account_id: String,
     /// When the link expires (RFC 3339), if provided.
-    #[serde(rename = "expires_at", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "expiresAt", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub expires_at: Option<Option<String>>,
     /// URL the end user opens once to authorize the app.
-    #[serde(rename = "redirect_url")]
+    #[serde(rename = "redirectUrl")]
     pub redirect_url: String,
 }
 

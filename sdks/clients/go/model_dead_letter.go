@@ -22,7 +22,7 @@ var _ MappedNullable = &DeadLetter{}
 
 // DeadLetter struct for DeadLetter
 type DeadLetter struct {
-	FailedAt time.Time `json:"failed_at"`
+	FailedAt time.Time `json:"failedAt"`
 	Message BusMessage `json:"message"`
 	Reason string `json:"reason"`
 }
@@ -131,7 +131,7 @@ func (o DeadLetter) MarshalJSON() ([]byte, error) {
 
 func (o DeadLetter) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["failed_at"] = o.FailedAt
+	toSerialize["failedAt"] = o.FailedAt
 	toSerialize["message"] = o.Message
 	toSerialize["reason"] = o.Reason
 	return toSerialize, nil
@@ -142,7 +142,7 @@ func (o *DeadLetter) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"failed_at",
+		"failedAt",
 		"message",
 		"reason",
 	}

@@ -441,12 +441,17 @@ impl SpanStatus {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ArtifactRef {
+    #[serde(alias = "artifact_id")]
     pub artifact_id: ArtifactId,
     pub uri: String,
     pub sha256: Sha256Hash,
+    #[serde(alias = "size_bytes")]
     pub size_bytes: u64,
+    #[serde(alias = "mime_type")]
     pub mime_type: String,
+    #[serde(alias = "redaction_class")]
     pub redaction_class: RedactionClass,
 }
 
@@ -460,7 +465,9 @@ pub enum RedactionClass {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AuthContext {
+    #[serde(alias = "api_key_id")]
     pub api_key_id: Option<ApiKeyId>,
     pub scopes: BTreeSet<String>,
 }
@@ -488,32 +495,47 @@ pub struct ModelRef {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CanonicalSpan {
+    #[serde(alias = "schema_version")]
     pub schema_version: u32,
+    #[serde(alias = "normalizer_version")]
     pub normalizer_version: String,
+    #[serde(alias = "tenant_id")]
     pub tenant_id: TenantId,
+    #[serde(alias = "project_id")]
     pub project_id: ProjectId,
+    #[serde(alias = "environment_id")]
     pub environment_id: EnvironmentId,
+    #[serde(alias = "trace_id")]
     pub trace_id: TraceId,
+    #[serde(alias = "span_id")]
     pub span_id: SpanId,
+    #[serde(alias = "parent_span_id")]
     pub parent_span_id: Option<SpanId>,
     pub seq: u64,
     pub kind: AgentSpanKind,
     pub name: String,
     pub status: SpanStatus,
     #[schema(value_type = String, format = DateTime)]
+    #[serde(alias = "start_time")]
     pub start_time: Timestamp,
     #[schema(value_type = Option<String>, format = DateTime)]
+    #[serde(alias = "end_time")]
     pub end_time: Option<Timestamp>,
     pub model: Option<ModelRef>,
     pub cost: Option<Money>,
     pub tokens: Option<TokenCounts>,
+    #[serde(alias = "input_ref")]
     pub input_ref: Option<ArtifactRef>,
+    #[serde(alias = "output_ref")]
     pub output_ref: Option<ArtifactRef>,
     #[schema(value_type = std::collections::BTreeMap<String, serde_json::Value>)]
     pub attributes: CanonicalAttrs,
     #[schema(value_type = serde_json::Value)]
+    #[serde(alias = "unmapped_attrs")]
     pub unmapped_attrs: Value,
+    #[serde(alias = "raw_ref")]
     pub raw_ref: ArtifactRef,
 }
 
@@ -533,6 +555,7 @@ impl CanonicalTraceBatch {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct WriteAck {
     pub accepted_raw: usize,
     pub accepted_spans: usize,
@@ -541,6 +564,7 @@ pub struct WriteAck {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct TraceView {
     pub tenant_id: TenantId,
     pub trace_id: TraceId,
@@ -548,6 +572,7 @@ pub struct TraceView {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct RunSummary {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,
@@ -618,6 +643,7 @@ pub enum EvaluatorLane {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct EvalReproducibility {
     pub dataset_version_id: DatasetVersionId,
     pub dataset_case_id: DatasetCaseId,
@@ -639,6 +665,7 @@ pub struct EvalReproducibility {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct EvalResult {
     pub eval_result_id: EvalResultId,
     pub tenant_id: TenantId,

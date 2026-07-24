@@ -32,18 +32,18 @@ class Scenario(BaseModel):
     """
     A reusable failure scenario mined from production traces.
     """ # noqa: E501
-    created_at: datetime = Field(description="When the scenario was created.")
-    exemplar_trace_id: StrictStr
-    expected_outcome: Optional[StrictStr] = Field(default=None, description="Expected outcome for replay assertions, if known.")
-    failure_mode: FailureMode = Field(description="The dominant failure mode this scenario reproduces.")
-    perturbation_knobs: PerturbationKnobs = Field(description="Suggested perturbation knobs for replay.")
-    recurrence_count: Annotated[int, Field(strict=True, ge=0)] = Field(description="How many traces exhibited this scenario.")
-    redaction_class: RedactionClass = Field(description="Redaction classification of the scenario payload.")
-    scenario_id: StrictStr = Field(description="Stable, deterministic identifier for the scenario.")
+    created_at: datetime = Field(description="When the scenario was created.", alias="createdAt")
+    exemplar_trace_id: StrictStr = Field(alias="exemplarTraceId")
+    expected_outcome: Optional[StrictStr] = Field(default=None, description="Expected outcome for replay assertions, if known.", alias="expectedOutcome")
+    failure_mode: FailureMode = Field(description="The dominant failure mode this scenario reproduces.", alias="failureMode")
+    perturbation_knobs: PerturbationKnobs = Field(description="Suggested perturbation knobs for replay.", alias="perturbationKnobs")
+    recurrence_count: Annotated[int, Field(strict=True, ge=0)] = Field(description="How many traces exhibited this scenario.", alias="recurrenceCount")
+    redaction_class: RedactionClass = Field(description="Redaction classification of the scenario payload.", alias="redactionClass")
+    scenario_id: StrictStr = Field(description="Stable, deterministic identifier for the scenario.", alias="scenarioId")
     scope: TenantScope = Field(description="Tenant/project/environment scope this scenario belongs to.")
-    source_trace_ids: List[StrictStr] = Field(description="Trace ids the scenario was mined from, sorted ascending.")
+    source_trace_ids: List[StrictStr] = Field(description="Trace ids the scenario was mined from, sorted ascending.", alias="sourceTraceIds")
     title: StrictStr = Field(description="Human-readable title.")
-    __properties: ClassVar[List[str]] = ["created_at", "exemplar_trace_id", "expected_outcome", "failure_mode", "perturbation_knobs", "recurrence_count", "redaction_class", "scenario_id", "scope", "source_trace_ids", "title"]
+    __properties: ClassVar[List[str]] = ["createdAt", "exemplarTraceId", "expectedOutcome", "failureMode", "perturbationKnobs", "recurrenceCount", "redactionClass", "scenarioId", "scope", "sourceTraceIds", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,14 +86,14 @@ class Scenario(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of perturbation_knobs
         if self.perturbation_knobs:
-            _dict['perturbation_knobs'] = self.perturbation_knobs.to_dict()
+            _dict['perturbationKnobs'] = self.perturbation_knobs.to_dict()
         # override the default output from pydantic by calling `to_dict()` of scope
         if self.scope:
             _dict['scope'] = self.scope.to_dict()
         # set to None if expected_outcome (nullable) is None
         # and model_fields_set contains the field
         if self.expected_outcome is None and "expected_outcome" in self.model_fields_set:
-            _dict['expected_outcome'] = None
+            _dict['expectedOutcome'] = None
 
         return _dict
 
@@ -107,16 +107,16 @@ class Scenario(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_at": obj.get("created_at"),
-            "exemplar_trace_id": obj.get("exemplar_trace_id"),
-            "expected_outcome": obj.get("expected_outcome"),
-            "failure_mode": obj.get("failure_mode"),
-            "perturbation_knobs": PerturbationKnobs.from_dict(obj["perturbation_knobs"]) if obj.get("perturbation_knobs") is not None else None,
-            "recurrence_count": obj.get("recurrence_count"),
-            "redaction_class": obj.get("redaction_class"),
-            "scenario_id": obj.get("scenario_id"),
+            "createdAt": obj.get("createdAt"),
+            "exemplarTraceId": obj.get("exemplarTraceId"),
+            "expectedOutcome": obj.get("expectedOutcome"),
+            "failureMode": obj.get("failureMode"),
+            "perturbationKnobs": PerturbationKnobs.from_dict(obj["perturbationKnobs"]) if obj.get("perturbationKnobs") is not None else None,
+            "recurrenceCount": obj.get("recurrenceCount"),
+            "redactionClass": obj.get("redactionClass"),
+            "scenarioId": obj.get("scenarioId"),
             "scope": TenantScope.from_dict(obj["scope"]) if obj.get("scope") is not None else None,
-            "source_trace_ids": obj.get("source_trace_ids"),
+            "sourceTraceIds": obj.get("sourceTraceIds"),
             "title": obj.get("title")
         })
         return _obj

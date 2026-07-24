@@ -44,18 +44,18 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class OnlineSamplingPolicy {
-  public static final String JSON_PROPERTY_HIGH_COST_MICROS_THRESHOLD = "high_cost_micros_threshold";
+  public static final String JSON_PROPERTY_HIGH_COST_MICROS_THRESHOLD = "highCostMicrosThreshold";
   private JsonNullable<Long> highCostMicrosThreshold = JsonNullable.<Long>undefined();
 
-  public static final String JSON_PROPERTY_KEEP_ERRORS = "keep_errors";
+  public static final String JSON_PROPERTY_KEEP_ERRORS = "keepErrors";
   @javax.annotation.Nonnull
   private Boolean keepErrors;
 
-  public static final String JSON_PROPERTY_SAMPLE_RATE_PER_MILLE = "sample_rate_per_mille";
+  public static final String JSON_PROPERTY_SAMPLE_RATE_PER_MILLE = "sampleRatePerMille";
   @javax.annotation.Nonnull
   private Integer sampleRatePerMille;
 
-  public static final String JSON_PROPERTY_SLOW_MS_THRESHOLD = "slow_ms_threshold";
+  public static final String JSON_PROPERTY_SLOW_MS_THRESHOLD = "slowMsThreshold";
   private JsonNullable<Long> slowMsThreshold = JsonNullable.<Long>undefined();
 
   public OnlineSamplingPolicy() { 
@@ -264,24 +264,24 @@ public class OnlineSamplingPolicy {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `high_cost_micros_threshold` to the URL query string
+    // add `highCostMicrosThreshold` to the URL query string
     if (getHighCostMicrosThreshold() != null) {
-      joiner.add(String.format("%shigh_cost_micros_threshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHighCostMicrosThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shighCostMicrosThreshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHighCostMicrosThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `keep_errors` to the URL query string
+    // add `keepErrors` to the URL query string
     if (getKeepErrors() != null) {
-      joiner.add(String.format("%skeep_errors%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKeepErrors()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%skeepErrors%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKeepErrors()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `sample_rate_per_mille` to the URL query string
+    // add `sampleRatePerMille` to the URL query string
     if (getSampleRatePerMille() != null) {
-      joiner.add(String.format("%ssample_rate_per_mille%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleRatePerMille()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssampleRatePerMille%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleRatePerMille()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `slow_ms_threshold` to the URL query string
+    // add `slowMsThreshold` to the URL query string
     if (getSlowMsThreshold() != null) {
-      joiner.add(String.format("%sslow_ms_threshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSlowMsThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sslowMsThreshold%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSlowMsThreshold()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

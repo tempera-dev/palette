@@ -68,8 +68,8 @@ export function TraceViewFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'spans': ((json['spans'] as Array<any>).map(CanonicalSpanFromJSON)),
-        'tenantId': json['tenant_id'],
-        'traceId': json['trace_id'],
+        'tenantId': json['tenantId'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -85,8 +85,8 @@ export function TraceViewToJSONTyped(value?: TraceView | null, ignoreDiscriminat
     return {
         
         'spans': ((value['spans'] as Array<any>).map(CanonicalSpanToJSON)),
-        'tenant_id': value['tenantId'],
-        'trace_id': value['traceId'],
+        'tenantId': value['tenantId'],
+        'traceId': value['traceId'],
     };
 }
 

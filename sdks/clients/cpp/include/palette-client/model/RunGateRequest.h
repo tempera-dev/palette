@@ -55,13 +55,13 @@ public:
 
     utility::string_t getExperimentRunId() const;
     bool experimentRunIdIsSet() const;
-    void unsetExperiment_run_id();
+    void unsetExperimentRunId();
     void setExperimentRunId(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Experiment_run_id;
-    bool m_Experiment_run_idIsSet;
+    utility::string_t m_ExperimentRunId;
+    bool m_ExperimentRunIdIsSet;
 
 };
 

@@ -48,7 +48,7 @@ public class ConnectionStatus {
   @javax.annotation.Nonnull
   private Boolean connected;
 
-  public static final String JSON_PROPERTY_CONNECTED_ACCOUNT_ID = "connected_account_id";
+  public static final String JSON_PROPERTY_CONNECTED_ACCOUNT_ID = "connectedAccountId";
   private JsonNullable<String> connectedAccountId = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_STATUS = "status";
@@ -260,9 +260,9 @@ public class ConnectionStatus {
       joiner.add(String.format("%sconnected%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConnected()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `connected_account_id` to the URL query string
+    // add `connectedAccountId` to the URL query string
     if (getConnectedAccountId() != null) {
-      joiner.add(String.format("%sconnected_account_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConnectedAccountId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sconnectedAccountId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConnectedAccountId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string

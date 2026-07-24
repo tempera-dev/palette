@@ -23,7 +23,7 @@ var _ MappedNullable = &AlertDecision{}
 type AlertDecision struct {
 	Delivery NullableWebhookDelivery `json:"delivery,omitempty"`
 	Emitted bool `json:"emitted"`
-	SuppressedReason NullableString `json:"suppressed_reason,omitempty"`
+	SuppressedReason NullableString `json:"suppressedReason,omitempty"`
 }
 
 type _AlertDecision AlertDecision
@@ -169,7 +169,7 @@ func (o AlertDecision) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["emitted"] = o.Emitted
 	if o.SuppressedReason.IsSet() {
-		toSerialize["suppressed_reason"] = o.SuppressedReason.Get()
+		toSerialize["suppressedReason"] = o.SuppressedReason.Get()
 	}
 	return toSerialize, nil
 }

@@ -21,21 +21,21 @@ var _ MappedNullable = &CaseExperimentScore{}
 
 // CaseExperimentScore struct for CaseExperimentScore
 type CaseExperimentScore struct {
-	BaselineCached NullableBool `json:"baseline_cached,omitempty"`
-	BaselineCost NullableMoney `json:"baseline_cost,omitempty"`
-	BaselineEvidence interface{} `json:"baseline_evidence"`
-	BaselineJudgeCallId *string `json:"baseline_judge_call_id,omitempty"`
-	BaselineOutput interface{} `json:"baseline_output"`
-	BaselineScore float64 `json:"baseline_score"`
-	BaselineTrace interface{} `json:"baseline_trace,omitempty"`
-	CandidateCached NullableBool `json:"candidate_cached,omitempty"`
-	CandidateCost NullableMoney `json:"candidate_cost,omitempty"`
-	CandidateEvidence interface{} `json:"candidate_evidence"`
-	CandidateJudgeCallId *string `json:"candidate_judge_call_id,omitempty"`
-	CandidateOutput interface{} `json:"candidate_output"`
-	CandidateScore float64 `json:"candidate_score"`
-	CandidateTrace interface{} `json:"candidate_trace,omitempty"`
-	CaseId string `json:"case_id"`
+	BaselineCached NullableBool `json:"baselineCached,omitempty"`
+	BaselineCost NullableMoney `json:"baselineCost,omitempty"`
+	BaselineEvidence interface{} `json:"baselineEvidence"`
+	BaselineJudgeCallId *string `json:"baselineJudgeCallId,omitempty"`
+	BaselineOutput interface{} `json:"baselineOutput"`
+	BaselineScore float64 `json:"baselineScore"`
+	BaselineTrace interface{} `json:"baselineTrace,omitempty"`
+	CandidateCached NullableBool `json:"candidateCached,omitempty"`
+	CandidateCost NullableMoney `json:"candidateCost,omitempty"`
+	CandidateEvidence interface{} `json:"candidateEvidence"`
+	CandidateJudgeCallId *string `json:"candidateJudgeCallId,omitempty"`
+	CandidateOutput interface{} `json:"candidateOutput"`
+	CandidateScore float64 `json:"candidateScore"`
+	CandidateTrace interface{} `json:"candidateTrace,omitempty"`
+	CaseId string `json:"caseId"`
 	Delta float64 `json:"delta"`
 	Reference interface{} `json:"reference,omitempty"`
 }
@@ -609,44 +609,44 @@ func (o CaseExperimentScore) MarshalJSON() ([]byte, error) {
 func (o CaseExperimentScore) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.BaselineCached.IsSet() {
-		toSerialize["baseline_cached"] = o.BaselineCached.Get()
+		toSerialize["baselineCached"] = o.BaselineCached.Get()
 	}
 	if o.BaselineCost.IsSet() {
-		toSerialize["baseline_cost"] = o.BaselineCost.Get()
+		toSerialize["baselineCost"] = o.BaselineCost.Get()
 	}
 	if o.BaselineEvidence != nil {
-		toSerialize["baseline_evidence"] = o.BaselineEvidence
+		toSerialize["baselineEvidence"] = o.BaselineEvidence
 	}
 	if !IsNil(o.BaselineJudgeCallId) {
-		toSerialize["baseline_judge_call_id"] = o.BaselineJudgeCallId
+		toSerialize["baselineJudgeCallId"] = o.BaselineJudgeCallId
 	}
 	if o.BaselineOutput != nil {
-		toSerialize["baseline_output"] = o.BaselineOutput
+		toSerialize["baselineOutput"] = o.BaselineOutput
 	}
-	toSerialize["baseline_score"] = o.BaselineScore
+	toSerialize["baselineScore"] = o.BaselineScore
 	if o.BaselineTrace != nil {
-		toSerialize["baseline_trace"] = o.BaselineTrace
+		toSerialize["baselineTrace"] = o.BaselineTrace
 	}
 	if o.CandidateCached.IsSet() {
-		toSerialize["candidate_cached"] = o.CandidateCached.Get()
+		toSerialize["candidateCached"] = o.CandidateCached.Get()
 	}
 	if o.CandidateCost.IsSet() {
-		toSerialize["candidate_cost"] = o.CandidateCost.Get()
+		toSerialize["candidateCost"] = o.CandidateCost.Get()
 	}
 	if o.CandidateEvidence != nil {
-		toSerialize["candidate_evidence"] = o.CandidateEvidence
+		toSerialize["candidateEvidence"] = o.CandidateEvidence
 	}
 	if !IsNil(o.CandidateJudgeCallId) {
-		toSerialize["candidate_judge_call_id"] = o.CandidateJudgeCallId
+		toSerialize["candidateJudgeCallId"] = o.CandidateJudgeCallId
 	}
 	if o.CandidateOutput != nil {
-		toSerialize["candidate_output"] = o.CandidateOutput
+		toSerialize["candidateOutput"] = o.CandidateOutput
 	}
-	toSerialize["candidate_score"] = o.CandidateScore
+	toSerialize["candidateScore"] = o.CandidateScore
 	if o.CandidateTrace != nil {
-		toSerialize["candidate_trace"] = o.CandidateTrace
+		toSerialize["candidateTrace"] = o.CandidateTrace
 	}
-	toSerialize["case_id"] = o.CaseId
+	toSerialize["caseId"] = o.CaseId
 	toSerialize["delta"] = o.Delta
 	if o.Reference != nil {
 		toSerialize["reference"] = o.Reference
@@ -659,13 +659,13 @@ func (o *CaseExperimentScore) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"baseline_evidence",
-		"baseline_output",
-		"baseline_score",
-		"candidate_evidence",
-		"candidate_output",
-		"candidate_score",
-		"case_id",
+		"baselineEvidence",
+		"baselineOutput",
+		"baselineScore",
+		"candidateEvidence",
+		"candidateOutput",
+		"candidateScore",
+		"caseId",
 		"delta",
 	}
 

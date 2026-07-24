@@ -60,8 +60,8 @@ export function RevokedProviderSecretFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'active': json['active'],
-        'providerSecretId': json['provider_secret_id'],
-        'rotatedAt': (new Date(json['rotated_at'])),
+        'providerSecretId': json['providerSecretId'],
+        'rotatedAt': (new Date(json['rotatedAt'])),
     };
 }
 
@@ -77,8 +77,8 @@ export function RevokedProviderSecretToJSONTyped(value?: RevokedProviderSecret |
     return {
         
         'active': value['active'],
-        'provider_secret_id': value['providerSecretId'],
-        'rotated_at': ((value['rotatedAt']).toISOString()),
+        'providerSecretId': value['providerSecretId'],
+        'rotatedAt': ((value['rotatedAt']).toISOString()),
     };
 }
 

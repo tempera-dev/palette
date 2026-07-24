@@ -21,8 +21,8 @@ namespace model {
 WebhookDelivery::WebhookDelivery()
 {
     m_BodyIsSet = false;
-    m_Endpoint_url = utility::conversions::to_string_t("");
-    m_Endpoint_urlIsSet = false;
+    m_EndpointUrl = utility::conversions::to_string_t("");
+    m_EndpointUrlIsSet = false;
     m_HeadersIsSet = false;
 }
 
@@ -43,10 +43,10 @@ web::json::value WebhookDelivery::toJson() const
         
         val[utility::conversions::to_string_t(U("body"))] = ModelBase::toJson(m_Body);
     }
-    if(m_Endpoint_urlIsSet)
+    if(m_EndpointUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("endpoint_url"))] = ModelBase::toJson(m_Endpoint_url);
+        val[utility::conversions::to_string_t(U("endpointUrl"))] = ModelBase::toJson(m_EndpointUrl);
     }
     if(m_HeadersIsSet)
     {   
@@ -71,9 +71,9 @@ bool WebhookDelivery::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("endpoint_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endpointUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endpoint_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endpointUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEndpointUrl;
@@ -107,9 +107,9 @@ void WebhookDelivery::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("body")), m_Body));
     }
-    if(m_Endpoint_urlIsSet)
+    if(m_EndpointUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endpoint_url")), m_Endpoint_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endpointUrl")), m_EndpointUrl));
     }
     if(m_HeadersIsSet)
     {
@@ -132,10 +132,10 @@ bool WebhookDelivery::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("body"))), refVal_setBody );
         setBody(refVal_setBody);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("endpoint_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endpointUrl"))))
     {
         utility::string_t refVal_setEndpointUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endpoint_url"))), refVal_setEndpointUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endpointUrl"))), refVal_setEndpointUrl );
         setEndpointUrl(refVal_setEndpointUrl);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("headers"))))
@@ -171,24 +171,24 @@ void WebhookDelivery::unsetBody()
 }
 utility::string_t WebhookDelivery::getEndpointUrl() const
 {
-    return m_Endpoint_url;
+    return m_EndpointUrl;
 }
 
 
 void WebhookDelivery::setEndpointUrl(const utility::string_t& value)
 {
-    m_Endpoint_url = value;
-    m_Endpoint_urlIsSet = true;
+    m_EndpointUrl = value;
+    m_EndpointUrlIsSet = true;
 }
 
 bool WebhookDelivery::endpointUrlIsSet() const
 {
-    return m_Endpoint_urlIsSet;
+    return m_EndpointUrlIsSet;
 }
 
-void WebhookDelivery::unsetEndpoint_url()
+void WebhookDelivery::unsetEndpointUrl()
 {
-    m_Endpoint_urlIsSet = false;
+    m_EndpointUrlIsSet = false;
 }
 std::map<utility::string_t, utility::string_t> WebhookDelivery::getHeaders() const
 {

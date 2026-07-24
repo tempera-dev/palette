@@ -462,7 +462,7 @@ class SearchApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         # process the query parameters
         if q is not None:
 
@@ -470,19 +470,19 @@ class SearchApi:
 
         if project_id is not None:
 
-            _query_params.append(('project_id', project_id))
+            _query_params.append(('projectId', project_id))
 
         if environment_id is not None:
 
-            _query_params.append(('environment_id', environment_id))
+            _query_params.append(('environmentId', environment_id))
 
         if trace_id is not None:
 
-            _query_params.append(('trace_id', trace_id))
+            _query_params.append(('traceId', trace_id))
 
         if span_id is not None:
 
-            _query_params.append(('span_id', span_id))
+            _query_params.append(('spanId', span_id))
 
         if kind is not None:
 
@@ -536,7 +536,7 @@ class SearchApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/search/{tenant_id}/spans',
+            resource_path='/v1/search/{tenantId}/spans',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

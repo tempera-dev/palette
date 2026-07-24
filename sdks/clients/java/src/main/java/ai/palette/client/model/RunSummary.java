@@ -58,13 +58,13 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class RunSummary {
-  public static final String JSON_PROPERTY_DURATION_MS = "duration_ms";
+  public static final String JSON_PROPERTY_DURATION_MS = "durationMs";
   private JsonNullable<Long> durationMs = JsonNullable.<Long>undefined();
 
-  public static final String JSON_PROPERTY_ENDED_AT = "ended_at";
+  public static final String JSON_PROPERTY_ENDED_AT = "endedAt";
   private JsonNullable<OffsetDateTime> endedAt = JsonNullable.<OffsetDateTime>undefined();
 
-  public static final String JSON_PROPERTY_FIRST_SPAN_NAME = "first_span_name";
+  public static final String JSON_PROPERTY_FIRST_SPAN_NAME = "firstSpanName";
   @javax.annotation.Nonnull
   private String firstSpanName;
 
@@ -72,19 +72,19 @@ public class RunSummary {
   @javax.annotation.Nonnull
   private List<ModelRef> models = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_RELEASE_IDS = "release_ids";
+  public static final String JSON_PROPERTY_RELEASE_IDS = "releaseIds";
   @javax.annotation.Nonnull
   private List<String> releaseIds = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_SPAN_COUNT = "span_count";
+  public static final String JSON_PROPERTY_SPAN_COUNT = "spanCount";
   @javax.annotation.Nonnull
   private Integer spanCount;
 
-  public static final String JSON_PROPERTY_STARTED_AT = "started_at";
+  public static final String JSON_PROPERTY_STARTED_AT = "startedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime startedAt;
 
@@ -92,14 +92,14 @@ public class RunSummary {
   @javax.annotation.Nonnull
   private SpanStatus status;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
-  public static final String JSON_PROPERTY_TOTAL_COST = "total_cost";
+  public static final String JSON_PROPERTY_TOTAL_COST = "totalCost";
   private JsonNullable<Money> totalCost = JsonNullable.<Money>undefined();
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -540,19 +540,19 @@ public class RunSummary {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `duration_ms` to the URL query string
+    // add `durationMs` to the URL query string
     if (getDurationMs() != null) {
-      joiner.add(String.format("%sduration_ms%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDurationMs()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdurationMs%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDurationMs()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `ended_at` to the URL query string
+    // add `endedAt` to the URL query string
     if (getEndedAt() != null) {
-      joiner.add(String.format("%sended_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `first_span_name` to the URL query string
+    // add `firstSpanName` to the URL query string
     if (getFirstSpanName() != null) {
-      joiner.add(String.format("%sfirst_span_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstSpanName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfirstSpanName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstSpanName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `models` to the URL query string
@@ -565,28 +565,28 @@ public class RunSummary {
       }
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `release_ids` to the URL query string
+    // add `releaseIds` to the URL query string
     if (getReleaseIds() != null) {
       for (int i = 0; i < getReleaseIds().size(); i++) {
-        joiner.add(String.format("%srelease_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%sreleaseIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getReleaseIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
-    // add `span_count` to the URL query string
+    // add `spanCount` to the URL query string
     if (getSpanCount() != null) {
-      joiner.add(String.format("%sspan_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `started_at` to the URL query string
+    // add `startedAt` to the URL query string
     if (getStartedAt() != null) {
-      joiner.add(String.format("%sstarted_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstartedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
@@ -594,19 +594,19 @@ public class RunSummary {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `total_cost` to the URL query string
+    // add `totalCost` to the URL query string
     if (getTotalCost() != null) {
-      joiner.add(getTotalCost().toUrlQueryString(prefix + "total_cost" + suffix));
+      joiner.add(getTotalCost().toUrlQueryString(prefix + "totalCost" + suffix));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -21,9 +21,9 @@ var _ MappedNullable = &TenantScope{}
 
 // TenantScope struct for TenantScope
 type TenantScope struct {
-	EnvironmentId string `json:"environment_id"`
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
+	EnvironmentId string `json:"environmentId"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
 }
 
 type _TenantScope TenantScope
@@ -130,9 +130,9 @@ func (o TenantScope) MarshalJSON() ([]byte, error) {
 
 func (o TenantScope) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["environment_id"] = o.EnvironmentId
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["environmentId"] = o.EnvironmentId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -141,9 +141,9 @@ func (o *TenantScope) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"environment_id",
-		"project_id",
-		"tenant_id",
+		"environmentId",
+		"projectId",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

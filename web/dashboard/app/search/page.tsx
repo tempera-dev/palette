@@ -29,8 +29,8 @@ export default async function SearchPage({
     kind: textValue(params.kind),
     model: textValue(params.model),
     tool: textValue(params.tool),
-    traceId: textValue(params.trace_id) ?? textValue(params.trace),
-    spanId: textValue(params.span_id) ?? textValue(params.span),
+    traceId: textValue(params.traceId) ?? textValue(params.trace),
+    spanId: textValue(params.spanId) ?? textValue(params.span),
     pageSize: boundedLimit(params.pageSize)
   };
   const data = await loadSearchData(query);
@@ -149,11 +149,11 @@ export default async function SearchPage({
             </label>
             <label>
               <span>Trace</span>
-              <input name="trace_id" defaultValue={data.query.traceId} placeholder="trace id" />
+              <input name="traceId" defaultValue={data.query.traceId} placeholder="trace id" />
             </label>
             <label>
               <span>Span</span>
-              <input name="span_id" defaultValue={data.query.spanId} placeholder="span id" />
+              <input name="spanId" defaultValue={data.query.spanId} placeholder="span id" />
             </label>
             <label>
               <span>Limit</span>
@@ -193,7 +193,7 @@ export default async function SearchPage({
             </div>
           ) : null}
           {hits.map((hit) => (
-            <SearchResultRow hit={hit} key={`${hit.trace_id}:${hit.span_id}`} />
+            <SearchResultRow hit={hit} key={`${hit.traceId}:${hit.spanId}`} />
           ))}
           {hits.length === 0 ? <div className="empty">No search hits match this query.</div> : null}
         </div>
@@ -220,17 +220,17 @@ function SearchResultRow({ hit }: { hit: SearchHit }) {
       className="search-row"
       data-status={hit.status}
       href={traceHitHref(hit)}
-      title={`${hit.trace_id}/${hit.span_id}`}
+      title={`${hit.traceId}/${hit.spanId}`}
     >
       <span className="search-hit-main">
         <strong>{hit.name}</strong>
         <small>
-          {hit.trace_id}/{hit.span_id}
+          {hit.traceId}/{hit.spanId}
         </small>
       </span>
       <span className="search-hit-scope">
-        <span>{hit.project_id}</span>
-        <small>{hit.environment_id}</small>
+        <span>{hit.projectId}</span>
+        <small>{hit.environmentId}</small>
       </span>
       <span className="search-hit-signals">
         <span className={`status ${hit.status}`}>{statusLabel(hit.status)}</span>
@@ -294,11 +294,11 @@ function traceConsoleHref(query: SearchQuery): string {
 
 function traceHitHref(hit: SearchHit): string {
   const params = new URLSearchParams();
-  params.set("tenant", hit.tenant_id);
-  params.set("project", hit.project_id);
-  params.set("environment", hit.environment_id);
-  params.set("trace", hit.trace_id);
-  params.set("span", hit.span_id);
+  params.set("tenant", hit.tenantId);
+  params.set("project", hit.projectId);
+  params.set("environment", hit.environmentId);
+  params.set("trace", hit.traceId);
+  params.set("span", hit.spanId);
   return `/?${params.toString()}`;
 }
 
@@ -312,8 +312,8 @@ function searchUiParams(query: SearchQuery): URLSearchParams {
   if (query.kind) params.set("kind", query.kind);
   if (query.model) params.set("model", query.model);
   if (query.tool) params.set("tool", query.tool);
-  if (query.traceId) params.set("trace_id", query.traceId);
-  if (query.spanId) params.set("span_id", query.spanId);
+  if (query.traceId) params.set("traceId", query.traceId);
+  if (query.spanId) params.set("spanId", query.spanId);
   if (query.pageSize !== undefined) params.set("pageSize", String(query.pageSize));
   return params;
 }

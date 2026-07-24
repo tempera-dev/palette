@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.experiment_comparison import ExperimentComparison
 from palette_client.models.gate_decision import GateDecision
@@ -31,27 +31,27 @@ class GateRunReport(BaseModel):
     """
     GateRunReport
     """ # noqa: E501
-    baseline_release_id: StrictStr
-    candidate_release_id: StrictStr
+    baseline_release_id: StrictStr = Field(alias="baselineReleaseId")
+    candidate_release_id: StrictStr = Field(alias="candidateReleaseId")
     comparison: ExperimentComparison
-    created_at: datetime
-    dataset_id: StrictStr
-    evaluator_version_id: StrictStr
-    experiment_created_at: datetime
-    experiment_decision: GateDecision
-    experiment_gate_policy: GatePolicy
-    experiment_run_id: StrictStr
-    gate_dataset_id: Optional[StrictStr] = None
-    gate_evaluator_version_id: Optional[StrictStr] = None
-    gate_id: StrictStr
-    gate_name: StrictStr
-    gate_run_id: StrictStr
-    inconclusive_policy: InconclusivePolicy
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
+    experiment_created_at: datetime = Field(alias="experimentCreatedAt")
+    experiment_decision: GateDecision = Field(alias="experimentDecision")
+    experiment_gate_policy: GatePolicy = Field(alias="experimentGatePolicy")
+    experiment_run_id: StrictStr = Field(alias="experimentRunId")
+    gate_dataset_id: Optional[StrictStr] = Field(default=None, alias="gateDatasetId")
+    gate_evaluator_version_id: Optional[StrictStr] = Field(default=None, alias="gateEvaluatorVersionId")
+    gate_id: StrictStr = Field(alias="gateId")
+    gate_name: StrictStr = Field(alias="gateName")
+    gate_run_id: StrictStr = Field(alias="gateRunId")
+    inconclusive_policy: InconclusivePolicy = Field(alias="inconclusivePolicy")
     passed: StrictBool
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     reason: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["baseline_release_id", "candidate_release_id", "comparison", "created_at", "dataset_id", "evaluator_version_id", "experiment_created_at", "experiment_decision", "experiment_gate_policy", "experiment_run_id", "gate_dataset_id", "gate_evaluator_version_id", "gate_id", "gate_name", "gate_run_id", "inconclusive_policy", "passed", "project_id", "reason", "tenant_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["baselineReleaseId", "candidateReleaseId", "comparison", "createdAt", "datasetId", "evaluatorVersionId", "experimentCreatedAt", "experimentDecision", "experimentGatePolicy", "experimentRunId", "gateDatasetId", "gateEvaluatorVersionId", "gateId", "gateName", "gateRunId", "inconclusivePolicy", "passed", "projectId", "reason", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,7 +97,7 @@ class GateRunReport(BaseModel):
             _dict['comparison'] = self.comparison.to_dict()
         # override the default output from pydantic by calling `to_dict()` of experiment_gate_policy
         if self.experiment_gate_policy:
-            _dict['experiment_gate_policy'] = self.experiment_gate_policy.to_dict()
+            _dict['experimentGatePolicy'] = self.experiment_gate_policy.to_dict()
         return _dict
 
     @classmethod
@@ -110,26 +110,26 @@ class GateRunReport(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "baseline_release_id": obj.get("baseline_release_id"),
-            "candidate_release_id": obj.get("candidate_release_id"),
+            "baselineReleaseId": obj.get("baselineReleaseId"),
+            "candidateReleaseId": obj.get("candidateReleaseId"),
             "comparison": ExperimentComparison.from_dict(obj["comparison"]) if obj.get("comparison") is not None else None,
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "experiment_created_at": obj.get("experiment_created_at"),
-            "experiment_decision": obj.get("experiment_decision"),
-            "experiment_gate_policy": GatePolicy.from_dict(obj["experiment_gate_policy"]) if obj.get("experiment_gate_policy") is not None else None,
-            "experiment_run_id": obj.get("experiment_run_id"),
-            "gate_dataset_id": obj.get("gate_dataset_id"),
-            "gate_evaluator_version_id": obj.get("gate_evaluator_version_id"),
-            "gate_id": obj.get("gate_id"),
-            "gate_name": obj.get("gate_name"),
-            "gate_run_id": obj.get("gate_run_id"),
-            "inconclusive_policy": obj.get("inconclusive_policy"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "experimentCreatedAt": obj.get("experimentCreatedAt"),
+            "experimentDecision": obj.get("experimentDecision"),
+            "experimentGatePolicy": GatePolicy.from_dict(obj["experimentGatePolicy"]) if obj.get("experimentGatePolicy") is not None else None,
+            "experimentRunId": obj.get("experimentRunId"),
+            "gateDatasetId": obj.get("gateDatasetId"),
+            "gateEvaluatorVersionId": obj.get("gateEvaluatorVersionId"),
+            "gateId": obj.get("gateId"),
+            "gateName": obj.get("gateName"),
+            "gateRunId": obj.get("gateRunId"),
+            "inconclusivePolicy": obj.get("inconclusivePolicy"),
             "passed": obj.get("passed"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "reason": obj.get("reason"),
-            "tenant_id": obj.get("tenant_id")
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

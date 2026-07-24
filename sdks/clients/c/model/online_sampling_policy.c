@@ -55,7 +55,7 @@ cJSON *online_sampling_policy_convertToJSON(online_sampling_policy_t *online_sam
 
     // online_sampling_policy->high_cost_micros_threshold
     if(online_sampling_policy->high_cost_micros_threshold) {
-    if(cJSON_AddNumberToObject(item, "high_cost_micros_threshold", online_sampling_policy->high_cost_micros_threshold) == NULL) {
+    if(cJSON_AddNumberToObject(item, "highCostMicrosThreshold", online_sampling_policy->high_cost_micros_threshold) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -65,7 +65,7 @@ cJSON *online_sampling_policy_convertToJSON(online_sampling_policy_t *online_sam
     if (!online_sampling_policy->keep_errors) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "keep_errors", online_sampling_policy->keep_errors) == NULL) {
+    if(cJSON_AddBoolToObject(item, "keepErrors", online_sampling_policy->keep_errors) == NULL) {
     goto fail; //Bool
     }
 
@@ -74,14 +74,14 @@ cJSON *online_sampling_policy_convertToJSON(online_sampling_policy_t *online_sam
     if (!online_sampling_policy->sample_rate_per_mille) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "sample_rate_per_mille", online_sampling_policy->sample_rate_per_mille) == NULL) {
+    if(cJSON_AddNumberToObject(item, "sampleRatePerMille", online_sampling_policy->sample_rate_per_mille) == NULL) {
     goto fail; //Numeric
     }
 
 
     // online_sampling_policy->slow_ms_threshold
     if(online_sampling_policy->slow_ms_threshold) {
-    if(cJSON_AddNumberToObject(item, "slow_ms_threshold", online_sampling_policy->slow_ms_threshold) == NULL) {
+    if(cJSON_AddNumberToObject(item, "slowMsThreshold", online_sampling_policy->slow_ms_threshold) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -99,7 +99,7 @@ online_sampling_policy_t *online_sampling_policy_parseFromJSON(cJSON *online_sam
     online_sampling_policy_t *online_sampling_policy_local_var = NULL;
 
     // online_sampling_policy->high_cost_micros_threshold
-    cJSON *high_cost_micros_threshold = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "high_cost_micros_threshold");
+    cJSON *high_cost_micros_threshold = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "highCostMicrosThreshold");
     if (cJSON_IsNull(high_cost_micros_threshold)) {
         high_cost_micros_threshold = NULL;
     }
@@ -111,7 +111,7 @@ online_sampling_policy_t *online_sampling_policy_parseFromJSON(cJSON *online_sam
     }
 
     // online_sampling_policy->keep_errors
-    cJSON *keep_errors = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "keep_errors");
+    cJSON *keep_errors = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "keepErrors");
     if (cJSON_IsNull(keep_errors)) {
         keep_errors = NULL;
     }
@@ -126,7 +126,7 @@ online_sampling_policy_t *online_sampling_policy_parseFromJSON(cJSON *online_sam
     }
 
     // online_sampling_policy->sample_rate_per_mille
-    cJSON *sample_rate_per_mille = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "sample_rate_per_mille");
+    cJSON *sample_rate_per_mille = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "sampleRatePerMille");
     if (cJSON_IsNull(sample_rate_per_mille)) {
         sample_rate_per_mille = NULL;
     }
@@ -141,7 +141,7 @@ online_sampling_policy_t *online_sampling_policy_parseFromJSON(cJSON *online_sam
     }
 
     // online_sampling_policy->slow_ms_threshold
-    cJSON *slow_ms_threshold = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "slow_ms_threshold");
+    cJSON *slow_ms_threshold = cJSON_GetObjectItemCaseSensitive(online_sampling_policyJSON, "slowMsThreshold");
     if (cJSON_IsNull(slow_ms_threshold)) {
         slow_ms_threshold = NULL;
     }

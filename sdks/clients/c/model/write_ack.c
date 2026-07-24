@@ -57,7 +57,7 @@ cJSON *write_ack_convertToJSON(write_ack_t *write_ack) {
     if (!write_ack->accepted_raw) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "accepted_raw", write_ack->accepted_raw) == NULL) {
+    if(cJSON_AddNumberToObject(item, "acceptedRaw", write_ack->accepted_raw) == NULL) {
     goto fail; //Numeric
     }
 
@@ -66,7 +66,7 @@ cJSON *write_ack_convertToJSON(write_ack_t *write_ack) {
     if (!write_ack->accepted_spans) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "accepted_spans", write_ack->accepted_spans) == NULL) {
+    if(cJSON_AddNumberToObject(item, "acceptedSpans", write_ack->accepted_spans) == NULL) {
     goto fail; //Numeric
     }
 
@@ -75,7 +75,7 @@ cJSON *write_ack_convertToJSON(write_ack_t *write_ack) {
     if (!write_ack->duplicate_raw) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "duplicate_raw", write_ack->duplicate_raw) == NULL) {
+    if(cJSON_AddNumberToObject(item, "duplicateRaw", write_ack->duplicate_raw) == NULL) {
     goto fail; //Numeric
     }
 
@@ -84,7 +84,7 @@ cJSON *write_ack_convertToJSON(write_ack_t *write_ack) {
     if (!write_ack->duplicate_spans) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "duplicate_spans", write_ack->duplicate_spans) == NULL) {
+    if(cJSON_AddNumberToObject(item, "duplicateSpans", write_ack->duplicate_spans) == NULL) {
     goto fail; //Numeric
     }
 
@@ -101,7 +101,7 @@ write_ack_t *write_ack_parseFromJSON(cJSON *write_ackJSON){
     write_ack_t *write_ack_local_var = NULL;
 
     // write_ack->accepted_raw
-    cJSON *accepted_raw = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "accepted_raw");
+    cJSON *accepted_raw = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "acceptedRaw");
     if (cJSON_IsNull(accepted_raw)) {
         accepted_raw = NULL;
     }
@@ -116,7 +116,7 @@ write_ack_t *write_ack_parseFromJSON(cJSON *write_ackJSON){
     }
 
     // write_ack->accepted_spans
-    cJSON *accepted_spans = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "accepted_spans");
+    cJSON *accepted_spans = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "acceptedSpans");
     if (cJSON_IsNull(accepted_spans)) {
         accepted_spans = NULL;
     }
@@ -131,7 +131,7 @@ write_ack_t *write_ack_parseFromJSON(cJSON *write_ackJSON){
     }
 
     // write_ack->duplicate_raw
-    cJSON *duplicate_raw = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "duplicate_raw");
+    cJSON *duplicate_raw = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "duplicateRaw");
     if (cJSON_IsNull(duplicate_raw)) {
         duplicate_raw = NULL;
     }
@@ -146,7 +146,7 @@ write_ack_t *write_ack_parseFromJSON(cJSON *write_ackJSON){
     }
 
     // write_ack->duplicate_spans
-    cJSON *duplicate_spans = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "duplicate_spans");
+    cJSON *duplicate_spans = cJSON_GetObjectItemCaseSensitive(write_ackJSON, "duplicateSpans");
     if (cJSON_IsNull(duplicate_spans)) {
         duplicate_spans = NULL;
     }

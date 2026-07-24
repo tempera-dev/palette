@@ -62,12 +62,12 @@ public:
 
     int32_t getNewLine() const;
     bool newLineIsSet() const;
-    void unsetNew_line();
+    void unsetNewLine();
     void setNewLine(int32_t value);
 
     int32_t getOldLine() const;
     bool oldLineIsSet() const;
-    void unsetOld_line();
+    void unsetOldLine();
     void setOldLine(int32_t value);
 
     utility::string_t getText() const;
@@ -80,11 +80,11 @@ protected:
     std::shared_ptr<DiffLineKind> m_Kind;
     bool m_KindIsSet;
 
-    int32_t m_New_line;
-    bool m_New_lineIsSet;
+    int32_t m_NewLine;
+    bool m_NewLineIsSet;
 
-    int32_t m_Old_line;
-    bool m_Old_lineIsSet;
+    int32_t m_OldLine;
+    bool m_OldLineIsSet;
 
     utility::string_t m_Text;
     bool m_TextIsSet;

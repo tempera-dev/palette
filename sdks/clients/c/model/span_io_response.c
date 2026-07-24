@@ -109,7 +109,7 @@ cJSON *span_io_response_convertToJSON(span_io_response_t *span_io_response) {
     if (!span_io_response->span_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "span_id", span_io_response->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", span_io_response->span_id) == NULL) {
     goto fail; //String
     }
 
@@ -118,7 +118,7 @@ cJSON *span_io_response_convertToJSON(span_io_response_t *span_io_response) {
     if (!span_io_response->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", span_io_response->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", span_io_response->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -127,7 +127,7 @@ cJSON *span_io_response_convertToJSON(span_io_response_t *span_io_response) {
     if (!span_io_response->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", span_io_response->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", span_io_response->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -174,7 +174,7 @@ span_io_response_t *span_io_response_parseFromJSON(cJSON *span_io_responseJSON){
     output_local_nonprim = span_io_value_parseFromJSON(output); //nonprimitive
 
     // span_io_response->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(span_io_responseJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(span_io_responseJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -189,7 +189,7 @@ span_io_response_t *span_io_response_parseFromJSON(cJSON *span_io_responseJSON){
     }
 
     // span_io_response->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(span_io_responseJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(span_io_responseJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -204,7 +204,7 @@ span_io_response_t *span_io_response_parseFromJSON(cJSON *span_io_responseJSON){
     }
 
     // span_io_response->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(span_io_responseJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(span_io_responseJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

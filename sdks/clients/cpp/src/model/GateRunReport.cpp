@@ -20,42 +20,42 @@ namespace model {
 
 GateRunReport::GateRunReport()
 {
-    m_Baseline_release_id = utility::conversions::to_string_t("");
-    m_Baseline_release_idIsSet = false;
-    m_Candidate_release_id = utility::conversions::to_string_t("");
-    m_Candidate_release_idIsSet = false;
+    m_BaselineReleaseId = utility::conversions::to_string_t("");
+    m_BaselineReleaseIdIsSet = false;
+    m_CandidateReleaseId = utility::conversions::to_string_t("");
+    m_CandidateReleaseIdIsSet = false;
     m_ComparisonIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Experiment_created_at = utility::datetime();
-    m_Experiment_created_atIsSet = false;
-    m_Experiment_decisionIsSet = false;
-    m_Experiment_gate_policyIsSet = false;
-    m_Experiment_run_id = utility::conversions::to_string_t("");
-    m_Experiment_run_idIsSet = false;
-    m_Gate_dataset_id = utility::conversions::to_string_t("");
-    m_Gate_dataset_idIsSet = false;
-    m_Gate_evaluator_version_id = utility::conversions::to_string_t("");
-    m_Gate_evaluator_version_idIsSet = false;
-    m_Gate_id = utility::conversions::to_string_t("");
-    m_Gate_idIsSet = false;
-    m_Gate_name = utility::conversions::to_string_t("");
-    m_Gate_nameIsSet = false;
-    m_Gate_run_id = utility::conversions::to_string_t("");
-    m_Gate_run_idIsSet = false;
-    m_Inconclusive_policyIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_ExperimentCreatedAt = utility::datetime();
+    m_ExperimentCreatedAtIsSet = false;
+    m_ExperimentDecisionIsSet = false;
+    m_ExperimentGatePolicyIsSet = false;
+    m_ExperimentRunId = utility::conversions::to_string_t("");
+    m_ExperimentRunIdIsSet = false;
+    m_GateDatasetId = utility::conversions::to_string_t("");
+    m_GateDatasetIdIsSet = false;
+    m_GateEvaluatorVersionId = utility::conversions::to_string_t("");
+    m_GateEvaluatorVersionIdIsSet = false;
+    m_GateId = utility::conversions::to_string_t("");
+    m_GateIdIsSet = false;
+    m_GateName = utility::conversions::to_string_t("");
+    m_GateNameIsSet = false;
+    m_GateRunId = utility::conversions::to_string_t("");
+    m_GateRunIdIsSet = false;
+    m_InconclusivePolicyIsSet = false;
     m_Passed = false;
     m_PassedIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_Reason = utility::conversions::to_string_t("");
     m_ReasonIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 GateRunReport::~GateRunReport()
@@ -70,105 +70,105 @@ void GateRunReport::validate()
 web::json::value GateRunReport::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Baseline_release_idIsSet)
+    if(m_BaselineReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_release_id"))] = ModelBase::toJson(m_Baseline_release_id);
+        val[utility::conversions::to_string_t(U("baselineReleaseId"))] = ModelBase::toJson(m_BaselineReleaseId);
     }
-    if(m_Candidate_release_idIsSet)
+    if(m_CandidateReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_release_id"))] = ModelBase::toJson(m_Candidate_release_id);
+        val[utility::conversions::to_string_t(U("candidateReleaseId"))] = ModelBase::toJson(m_CandidateReleaseId);
     }
     if(m_ComparisonIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("comparison"))] = ModelBase::toJson(m_Comparison);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Experiment_created_atIsSet)
+    if(m_ExperimentCreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("experiment_created_at"))] = ModelBase::toJson(m_Experiment_created_at);
+        val[utility::conversions::to_string_t(U("experimentCreatedAt"))] = ModelBase::toJson(m_ExperimentCreatedAt);
     }
-    if(m_Experiment_decisionIsSet)
+    if(m_ExperimentDecisionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("experiment_decision"))] = ModelBase::toJson(m_Experiment_decision);
+        val[utility::conversions::to_string_t(U("experimentDecision"))] = ModelBase::toJson(m_ExperimentDecision);
     }
-    if(m_Experiment_gate_policyIsSet)
+    if(m_ExperimentGatePolicyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("experiment_gate_policy"))] = ModelBase::toJson(m_Experiment_gate_policy);
+        val[utility::conversions::to_string_t(U("experimentGatePolicy"))] = ModelBase::toJson(m_ExperimentGatePolicy);
     }
-    if(m_Experiment_run_idIsSet)
+    if(m_ExperimentRunIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("experiment_run_id"))] = ModelBase::toJson(m_Experiment_run_id);
+        val[utility::conversions::to_string_t(U("experimentRunId"))] = ModelBase::toJson(m_ExperimentRunId);
     }
-    if(m_Gate_dataset_idIsSet)
+    if(m_GateDatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_dataset_id"))] = ModelBase::toJson(m_Gate_dataset_id);
+        val[utility::conversions::to_string_t(U("gateDatasetId"))] = ModelBase::toJson(m_GateDatasetId);
     }
-    if(m_Gate_evaluator_version_idIsSet)
+    if(m_GateEvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_evaluator_version_id"))] = ModelBase::toJson(m_Gate_evaluator_version_id);
+        val[utility::conversions::to_string_t(U("gateEvaluatorVersionId"))] = ModelBase::toJson(m_GateEvaluatorVersionId);
     }
-    if(m_Gate_idIsSet)
+    if(m_GateIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_id"))] = ModelBase::toJson(m_Gate_id);
+        val[utility::conversions::to_string_t(U("gateId"))] = ModelBase::toJson(m_GateId);
     }
-    if(m_Gate_nameIsSet)
+    if(m_GateNameIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_name"))] = ModelBase::toJson(m_Gate_name);
+        val[utility::conversions::to_string_t(U("gateName"))] = ModelBase::toJson(m_GateName);
     }
-    if(m_Gate_run_idIsSet)
+    if(m_GateRunIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("gate_run_id"))] = ModelBase::toJson(m_Gate_run_id);
+        val[utility::conversions::to_string_t(U("gateRunId"))] = ModelBase::toJson(m_GateRunId);
     }
-    if(m_Inconclusive_policyIsSet)
+    if(m_InconclusivePolicyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("inconclusive_policy"))] = ModelBase::toJson(m_Inconclusive_policy);
+        val[utility::conversions::to_string_t(U("inconclusivePolicy"))] = ModelBase::toJson(m_InconclusivePolicy);
     }
     if(m_PassedIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("passed"))] = ModelBase::toJson(m_Passed);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ReasonIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("reason"))] = ModelBase::toJson(m_Reason);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -177,9 +177,9 @@ web::json::value GateRunReport::toJson() const
 bool GateRunReport::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setBaselineReleaseId;
@@ -188,9 +188,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCandidateReleaseId;
@@ -210,9 +210,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -221,9 +221,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -232,9 +232,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -243,9 +243,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("experiment_created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("experimentCreatedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experiment_created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experimentCreatedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setExperimentCreatedAt;
@@ -254,9 +254,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("experiment_decision"))))
+    if(val.has_field(utility::conversions::to_string_t(U("experimentDecision"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experiment_decision")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experimentDecision")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<GateDecision> refVal_setExperimentDecision;
@@ -265,9 +265,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("experiment_gate_policy"))))
+    if(val.has_field(utility::conversions::to_string_t(U("experimentGatePolicy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experiment_gate_policy")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experimentGatePolicy")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<GatePolicy> refVal_setExperimentGatePolicy;
@@ -276,9 +276,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("experiment_run_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("experimentRunId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experiment_run_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("experimentRunId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setExperimentRunId;
@@ -287,9 +287,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateDatasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateDatasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateDatasetId;
@@ -298,9 +298,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateEvaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateEvaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateEvaluatorVersionId;
@@ -309,9 +309,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateId;
@@ -320,9 +320,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_name"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateName"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_name")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateName")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateName;
@@ -331,9 +331,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("gate_run_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("gateRunId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gate_run_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("gateRunId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGateRunId;
@@ -342,9 +342,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("inconclusive_policy"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inconclusivePolicy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inconclusive_policy")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inconclusivePolicy")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<InconclusivePolicy> refVal_setInconclusivePolicy;
@@ -364,9 +364,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -386,9 +386,9 @@ bool GateRunReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -407,85 +407,85 @@ void GateRunReport::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Baseline_release_idIsSet)
+    if(m_BaselineReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_release_id")), m_Baseline_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineReleaseId")), m_BaselineReleaseId));
     }
-    if(m_Candidate_release_idIsSet)
+    if(m_CandidateReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_release_id")), m_Candidate_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateReleaseId")), m_CandidateReleaseId));
     }
     if(m_ComparisonIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("comparison")), m_Comparison));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Experiment_created_atIsSet)
+    if(m_ExperimentCreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experiment_created_at")), m_Experiment_created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experimentCreatedAt")), m_ExperimentCreatedAt));
     }
-    if(m_Experiment_decisionIsSet)
+    if(m_ExperimentDecisionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experiment_decision")), m_Experiment_decision));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experimentDecision")), m_ExperimentDecision));
     }
-    if(m_Experiment_gate_policyIsSet)
+    if(m_ExperimentGatePolicyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experiment_gate_policy")), m_Experiment_gate_policy));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experimentGatePolicy")), m_ExperimentGatePolicy));
     }
-    if(m_Experiment_run_idIsSet)
+    if(m_ExperimentRunIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experiment_run_id")), m_Experiment_run_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("experimentRunId")), m_ExperimentRunId));
     }
-    if(m_Gate_dataset_idIsSet)
+    if(m_GateDatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_dataset_id")), m_Gate_dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateDatasetId")), m_GateDatasetId));
     }
-    if(m_Gate_evaluator_version_idIsSet)
+    if(m_GateEvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_evaluator_version_id")), m_Gate_evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateEvaluatorVersionId")), m_GateEvaluatorVersionId));
     }
-    if(m_Gate_idIsSet)
+    if(m_GateIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_id")), m_Gate_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateId")), m_GateId));
     }
-    if(m_Gate_nameIsSet)
+    if(m_GateNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_name")), m_Gate_name));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateName")), m_GateName));
     }
-    if(m_Gate_run_idIsSet)
+    if(m_GateRunIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gate_run_id")), m_Gate_run_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("gateRunId")), m_GateRunId));
     }
-    if(m_Inconclusive_policyIsSet)
+    if(m_InconclusivePolicyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inconclusive_policy")), m_Inconclusive_policy));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inconclusivePolicy")), m_InconclusivePolicy));
     }
     if(m_PassedIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("passed")), m_Passed));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ReasonIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reason")), m_Reason));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -498,16 +498,16 @@ bool GateRunReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineReleaseId"))))
     {
         utility::string_t refVal_setBaselineReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_release_id"))), refVal_setBaselineReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineReleaseId"))), refVal_setBaselineReleaseId );
         setBaselineReleaseId(refVal_setBaselineReleaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateReleaseId"))))
     {
         utility::string_t refVal_setCandidateReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_release_id"))), refVal_setCandidateReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateReleaseId"))), refVal_setCandidateReleaseId );
         setCandidateReleaseId(refVal_setCandidateReleaseId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("comparison"))))
@@ -516,82 +516,82 @@ bool GateRunReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("comparison"))), refVal_setComparison );
         setComparison(refVal_setComparison);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("experiment_created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("experimentCreatedAt"))))
     {
         utility::datetime refVal_setExperimentCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experiment_created_at"))), refVal_setExperimentCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experimentCreatedAt"))), refVal_setExperimentCreatedAt );
         setExperimentCreatedAt(refVal_setExperimentCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("experiment_decision"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("experimentDecision"))))
     {
         std::shared_ptr<GateDecision> refVal_setExperimentDecision;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experiment_decision"))), refVal_setExperimentDecision );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experimentDecision"))), refVal_setExperimentDecision );
         setExperimentDecision(refVal_setExperimentDecision);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("experiment_gate_policy"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("experimentGatePolicy"))))
     {
         std::shared_ptr<GatePolicy> refVal_setExperimentGatePolicy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experiment_gate_policy"))), refVal_setExperimentGatePolicy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experimentGatePolicy"))), refVal_setExperimentGatePolicy );
         setExperimentGatePolicy(refVal_setExperimentGatePolicy);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("experiment_run_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("experimentRunId"))))
     {
         utility::string_t refVal_setExperimentRunId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experiment_run_id"))), refVal_setExperimentRunId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("experimentRunId"))), refVal_setExperimentRunId );
         setExperimentRunId(refVal_setExperimentRunId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateDatasetId"))))
     {
         utility::string_t refVal_setGateDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_dataset_id"))), refVal_setGateDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateDatasetId"))), refVal_setGateDatasetId );
         setGateDatasetId(refVal_setGateDatasetId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateEvaluatorVersionId"))))
     {
         utility::string_t refVal_setGateEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_evaluator_version_id"))), refVal_setGateEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateEvaluatorVersionId"))), refVal_setGateEvaluatorVersionId );
         setGateEvaluatorVersionId(refVal_setGateEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateId"))))
     {
         utility::string_t refVal_setGateId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_id"))), refVal_setGateId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateId"))), refVal_setGateId );
         setGateId(refVal_setGateId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_name"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateName"))))
     {
         utility::string_t refVal_setGateName;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_name"))), refVal_setGateName );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateName"))), refVal_setGateName );
         setGateName(refVal_setGateName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("gate_run_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("gateRunId"))))
     {
         utility::string_t refVal_setGateRunId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gate_run_id"))), refVal_setGateRunId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("gateRunId"))), refVal_setGateRunId );
         setGateRunId(refVal_setGateRunId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("inconclusive_policy"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inconclusivePolicy"))))
     {
         std::shared_ptr<InconclusivePolicy> refVal_setInconclusivePolicy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inconclusive_policy"))), refVal_setInconclusivePolicy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inconclusivePolicy"))), refVal_setInconclusivePolicy );
         setInconclusivePolicy(refVal_setInconclusivePolicy);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("passed"))))
@@ -600,10 +600,10 @@ bool GateRunReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("passed"))), refVal_setPassed );
         setPassed(refVal_setPassed);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("reason"))))
@@ -612,10 +612,10 @@ bool GateRunReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reason"))), refVal_setReason );
         setReason(refVal_setReason);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -624,45 +624,45 @@ bool GateRunReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 
 utility::string_t GateRunReport::getBaselineReleaseId() const
 {
-    return m_Baseline_release_id;
+    return m_BaselineReleaseId;
 }
 
 
 void GateRunReport::setBaselineReleaseId(const utility::string_t& value)
 {
-    m_Baseline_release_id = value;
-    m_Baseline_release_idIsSet = true;
+    m_BaselineReleaseId = value;
+    m_BaselineReleaseIdIsSet = true;
 }
 
 bool GateRunReport::baselineReleaseIdIsSet() const
 {
-    return m_Baseline_release_idIsSet;
+    return m_BaselineReleaseIdIsSet;
 }
 
-void GateRunReport::unsetBaseline_release_id()
+void GateRunReport::unsetBaselineReleaseId()
 {
-    m_Baseline_release_idIsSet = false;
+    m_BaselineReleaseIdIsSet = false;
 }
 utility::string_t GateRunReport::getCandidateReleaseId() const
 {
-    return m_Candidate_release_id;
+    return m_CandidateReleaseId;
 }
 
 
 void GateRunReport::setCandidateReleaseId(const utility::string_t& value)
 {
-    m_Candidate_release_id = value;
-    m_Candidate_release_idIsSet = true;
+    m_CandidateReleaseId = value;
+    m_CandidateReleaseIdIsSet = true;
 }
 
 bool GateRunReport::candidateReleaseIdIsSet() const
 {
-    return m_Candidate_release_idIsSet;
+    return m_CandidateReleaseIdIsSet;
 }
 
-void GateRunReport::unsetCandidate_release_id()
+void GateRunReport::unsetCandidateReleaseId()
 {
-    m_Candidate_release_idIsSet = false;
+    m_CandidateReleaseIdIsSet = false;
 }
 std::shared_ptr<ExperimentComparison> GateRunReport::getComparison() const
 {
@@ -687,276 +687,276 @@ void GateRunReport::unsetComparison()
 }
 utility::datetime GateRunReport::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void GateRunReport::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool GateRunReport::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void GateRunReport::unsetCreated_at()
+void GateRunReport::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t GateRunReport::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void GateRunReport::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool GateRunReport::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void GateRunReport::unsetDataset_id()
+void GateRunReport::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 utility::string_t GateRunReport::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void GateRunReport::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool GateRunReport::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void GateRunReport::unsetEvaluator_version_id()
+void GateRunReport::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 utility::datetime GateRunReport::getExperimentCreatedAt() const
 {
-    return m_Experiment_created_at;
+    return m_ExperimentCreatedAt;
 }
 
 
 void GateRunReport::setExperimentCreatedAt(const utility::datetime& value)
 {
-    m_Experiment_created_at = value;
-    m_Experiment_created_atIsSet = true;
+    m_ExperimentCreatedAt = value;
+    m_ExperimentCreatedAtIsSet = true;
 }
 
 bool GateRunReport::experimentCreatedAtIsSet() const
 {
-    return m_Experiment_created_atIsSet;
+    return m_ExperimentCreatedAtIsSet;
 }
 
-void GateRunReport::unsetExperiment_created_at()
+void GateRunReport::unsetExperimentCreatedAt()
 {
-    m_Experiment_created_atIsSet = false;
+    m_ExperimentCreatedAtIsSet = false;
 }
 std::shared_ptr<GateDecision> GateRunReport::getExperimentDecision() const
 {
-    return m_Experiment_decision;
+    return m_ExperimentDecision;
 }
 
 
 void GateRunReport::setExperimentDecision(const std::shared_ptr<GateDecision>& value)
 {
-    m_Experiment_decision = value;
-    m_Experiment_decisionIsSet = true;
+    m_ExperimentDecision = value;
+    m_ExperimentDecisionIsSet = true;
 }
 
 bool GateRunReport::experimentDecisionIsSet() const
 {
-    return m_Experiment_decisionIsSet;
+    return m_ExperimentDecisionIsSet;
 }
 
-void GateRunReport::unsetExperiment_decision()
+void GateRunReport::unsetExperimentDecision()
 {
-    m_Experiment_decisionIsSet = false;
+    m_ExperimentDecisionIsSet = false;
 }
 std::shared_ptr<GatePolicy> GateRunReport::getExperimentGatePolicy() const
 {
-    return m_Experiment_gate_policy;
+    return m_ExperimentGatePolicy;
 }
 
 
 void GateRunReport::setExperimentGatePolicy(const std::shared_ptr<GatePolicy>& value)
 {
-    m_Experiment_gate_policy = value;
-    m_Experiment_gate_policyIsSet = true;
+    m_ExperimentGatePolicy = value;
+    m_ExperimentGatePolicyIsSet = true;
 }
 
 bool GateRunReport::experimentGatePolicyIsSet() const
 {
-    return m_Experiment_gate_policyIsSet;
+    return m_ExperimentGatePolicyIsSet;
 }
 
-void GateRunReport::unsetExperiment_gate_policy()
+void GateRunReport::unsetExperimentGatePolicy()
 {
-    m_Experiment_gate_policyIsSet = false;
+    m_ExperimentGatePolicyIsSet = false;
 }
 utility::string_t GateRunReport::getExperimentRunId() const
 {
-    return m_Experiment_run_id;
+    return m_ExperimentRunId;
 }
 
 
 void GateRunReport::setExperimentRunId(const utility::string_t& value)
 {
-    m_Experiment_run_id = value;
-    m_Experiment_run_idIsSet = true;
+    m_ExperimentRunId = value;
+    m_ExperimentRunIdIsSet = true;
 }
 
 bool GateRunReport::experimentRunIdIsSet() const
 {
-    return m_Experiment_run_idIsSet;
+    return m_ExperimentRunIdIsSet;
 }
 
-void GateRunReport::unsetExperiment_run_id()
+void GateRunReport::unsetExperimentRunId()
 {
-    m_Experiment_run_idIsSet = false;
+    m_ExperimentRunIdIsSet = false;
 }
 utility::string_t GateRunReport::getGateDatasetId() const
 {
-    return m_Gate_dataset_id;
+    return m_GateDatasetId;
 }
 
 
 void GateRunReport::setGateDatasetId(const utility::string_t& value)
 {
-    m_Gate_dataset_id = value;
-    m_Gate_dataset_idIsSet = true;
+    m_GateDatasetId = value;
+    m_GateDatasetIdIsSet = true;
 }
 
 bool GateRunReport::gateDatasetIdIsSet() const
 {
-    return m_Gate_dataset_idIsSet;
+    return m_GateDatasetIdIsSet;
 }
 
-void GateRunReport::unsetGate_dataset_id()
+void GateRunReport::unsetGateDatasetId()
 {
-    m_Gate_dataset_idIsSet = false;
+    m_GateDatasetIdIsSet = false;
 }
 utility::string_t GateRunReport::getGateEvaluatorVersionId() const
 {
-    return m_Gate_evaluator_version_id;
+    return m_GateEvaluatorVersionId;
 }
 
 
 void GateRunReport::setGateEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Gate_evaluator_version_id = value;
-    m_Gate_evaluator_version_idIsSet = true;
+    m_GateEvaluatorVersionId = value;
+    m_GateEvaluatorVersionIdIsSet = true;
 }
 
 bool GateRunReport::gateEvaluatorVersionIdIsSet() const
 {
-    return m_Gate_evaluator_version_idIsSet;
+    return m_GateEvaluatorVersionIdIsSet;
 }
 
-void GateRunReport::unsetGate_evaluator_version_id()
+void GateRunReport::unsetGateEvaluatorVersionId()
 {
-    m_Gate_evaluator_version_idIsSet = false;
+    m_GateEvaluatorVersionIdIsSet = false;
 }
 utility::string_t GateRunReport::getGateId() const
 {
-    return m_Gate_id;
+    return m_GateId;
 }
 
 
 void GateRunReport::setGateId(const utility::string_t& value)
 {
-    m_Gate_id = value;
-    m_Gate_idIsSet = true;
+    m_GateId = value;
+    m_GateIdIsSet = true;
 }
 
 bool GateRunReport::gateIdIsSet() const
 {
-    return m_Gate_idIsSet;
+    return m_GateIdIsSet;
 }
 
-void GateRunReport::unsetGate_id()
+void GateRunReport::unsetGateId()
 {
-    m_Gate_idIsSet = false;
+    m_GateIdIsSet = false;
 }
 utility::string_t GateRunReport::getGateName() const
 {
-    return m_Gate_name;
+    return m_GateName;
 }
 
 
 void GateRunReport::setGateName(const utility::string_t& value)
 {
-    m_Gate_name = value;
-    m_Gate_nameIsSet = true;
+    m_GateName = value;
+    m_GateNameIsSet = true;
 }
 
 bool GateRunReport::gateNameIsSet() const
 {
-    return m_Gate_nameIsSet;
+    return m_GateNameIsSet;
 }
 
-void GateRunReport::unsetGate_name()
+void GateRunReport::unsetGateName()
 {
-    m_Gate_nameIsSet = false;
+    m_GateNameIsSet = false;
 }
 utility::string_t GateRunReport::getGateRunId() const
 {
-    return m_Gate_run_id;
+    return m_GateRunId;
 }
 
 
 void GateRunReport::setGateRunId(const utility::string_t& value)
 {
-    m_Gate_run_id = value;
-    m_Gate_run_idIsSet = true;
+    m_GateRunId = value;
+    m_GateRunIdIsSet = true;
 }
 
 bool GateRunReport::gateRunIdIsSet() const
 {
-    return m_Gate_run_idIsSet;
+    return m_GateRunIdIsSet;
 }
 
-void GateRunReport::unsetGate_run_id()
+void GateRunReport::unsetGateRunId()
 {
-    m_Gate_run_idIsSet = false;
+    m_GateRunIdIsSet = false;
 }
 std::shared_ptr<InconclusivePolicy> GateRunReport::getInconclusivePolicy() const
 {
-    return m_Inconclusive_policy;
+    return m_InconclusivePolicy;
 }
 
 
 void GateRunReport::setInconclusivePolicy(const std::shared_ptr<InconclusivePolicy>& value)
 {
-    m_Inconclusive_policy = value;
-    m_Inconclusive_policyIsSet = true;
+    m_InconclusivePolicy = value;
+    m_InconclusivePolicyIsSet = true;
 }
 
 bool GateRunReport::inconclusivePolicyIsSet() const
 {
-    return m_Inconclusive_policyIsSet;
+    return m_InconclusivePolicyIsSet;
 }
 
-void GateRunReport::unsetInconclusive_policy()
+void GateRunReport::unsetInconclusivePolicy()
 {
-    m_Inconclusive_policyIsSet = false;
+    m_InconclusivePolicyIsSet = false;
 }
 bool GateRunReport::isPassed() const
 {
@@ -980,24 +980,24 @@ void GateRunReport::unsetPassed()
 }
 utility::string_t GateRunReport::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void GateRunReport::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool GateRunReport::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void GateRunReport::unsetProject_id()
+void GateRunReport::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t GateRunReport::getReason() const
 {
@@ -1022,24 +1022,24 @@ void GateRunReport::unsetReason()
 }
 utility::string_t GateRunReport::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void GateRunReport::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool GateRunReport::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void GateRunReport::unsetTenant_id()
+void GateRunReport::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

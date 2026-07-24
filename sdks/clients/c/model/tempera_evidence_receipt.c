@@ -146,7 +146,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->declared_content_sha256) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "declared_content_sha256", tempera_evidence_receipt->declared_content_sha256) == NULL) {
+    if(cJSON_AddStringToObject(item, "declaredContentSha256", tempera_evidence_receipt->declared_content_sha256) == NULL) {
     goto fail; //String
     }
 
@@ -155,7 +155,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->external_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "external_id", tempera_evidence_receipt->external_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "externalId", tempera_evidence_receipt->external_id) == NULL) {
     goto fail; //String
     }
 
@@ -178,7 +178,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", tempera_evidence_receipt->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", tempera_evidence_receipt->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -187,7 +187,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->public_key_sha256) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "public_key_sha256", tempera_evidence_receipt->public_key_sha256) == NULL) {
+    if(cJSON_AddStringToObject(item, "publicKeySha256", tempera_evidence_receipt->public_key_sha256) == NULL) {
     goto fail; //String
     }
 
@@ -196,7 +196,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->schema_version) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "schema_version", tempera_evidence_receipt->schema_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "schemaVersion", tempera_evidence_receipt->schema_version) == NULL) {
     goto fail; //String
     }
 
@@ -205,7 +205,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->signature_sha256) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "signature_sha256", tempera_evidence_receipt->signature_sha256) == NULL) {
+    if(cJSON_AddStringToObject(item, "signatureSha256", tempera_evidence_receipt->signature_sha256) == NULL) {
     goto fail; //String
     }
 
@@ -214,7 +214,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->signed_payload_sha256) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "signed_payload_sha256", tempera_evidence_receipt->signed_payload_sha256) == NULL) {
+    if(cJSON_AddStringToObject(item, "signedPayloadSha256", tempera_evidence_receipt->signed_payload_sha256) == NULL) {
     goto fail; //String
     }
 
@@ -223,7 +223,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->source_schema_version) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "source_schema_version", tempera_evidence_receipt->source_schema_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "sourceSchemaVersion", tempera_evidence_receipt->source_schema_version) == NULL) {
     goto fail; //String
     }
 
@@ -232,7 +232,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->stored_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "stored_at", tempera_evidence_receipt->stored_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "storedAt", tempera_evidence_receipt->stored_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -255,7 +255,7 @@ cJSON *tempera_evidence_receipt_convertToJSON(tempera_evidence_receipt_t *temper
     if (!tempera_evidence_receipt->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", tempera_evidence_receipt->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", tempera_evidence_receipt->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -293,7 +293,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->declared_content_sha256
-    cJSON *declared_content_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "declared_content_sha256");
+    cJSON *declared_content_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "declaredContentSha256");
     if (cJSON_IsNull(declared_content_sha256)) {
         declared_content_sha256 = NULL;
     }
@@ -308,7 +308,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->external_id
-    cJSON *external_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "external_id");
+    cJSON *external_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "externalId");
     if (cJSON_IsNull(external_id)) {
         external_id = NULL;
     }
@@ -335,7 +335,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     kind_local_nonprim = external_eval_evidence_kind_parseFromJSON(kind); //custom
 
     // tempera_evidence_receipt->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -350,7 +350,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->public_key_sha256
-    cJSON *public_key_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "public_key_sha256");
+    cJSON *public_key_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "publicKeySha256");
     if (cJSON_IsNull(public_key_sha256)) {
         public_key_sha256 = NULL;
     }
@@ -365,7 +365,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->schema_version
-    cJSON *schema_version = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "schema_version");
+    cJSON *schema_version = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "schemaVersion");
     if (cJSON_IsNull(schema_version)) {
         schema_version = NULL;
     }
@@ -380,7 +380,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->signature_sha256
-    cJSON *signature_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "signature_sha256");
+    cJSON *signature_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "signatureSha256");
     if (cJSON_IsNull(signature_sha256)) {
         signature_sha256 = NULL;
     }
@@ -395,7 +395,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->signed_payload_sha256
-    cJSON *signed_payload_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "signed_payload_sha256");
+    cJSON *signed_payload_sha256 = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "signedPayloadSha256");
     if (cJSON_IsNull(signed_payload_sha256)) {
         signed_payload_sha256 = NULL;
     }
@@ -410,7 +410,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->source_schema_version
-    cJSON *source_schema_version = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "source_schema_version");
+    cJSON *source_schema_version = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "sourceSchemaVersion");
     if (cJSON_IsNull(source_schema_version)) {
         source_schema_version = NULL;
     }
@@ -425,7 +425,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     }
 
     // tempera_evidence_receipt->stored_at
-    cJSON *stored_at = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "stored_at");
+    cJSON *stored_at = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "storedAt");
     if (cJSON_IsNull(stored_at)) {
         stored_at = NULL;
     }
@@ -452,7 +452,7 @@ tempera_evidence_receipt_t *tempera_evidence_receipt_parseFromJSON(cJSON *temper
     summary_local_nonprim = tempera_evidence_summary_parseFromJSON(summary); //nonprimitive
 
     // tempera_evidence_receipt->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(tempera_evidence_receiptJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

@@ -66,7 +66,7 @@ cJSON *evaluator_kind_one_of_4_convertToJSON(evaluator_kind_one_of_4_t *evaluato
     if (!evaluator_kind_one_of_4->max_micros) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_micros", evaluator_kind_one_of_4->max_micros) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxMicros", evaluator_kind_one_of_4->max_micros) == NULL) {
     goto fail; //Numeric
     }
 
@@ -93,7 +93,7 @@ evaluator_kind_one_of_4_t *evaluator_kind_one_of_4_parseFromJSON(cJSON *evaluato
     evaluator_kind_one_of_4_t *evaluator_kind_one_of_4_local_var = NULL;
 
     // evaluator_kind_one_of_4->max_micros
-    cJSON *max_micros = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_4JSON, "max_micros");
+    cJSON *max_micros = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_4JSON, "maxMicros");
     if (cJSON_IsNull(max_micros)) {
         max_micros = NULL;
     }

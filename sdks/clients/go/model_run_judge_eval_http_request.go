@@ -22,10 +22,10 @@ var _ MappedNullable = &RunJudgeEvalHttpRequest{}
 // RunJudgeEvalHttpRequest struct for RunJudgeEvalHttpRequest
 type RunJudgeEvalHttpRequest struct {
 	// Calibration-map / judge-instrument version folded into the judge cache key; bumping it on recalibration invalidates stale cached scores.
-	CacheNamespace NullableString `json:"cache_namespace,omitempty"`
+	CacheNamespace NullableString `json:"cacheNamespace,omitempty"`
 	Case EvaluationCase `json:"case"`
 	Evaluator EvaluatorSpec `json:"evaluator"`
-	ProviderSecretId string `json:"provider_secret_id"`
+	ProviderSecretId string `json:"providerSecretId"`
 }
 
 type _RunJudgeEvalHttpRequest RunJudgeEvalHttpRequest
@@ -175,11 +175,11 @@ func (o RunJudgeEvalHttpRequest) MarshalJSON() ([]byte, error) {
 func (o RunJudgeEvalHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.CacheNamespace.IsSet() {
-		toSerialize["cache_namespace"] = o.CacheNamespace.Get()
+		toSerialize["cacheNamespace"] = o.CacheNamespace.Get()
 	}
 	toSerialize["case"] = o.Case
 	toSerialize["evaluator"] = o.Evaluator
-	toSerialize["provider_secret_id"] = o.ProviderSecretId
+	toSerialize["providerSecretId"] = o.ProviderSecretId
 	return toSerialize, nil
 }
 
@@ -190,7 +190,7 @@ func (o *RunJudgeEvalHttpRequest) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"case",
 		"evaluator",
-		"provider_secret_id",
+		"providerSecretId",
 	}
 
 	allProperties := make(map[string]interface{})

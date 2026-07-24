@@ -168,9 +168,9 @@ public class TracesApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/traces/{tenant_id}/{trace_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{trace_id}", ApiClient.urlEncode(traceId.toString()));
+    String localVarPath = "/v1/traces/{tenantId}/{traceId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{traceId}", ApiClient.urlEncode(traceId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -320,38 +320,38 @@ public class TracesApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/traces/{tenant_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()));
+    String localVarPath = "/v1/traces/{tenantId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
-    localVarQueryParameterBaseName = "project_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("project_id", projectId));
-    localVarQueryParameterBaseName = "environment_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("environment_id", environmentId));
-    localVarQueryParameterBaseName = "trace_id";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("trace_id", traceId));
+    localVarQueryParameterBaseName = "projectId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("projectId", projectId));
+    localVarQueryParameterBaseName = "environmentId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("environmentId", environmentId));
+    localVarQueryParameterBaseName = "traceId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("traceId", traceId));
     localVarQueryParameterBaseName = "kind";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("kind", kind));
     localVarQueryParameterBaseName = "status";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("status", status));
-    localVarQueryParameterBaseName = "started_after";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("started_after", startedAfter));
-    localVarQueryParameterBaseName = "started_before";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("started_before", startedBefore));
+    localVarQueryParameterBaseName = "startedAfter";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("startedAfter", startedAfter));
+    localVarQueryParameterBaseName = "startedBefore";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("startedBefore", startedBefore));
     localVarQueryParameterBaseName = "model";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("model", model));
     localVarQueryParameterBaseName = "release";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("release", release));
-    localVarQueryParameterBaseName = "min_cost_micros";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("min_cost_micros", minCostMicros));
-    localVarQueryParameterBaseName = "max_cost_micros";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("max_cost_micros", maxCostMicros));
-    localVarQueryParameterBaseName = "min_latency_ms";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("min_latency_ms", minLatencyMs));
-    localVarQueryParameterBaseName = "max_latency_ms";
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("max_latency_ms", maxLatencyMs));
+    localVarQueryParameterBaseName = "minCostMicros";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("minCostMicros", minCostMicros));
+    localVarQueryParameterBaseName = "maxCostMicros";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("maxCostMicros", maxCostMicros));
+    localVarQueryParameterBaseName = "minLatencyMs";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("minLatencyMs", minLatencyMs));
+    localVarQueryParameterBaseName = "maxLatencyMs";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("maxLatencyMs", maxLatencyMs));
     localVarQueryParameterBaseName = "pageSize";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("pageSize", pageSize));
     localVarQueryParameterBaseName = "pageToken";

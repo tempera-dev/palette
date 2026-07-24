@@ -13,21 +13,21 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PaletteConnectStatusResponse {
-    #[serde(rename = "first_eval_run")]
+    #[serde(rename = "firstEvalRun")]
     pub first_eval_run: bool,
-    #[serde(rename = "first_trace_received")]
+    #[serde(rename = "firstTraceReceived")]
     pub first_trace_received: bool,
     #[serde(rename = "ok")]
     pub ok: bool,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "status")]
     pub status: models::PaletteConnectStatus,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "totals")]
     pub totals: std::collections::HashMap<String, models::UsageTotal>,
-    #[serde(rename = "usage_configured")]
+    #[serde(rename = "usageConfigured")]
     pub usage_configured: bool,
 }
 

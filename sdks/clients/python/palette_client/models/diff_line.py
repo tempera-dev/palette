@@ -29,10 +29,10 @@ class DiffLine(BaseModel):
     DiffLine
     """ # noqa: E501
     kind: DiffLineKind
-    new_line: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
-    old_line: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
+    new_line: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="newLine")
+    old_line: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="oldLine")
     text: StrictStr
-    __properties: ClassVar[List[str]] = ["kind", "new_line", "old_line", "text"]
+    __properties: ClassVar[List[str]] = ["kind", "newLine", "oldLine", "text"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,12 +76,12 @@ class DiffLine(BaseModel):
         # set to None if new_line (nullable) is None
         # and model_fields_set contains the field
         if self.new_line is None and "new_line" in self.model_fields_set:
-            _dict['new_line'] = None
+            _dict['newLine'] = None
 
         # set to None if old_line (nullable) is None
         # and model_fields_set contains the field
         if self.old_line is None and "old_line" in self.model_fields_set:
-            _dict['old_line'] = None
+            _dict['oldLine'] = None
 
         return _dict
 
@@ -96,8 +96,8 @@ class DiffLine(BaseModel):
 
         _obj = cls.model_validate({
             "kind": obj.get("kind"),
-            "new_line": obj.get("new_line"),
-            "old_line": obj.get("old_line"),
+            "newLine": obj.get("newLine"),
+            "oldLine": obj.get("oldLine"),
             "text": obj.get("text")
         })
         return _obj

@@ -47,7 +47,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class SearchHit {
-  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environment_id";
+  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environmentId";
   @javax.annotation.Nonnull
   private String environmentId;
 
@@ -63,7 +63,7 @@ public class SearchHit {
   @javax.annotation.Nonnull
   private String name;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
@@ -71,7 +71,7 @@ public class SearchHit {
   @javax.annotation.Nonnull
   private Float score;
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   @javax.annotation.Nonnull
   private String spanId;
 
@@ -79,7 +79,7 @@ public class SearchHit {
   @javax.annotation.Nonnull
   private String status;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -87,7 +87,7 @@ public class SearchHit {
   @javax.annotation.Nonnull
   private String tool;
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
@@ -450,9 +450,9 @@ public class SearchHit {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `environment_id` to the URL query string
+    // add `environmentId` to the URL query string
     if (getEnvironmentId() != null) {
-      joiner.add(String.format("%senvironment_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senvironmentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `kind` to the URL query string
@@ -470,9 +470,9 @@ public class SearchHit {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `score` to the URL query string
@@ -480,9 +480,9 @@ public class SearchHit {
       joiner.add(String.format("%sscore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
@@ -490,9 +490,9 @@ public class SearchHit {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `tool` to the URL query string
@@ -500,9 +500,9 @@ public class SearchHit {
       joiner.add(String.format("%stool%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTool()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

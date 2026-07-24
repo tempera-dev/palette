@@ -83,9 +83,9 @@ export function SpanIoResponseFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'input': SpanIoValueFromJSON(json['input']),
         'output': SpanIoValueFromJSON(json['output']),
-        'spanId': json['span_id'],
-        'tenantId': json['tenant_id'],
-        'traceId': json['trace_id'],
+        'spanId': json['spanId'],
+        'tenantId': json['tenantId'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -102,9 +102,9 @@ export function SpanIoResponseToJSONTyped(value?: SpanIoResponse | null, ignoreD
         
         'input': SpanIoValueToJSON(value['input']),
         'output': SpanIoValueToJSON(value['output']),
-        'span_id': value['spanId'],
-        'tenant_id': value['tenantId'],
-        'trace_id': value['traceId'],
+        'spanId': value['spanId'],
+        'tenantId': value['tenantId'],
+        'traceId': value['traceId'],
     };
 }
 

@@ -22,14 +22,14 @@ var _ MappedNullable = &ReviewAnnotation{}
 
 // ReviewAnnotation struct for ReviewAnnotation
 type ReviewAnnotation struct {
-	AnnotationId string `json:"annotation_id"`
-	CreatedAt time.Time `json:"created_at"`
+	AnnotationId string `json:"annotationId"`
+	CreatedAt time.Time `json:"createdAt"`
 	Payload interface{} `json:"payload"`
-	ProjectId string `json:"project_id"`
-	QueueId string `json:"queue_id"`
-	ReviewerId string `json:"reviewer_id"`
-	TaskId string `json:"task_id"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	QueueId string `json:"queueId"`
+	ReviewerId string `json:"reviewerId"`
+	TaskId string `json:"taskId"`
+	TenantId string `json:"tenantId"`
 	Verdict ReviewVerdict `json:"verdict"`
 }
 
@@ -289,16 +289,16 @@ func (o ReviewAnnotation) MarshalJSON() ([]byte, error) {
 
 func (o ReviewAnnotation) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["annotation_id"] = o.AnnotationId
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["annotationId"] = o.AnnotationId
+	toSerialize["createdAt"] = o.CreatedAt
 	if o.Payload != nil {
 		toSerialize["payload"] = o.Payload
 	}
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["queue_id"] = o.QueueId
-	toSerialize["reviewer_id"] = o.ReviewerId
-	toSerialize["task_id"] = o.TaskId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["queueId"] = o.QueueId
+	toSerialize["reviewerId"] = o.ReviewerId
+	toSerialize["taskId"] = o.TaskId
+	toSerialize["tenantId"] = o.TenantId
 	toSerialize["verdict"] = o.Verdict
 	return toSerialize, nil
 }
@@ -308,14 +308,14 @@ func (o *ReviewAnnotation) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"annotation_id",
-		"created_at",
+		"annotationId",
+		"createdAt",
 		"payload",
-		"project_id",
-		"queue_id",
-		"reviewer_id",
-		"task_id",
-		"tenant_id",
+		"projectId",
+		"queueId",
+		"reviewerId",
+		"taskId",
+		"tenantId",
 		"verdict",
 	}
 

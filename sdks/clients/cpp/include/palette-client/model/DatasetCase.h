@@ -57,17 +57,17 @@ public:
 
     utility::string_t getCaseId() const;
     bool caseIdIsSet() const;
-    void unsetCase_id();
+    void unsetCaseId();
     void setCaseId(const utility::string_t& value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getInput() const;
@@ -77,12 +77,12 @@ public:
 
     std::vector<std::shared_ptr<utility::string_t>> getInputArtifactHashes() const;
     bool inputArtifactHashesIsSet() const;
-    void unsetInput_artifact_hashes();
+    void unsetInputArtifactHashes();
     void setInputArtifactHashes(const std::vector<std::shared_ptr<utility::string_t>>& value);
 
     utility::string_t getNormalizerVersion() const;
     bool normalizerVersionIsSet() const;
-    void unsetNormalizer_version();
+    void unsetNormalizerVersion();
     void setNormalizerVersion(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getOutput() const;
@@ -92,7 +92,7 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getReference() const;
@@ -102,22 +102,22 @@ public:
 
     utility::string_t getSourceEnvironmentId() const;
     bool sourceEnvironmentIdIsSet() const;
-    void unsetSource_environment_id();
+    void unsetSourceEnvironmentId();
     void setSourceEnvironmentId(const utility::string_t& value);
 
     utility::string_t getSourceSpanId() const;
     bool sourceSpanIdIsSet() const;
-    void unsetSource_span_id();
+    void unsetSourceSpanId();
     void setSourceSpanId(const utility::string_t& value);
 
     utility::string_t getSourceTraceId() const;
     bool sourceTraceIdIsSet() const;
-    void unsetSource_trace_id();
+    void unsetSourceTraceId();
     void setSourceTraceId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getTrace() const;
@@ -127,55 +127,55 @@ public:
 
     int32_t getTraceSchemaVersion() const;
     bool traceSchemaVersionIsSet() const;
-    void unsetTrace_schema_version();
+    void unsetTraceSchemaVersion();
     void setTraceSchemaVersion(int32_t value);
 
 
 protected:
-    utility::string_t m_Case_id;
-    bool m_Case_idIsSet;
+    utility::string_t m_CaseId;
+    bool m_CaseIdIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
     std::shared_ptr<AnyType> m_Input;
     bool m_InputIsSet;
 
-    std::vector<std::shared_ptr<utility::string_t>> m_Input_artifact_hashes;
-    bool m_Input_artifact_hashesIsSet;
+    std::vector<std::shared_ptr<utility::string_t>> m_InputArtifactHashes;
+    bool m_InputArtifactHashesIsSet;
 
-    utility::string_t m_Normalizer_version;
-    bool m_Normalizer_versionIsSet;
+    utility::string_t m_NormalizerVersion;
+    bool m_NormalizerVersionIsSet;
 
     std::shared_ptr<AnyType> m_Output;
     bool m_OutputIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     std::shared_ptr<AnyType> m_Reference;
     bool m_ReferenceIsSet;
 
-    utility::string_t m_Source_environment_id;
-    bool m_Source_environment_idIsSet;
+    utility::string_t m_SourceEnvironmentId;
+    bool m_SourceEnvironmentIdIsSet;
 
-    utility::string_t m_Source_span_id;
-    bool m_Source_span_idIsSet;
+    utility::string_t m_SourceSpanId;
+    bool m_SourceSpanIdIsSet;
 
-    utility::string_t m_Source_trace_id;
-    bool m_Source_trace_idIsSet;
+    utility::string_t m_SourceTraceId;
+    bool m_SourceTraceIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     std::shared_ptr<AnyType> m_Trace;
     bool m_TraceIsSet;
 
-    int32_t m_Trace_schema_version;
-    bool m_Trace_schema_versionIsSet;
+    int32_t m_TraceSchemaVersion;
+    bool m_TraceSchemaVersionIsSet;
 
 };
 

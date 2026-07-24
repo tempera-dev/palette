@@ -56,7 +56,7 @@ public:
 
     utility::string_t getApiKeyId() const;
     bool apiKeyIdIsSet() const;
-    void unsetApi_key_id();
+    void unsetApiKeyId();
     void setApiKeyId(const utility::string_t& value);
 
     std::set<utility::string_t> getScopes() const;
@@ -66,8 +66,8 @@ public:
 
 
 protected:
-    utility::string_t m_Api_key_id;
-    bool m_Api_key_idIsSet;
+    utility::string_t m_ApiKeyId;
+    bool m_ApiKeyIdIsSet;
 
     std::set<utility::string_t> m_Scopes;
     bool m_ScopesIsSet;

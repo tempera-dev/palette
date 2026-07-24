@@ -47,7 +47,7 @@ cJSON *run_gate_request_convertToJSON(run_gate_request_t *run_gate_request) {
 
     // run_gate_request->experiment_run_id
     if(run_gate_request->experiment_run_id) {
-    if(cJSON_AddStringToObject(item, "experiment_run_id", run_gate_request->experiment_run_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "experimentRunId", run_gate_request->experiment_run_id) == NULL) {
     goto fail; //String
     }
     }
@@ -65,7 +65,7 @@ run_gate_request_t *run_gate_request_parseFromJSON(cJSON *run_gate_requestJSON){
     run_gate_request_t *run_gate_request_local_var = NULL;
 
     // run_gate_request->experiment_run_id
-    cJSON *experiment_run_id = cJSON_GetObjectItemCaseSensitive(run_gate_requestJSON, "experiment_run_id");
+    cJSON *experiment_run_id = cJSON_GetObjectItemCaseSensitive(run_gate_requestJSON, "experimentRunId");
     if (cJSON_IsNull(experiment_run_id)) {
         experiment_run_id = NULL;
     }

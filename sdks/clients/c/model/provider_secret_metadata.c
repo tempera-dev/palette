@@ -110,7 +110,7 @@ cJSON *provider_secret_metadata_convertToJSON(provider_secret_metadata_t *provid
     if (!provider_secret_metadata->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", provider_secret_metadata->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", provider_secret_metadata->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -119,7 +119,7 @@ cJSON *provider_secret_metadata_convertToJSON(provider_secret_metadata_t *provid
     if (!provider_secret_metadata->display_name) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "display_name", provider_secret_metadata->display_name) == NULL) {
+    if(cJSON_AddStringToObject(item, "displayName", provider_secret_metadata->display_name) == NULL) {
     goto fail; //String
     }
 
@@ -128,7 +128,7 @@ cJSON *provider_secret_metadata_convertToJSON(provider_secret_metadata_t *provid
     if (!provider_secret_metadata->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", provider_secret_metadata->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", provider_secret_metadata->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -146,14 +146,14 @@ cJSON *provider_secret_metadata_convertToJSON(provider_secret_metadata_t *provid
     if (!provider_secret_metadata->provider_secret_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "provider_secret_id", provider_secret_metadata->provider_secret_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "providerSecretId", provider_secret_metadata->provider_secret_id) == NULL) {
     goto fail; //String
     }
 
 
     // provider_secret_metadata->rotated_at
     if(provider_secret_metadata->rotated_at) {
-    if(cJSON_AddStringToObject(item, "rotated_at", provider_secret_metadata->rotated_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "rotatedAt", provider_secret_metadata->rotated_at) == NULL) {
     goto fail; //Date-Time
     }
     }
@@ -163,7 +163,7 @@ cJSON *provider_secret_metadata_convertToJSON(provider_secret_metadata_t *provid
     if (!provider_secret_metadata->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", provider_secret_metadata->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", provider_secret_metadata->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -195,7 +195,7 @@ provider_secret_metadata_t *provider_secret_metadata_parseFromJSON(cJSON *provid
     }
 
     // provider_secret_metadata->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -210,7 +210,7 @@ provider_secret_metadata_t *provider_secret_metadata_parseFromJSON(cJSON *provid
     }
 
     // provider_secret_metadata->display_name
-    cJSON *display_name = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "display_name");
+    cJSON *display_name = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "displayName");
     if (cJSON_IsNull(display_name)) {
         display_name = NULL;
     }
@@ -225,7 +225,7 @@ provider_secret_metadata_t *provider_secret_metadata_parseFromJSON(cJSON *provid
     }
 
     // provider_secret_metadata->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -255,7 +255,7 @@ provider_secret_metadata_t *provider_secret_metadata_parseFromJSON(cJSON *provid
     }
 
     // provider_secret_metadata->provider_secret_id
-    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "provider_secret_id");
+    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "providerSecretId");
     if (cJSON_IsNull(provider_secret_id)) {
         provider_secret_id = NULL;
     }
@@ -270,7 +270,7 @@ provider_secret_metadata_t *provider_secret_metadata_parseFromJSON(cJSON *provid
     }
 
     // provider_secret_metadata->rotated_at
-    cJSON *rotated_at = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "rotated_at");
+    cJSON *rotated_at = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "rotatedAt");
     if (cJSON_IsNull(rotated_at)) {
         rotated_at = NULL;
     }
@@ -282,7 +282,7 @@ provider_secret_metadata_t *provider_secret_metadata_parseFromJSON(cJSON *provid
     }
 
     // provider_secret_metadata->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(provider_secret_metadataJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

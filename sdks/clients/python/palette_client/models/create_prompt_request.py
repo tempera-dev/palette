@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.prompt_template import PromptTemplate
 from typing import Optional, Set
@@ -27,12 +27,12 @@ class CreatePromptRequest(BaseModel):
     """
     Request body for `createPrompt`: the new prompt's metadata plus its initial (version 1) template.
     """ # noqa: E501
-    created_by: Optional[StrictStr] = None
+    created_by: Optional[StrictStr] = Field(default=None, alias="createdBy")
     description: Optional[StrictStr] = None
     message: Optional[StrictStr] = None
     name: StrictStr
     template: PromptTemplate
-    __properties: ClassVar[List[str]] = ["created_by", "description", "message", "name", "template"]
+    __properties: ClassVar[List[str]] = ["createdBy", "description", "message", "name", "template"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,7 +79,7 @@ class CreatePromptRequest(BaseModel):
         # set to None if created_by (nullable) is None
         # and model_fields_set contains the field
         if self.created_by is None and "created_by" in self.model_fields_set:
-            _dict['created_by'] = None
+            _dict['createdBy'] = None
 
         # set to None if description (nullable) is None
         # and model_fields_set contains the field
@@ -103,7 +103,7 @@ class CreatePromptRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_by": obj.get("created_by"),
+            "createdBy": obj.get("createdBy"),
             "description": obj.get("description"),
             "message": obj.get("message"),
             "name": obj.get("name"),

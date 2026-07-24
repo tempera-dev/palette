@@ -19,7 +19,7 @@ var _ MappedNullable = &CreateDatasetVersionRequest{}
 
 // CreateDatasetVersionRequest struct for CreateDatasetVersionRequest
 type CreateDatasetVersionRequest struct {
-	CaseIds []string `json:"case_ids,omitempty"`
+	CaseIds []string `json:"caseIds,omitempty"`
 }
 
 // NewCreateDatasetVersionRequest instantiates a new CreateDatasetVersionRequest object
@@ -83,7 +83,7 @@ func (o CreateDatasetVersionRequest) MarshalJSON() ([]byte, error) {
 func (o CreateDatasetVersionRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.CaseIds != nil {
-		toSerialize["case_ids"] = o.CaseIds
+		toSerialize["caseIds"] = o.CaseIds
 	}
 	return toSerialize, nil
 }

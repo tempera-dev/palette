@@ -20,8 +20,8 @@ namespace model {
 
 AuthContext::AuthContext()
 {
-    m_Api_key_id = utility::conversions::to_string_t("");
-    m_Api_key_idIsSet = false;
+    m_ApiKeyId = utility::conversions::to_string_t("");
+    m_ApiKeyIdIsSet = false;
     m_ScopesIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void AuthContext::validate()
 web::json::value AuthContext::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Api_key_idIsSet)
+    if(m_ApiKeyIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("api_key_id"))] = ModelBase::toJson(m_Api_key_id);
+        val[utility::conversions::to_string_t(U("apiKeyId"))] = ModelBase::toJson(m_ApiKeyId);
     }
     if(m_ScopesIsSet)
     {   
@@ -54,9 +54,9 @@ web::json::value AuthContext::toJson() const
 bool AuthContext::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("api_key_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("apiKeyId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("api_key_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("apiKeyId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setApiKeyId;
@@ -86,9 +86,9 @@ void AuthContext::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Api_key_idIsSet)
+    if(m_ApiKeyIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("api_key_id")), m_Api_key_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("apiKeyId")), m_ApiKeyId));
     }
     if(m_ScopesIsSet)
     {
@@ -105,10 +105,10 @@ bool AuthContext::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("api_key_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("apiKeyId"))))
     {
         utility::string_t refVal_setApiKeyId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("api_key_id"))), refVal_setApiKeyId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("apiKeyId"))), refVal_setApiKeyId );
         setApiKeyId(refVal_setApiKeyId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("scopes"))))
@@ -123,24 +123,24 @@ bool AuthContext::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 
 utility::string_t AuthContext::getApiKeyId() const
 {
-    return m_Api_key_id;
+    return m_ApiKeyId;
 }
 
 
 void AuthContext::setApiKeyId(const utility::string_t& value)
 {
-    m_Api_key_id = value;
-    m_Api_key_idIsSet = true;
+    m_ApiKeyId = value;
+    m_ApiKeyIdIsSet = true;
 }
 
 bool AuthContext::apiKeyIdIsSet() const
 {
-    return m_Api_key_idIsSet;
+    return m_ApiKeyIdIsSet;
 }
 
-void AuthContext::unsetApi_key_id()
+void AuthContext::unsetApiKeyId()
 {
-    m_Api_key_idIsSet = false;
+    m_ApiKeyIdIsSet = false;
 }
 std::set<utility::string_t> AuthContext::getScopes() const
 {

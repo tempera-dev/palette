@@ -57,27 +57,27 @@ public:
 
     double getAdjustedAlpha() const;
     bool adjustedAlphaIsSet() const;
-    void unsetAdjusted_alpha();
+    void unsetAdjustedAlpha();
     void setAdjustedAlpha(double value);
 
     double getBaselineMean() const;
     bool baselineMeanIsSet() const;
-    void unsetBaseline_mean();
+    void unsetBaselineMean();
     void setBaselineMean(double value);
 
     double getCandidateMean() const;
     bool candidateMeanIsSet() const;
-    void unsetCandidate_mean();
+    void unsetCandidateMean();
     void setCandidateMean(double value);
 
     double getCiHigh() const;
     bool ciHighIsSet() const;
-    void unsetCi_high();
+    void unsetCiHigh();
     void setCiHigh(double value);
 
     double getCiLow() const;
     bool ciLowIsSet() const;
-    void unsetCi_low();
+    void unsetCiLow();
     void setCiLow(double value);
 
     std::shared_ptr<GateDecision> getDecision() const;
@@ -103,7 +103,7 @@ public:
     /// </summary>
     double getPValue() const;
     bool pValueIsSet() const;
-    void unsetP_value();
+    void unsetPValue();
     void setPValue(double value);
 
     /// <summary>
@@ -111,12 +111,12 @@ public:
     /// </summary>
     int32_t getRequiredN() const;
     bool requiredNIsSet() const;
-    void unsetRequired_n();
+    void unsetRequiredN();
     void setRequiredN(int32_t value);
 
     int32_t getSampleSize() const;
     bool sampleSizeIsSet() const;
-    void unsetSample_size();
+    void unsetSampleSize();
     void setSampleSize(int32_t value);
 
     std::shared_ptr<StatisticalTest> getTest() const;
@@ -126,20 +126,20 @@ public:
 
 
 protected:
-    double m_Adjusted_alpha;
-    bool m_Adjusted_alphaIsSet;
+    double m_AdjustedAlpha;
+    bool m_AdjustedAlphaIsSet;
 
-    double m_Baseline_mean;
-    bool m_Baseline_meanIsSet;
+    double m_BaselineMean;
+    bool m_BaselineMeanIsSet;
 
-    double m_Candidate_mean;
-    bool m_Candidate_meanIsSet;
+    double m_CandidateMean;
+    bool m_CandidateMeanIsSet;
 
-    double m_Ci_high;
-    bool m_Ci_highIsSet;
+    double m_CiHigh;
+    bool m_CiHighIsSet;
 
-    double m_Ci_low;
-    bool m_Ci_lowIsSet;
+    double m_CiLow;
+    bool m_CiLowIsSet;
 
     std::shared_ptr<GateDecision> m_Decision;
     bool m_DecisionIsSet;
@@ -150,14 +150,14 @@ protected:
     double m_Mde;
     bool m_MdeIsSet;
 
-    double m_P_value;
-    bool m_P_valueIsSet;
+    double m_PValue;
+    bool m_PValueIsSet;
 
-    int32_t m_Required_n;
-    bool m_Required_nIsSet;
+    int32_t m_RequiredN;
+    bool m_RequiredNIsSet;
 
-    int32_t m_Sample_size;
-    bool m_Sample_sizeIsSet;
+    int32_t m_SampleSize;
+    bool m_SampleSizeIsSet;
 
     std::shared_ptr<StatisticalTest> m_Test;
     bool m_TestIsSet;

@@ -20,10 +20,10 @@ namespace model {
 
 PromptVersionMetadata::PromptVersionMetadata()
 {
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Created_by = utility::conversions::to_string_t("");
-    m_Created_byIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_CreatedBy = utility::conversions::to_string_t("");
+    m_CreatedByIsSet = false;
     m_Message = utility::conversions::to_string_t("");
     m_MessageIsSet = false;
 }
@@ -40,15 +40,15 @@ void PromptVersionMetadata::validate()
 web::json::value PromptVersionMetadata::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Created_byIsSet)
+    if(m_CreatedByIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_by"))] = ModelBase::toJson(m_Created_by);
+        val[utility::conversions::to_string_t(U("createdBy"))] = ModelBase::toJson(m_CreatedBy);
     }
     if(m_MessageIsSet)
     {   
@@ -62,9 +62,9 @@ web::json::value PromptVersionMetadata::toJson() const
 bool PromptVersionMetadata::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -73,9 +73,9 @@ bool PromptVersionMetadata::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_by"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdBy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_by")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdBy")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCreatedBy;
@@ -105,13 +105,13 @@ void PromptVersionMetadata::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Created_byIsSet)
+    if(m_CreatedByIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_by")), m_Created_by));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdBy")), m_CreatedBy));
     }
     if(m_MessageIsSet)
     {
@@ -128,16 +128,16 @@ bool PromptVersionMetadata::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_by"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdBy"))))
     {
         utility::string_t refVal_setCreatedBy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_by"))), refVal_setCreatedBy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdBy"))), refVal_setCreatedBy );
         setCreatedBy(refVal_setCreatedBy);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("message"))))
@@ -152,45 +152,45 @@ bool PromptVersionMetadata::fromMultiPart(std::shared_ptr<MultipartFormData> mul
 
 utility::datetime PromptVersionMetadata::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void PromptVersionMetadata::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool PromptVersionMetadata::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void PromptVersionMetadata::unsetCreated_at()
+void PromptVersionMetadata::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t PromptVersionMetadata::getCreatedBy() const
 {
-    return m_Created_by;
+    return m_CreatedBy;
 }
 
 
 void PromptVersionMetadata::setCreatedBy(const utility::string_t& value)
 {
-    m_Created_by = value;
-    m_Created_byIsSet = true;
+    m_CreatedBy = value;
+    m_CreatedByIsSet = true;
 }
 
 bool PromptVersionMetadata::createdByIsSet() const
 {
-    return m_Created_byIsSet;
+    return m_CreatedByIsSet;
 }
 
-void PromptVersionMetadata::unsetCreated_by()
+void PromptVersionMetadata::unsetCreatedBy()
 {
-    m_Created_byIsSet = false;
+    m_CreatedByIsSet = false;
 }
 utility::string_t PromptVersionMetadata::getMessage() const
 {

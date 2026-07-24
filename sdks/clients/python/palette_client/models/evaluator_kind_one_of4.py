@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class EvaluatorKindOneOf4(BaseModel):
     """
     EvaluatorKindOneOf4
     """ # noqa: E501
-    max_micros: StrictInt
+    max_micros: StrictInt = Field(alias="maxMicros")
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["max_micros", "type"]
+    __properties: ClassVar[List[str]] = ["maxMicros", "type"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -88,7 +88,7 @@ class EvaluatorKindOneOf4(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "max_micros": obj.get("max_micros"),
+            "maxMicros": obj.get("maxMicros"),
             "type": obj.get("type")
         })
         return _obj

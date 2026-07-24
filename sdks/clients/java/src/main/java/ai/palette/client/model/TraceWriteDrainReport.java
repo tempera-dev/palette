@@ -56,31 +56,31 @@ public class TraceWriteDrainReport {
   @javax.annotation.Nonnull
   private Integer consumed;
 
-  public static final String JSON_PROPERTY_DEAD_LETTERED = "dead_lettered";
+  public static final String JSON_PROPERTY_DEAD_LETTERED = "deadLettered";
   @javax.annotation.Nonnull
   private Integer deadLettered;
 
-  public static final String JSON_PROPERTY_DOWNSTREAM_PUBLISHED = "downstream_published";
+  public static final String JSON_PROPERTY_DOWNSTREAM_PUBLISHED = "downstreamPublished";
   @javax.annotation.Nonnull
   private Integer downstreamPublished;
 
-  public static final String JSON_PROPERTY_DUPLICATE_RAW = "duplicate_raw";
+  public static final String JSON_PROPERTY_DUPLICATE_RAW = "duplicateRaw";
   @javax.annotation.Nonnull
   private Integer duplicateRaw;
 
-  public static final String JSON_PROPERTY_DUPLICATE_SPANS = "duplicate_spans";
+  public static final String JSON_PROPERTY_DUPLICATE_SPANS = "duplicateSpans";
   @javax.annotation.Nonnull
   private Integer duplicateSpans;
 
-  public static final String JSON_PROPERTY_FAILED_DOWNSTREAM_PUBLISHES = "failed_downstream_publishes";
+  public static final String JSON_PROPERTY_FAILED_DOWNSTREAM_PUBLISHES = "failedDownstreamPublishes";
   @javax.annotation.Nonnull
   private Integer failedDownstreamPublishes;
 
-  public static final String JSON_PROPERTY_FAILED_WRITES = "failed_writes";
+  public static final String JSON_PROPERTY_FAILED_WRITES = "failedWrites";
   @javax.annotation.Nonnull
   private Integer failedWrites;
 
-  public static final String JSON_PROPERTY_INVALID_MESSAGES = "invalid_messages";
+  public static final String JSON_PROPERTY_INVALID_MESSAGES = "invalidMessages";
   @javax.annotation.Nonnull
   private Integer invalidMessages;
 
@@ -88,19 +88,19 @@ public class TraceWriteDrainReport {
   @javax.annotation.Nonnull
   private Integer retried;
 
-  public static final String JSON_PROPERTY_TRACE_IDS = "trace_ids";
+  public static final String JSON_PROPERTY_TRACE_IDS = "traceIds";
   @javax.annotation.Nonnull
   private List<String> traceIds = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_TRACE_REFS = "trace_refs";
+  public static final String JSON_PROPERTY_TRACE_REFS = "traceRefs";
   @javax.annotation.Nonnull
   private List<QueuedTraceWork> traceRefs = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_WRITTEN_RAW = "written_raw";
+  public static final String JSON_PROPERTY_WRITTEN_RAW = "writtenRaw";
   @javax.annotation.Nonnull
   private Integer writtenRaw;
 
-  public static final String JSON_PROPERTY_WRITTEN_SPANS = "written_spans";
+  public static final String JSON_PROPERTY_WRITTEN_SPANS = "writtenSpans";
   @javax.annotation.Nonnull
   private Integer writtenSpans;
 
@@ -547,39 +547,39 @@ public class TraceWriteDrainReport {
       joiner.add(String.format("%sconsumed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConsumed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dead_lettered` to the URL query string
+    // add `deadLettered` to the URL query string
     if (getDeadLettered() != null) {
-      joiner.add(String.format("%sdead_lettered%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeadLettered()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdeadLettered%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeadLettered()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `downstream_published` to the URL query string
+    // add `downstreamPublished` to the URL query string
     if (getDownstreamPublished() != null) {
-      joiner.add(String.format("%sdownstream_published%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamPublished()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdownstreamPublished%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDownstreamPublished()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `duplicate_raw` to the URL query string
+    // add `duplicateRaw` to the URL query string
     if (getDuplicateRaw() != null) {
-      joiner.add(String.format("%sduplicate_raw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sduplicateRaw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `duplicate_spans` to the URL query string
+    // add `duplicateSpans` to the URL query string
     if (getDuplicateSpans() != null) {
-      joiner.add(String.format("%sduplicate_spans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sduplicateSpans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDuplicateSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `failed_downstream_publishes` to the URL query string
+    // add `failedDownstreamPublishes` to the URL query string
     if (getFailedDownstreamPublishes() != null) {
-      joiner.add(String.format("%sfailed_downstream_publishes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedDownstreamPublishes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfailedDownstreamPublishes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedDownstreamPublishes()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `failed_writes` to the URL query string
+    // add `failedWrites` to the URL query string
     if (getFailedWrites() != null) {
-      joiner.add(String.format("%sfailed_writes%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedWrites()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfailedWrites%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedWrites()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `invalid_messages` to the URL query string
+    // add `invalidMessages` to the URL query string
     if (getInvalidMessages() != null) {
-      joiner.add(String.format("%sinvalid_messages%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvalidMessages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinvalidMessages%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvalidMessages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `retried` to the URL query string
@@ -587,33 +587,33 @@ public class TraceWriteDrainReport {
       joiner.add(String.format("%sretried%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRetried()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_ids` to the URL query string
+    // add `traceIds` to the URL query string
     if (getTraceIds() != null) {
       for (int i = 0; i < getTraceIds().size(); i++) {
-        joiner.add(String.format("%strace_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%straceIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getTraceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 
-    // add `trace_refs` to the URL query string
+    // add `traceRefs` to the URL query string
     if (getTraceRefs() != null) {
       for (int i = 0; i < getTraceRefs().size(); i++) {
         if (getTraceRefs().get(i) != null) {
-          joiner.add(getTraceRefs().get(i).toUrlQueryString(String.format("%strace_refs%s%s", prefix, suffix,
+          joiner.add(getTraceRefs().get(i).toUrlQueryString(String.format("%straceRefs%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
-    // add `written_raw` to the URL query string
+    // add `writtenRaw` to the URL query string
     if (getWrittenRaw() != null) {
-      joiner.add(String.format("%swritten_raw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWrittenRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%swrittenRaw%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWrittenRaw()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `written_spans` to the URL query string
+    // add `writtenSpans` to the URL query string
     if (getWrittenSpans() != null) {
-      joiner.add(String.format("%swritten_spans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWrittenSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%swrittenSpans%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWrittenSpans()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -21,22 +21,22 @@ var _ MappedNullable = &EvalReproducibility{}
 
 // EvalReproducibility struct for EvalReproducibility
 type EvalReproducibility struct {
-	AgentReleaseId string `json:"agent_release_id"`
-	CodeHash *string `json:"code_hash,omitempty"`
-	DatasetCaseId string `json:"dataset_case_id"`
-	DatasetVersionId string `json:"dataset_version_id"`
-	EvaluatorVersionId string `json:"evaluator_version_id"`
-	InputArtifactHashes []string `json:"input_artifact_hashes"`
-	JudgeModelId NullableString `json:"judge_model_id,omitempty"`
-	JudgeParameters interface{} `json:"judge_parameters"`
-	JudgeProvider NullableString `json:"judge_provider,omitempty"`
-	JudgeRubricVersion NullableString `json:"judge_rubric_version,omitempty"`
-	JudgeSeed NullableInt64 `json:"judge_seed,omitempty"`
-	NormalizerVersion string `json:"normalizer_version"`
-	PromptVersionId *string `json:"prompt_version_id,omitempty"`
-	TraceSchemaVersion int32 `json:"trace_schema_version"`
-	WasiAbiVersion NullableString `json:"wasi_abi_version,omitempty"`
-	WasmHash *string `json:"wasm_hash,omitempty"`
+	AgentReleaseId string `json:"agentReleaseId"`
+	CodeHash *string `json:"codeHash,omitempty"`
+	DatasetCaseId string `json:"datasetCaseId"`
+	DatasetVersionId string `json:"datasetVersionId"`
+	EvaluatorVersionId string `json:"evaluatorVersionId"`
+	InputArtifactHashes []string `json:"inputArtifactHashes"`
+	JudgeModelId NullableString `json:"judgeModelId,omitempty"`
+	JudgeParameters interface{} `json:"judgeParameters"`
+	JudgeProvider NullableString `json:"judgeProvider,omitempty"`
+	JudgeRubricVersion NullableString `json:"judgeRubricVersion,omitempty"`
+	JudgeSeed NullableInt64 `json:"judgeSeed,omitempty"`
+	NormalizerVersion string `json:"normalizerVersion"`
+	PromptVersionId *string `json:"promptVersionId,omitempty"`
+	TraceSchemaVersion int32 `json:"traceSchemaVersion"`
+	WasiAbiVersion NullableString `json:"wasiAbiVersion,omitempty"`
+	WasmHash *string `json:"wasmHash,omitempty"`
 }
 
 type _EvalReproducibility EvalReproducibility
@@ -576,39 +576,39 @@ func (o EvalReproducibility) MarshalJSON() ([]byte, error) {
 
 func (o EvalReproducibility) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["agent_release_id"] = o.AgentReleaseId
+	toSerialize["agentReleaseId"] = o.AgentReleaseId
 	if !IsNil(o.CodeHash) {
-		toSerialize["code_hash"] = o.CodeHash
+		toSerialize["codeHash"] = o.CodeHash
 	}
-	toSerialize["dataset_case_id"] = o.DatasetCaseId
-	toSerialize["dataset_version_id"] = o.DatasetVersionId
-	toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
-	toSerialize["input_artifact_hashes"] = o.InputArtifactHashes
+	toSerialize["datasetCaseId"] = o.DatasetCaseId
+	toSerialize["datasetVersionId"] = o.DatasetVersionId
+	toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
+	toSerialize["inputArtifactHashes"] = o.InputArtifactHashes
 	if o.JudgeModelId.IsSet() {
-		toSerialize["judge_model_id"] = o.JudgeModelId.Get()
+		toSerialize["judgeModelId"] = o.JudgeModelId.Get()
 	}
 	if o.JudgeParameters != nil {
-		toSerialize["judge_parameters"] = o.JudgeParameters
+		toSerialize["judgeParameters"] = o.JudgeParameters
 	}
 	if o.JudgeProvider.IsSet() {
-		toSerialize["judge_provider"] = o.JudgeProvider.Get()
+		toSerialize["judgeProvider"] = o.JudgeProvider.Get()
 	}
 	if o.JudgeRubricVersion.IsSet() {
-		toSerialize["judge_rubric_version"] = o.JudgeRubricVersion.Get()
+		toSerialize["judgeRubricVersion"] = o.JudgeRubricVersion.Get()
 	}
 	if o.JudgeSeed.IsSet() {
-		toSerialize["judge_seed"] = o.JudgeSeed.Get()
+		toSerialize["judgeSeed"] = o.JudgeSeed.Get()
 	}
-	toSerialize["normalizer_version"] = o.NormalizerVersion
+	toSerialize["normalizerVersion"] = o.NormalizerVersion
 	if !IsNil(o.PromptVersionId) {
-		toSerialize["prompt_version_id"] = o.PromptVersionId
+		toSerialize["promptVersionId"] = o.PromptVersionId
 	}
-	toSerialize["trace_schema_version"] = o.TraceSchemaVersion
+	toSerialize["traceSchemaVersion"] = o.TraceSchemaVersion
 	if o.WasiAbiVersion.IsSet() {
-		toSerialize["wasi_abi_version"] = o.WasiAbiVersion.Get()
+		toSerialize["wasiAbiVersion"] = o.WasiAbiVersion.Get()
 	}
 	if !IsNil(o.WasmHash) {
-		toSerialize["wasm_hash"] = o.WasmHash
+		toSerialize["wasmHash"] = o.WasmHash
 	}
 	return toSerialize, nil
 }
@@ -618,14 +618,14 @@ func (o *EvalReproducibility) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"agent_release_id",
-		"dataset_case_id",
-		"dataset_version_id",
-		"evaluator_version_id",
-		"input_artifact_hashes",
-		"judge_parameters",
-		"normalizer_version",
-		"trace_schema_version",
+		"agentReleaseId",
+		"datasetCaseId",
+		"datasetVersionId",
+		"evaluatorVersionId",
+		"inputArtifactHashes",
+		"judgeParameters",
+		"normalizerVersion",
+		"traceSchemaVersion",
 	}
 
 	allProperties := make(map[string]interface{})

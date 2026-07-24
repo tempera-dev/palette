@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class QueuedTraceWork(BaseModel):
     """
     QueuedTraceWork
     """ # noqa: E501
-    project_id: StrictStr
-    tenant_id: StrictStr
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["project_id", "tenant_id", "trace_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["projectId", "tenantId", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,9 +82,9 @@ class QueuedTraceWork(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id"),
-            "trace_id": obj.get("trace_id")
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

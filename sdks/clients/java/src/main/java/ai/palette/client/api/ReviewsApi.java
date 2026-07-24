@@ -178,9 +178,9 @@ public class ReviewsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/review-queues/{tenant_id}/{project_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()));
+    String localVarPath = "/v1/review-queues/{tenantId}/{projectId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -307,10 +307,10 @@ public class ReviewsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{queue_id}", ApiClient.urlEncode(queueId.toString()));
+    String localVarPath = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{queueId}", ApiClient.urlEncode(queueId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -437,10 +437,10 @@ public class ReviewsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{queue_id}", ApiClient.urlEncode(queueId.toString()));
+    String localVarPath = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{queueId}", ApiClient.urlEncode(queueId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -592,12 +592,12 @@ public class ReviewsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{queue_id}", ApiClient.urlEncode(queueId.toString()))
-        .replace("{task_id}", ApiClient.urlEncode(taskId.toString()))
-        .replace("{annotation_id}", ApiClient.urlEncode(annotationId.toString()));
+    String localVarPath = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{queueId}", ApiClient.urlEncode(queueId.toString()))
+        .replace("{taskId}", ApiClient.urlEncode(taskId.toString()))
+        .replace("{annotationId}", ApiClient.urlEncode(annotationId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -730,11 +730,11 @@ public class ReviewsApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{project_id}", ApiClient.urlEncode(projectId.toString()))
-        .replace("{queue_id}", ApiClient.urlEncode(queueId.toString()))
-        .replace("{task_id}", ApiClient.urlEncode(taskId.toString()));
+    String localVarPath = "/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{projectId}", ApiClient.urlEncode(projectId.toString()))
+        .replace("{queueId}", ApiClient.urlEncode(queueId.toString()))
+        .replace("{taskId}", ApiClient.urlEncode(taskId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 

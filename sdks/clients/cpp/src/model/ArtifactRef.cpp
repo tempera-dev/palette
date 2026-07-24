@@ -20,15 +20,15 @@ namespace model {
 
 ArtifactRef::ArtifactRef()
 {
-    m_Artifact_id = utility::conversions::to_string_t("");
-    m_Artifact_idIsSet = false;
-    m_Mime_type = utility::conversions::to_string_t("");
-    m_Mime_typeIsSet = false;
-    m_Redaction_classIsSet = false;
+    m_ArtifactId = utility::conversions::to_string_t("");
+    m_ArtifactIdIsSet = false;
+    m_MimeType = utility::conversions::to_string_t("");
+    m_MimeTypeIsSet = false;
+    m_RedactionClassIsSet = false;
     m_Sha256 = utility::conversions::to_string_t("");
     m_Sha256IsSet = false;
-    m_Size_bytes = 0L;
-    m_Size_bytesIsSet = false;
+    m_SizeBytes = 0L;
+    m_SizeBytesIsSet = false;
     m_Uri = utility::conversions::to_string_t("");
     m_UriIsSet = false;
 }
@@ -45,30 +45,30 @@ void ArtifactRef::validate()
 web::json::value ArtifactRef::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Artifact_idIsSet)
+    if(m_ArtifactIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("artifact_id"))] = ModelBase::toJson(m_Artifact_id);
+        val[utility::conversions::to_string_t(U("artifactId"))] = ModelBase::toJson(m_ArtifactId);
     }
-    if(m_Mime_typeIsSet)
+    if(m_MimeTypeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("mime_type"))] = ModelBase::toJson(m_Mime_type);
+        val[utility::conversions::to_string_t(U("mimeType"))] = ModelBase::toJson(m_MimeType);
     }
-    if(m_Redaction_classIsSet)
+    if(m_RedactionClassIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("redaction_class"))] = ModelBase::toJson(m_Redaction_class);
+        val[utility::conversions::to_string_t(U("redactionClass"))] = ModelBase::toJson(m_RedactionClass);
     }
     if(m_Sha256IsSet)
     {   
         
         val[utility::conversions::to_string_t(U("sha256"))] = ModelBase::toJson(m_Sha256);
     }
-    if(m_Size_bytesIsSet)
+    if(m_SizeBytesIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("size_bytes"))] = ModelBase::toJson(m_Size_bytes);
+        val[utility::conversions::to_string_t(U("sizeBytes"))] = ModelBase::toJson(m_SizeBytes);
     }
     if(m_UriIsSet)
     {   
@@ -82,9 +82,9 @@ web::json::value ArtifactRef::toJson() const
 bool ArtifactRef::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("artifact_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("artifactId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("artifact_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("artifactId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setArtifactId;
@@ -93,9 +93,9 @@ bool ArtifactRef::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("mime_type"))))
+    if(val.has_field(utility::conversions::to_string_t(U("mimeType"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("mime_type")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("mimeType")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setMimeType;
@@ -104,9 +104,9 @@ bool ArtifactRef::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("redaction_class"))))
+    if(val.has_field(utility::conversions::to_string_t(U("redactionClass"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redaction_class")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redactionClass")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<RedactionClass> refVal_setRedactionClass;
@@ -126,9 +126,9 @@ bool ArtifactRef::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("size_bytes"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sizeBytes"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("size_bytes")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sizeBytes")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setSizeBytes;
@@ -158,25 +158,25 @@ void ArtifactRef::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Artifact_idIsSet)
+    if(m_ArtifactIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("artifact_id")), m_Artifact_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("artifactId")), m_ArtifactId));
     }
-    if(m_Mime_typeIsSet)
+    if(m_MimeTypeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("mime_type")), m_Mime_type));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("mimeType")), m_MimeType));
     }
-    if(m_Redaction_classIsSet)
+    if(m_RedactionClassIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redaction_class")), m_Redaction_class));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redactionClass")), m_RedactionClass));
     }
     if(m_Sha256IsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sha256")), m_Sha256));
     }
-    if(m_Size_bytesIsSet)
+    if(m_SizeBytesIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("size_bytes")), m_Size_bytes));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sizeBytes")), m_SizeBytes));
     }
     if(m_UriIsSet)
     {
@@ -193,22 +193,22 @@ bool ArtifactRef::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("artifact_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("artifactId"))))
     {
         utility::string_t refVal_setArtifactId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("artifact_id"))), refVal_setArtifactId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("artifactId"))), refVal_setArtifactId );
         setArtifactId(refVal_setArtifactId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("mime_type"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("mimeType"))))
     {
         utility::string_t refVal_setMimeType;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("mime_type"))), refVal_setMimeType );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("mimeType"))), refVal_setMimeType );
         setMimeType(refVal_setMimeType);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("redaction_class"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("redactionClass"))))
     {
         std::shared_ptr<RedactionClass> refVal_setRedactionClass;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redaction_class"))), refVal_setRedactionClass );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redactionClass"))), refVal_setRedactionClass );
         setRedactionClass(refVal_setRedactionClass);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("sha256"))))
@@ -217,10 +217,10 @@ bool ArtifactRef::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sha256"))), refVal_setSha256 );
         setSha256(refVal_setSha256);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("size_bytes"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sizeBytes"))))
     {
         int64_t refVal_setSizeBytes;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("size_bytes"))), refVal_setSizeBytes );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sizeBytes"))), refVal_setSizeBytes );
         setSizeBytes(refVal_setSizeBytes);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("uri"))))
@@ -235,66 +235,66 @@ bool ArtifactRef::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 
 utility::string_t ArtifactRef::getArtifactId() const
 {
-    return m_Artifact_id;
+    return m_ArtifactId;
 }
 
 
 void ArtifactRef::setArtifactId(const utility::string_t& value)
 {
-    m_Artifact_id = value;
-    m_Artifact_idIsSet = true;
+    m_ArtifactId = value;
+    m_ArtifactIdIsSet = true;
 }
 
 bool ArtifactRef::artifactIdIsSet() const
 {
-    return m_Artifact_idIsSet;
+    return m_ArtifactIdIsSet;
 }
 
-void ArtifactRef::unsetArtifact_id()
+void ArtifactRef::unsetArtifactId()
 {
-    m_Artifact_idIsSet = false;
+    m_ArtifactIdIsSet = false;
 }
 utility::string_t ArtifactRef::getMimeType() const
 {
-    return m_Mime_type;
+    return m_MimeType;
 }
 
 
 void ArtifactRef::setMimeType(const utility::string_t& value)
 {
-    m_Mime_type = value;
-    m_Mime_typeIsSet = true;
+    m_MimeType = value;
+    m_MimeTypeIsSet = true;
 }
 
 bool ArtifactRef::mimeTypeIsSet() const
 {
-    return m_Mime_typeIsSet;
+    return m_MimeTypeIsSet;
 }
 
-void ArtifactRef::unsetMime_type()
+void ArtifactRef::unsetMimeType()
 {
-    m_Mime_typeIsSet = false;
+    m_MimeTypeIsSet = false;
 }
 std::shared_ptr<RedactionClass> ArtifactRef::getRedactionClass() const
 {
-    return m_Redaction_class;
+    return m_RedactionClass;
 }
 
 
 void ArtifactRef::setRedactionClass(const std::shared_ptr<RedactionClass>& value)
 {
-    m_Redaction_class = value;
-    m_Redaction_classIsSet = true;
+    m_RedactionClass = value;
+    m_RedactionClassIsSet = true;
 }
 
 bool ArtifactRef::redactionClassIsSet() const
 {
-    return m_Redaction_classIsSet;
+    return m_RedactionClassIsSet;
 }
 
-void ArtifactRef::unsetRedaction_class()
+void ArtifactRef::unsetRedactionClass()
 {
-    m_Redaction_classIsSet = false;
+    m_RedactionClassIsSet = false;
 }
 utility::string_t ArtifactRef::getSha256() const
 {
@@ -319,23 +319,23 @@ void ArtifactRef::unsetSha256()
 }
 int64_t ArtifactRef::getSizeBytes() const
 {
-    return m_Size_bytes;
+    return m_SizeBytes;
 }
 
 void ArtifactRef::setSizeBytes(int64_t value)
 {
-    m_Size_bytes = value;
-    m_Size_bytesIsSet = true;
+    m_SizeBytes = value;
+    m_SizeBytesIsSet = true;
 }
 
 bool ArtifactRef::sizeBytesIsSet() const
 {
-    return m_Size_bytesIsSet;
+    return m_SizeBytesIsSet;
 }
 
-void ArtifactRef::unsetSize_bytes()
+void ArtifactRef::unsetSizeBytes()
 {
-    m_Size_bytesIsSet = false;
+    m_SizeBytesIsSet = false;
 }
 utility::string_t ArtifactRef::getUri() const
 {

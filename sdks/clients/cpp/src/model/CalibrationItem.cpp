@@ -22,15 +22,15 @@ CalibrationItem::CalibrationItem()
 {
     m_Agreed = false;
     m_AgreedIsSet = false;
-    m_Dataset_case_id = utility::conversions::to_string_t("");
-    m_Dataset_case_idIsSet = false;
+    m_DatasetCaseId = utility::conversions::to_string_t("");
+    m_DatasetCaseIdIsSet = false;
     m_EvidenceIsSet = false;
-    m_Human_labelIsSet = false;
-    m_Judge_labelIsSet = false;
-    m_Judge_result_label = utility::conversions::to_string_t("");
-    m_Judge_result_labelIsSet = false;
-    m_Judge_score = 0.0;
-    m_Judge_scoreIsSet = false;
+    m_HumanLabelIsSet = false;
+    m_JudgeLabelIsSet = false;
+    m_JudgeResultLabel = utility::conversions::to_string_t("");
+    m_JudgeResultLabelIsSet = false;
+    m_JudgeScore = 0.0;
+    m_JudgeScoreIsSet = false;
 }
 
 CalibrationItem::~CalibrationItem()
@@ -50,35 +50,35 @@ web::json::value CalibrationItem::toJson() const
         
         val[utility::conversions::to_string_t(U("agreed"))] = ModelBase::toJson(m_Agreed);
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_case_id"))] = ModelBase::toJson(m_Dataset_case_id);
+        val[utility::conversions::to_string_t(U("datasetCaseId"))] = ModelBase::toJson(m_DatasetCaseId);
     }
     if(m_EvidenceIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("evidence"))] = ModelBase::toJson(m_Evidence);
     }
-    if(m_Human_labelIsSet)
+    if(m_HumanLabelIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("human_label"))] = ModelBase::toJson(m_Human_label);
+        val[utility::conversions::to_string_t(U("humanLabel"))] = ModelBase::toJson(m_HumanLabel);
     }
-    if(m_Judge_labelIsSet)
+    if(m_JudgeLabelIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_label"))] = ModelBase::toJson(m_Judge_label);
+        val[utility::conversions::to_string_t(U("judgeLabel"))] = ModelBase::toJson(m_JudgeLabel);
     }
-    if(m_Judge_result_labelIsSet)
+    if(m_JudgeResultLabelIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_result_label"))] = ModelBase::toJson(m_Judge_result_label);
+        val[utility::conversions::to_string_t(U("judgeResultLabel"))] = ModelBase::toJson(m_JudgeResultLabel);
     }
-    if(m_Judge_scoreIsSet)
+    if(m_JudgeScoreIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("judge_score"))] = ModelBase::toJson(m_Judge_score);
+        val[utility::conversions::to_string_t(U("judgeScore"))] = ModelBase::toJson(m_JudgeScore);
     }
 
     return val;
@@ -98,9 +98,9 @@ bool CalibrationItem::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetCaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetCaseId;
@@ -120,9 +120,9 @@ bool CalibrationItem::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("human_label"))))
+    if(val.has_field(utility::conversions::to_string_t(U("humanLabel"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("human_label")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("humanLabel")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<CalibrationLabel> refVal_setHumanLabel;
@@ -131,9 +131,9 @@ bool CalibrationItem::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_label"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeLabel"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_label")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeLabel")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<CalibrationLabel> refVal_setJudgeLabel;
@@ -142,9 +142,9 @@ bool CalibrationItem::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_result_label"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeResultLabel"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_result_label")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeResultLabel")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setJudgeResultLabel;
@@ -153,9 +153,9 @@ bool CalibrationItem::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("judge_score"))))
+    if(val.has_field(utility::conversions::to_string_t(U("judgeScore"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judge_score")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("judgeScore")));
         if(!fieldValue.is_null())
         {
             double refVal_setJudgeScore;
@@ -178,29 +178,29 @@ void CalibrationItem::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agreed")), m_Agreed));
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_case_id")), m_Dataset_case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetCaseId")), m_DatasetCaseId));
     }
     if(m_EvidenceIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evidence")), m_Evidence));
     }
-    if(m_Human_labelIsSet)
+    if(m_HumanLabelIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("human_label")), m_Human_label));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("humanLabel")), m_HumanLabel));
     }
-    if(m_Judge_labelIsSet)
+    if(m_JudgeLabelIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_label")), m_Judge_label));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeLabel")), m_JudgeLabel));
     }
-    if(m_Judge_result_labelIsSet)
+    if(m_JudgeResultLabelIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_result_label")), m_Judge_result_label));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeResultLabel")), m_JudgeResultLabel));
     }
-    if(m_Judge_scoreIsSet)
+    if(m_JudgeScoreIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judge_score")), m_Judge_score));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("judgeScore")), m_JudgeScore));
     }
 }
 
@@ -219,10 +219,10 @@ bool CalibrationItem::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agreed"))), refVal_setAgreed );
         setAgreed(refVal_setAgreed);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
         utility::string_t refVal_setDatasetCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_case_id"))), refVal_setDatasetCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetCaseId"))), refVal_setDatasetCaseId );
         setDatasetCaseId(refVal_setDatasetCaseId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("evidence"))))
@@ -231,28 +231,28 @@ bool CalibrationItem::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evidence"))), refVal_setEvidence );
         setEvidence(refVal_setEvidence);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("human_label"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("humanLabel"))))
     {
         std::shared_ptr<CalibrationLabel> refVal_setHumanLabel;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("human_label"))), refVal_setHumanLabel );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("humanLabel"))), refVal_setHumanLabel );
         setHumanLabel(refVal_setHumanLabel);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_label"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeLabel"))))
     {
         std::shared_ptr<CalibrationLabel> refVal_setJudgeLabel;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_label"))), refVal_setJudgeLabel );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeLabel"))), refVal_setJudgeLabel );
         setJudgeLabel(refVal_setJudgeLabel);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_result_label"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeResultLabel"))))
     {
         utility::string_t refVal_setJudgeResultLabel;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_result_label"))), refVal_setJudgeResultLabel );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeResultLabel"))), refVal_setJudgeResultLabel );
         setJudgeResultLabel(refVal_setJudgeResultLabel);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("judge_score"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("judgeScore"))))
     {
         double refVal_setJudgeScore;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judge_score"))), refVal_setJudgeScore );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("judgeScore"))), refVal_setJudgeScore );
         setJudgeScore(refVal_setJudgeScore);
     }
     return ok;
@@ -281,24 +281,24 @@ void CalibrationItem::unsetAgreed()
 }
 utility::string_t CalibrationItem::getDatasetCaseId() const
 {
-    return m_Dataset_case_id;
+    return m_DatasetCaseId;
 }
 
 
 void CalibrationItem::setDatasetCaseId(const utility::string_t& value)
 {
-    m_Dataset_case_id = value;
-    m_Dataset_case_idIsSet = true;
+    m_DatasetCaseId = value;
+    m_DatasetCaseIdIsSet = true;
 }
 
 bool CalibrationItem::datasetCaseIdIsSet() const
 {
-    return m_Dataset_case_idIsSet;
+    return m_DatasetCaseIdIsSet;
 }
 
-void CalibrationItem::unsetDataset_case_id()
+void CalibrationItem::unsetDatasetCaseId()
 {
-    m_Dataset_case_idIsSet = false;
+    m_DatasetCaseIdIsSet = false;
 }
 std::shared_ptr<AnyType> CalibrationItem::getEvidence() const
 {
@@ -323,86 +323,86 @@ void CalibrationItem::unsetEvidence()
 }
 std::shared_ptr<CalibrationLabel> CalibrationItem::getHumanLabel() const
 {
-    return m_Human_label;
+    return m_HumanLabel;
 }
 
 
 void CalibrationItem::setHumanLabel(const std::shared_ptr<CalibrationLabel>& value)
 {
-    m_Human_label = value;
-    m_Human_labelIsSet = true;
+    m_HumanLabel = value;
+    m_HumanLabelIsSet = true;
 }
 
 bool CalibrationItem::humanLabelIsSet() const
 {
-    return m_Human_labelIsSet;
+    return m_HumanLabelIsSet;
 }
 
-void CalibrationItem::unsetHuman_label()
+void CalibrationItem::unsetHumanLabel()
 {
-    m_Human_labelIsSet = false;
+    m_HumanLabelIsSet = false;
 }
 std::shared_ptr<CalibrationLabel> CalibrationItem::getJudgeLabel() const
 {
-    return m_Judge_label;
+    return m_JudgeLabel;
 }
 
 
 void CalibrationItem::setJudgeLabel(const std::shared_ptr<CalibrationLabel>& value)
 {
-    m_Judge_label = value;
-    m_Judge_labelIsSet = true;
+    m_JudgeLabel = value;
+    m_JudgeLabelIsSet = true;
 }
 
 bool CalibrationItem::judgeLabelIsSet() const
 {
-    return m_Judge_labelIsSet;
+    return m_JudgeLabelIsSet;
 }
 
-void CalibrationItem::unsetJudge_label()
+void CalibrationItem::unsetJudgeLabel()
 {
-    m_Judge_labelIsSet = false;
+    m_JudgeLabelIsSet = false;
 }
 utility::string_t CalibrationItem::getJudgeResultLabel() const
 {
-    return m_Judge_result_label;
+    return m_JudgeResultLabel;
 }
 
 
 void CalibrationItem::setJudgeResultLabel(const utility::string_t& value)
 {
-    m_Judge_result_label = value;
-    m_Judge_result_labelIsSet = true;
+    m_JudgeResultLabel = value;
+    m_JudgeResultLabelIsSet = true;
 }
 
 bool CalibrationItem::judgeResultLabelIsSet() const
 {
-    return m_Judge_result_labelIsSet;
+    return m_JudgeResultLabelIsSet;
 }
 
-void CalibrationItem::unsetJudge_result_label()
+void CalibrationItem::unsetJudgeResultLabel()
 {
-    m_Judge_result_labelIsSet = false;
+    m_JudgeResultLabelIsSet = false;
 }
 double CalibrationItem::getJudgeScore() const
 {
-    return m_Judge_score;
+    return m_JudgeScore;
 }
 
 void CalibrationItem::setJudgeScore(double value)
 {
-    m_Judge_score = value;
-    m_Judge_scoreIsSet = true;
+    m_JudgeScore = value;
+    m_JudgeScoreIsSet = true;
 }
 
 bool CalibrationItem::judgeScoreIsSet() const
 {
-    return m_Judge_scoreIsSet;
+    return m_JudgeScoreIsSet;
 }
 
-void CalibrationItem::unsetJudge_score()
+void CalibrationItem::unsetJudgeScore()
 {
-    m_Judge_scoreIsSet = false;
+    m_JudgeScoreIsSet = false;
 }
 
 }

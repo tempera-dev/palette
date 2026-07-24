@@ -76,7 +76,7 @@ cJSON *promote_trace_case_request_convertToJSON(promote_trace_case_request_t *pr
 
     // promote_trace_case_request->span_id
     if(promote_trace_case_request->span_id) {
-    if(cJSON_AddStringToObject(item, "span_id", promote_trace_case_request->span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "spanId", promote_trace_case_request->span_id) == NULL) {
     goto fail; //String
     }
     }
@@ -86,7 +86,7 @@ cJSON *promote_trace_case_request_convertToJSON(promote_trace_case_request_t *pr
     if (!promote_trace_case_request->trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "trace_id", promote_trace_case_request->trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "traceId", promote_trace_case_request->trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -115,7 +115,7 @@ promote_trace_case_request_t *promote_trace_case_request_parseFromJSON(cJSON *pr
     }
 
     // promote_trace_case_request->span_id
-    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(promote_trace_case_requestJSON, "span_id");
+    cJSON *span_id = cJSON_GetObjectItemCaseSensitive(promote_trace_case_requestJSON, "spanId");
     if (cJSON_IsNull(span_id)) {
         span_id = NULL;
     }
@@ -127,7 +127,7 @@ promote_trace_case_request_t *promote_trace_case_request_parseFromJSON(cJSON *pr
     }
 
     // promote_trace_case_request->trace_id
-    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(promote_trace_case_requestJSON, "trace_id");
+    cJSON *trace_id = cJSON_GetObjectItemCaseSensitive(promote_trace_case_requestJSON, "traceId");
     if (cJSON_IsNull(trace_id)) {
         trace_id = NULL;
     }

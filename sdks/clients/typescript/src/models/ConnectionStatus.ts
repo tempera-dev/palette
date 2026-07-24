@@ -67,7 +67,7 @@ export function ConnectionStatusFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'connected': json['connected'],
-        'connectedAccountId': json['connected_account_id'] == null ? undefined : json['connected_account_id'],
+        'connectedAccountId': json['connectedAccountId'] == null ? undefined : json['connectedAccountId'],
         'status': json['status'],
         'toolkit': json['toolkit'],
     };
@@ -85,7 +85,7 @@ export function ConnectionStatusToJSONTyped(value?: ConnectionStatus | null, ign
     return {
         
         'connected': value['connected'],
-        'connected_account_id': value['connectedAccountId'],
+        'connectedAccountId': value['connectedAccountId'],
         'status': value['status'],
         'toolkit': value['toolkit'],
     };

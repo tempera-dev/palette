@@ -44,11 +44,11 @@ public class RevokedApiKey {
   @javax.annotation.Nonnull
   private Boolean active;
 
-  public static final String JSON_PROPERTY_API_KEY_ID = "api_key_id";
+  public static final String JSON_PROPERTY_API_KEY_ID = "apiKeyId";
   @javax.annotation.Nonnull
   private String apiKeyId;
 
-  public static final String JSON_PROPERTY_ROTATED_AT = "rotated_at";
+  public static final String JSON_PROPERTY_ROTATED_AT = "rotatedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime rotatedAt;
 
@@ -208,14 +208,14 @@ public class RevokedApiKey {
       joiner.add(String.format("%sactive%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getActive()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `api_key_id` to the URL query string
+    // add `apiKeyId` to the URL query string
     if (getApiKeyId() != null) {
-      joiner.add(String.format("%sapi_key_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sapiKeyId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `rotated_at` to the URL query string
+    // add `rotatedAt` to the URL query string
     if (getRotatedAt() != null) {
-      joiner.add(String.format("%srotated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRotatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srotatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRotatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

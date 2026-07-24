@@ -42,7 +42,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class PromptVersionDiff {
-  public static final String JSON_PROPERTY_FROM_VERSION_ID = "from_version_id";
+  public static final String JSON_PROPERTY_FROM_VERSION_ID = "fromVersionId";
   @javax.annotation.Nonnull
   private String fromVersionId;
 
@@ -50,7 +50,7 @@ public class PromptVersionDiff {
   @javax.annotation.Nonnull
   private List<DiffLine> lines = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_TO_VERSION_ID = "to_version_id";
+  public static final String JSON_PROPERTY_TO_VERSION_ID = "toVersionId";
   @javax.annotation.Nonnull
   private String toVersionId;
 
@@ -213,9 +213,9 @@ public class PromptVersionDiff {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `from_version_id` to the URL query string
+    // add `fromVersionId` to the URL query string
     if (getFromVersionId() != null) {
-      joiner.add(String.format("%sfrom_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFromVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfromVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFromVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `lines` to the URL query string
@@ -228,9 +228,9 @@ public class PromptVersionDiff {
       }
     }
 
-    // add `to_version_id` to the URL query string
+    // add `toVersionId` to the URL query string
     if (getToVersionId() != null) {
-      joiner.add(String.format("%sto_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getToVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stoVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getToVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

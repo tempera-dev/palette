@@ -48,18 +48,18 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class RunDeterministicEvalRequest {
-  public static final String JSON_PROPERTY_AGENT_RELEASE_ID = "agent_release_id";
+  public static final String JSON_PROPERTY_AGENT_RELEASE_ID = "agentReleaseId";
   @javax.annotation.Nonnull
   private String agentReleaseId;
 
-  public static final String JSON_PROPERTY_CODE_HASH = "code_hash";
+  public static final String JSON_PROPERTY_CODE_HASH = "codeHash";
   private JsonNullable<String> codeHash = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_EVALUATOR_ID = "evaluator_id";
+  public static final String JSON_PROPERTY_EVALUATOR_ID = "evaluatorId";
   @javax.annotation.Nonnull
   private String evaluatorId;
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   @javax.annotation.Nonnull
   private String evaluatorVersionId;
 
@@ -67,10 +67,10 @@ public class RunDeterministicEvalRequest {
   @javax.annotation.Nonnull
   private EvaluatorKind kind;
 
-  public static final String JSON_PROPERTY_PROMPT_VERSION_ID = "prompt_version_id";
+  public static final String JSON_PROPERTY_PROMPT_VERSION_ID = "promptVersionId";
   private JsonNullable<String> promptVersionId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_WASM_HASH = "wasm_hash";
+  public static final String JSON_PROPERTY_WASM_HASH = "wasmHash";
   private JsonNullable<String> wasmHash = JsonNullable.<String>undefined();
 
   public RunDeterministicEvalRequest() { 
@@ -363,24 +363,24 @@ public class RunDeterministicEvalRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `agent_release_id` to the URL query string
+    // add `agentReleaseId` to the URL query string
     if (getAgentReleaseId() != null) {
-      joiner.add(String.format("%sagent_release_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAgentReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sagentReleaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAgentReleaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `code_hash` to the URL query string
+    // add `codeHash` to the URL query string
     if (getCodeHash() != null) {
-      joiner.add(String.format("%scode_hash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCodeHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scodeHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCodeHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_id` to the URL query string
+    // add `evaluatorId` to the URL query string
     if (getEvaluatorId() != null) {
-      joiner.add(String.format("%sevaluator_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `kind` to the URL query string
@@ -388,14 +388,14 @@ public class RunDeterministicEvalRequest {
       joiner.add(getKind().toUrlQueryString(prefix + "kind" + suffix));
     }
 
-    // add `prompt_version_id` to the URL query string
+    // add `promptVersionId` to the URL query string
     if (getPromptVersionId() != null) {
-      joiner.add(String.format("%sprompt_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spromptVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `wasm_hash` to the URL query string
+    // add `wasmHash` to the URL query string
     if (getWasmHash() != null) {
-      joiner.add(String.format("%swasm_hash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWasmHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%swasmHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getWasmHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

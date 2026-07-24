@@ -54,13 +54,13 @@ public:
 
     double getPassThreshold() const;
     bool passThresholdIsSet() const;
-    void unsetPass_threshold();
+    void unsetPassThreshold();
     void setPassThreshold(double value);
 
 
 protected:
-    double m_Pass_threshold;
-    bool m_Pass_thresholdIsSet;
+    double m_PassThreshold;
+    bool m_PassThresholdIsSet;
 
 };
 

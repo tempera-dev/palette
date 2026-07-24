@@ -8,7 +8,7 @@
 
 
 trace_ingested_drain_report_t*
-IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenantId, char *projectId, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain");
+    char *localVarPath = strdup("/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -126,7 +126,7 @@ IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char
 
     // uncomment below to debug the error response
     //if (apiClient->response_code == 200) {
-    //    printf("%s\n","Drain pending trace-ingested events");
+    //    printf("%s\n","Drain pending trace-ingested events, including retry and dead-letter outcomes");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
@@ -139,10 +139,6 @@ IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
     //    printf("%s\n","Credentials lack the required scope");
-    //}
-    // uncomment below to debug the error response
-    //if (apiClient->response_code == 422) {
-    //    printf("%s\n","Drained with dead-letters");
     //}
     //nonprimitive not container
     trace_ingested_drain_report_t *elementToReturn = NULL;
@@ -167,8 +163,8 @@ IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -225,7 +221,7 @@ end:
 }
 
 trace_write_drain_report_t*
-IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenantId, char *projectId, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -239,33 +235,33 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain");
+    char *localVarPath = strdup("/v1/ingest/{tenantId}/{projectId}/trace-writes/drain");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -343,7 +339,7 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
 
     // uncomment below to debug the error response
     //if (apiClient->response_code == 200) {
-    //    printf("%s\n","Drain pending trace writes");
+    //    printf("%s\n","Drain pending trace writes, including retry and dead-letter outcomes");
     //}
     // uncomment below to debug the error response
     //if (apiClient->response_code == 400) {
@@ -356,10 +352,6 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
     // uncomment below to debug the error response
     //if (apiClient->response_code == 403) {
     //    printf("%s\n","Credentials lack the required scope");
-    //}
-    // uncomment below to debug the error response
-    //if (apiClient->response_code == 422) {
-    //    printf("%s\n","Drained with dead-letters");
     //}
     //nonprimitive not container
     trace_write_drain_report_t *elementToReturn = NULL;
@@ -384,8 +376,8 @@ IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -442,7 +434,7 @@ end:
 }
 
 ingest_queue_status_t*
-IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -456,33 +448,33 @@ IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *pr
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/ingest/{tenant_id}/{project_id}/queue");
+    char *localVarPath = strdup("/v1/ingest/{tenantId}/{projectId}/queue");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -584,8 +576,8 @@ IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *pr
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -630,7 +622,7 @@ end:
 }
 
 ingest_outcome_t*
-IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key)
+IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -644,45 +636,45 @@ IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *proj
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/import/{tenant_id}/{project_id}/{environment_id}");
+    char *localVarPath = strdup("/v1/import/{tenantId}/{projectId}/{environmentId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!environment_id)
+    if(!environmentId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_environment_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ environment_id }") - 1;
-    if(environment_id == NULL) {
+    long sizeOfPathParams_environmentId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ environmentId }") - 1;
+    if(environmentId == NULL) {
         goto end;
     }
-    char* localVarToReplace_environment_id = malloc(sizeOfPathParams_environment_id);
-    sprintf(localVarToReplace_environment_id, "{%s}", "environment_id");
+    char* localVarToReplace_environmentId = malloc(sizeOfPathParams_environmentId);
+    sprintf(localVarToReplace_environmentId, "{%s}", "environmentId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_environment_id, environment_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_environmentId, environmentId);
 
 
 
@@ -791,9 +783,9 @@ IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *proj
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_environment_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_environmentId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -1047,7 +1039,7 @@ end:
 }
 
 otlp_ingest_outcome_t*
-IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1061,45 +1053,45 @@ IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces");
+    char *localVarPath = strdup("/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!environment_id)
+    if(!environmentId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_environment_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(environment_id)+3 + sizeof("{ environment_id }") - 1;
-    if(environment_id == NULL) {
+    long sizeOfPathParams_environmentId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(environmentId)+3 + sizeof("{ environmentId }") - 1;
+    if(environmentId == NULL) {
         goto end;
     }
-    char* localVarToReplace_environment_id = malloc(sizeOfPathParams_environment_id);
-    sprintf(localVarToReplace_environment_id, "{%s}", "environment_id");
+    char* localVarToReplace_environmentId = malloc(sizeOfPathParams_environmentId);
+    sprintf(localVarToReplace_environmentId, "{%s}", "environmentId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_environment_id, environment_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_environmentId, environmentId);
 
 
 
@@ -1221,9 +1213,9 @@ IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_environment_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_environmentId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -1495,7 +1487,7 @@ end:
 }
 
 trace_ingested_reconcile_report_t*
-IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -1509,45 +1501,45 @@ IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *pr
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile");
+    char *localVarPath = strdup("/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!trace_id)
+    if(!traceId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_trace_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ trace_id }") - 1;
-    if(trace_id == NULL) {
+    long sizeOfPathParams_traceId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ traceId }") - 1;
+    if(traceId == NULL) {
         goto end;
     }
-    char* localVarToReplace_trace_id = malloc(sizeOfPathParams_trace_id);
-    sprintf(localVarToReplace_trace_id, "{%s}", "trace_id");
+    char* localVarToReplace_traceId = malloc(sizeOfPathParams_traceId);
+    sprintf(localVarToReplace_traceId, "{%s}", "traceId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_trace_id, trace_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_traceId, traceId);
 
 
 
@@ -1653,9 +1645,9 @@ IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *pr
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_trace_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_traceId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -1700,7 +1692,7 @@ end:
 }
 
 dead_letter_replay_report_t*
-IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenantId, char *projectId, char *messageId, int *resetAttempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -1714,45 +1706,45 @@ IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay");
+    char *localVarPath = strdup("/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!message_id)
+    if(!messageId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(message_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(messageId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(message_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(messageId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_message_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(message_id)+3 + sizeof("{ message_id }") - 1;
-    if(message_id == NULL) {
+    long sizeOfPathParams_messageId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(messageId)+3 + sizeof("{ messageId }") - 1;
+    if(messageId == NULL) {
         goto end;
     }
-    char* localVarToReplace_message_id = malloc(sizeOfPathParams_message_id);
-    sprintf(localVarToReplace_message_id, "{%s}", "message_id");
+    char* localVarToReplace_messageId = malloc(sizeOfPathParams_messageId);
+    sprintf(localVarToReplace_messageId, "{%s}", "messageId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_message_id, message_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_messageId, messageId);
 
 
 
@@ -1805,16 +1797,16 @@ IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *
 
 
     // query parameters
-    char *keyQuery_reset_attempts = NULL;
-    char * valueQuery_reset_attempts = NULL;
-    keyValuePair_t *keyPairQuery_reset_attempts = 0;
-    if (reset_attempts)
+    char *keyQuery_resetAttempts = NULL;
+    char * valueQuery_resetAttempts = NULL;
+    keyValuePair_t *keyPairQuery_resetAttempts = 0;
+    if (resetAttempts)
     {
-        keyQuery_reset_attempts = strdup("reset_attempts");
-        valueQuery_reset_attempts = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_reset_attempts, MAX_NUMBER_LENGTH, "%d", *reset_attempts);
-        keyPairQuery_reset_attempts = keyValuePair_create(keyQuery_reset_attempts, valueQuery_reset_attempts);
-        list_addElement(localVarQueryParameters,keyPairQuery_reset_attempts);
+        keyQuery_resetAttempts = strdup("resetAttempts");
+        valueQuery_resetAttempts = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_resetAttempts, MAX_NUMBER_LENGTH, "%d", *resetAttempts);
+        keyPairQuery_resetAttempts = keyValuePair_create(keyQuery_resetAttempts, valueQuery_resetAttempts);
+        list_addElement(localVarQueryParameters,keyPairQuery_resetAttempts);
     }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
@@ -1871,9 +1863,9 @@ IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_message_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_messageId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -1910,17 +1902,17 @@ IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *
         valueHeader_x_palette_environment_id = NULL;
     }
     free(keyPairHeader_x_palette_environment_id);
-    if(keyQuery_reset_attempts){
-        free(keyQuery_reset_attempts);
-        keyQuery_reset_attempts = NULL;
+    if(keyQuery_resetAttempts){
+        free(keyQuery_resetAttempts);
+        keyQuery_resetAttempts = NULL;
     }
-    if(valueQuery_reset_attempts){
-        free(valueQuery_reset_attempts);
-        valueQuery_reset_attempts = NULL;
+    if(valueQuery_resetAttempts){
+        free(valueQuery_resetAttempts);
+        valueQuery_resetAttempts = NULL;
     }
-    if(keyPairQuery_reset_attempts){
-        keyValuePair_free(keyPairQuery_reset_attempts);
-        keyPairQuery_reset_attempts = NULL;
+    if(keyPairQuery_resetAttempts){
+        keyValuePair_free(keyPairQuery_resetAttempts);
+        keyPairQuery_resetAttempts = NULL;
     }
     return elementToReturn;
 end:

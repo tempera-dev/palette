@@ -20,16 +20,16 @@ namespace model {
 
 OtlpIngestOutcome::OtlpIngestOutcome()
 {
-    m_Accepted_raw = 0;
-    m_Accepted_rawIsSet = false;
-    m_Accepted_spans = 0;
-    m_Accepted_spansIsSet = false;
-    m_Downstream_queued = false;
-    m_Downstream_queuedIsSet = false;
-    m_Duplicate_raw = 0;
-    m_Duplicate_rawIsSet = false;
-    m_Duplicate_spans = 0;
-    m_Duplicate_spansIsSet = false;
+    m_AcceptedRaw = 0;
+    m_AcceptedRawIsSet = false;
+    m_AcceptedSpans = 0;
+    m_AcceptedSpansIsSet = false;
+    m_DownstreamQueued = false;
+    m_DownstreamQueuedIsSet = false;
+    m_DuplicateRaw = 0;
+    m_DuplicateRawIsSet = false;
+    m_DuplicateSpans = 0;
+    m_DuplicateSpansIsSet = false;
 }
 
 OtlpIngestOutcome::~OtlpIngestOutcome()
@@ -44,30 +44,30 @@ void OtlpIngestOutcome::validate()
 web::json::value OtlpIngestOutcome::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Accepted_rawIsSet)
+    if(m_AcceptedRawIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("accepted_raw"))] = ModelBase::toJson(m_Accepted_raw);
+        val[utility::conversions::to_string_t(U("acceptedRaw"))] = ModelBase::toJson(m_AcceptedRaw);
     }
-    if(m_Accepted_spansIsSet)
+    if(m_AcceptedSpansIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("accepted_spans"))] = ModelBase::toJson(m_Accepted_spans);
+        val[utility::conversions::to_string_t(U("acceptedSpans"))] = ModelBase::toJson(m_AcceptedSpans);
     }
-    if(m_Downstream_queuedIsSet)
+    if(m_DownstreamQueuedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("downstream_queued"))] = ModelBase::toJson(m_Downstream_queued);
+        val[utility::conversions::to_string_t(U("downstreamQueued"))] = ModelBase::toJson(m_DownstreamQueued);
     }
-    if(m_Duplicate_rawIsSet)
+    if(m_DuplicateRawIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duplicate_raw"))] = ModelBase::toJson(m_Duplicate_raw);
+        val[utility::conversions::to_string_t(U("duplicateRaw"))] = ModelBase::toJson(m_DuplicateRaw);
     }
-    if(m_Duplicate_spansIsSet)
+    if(m_DuplicateSpansIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("duplicate_spans"))] = ModelBase::toJson(m_Duplicate_spans);
+        val[utility::conversions::to_string_t(U("duplicateSpans"))] = ModelBase::toJson(m_DuplicateSpans);
     }
 
     return val;
@@ -76,9 +76,9 @@ web::json::value OtlpIngestOutcome::toJson() const
 bool OtlpIngestOutcome::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("accepted_raw"))))
+    if(val.has_field(utility::conversions::to_string_t(U("acceptedRaw"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("accepted_raw")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("acceptedRaw")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setAcceptedRaw;
@@ -87,9 +87,9 @@ bool OtlpIngestOutcome::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("accepted_spans"))))
+    if(val.has_field(utility::conversions::to_string_t(U("acceptedSpans"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("accepted_spans")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("acceptedSpans")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setAcceptedSpans;
@@ -98,9 +98,9 @@ bool OtlpIngestOutcome::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("downstream_queued"))))
+    if(val.has_field(utility::conversions::to_string_t(U("downstreamQueued"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstream_queued")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("downstreamQueued")));
         if(!fieldValue.is_null())
         {
             bool refVal_setDownstreamQueued;
@@ -109,9 +109,9 @@ bool OtlpIngestOutcome::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("duplicate_raw"))))
+    if(val.has_field(utility::conversions::to_string_t(U("duplicateRaw"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicate_raw")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicateRaw")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDuplicateRaw;
@@ -120,9 +120,9 @@ bool OtlpIngestOutcome::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("duplicate_spans"))))
+    if(val.has_field(utility::conversions::to_string_t(U("duplicateSpans"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicate_spans")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("duplicateSpans")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setDuplicateSpans;
@@ -141,25 +141,25 @@ void OtlpIngestOutcome::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Accepted_rawIsSet)
+    if(m_AcceptedRawIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("accepted_raw")), m_Accepted_raw));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("acceptedRaw")), m_AcceptedRaw));
     }
-    if(m_Accepted_spansIsSet)
+    if(m_AcceptedSpansIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("accepted_spans")), m_Accepted_spans));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("acceptedSpans")), m_AcceptedSpans));
     }
-    if(m_Downstream_queuedIsSet)
+    if(m_DownstreamQueuedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstream_queued")), m_Downstream_queued));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("downstreamQueued")), m_DownstreamQueued));
     }
-    if(m_Duplicate_rawIsSet)
+    if(m_DuplicateRawIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicate_raw")), m_Duplicate_raw));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicateRaw")), m_DuplicateRaw));
     }
-    if(m_Duplicate_spansIsSet)
+    if(m_DuplicateSpansIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicate_spans")), m_Duplicate_spans));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("duplicateSpans")), m_DuplicateSpans));
     }
 }
 
@@ -172,34 +172,34 @@ bool OtlpIngestOutcome::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("accepted_raw"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("acceptedRaw"))))
     {
         int32_t refVal_setAcceptedRaw;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("accepted_raw"))), refVal_setAcceptedRaw );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("acceptedRaw"))), refVal_setAcceptedRaw );
         setAcceptedRaw(refVal_setAcceptedRaw);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("accepted_spans"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("acceptedSpans"))))
     {
         int32_t refVal_setAcceptedSpans;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("accepted_spans"))), refVal_setAcceptedSpans );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("acceptedSpans"))), refVal_setAcceptedSpans );
         setAcceptedSpans(refVal_setAcceptedSpans);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("downstream_queued"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("downstreamQueued"))))
     {
         bool refVal_setDownstreamQueued;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstream_queued"))), refVal_setDownstreamQueued );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("downstreamQueued"))), refVal_setDownstreamQueued );
         setDownstreamQueued(refVal_setDownstreamQueued);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicate_raw"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicateRaw"))))
     {
         int32_t refVal_setDuplicateRaw;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicate_raw"))), refVal_setDuplicateRaw );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicateRaw"))), refVal_setDuplicateRaw );
         setDuplicateRaw(refVal_setDuplicateRaw);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicate_spans"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("duplicateSpans"))))
     {
         int32_t refVal_setDuplicateSpans;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicate_spans"))), refVal_setDuplicateSpans );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("duplicateSpans"))), refVal_setDuplicateSpans );
         setDuplicateSpans(refVal_setDuplicateSpans);
     }
     return ok;
@@ -208,103 +208,103 @@ bool OtlpIngestOutcome::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 int32_t OtlpIngestOutcome::getAcceptedRaw() const
 {
-    return m_Accepted_raw;
+    return m_AcceptedRaw;
 }
 
 void OtlpIngestOutcome::setAcceptedRaw(int32_t value)
 {
-    m_Accepted_raw = value;
-    m_Accepted_rawIsSet = true;
+    m_AcceptedRaw = value;
+    m_AcceptedRawIsSet = true;
 }
 
 bool OtlpIngestOutcome::acceptedRawIsSet() const
 {
-    return m_Accepted_rawIsSet;
+    return m_AcceptedRawIsSet;
 }
 
-void OtlpIngestOutcome::unsetAccepted_raw()
+void OtlpIngestOutcome::unsetAcceptedRaw()
 {
-    m_Accepted_rawIsSet = false;
+    m_AcceptedRawIsSet = false;
 }
 int32_t OtlpIngestOutcome::getAcceptedSpans() const
 {
-    return m_Accepted_spans;
+    return m_AcceptedSpans;
 }
 
 void OtlpIngestOutcome::setAcceptedSpans(int32_t value)
 {
-    m_Accepted_spans = value;
-    m_Accepted_spansIsSet = true;
+    m_AcceptedSpans = value;
+    m_AcceptedSpansIsSet = true;
 }
 
 bool OtlpIngestOutcome::acceptedSpansIsSet() const
 {
-    return m_Accepted_spansIsSet;
+    return m_AcceptedSpansIsSet;
 }
 
-void OtlpIngestOutcome::unsetAccepted_spans()
+void OtlpIngestOutcome::unsetAcceptedSpans()
 {
-    m_Accepted_spansIsSet = false;
+    m_AcceptedSpansIsSet = false;
 }
 bool OtlpIngestOutcome::isDownstreamQueued() const
 {
-    return m_Downstream_queued;
+    return m_DownstreamQueued;
 }
 
 void OtlpIngestOutcome::setDownstreamQueued(bool value)
 {
-    m_Downstream_queued = value;
-    m_Downstream_queuedIsSet = true;
+    m_DownstreamQueued = value;
+    m_DownstreamQueuedIsSet = true;
 }
 
 bool OtlpIngestOutcome::downstreamQueuedIsSet() const
 {
-    return m_Downstream_queuedIsSet;
+    return m_DownstreamQueuedIsSet;
 }
 
-void OtlpIngestOutcome::unsetDownstream_queued()
+void OtlpIngestOutcome::unsetDownstreamQueued()
 {
-    m_Downstream_queuedIsSet = false;
+    m_DownstreamQueuedIsSet = false;
 }
 int32_t OtlpIngestOutcome::getDuplicateRaw() const
 {
-    return m_Duplicate_raw;
+    return m_DuplicateRaw;
 }
 
 void OtlpIngestOutcome::setDuplicateRaw(int32_t value)
 {
-    m_Duplicate_raw = value;
-    m_Duplicate_rawIsSet = true;
+    m_DuplicateRaw = value;
+    m_DuplicateRawIsSet = true;
 }
 
 bool OtlpIngestOutcome::duplicateRawIsSet() const
 {
-    return m_Duplicate_rawIsSet;
+    return m_DuplicateRawIsSet;
 }
 
-void OtlpIngestOutcome::unsetDuplicate_raw()
+void OtlpIngestOutcome::unsetDuplicateRaw()
 {
-    m_Duplicate_rawIsSet = false;
+    m_DuplicateRawIsSet = false;
 }
 int32_t OtlpIngestOutcome::getDuplicateSpans() const
 {
-    return m_Duplicate_spans;
+    return m_DuplicateSpans;
 }
 
 void OtlpIngestOutcome::setDuplicateSpans(int32_t value)
 {
-    m_Duplicate_spans = value;
-    m_Duplicate_spansIsSet = true;
+    m_DuplicateSpans = value;
+    m_DuplicateSpansIsSet = true;
 }
 
 bool OtlpIngestOutcome::duplicateSpansIsSet() const
 {
-    return m_Duplicate_spansIsSet;
+    return m_DuplicateSpansIsSet;
 }
 
-void OtlpIngestOutcome::unsetDuplicate_spans()
+void OtlpIngestOutcome::unsetDuplicateSpans()
 {
-    m_Duplicate_spansIsSet = false;
+    m_DuplicateSpansIsSet = false;
 }
 
 }

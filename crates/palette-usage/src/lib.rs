@@ -109,6 +109,7 @@ pub struct UsageTotal {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct UsageSummary {
     pub tenant_id: TenantId,
     pub project_id: ProjectId,

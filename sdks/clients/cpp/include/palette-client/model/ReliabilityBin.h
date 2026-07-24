@@ -59,32 +59,32 @@ public:
 
     int32_t getBinIndex() const;
     bool binIndexIsSet() const;
-    void unsetBin_index();
+    void unsetBinIndex();
     void setBinIndex(int32_t value);
 
     double getCalibrationGap() const;
     bool calibrationGapIsSet() const;
-    void unsetCalibration_gap();
+    void unsetCalibrationGap();
     void setCalibrationGap(double value);
 
     double getLowerBound() const;
     bool lowerBoundIsSet() const;
-    void unsetLower_bound();
+    void unsetLowerBound();
     void setLowerBound(double value);
 
     double getMeanConfidence() const;
     bool meanConfidenceIsSet() const;
-    void unsetMean_confidence();
+    void unsetMeanConfidence();
     void setMeanConfidence(double value);
 
     int32_t getSampleCount() const;
     bool sampleCountIsSet() const;
-    void unsetSample_count();
+    void unsetSampleCount();
     void setSampleCount(int32_t value);
 
     double getUpperBound() const;
     bool upperBoundIsSet() const;
-    void unsetUpper_bound();
+    void unsetUpperBound();
     void setUpperBound(double value);
 
 
@@ -92,23 +92,23 @@ protected:
     double m_Accuracy;
     bool m_AccuracyIsSet;
 
-    int32_t m_Bin_index;
-    bool m_Bin_indexIsSet;
+    int32_t m_BinIndex;
+    bool m_BinIndexIsSet;
 
-    double m_Calibration_gap;
-    bool m_Calibration_gapIsSet;
+    double m_CalibrationGap;
+    bool m_CalibrationGapIsSet;
 
-    double m_Lower_bound;
-    bool m_Lower_boundIsSet;
+    double m_LowerBound;
+    bool m_LowerBoundIsSet;
 
-    double m_Mean_confidence;
-    bool m_Mean_confidenceIsSet;
+    double m_MeanConfidence;
+    bool m_MeanConfidenceIsSet;
 
-    int32_t m_Sample_count;
-    bool m_Sample_countIsSet;
+    int32_t m_SampleCount;
+    bool m_SampleCountIsSet;
 
-    double m_Upper_bound;
-    bool m_Upper_boundIsSet;
+    double m_UpperBound;
+    bool m_UpperBoundIsSet;
 
 };
 

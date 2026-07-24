@@ -22,8 +22,8 @@ var _ MappedNullable = &PromoteTraceCaseRequest{}
 // PromoteTraceCaseRequest struct for PromoteTraceCaseRequest
 type PromoteTraceCaseRequest struct {
 	Reference interface{} `json:"reference,omitempty"`
-	SpanId NullableString `json:"span_id,omitempty"`
-	TraceId string `json:"trace_id"`
+	SpanId NullableString `json:"spanId,omitempty"`
+	TraceId string `json:"traceId"`
 }
 
 type _PromoteTraceCaseRequest PromoteTraceCaseRequest
@@ -159,9 +159,9 @@ func (o PromoteTraceCaseRequest) ToMap() (map[string]interface{}, error) {
 		toSerialize["reference"] = o.Reference
 	}
 	if o.SpanId.IsSet() {
-		toSerialize["span_id"] = o.SpanId.Get()
+		toSerialize["spanId"] = o.SpanId.Get()
 	}
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -170,7 +170,7 @@ func (o *PromoteTraceCaseRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"trace_id",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

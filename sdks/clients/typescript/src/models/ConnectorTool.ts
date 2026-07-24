@@ -86,9 +86,9 @@ export function ConnectorToolFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'description': json['description'] == null ? undefined : json['description'],
-        'inputSchema': json['input_schema'] == null ? undefined : json['input_schema'],
+        'inputSchema': json['inputSchema'] == null ? undefined : json['inputSchema'],
         'name': json['name'],
-        'noAuth': json['no_auth'] == null ? undefined : json['no_auth'],
+        'noAuth': json['noAuth'] == null ? undefined : json['noAuth'],
         'slug': json['slug'],
         'tags': json['tags'] == null ? undefined : json['tags'],
         'toolkit': json['toolkit'] == null ? undefined : json['toolkit'],
@@ -107,9 +107,9 @@ export function ConnectorToolToJSONTyped(value?: ConnectorTool | null, ignoreDis
     return {
         
         'description': value['description'],
-        'input_schema': value['inputSchema'],
+        'inputSchema': value['inputSchema'],
         'name': value['name'],
-        'no_auth': value['noAuth'],
+        'noAuth': value['noAuth'],
         'slug': value['slug'],
         'tags': value['tags'],
         'toolkit': value['toolkit'],

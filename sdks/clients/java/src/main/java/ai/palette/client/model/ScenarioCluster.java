@@ -45,15 +45,15 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ScenarioCluster {
-  public static final String JSON_PROPERTY_DOMINANT_FAILURE_MODE = "dominant_failure_mode";
+  public static final String JSON_PROPERTY_DOMINANT_FAILURE_MODE = "dominantFailureMode";
   @javax.annotation.Nonnull
   private FailureMode dominantFailureMode;
 
-  public static final String JSON_PROPERTY_EXEMPLAR_TRACE_ID = "exemplar_trace_id";
+  public static final String JSON_PROPERTY_EXEMPLAR_TRACE_ID = "exemplarTraceId";
   @javax.annotation.Nonnull
   private String exemplarTraceId;
 
-  public static final String JSON_PROPERTY_MEMBER_TRACE_IDS = "member_trace_ids";
+  public static final String JSON_PROPERTY_MEMBER_TRACE_IDS = "memberTraceIds";
   @javax.annotation.Nonnull
   private List<String> memberTraceIds = new ArrayList<>();
 
@@ -277,20 +277,20 @@ public class ScenarioCluster {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `dominant_failure_mode` to the URL query string
+    // add `dominantFailureMode` to the URL query string
     if (getDominantFailureMode() != null) {
-      joiner.add(String.format("%sdominant_failure_mode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDominantFailureMode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdominantFailureMode%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDominantFailureMode()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `exemplar_trace_id` to the URL query string
+    // add `exemplarTraceId` to the URL query string
     if (getExemplarTraceId() != null) {
-      joiner.add(String.format("%sexemplar_trace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExemplarTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexemplarTraceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExemplarTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `member_trace_ids` to the URL query string
+    // add `memberTraceIds` to the URL query string
     if (getMemberTraceIds() != null) {
       for (int i = 0; i < getMemberTraceIds().size(); i++) {
-        joiner.add(String.format("%smember_trace_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%smemberTraceIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getMemberTraceIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }

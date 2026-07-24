@@ -137,6 +137,7 @@ pub struct JudgeExperimentRunSpec {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct CaseExperimentScore {
     pub case_id: DatasetCaseId,
     #[schema(value_type = serde_json::Value)]
@@ -171,6 +172,7 @@ pub struct CaseExperimentScore {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ExperimentRunReport {
     pub experiment_run_id: ExperimentRunId,
     pub tenant_id: TenantId,

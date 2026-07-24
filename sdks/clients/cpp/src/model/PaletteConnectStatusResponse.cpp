@@ -20,20 +20,20 @@ namespace model {
 
 PaletteConnectStatusResponse::PaletteConnectStatusResponse()
 {
-    m_First_eval_run = false;
-    m_First_eval_runIsSet = false;
-    m_First_trace_received = false;
-    m_First_trace_receivedIsSet = false;
+    m_FirstEvalRun = false;
+    m_FirstEvalRunIsSet = false;
+    m_FirstTraceReceived = false;
+    m_FirstTraceReceivedIsSet = false;
     m_Ok = false;
     m_OkIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_StatusIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_TotalsIsSet = false;
-    m_Usage_configured = false;
-    m_Usage_configuredIsSet = false;
+    m_UsageConfigured = false;
+    m_UsageConfiguredIsSet = false;
 }
 
 PaletteConnectStatusResponse::~PaletteConnectStatusResponse()
@@ -48,45 +48,45 @@ void PaletteConnectStatusResponse::validate()
 web::json::value PaletteConnectStatusResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_First_eval_runIsSet)
+    if(m_FirstEvalRunIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("first_eval_run"))] = ModelBase::toJson(m_First_eval_run);
+        val[utility::conversions::to_string_t(U("firstEvalRun"))] = ModelBase::toJson(m_FirstEvalRun);
     }
-    if(m_First_trace_receivedIsSet)
+    if(m_FirstTraceReceivedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("first_trace_received"))] = ModelBase::toJson(m_First_trace_received);
+        val[utility::conversions::to_string_t(U("firstTraceReceived"))] = ModelBase::toJson(m_FirstTraceReceived);
     }
     if(m_OkIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("ok"))] = ModelBase::toJson(m_Ok);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_StatusIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TotalsIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("totals"))] = ModelBase::toJson(m_Totals);
     }
-    if(m_Usage_configuredIsSet)
+    if(m_UsageConfiguredIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("usage_configured"))] = ModelBase::toJson(m_Usage_configured);
+        val[utility::conversions::to_string_t(U("usageConfigured"))] = ModelBase::toJson(m_UsageConfigured);
     }
 
     return val;
@@ -95,9 +95,9 @@ web::json::value PaletteConnectStatusResponse::toJson() const
 bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("first_eval_run"))))
+    if(val.has_field(utility::conversions::to_string_t(U("firstEvalRun"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("first_eval_run")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("firstEvalRun")));
         if(!fieldValue.is_null())
         {
             bool refVal_setFirstEvalRun;
@@ -106,9 +106,9 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("first_trace_received"))))
+    if(val.has_field(utility::conversions::to_string_t(U("firstTraceReceived"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("first_trace_received")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("firstTraceReceived")));
         if(!fieldValue.is_null())
         {
             bool refVal_setFirstTraceReceived;
@@ -128,9 +128,9 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -150,9 +150,9 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -172,9 +172,9 @@ bool PaletteConnectStatusResponse::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("usage_configured"))))
+    if(val.has_field(utility::conversions::to_string_t(U("usageConfigured"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("usage_configured")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("usageConfigured")));
         if(!fieldValue.is_null())
         {
             bool refVal_setUsageConfigured;
@@ -193,37 +193,37 @@ void PaletteConnectStatusResponse::toMultipart(std::shared_ptr<MultipartFormData
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_First_eval_runIsSet)
+    if(m_FirstEvalRunIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("first_eval_run")), m_First_eval_run));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("firstEvalRun")), m_FirstEvalRun));
     }
-    if(m_First_trace_receivedIsSet)
+    if(m_FirstTraceReceivedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("first_trace_received")), m_First_trace_received));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("firstTraceReceived")), m_FirstTraceReceived));
     }
     if(m_OkIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ok")), m_Ok));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_TotalsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("totals")), m_Totals));
     }
-    if(m_Usage_configuredIsSet)
+    if(m_UsageConfiguredIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("usage_configured")), m_Usage_configured));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("usageConfigured")), m_UsageConfigured));
     }
 }
 
@@ -236,16 +236,16 @@ bool PaletteConnectStatusResponse::fromMultiPart(std::shared_ptr<MultipartFormDa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("first_eval_run"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("firstEvalRun"))))
     {
         bool refVal_setFirstEvalRun;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("first_eval_run"))), refVal_setFirstEvalRun );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("firstEvalRun"))), refVal_setFirstEvalRun );
         setFirstEvalRun(refVal_setFirstEvalRun);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("first_trace_received"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("firstTraceReceived"))))
     {
         bool refVal_setFirstTraceReceived;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("first_trace_received"))), refVal_setFirstTraceReceived );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("firstTraceReceived"))), refVal_setFirstTraceReceived );
         setFirstTraceReceived(refVal_setFirstTraceReceived);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("ok"))))
@@ -254,10 +254,10 @@ bool PaletteConnectStatusResponse::fromMultiPart(std::shared_ptr<MultipartFormDa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ok"))), refVal_setOk );
         setOk(refVal_setOk);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -266,10 +266,10 @@ bool PaletteConnectStatusResponse::fromMultiPart(std::shared_ptr<MultipartFormDa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
         setStatus(refVal_setStatus);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("totals"))))
@@ -278,10 +278,10 @@ bool PaletteConnectStatusResponse::fromMultiPart(std::shared_ptr<MultipartFormDa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("totals"))), refVal_setTotals );
         setTotals(refVal_setTotals);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("usage_configured"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("usageConfigured"))))
     {
         bool refVal_setUsageConfigured;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("usage_configured"))), refVal_setUsageConfigured );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("usageConfigured"))), refVal_setUsageConfigured );
         setUsageConfigured(refVal_setUsageConfigured);
     }
     return ok;
@@ -290,43 +290,43 @@ bool PaletteConnectStatusResponse::fromMultiPart(std::shared_ptr<MultipartFormDa
 
 bool PaletteConnectStatusResponse::isFirstEvalRun() const
 {
-    return m_First_eval_run;
+    return m_FirstEvalRun;
 }
 
 void PaletteConnectStatusResponse::setFirstEvalRun(bool value)
 {
-    m_First_eval_run = value;
-    m_First_eval_runIsSet = true;
+    m_FirstEvalRun = value;
+    m_FirstEvalRunIsSet = true;
 }
 
 bool PaletteConnectStatusResponse::firstEvalRunIsSet() const
 {
-    return m_First_eval_runIsSet;
+    return m_FirstEvalRunIsSet;
 }
 
-void PaletteConnectStatusResponse::unsetFirst_eval_run()
+void PaletteConnectStatusResponse::unsetFirstEvalRun()
 {
-    m_First_eval_runIsSet = false;
+    m_FirstEvalRunIsSet = false;
 }
 bool PaletteConnectStatusResponse::isFirstTraceReceived() const
 {
-    return m_First_trace_received;
+    return m_FirstTraceReceived;
 }
 
 void PaletteConnectStatusResponse::setFirstTraceReceived(bool value)
 {
-    m_First_trace_received = value;
-    m_First_trace_receivedIsSet = true;
+    m_FirstTraceReceived = value;
+    m_FirstTraceReceivedIsSet = true;
 }
 
 bool PaletteConnectStatusResponse::firstTraceReceivedIsSet() const
 {
-    return m_First_trace_receivedIsSet;
+    return m_FirstTraceReceivedIsSet;
 }
 
-void PaletteConnectStatusResponse::unsetFirst_trace_received()
+void PaletteConnectStatusResponse::unsetFirstTraceReceived()
 {
-    m_First_trace_receivedIsSet = false;
+    m_FirstTraceReceivedIsSet = false;
 }
 bool PaletteConnectStatusResponse::isOk() const
 {
@@ -350,24 +350,24 @@ void PaletteConnectStatusResponse::unsetOk()
 }
 utility::string_t PaletteConnectStatusResponse::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void PaletteConnectStatusResponse::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool PaletteConnectStatusResponse::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void PaletteConnectStatusResponse::unsetProject_id()
+void PaletteConnectStatusResponse::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::shared_ptr<PaletteConnectStatus> PaletteConnectStatusResponse::getStatus() const
 {
@@ -392,24 +392,24 @@ void PaletteConnectStatusResponse::unsetStatus()
 }
 utility::string_t PaletteConnectStatusResponse::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void PaletteConnectStatusResponse::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool PaletteConnectStatusResponse::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void PaletteConnectStatusResponse::unsetTenant_id()
+void PaletteConnectStatusResponse::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 std::map<utility::string_t, std::shared_ptr<UsageTotal>> PaletteConnectStatusResponse::getTotals() const
 {
@@ -434,23 +434,23 @@ void PaletteConnectStatusResponse::unsetTotals()
 }
 bool PaletteConnectStatusResponse::isUsageConfigured() const
 {
-    return m_Usage_configured;
+    return m_UsageConfigured;
 }
 
 void PaletteConnectStatusResponse::setUsageConfigured(bool value)
 {
-    m_Usage_configured = value;
-    m_Usage_configuredIsSet = true;
+    m_UsageConfigured = value;
+    m_UsageConfiguredIsSet = true;
 }
 
 bool PaletteConnectStatusResponse::usageConfiguredIsSet() const
 {
-    return m_Usage_configuredIsSet;
+    return m_UsageConfiguredIsSet;
 }
 
-void PaletteConnectStatusResponse::unsetUsage_configured()
+void PaletteConnectStatusResponse::unsetUsageConfigured()
 {
-    m_Usage_configuredIsSet = false;
+    m_UsageConfiguredIsSet = false;
 }
 
 }

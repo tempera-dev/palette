@@ -21,7 +21,7 @@ var _ MappedNullable = &CalibrationPolicy{}
 
 // CalibrationPolicy struct for CalibrationPolicy
 type CalibrationPolicy struct {
-	PassThreshold float64 `json:"pass_threshold"`
+	PassThreshold float64 `json:"passThreshold"`
 }
 
 type _CalibrationPolicy CalibrationPolicy
@@ -78,7 +78,7 @@ func (o CalibrationPolicy) MarshalJSON() ([]byte, error) {
 
 func (o CalibrationPolicy) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["pass_threshold"] = o.PassThreshold
+	toSerialize["passThreshold"] = o.PassThreshold
 	return toSerialize, nil
 }
 
@@ -87,7 +87,7 @@ func (o *CalibrationPolicy) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"pass_threshold",
+		"passThreshold",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -22,17 +22,17 @@ var _ MappedNullable = &PerturbationKnobs{}
 // PerturbationKnobs Tunable knobs describing how a scenario may be perturbed during replay.
 type PerturbationKnobs struct {
 	// Force an auth failure on a dependency.
-	AuthFailure bool `json:"auth_failure"`
+	AuthFailure bool `json:"authFailure"`
 	// Inject a contradictory context source.
-	ContradictorySource bool `json:"contradictory_source"`
+	ContradictorySource bool `json:"contradictorySource"`
 	// Attempt a prompt-injection payload.
-	PromptInjection bool `json:"prompt_injection"`
+	PromptInjection bool `json:"promptInjection"`
 	// Serve a stale version of a context source.
-	StaleSource bool `json:"stale_source"`
+	StaleSource bool `json:"staleSource"`
 	// Force a timeout on a dependency.
 	Timeout bool `json:"timeout"`
 	// Present a tool whose schema mismatches expectations.
-	ToolSchemaMismatch bool `json:"tool_schema_mismatch"`
+	ToolSchemaMismatch bool `json:"toolSchemaMismatch"`
 }
 
 type _PerturbationKnobs PerturbationKnobs
@@ -214,12 +214,12 @@ func (o PerturbationKnobs) MarshalJSON() ([]byte, error) {
 
 func (o PerturbationKnobs) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["auth_failure"] = o.AuthFailure
-	toSerialize["contradictory_source"] = o.ContradictorySource
-	toSerialize["prompt_injection"] = o.PromptInjection
-	toSerialize["stale_source"] = o.StaleSource
+	toSerialize["authFailure"] = o.AuthFailure
+	toSerialize["contradictorySource"] = o.ContradictorySource
+	toSerialize["promptInjection"] = o.PromptInjection
+	toSerialize["staleSource"] = o.StaleSource
 	toSerialize["timeout"] = o.Timeout
-	toSerialize["tool_schema_mismatch"] = o.ToolSchemaMismatch
+	toSerialize["toolSchemaMismatch"] = o.ToolSchemaMismatch
 	return toSerialize, nil
 }
 
@@ -228,12 +228,12 @@ func (o *PerturbationKnobs) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"auth_failure",
-		"contradictory_source",
-		"prompt_injection",
-		"stale_source",
+		"authFailure",
+		"contradictorySource",
+		"promptInjection",
+		"staleSource",
 		"timeout",
-		"tool_schema_mismatch",
+		"toolSchemaMismatch",
 	}
 
 	allProperties := make(map[string]interface{})

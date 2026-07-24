@@ -161,7 +161,7 @@ export class ConnectorsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/connectors/{tenant_id}/{project_id}/connect`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/connectors/{tenantId}/{projectId}/connect`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -227,7 +227,7 @@ export class ConnectorsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/connectors/{tenant_id}/{project_id}/skills`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/connectors/{tenantId}/{projectId}/skills`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -290,7 +290,7 @@ export class ConnectorsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/connectors/{tenant_id}/{project_id}/invoke`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/connectors/{tenantId}/{projectId}/invoke`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -353,7 +353,7 @@ export class ConnectorsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/connectors/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/connectors/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -426,7 +426,7 @@ export class ConnectorsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/connectors/{tenant_id}/{project_id}/tools`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/connectors/{tenantId}/{projectId}/tools`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -491,7 +491,7 @@ export class ConnectorsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/connectors/{tenant_id}/{project_id}/status`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/connectors/{tenantId}/{projectId}/status`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

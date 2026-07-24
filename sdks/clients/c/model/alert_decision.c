@@ -81,7 +81,7 @@ cJSON *alert_decision_convertToJSON(alert_decision_t *alert_decision) {
 
     // alert_decision->suppressed_reason
     if(alert_decision->suppressed_reason) {
-    if(cJSON_AddStringToObject(item, "suppressed_reason", alert_decision->suppressed_reason) == NULL) {
+    if(cJSON_AddStringToObject(item, "suppressedReason", alert_decision->suppressed_reason) == NULL) {
     goto fail; //String
     }
     }
@@ -126,7 +126,7 @@ alert_decision_t *alert_decision_parseFromJSON(cJSON *alert_decisionJSON){
     }
 
     // alert_decision->suppressed_reason
-    cJSON *suppressed_reason = cJSON_GetObjectItemCaseSensitive(alert_decisionJSON, "suppressed_reason");
+    cJSON *suppressed_reason = cJSON_GetObjectItemCaseSensitive(alert_decisionJSON, "suppressedReason");
     if (cJSON_IsNull(suppressed_reason)) {
         suppressed_reason = NULL;
     }

@@ -43,7 +43,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CaseOutputOverrideRequest {
-  public static final String JSON_PROPERTY_CASE_ID = "case_id";
+  public static final String JSON_PROPERTY_CASE_ID = "caseId";
   @javax.annotation.Nonnull
   private String caseId;
 
@@ -224,9 +224,9 @@ public class CaseOutputOverrideRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `case_id` to the URL query string
+    // add `caseId` to the URL query string
     if (getCaseId() != null) {
-      joiner.add(String.format("%scase_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `output` to the URL query string

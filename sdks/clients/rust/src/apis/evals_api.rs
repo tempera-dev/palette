@@ -84,7 +84,7 @@ pub enum EvalsPeriodRunJudgeError {
 
 pub async fn evals_period_run_deterministic(configuration: &configuration::Configuration, params: EvalsPeriodRunDeterministicParams) -> Result<models::DatasetEvalReport, Error<EvalsPeriodRunDeterministicError>> {
 
-    let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
+    let uri_str = format!("{}/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), datasetId=crate::apis::urlencode(params.dataset_id), versionId=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -121,7 +121,7 @@ pub async fn evals_period_run_deterministic(configuration: &configuration::Confi
 
 pub async fn evals_period_run_judge(configuration: &configuration::Configuration, params: EvalsPeriodRunJudgeParams) -> Result<models::DatasetEvalReport, Error<EvalsPeriodRunJudgeError>> {
 
-    let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id), version_id=crate::apis::urlencode(params.version_id));
+    let uri_str = format!("{}/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), datasetId=crate::apis::urlencode(params.dataset_id), versionId=crate::apis::urlencode(params.version_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

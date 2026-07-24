@@ -55,7 +55,7 @@ public:
 
     utility::string_t getDisplayName() const;
     bool displayNameIsSet() const;
-    void unsetDisplay_name();
+    void unsetDisplayName();
     void setDisplayName(const utility::string_t& value);
 
     utility::string_t getProvider() const;
@@ -65,19 +65,19 @@ public:
 
     utility::string_t getSecretValue() const;
     bool secretValueIsSet() const;
-    void unsetSecret_value();
+    void unsetSecretValue();
     void setSecretValue(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Display_name;
-    bool m_Display_nameIsSet;
+    utility::string_t m_DisplayName;
+    bool m_DisplayNameIsSet;
 
     utility::string_t m_Provider;
     bool m_ProviderIsSet;
 
-    utility::string_t m_Secret_value;
-    bool m_Secret_valueIsSet;
+    utility::string_t m_SecretValue;
+    bool m_SecretValueIsSet;
 
 };
 

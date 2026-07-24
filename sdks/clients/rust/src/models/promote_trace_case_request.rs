@@ -15,9 +15,9 @@ use serde::{Deserialize, Serialize};
 pub struct PromoteTraceCaseRequest {
     #[serde(rename = "reference", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub reference: Option<Option<serde_json::Value>>,
-    #[serde(rename = "span_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "spanId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub span_id: Option<Option<String>>,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

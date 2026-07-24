@@ -38,7 +38,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EvaluatorKindOneOf5 {
-  public static final String JSON_PROPERTY_MAX_MS = "max_ms";
+  public static final String JSON_PROPERTY_MAX_MS = "maxMs";
   @javax.annotation.Nonnull
   private Long maxMs;
 
@@ -205,9 +205,9 @@ public class EvaluatorKindOneOf5 {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `max_ms` to the URL query string
+    // add `maxMs` to the URL query string
     if (getMaxMs() != null) {
-      joiner.add(String.format("%smax_ms%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxMs()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smaxMs%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxMs()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `type` to the URL query string

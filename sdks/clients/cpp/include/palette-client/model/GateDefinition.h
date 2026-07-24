@@ -57,27 +57,27 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     utility::string_t getGateId() const;
     bool gateIdIsSet() const;
-    void unsetGate_id();
+    void unsetGateId();
     void setGateId(const utility::string_t& value);
 
     std::shared_ptr<InconclusivePolicy> getInconclusivePolicy() const;
     bool inconclusivePolicyIsSet() const;
-    void unsetInconclusive_policy();
+    void unsetInconclusivePolicy();
     void setInconclusivePolicy(const std::shared_ptr<InconclusivePolicy>& value);
 
     utility::string_t getName() const;
@@ -87,39 +87,39 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
 protected:
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    utility::string_t m_Gate_id;
-    bool m_Gate_idIsSet;
+    utility::string_t m_GateId;
+    bool m_GateIdIsSet;
 
-    std::shared_ptr<InconclusivePolicy> m_Inconclusive_policy;
-    bool m_Inconclusive_policyIsSet;
+    std::shared_ptr<InconclusivePolicy> m_InconclusivePolicy;
+    bool m_InconclusivePolicyIsSet;
 
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

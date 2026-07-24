@@ -20,25 +20,25 @@ namespace model {
 
 DatasetEvalReport::DatasetEvalReport()
 {
-    m_Aggregate_score = 0.0;
-    m_Aggregate_scoreIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
-    m_Dataset_version_id = utility::conversions::to_string_t("");
-    m_Dataset_version_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Report_id = utility::conversions::to_string_t("");
-    m_Report_idIsSet = false;
-    m_Result_count = 0;
-    m_Result_countIsSet = false;
+    m_AggregateScore = 0.0;
+    m_AggregateScoreIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
+    m_DatasetVersionId = utility::conversions::to_string_t("");
+    m_DatasetVersionIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_ReportId = utility::conversions::to_string_t("");
+    m_ReportIdIsSet = false;
+    m_ResultCount = 0;
+    m_ResultCountIsSet = false;
     m_ResultsIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 DatasetEvalReport::~DatasetEvalReport()
@@ -53,55 +53,55 @@ void DatasetEvalReport::validate()
 web::json::value DatasetEvalReport::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Aggregate_scoreIsSet)
+    if(m_AggregateScoreIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("aggregate_score"))] = ModelBase::toJson(m_Aggregate_score);
+        val[utility::conversions::to_string_t(U("aggregateScore"))] = ModelBase::toJson(m_AggregateScore);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
-    if(m_Dataset_version_idIsSet)
+    if(m_DatasetVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_version_id"))] = ModelBase::toJson(m_Dataset_version_id);
+        val[utility::conversions::to_string_t(U("datasetVersionId"))] = ModelBase::toJson(m_DatasetVersionId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Report_idIsSet)
+    if(m_ReportIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("report_id"))] = ModelBase::toJson(m_Report_id);
+        val[utility::conversions::to_string_t(U("reportId"))] = ModelBase::toJson(m_ReportId);
     }
-    if(m_Result_countIsSet)
+    if(m_ResultCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("result_count"))] = ModelBase::toJson(m_Result_count);
+        val[utility::conversions::to_string_t(U("resultCount"))] = ModelBase::toJson(m_ResultCount);
     }
     if(m_ResultsIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("results"))] = ModelBase::toJson(m_Results);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -110,9 +110,9 @@ web::json::value DatasetEvalReport::toJson() const
 bool DatasetEvalReport::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("aggregate_score"))))
+    if(val.has_field(utility::conversions::to_string_t(U("aggregateScore"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("aggregate_score")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("aggregateScore")));
         if(!fieldValue.is_null())
         {
             double refVal_setAggregateScore;
@@ -121,9 +121,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -132,9 +132,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -143,9 +143,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetVersionId;
@@ -154,9 +154,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -165,9 +165,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -176,9 +176,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("report_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("reportId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("report_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reportId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setReportId;
@@ -187,9 +187,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("result_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("resultCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("result_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("resultCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setResultCount;
@@ -209,9 +209,9 @@ bool DatasetEvalReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -230,45 +230,45 @@ void DatasetEvalReport::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Aggregate_scoreIsSet)
+    if(m_AggregateScoreIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("aggregate_score")), m_Aggregate_score));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("aggregateScore")), m_AggregateScore));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
-    if(m_Dataset_version_idIsSet)
+    if(m_DatasetVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_version_id")), m_Dataset_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetVersionId")), m_DatasetVersionId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Report_idIsSet)
+    if(m_ReportIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("report_id")), m_Report_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reportId")), m_ReportId));
     }
-    if(m_Result_countIsSet)
+    if(m_ResultCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("result_count")), m_Result_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("resultCount")), m_ResultCount));
     }
     if(m_ResultsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("results")), m_Results));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -281,52 +281,52 @@ bool DatasetEvalReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("aggregate_score"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("aggregateScore"))))
     {
         double refVal_setAggregateScore;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("aggregate_score"))), refVal_setAggregateScore );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("aggregateScore"))), refVal_setAggregateScore );
         setAggregateScore(refVal_setAggregateScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetVersionId"))))
     {
         utility::string_t refVal_setDatasetVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_version_id"))), refVal_setDatasetVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetVersionId"))), refVal_setDatasetVersionId );
         setDatasetVersionId(refVal_setDatasetVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("report_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("reportId"))))
     {
         utility::string_t refVal_setReportId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("report_id"))), refVal_setReportId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reportId"))), refVal_setReportId );
         setReportId(refVal_setReportId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("result_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("resultCount"))))
     {
         int32_t refVal_setResultCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("result_count"))), refVal_setResultCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("resultCount"))), refVal_setResultCount );
         setResultCount(refVal_setResultCount);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("results"))))
@@ -335,10 +335,10 @@ bool DatasetEvalReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("results"))), refVal_setResults );
         setResults(refVal_setResults);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -347,169 +347,169 @@ bool DatasetEvalReport::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 double DatasetEvalReport::getAggregateScore() const
 {
-    return m_Aggregate_score;
+    return m_AggregateScore;
 }
 
 void DatasetEvalReport::setAggregateScore(double value)
 {
-    m_Aggregate_score = value;
-    m_Aggregate_scoreIsSet = true;
+    m_AggregateScore = value;
+    m_AggregateScoreIsSet = true;
 }
 
 bool DatasetEvalReport::aggregateScoreIsSet() const
 {
-    return m_Aggregate_scoreIsSet;
+    return m_AggregateScoreIsSet;
 }
 
-void DatasetEvalReport::unsetAggregate_score()
+void DatasetEvalReport::unsetAggregateScore()
 {
-    m_Aggregate_scoreIsSet = false;
+    m_AggregateScoreIsSet = false;
 }
 utility::datetime DatasetEvalReport::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void DatasetEvalReport::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool DatasetEvalReport::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void DatasetEvalReport::unsetCreated_at()
+void DatasetEvalReport::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t DatasetEvalReport::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void DatasetEvalReport::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool DatasetEvalReport::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void DatasetEvalReport::unsetDataset_id()
+void DatasetEvalReport::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 utility::string_t DatasetEvalReport::getDatasetVersionId() const
 {
-    return m_Dataset_version_id;
+    return m_DatasetVersionId;
 }
 
 
 void DatasetEvalReport::setDatasetVersionId(const utility::string_t& value)
 {
-    m_Dataset_version_id = value;
-    m_Dataset_version_idIsSet = true;
+    m_DatasetVersionId = value;
+    m_DatasetVersionIdIsSet = true;
 }
 
 bool DatasetEvalReport::datasetVersionIdIsSet() const
 {
-    return m_Dataset_version_idIsSet;
+    return m_DatasetVersionIdIsSet;
 }
 
-void DatasetEvalReport::unsetDataset_version_id()
+void DatasetEvalReport::unsetDatasetVersionId()
 {
-    m_Dataset_version_idIsSet = false;
+    m_DatasetVersionIdIsSet = false;
 }
 utility::string_t DatasetEvalReport::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void DatasetEvalReport::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool DatasetEvalReport::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void DatasetEvalReport::unsetEvaluator_version_id()
+void DatasetEvalReport::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 utility::string_t DatasetEvalReport::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void DatasetEvalReport::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool DatasetEvalReport::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void DatasetEvalReport::unsetProject_id()
+void DatasetEvalReport::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t DatasetEvalReport::getReportId() const
 {
-    return m_Report_id;
+    return m_ReportId;
 }
 
 
 void DatasetEvalReport::setReportId(const utility::string_t& value)
 {
-    m_Report_id = value;
-    m_Report_idIsSet = true;
+    m_ReportId = value;
+    m_ReportIdIsSet = true;
 }
 
 bool DatasetEvalReport::reportIdIsSet() const
 {
-    return m_Report_idIsSet;
+    return m_ReportIdIsSet;
 }
 
-void DatasetEvalReport::unsetReport_id()
+void DatasetEvalReport::unsetReportId()
 {
-    m_Report_idIsSet = false;
+    m_ReportIdIsSet = false;
 }
 int32_t DatasetEvalReport::getResultCount() const
 {
-    return m_Result_count;
+    return m_ResultCount;
 }
 
 void DatasetEvalReport::setResultCount(int32_t value)
 {
-    m_Result_count = value;
-    m_Result_countIsSet = true;
+    m_ResultCount = value;
+    m_ResultCountIsSet = true;
 }
 
 bool DatasetEvalReport::resultCountIsSet() const
 {
-    return m_Result_countIsSet;
+    return m_ResultCountIsSet;
 }
 
-void DatasetEvalReport::unsetResult_count()
+void DatasetEvalReport::unsetResultCount()
 {
-    m_Result_countIsSet = false;
+    m_ResultCountIsSet = false;
 }
 std::vector<std::shared_ptr<EvalResult>> DatasetEvalReport::getResults() const
 {
@@ -534,24 +534,24 @@ void DatasetEvalReport::unsetResults()
 }
 utility::string_t DatasetEvalReport::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void DatasetEvalReport::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool DatasetEvalReport::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void DatasetEvalReport::unsetTenant_id()
+void DatasetEvalReport::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

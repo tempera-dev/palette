@@ -13,11 +13,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PromptVersionDiff {
-    #[serde(rename = "from_version_id")]
+    #[serde(rename = "fromVersionId")]
     pub from_version_id: String,
     #[serde(rename = "lines")]
     pub lines: Vec<models::DiffLine>,
-    #[serde(rename = "to_version_id")]
+    #[serde(rename = "toVersionId")]
     pub to_version_id: String,
 }
 

@@ -21,14 +21,14 @@ namespace model {
 DeadLetterReplayReport::DeadLetterReplayReport()
 {
     m_AckIsSet = false;
-    m_Message_id = utility::conversions::to_string_t("");
-    m_Message_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Reset_attempts = false;
-    m_Reset_attemptsIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_MessageId = utility::conversions::to_string_t("");
+    m_MessageIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_ResetAttempts = false;
+    m_ResetAttemptsIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 DeadLetterReplayReport::~DeadLetterReplayReport()
@@ -48,25 +48,25 @@ web::json::value DeadLetterReplayReport::toJson() const
         
         val[utility::conversions::to_string_t(U("ack"))] = ModelBase::toJson(m_Ack);
     }
-    if(m_Message_idIsSet)
+    if(m_MessageIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("message_id"))] = ModelBase::toJson(m_Message_id);
+        val[utility::conversions::to_string_t(U("messageId"))] = ModelBase::toJson(m_MessageId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Reset_attemptsIsSet)
+    if(m_ResetAttemptsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("reset_attempts"))] = ModelBase::toJson(m_Reset_attempts);
+        val[utility::conversions::to_string_t(U("resetAttempts"))] = ModelBase::toJson(m_ResetAttempts);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -86,9 +86,9 @@ bool DeadLetterReplayReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("message_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("messageId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("message_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("messageId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setMessageId;
@@ -97,9 +97,9 @@ bool DeadLetterReplayReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -108,9 +108,9 @@ bool DeadLetterReplayReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("reset_attempts"))))
+    if(val.has_field(utility::conversions::to_string_t(U("resetAttempts"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reset_attempts")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("resetAttempts")));
         if(!fieldValue.is_null())
         {
             bool refVal_setResetAttempts;
@@ -119,9 +119,9 @@ bool DeadLetterReplayReport::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -144,21 +144,21 @@ void DeadLetterReplayReport::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ack")), m_Ack));
     }
-    if(m_Message_idIsSet)
+    if(m_MessageIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("message_id")), m_Message_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("messageId")), m_MessageId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Reset_attemptsIsSet)
+    if(m_ResetAttemptsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reset_attempts")), m_Reset_attempts));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("resetAttempts")), m_ResetAttempts));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -177,28 +177,28 @@ bool DeadLetterReplayReport::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ack"))), refVal_setAck );
         setAck(refVal_setAck);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("message_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("messageId"))))
     {
         utility::string_t refVal_setMessageId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("message_id"))), refVal_setMessageId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("messageId"))), refVal_setMessageId );
         setMessageId(refVal_setMessageId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("reset_attempts"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("resetAttempts"))))
     {
         bool refVal_setResetAttempts;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reset_attempts"))), refVal_setResetAttempts );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("resetAttempts"))), refVal_setResetAttempts );
         setResetAttempts(refVal_setResetAttempts);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -228,86 +228,86 @@ void DeadLetterReplayReport::unsetAck()
 }
 utility::string_t DeadLetterReplayReport::getMessageId() const
 {
-    return m_Message_id;
+    return m_MessageId;
 }
 
 
 void DeadLetterReplayReport::setMessageId(const utility::string_t& value)
 {
-    m_Message_id = value;
-    m_Message_idIsSet = true;
+    m_MessageId = value;
+    m_MessageIdIsSet = true;
 }
 
 bool DeadLetterReplayReport::messageIdIsSet() const
 {
-    return m_Message_idIsSet;
+    return m_MessageIdIsSet;
 }
 
-void DeadLetterReplayReport::unsetMessage_id()
+void DeadLetterReplayReport::unsetMessageId()
 {
-    m_Message_idIsSet = false;
+    m_MessageIdIsSet = false;
 }
 utility::string_t DeadLetterReplayReport::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void DeadLetterReplayReport::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool DeadLetterReplayReport::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void DeadLetterReplayReport::unsetProject_id()
+void DeadLetterReplayReport::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 bool DeadLetterReplayReport::isResetAttempts() const
 {
-    return m_Reset_attempts;
+    return m_ResetAttempts;
 }
 
 void DeadLetterReplayReport::setResetAttempts(bool value)
 {
-    m_Reset_attempts = value;
-    m_Reset_attemptsIsSet = true;
+    m_ResetAttempts = value;
+    m_ResetAttemptsIsSet = true;
 }
 
 bool DeadLetterReplayReport::resetAttemptsIsSet() const
 {
-    return m_Reset_attemptsIsSet;
+    return m_ResetAttemptsIsSet;
 }
 
-void DeadLetterReplayReport::unsetReset_attempts()
+void DeadLetterReplayReport::unsetResetAttempts()
 {
-    m_Reset_attemptsIsSet = false;
+    m_ResetAttemptsIsSet = false;
 }
 utility::string_t DeadLetterReplayReport::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void DeadLetterReplayReport::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool DeadLetterReplayReport::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void DeadLetterReplayReport::unsetTenant_id()
+void DeadLetterReplayReport::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

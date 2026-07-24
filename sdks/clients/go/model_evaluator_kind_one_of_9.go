@@ -21,7 +21,7 @@ var _ MappedNullable = &EvaluatorKindOneOf9{}
 
 // EvaluatorKindOneOf9 Browser grounding: fraction of element-targeted steps that resolved to their intended element; score is the ratio, passes at `min_ratio`.
 type EvaluatorKindOneOf9 struct {
-	MinRatio float64 `json:"min_ratio"`
+	MinRatio float64 `json:"minRatio"`
 	Type string `json:"type"`
 }
 
@@ -104,7 +104,7 @@ func (o EvaluatorKindOneOf9) MarshalJSON() ([]byte, error) {
 
 func (o EvaluatorKindOneOf9) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["min_ratio"] = o.MinRatio
+	toSerialize["minRatio"] = o.MinRatio
 	toSerialize["type"] = o.Type
 	return toSerialize, nil
 }
@@ -114,7 +114,7 @@ func (o *EvaluatorKindOneOf9) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"min_ratio",
+		"minRatio",
 		"type",
 	}
 

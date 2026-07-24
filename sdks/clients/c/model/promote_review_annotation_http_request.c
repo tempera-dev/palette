@@ -57,7 +57,7 @@ cJSON *promote_review_annotation_http_request_convertToJSON(promote_review_annot
     if (!promote_review_annotation_http_request->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", promote_review_annotation_http_request->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", promote_review_annotation_http_request->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -90,7 +90,7 @@ promote_review_annotation_http_request_t *promote_review_annotation_http_request
     _t *reference_local_nonprim = NULL;
 
     // promote_review_annotation_http_request->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(promote_review_annotation_http_requestJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(promote_review_annotation_http_requestJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }

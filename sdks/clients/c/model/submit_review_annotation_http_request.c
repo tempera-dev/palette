@@ -67,7 +67,7 @@ cJSON *submit_review_annotation_http_request_convertToJSON(submit_review_annotat
 
     // submit_review_annotation_http_request->annotation_id
     if(submit_review_annotation_http_request->annotation_id) {
-    if(cJSON_AddStringToObject(item, "annotation_id", submit_review_annotation_http_request->annotation_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "annotationId", submit_review_annotation_http_request->annotation_id) == NULL) {
     goto fail; //String
     }
     }
@@ -91,7 +91,7 @@ cJSON *submit_review_annotation_http_request_convertToJSON(submit_review_annotat
     if (!submit_review_annotation_http_request->reviewer_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "reviewer_id", submit_review_annotation_http_request->reviewer_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "reviewerId", submit_review_annotation_http_request->reviewer_id) == NULL) {
     goto fail; //String
     }
 
@@ -128,7 +128,7 @@ submit_review_annotation_http_request_t *submit_review_annotation_http_request_p
     palette_api_review_verdict__e verdict_local_nonprim = 0;
 
     // submit_review_annotation_http_request->annotation_id
-    cJSON *annotation_id = cJSON_GetObjectItemCaseSensitive(submit_review_annotation_http_requestJSON, "annotation_id");
+    cJSON *annotation_id = cJSON_GetObjectItemCaseSensitive(submit_review_annotation_http_requestJSON, "annotationId");
     if (cJSON_IsNull(annotation_id)) {
         annotation_id = NULL;
     }
@@ -152,7 +152,7 @@ submit_review_annotation_http_request_t *submit_review_annotation_http_request_p
     payload_local_nonprim = _parseFromJSON(payload); //custom
 
     // submit_review_annotation_http_request->reviewer_id
-    cJSON *reviewer_id = cJSON_GetObjectItemCaseSensitive(submit_review_annotation_http_requestJSON, "reviewer_id");
+    cJSON *reviewer_id = cJSON_GetObjectItemCaseSensitive(submit_review_annotation_http_requestJSON, "reviewerId");
     if (cJSON_IsNull(reviewer_id)) {
         reviewer_id = NULL;
     }

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,12 +27,12 @@ class Dataset(BaseModel):
     """
     Dataset
     """ # noqa: E501
-    created_at: datetime
-    dataset_id: StrictStr
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
     name: StrictStr
-    project_id: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["created_at", "dataset_id", "name", "project_id", "tenant_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["createdAt", "datasetId", "name", "projectId", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,11 +85,11 @@ class Dataset(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
             "name": obj.get("name"),
-            "project_id": obj.get("project_id"),
-            "tenant_id": obj.get("tenant_id")
+            "projectId": obj.get("projectId"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

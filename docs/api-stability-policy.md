@@ -25,11 +25,15 @@ semantic conventions, MCP/CLI/docs contract surfaces, and then runs
 The only pre-1.0 breaking exceptions allowed in CI are explicit contract
 alignment breaks filtered by `scripts/filter-oasdiff-breaking.py`; unexpected
 `oasdiff` errors still fail the merge gate. The current reviewed exceptions are
-the AIP-158 migration from bare list bodies to named paginated response objects,
-the AIP-193 migration to the standard application-error envelope, and removal
-of the legacy authorization-scope spellings. The filter matches only the
-specific operations, fields, statuses, and type transitions required by those
-migrations; it is not a general bypass for breaking changes.
+the AIP-127 migration to lowerCamel public parameters and JSON fields, the
+AIP-158 migration from bare list bodies to named paginated response objects,
+the AIP-193 migration to the standard application-error envelope and
+HTTP-200 partial-success reports, and removal of the legacy
+authorization-scope spellings. The filter matches only the specific
+operations, fields, statuses, and type transitions required by those
+migrations; it is not a general bypass for breaking changes. The AIP-127
+exception is additionally pinned to the SHA-256 digest of the reviewed
+migration spec, so any subsequent contract edit disables that exception.
 
 ## Stability guarantee for `/v1`
 
@@ -48,7 +52,8 @@ While the API is at `/v1`:
   `message` is the developer-facing detail, `status` is the canonical RPC
   status string, and `details` contains standard detail objects such as
   `google.rpc.ErrorInfo`. New detail types and error reasons may be added;
-  existing meanings remain stable.
+  existing meanings remain stable. Partial-success drain reports are domain
+  results returned with HTTP 200, not error responses.
 
 ## Versioning model
 

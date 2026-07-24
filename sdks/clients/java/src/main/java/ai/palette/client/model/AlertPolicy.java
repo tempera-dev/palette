@@ -47,23 +47,23 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class AlertPolicy {
-  public static final String JSON_PROPERTY_DEDUPE_WINDOW_SECONDS = "dedupe_window_seconds";
+  public static final String JSON_PROPERTY_DEDUPE_WINDOW_SECONDS = "dedupeWindowSeconds";
   @javax.annotation.Nonnull
   private Long dedupeWindowSeconds;
 
-  public static final String JSON_PROPERTY_ENDPOINT_URL = "endpoint_url";
+  public static final String JSON_PROPERTY_ENDPOINT_URL = "endpointUrl";
   @javax.annotation.Nonnull
   private String endpointUrl;
 
-  public static final String JSON_PROPERTY_FIRE_WHEN_SCORE_AT_OR_BELOW = "fire_when_score_at_or_below";
+  public static final String JSON_PROPERTY_FIRE_WHEN_SCORE_AT_OR_BELOW = "fireWhenScoreAtOrBelow";
   @javax.annotation.Nonnull
   private Double fireWhenScoreAtOrBelow;
 
-  public static final String JSON_PROPERTY_MAINTENANCE_WINDOWS = "maintenance_windows";
+  public static final String JSON_PROPERTY_MAINTENANCE_WINDOWS = "maintenanceWindows";
   @javax.annotation.Nonnull
   private List<MaintenanceWindow> maintenanceWindows = new ArrayList<>();
 
-  public static final String JSON_PROPERTY_POLICY_ID = "policy_id";
+  public static final String JSON_PROPERTY_POLICY_ID = "policyId";
   @javax.annotation.Nonnull
   private String policyId;
 
@@ -71,7 +71,7 @@ public class AlertPolicy {
   @javax.annotation.Nonnull
   private AlertSeverity severity;
 
-  public static final String JSON_PROPERTY_SIGNING_SECRET = "signing_secret";
+  public static final String JSON_PROPERTY_SIGNING_SECRET = "signingSecret";
   @javax.annotation.Nonnull
   private String signingSecret;
 
@@ -338,34 +338,34 @@ public class AlertPolicy {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `dedupe_window_seconds` to the URL query string
+    // add `dedupeWindowSeconds` to the URL query string
     if (getDedupeWindowSeconds() != null) {
-      joiner.add(String.format("%sdedupe_window_seconds%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDedupeWindowSeconds()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdedupeWindowSeconds%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDedupeWindowSeconds()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `endpoint_url` to the URL query string
+    // add `endpointUrl` to the URL query string
     if (getEndpointUrl() != null) {
-      joiner.add(String.format("%sendpoint_url%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndpointUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendpointUrl%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndpointUrl()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `fire_when_score_at_or_below` to the URL query string
+    // add `fireWhenScoreAtOrBelow` to the URL query string
     if (getFireWhenScoreAtOrBelow() != null) {
-      joiner.add(String.format("%sfire_when_score_at_or_below%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFireWhenScoreAtOrBelow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfireWhenScoreAtOrBelow%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFireWhenScoreAtOrBelow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `maintenance_windows` to the URL query string
+    // add `maintenanceWindows` to the URL query string
     if (getMaintenanceWindows() != null) {
       for (int i = 0; i < getMaintenanceWindows().size(); i++) {
         if (getMaintenanceWindows().get(i) != null) {
-          joiner.add(getMaintenanceWindows().get(i).toUrlQueryString(String.format("%smaintenance_windows%s%s", prefix, suffix,
+          joiner.add(getMaintenanceWindows().get(i).toUrlQueryString(String.format("%smaintenanceWindows%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }
 
-    // add `policy_id` to the URL query string
+    // add `policyId` to the URL query string
     if (getPolicyId() != null) {
-      joiner.add(String.format("%spolicy_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPolicyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spolicyId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPolicyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `severity` to the URL query string
@@ -373,9 +373,9 @@ public class AlertPolicy {
       joiner.add(String.format("%sseverity%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSeverity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `signing_secret` to the URL query string
+    // add `signingSecret` to the URL query string
     if (getSigningSecret() != null) {
-      joiner.add(String.format("%ssigning_secret%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSigningSecret()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssigningSecret%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSigningSecret()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

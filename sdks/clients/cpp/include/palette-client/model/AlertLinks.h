@@ -55,37 +55,37 @@ public:
 
     utility::string_t getClusterUrl() const;
     bool clusterUrlIsSet() const;
-    void unsetCluster_url();
+    void unsetClusterUrl();
     void setClusterUrl(const utility::string_t& value);
 
     utility::string_t getDatasetUrl() const;
     bool datasetUrlIsSet() const;
-    void unsetDataset_url();
+    void unsetDatasetUrl();
     void setDatasetUrl(const utility::string_t& value);
 
     utility::string_t getGateUrl() const;
     bool gateUrlIsSet() const;
-    void unsetGate_url();
+    void unsetGateUrl();
     void setGateUrl(const utility::string_t& value);
 
     utility::string_t getTraceUrl() const;
     bool traceUrlIsSet() const;
-    void unsetTrace_url();
+    void unsetTraceUrl();
     void setTraceUrl(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Cluster_url;
-    bool m_Cluster_urlIsSet;
+    utility::string_t m_ClusterUrl;
+    bool m_ClusterUrlIsSet;
 
-    utility::string_t m_Dataset_url;
-    bool m_Dataset_urlIsSet;
+    utility::string_t m_DatasetUrl;
+    bool m_DatasetUrlIsSet;
 
-    utility::string_t m_Gate_url;
-    bool m_Gate_urlIsSet;
+    utility::string_t m_GateUrl;
+    bool m_GateUrlIsSet;
 
-    utility::string_t m_Trace_url;
-    bool m_Trace_urlIsSet;
+    utility::string_t m_TraceUrl;
+    bool m_TraceUrlIsSet;
 
 };
 

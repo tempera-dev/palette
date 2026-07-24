@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.webhook_delivery import WebhookDelivery
 from typing import Optional, Set
@@ -29,8 +29,8 @@ class AlertDecision(BaseModel):
     """ # noqa: E501
     delivery: Optional[WebhookDelivery] = None
     emitted: StrictBool
-    suppressed_reason: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["delivery", "emitted", "suppressed_reason"]
+    suppressed_reason: Optional[StrictStr] = Field(default=None, alias="suppressedReason")
+    __properties: ClassVar[List[str]] = ["delivery", "emitted", "suppressedReason"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class AlertDecision(BaseModel):
         # set to None if suppressed_reason (nullable) is None
         # and model_fields_set contains the field
         if self.suppressed_reason is None and "suppressed_reason" in self.model_fields_set:
-            _dict['suppressed_reason'] = None
+            _dict['suppressedReason'] = None
 
         return _dict
 
@@ -98,7 +98,7 @@ class AlertDecision(BaseModel):
         _obj = cls.model_validate({
             "delivery": WebhookDelivery.from_dict(obj["delivery"]) if obj.get("delivery") is not None else None,
             "emitted": obj.get("emitted"),
-            "suppressed_reason": obj.get("suppressed_reason")
+            "suppressedReason": obj.get("suppressedReason")
         })
         return _obj
 

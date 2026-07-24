@@ -28,13 +28,13 @@ class ArtifactRef(BaseModel):
     """
     ArtifactRef
     """ # noqa: E501
-    artifact_id: StrictStr
-    mime_type: StrictStr
-    redaction_class: RedactionClass
+    artifact_id: StrictStr = Field(alias="artifactId")
+    mime_type: StrictStr = Field(alias="mimeType")
+    redaction_class: RedactionClass = Field(alias="redactionClass")
     sha256: StrictStr
-    size_bytes: Annotated[int, Field(strict=True, ge=0)]
+    size_bytes: Annotated[int, Field(strict=True, ge=0)] = Field(alias="sizeBytes")
     uri: StrictStr
-    __properties: ClassVar[List[str]] = ["artifact_id", "mime_type", "redaction_class", "sha256", "size_bytes", "uri"]
+    __properties: ClassVar[List[str]] = ["artifactId", "mimeType", "redactionClass", "sha256", "sizeBytes", "uri"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,11 +87,11 @@ class ArtifactRef(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "artifact_id": obj.get("artifact_id"),
-            "mime_type": obj.get("mime_type"),
-            "redaction_class": obj.get("redaction_class"),
+            "artifactId": obj.get("artifactId"),
+            "mimeType": obj.get("mimeType"),
+            "redactionClass": obj.get("redactionClass"),
             "sha256": obj.get("sha256"),
-            "size_bytes": obj.get("size_bytes"),
+            "sizeBytes": obj.get("sizeBytes"),
             "uri": obj.get("uri")
         })
         return _obj

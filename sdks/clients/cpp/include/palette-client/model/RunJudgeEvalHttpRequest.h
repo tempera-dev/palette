@@ -62,7 +62,7 @@ public:
     /// </summary>
     utility::string_t getCacheNamespace() const;
     bool cacheNamespaceIsSet() const;
-    void unsetCache_namespace();
+    void unsetCacheNamespace();
     void setCacheNamespace(const utility::string_t& value);
 
     std::shared_ptr<EvaluationCase> getRCase() const;
@@ -77,13 +77,13 @@ public:
 
     utility::string_t getProviderSecretId() const;
     bool providerSecretIdIsSet() const;
-    void unsetProvider_secret_id();
+    void unsetProviderSecretId();
     void setProviderSecretId(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Cache_namespace;
-    bool m_Cache_namespaceIsSet;
+    utility::string_t m_CacheNamespace;
+    bool m_CacheNamespaceIsSet;
 
     std::shared_ptr<EvaluationCase> m_r_case;
     bool m_r_caseIsSet;
@@ -91,8 +91,8 @@ protected:
     std::shared_ptr<EvaluatorSpec> m_Evaluator;
     bool m_EvaluatorIsSet;
 
-    utility::string_t m_Provider_secret_id;
-    bool m_Provider_secret_idIsSet;
+    utility::string_t m_ProviderSecretId;
+    bool m_ProviderSecretIdIsSet;
 
 };
 

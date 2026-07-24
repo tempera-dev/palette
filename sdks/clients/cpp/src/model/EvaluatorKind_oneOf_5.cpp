@@ -20,8 +20,8 @@ namespace model {
 
 EvaluatorKind_oneOf_5::EvaluatorKind_oneOf_5()
 {
-    m_Max_ms = 0L;
-    m_Max_msIsSet = false;
+    m_MaxMs = 0L;
+    m_MaxMsIsSet = false;
     m_TypeIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void EvaluatorKind_oneOf_5::validate()
 web::json::value EvaluatorKind_oneOf_5::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Max_msIsSet)
+    if(m_MaxMsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("max_ms"))] = ModelBase::toJson(m_Max_ms);
+        val[utility::conversions::to_string_t(U("maxMs"))] = ModelBase::toJson(m_MaxMs);
     }
     if(m_TypeIsSet)
     {   
@@ -56,9 +56,9 @@ web::json::value EvaluatorKind_oneOf_5::toJson() const
 bool EvaluatorKind_oneOf_5::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("max_ms"))))
+    if(val.has_field(utility::conversions::to_string_t(U("maxMs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("max_ms")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maxMs")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setMaxMs;
@@ -89,9 +89,9 @@ void EvaluatorKind_oneOf_5::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Max_msIsSet)
+    if(m_MaxMsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("max_ms")), m_Max_ms));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maxMs")), m_MaxMs));
     }
     if(m_TypeIsSet)
     {
@@ -108,10 +108,10 @@ bool EvaluatorKind_oneOf_5::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("max_ms"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("maxMs"))))
     {
         int64_t refVal_setMaxMs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("max_ms"))), refVal_setMaxMs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maxMs"))), refVal_setMaxMs );
         setMaxMs(refVal_setMaxMs);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("type"))))
@@ -147,23 +147,23 @@ const utility::string_t EvaluatorKind_oneOf_5::fromTypeEnum(const TypeEnum value
 
 int64_t EvaluatorKind_oneOf_5::getMaxMs() const
 {
-    return m_Max_ms;
+    return m_MaxMs;
 }
 
 void EvaluatorKind_oneOf_5::setMaxMs(int64_t value)
 {
-    m_Max_ms = value;
-    m_Max_msIsSet = true;
+    m_MaxMs = value;
+    m_MaxMsIsSet = true;
 }
 
 bool EvaluatorKind_oneOf_5::maxMsIsSet() const
 {
-    return m_Max_msIsSet;
+    return m_MaxMsIsSet;
 }
 
-void EvaluatorKind_oneOf_5::unsetMax_ms()
+void EvaluatorKind_oneOf_5::unsetMaxMs()
 {
-    m_Max_msIsSet = false;
+    m_MaxMsIsSet = false;
 }
 EvaluatorKind_oneOf_5::TypeEnum EvaluatorKind_oneOf_5::getType() const
 {

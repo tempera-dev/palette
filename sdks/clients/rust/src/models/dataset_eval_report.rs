@@ -13,25 +13,25 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DatasetEvalReport {
-    #[serde(rename = "aggregate_score")]
+    #[serde(rename = "aggregateScore")]
     pub aggregate_score: f64,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_id")]
+    #[serde(rename = "datasetId")]
     pub dataset_id: String,
-    #[serde(rename = "dataset_version_id")]
+    #[serde(rename = "datasetVersionId")]
     pub dataset_version_id: String,
-    #[serde(rename = "evaluator_version_id")]
+    #[serde(rename = "evaluatorVersionId")]
     pub evaluator_version_id: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "report_id")]
+    #[serde(rename = "reportId")]
     pub report_id: String,
-    #[serde(rename = "result_count")]
+    #[serde(rename = "resultCount")]
     pub result_count: i32,
     #[serde(rename = "results")]
     pub results: Vec<models::EvalResult>,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

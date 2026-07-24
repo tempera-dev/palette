@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**apiKeysCreate**](ApiKeysApi.md#apiKeysCreate) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |  |
-| [**apiKeysCreateWithHttpInfo**](ApiKeysApi.md#apiKeysCreateWithHttpInfo) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |  |
-| [**apiKeysRevoke**](ApiKeysApi.md#apiKeysRevoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |  |
-| [**apiKeysRevokeWithHttpInfo**](ApiKeysApi.md#apiKeysRevokeWithHttpInfo) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |  |
+| [**apiKeysCreate**](ApiKeysApi.md#apiKeysCreate) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId} |  |
+| [**apiKeysCreateWithHttpInfo**](ApiKeysApi.md#apiKeysCreateWithHttpInfo) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId} |  |
+| [**apiKeysRevoke**](ApiKeysApi.md#apiKeysRevoke) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke |  |
+| [**apiKeysRevokeWithHttpInfo**](ApiKeysApi.md#apiKeysRevokeWithHttpInfo) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke |  |
 
 
 

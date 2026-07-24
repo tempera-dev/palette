@@ -70,7 +70,7 @@ cJSON *revoked_provider_secret_convertToJSON(revoked_provider_secret_t *revoked_
     if (!revoked_provider_secret->provider_secret_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "provider_secret_id", revoked_provider_secret->provider_secret_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "providerSecretId", revoked_provider_secret->provider_secret_id) == NULL) {
     goto fail; //String
     }
 
@@ -79,7 +79,7 @@ cJSON *revoked_provider_secret_convertToJSON(revoked_provider_secret_t *revoked_
     if (!revoked_provider_secret->rotated_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "rotated_at", revoked_provider_secret->rotated_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "rotatedAt", revoked_provider_secret->rotated_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -111,7 +111,7 @@ revoked_provider_secret_t *revoked_provider_secret_parseFromJSON(cJSON *revoked_
     }
 
     // revoked_provider_secret->provider_secret_id
-    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(revoked_provider_secretJSON, "provider_secret_id");
+    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(revoked_provider_secretJSON, "providerSecretId");
     if (cJSON_IsNull(provider_secret_id)) {
         provider_secret_id = NULL;
     }
@@ -126,7 +126,7 @@ revoked_provider_secret_t *revoked_provider_secret_parseFromJSON(cJSON *revoked_
     }
 
     // revoked_provider_secret->rotated_at
-    cJSON *rotated_at = cJSON_GetObjectItemCaseSensitive(revoked_provider_secretJSON, "rotated_at");
+    cJSON *rotated_at = cJSON_GetObjectItemCaseSensitive(revoked_provider_secretJSON, "rotatedAt");
     if (cJSON_IsNull(rotated_at)) {
         rotated_at = NULL;
     }

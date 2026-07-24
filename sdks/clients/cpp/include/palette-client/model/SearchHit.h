@@ -55,7 +55,7 @@ public:
 
     utility::string_t getEnvironmentId() const;
     bool environmentIdIsSet() const;
-    void unsetEnvironment_id();
+    void unsetEnvironmentId();
     void setEnvironmentId(const utility::string_t& value);
 
     utility::string_t getKind() const;
@@ -75,7 +75,7 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     float getScore() const;
@@ -85,7 +85,7 @@ public:
 
     utility::string_t getSpanId() const;
     bool spanIdIsSet() const;
-    void unsetSpan_id();
+    void unsetSpanId();
     void setSpanId(const utility::string_t& value);
 
     utility::string_t getStatus() const;
@@ -95,7 +95,7 @@ public:
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getTool() const;
@@ -105,13 +105,13 @@ public:
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Environment_id;
-    bool m_Environment_idIsSet;
+    utility::string_t m_EnvironmentId;
+    bool m_EnvironmentIdIsSet;
 
     utility::string_t m_Kind;
     bool m_KindIsSet;
@@ -122,26 +122,26 @@ protected:
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     float m_Score;
     bool m_ScoreIsSet;
 
-    utility::string_t m_Span_id;
-    bool m_Span_idIsSet;
+    utility::string_t m_SpanId;
+    bool m_SpanIdIsSet;
 
     utility::string_t m_Status;
     bool m_StatusIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     utility::string_t m_Tool;
     bool m_ToolIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

@@ -160,7 +160,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->case_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "case_id", dataset_case->case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "caseId", dataset_case->case_id) == NULL) {
     goto fail; //String
     }
 
@@ -169,7 +169,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", dataset_case->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", dataset_case->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -178,7 +178,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", dataset_case->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", dataset_case->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -201,7 +201,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->input_artifact_hashes) {
         goto fail;
     }
-    cJSON *input_artifact_hashes = cJSON_AddArrayToObject(item, "input_artifact_hashes");
+    cJSON *input_artifact_hashes = cJSON_AddArrayToObject(item, "inputArtifactHashes");
     if(input_artifact_hashes == NULL) {
         goto fail; //primitive container
     }
@@ -219,7 +219,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->normalizer_version) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "normalizer_version", dataset_case->normalizer_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "normalizerVersion", dataset_case->normalizer_version) == NULL) {
     goto fail; //String
     }
 
@@ -242,7 +242,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", dataset_case->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", dataset_case->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -264,7 +264,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->source_environment_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "source_environment_id", dataset_case->source_environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "sourceEnvironmentId", dataset_case->source_environment_id) == NULL) {
     goto fail; //String
     }
 
@@ -273,7 +273,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->source_span_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "source_span_id", dataset_case->source_span_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "sourceSpanId", dataset_case->source_span_id) == NULL) {
     goto fail; //String
     }
 
@@ -282,7 +282,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->source_trace_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "source_trace_id", dataset_case->source_trace_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "sourceTraceId", dataset_case->source_trace_id) == NULL) {
     goto fail; //String
     }
 
@@ -291,7 +291,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", dataset_case->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", dataset_case->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -314,7 +314,7 @@ cJSON *dataset_case_convertToJSON(dataset_case_t *dataset_case) {
     if (!dataset_case->trace_schema_version) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "trace_schema_version", dataset_case->trace_schema_version) == NULL) {
+    if(cJSON_AddNumberToObject(item, "traceSchemaVersion", dataset_case->trace_schema_version) == NULL) {
     goto fail; //Numeric
     }
 
@@ -346,7 +346,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     _t *trace_local_nonprim = NULL;
 
     // dataset_case->case_id
-    cJSON *case_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "case_id");
+    cJSON *case_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "caseId");
     if (cJSON_IsNull(case_id)) {
         case_id = NULL;
     }
@@ -361,7 +361,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -376,7 +376,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -403,7 +403,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     input_local_nonprim = _parseFromJSON(input); //custom
 
     // dataset_case->input_artifact_hashes
-    cJSON *input_artifact_hashes = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "input_artifact_hashes");
+    cJSON *input_artifact_hashes = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "inputArtifactHashes");
     if (cJSON_IsNull(input_artifact_hashes)) {
         input_artifact_hashes = NULL;
     }
@@ -428,7 +428,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->normalizer_version
-    cJSON *normalizer_version = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "normalizer_version");
+    cJSON *normalizer_version = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "normalizerVersion");
     if (cJSON_IsNull(normalizer_version)) {
         normalizer_version = NULL;
     }
@@ -455,7 +455,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     output_local_nonprim = _parseFromJSON(output); //custom
 
     // dataset_case->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -479,7 +479,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->source_environment_id
-    cJSON *source_environment_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "source_environment_id");
+    cJSON *source_environment_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "sourceEnvironmentId");
     if (cJSON_IsNull(source_environment_id)) {
         source_environment_id = NULL;
     }
@@ -494,7 +494,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->source_span_id
-    cJSON *source_span_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "source_span_id");
+    cJSON *source_span_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "sourceSpanId");
     if (cJSON_IsNull(source_span_id)) {
         source_span_id = NULL;
     }
@@ -509,7 +509,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->source_trace_id
-    cJSON *source_trace_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "source_trace_id");
+    cJSON *source_trace_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "sourceTraceId");
     if (cJSON_IsNull(source_trace_id)) {
         source_trace_id = NULL;
     }
@@ -524,7 +524,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     }
 
     // dataset_case->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -551,7 +551,7 @@ dataset_case_t *dataset_case_parseFromJSON(cJSON *dataset_caseJSON){
     trace_local_nonprim = _parseFromJSON(trace); //custom
 
     // dataset_case->trace_schema_version
-    cJSON *trace_schema_version = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "trace_schema_version");
+    cJSON *trace_schema_version = cJSON_GetObjectItemCaseSensitive(dataset_caseJSON, "traceSchemaVersion");
     if (cJSON_IsNull(trace_schema_version)) {
         trace_schema_version = NULL;
     }

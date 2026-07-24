@@ -70,7 +70,7 @@ export function SpanIoValueOneOf1FromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'artifactRef': ArtifactRefFromJSON(json['artifact_ref']),
+        'artifactRef': ArtifactRefFromJSON(json['artifactRef']),
         'kind': json['kind'],
     };
 }
@@ -86,7 +86,7 @@ export function SpanIoValueOneOf1ToJSONTyped(value?: SpanIoValueOneOf1 | null, i
 
     return {
         
-        'artifact_ref': ArtifactRefToJSON(value['artifactRef']),
+        'artifactRef': ArtifactRefToJSON(value['artifactRef']),
         'kind': value['kind'],
     };
 }

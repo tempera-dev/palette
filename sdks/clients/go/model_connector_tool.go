@@ -24,11 +24,11 @@ type ConnectorTool struct {
 	// What the tool does.
 	Description NullableString `json:"description,omitempty"`
 	// JSON Schema of the tool's `arguments`, verbatim from Composio. The agent loop uses this to construct valid calls; [`crate::skill`] renders it.
-	InputSchema map[string]interface{} `json:"input_schema,omitempty"`
+	InputSchema map[string]interface{} `json:"inputSchema,omitempty"`
 	// Human display name.
 	Name string `json:"name"`
 	// `true` when the tool executes without a connected account.
-	NoAuth *bool `json:"no_auth,omitempty"`
+	NoAuth *bool `json:"noAuth,omitempty"`
 	// Tool slug passed to [`ComposioClient::execute`] (e.g. `GITHUB_CREATE_AN_ISSUE`).
 	Slug string `json:"slug"`
 	// Free-form tags Composio assigns (categories, importance, …).
@@ -301,11 +301,11 @@ func (o ConnectorTool) ToMap() (map[string]interface{}, error) {
 		toSerialize["description"] = o.Description.Get()
 	}
 	if o.InputSchema != nil {
-		toSerialize["input_schema"] = o.InputSchema
+		toSerialize["inputSchema"] = o.InputSchema
 	}
 	toSerialize["name"] = o.Name
 	if !IsNil(o.NoAuth) {
-		toSerialize["no_auth"] = o.NoAuth
+		toSerialize["noAuth"] = o.NoAuth
 	}
 	toSerialize["slug"] = o.Slug
 	if !IsNil(o.Tags) {

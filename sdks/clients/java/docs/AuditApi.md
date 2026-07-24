@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**auditList**](AuditApi.md#auditList) | **GET** /v1/audit/{tenant_id}/{project_id} |  |
-| [**auditListWithHttpInfo**](AuditApi.md#auditListWithHttpInfo) | **GET** /v1/audit/{tenant_id}/{project_id} |  |
+| [**auditList**](AuditApi.md#auditList) | **GET** /v1/audit/{tenantId}/{projectId} |  |
+| [**auditListWithHttpInfo**](AuditApi.md#auditListWithHttpInfo) | **GET** /v1/audit/{tenantId}/{projectId} |  |
 
 
 

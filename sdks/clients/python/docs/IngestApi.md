@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ingest_drain_trace_ingested**](IngestApi.md#ingest_drain_trace_ingested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
-[**ingest_drain_trace_writes**](IngestApi.md#ingest_drain_trace_writes) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**ingest_get_queue_status**](IngestApi.md#ingest_get_queue_status) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
-[**ingest_import_source**](IngestApi.md#ingest_import_source) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |
+[**ingest_drain_trace_ingested**](IngestApi.md#ingest_drain_trace_ingested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
+[**ingest_drain_trace_writes**](IngestApi.md#ingest_drain_trace_writes) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
+[**ingest_get_queue_status**](IngestApi.md#ingest_get_queue_status) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
+[**ingest_import_source**](IngestApi.md#ingest_import_source) | **POST** /v1/import/{tenantId}/{projectId}/{environmentId} |
 [**ingest_native**](IngestApi.md#ingest_native) | **POST** /v1/traces/native |
-[**ingest_otlp**](IngestApi.md#ingest_otlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**ingest_otlp**](IngestApi.md#ingest_otlp) | **POST** /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces |
 [**ingest_otlp_json_collector**](IngestApi.md#ingest_otlp_json_collector) | **POST** /v1/traces |
-[**ingest_reconcile_trace**](IngestApi.md#ingest_reconcile_trace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
-[**ingest_replay_dead_letter**](IngestApi.md#ingest_replay_dead_letter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
+[**ingest_reconcile_trace**](IngestApi.md#ingest_reconcile_trace) | **POST** /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile |
+[**ingest_replay_dead_letter**](IngestApi.md#ingest_replay_dead_letter) | **POST** /v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay |
 
 
 # **ingest_drain_trace_ingested**
@@ -88,11 +88,10 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Drain pending trace-ingested events |  -  |
+**200** | Drain pending trace-ingested events, including retry and dead-letter outcomes |  -  |
 **400** | Invalid request, scope, or filter |  -  |
 **401** | Missing or invalid credentials |  -  |
 **403** | Credentials lack the required scope |  -  |
-**422** | Drained with dead-letters |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -169,11 +168,10 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Drain pending trace writes |  -  |
+**200** | Drain pending trace writes, including retry and dead-letter outcomes |  -  |
 **400** | Invalid request, scope, or filter |  -  |
 **401** | Missing or invalid credentials |  -  |
 **403** | Credentials lack the required scope |  -  |
-**422** | Drained with dead-letters |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

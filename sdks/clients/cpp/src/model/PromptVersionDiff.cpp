@@ -20,11 +20,11 @@ namespace model {
 
 PromptVersionDiff::PromptVersionDiff()
 {
-    m_From_version_id = utility::conversions::to_string_t("");
-    m_From_version_idIsSet = false;
+    m_FromVersionId = utility::conversions::to_string_t("");
+    m_FromVersionIdIsSet = false;
     m_LinesIsSet = false;
-    m_To_version_id = utility::conversions::to_string_t("");
-    m_To_version_idIsSet = false;
+    m_ToVersionId = utility::conversions::to_string_t("");
+    m_ToVersionIdIsSet = false;
 }
 
 PromptVersionDiff::~PromptVersionDiff()
@@ -39,20 +39,20 @@ void PromptVersionDiff::validate()
 web::json::value PromptVersionDiff::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_From_version_idIsSet)
+    if(m_FromVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("from_version_id"))] = ModelBase::toJson(m_From_version_id);
+        val[utility::conversions::to_string_t(U("fromVersionId"))] = ModelBase::toJson(m_FromVersionId);
     }
     if(m_LinesIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("lines"))] = ModelBase::toJson(m_Lines);
     }
-    if(m_To_version_idIsSet)
+    if(m_ToVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("to_version_id"))] = ModelBase::toJson(m_To_version_id);
+        val[utility::conversions::to_string_t(U("toVersionId"))] = ModelBase::toJson(m_ToVersionId);
     }
 
     return val;
@@ -61,9 +61,9 @@ web::json::value PromptVersionDiff::toJson() const
 bool PromptVersionDiff::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("from_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("fromVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("from_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("fromVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setFromVersionId;
@@ -83,9 +83,9 @@ bool PromptVersionDiff::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("to_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("toVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("to_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("toVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setToVersionId;
@@ -104,17 +104,17 @@ void PromptVersionDiff::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_From_version_idIsSet)
+    if(m_FromVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("from_version_id")), m_From_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("fromVersionId")), m_FromVersionId));
     }
     if(m_LinesIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("lines")), m_Lines));
     }
-    if(m_To_version_idIsSet)
+    if(m_ToVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("to_version_id")), m_To_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("toVersionId")), m_ToVersionId));
     }
 }
 
@@ -127,10 +127,10 @@ bool PromptVersionDiff::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("from_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("fromVersionId"))))
     {
         utility::string_t refVal_setFromVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("from_version_id"))), refVal_setFromVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("fromVersionId"))), refVal_setFromVersionId );
         setFromVersionId(refVal_setFromVersionId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("lines"))))
@@ -139,10 +139,10 @@ bool PromptVersionDiff::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("lines"))), refVal_setLines );
         setLines(refVal_setLines);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("to_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("toVersionId"))))
     {
         utility::string_t refVal_setToVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("to_version_id"))), refVal_setToVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("toVersionId"))), refVal_setToVersionId );
         setToVersionId(refVal_setToVersionId);
     }
     return ok;
@@ -151,24 +151,24 @@ bool PromptVersionDiff::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 utility::string_t PromptVersionDiff::getFromVersionId() const
 {
-    return m_From_version_id;
+    return m_FromVersionId;
 }
 
 
 void PromptVersionDiff::setFromVersionId(const utility::string_t& value)
 {
-    m_From_version_id = value;
-    m_From_version_idIsSet = true;
+    m_FromVersionId = value;
+    m_FromVersionIdIsSet = true;
 }
 
 bool PromptVersionDiff::fromVersionIdIsSet() const
 {
-    return m_From_version_idIsSet;
+    return m_FromVersionIdIsSet;
 }
 
-void PromptVersionDiff::unsetFrom_version_id()
+void PromptVersionDiff::unsetFromVersionId()
 {
-    m_From_version_idIsSet = false;
+    m_FromVersionIdIsSet = false;
 }
 std::vector<std::shared_ptr<DiffLine>> PromptVersionDiff::getLines() const
 {
@@ -193,24 +193,24 @@ void PromptVersionDiff::unsetLines()
 }
 utility::string_t PromptVersionDiff::getToVersionId() const
 {
-    return m_To_version_id;
+    return m_ToVersionId;
 }
 
 
 void PromptVersionDiff::setToVersionId(const utility::string_t& value)
 {
-    m_To_version_id = value;
-    m_To_version_idIsSet = true;
+    m_ToVersionId = value;
+    m_ToVersionIdIsSet = true;
 }
 
 bool PromptVersionDiff::toVersionIdIsSet() const
 {
-    return m_To_version_idIsSet;
+    return m_ToVersionIdIsSet;
 }
 
-void PromptVersionDiff::unsetTo_version_id()
+void PromptVersionDiff::unsetToVersionId()
 {
-    m_To_version_idIsSet = false;
+    m_ToVersionIdIsSet = false;
 }
 
 }

@@ -20,8 +20,8 @@ namespace model {
 
 CaseOutputOverrideRequest::CaseOutputOverrideRequest()
 {
-    m_Case_id = utility::conversions::to_string_t("");
-    m_Case_idIsSet = false;
+    m_CaseId = utility::conversions::to_string_t("");
+    m_CaseIdIsSet = false;
     m_OutputIsSet = false;
     m_TraceIsSet = false;
 }
@@ -38,10 +38,10 @@ void CaseOutputOverrideRequest::validate()
 web::json::value CaseOutputOverrideRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Case_idIsSet)
+    if(m_CaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("case_id"))] = ModelBase::toJson(m_Case_id);
+        val[utility::conversions::to_string_t(U("caseId"))] = ModelBase::toJson(m_CaseId);
     }
     if(m_OutputIsSet)
     {   
@@ -60,9 +60,9 @@ web::json::value CaseOutputOverrideRequest::toJson() const
 bool CaseOutputOverrideRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("caseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("caseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCaseId;
@@ -103,9 +103,9 @@ void CaseOutputOverrideRequest::toMultipart(std::shared_ptr<MultipartFormData> m
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Case_idIsSet)
+    if(m_CaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("case_id")), m_Case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("caseId")), m_CaseId));
     }
     if(m_OutputIsSet)
     {
@@ -126,10 +126,10 @@ bool CaseOutputOverrideRequest::fromMultiPart(std::shared_ptr<MultipartFormData>
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("caseId"))))
     {
         utility::string_t refVal_setCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("case_id"))), refVal_setCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("caseId"))), refVal_setCaseId );
         setCaseId(refVal_setCaseId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("output"))))
@@ -150,24 +150,24 @@ bool CaseOutputOverrideRequest::fromMultiPart(std::shared_ptr<MultipartFormData>
 
 utility::string_t CaseOutputOverrideRequest::getCaseId() const
 {
-    return m_Case_id;
+    return m_CaseId;
 }
 
 
 void CaseOutputOverrideRequest::setCaseId(const utility::string_t& value)
 {
-    m_Case_id = value;
-    m_Case_idIsSet = true;
+    m_CaseId = value;
+    m_CaseIdIsSet = true;
 }
 
 bool CaseOutputOverrideRequest::caseIdIsSet() const
 {
-    return m_Case_idIsSet;
+    return m_CaseIdIsSet;
 }
 
-void CaseOutputOverrideRequest::unsetCase_id()
+void CaseOutputOverrideRequest::unsetCaseId()
 {
-    m_Case_idIsSet = false;
+    m_CaseIdIsSet = false;
 }
 std::shared_ptr<AnyType> CaseOutputOverrideRequest::getOutput() const
 {

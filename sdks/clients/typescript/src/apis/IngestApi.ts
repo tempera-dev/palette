@@ -185,7 +185,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -243,7 +243,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/ingest/{tenantId}/{projectId}/trace-writes/drain`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -297,7 +297,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/ingest/{tenant_id}/{project_id}/queue`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/ingest/{tenantId}/{projectId}/queue`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -363,7 +363,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/import/{tenant_id}/{project_id}/{environment_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environment_id"}}`, encodeURIComponent(String(requestParameters['environmentId']))),
+            path: `/v1/import/{tenantId}/{projectId}/{environmentId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environmentId"}}`, encodeURIComponent(String(requestParameters['environmentId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -483,7 +483,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environment_id"}}`, encodeURIComponent(String(requestParameters['environmentId']))),
+            path: `/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"environmentId"}}`, encodeURIComponent(String(requestParameters['environmentId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -592,7 +592,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"trace_id"}}`, encodeURIComponent(String(requestParameters['traceId']))),
+            path: `/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -635,7 +635,7 @@ export class IngestApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters['resetAttempts'] != null) {
-            queryParameters['reset_attempts'] = requestParameters['resetAttempts'];
+            queryParameters['resetAttempts'] = requestParameters['resetAttempts'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -657,7 +657,7 @@ export class IngestApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"message_id"}}`, encodeURIComponent(String(requestParameters['messageId']))),
+            path: `/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"messageId"}}`, encodeURIComponent(String(requestParameters['messageId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

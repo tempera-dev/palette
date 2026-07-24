@@ -57,133 +57,133 @@ public:
 
     utility::string_t getAgentReleaseId() const;
     bool agentReleaseIdIsSet() const;
-    void unsetAgent_release_id();
+    void unsetAgentReleaseId();
     void setAgentReleaseId(const utility::string_t& value);
 
     utility::string_t getCodeHash() const;
     bool codeHashIsSet() const;
-    void unsetCode_hash();
+    void unsetCodeHash();
     void setCodeHash(const utility::string_t& value);
 
     utility::string_t getDatasetCaseId() const;
     bool datasetCaseIdIsSet() const;
-    void unsetDataset_case_id();
+    void unsetDatasetCaseId();
     void setDatasetCaseId(const utility::string_t& value);
 
     utility::string_t getDatasetVersionId() const;
     bool datasetVersionIdIsSet() const;
-    void unsetDataset_version_id();
+    void unsetDatasetVersionId();
     void setDatasetVersionId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     std::vector<std::shared_ptr<utility::string_t>> getInputArtifactHashes() const;
     bool inputArtifactHashesIsSet() const;
-    void unsetInput_artifact_hashes();
+    void unsetInputArtifactHashes();
     void setInputArtifactHashes(const std::vector<std::shared_ptr<utility::string_t>>& value);
 
     utility::string_t getJudgeModelId() const;
     bool judgeModelIdIsSet() const;
-    void unsetJudge_model_id();
+    void unsetJudgeModelId();
     void setJudgeModelId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getJudgeParameters() const;
     bool judgeParametersIsSet() const;
-    void unsetJudge_parameters();
+    void unsetJudgeParameters();
     void setJudgeParameters(const std::shared_ptr<AnyType>& value);
 
     utility::string_t getJudgeProvider() const;
     bool judgeProviderIsSet() const;
-    void unsetJudge_provider();
+    void unsetJudgeProvider();
     void setJudgeProvider(const utility::string_t& value);
 
     utility::string_t getJudgeRubricVersion() const;
     bool judgeRubricVersionIsSet() const;
-    void unsetJudge_rubric_version();
+    void unsetJudgeRubricVersion();
     void setJudgeRubricVersion(const utility::string_t& value);
 
     int64_t getJudgeSeed() const;
     bool judgeSeedIsSet() const;
-    void unsetJudge_seed();
+    void unsetJudgeSeed();
     void setJudgeSeed(int64_t value);
 
     utility::string_t getNormalizerVersion() const;
     bool normalizerVersionIsSet() const;
-    void unsetNormalizer_version();
+    void unsetNormalizerVersion();
     void setNormalizerVersion(const utility::string_t& value);
 
     utility::string_t getPromptVersionId() const;
     bool promptVersionIdIsSet() const;
-    void unsetPrompt_version_id();
+    void unsetPromptVersionId();
     void setPromptVersionId(const utility::string_t& value);
 
     int32_t getTraceSchemaVersion() const;
     bool traceSchemaVersionIsSet() const;
-    void unsetTrace_schema_version();
+    void unsetTraceSchemaVersion();
     void setTraceSchemaVersion(int32_t value);
 
     utility::string_t getWasiAbiVersion() const;
     bool wasiAbiVersionIsSet() const;
-    void unsetWasi_abi_version();
+    void unsetWasiAbiVersion();
     void setWasiAbiVersion(const utility::string_t& value);
 
     utility::string_t getWasmHash() const;
     bool wasmHashIsSet() const;
-    void unsetWasm_hash();
+    void unsetWasmHash();
     void setWasmHash(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Agent_release_id;
-    bool m_Agent_release_idIsSet;
+    utility::string_t m_AgentReleaseId;
+    bool m_AgentReleaseIdIsSet;
 
-    utility::string_t m_Code_hash;
-    bool m_Code_hashIsSet;
+    utility::string_t m_CodeHash;
+    bool m_CodeHashIsSet;
 
-    utility::string_t m_Dataset_case_id;
-    bool m_Dataset_case_idIsSet;
+    utility::string_t m_DatasetCaseId;
+    bool m_DatasetCaseIdIsSet;
 
-    utility::string_t m_Dataset_version_id;
-    bool m_Dataset_version_idIsSet;
+    utility::string_t m_DatasetVersionId;
+    bool m_DatasetVersionIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    std::vector<std::shared_ptr<utility::string_t>> m_Input_artifact_hashes;
-    bool m_Input_artifact_hashesIsSet;
+    std::vector<std::shared_ptr<utility::string_t>> m_InputArtifactHashes;
+    bool m_InputArtifactHashesIsSet;
 
-    utility::string_t m_Judge_model_id;
-    bool m_Judge_model_idIsSet;
+    utility::string_t m_JudgeModelId;
+    bool m_JudgeModelIdIsSet;
 
-    std::shared_ptr<AnyType> m_Judge_parameters;
-    bool m_Judge_parametersIsSet;
+    std::shared_ptr<AnyType> m_JudgeParameters;
+    bool m_JudgeParametersIsSet;
 
-    utility::string_t m_Judge_provider;
-    bool m_Judge_providerIsSet;
+    utility::string_t m_JudgeProvider;
+    bool m_JudgeProviderIsSet;
 
-    utility::string_t m_Judge_rubric_version;
-    bool m_Judge_rubric_versionIsSet;
+    utility::string_t m_JudgeRubricVersion;
+    bool m_JudgeRubricVersionIsSet;
 
-    int64_t m_Judge_seed;
-    bool m_Judge_seedIsSet;
+    int64_t m_JudgeSeed;
+    bool m_JudgeSeedIsSet;
 
-    utility::string_t m_Normalizer_version;
-    bool m_Normalizer_versionIsSet;
+    utility::string_t m_NormalizerVersion;
+    bool m_NormalizerVersionIsSet;
 
-    utility::string_t m_Prompt_version_id;
-    bool m_Prompt_version_idIsSet;
+    utility::string_t m_PromptVersionId;
+    bool m_PromptVersionIdIsSet;
 
-    int32_t m_Trace_schema_version;
-    bool m_Trace_schema_versionIsSet;
+    int32_t m_TraceSchemaVersion;
+    bool m_TraceSchemaVersionIsSet;
 
-    utility::string_t m_Wasi_abi_version;
-    bool m_Wasi_abi_versionIsSet;
+    utility::string_t m_WasiAbiVersion;
+    bool m_WasiAbiVersionIsSet;
 
-    utility::string_t m_Wasm_hash;
-    bool m_Wasm_hashIsSet;
+    utility::string_t m_WasmHash;
+    bool m_WasmHashIsSet;
 
 };
 

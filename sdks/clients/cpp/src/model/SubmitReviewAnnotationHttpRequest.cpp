@@ -20,11 +20,11 @@ namespace model {
 
 SubmitReviewAnnotationHttpRequest::SubmitReviewAnnotationHttpRequest()
 {
-    m_Annotation_id = utility::conversions::to_string_t("");
-    m_Annotation_idIsSet = false;
+    m_AnnotationId = utility::conversions::to_string_t("");
+    m_AnnotationIdIsSet = false;
     m_PayloadIsSet = false;
-    m_Reviewer_id = utility::conversions::to_string_t("");
-    m_Reviewer_idIsSet = false;
+    m_ReviewerId = utility::conversions::to_string_t("");
+    m_ReviewerIdIsSet = false;
     m_VerdictIsSet = false;
 }
 
@@ -40,20 +40,20 @@ void SubmitReviewAnnotationHttpRequest::validate()
 web::json::value SubmitReviewAnnotationHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Annotation_idIsSet)
+    if(m_AnnotationIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("annotation_id"))] = ModelBase::toJson(m_Annotation_id);
+        val[utility::conversions::to_string_t(U("annotationId"))] = ModelBase::toJson(m_AnnotationId);
     }
     if(m_PayloadIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("payload"))] = ModelBase::toJson(m_Payload);
     }
-    if(m_Reviewer_idIsSet)
+    if(m_ReviewerIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("reviewer_id"))] = ModelBase::toJson(m_Reviewer_id);
+        val[utility::conversions::to_string_t(U("reviewerId"))] = ModelBase::toJson(m_ReviewerId);
     }
     if(m_VerdictIsSet)
     {   
@@ -67,9 +67,9 @@ web::json::value SubmitReviewAnnotationHttpRequest::toJson() const
 bool SubmitReviewAnnotationHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("annotation_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("annotationId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("annotation_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("annotationId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAnnotationId;
@@ -89,9 +89,9 @@ bool SubmitReviewAnnotationHttpRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("reviewer_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("reviewerId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reviewer_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reviewerId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setReviewerId;
@@ -121,17 +121,17 @@ void SubmitReviewAnnotationHttpRequest::toMultipart(std::shared_ptr<MultipartFor
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Annotation_idIsSet)
+    if(m_AnnotationIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("annotation_id")), m_Annotation_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("annotationId")), m_AnnotationId));
     }
     if(m_PayloadIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("payload")), m_Payload));
     }
-    if(m_Reviewer_idIsSet)
+    if(m_ReviewerIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reviewer_id")), m_Reviewer_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reviewerId")), m_ReviewerId));
     }
     if(m_VerdictIsSet)
     {
@@ -148,10 +148,10 @@ bool SubmitReviewAnnotationHttpRequest::fromMultiPart(std::shared_ptr<MultipartF
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("annotation_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("annotationId"))))
     {
         utility::string_t refVal_setAnnotationId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("annotation_id"))), refVal_setAnnotationId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("annotationId"))), refVal_setAnnotationId );
         setAnnotationId(refVal_setAnnotationId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("payload"))))
@@ -160,10 +160,10 @@ bool SubmitReviewAnnotationHttpRequest::fromMultiPart(std::shared_ptr<MultipartF
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("payload"))), refVal_setPayload );
         setPayload(refVal_setPayload);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("reviewer_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("reviewerId"))))
     {
         utility::string_t refVal_setReviewerId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reviewer_id"))), refVal_setReviewerId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reviewerId"))), refVal_setReviewerId );
         setReviewerId(refVal_setReviewerId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("verdict"))))
@@ -178,24 +178,24 @@ bool SubmitReviewAnnotationHttpRequest::fromMultiPart(std::shared_ptr<MultipartF
 
 utility::string_t SubmitReviewAnnotationHttpRequest::getAnnotationId() const
 {
-    return m_Annotation_id;
+    return m_AnnotationId;
 }
 
 
 void SubmitReviewAnnotationHttpRequest::setAnnotationId(const utility::string_t& value)
 {
-    m_Annotation_id = value;
-    m_Annotation_idIsSet = true;
+    m_AnnotationId = value;
+    m_AnnotationIdIsSet = true;
 }
 
 bool SubmitReviewAnnotationHttpRequest::annotationIdIsSet() const
 {
-    return m_Annotation_idIsSet;
+    return m_AnnotationIdIsSet;
 }
 
-void SubmitReviewAnnotationHttpRequest::unsetAnnotation_id()
+void SubmitReviewAnnotationHttpRequest::unsetAnnotationId()
 {
-    m_Annotation_idIsSet = false;
+    m_AnnotationIdIsSet = false;
 }
 std::shared_ptr<AnyType> SubmitReviewAnnotationHttpRequest::getPayload() const
 {
@@ -220,24 +220,24 @@ void SubmitReviewAnnotationHttpRequest::unsetPayload()
 }
 utility::string_t SubmitReviewAnnotationHttpRequest::getReviewerId() const
 {
-    return m_Reviewer_id;
+    return m_ReviewerId;
 }
 
 
 void SubmitReviewAnnotationHttpRequest::setReviewerId(const utility::string_t& value)
 {
-    m_Reviewer_id = value;
-    m_Reviewer_idIsSet = true;
+    m_ReviewerId = value;
+    m_ReviewerIdIsSet = true;
 }
 
 bool SubmitReviewAnnotationHttpRequest::reviewerIdIsSet() const
 {
-    return m_Reviewer_idIsSet;
+    return m_ReviewerIdIsSet;
 }
 
-void SubmitReviewAnnotationHttpRequest::unsetReviewer_id()
+void SubmitReviewAnnotationHttpRequest::unsetReviewerId()
 {
-    m_Reviewer_idIsSet = false;
+    m_ReviewerIdIsSet = false;
 }
 std::shared_ptr<ReviewVerdict> SubmitReviewAnnotationHttpRequest::getVerdict() const
 {

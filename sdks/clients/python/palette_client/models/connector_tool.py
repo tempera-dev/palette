@@ -27,13 +27,13 @@ class ConnectorTool(BaseModel):
     A single executable tool within a toolkit, carrying the metadata an agent needs to actually *call* it: the input JSON Schema, tags, and toolkit. This is the raw material for the prompting scaffold in [`crate::skill`].
     """ # noqa: E501
     description: Optional[StrictStr] = Field(default=None, description="What the tool does.")
-    input_schema: Optional[Dict[str, Any]] = Field(default=None, description="JSON Schema of the tool's `arguments`, verbatim from Composio. The agent loop uses this to construct valid calls; [`crate::skill`] renders it.")
+    input_schema: Optional[Dict[str, Any]] = Field(default=None, description="JSON Schema of the tool's `arguments`, verbatim from Composio. The agent loop uses this to construct valid calls; [`crate::skill`] renders it.", alias="inputSchema")
     name: StrictStr = Field(description="Human display name.")
-    no_auth: Optional[StrictBool] = Field(default=None, description="`true` when the tool executes without a connected account.")
+    no_auth: Optional[StrictBool] = Field(default=None, description="`true` when the tool executes without a connected account.", alias="noAuth")
     slug: StrictStr = Field(description="Tool slug passed to [`ComposioClient::execute`] (e.g. `GITHUB_CREATE_AN_ISSUE`).")
     tags: Optional[List[StrictStr]] = Field(default=None, description="Free-form tags Composio assigns (categories, importance, …).")
     toolkit: Optional[StrictStr] = Field(default=None, description="Owning toolkit slug (e.g. `github`), when known.")
-    __properties: ClassVar[List[str]] = ["description", "input_schema", "name", "no_auth", "slug", "tags", "toolkit"]
+    __properties: ClassVar[List[str]] = ["description", "inputSchema", "name", "noAuth", "slug", "tags", "toolkit"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class ConnectorTool(BaseModel):
         # set to None if input_schema (nullable) is None
         # and model_fields_set contains the field
         if self.input_schema is None and "input_schema" in self.model_fields_set:
-            _dict['input_schema'] = None
+            _dict['inputSchema'] = None
 
         # set to None if toolkit (nullable) is None
         # and model_fields_set contains the field
@@ -102,9 +102,9 @@ class ConnectorTool(BaseModel):
 
         _obj = cls.model_validate({
             "description": obj.get("description"),
-            "input_schema": obj.get("input_schema"),
+            "inputSchema": obj.get("inputSchema"),
             "name": obj.get("name"),
-            "no_auth": obj.get("no_auth"),
+            "noAuth": obj.get("noAuth"),
             "slug": obj.get("slug"),
             "tags": obj.get("tags"),
             "toolkit": obj.get("toolkit")

@@ -40,19 +40,19 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CalibrationConfusion {
-  public static final String JSON_PROPERTY_HUMAN_FAIL_JUDGE_FAIL = "human_fail_judge_fail";
+  public static final String JSON_PROPERTY_HUMAN_FAIL_JUDGE_FAIL = "humanFailJudgeFail";
   @javax.annotation.Nonnull
   private Integer humanFailJudgeFail;
 
-  public static final String JSON_PROPERTY_HUMAN_FAIL_JUDGE_PASS = "human_fail_judge_pass";
+  public static final String JSON_PROPERTY_HUMAN_FAIL_JUDGE_PASS = "humanFailJudgePass";
   @javax.annotation.Nonnull
   private Integer humanFailJudgePass;
 
-  public static final String JSON_PROPERTY_HUMAN_PASS_JUDGE_FAIL = "human_pass_judge_fail";
+  public static final String JSON_PROPERTY_HUMAN_PASS_JUDGE_FAIL = "humanPassJudgeFail";
   @javax.annotation.Nonnull
   private Integer humanPassJudgeFail;
 
-  public static final String JSON_PROPERTY_HUMAN_PASS_JUDGE_PASS = "human_pass_judge_pass";
+  public static final String JSON_PROPERTY_HUMAN_PASS_JUDGE_PASS = "humanPassJudgePass";
   @javax.annotation.Nonnull
   private Integer humanPassJudgePass;
 
@@ -237,24 +237,24 @@ public class CalibrationConfusion {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `human_fail_judge_fail` to the URL query string
+    // add `humanFailJudgeFail` to the URL query string
     if (getHumanFailJudgeFail() != null) {
-      joiner.add(String.format("%shuman_fail_judge_fail%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanFailJudgeFail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shumanFailJudgeFail%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanFailJudgeFail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `human_fail_judge_pass` to the URL query string
+    // add `humanFailJudgePass` to the URL query string
     if (getHumanFailJudgePass() != null) {
-      joiner.add(String.format("%shuman_fail_judge_pass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanFailJudgePass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shumanFailJudgePass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanFailJudgePass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `human_pass_judge_fail` to the URL query string
+    // add `humanPassJudgeFail` to the URL query string
     if (getHumanPassJudgeFail() != null) {
-      joiner.add(String.format("%shuman_pass_judge_fail%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanPassJudgeFail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shumanPassJudgeFail%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanPassJudgeFail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `human_pass_judge_pass` to the URL query string
+    // add `humanPassJudgePass` to the URL query string
     if (getHumanPassJudgePass() != null) {
-      joiner.add(String.format("%shuman_pass_judge_pass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanPassJudgePass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shumanPassJudgePass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanPassJudgePass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -67,7 +67,7 @@ export function AlertDecisionFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'delivery': json['delivery'] == null ? undefined : WebhookDeliveryFromJSON(json['delivery']),
         'emitted': json['emitted'],
-        'suppressedReason': json['suppressed_reason'] == null ? undefined : json['suppressed_reason'],
+        'suppressedReason': json['suppressedReason'] == null ? undefined : json['suppressedReason'],
     };
 }
 
@@ -84,7 +84,7 @@ export function AlertDecisionToJSONTyped(value?: AlertDecision | null, ignoreDis
         
         'delivery': WebhookDeliveryToJSON(value['delivery']),
         'emitted': value['emitted'],
-        'suppressed_reason': value['suppressedReason'],
+        'suppressedReason': value['suppressedReason'],
     };
 }
 

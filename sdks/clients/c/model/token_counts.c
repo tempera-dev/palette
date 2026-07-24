@@ -57,7 +57,7 @@ cJSON *token_counts_convertToJSON(token_counts_t *token_counts) {
     if (!token_counts->cache_read) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "cache_read", token_counts->cache_read) == NULL) {
+    if(cJSON_AddNumberToObject(item, "cacheRead", token_counts->cache_read) == NULL) {
     goto fail; //Numeric
     }
 
@@ -101,7 +101,7 @@ token_counts_t *token_counts_parseFromJSON(cJSON *token_countsJSON){
     token_counts_t *token_counts_local_var = NULL;
 
     // token_counts->cache_read
-    cJSON *cache_read = cJSON_GetObjectItemCaseSensitive(token_countsJSON, "cache_read");
+    cJSON *cache_read = cJSON_GetObjectItemCaseSensitive(token_countsJSON, "cacheRead");
     if (cJSON_IsNull(cache_read)) {
         cache_read = NULL;
     }

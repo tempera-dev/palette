@@ -55,61 +55,61 @@ public:
 
     int32_t getDownstreamAccepted() const;
     bool downstreamAcceptedIsSet() const;
-    void unsetDownstream_accepted();
+    void unsetDownstreamAccepted();
     void setDownstreamAccepted(int32_t value);
 
     int32_t getDownstreamDuplicate() const;
     bool downstreamDuplicateIsSet() const;
-    void unsetDownstream_duplicate();
+    void unsetDownstreamDuplicate();
     void setDownstreamDuplicate(int32_t value);
 
     bool isDownstreamQueued() const;
     bool downstreamQueuedIsSet() const;
-    void unsetDownstream_queued();
+    void unsetDownstreamQueued();
     void setDownstreamQueued(bool value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     int32_t getSpanCount() const;
     bool spanCountIsSet() const;
-    void unsetSpan_count();
+    void unsetSpanCount();
     void setSpanCount(int32_t value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     utility::string_t getTraceId() const;
     bool traceIdIsSet() const;
-    void unsetTrace_id();
+    void unsetTraceId();
     void setTraceId(const utility::string_t& value);
 
 
 protected:
-    int32_t m_Downstream_accepted;
-    bool m_Downstream_acceptedIsSet;
+    int32_t m_DownstreamAccepted;
+    bool m_DownstreamAcceptedIsSet;
 
-    int32_t m_Downstream_duplicate;
-    bool m_Downstream_duplicateIsSet;
+    int32_t m_DownstreamDuplicate;
+    bool m_DownstreamDuplicateIsSet;
 
-    bool m_Downstream_queued;
-    bool m_Downstream_queuedIsSet;
+    bool m_DownstreamQueued;
+    bool m_DownstreamQueuedIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    int32_t m_Span_count;
-    bool m_Span_countIsSet;
+    int32_t m_SpanCount;
+    bool m_SpanCountIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    utility::string_t m_Trace_id;
-    bool m_Trace_idIsSet;
+    utility::string_t m_TraceId;
+    bool m_TraceIdIsSet;
 
 };
 

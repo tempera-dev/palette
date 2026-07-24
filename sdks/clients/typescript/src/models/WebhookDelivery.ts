@@ -60,7 +60,7 @@ export function WebhookDeliveryFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'body': json['body'],
-        'endpointUrl': json['endpoint_url'],
+        'endpointUrl': json['endpointUrl'],
         'headers': json['headers'],
     };
 }
@@ -77,7 +77,7 @@ export function WebhookDeliveryToJSONTyped(value?: WebhookDelivery | null, ignor
     return {
         
         'body': value['body'],
-        'endpoint_url': value['endpointUrl'],
+        'endpointUrl': value['endpointUrl'],
         'headers': value['headers'],
     };
 }

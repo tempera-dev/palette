@@ -4,21 +4,21 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**OnlineAPI_onlineDecideSampling**](OnlineAPI.md#OnlineAPI_onlineDecideSampling) | **POST** /v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling |
+[**OnlineAPI_onlineDecideSampling**](OnlineAPI.md#OnlineAPI_onlineDecideSampling) | **POST** /v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling |
 
 
 # **OnlineAPI_onlineDecideSampling**
 ```c
-sampling_decision_t* OnlineAPI_onlineDecideSampling(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, online_sampling_policy_t *online_sampling_policy, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+sampling_decision_t* OnlineAPI_onlineDecideSampling(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, online_sampling_policy_t *online_sampling_policy, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**trace_id** | **char \*** | trace_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**traceId** | **char \*** | trace_id |
 **online_sampling_policy** | **[online_sampling_policy_t](online_sampling_policy.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]

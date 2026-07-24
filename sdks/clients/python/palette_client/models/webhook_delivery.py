@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,9 +27,9 @@ class WebhookDelivery(BaseModel):
     WebhookDelivery
     """ # noqa: E501
     body: Optional[Any]
-    endpoint_url: StrictStr
+    endpoint_url: StrictStr = Field(alias="endpointUrl")
     headers: Dict[str, StrictStr]
-    __properties: ClassVar[List[str]] = ["body", "endpoint_url", "headers"]
+    __properties: ClassVar[List[str]] = ["body", "endpointUrl", "headers"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +88,7 @@ class WebhookDelivery(BaseModel):
 
         _obj = cls.model_validate({
             "body": obj.get("body"),
-            "endpoint_url": obj.get("endpoint_url"),
+            "endpointUrl": obj.get("endpointUrl"),
             "headers": obj.get("headers")
         })
         return _obj

@@ -46,7 +46,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class RunJudgeEvalHttpRequest {
-  public static final String JSON_PROPERTY_CACHE_NAMESPACE = "cache_namespace";
+  public static final String JSON_PROPERTY_CACHE_NAMESPACE = "cacheNamespace";
   private JsonNullable<String> cacheNamespace = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_CASE = "case";
@@ -57,7 +57,7 @@ public class RunJudgeEvalHttpRequest {
   @javax.annotation.Nonnull
   private EvaluatorSpec evaluator;
 
-  public static final String JSON_PROPERTY_PROVIDER_SECRET_ID = "provider_secret_id";
+  public static final String JSON_PROPERTY_PROVIDER_SECRET_ID = "providerSecretId";
   @javax.annotation.Nonnull
   private String providerSecretId;
 
@@ -257,9 +257,9 @@ public class RunJudgeEvalHttpRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `cache_namespace` to the URL query string
+    // add `cacheNamespace` to the URL query string
     if (getCacheNamespace() != null) {
-      joiner.add(String.format("%scache_namespace%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCacheNamespace()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scacheNamespace%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCacheNamespace()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `case` to the URL query string
@@ -272,9 +272,9 @@ public class RunJudgeEvalHttpRequest {
       joiner.add(getEvaluator().toUrlQueryString(prefix + "evaluator" + suffix));
     }
 
-    // add `provider_secret_id` to the URL query string
+    // add `providerSecretId` to the URL query string
     if (getProviderSecretId() != null) {
-      joiner.add(String.format("%sprovider_secret_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProviderSecretId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sproviderSecretId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProviderSecretId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

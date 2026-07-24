@@ -66,6 +66,7 @@ pub enum ComposioError {
 /// A connectable third-party app (Composio "toolkit"), flattened from the v3
 /// `GET /toolkits` shape into the fields Palette exposes.
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
 pub struct Toolkit {
     /// Stable slug used everywhere else (e.g. `github`, `gmail`).
     pub slug: String,
@@ -89,6 +90,7 @@ pub struct Toolkit {
 /// needs to actually *call* it: the input JSON Schema, tags, and toolkit. This
 /// is the raw material for the prompting scaffold in [`crate::skill`].
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct ConnectorTool {
     /// Tool slug passed to [`ComposioClient::execute`] (e.g. `GITHUB_CREATE_AN_ISSUE`).
     pub slug: String,
@@ -115,18 +117,22 @@ pub struct ConnectorTool {
 
 /// One-time login link returned when initiating a managed-OAuth connection.
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
 pub struct ConnectionLink {
     /// URL the end user opens once to authorize the app.
+    #[serde(alias = "redirect_url")]
     pub redirect_url: String,
     /// Composio connection id (`ca_…`) created for this handshake.
+    #[serde(alias = "connected_account_id")]
     pub connected_account_id: String,
     /// When the link expires (RFC 3339), if provided.
-    #[serde(default)]
+    #[serde(default, alias = "expires_at")]
     pub expires_at: Option<String>,
 }
 
 /// Connection status of one app for one entity.
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
 pub struct ConnectionStatus {
     /// Toolkit slug this status is for.
     pub toolkit: String,
@@ -154,6 +160,7 @@ impl ConnectionStatus {
 
 /// Result of executing a tool — Composio's `{successful, data, error}` envelope.
 #[derive(Clone, Debug, Serialize, Deserialize, ToSchema, PartialEq)]
+#[serde(rename_all = "camelCase")]
 pub struct ToolExecution {
     /// Whether the tool reported success.
     pub successful: bool,
@@ -165,7 +172,7 @@ pub struct ToolExecution {
     #[serde(default)]
     pub error: Option<String>,
     /// Composio execution log id, for tracing.
-    #[serde(default)]
+    #[serde(default, alias = "log_id")]
     pub log_id: Option<String>,
 }
 

@@ -4,9 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**eval_results_period_get_tempera_evidence**](EvalResultsApi.md#eval_results_period_get_tempera_evidence) | **GET** /v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id} |
-[**eval_results_period_import_tempera_bundle**](EvalResultsApi.md#eval_results_period_import_tempera_bundle) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/bundles |
-[**eval_results_period_record_tempera_decision**](EvalResultsApi.md#eval_results_period_record_tempera_decision) | **POST** /v1/eval-results/{tenant_id}/{project_id}/tempera/decisions |
+[**eval_results_period_get_tempera_evidence**](EvalResultsApi.md#eval_results_period_get_tempera_evidence) | **GET** /v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId} |
+[**eval_results_period_import_tempera_bundle**](EvalResultsApi.md#eval_results_period_import_tempera_bundle) | **POST** /v1/eval-results/{tenantId}/{projectId}/tempera/bundles |
+[**eval_results_period_record_tempera_decision**](EvalResultsApi.md#eval_results_period_record_tempera_decision) | **POST** /v1/eval-results/{tenantId}/{projectId}/tempera/decisions |
 
 
 

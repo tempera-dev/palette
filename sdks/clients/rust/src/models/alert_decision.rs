@@ -17,7 +17,7 @@ pub struct AlertDecision {
     pub delivery: Option<Option<Box<models::WebhookDelivery>>>,
     #[serde(rename = "emitted")]
     pub emitted: bool,
-    #[serde(rename = "suppressed_reason", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "suppressedReason", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub suppressed_reason: Option<Option<String>>,
 }
 

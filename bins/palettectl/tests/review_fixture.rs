@@ -17,6 +17,6 @@ fn review_fixture_promotes_human_annotation_to_eval_ready_dataset() -> anyhow::R
     let stdout = String::from_utf8(output.stdout)?;
     assert!(stdout.contains(r#""verdict": "pass""#));
     assert!(stdout.contains(r#""reference": {"#));
-    assert!(stdout.contains(r#""aggregate_score": 1.0"#));
+    assert!(stdout.contains(r#""aggregateScore": 1.0"#));
     Ok(())
 }

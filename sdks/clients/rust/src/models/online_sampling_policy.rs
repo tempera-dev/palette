@@ -13,13 +13,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct OnlineSamplingPolicy {
-    #[serde(rename = "high_cost_micros_threshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "highCostMicrosThreshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub high_cost_micros_threshold: Option<Option<i64>>,
-    #[serde(rename = "keep_errors")]
+    #[serde(rename = "keepErrors")]
     pub keep_errors: bool,
-    #[serde(rename = "sample_rate_per_mille")]
+    #[serde(rename = "sampleRatePerMille")]
     pub sample_rate_per_mille: i32,
-    #[serde(rename = "slow_ms_threshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "slowMsThreshold", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub slow_ms_threshold: Option<Option<i64>>,
 }
 

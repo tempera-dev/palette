@@ -63,7 +63,7 @@ export function EvaluatorKindOneOf9FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'minRatio': json['min_ratio'],
+        'minRatio': json['minRatio'],
         'type': json['type'],
     };
 }
@@ -79,7 +79,7 @@ export function EvaluatorKindOneOf9ToJSONTyped(value?: EvaluatorKindOneOf9 | nul
 
     return {
         
-        'min_ratio': value['minRatio'],
+        'minRatio': value['minRatio'],
         'type': value['type'],
     };
 }

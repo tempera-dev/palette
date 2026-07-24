@@ -16,25 +16,25 @@ use serde::{Deserialize, Serialize};
 pub struct PublicJudgeAuditRecord {
     #[serde(rename = "cached")]
     pub cached: bool,
-    #[serde(rename = "charged_cost")]
+    #[serde(rename = "chargedCost")]
     pub charged_cost: Box<models::Money>,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "evaluator_id")]
+    #[serde(rename = "evaluatorId")]
     pub evaluator_id: String,
-    #[serde(rename = "judge_call_id")]
+    #[serde(rename = "judgeCallId")]
     pub judge_call_id: String,
     #[serde(rename = "model")]
     pub model: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "request_hash")]
+    #[serde(rename = "requestHash")]
     pub request_hash: String,
-    #[serde(rename = "response_hash")]
+    #[serde(rename = "responseHash")]
     pub response_hash: String,
     #[serde(rename = "score")]
     pub score: f64,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

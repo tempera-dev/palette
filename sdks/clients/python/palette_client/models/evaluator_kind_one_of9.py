@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class EvaluatorKindOneOf9(BaseModel):
     """
     Browser grounding: fraction of element-targeted steps that resolved to their intended element; score is the ratio, passes at `min_ratio`.
     """ # noqa: E501
-    min_ratio: Union[StrictFloat, StrictInt]
+    min_ratio: Union[StrictFloat, StrictInt] = Field(alias="minRatio")
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["min_ratio", "type"]
+    __properties: ClassVar[List[str]] = ["minRatio", "type"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -88,7 +88,7 @@ class EvaluatorKindOneOf9(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "min_ratio": obj.get("min_ratio"),
+            "minRatio": obj.get("minRatio"),
             "type": obj.get("type")
         })
         return _obj

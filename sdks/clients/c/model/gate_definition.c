@@ -101,14 +101,14 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
     if (!gate_definition->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", gate_definition->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", gate_definition->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
 
     // gate_definition->dataset_id
     if(gate_definition->dataset_id) {
-    if(cJSON_AddStringToObject(item, "dataset_id", gate_definition->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", gate_definition->dataset_id) == NULL) {
     goto fail; //String
     }
     }
@@ -116,7 +116,7 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
 
     // gate_definition->evaluator_version_id
     if(gate_definition->evaluator_version_id) {
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", gate_definition->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", gate_definition->evaluator_version_id) == NULL) {
     goto fail; //String
     }
     }
@@ -126,7 +126,7 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
     if (!gate_definition->gate_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "gate_id", gate_definition->gate_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "gateId", gate_definition->gate_id) == NULL) {
     goto fail; //String
     }
 
@@ -137,7 +137,7 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
     if(inconclusive_policy_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "inconclusive_policy", inconclusive_policy_local_JSON);
+    cJSON_AddItemToObject(item, "inconclusivePolicy", inconclusive_policy_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -157,7 +157,7 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
     if (!gate_definition->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", gate_definition->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", gate_definition->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -166,7 +166,7 @@ cJSON *gate_definition_convertToJSON(gate_definition_t *gate_definition) {
     if (!gate_definition->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", gate_definition->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", gate_definition->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -186,7 +186,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     palette_api_inconclusive_policy__e inconclusive_policy_local_nonprim = 0;
 
     // gate_definition->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -201,7 +201,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     }
 
     // gate_definition->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -213,7 +213,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     }
 
     // gate_definition->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -225,7 +225,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     }
 
     // gate_definition->gate_id
-    cJSON *gate_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "gate_id");
+    cJSON *gate_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "gateId");
     if (cJSON_IsNull(gate_id)) {
         gate_id = NULL;
     }
@@ -240,7 +240,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     }
 
     // gate_definition->inconclusive_policy
-    cJSON *inconclusive_policy = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "inconclusive_policy");
+    cJSON *inconclusive_policy = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "inconclusivePolicy");
     if (cJSON_IsNull(inconclusive_policy)) {
         inconclusive_policy = NULL;
     }
@@ -264,7 +264,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     }
 
     // gate_definition->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -279,7 +279,7 @@ gate_definition_t *gate_definition_parseFromJSON(cJSON *gate_definitionJSON){
     }
 
     // gate_definition->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(gate_definitionJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

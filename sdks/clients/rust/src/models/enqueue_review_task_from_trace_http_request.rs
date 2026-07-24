@@ -13,17 +13,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EnqueueReviewTaskFromTraceHttpRequest {
-    #[serde(rename = "dataset_case_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetCaseId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub dataset_case_id: Option<Option<String>>,
-    #[serde(rename = "dataset_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub dataset_id: Option<Option<String>>,
     #[serde(rename = "priority", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub priority: Option<Option<i64>>,
-    #[serde(rename = "span_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "spanId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub span_id: Option<Option<String>>,
-    #[serde(rename = "task_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "taskId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub task_id: Option<Option<String>>,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

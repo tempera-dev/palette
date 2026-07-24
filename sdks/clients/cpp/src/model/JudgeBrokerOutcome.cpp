@@ -21,7 +21,7 @@ namespace model {
 JudgeBrokerOutcome::JudgeBrokerOutcome()
 {
     m_AuditIsSet = false;
-    m_Remaining_budgetIsSet = false;
+    m_RemainingBudgetIsSet = false;
     m_ResultIsSet = false;
 }
 
@@ -42,10 +42,10 @@ web::json::value JudgeBrokerOutcome::toJson() const
         
         val[utility::conversions::to_string_t(U("audit"))] = ModelBase::toJson(m_Audit);
     }
-    if(m_Remaining_budgetIsSet)
+    if(m_RemainingBudgetIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("remaining_budget"))] = ModelBase::toJson(m_Remaining_budget);
+        val[utility::conversions::to_string_t(U("remainingBudget"))] = ModelBase::toJson(m_RemainingBudget);
     }
     if(m_ResultIsSet)
     {   
@@ -70,9 +70,9 @@ bool JudgeBrokerOutcome::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("remaining_budget"))))
+    if(val.has_field(utility::conversions::to_string_t(U("remainingBudget"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("remaining_budget")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("remainingBudget")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Money> refVal_setRemainingBudget;
@@ -106,9 +106,9 @@ void JudgeBrokerOutcome::toMultipart(std::shared_ptr<MultipartFormData> multipar
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("audit")), m_Audit));
     }
-    if(m_Remaining_budgetIsSet)
+    if(m_RemainingBudgetIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("remaining_budget")), m_Remaining_budget));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("remainingBudget")), m_RemainingBudget));
     }
     if(m_ResultIsSet)
     {
@@ -131,10 +131,10 @@ bool JudgeBrokerOutcome::fromMultiPart(std::shared_ptr<MultipartFormData> multip
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("audit"))), refVal_setAudit );
         setAudit(refVal_setAudit);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("remaining_budget"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("remainingBudget"))))
     {
         std::shared_ptr<Money> refVal_setRemainingBudget;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("remaining_budget"))), refVal_setRemainingBudget );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("remainingBudget"))), refVal_setRemainingBudget );
         setRemainingBudget(refVal_setRemainingBudget);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("result"))))
@@ -170,24 +170,24 @@ void JudgeBrokerOutcome::unsetAudit()
 }
 std::shared_ptr<Money> JudgeBrokerOutcome::getRemainingBudget() const
 {
-    return m_Remaining_budget;
+    return m_RemainingBudget;
 }
 
 
 void JudgeBrokerOutcome::setRemainingBudget(const std::shared_ptr<Money>& value)
 {
-    m_Remaining_budget = value;
-    m_Remaining_budgetIsSet = true;
+    m_RemainingBudget = value;
+    m_RemainingBudgetIsSet = true;
 }
 
 bool JudgeBrokerOutcome::remainingBudgetIsSet() const
 {
-    return m_Remaining_budgetIsSet;
+    return m_RemainingBudgetIsSet;
 }
 
-void JudgeBrokerOutcome::unsetRemaining_budget()
+void JudgeBrokerOutcome::unsetRemainingBudget()
 {
-    m_Remaining_budgetIsSet = false;
+    m_RemainingBudgetIsSet = false;
 }
 std::shared_ptr<ScoreResult> JudgeBrokerOutcome::getResult() const
 {

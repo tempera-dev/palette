@@ -23,13 +23,13 @@ var _ MappedNullable = &ApiKeyCreatedResponse{}
 // ApiKeyCreatedResponse struct for ApiKeyCreatedResponse
 type ApiKeyCreatedResponse struct {
 	Active bool `json:"active"`
-	ApiKeyId string `json:"api_key_id"`
-	CreatedAt time.Time `json:"created_at"`
-	EnvironmentId string `json:"environment_id"`
-	ProjectId string `json:"project_id"`
+	ApiKeyId string `json:"apiKeyId"`
+	CreatedAt time.Time `json:"createdAt"`
+	EnvironmentId string `json:"environmentId"`
+	ProjectId string `json:"projectId"`
 	Scopes []ApiScope `json:"scopes"`
 	Secret string `json:"secret"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 }
 
 type _ApiKeyCreatedResponse ApiKeyCreatedResponse
@@ -262,13 +262,13 @@ func (o ApiKeyCreatedResponse) MarshalJSON() ([]byte, error) {
 func (o ApiKeyCreatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["active"] = o.Active
-	toSerialize["api_key_id"] = o.ApiKeyId
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["environment_id"] = o.EnvironmentId
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["apiKeyId"] = o.ApiKeyId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["environmentId"] = o.EnvironmentId
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["scopes"] = o.Scopes
 	toSerialize["secret"] = o.Secret
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -278,13 +278,13 @@ func (o *ApiKeyCreatedResponse) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"active",
-		"api_key_id",
-		"created_at",
-		"environment_id",
-		"project_id",
+		"apiKeyId",
+		"createdAt",
+		"environmentId",
+		"projectId",
 		"scopes",
 		"secret",
-		"tenant_id",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

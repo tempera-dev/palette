@@ -60,8 +60,8 @@ export function RevokedApiKeyFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'active': json['active'],
-        'apiKeyId': json['api_key_id'],
-        'rotatedAt': (new Date(json['rotated_at'])),
+        'apiKeyId': json['apiKeyId'],
+        'rotatedAt': (new Date(json['rotatedAt'])),
     };
 }
 
@@ -77,8 +77,8 @@ export function RevokedApiKeyToJSONTyped(value?: RevokedApiKey | null, ignoreDis
     return {
         
         'active': value['active'],
-        'api_key_id': value['apiKeyId'],
-        'rotated_at': ((value['rotatedAt']).toISOString()),
+        'apiKeyId': value['apiKeyId'],
+        'rotatedAt': ((value['rotatedAt']).toISOString()),
     };
 }
 

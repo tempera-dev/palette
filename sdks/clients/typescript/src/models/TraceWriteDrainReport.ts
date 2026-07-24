@@ -138,18 +138,18 @@ export function TraceWriteDrainReportFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'consumed': json['consumed'],
-        'deadLettered': json['dead_lettered'],
-        'downstreamPublished': json['downstream_published'],
-        'duplicateRaw': json['duplicate_raw'],
-        'duplicateSpans': json['duplicate_spans'],
-        'failedDownstreamPublishes': json['failed_downstream_publishes'],
-        'failedWrites': json['failed_writes'],
-        'invalidMessages': json['invalid_messages'],
+        'deadLettered': json['deadLettered'],
+        'downstreamPublished': json['downstreamPublished'],
+        'duplicateRaw': json['duplicateRaw'],
+        'duplicateSpans': json['duplicateSpans'],
+        'failedDownstreamPublishes': json['failedDownstreamPublishes'],
+        'failedWrites': json['failedWrites'],
+        'invalidMessages': json['invalidMessages'],
         'retried': json['retried'],
-        'traceIds': json['trace_ids'],
-        'traceRefs': ((json['trace_refs'] as Array<any>).map(QueuedTraceWorkFromJSON)),
-        'writtenRaw': json['written_raw'],
-        'writtenSpans': json['written_spans'],
+        'traceIds': json['traceIds'],
+        'traceRefs': ((json['traceRefs'] as Array<any>).map(QueuedTraceWorkFromJSON)),
+        'writtenRaw': json['writtenRaw'],
+        'writtenSpans': json['writtenSpans'],
     };
 }
 
@@ -165,18 +165,18 @@ export function TraceWriteDrainReportToJSONTyped(value?: TraceWriteDrainReport |
     return {
         
         'consumed': value['consumed'],
-        'dead_lettered': value['deadLettered'],
-        'downstream_published': value['downstreamPublished'],
-        'duplicate_raw': value['duplicateRaw'],
-        'duplicate_spans': value['duplicateSpans'],
-        'failed_downstream_publishes': value['failedDownstreamPublishes'],
-        'failed_writes': value['failedWrites'],
-        'invalid_messages': value['invalidMessages'],
+        'deadLettered': value['deadLettered'],
+        'downstreamPublished': value['downstreamPublished'],
+        'duplicateRaw': value['duplicateRaw'],
+        'duplicateSpans': value['duplicateSpans'],
+        'failedDownstreamPublishes': value['failedDownstreamPublishes'],
+        'failedWrites': value['failedWrites'],
+        'invalidMessages': value['invalidMessages'],
         'retried': value['retried'],
-        'trace_ids': value['traceIds'],
-        'trace_refs': ((value['traceRefs'] as Array<any>).map(QueuedTraceWorkToJSON)),
-        'written_raw': value['writtenRaw'],
-        'written_spans': value['writtenSpans'],
+        'traceIds': value['traceIds'],
+        'traceRefs': ((value['traceRefs'] as Array<any>).map(QueuedTraceWorkToJSON)),
+        'writtenRaw': value['writtenRaw'],
+        'writtenSpans': value['writtenSpans'],
     };
 }
 

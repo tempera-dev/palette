@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class EvaluatorKindOneOf7(BaseModel):
     """
     Browser world-state success: asserts the final step's observed page (url and/or DOM) matches the configured target — NOT the agent's self-reported \"done\". Reads `trace.browser_steps`.
     """ # noqa: E501
-    dom_contains: Optional[StrictStr] = None
+    dom_contains: Optional[StrictStr] = Field(default=None, alias="domContains")
     type: StrictStr
-    url_contains: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["dom_contains", "type", "url_contains"]
+    url_contains: Optional[StrictStr] = Field(default=None, alias="urlContains")
+    __properties: ClassVar[List[str]] = ["domContains", "type", "urlContains"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -80,12 +80,12 @@ class EvaluatorKindOneOf7(BaseModel):
         # set to None if dom_contains (nullable) is None
         # and model_fields_set contains the field
         if self.dom_contains is None and "dom_contains" in self.model_fields_set:
-            _dict['dom_contains'] = None
+            _dict['domContains'] = None
 
         # set to None if url_contains (nullable) is None
         # and model_fields_set contains the field
         if self.url_contains is None and "url_contains" in self.model_fields_set:
-            _dict['url_contains'] = None
+            _dict['urlContains'] = None
 
         return _dict
 
@@ -99,9 +99,9 @@ class EvaluatorKindOneOf7(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dom_contains": obj.get("dom_contains"),
+            "domContains": obj.get("domContains"),
             "type": obj.get("type"),
-            "url_contains": obj.get("url_contains")
+            "urlContains": obj.get("urlContains")
         })
         return _obj
 

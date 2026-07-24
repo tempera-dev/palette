@@ -43,7 +43,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CreateDatasetVersionRequest {
-  public static final String JSON_PROPERTY_CASE_IDS = "case_ids";
+  public static final String JSON_PROPERTY_CASE_IDS = "caseIds";
   private JsonNullable<List<String>> caseIds = JsonNullable.<List<String>>undefined();
 
   public CreateDatasetVersionRequest() { 
@@ -176,10 +176,10 @@ public class CreateDatasetVersionRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `case_ids` to the URL query string
+    // add `caseIds` to the URL query string
     if (getCaseIds() != null) {
       for (int i = 0; i < getCaseIds().size(); i++) {
-        joiner.add(String.format("%scase_ids%s%s=%s", prefix, suffix,
+        joiner.add(String.format("%scaseIds%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(ApiClient.valueToString(getCaseIds().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }

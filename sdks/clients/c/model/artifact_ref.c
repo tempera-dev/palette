@@ -81,7 +81,7 @@ cJSON *artifact_ref_convertToJSON(artifact_ref_t *artifact_ref) {
     if (!artifact_ref->artifact_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "artifact_id", artifact_ref->artifact_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "artifactId", artifact_ref->artifact_id) == NULL) {
     goto fail; //String
     }
 
@@ -90,7 +90,7 @@ cJSON *artifact_ref_convertToJSON(artifact_ref_t *artifact_ref) {
     if (!artifact_ref->mime_type) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "mime_type", artifact_ref->mime_type) == NULL) {
+    if(cJSON_AddStringToObject(item, "mimeType", artifact_ref->mime_type) == NULL) {
     goto fail; //String
     }
 
@@ -103,7 +103,7 @@ cJSON *artifact_ref_convertToJSON(artifact_ref_t *artifact_ref) {
     if(redaction_class_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "redaction_class", redaction_class_local_JSON);
+    cJSON_AddItemToObject(item, "redactionClass", redaction_class_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -122,7 +122,7 @@ cJSON *artifact_ref_convertToJSON(artifact_ref_t *artifact_ref) {
     if (!artifact_ref->size_bytes) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "size_bytes", artifact_ref->size_bytes) == NULL) {
+    if(cJSON_AddNumberToObject(item, "sizeBytes", artifact_ref->size_bytes) == NULL) {
     goto fail; //Numeric
     }
 
@@ -151,7 +151,7 @@ artifact_ref_t *artifact_ref_parseFromJSON(cJSON *artifact_refJSON){
     palette_api_redaction_class__e redaction_class_local_nonprim = 0;
 
     // artifact_ref->artifact_id
-    cJSON *artifact_id = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "artifact_id");
+    cJSON *artifact_id = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "artifactId");
     if (cJSON_IsNull(artifact_id)) {
         artifact_id = NULL;
     }
@@ -166,7 +166,7 @@ artifact_ref_t *artifact_ref_parseFromJSON(cJSON *artifact_refJSON){
     }
 
     // artifact_ref->mime_type
-    cJSON *mime_type = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "mime_type");
+    cJSON *mime_type = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "mimeType");
     if (cJSON_IsNull(mime_type)) {
         mime_type = NULL;
     }
@@ -181,7 +181,7 @@ artifact_ref_t *artifact_ref_parseFromJSON(cJSON *artifact_refJSON){
     }
 
     // artifact_ref->redaction_class
-    cJSON *redaction_class = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "redaction_class");
+    cJSON *redaction_class = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "redactionClass");
     if (cJSON_IsNull(redaction_class)) {
         redaction_class = NULL;
     }
@@ -208,7 +208,7 @@ artifact_ref_t *artifact_ref_parseFromJSON(cJSON *artifact_refJSON){
     }
 
     // artifact_ref->size_bytes
-    cJSON *size_bytes = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "size_bytes");
+    cJSON *size_bytes = cJSON_GetObjectItemCaseSensitive(artifact_refJSON, "sizeBytes");
     if (cJSON_IsNull(size_bytes)) {
         size_bytes = NULL;
     }

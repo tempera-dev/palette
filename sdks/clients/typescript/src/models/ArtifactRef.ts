@@ -90,11 +90,11 @@ export function ArtifactRefFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'artifactId': json['artifact_id'],
-        'mimeType': json['mime_type'],
-        'redactionClass': RedactionClassFromJSON(json['redaction_class']),
+        'artifactId': json['artifactId'],
+        'mimeType': json['mimeType'],
+        'redactionClass': RedactionClassFromJSON(json['redactionClass']),
         'sha256': json['sha256'],
-        'sizeBytes': json['size_bytes'],
+        'sizeBytes': json['sizeBytes'],
         'uri': json['uri'],
     };
 }
@@ -110,11 +110,11 @@ export function ArtifactRefToJSONTyped(value?: ArtifactRef | null, ignoreDiscrim
 
     return {
         
-        'artifact_id': value['artifactId'],
-        'mime_type': value['mimeType'],
-        'redaction_class': RedactionClassToJSON(value['redactionClass']),
+        'artifactId': value['artifactId'],
+        'mimeType': value['mimeType'],
+        'redactionClass': RedactionClassToJSON(value['redactionClass']),
         'sha256': value['sha256'],
-        'size_bytes': value['sizeBytes'],
+        'sizeBytes': value['sizeBytes'],
         'uri': value['uri'],
     };
 }

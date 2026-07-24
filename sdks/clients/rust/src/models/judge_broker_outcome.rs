@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 pub struct JudgeBrokerOutcome {
     #[serde(rename = "audit")]
     pub audit: Box<models::JudgeAuditRecord>,
-    #[serde(rename = "remaining_budget")]
+    #[serde(rename = "remainingBudget")]
     pub remaining_budget: Box<models::Money>,
     #[serde(rename = "result")]
     pub result: Box<models::ScoreResult>,

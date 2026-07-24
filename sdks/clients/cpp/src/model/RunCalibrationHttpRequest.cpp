@@ -20,12 +20,12 @@ namespace model {
 
 RunCalibrationHttpRequest::RunCalibrationHttpRequest()
 {
-    m_Eval_report_id = utility::conversions::to_string_t("");
-    m_Eval_report_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
-    m_Pass_threshold = 0.0;
-    m_Pass_thresholdIsSet = false;
+    m_EvalReportId = utility::conversions::to_string_t("");
+    m_EvalReportIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
+    m_PassThreshold = 0.0;
+    m_PassThresholdIsSet = false;
 }
 
 RunCalibrationHttpRequest::~RunCalibrationHttpRequest()
@@ -40,20 +40,20 @@ void RunCalibrationHttpRequest::validate()
 web::json::value RunCalibrationHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Eval_report_idIsSet)
+    if(m_EvalReportIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("eval_report_id"))] = ModelBase::toJson(m_Eval_report_id);
+        val[utility::conversions::to_string_t(U("evalReportId"))] = ModelBase::toJson(m_EvalReportId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
-    if(m_Pass_thresholdIsSet)
+    if(m_PassThresholdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("pass_threshold"))] = ModelBase::toJson(m_Pass_threshold);
+        val[utility::conversions::to_string_t(U("passThreshold"))] = ModelBase::toJson(m_PassThreshold);
     }
 
     return val;
@@ -62,9 +62,9 @@ web::json::value RunCalibrationHttpRequest::toJson() const
 bool RunCalibrationHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("eval_report_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evalReportId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("eval_report_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evalReportId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvalReportId;
@@ -73,9 +73,9 @@ bool RunCalibrationHttpRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -84,9 +84,9 @@ bool RunCalibrationHttpRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("pass_threshold"))))
+    if(val.has_field(utility::conversions::to_string_t(U("passThreshold"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("pass_threshold")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("passThreshold")));
         if(!fieldValue.is_null())
         {
             double refVal_setPassThreshold;
@@ -105,17 +105,17 @@ void RunCalibrationHttpRequest::toMultipart(std::shared_ptr<MultipartFormData> m
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Eval_report_idIsSet)
+    if(m_EvalReportIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("eval_report_id")), m_Eval_report_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evalReportId")), m_EvalReportId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
-    if(m_Pass_thresholdIsSet)
+    if(m_PassThresholdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("pass_threshold")), m_Pass_threshold));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("passThreshold")), m_PassThreshold));
     }
 }
 
@@ -128,22 +128,22 @@ bool RunCalibrationHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormData>
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("eval_report_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evalReportId"))))
     {
         utility::string_t refVal_setEvalReportId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("eval_report_id"))), refVal_setEvalReportId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evalReportId"))), refVal_setEvalReportId );
         setEvalReportId(refVal_setEvalReportId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("pass_threshold"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("passThreshold"))))
     {
         double refVal_setPassThreshold;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("pass_threshold"))), refVal_setPassThreshold );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("passThreshold"))), refVal_setPassThreshold );
         setPassThreshold(refVal_setPassThreshold);
     }
     return ok;
@@ -152,65 +152,65 @@ bool RunCalibrationHttpRequest::fromMultiPart(std::shared_ptr<MultipartFormData>
 
 utility::string_t RunCalibrationHttpRequest::getEvalReportId() const
 {
-    return m_Eval_report_id;
+    return m_EvalReportId;
 }
 
 
 void RunCalibrationHttpRequest::setEvalReportId(const utility::string_t& value)
 {
-    m_Eval_report_id = value;
-    m_Eval_report_idIsSet = true;
+    m_EvalReportId = value;
+    m_EvalReportIdIsSet = true;
 }
 
 bool RunCalibrationHttpRequest::evalReportIdIsSet() const
 {
-    return m_Eval_report_idIsSet;
+    return m_EvalReportIdIsSet;
 }
 
-void RunCalibrationHttpRequest::unsetEval_report_id()
+void RunCalibrationHttpRequest::unsetEvalReportId()
 {
-    m_Eval_report_idIsSet = false;
+    m_EvalReportIdIsSet = false;
 }
 utility::string_t RunCalibrationHttpRequest::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void RunCalibrationHttpRequest::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool RunCalibrationHttpRequest::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void RunCalibrationHttpRequest::unsetEvaluator_version_id()
+void RunCalibrationHttpRequest::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 double RunCalibrationHttpRequest::getPassThreshold() const
 {
-    return m_Pass_threshold;
+    return m_PassThreshold;
 }
 
 void RunCalibrationHttpRequest::setPassThreshold(double value)
 {
-    m_Pass_threshold = value;
-    m_Pass_thresholdIsSet = true;
+    m_PassThreshold = value;
+    m_PassThresholdIsSet = true;
 }
 
 bool RunCalibrationHttpRequest::passThresholdIsSet() const
 {
-    return m_Pass_thresholdIsSet;
+    return m_PassThresholdIsSet;
 }
 
-void RunCalibrationHttpRequest::unsetPass_threshold()
+void RunCalibrationHttpRequest::unsetPassThreshold()
 {
-    m_Pass_thresholdIsSet = false;
+    m_PassThresholdIsSet = false;
 }
 
 }

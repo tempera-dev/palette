@@ -13,17 +13,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct IngestQueueStatus {
-    #[serde(rename = "dead_letters")]
+    #[serde(rename = "deadLetters")]
     pub dead_letters: Vec<models::DeadLetter>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "total_depth")]
+    #[serde(rename = "totalDepth")]
     pub total_depth: i32,
-    #[serde(rename = "trace_ingested_depth")]
+    #[serde(rename = "traceIngestedDepth")]
     pub trace_ingested_depth: i32,
-    #[serde(rename = "trace_write_depth")]
+    #[serde(rename = "traceWriteDepth")]
     pub trace_write_depth: i32,
 }
 

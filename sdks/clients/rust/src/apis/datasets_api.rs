@@ -108,7 +108,7 @@ pub enum DatasetsPeriodPromoteCaseFromTraceError {
 
 pub async fn datasets_period_create(configuration: &configuration::Configuration, params: DatasetsPeriodCreateParams) -> Result<models::Dataset, Error<DatasetsPeriodCreateError>> {
 
-    let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/datasets/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -145,7 +145,7 @@ pub async fn datasets_period_create(configuration: &configuration::Configuration
 
 pub async fn datasets_period_create_version(configuration: &configuration::Configuration, params: DatasetsPeriodCreateVersionParams) -> Result<models::DatasetVersionSnapshot, Error<DatasetsPeriodCreateVersionError>> {
 
-    let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id));
+    let uri_str = format!("{}/v1/datasets/{tenantId}/{projectId}/{datasetId}/versions", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), datasetId=crate::apis::urlencode(params.dataset_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -182,7 +182,7 @@ pub async fn datasets_period_create_version(configuration: &configuration::Confi
 
 pub async fn datasets_period_promote_case_from_trace(configuration: &configuration::Configuration, params: DatasetsPeriodPromoteCaseFromTraceParams) -> Result<models::DatasetCase, Error<DatasetsPeriodPromoteCaseFromTraceError>> {
 
-    let uri_str = format!("{}/v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), dataset_id=crate::apis::urlencode(params.dataset_id));
+    let uri_str = format!("{}/v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), datasetId=crate::apis::urlencode(params.dataset_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

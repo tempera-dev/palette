@@ -349,11 +349,11 @@ class ArchiveApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if trace_id is not None:
-            _path_params['trace_id'] = trace_id
+            _path_params['traceId'] = trace_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -383,7 +383,7 @@ class ArchiveApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/archive/{tenant_id}/{project_id}/{trace_id}',
+            resource_path='/v1/archive/{tenantId}/{projectId}/{traceId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -783,21 +783,21 @@ class ArchiveApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if environment_id is not None:
 
-            _query_params.append(('environment_id', environment_id))
+            _query_params.append(('environmentId', environment_id))
 
         if trace_id is not None:
 
-            _query_params.append(('trace_id', trace_id))
+            _query_params.append(('traceId', trace_id))
 
         if span_id is not None:
 
-            _query_params.append(('span_id', span_id))
+            _query_params.append(('spanId', span_id))
 
         if kind is not None:
 
@@ -843,7 +843,7 @@ class ArchiveApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/archive/{tenant_id}/{project_id}/spans',
+            resource_path='/v1/archive/{tenantId}/{projectId}/spans',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -64,72 +64,72 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ArchivedSpanRow {
-  public static final String JSON_PROPERTY_ATTRIBUTES_JSON = "attributes_json";
+  public static final String JSON_PROPERTY_ATTRIBUTES_JSON = "attributesJson";
   @javax.annotation.Nonnull
   private String attributesJson;
 
-  public static final String JSON_PROPERTY_COST_AMOUNT_MICROS = "cost_amount_micros";
+  public static final String JSON_PROPERTY_COST_AMOUNT_MICROS = "costAmountMicros";
   private JsonNullable<String> costAmountMicros = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_COST_CURRENCY = "cost_currency";
+  public static final String JSON_PROPERTY_COST_CURRENCY = "costCurrency";
   private JsonNullable<String> costCurrency = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_END_TIME = "end_time";
+  public static final String JSON_PROPERTY_END_TIME = "endTime";
   private JsonNullable<String> endTime = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environment_id";
+  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environmentId";
   @javax.annotation.Nonnull
   private String environmentId;
 
-  public static final String JSON_PROPERTY_INPUT_TOKENS = "input_tokens";
+  public static final String JSON_PROPERTY_INPUT_TOKENS = "inputTokens";
   private JsonNullable<String> inputTokens = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_INPUT_URI = "input_uri";
+  public static final String JSON_PROPERTY_INPUT_URI = "inputUri";
   private JsonNullable<String> inputUri = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_KIND = "kind";
   @javax.annotation.Nonnull
   private String kind;
 
-  public static final String JSON_PROPERTY_MODEL_NAME = "model_name";
+  public static final String JSON_PROPERTY_MODEL_NAME = "modelName";
   private JsonNullable<String> modelName = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_MODEL_PROVIDER = "model_provider";
+  public static final String JSON_PROPERTY_MODEL_PROVIDER = "modelProvider";
   private JsonNullable<String> modelProvider = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nonnull
   private String name;
 
-  public static final String JSON_PROPERTY_OUTPUT_TOKENS = "output_tokens";
+  public static final String JSON_PROPERTY_OUTPUT_TOKENS = "outputTokens";
   private JsonNullable<String> outputTokens = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_OUTPUT_URI = "output_uri";
+  public static final String JSON_PROPERTY_OUTPUT_URI = "outputUri";
   private JsonNullable<String> outputUri = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parent_span_id";
+  public static final String JSON_PROPERTY_PARENT_SPAN_ID = "parentSpanId";
   private JsonNullable<String> parentSpanId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_RAW_URI = "raw_uri";
+  public static final String JSON_PROPERTY_RAW_URI = "rawUri";
   @javax.annotation.Nonnull
   private String rawUri;
 
-  public static final String JSON_PROPERTY_REASONING_TOKENS = "reasoning_tokens";
+  public static final String JSON_PROPERTY_REASONING_TOKENS = "reasoningTokens";
   private JsonNullable<String> reasoningTokens = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_SEQ = "seq";
   @javax.annotation.Nonnull
   private Long seq;
 
-  public static final String JSON_PROPERTY_SPAN_ID = "span_id";
+  public static final String JSON_PROPERTY_SPAN_ID = "spanId";
   @javax.annotation.Nonnull
   private String spanId;
 
-  public static final String JSON_PROPERTY_START_TIME = "start_time";
+  public static final String JSON_PROPERTY_START_TIME = "startTime";
   @javax.annotation.Nonnull
   private String startTime;
 
@@ -137,15 +137,15 @@ public class ArchivedSpanRow {
   @javax.annotation.Nonnull
   private String status;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
-  public static final String JSON_PROPERTY_TRACE_ID = "trace_id";
+  public static final String JSON_PROPERTY_TRACE_ID = "traceId";
   @javax.annotation.Nonnull
   private String traceId;
 
-  public static final String JSON_PROPERTY_UNMAPPED_JSON = "unmapped_json";
+  public static final String JSON_PROPERTY_UNMAPPED_JSON = "unmappedJson";
   @javax.annotation.Nonnull
   private String unmappedJson;
 
@@ -946,39 +946,39 @@ public class ArchivedSpanRow {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `attributes_json` to the URL query string
+    // add `attributesJson` to the URL query string
     if (getAttributesJson() != null) {
-      joiner.add(String.format("%sattributes_json%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAttributesJson()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sattributesJson%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAttributesJson()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `cost_amount_micros` to the URL query string
+    // add `costAmountMicros` to the URL query string
     if (getCostAmountMicros() != null) {
-      joiner.add(String.format("%scost_amount_micros%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostAmountMicros()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scostAmountMicros%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostAmountMicros()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `cost_currency` to the URL query string
+    // add `costCurrency` to the URL query string
     if (getCostCurrency() != null) {
-      joiner.add(String.format("%scost_currency%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostCurrency()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scostCurrency%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCostCurrency()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `end_time` to the URL query string
+    // add `endTime` to the URL query string
     if (getEndTime() != null) {
-      joiner.add(String.format("%send_time%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `environment_id` to the URL query string
+    // add `environmentId` to the URL query string
     if (getEnvironmentId() != null) {
-      joiner.add(String.format("%senvironment_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senvironmentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `input_tokens` to the URL query string
+    // add `inputTokens` to the URL query string
     if (getInputTokens() != null) {
-      joiner.add(String.format("%sinput_tokens%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInputTokens()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinputTokens%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInputTokens()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `input_uri` to the URL query string
+    // add `inputUri` to the URL query string
     if (getInputUri() != null) {
-      joiner.add(String.format("%sinput_uri%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInputUri()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinputUri%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInputUri()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `kind` to the URL query string
@@ -986,14 +986,14 @@ public class ArchivedSpanRow {
       joiner.add(String.format("%skind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `model_name` to the URL query string
+    // add `modelName` to the URL query string
     if (getModelName() != null) {
-      joiner.add(String.format("%smodel_name%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getModelName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smodelName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getModelName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `model_provider` to the URL query string
+    // add `modelProvider` to the URL query string
     if (getModelProvider() != null) {
-      joiner.add(String.format("%smodel_provider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getModelProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smodelProvider%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getModelProvider()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `name` to the URL query string
@@ -1001,34 +1001,34 @@ public class ArchivedSpanRow {
       joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `output_tokens` to the URL query string
+    // add `outputTokens` to the URL query string
     if (getOutputTokens() != null) {
-      joiner.add(String.format("%soutput_tokens%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutputTokens()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%soutputTokens%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutputTokens()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `output_uri` to the URL query string
+    // add `outputUri` to the URL query string
     if (getOutputUri() != null) {
-      joiner.add(String.format("%soutput_uri%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutputUri()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%soutputUri%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOutputUri()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `parent_span_id` to the URL query string
+    // add `parentSpanId` to the URL query string
     if (getParentSpanId() != null) {
-      joiner.add(String.format("%sparent_span_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sparentSpanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getParentSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `raw_uri` to the URL query string
+    // add `rawUri` to the URL query string
     if (getRawUri() != null) {
-      joiner.add(String.format("%sraw_uri%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRawUri()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srawUri%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRawUri()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `reasoning_tokens` to the URL query string
+    // add `reasoningTokens` to the URL query string
     if (getReasoningTokens() != null) {
-      joiner.add(String.format("%sreasoning_tokens%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReasoningTokens()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreasoningTokens%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReasoningTokens()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `seq` to the URL query string
@@ -1036,14 +1036,14 @@ public class ArchivedSpanRow {
       joiner.add(String.format("%sseq%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSeq()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `span_id` to the URL query string
+    // add `spanId` to the URL query string
     if (getSpanId() != null) {
-      joiner.add(String.format("%sspan_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sspanId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpanId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `start_time` to the URL query string
+    // add `startTime` to the URL query string
     if (getStartTime() != null) {
-      joiner.add(String.format("%sstart_time%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstartTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
@@ -1051,19 +1051,19 @@ public class ArchivedSpanRow {
       joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_id` to the URL query string
+    // add `traceId` to the URL query string
     if (getTraceId() != null) {
-      joiner.add(String.format("%strace_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%straceId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTraceId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `unmapped_json` to the URL query string
+    // add `unmappedJson` to the URL query string
     if (getUnmappedJson() != null) {
-      joiner.add(String.format("%sunmapped_json%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnmappedJson()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sunmappedJson%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUnmappedJson()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

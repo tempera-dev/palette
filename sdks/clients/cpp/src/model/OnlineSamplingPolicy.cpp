@@ -20,14 +20,14 @@ namespace model {
 
 OnlineSamplingPolicy::OnlineSamplingPolicy()
 {
-    m_High_cost_micros_threshold = 0L;
-    m_High_cost_micros_thresholdIsSet = false;
-    m_Keep_errors = false;
-    m_Keep_errorsIsSet = false;
-    m_Sample_rate_per_mille = 0;
-    m_Sample_rate_per_milleIsSet = false;
-    m_Slow_ms_threshold = 0L;
-    m_Slow_ms_thresholdIsSet = false;
+    m_HighCostMicrosThreshold = 0L;
+    m_HighCostMicrosThresholdIsSet = false;
+    m_KeepErrors = false;
+    m_KeepErrorsIsSet = false;
+    m_SampleRatePerMille = 0;
+    m_SampleRatePerMilleIsSet = false;
+    m_SlowMsThreshold = 0L;
+    m_SlowMsThresholdIsSet = false;
 }
 
 OnlineSamplingPolicy::~OnlineSamplingPolicy()
@@ -42,25 +42,25 @@ void OnlineSamplingPolicy::validate()
 web::json::value OnlineSamplingPolicy::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_High_cost_micros_thresholdIsSet)
+    if(m_HighCostMicrosThresholdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("high_cost_micros_threshold"))] = ModelBase::toJson(m_High_cost_micros_threshold);
+        val[utility::conversions::to_string_t(U("highCostMicrosThreshold"))] = ModelBase::toJson(m_HighCostMicrosThreshold);
     }
-    if(m_Keep_errorsIsSet)
+    if(m_KeepErrorsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("keep_errors"))] = ModelBase::toJson(m_Keep_errors);
+        val[utility::conversions::to_string_t(U("keepErrors"))] = ModelBase::toJson(m_KeepErrors);
     }
-    if(m_Sample_rate_per_milleIsSet)
+    if(m_SampleRatePerMilleIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("sample_rate_per_mille"))] = ModelBase::toJson(m_Sample_rate_per_mille);
+        val[utility::conversions::to_string_t(U("sampleRatePerMille"))] = ModelBase::toJson(m_SampleRatePerMille);
     }
-    if(m_Slow_ms_thresholdIsSet)
+    if(m_SlowMsThresholdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("slow_ms_threshold"))] = ModelBase::toJson(m_Slow_ms_threshold);
+        val[utility::conversions::to_string_t(U("slowMsThreshold"))] = ModelBase::toJson(m_SlowMsThreshold);
     }
 
     return val;
@@ -69,9 +69,9 @@ web::json::value OnlineSamplingPolicy::toJson() const
 bool OnlineSamplingPolicy::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("high_cost_micros_threshold"))))
+    if(val.has_field(utility::conversions::to_string_t(U("highCostMicrosThreshold"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("high_cost_micros_threshold")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("highCostMicrosThreshold")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setHighCostMicrosThreshold;
@@ -80,9 +80,9 @@ bool OnlineSamplingPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("keep_errors"))))
+    if(val.has_field(utility::conversions::to_string_t(U("keepErrors"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("keep_errors")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("keepErrors")));
         if(!fieldValue.is_null())
         {
             bool refVal_setKeepErrors;
@@ -91,9 +91,9 @@ bool OnlineSamplingPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("sample_rate_per_mille"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sampleRatePerMille"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sample_rate_per_mille")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sampleRatePerMille")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSampleRatePerMille;
@@ -102,9 +102,9 @@ bool OnlineSamplingPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("slow_ms_threshold"))))
+    if(val.has_field(utility::conversions::to_string_t(U("slowMsThreshold"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("slow_ms_threshold")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("slowMsThreshold")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setSlowMsThreshold;
@@ -123,21 +123,21 @@ void OnlineSamplingPolicy::toMultipart(std::shared_ptr<MultipartFormData> multip
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_High_cost_micros_thresholdIsSet)
+    if(m_HighCostMicrosThresholdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("high_cost_micros_threshold")), m_High_cost_micros_threshold));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("highCostMicrosThreshold")), m_HighCostMicrosThreshold));
     }
-    if(m_Keep_errorsIsSet)
+    if(m_KeepErrorsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("keep_errors")), m_Keep_errors));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("keepErrors")), m_KeepErrors));
     }
-    if(m_Sample_rate_per_milleIsSet)
+    if(m_SampleRatePerMilleIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sample_rate_per_mille")), m_Sample_rate_per_mille));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sampleRatePerMille")), m_SampleRatePerMille));
     }
-    if(m_Slow_ms_thresholdIsSet)
+    if(m_SlowMsThresholdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("slow_ms_threshold")), m_Slow_ms_threshold));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("slowMsThreshold")), m_SlowMsThreshold));
     }
 }
 
@@ -150,28 +150,28 @@ bool OnlineSamplingPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> mult
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("high_cost_micros_threshold"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("highCostMicrosThreshold"))))
     {
         int64_t refVal_setHighCostMicrosThreshold;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("high_cost_micros_threshold"))), refVal_setHighCostMicrosThreshold );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("highCostMicrosThreshold"))), refVal_setHighCostMicrosThreshold );
         setHighCostMicrosThreshold(refVal_setHighCostMicrosThreshold);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("keep_errors"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("keepErrors"))))
     {
         bool refVal_setKeepErrors;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("keep_errors"))), refVal_setKeepErrors );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("keepErrors"))), refVal_setKeepErrors );
         setKeepErrors(refVal_setKeepErrors);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("sample_rate_per_mille"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sampleRatePerMille"))))
     {
         int32_t refVal_setSampleRatePerMille;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sample_rate_per_mille"))), refVal_setSampleRatePerMille );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sampleRatePerMille"))), refVal_setSampleRatePerMille );
         setSampleRatePerMille(refVal_setSampleRatePerMille);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("slow_ms_threshold"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("slowMsThreshold"))))
     {
         int64_t refVal_setSlowMsThreshold;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("slow_ms_threshold"))), refVal_setSlowMsThreshold );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("slowMsThreshold"))), refVal_setSlowMsThreshold );
         setSlowMsThreshold(refVal_setSlowMsThreshold);
     }
     return ok;
@@ -180,83 +180,83 @@ bool OnlineSamplingPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> mult
 
 int64_t OnlineSamplingPolicy::getHighCostMicrosThreshold() const
 {
-    return m_High_cost_micros_threshold;
+    return m_HighCostMicrosThreshold;
 }
 
 void OnlineSamplingPolicy::setHighCostMicrosThreshold(int64_t value)
 {
-    m_High_cost_micros_threshold = value;
-    m_High_cost_micros_thresholdIsSet = true;
+    m_HighCostMicrosThreshold = value;
+    m_HighCostMicrosThresholdIsSet = true;
 }
 
 bool OnlineSamplingPolicy::highCostMicrosThresholdIsSet() const
 {
-    return m_High_cost_micros_thresholdIsSet;
+    return m_HighCostMicrosThresholdIsSet;
 }
 
-void OnlineSamplingPolicy::unsetHigh_cost_micros_threshold()
+void OnlineSamplingPolicy::unsetHighCostMicrosThreshold()
 {
-    m_High_cost_micros_thresholdIsSet = false;
+    m_HighCostMicrosThresholdIsSet = false;
 }
 bool OnlineSamplingPolicy::isKeepErrors() const
 {
-    return m_Keep_errors;
+    return m_KeepErrors;
 }
 
 void OnlineSamplingPolicy::setKeepErrors(bool value)
 {
-    m_Keep_errors = value;
-    m_Keep_errorsIsSet = true;
+    m_KeepErrors = value;
+    m_KeepErrorsIsSet = true;
 }
 
 bool OnlineSamplingPolicy::keepErrorsIsSet() const
 {
-    return m_Keep_errorsIsSet;
+    return m_KeepErrorsIsSet;
 }
 
-void OnlineSamplingPolicy::unsetKeep_errors()
+void OnlineSamplingPolicy::unsetKeepErrors()
 {
-    m_Keep_errorsIsSet = false;
+    m_KeepErrorsIsSet = false;
 }
 int32_t OnlineSamplingPolicy::getSampleRatePerMille() const
 {
-    return m_Sample_rate_per_mille;
+    return m_SampleRatePerMille;
 }
 
 void OnlineSamplingPolicy::setSampleRatePerMille(int32_t value)
 {
-    m_Sample_rate_per_mille = value;
-    m_Sample_rate_per_milleIsSet = true;
+    m_SampleRatePerMille = value;
+    m_SampleRatePerMilleIsSet = true;
 }
 
 bool OnlineSamplingPolicy::sampleRatePerMilleIsSet() const
 {
-    return m_Sample_rate_per_milleIsSet;
+    return m_SampleRatePerMilleIsSet;
 }
 
-void OnlineSamplingPolicy::unsetSample_rate_per_mille()
+void OnlineSamplingPolicy::unsetSampleRatePerMille()
 {
-    m_Sample_rate_per_milleIsSet = false;
+    m_SampleRatePerMilleIsSet = false;
 }
 int64_t OnlineSamplingPolicy::getSlowMsThreshold() const
 {
-    return m_Slow_ms_threshold;
+    return m_SlowMsThreshold;
 }
 
 void OnlineSamplingPolicy::setSlowMsThreshold(int64_t value)
 {
-    m_Slow_ms_threshold = value;
-    m_Slow_ms_thresholdIsSet = true;
+    m_SlowMsThreshold = value;
+    m_SlowMsThresholdIsSet = true;
 }
 
 bool OnlineSamplingPolicy::slowMsThresholdIsSet() const
 {
-    return m_Slow_ms_thresholdIsSet;
+    return m_SlowMsThresholdIsSet;
 }
 
-void OnlineSamplingPolicy::unsetSlow_ms_threshold()
+void OnlineSamplingPolicy::unsetSlowMsThreshold()
 {
-    m_Slow_ms_thresholdIsSet = false;
+    m_SlowMsThresholdIsSet = false;
 }
 
 }

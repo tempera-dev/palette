@@ -27,14 +27,14 @@ class TraceIngestedReconcileReport(BaseModel):
     """
     TraceIngestedReconcileReport
     """ # noqa: E501
-    downstream_accepted: Annotated[int, Field(strict=True, ge=0)]
-    downstream_duplicate: Annotated[int, Field(strict=True, ge=0)]
-    downstream_queued: StrictBool
-    project_id: StrictStr
-    span_count: Annotated[int, Field(strict=True, ge=0)]
-    tenant_id: StrictStr
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["downstream_accepted", "downstream_duplicate", "downstream_queued", "project_id", "span_count", "tenant_id", "trace_id"]
+    downstream_accepted: Annotated[int, Field(strict=True, ge=0)] = Field(alias="downstreamAccepted")
+    downstream_duplicate: Annotated[int, Field(strict=True, ge=0)] = Field(alias="downstreamDuplicate")
+    downstream_queued: StrictBool = Field(alias="downstreamQueued")
+    project_id: StrictStr = Field(alias="projectId")
+    span_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="spanCount")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["downstreamAccepted", "downstreamDuplicate", "downstreamQueued", "projectId", "spanCount", "tenantId", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,13 +87,13 @@ class TraceIngestedReconcileReport(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "downstream_accepted": obj.get("downstream_accepted"),
-            "downstream_duplicate": obj.get("downstream_duplicate"),
-            "downstream_queued": obj.get("downstream_queued"),
-            "project_id": obj.get("project_id"),
-            "span_count": obj.get("span_count"),
-            "tenant_id": obj.get("tenant_id"),
-            "trace_id": obj.get("trace_id")
+            "downstreamAccepted": obj.get("downstreamAccepted"),
+            "downstreamDuplicate": obj.get("downstreamDuplicate"),
+            "downstreamQueued": obj.get("downstreamQueued"),
+            "projectId": obj.get("projectId"),
+            "spanCount": obj.get("spanCount"),
+            "tenantId": obj.get("tenantId"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

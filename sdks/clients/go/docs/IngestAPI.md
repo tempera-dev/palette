@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**IngestDrainTraceIngested**](IngestAPI.md#IngestDrainTraceIngested) | **Post** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
-[**IngestDrainTraceWrites**](IngestAPI.md#IngestDrainTraceWrites) | **Post** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**IngestGetQueueStatus**](IngestAPI.md#IngestGetQueueStatus) | **Get** /v1/ingest/{tenant_id}/{project_id}/queue |
-[**IngestImportSource**](IngestAPI.md#IngestImportSource) | **Post** /v1/import/{tenant_id}/{project_id}/{environment_id} |
+[**IngestDrainTraceIngested**](IngestAPI.md#IngestDrainTraceIngested) | **Post** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
+[**IngestDrainTraceWrites**](IngestAPI.md#IngestDrainTraceWrites) | **Post** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
+[**IngestGetQueueStatus**](IngestAPI.md#IngestGetQueueStatus) | **Get** /v1/ingest/{tenantId}/{projectId}/queue |
+[**IngestImportSource**](IngestAPI.md#IngestImportSource) | **Post** /v1/import/{tenantId}/{projectId}/{environmentId} |
 [**IngestNative**](IngestAPI.md#IngestNative) | **Post** /v1/traces/native |
-[**IngestOtlp**](IngestAPI.md#IngestOtlp) | **Post** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**IngestOtlp**](IngestAPI.md#IngestOtlp) | **Post** /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces |
 [**IngestOtlpJsonCollector**](IngestAPI.md#IngestOtlpJsonCollector) | **Post** /v1/traces |
-[**IngestReconcileTrace**](IngestAPI.md#IngestReconcileTrace) | **Post** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
-[**IngestReplayDeadLetter**](IngestAPI.md#IngestReplayDeadLetter) | **Post** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
+[**IngestReconcileTrace**](IngestAPI.md#IngestReconcileTrace) | **Post** /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile |
+[**IngestReplayDeadLetter**](IngestAPI.md#IngestReplayDeadLetter) | **Post** /v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay |
 
 
 

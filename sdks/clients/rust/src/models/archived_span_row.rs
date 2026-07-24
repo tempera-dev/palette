@@ -13,53 +13,53 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ArchivedSpanRow {
-    #[serde(rename = "attributes_json")]
+    #[serde(rename = "attributesJson")]
     pub attributes_json: String,
-    #[serde(rename = "cost_amount_micros", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "costAmountMicros", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cost_amount_micros: Option<Option<String>>,
-    #[serde(rename = "cost_currency", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "costCurrency", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cost_currency: Option<Option<String>>,
-    #[serde(rename = "end_time", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "endTime", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub end_time: Option<Option<String>>,
-    #[serde(rename = "environment_id")]
+    #[serde(rename = "environmentId")]
     pub environment_id: String,
-    #[serde(rename = "input_tokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "inputTokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub input_tokens: Option<Option<String>>,
-    #[serde(rename = "input_uri", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "inputUri", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub input_uri: Option<Option<String>>,
     #[serde(rename = "kind")]
     pub kind: String,
-    #[serde(rename = "model_name", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "modelName", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub model_name: Option<Option<String>>,
-    #[serde(rename = "model_provider", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "modelProvider", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub model_provider: Option<Option<String>>,
     #[serde(rename = "name")]
     pub name: String,
-    #[serde(rename = "output_tokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "outputTokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub output_tokens: Option<Option<String>>,
-    #[serde(rename = "output_uri", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "outputUri", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub output_uri: Option<Option<String>>,
-    #[serde(rename = "parent_span_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "parentSpanId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub parent_span_id: Option<Option<String>>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "raw_uri")]
+    #[serde(rename = "rawUri")]
     pub raw_uri: String,
-    #[serde(rename = "reasoning_tokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "reasoningTokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub reasoning_tokens: Option<Option<String>>,
     #[serde(rename = "seq")]
     pub seq: i64,
-    #[serde(rename = "span_id")]
+    #[serde(rename = "spanId")]
     pub span_id: String,
-    #[serde(rename = "start_time")]
+    #[serde(rename = "startTime")]
     pub start_time: String,
     #[serde(rename = "status")]
     pub status: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
-    #[serde(rename = "unmapped_json")]
+    #[serde(rename = "unmappedJson")]
     pub unmapped_json: String,
 }
 

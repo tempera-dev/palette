@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from palette_client.models.money import Money
 from typing import Optional, Set
@@ -27,24 +27,24 @@ class CaseExperimentScore(BaseModel):
     """
     CaseExperimentScore
     """ # noqa: E501
-    baseline_cached: Optional[StrictBool] = None
-    baseline_cost: Optional[Money] = None
-    baseline_evidence: Optional[Any]
-    baseline_judge_call_id: Optional[StrictStr] = None
-    baseline_output: Optional[Any]
-    baseline_score: Union[StrictFloat, StrictInt]
-    baseline_trace: Optional[Any] = None
-    candidate_cached: Optional[StrictBool] = None
-    candidate_cost: Optional[Money] = None
-    candidate_evidence: Optional[Any]
-    candidate_judge_call_id: Optional[StrictStr] = None
-    candidate_output: Optional[Any]
-    candidate_score: Union[StrictFloat, StrictInt]
-    candidate_trace: Optional[Any] = None
-    case_id: StrictStr
+    baseline_cached: Optional[StrictBool] = Field(default=None, alias="baselineCached")
+    baseline_cost: Optional[Money] = Field(default=None, alias="baselineCost")
+    baseline_evidence: Optional[Any] = Field(alias="baselineEvidence")
+    baseline_judge_call_id: Optional[StrictStr] = Field(default=None, alias="baselineJudgeCallId")
+    baseline_output: Optional[Any] = Field(alias="baselineOutput")
+    baseline_score: Union[StrictFloat, StrictInt] = Field(alias="baselineScore")
+    baseline_trace: Optional[Any] = Field(default=None, alias="baselineTrace")
+    candidate_cached: Optional[StrictBool] = Field(default=None, alias="candidateCached")
+    candidate_cost: Optional[Money] = Field(default=None, alias="candidateCost")
+    candidate_evidence: Optional[Any] = Field(alias="candidateEvidence")
+    candidate_judge_call_id: Optional[StrictStr] = Field(default=None, alias="candidateJudgeCallId")
+    candidate_output: Optional[Any] = Field(alias="candidateOutput")
+    candidate_score: Union[StrictFloat, StrictInt] = Field(alias="candidateScore")
+    candidate_trace: Optional[Any] = Field(default=None, alias="candidateTrace")
+    case_id: StrictStr = Field(alias="caseId")
     delta: Union[StrictFloat, StrictInt]
     reference: Optional[Any] = None
-    __properties: ClassVar[List[str]] = ["baseline_cached", "baseline_cost", "baseline_evidence", "baseline_judge_call_id", "baseline_output", "baseline_score", "baseline_trace", "candidate_cached", "candidate_cost", "candidate_evidence", "candidate_judge_call_id", "candidate_output", "candidate_score", "candidate_trace", "case_id", "delta", "reference"]
+    __properties: ClassVar[List[str]] = ["baselineCached", "baselineCost", "baselineEvidence", "baselineJudgeCallId", "baselineOutput", "baselineScore", "baselineTrace", "candidateCached", "candidateCost", "candidateEvidence", "candidateJudgeCallId", "candidateOutput", "candidateScore", "candidateTrace", "caseId", "delta", "reference"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,59 +87,59 @@ class CaseExperimentScore(BaseModel):
         )
         # override the default output from pydantic by calling `to_dict()` of baseline_cost
         if self.baseline_cost:
-            _dict['baseline_cost'] = self.baseline_cost.to_dict()
+            _dict['baselineCost'] = self.baseline_cost.to_dict()
         # override the default output from pydantic by calling `to_dict()` of candidate_cost
         if self.candidate_cost:
-            _dict['candidate_cost'] = self.candidate_cost.to_dict()
+            _dict['candidateCost'] = self.candidate_cost.to_dict()
         # set to None if baseline_cached (nullable) is None
         # and model_fields_set contains the field
         if self.baseline_cached is None and "baseline_cached" in self.model_fields_set:
-            _dict['baseline_cached'] = None
+            _dict['baselineCached'] = None
 
         # set to None if baseline_cost (nullable) is None
         # and model_fields_set contains the field
         if self.baseline_cost is None and "baseline_cost" in self.model_fields_set:
-            _dict['baseline_cost'] = None
+            _dict['baselineCost'] = None
 
         # set to None if baseline_evidence (nullable) is None
         # and model_fields_set contains the field
         if self.baseline_evidence is None and "baseline_evidence" in self.model_fields_set:
-            _dict['baseline_evidence'] = None
+            _dict['baselineEvidence'] = None
 
         # set to None if baseline_output (nullable) is None
         # and model_fields_set contains the field
         if self.baseline_output is None and "baseline_output" in self.model_fields_set:
-            _dict['baseline_output'] = None
+            _dict['baselineOutput'] = None
 
         # set to None if baseline_trace (nullable) is None
         # and model_fields_set contains the field
         if self.baseline_trace is None and "baseline_trace" in self.model_fields_set:
-            _dict['baseline_trace'] = None
+            _dict['baselineTrace'] = None
 
         # set to None if candidate_cached (nullable) is None
         # and model_fields_set contains the field
         if self.candidate_cached is None and "candidate_cached" in self.model_fields_set:
-            _dict['candidate_cached'] = None
+            _dict['candidateCached'] = None
 
         # set to None if candidate_cost (nullable) is None
         # and model_fields_set contains the field
         if self.candidate_cost is None and "candidate_cost" in self.model_fields_set:
-            _dict['candidate_cost'] = None
+            _dict['candidateCost'] = None
 
         # set to None if candidate_evidence (nullable) is None
         # and model_fields_set contains the field
         if self.candidate_evidence is None and "candidate_evidence" in self.model_fields_set:
-            _dict['candidate_evidence'] = None
+            _dict['candidateEvidence'] = None
 
         # set to None if candidate_output (nullable) is None
         # and model_fields_set contains the field
         if self.candidate_output is None and "candidate_output" in self.model_fields_set:
-            _dict['candidate_output'] = None
+            _dict['candidateOutput'] = None
 
         # set to None if candidate_trace (nullable) is None
         # and model_fields_set contains the field
         if self.candidate_trace is None and "candidate_trace" in self.model_fields_set:
-            _dict['candidate_trace'] = None
+            _dict['candidateTrace'] = None
 
         # set to None if reference (nullable) is None
         # and model_fields_set contains the field
@@ -158,21 +158,21 @@ class CaseExperimentScore(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "baseline_cached": obj.get("baseline_cached"),
-            "baseline_cost": Money.from_dict(obj["baseline_cost"]) if obj.get("baseline_cost") is not None else None,
-            "baseline_evidence": obj.get("baseline_evidence"),
-            "baseline_judge_call_id": obj.get("baseline_judge_call_id"),
-            "baseline_output": obj.get("baseline_output"),
-            "baseline_score": obj.get("baseline_score"),
-            "baseline_trace": obj.get("baseline_trace"),
-            "candidate_cached": obj.get("candidate_cached"),
-            "candidate_cost": Money.from_dict(obj["candidate_cost"]) if obj.get("candidate_cost") is not None else None,
-            "candidate_evidence": obj.get("candidate_evidence"),
-            "candidate_judge_call_id": obj.get("candidate_judge_call_id"),
-            "candidate_output": obj.get("candidate_output"),
-            "candidate_score": obj.get("candidate_score"),
-            "candidate_trace": obj.get("candidate_trace"),
-            "case_id": obj.get("case_id"),
+            "baselineCached": obj.get("baselineCached"),
+            "baselineCost": Money.from_dict(obj["baselineCost"]) if obj.get("baselineCost") is not None else None,
+            "baselineEvidence": obj.get("baselineEvidence"),
+            "baselineJudgeCallId": obj.get("baselineJudgeCallId"),
+            "baselineOutput": obj.get("baselineOutput"),
+            "baselineScore": obj.get("baselineScore"),
+            "baselineTrace": obj.get("baselineTrace"),
+            "candidateCached": obj.get("candidateCached"),
+            "candidateCost": Money.from_dict(obj["candidateCost"]) if obj.get("candidateCost") is not None else None,
+            "candidateEvidence": obj.get("candidateEvidence"),
+            "candidateJudgeCallId": obj.get("candidateJudgeCallId"),
+            "candidateOutput": obj.get("candidateOutput"),
+            "candidateScore": obj.get("candidateScore"),
+            "candidateTrace": obj.get("candidateTrace"),
+            "caseId": obj.get("caseId"),
             "delta": obj.get("delta"),
             "reference": obj.get("reference")
         })

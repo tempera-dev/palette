@@ -116,16 +116,16 @@ export function DatasetEvalReportFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'aggregateScore': json['aggregate_score'],
-        'createdAt': (new Date(json['created_at'])),
-        'datasetId': json['dataset_id'],
-        'datasetVersionId': json['dataset_version_id'],
-        'evaluatorVersionId': json['evaluator_version_id'],
-        'projectId': json['project_id'],
-        'reportId': json['report_id'],
-        'resultCount': json['result_count'],
+        'aggregateScore': json['aggregateScore'],
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetId': json['datasetId'],
+        'datasetVersionId': json['datasetVersionId'],
+        'evaluatorVersionId': json['evaluatorVersionId'],
+        'projectId': json['projectId'],
+        'reportId': json['reportId'],
+        'resultCount': json['resultCount'],
         'results': ((json['results'] as Array<any>).map(EvalResultFromJSON)),
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -140,16 +140,16 @@ export function DatasetEvalReportToJSONTyped(value?: DatasetEvalReport | null, i
 
     return {
         
-        'aggregate_score': value['aggregateScore'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_id': value['datasetId'],
-        'dataset_version_id': value['datasetVersionId'],
-        'evaluator_version_id': value['evaluatorVersionId'],
-        'project_id': value['projectId'],
-        'report_id': value['reportId'],
-        'result_count': value['resultCount'],
+        'aggregateScore': value['aggregateScore'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetId': value['datasetId'],
+        'datasetVersionId': value['datasetVersionId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
+        'projectId': value['projectId'],
+        'reportId': value['reportId'],
+        'resultCount': value['resultCount'],
         'results': ((value['results'] as Array<any>).map(EvalResultToJSON)),
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
     };
 }
 

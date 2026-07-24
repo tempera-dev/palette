@@ -4,22 +4,22 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ApiKeysAPI_apiKeysCreate**](ApiKeysAPI.md#ApiKeysAPI_apiKeysCreate) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
-[**ApiKeysAPI_apiKeysRevoke**](ApiKeysAPI.md#ApiKeysAPI_apiKeysRevoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
+[**ApiKeysAPI_apiKeysCreate**](ApiKeysAPI.md#ApiKeysAPI_apiKeysCreate) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId} |
+[**ApiKeysAPI_apiKeysRevoke**](ApiKeysAPI.md#ApiKeysAPI_apiKeysRevoke) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke |
 
 
 # **ApiKeysAPI_apiKeysCreate**
 ```c
-api_key_created_response_t* ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+api_key_created_response_t* ApiKeysAPI_apiKeysCreate(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, create_api_key_http_request_t *create_api_key_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**environment_id** | **char \*** | environment_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**environmentId** | **char \*** | environment_id |
 **create_api_key_http_request** | **[create_api_key_http_request_t](create_api_key_http_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -44,17 +44,17 @@ No authorization required
 
 # **ApiKeysAPI_apiKeysRevoke**
 ```c
-revoked_api_key_t* ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *api_key_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+revoked_api_key_t* ApiKeysAPI_apiKeysRevoke(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *apiKeyId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**environment_id** | **char \*** | environment_id |
-**api_key_id** | **char \*** | api_key_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**environmentId** | **char \*** | environment_id |
+**apiKeyId** | **char \*** | api_key_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]

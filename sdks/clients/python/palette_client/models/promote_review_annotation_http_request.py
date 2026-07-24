@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class PromoteReviewAnnotationHttpRequest(BaseModel):
     """
     PromoteReviewAnnotationHttpRequest
     """ # noqa: E501
-    dataset_id: StrictStr
+    dataset_id: StrictStr = Field(alias="datasetId")
     reference: Optional[Any] = None
-    __properties: ClassVar[List[str]] = ["dataset_id", "reference"]
+    __properties: ClassVar[List[str]] = ["datasetId", "reference"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +86,7 @@ class PromoteReviewAnnotationHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "dataset_id": obj.get("dataset_id"),
+            "datasetId": obj.get("datasetId"),
             "reference": obj.get("reference")
         })
         return _obj

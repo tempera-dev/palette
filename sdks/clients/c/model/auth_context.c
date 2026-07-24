@@ -58,7 +58,7 @@ cJSON *auth_context_convertToJSON(auth_context_t *auth_context) {
 
     // auth_context->api_key_id
     if(auth_context->api_key_id) {
-    if(cJSON_AddStringToObject(item, "api_key_id", auth_context->api_key_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "apiKeyId", auth_context->api_key_id) == NULL) {
     goto fail; //String
     }
     }
@@ -97,7 +97,7 @@ auth_context_t *auth_context_parseFromJSON(cJSON *auth_contextJSON){
     list_t *scopesList = NULL;
 
     // auth_context->api_key_id
-    cJSON *api_key_id = cJSON_GetObjectItemCaseSensitive(auth_contextJSON, "api_key_id");
+    cJSON *api_key_id = cJSON_GetObjectItemCaseSensitive(auth_contextJSON, "apiKeyId");
     if (cJSON_IsNull(api_key_id)) {
         api_key_id = NULL;
     }

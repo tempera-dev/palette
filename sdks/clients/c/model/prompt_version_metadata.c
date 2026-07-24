@@ -65,14 +65,14 @@ cJSON *prompt_version_metadata_convertToJSON(prompt_version_metadata_t *prompt_v
     if (!prompt_version_metadata->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", prompt_version_metadata->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", prompt_version_metadata->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
 
     // prompt_version_metadata->created_by
     if(prompt_version_metadata->created_by) {
-    if(cJSON_AddStringToObject(item, "created_by", prompt_version_metadata->created_by) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdBy", prompt_version_metadata->created_by) == NULL) {
     goto fail; //String
     }
     }
@@ -98,7 +98,7 @@ prompt_version_metadata_t *prompt_version_metadata_parseFromJSON(cJSON *prompt_v
     prompt_version_metadata_t *prompt_version_metadata_local_var = NULL;
 
     // prompt_version_metadata->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(prompt_version_metadataJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(prompt_version_metadataJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -113,7 +113,7 @@ prompt_version_metadata_t *prompt_version_metadata_parseFromJSON(cJSON *prompt_v
     }
 
     // prompt_version_metadata->created_by
-    cJSON *created_by = cJSON_GetObjectItemCaseSensitive(prompt_version_metadataJSON, "created_by");
+    cJSON *created_by = cJSON_GetObjectItemCaseSensitive(prompt_version_metadataJSON, "createdBy");
     if (cJSON_IsNull(created_by)) {
         created_by = NULL;
     }

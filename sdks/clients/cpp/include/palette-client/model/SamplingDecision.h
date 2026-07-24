@@ -66,7 +66,7 @@ public:
 
     int32_t getStableScorePerMille() const;
     bool stableScorePerMilleIsSet() const;
-    void unsetStable_score_per_mille();
+    void unsetStableScorePerMille();
     void setStableScorePerMille(int32_t value);
 
 
@@ -77,8 +77,8 @@ protected:
     bool m_Selected;
     bool m_SelectedIsSet;
 
-    int32_t m_Stable_score_per_mille;
-    bool m_Stable_score_per_milleIsSet;
+    int32_t m_StableScorePerMille;
+    bool m_StableScorePerMilleIsSet;
 
 };
 

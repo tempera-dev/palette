@@ -58,12 +58,12 @@ public:
 
     utility::string_t getAnnotationId() const;
     bool annotationIdIsSet() const;
-    void unsetAnnotation_id();
+    void unsetAnnotationId();
     void setAnnotationId(const utility::string_t& value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     std::shared_ptr<AnyType> getPayload() const;
@@ -73,27 +73,27 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getQueueId() const;
     bool queueIdIsSet() const;
-    void unsetQueue_id();
+    void unsetQueueId();
     void setQueueId(const utility::string_t& value);
 
     utility::string_t getReviewerId() const;
     bool reviewerIdIsSet() const;
-    void unsetReviewer_id();
+    void unsetReviewerId();
     void setReviewerId(const utility::string_t& value);
 
     utility::string_t getTaskId() const;
     bool taskIdIsSet() const;
-    void unsetTask_id();
+    void unsetTaskId();
     void setTaskId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     std::shared_ptr<ReviewVerdict> getVerdict() const;
@@ -103,29 +103,29 @@ public:
 
 
 protected:
-    utility::string_t m_Annotation_id;
-    bool m_Annotation_idIsSet;
+    utility::string_t m_AnnotationId;
+    bool m_AnnotationIdIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
     std::shared_ptr<AnyType> m_Payload;
     bool m_PayloadIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Queue_id;
-    bool m_Queue_idIsSet;
+    utility::string_t m_QueueId;
+    bool m_QueueIdIsSet;
 
-    utility::string_t m_Reviewer_id;
-    bool m_Reviewer_idIsSet;
+    utility::string_t m_ReviewerId;
+    bool m_ReviewerIdIsSet;
 
-    utility::string_t m_Task_id;
-    bool m_Task_idIsSet;
+    utility::string_t m_TaskId;
+    bool m_TaskIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
     std::shared_ptr<ReviewVerdict> m_Verdict;
     bool m_VerdictIsSet;

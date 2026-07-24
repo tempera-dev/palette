@@ -97,7 +97,7 @@ cJSON *prompt_convertToJSON(prompt_t *prompt) {
     if (!prompt->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", prompt->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", prompt->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -123,7 +123,7 @@ cJSON *prompt_convertToJSON(prompt_t *prompt) {
     if (!prompt->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", prompt->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", prompt->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -132,7 +132,7 @@ cJSON *prompt_convertToJSON(prompt_t *prompt) {
     if (!prompt->prompt_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "prompt_id", prompt->prompt_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "promptId", prompt->prompt_id) == NULL) {
     goto fail; //String
     }
 
@@ -141,7 +141,7 @@ cJSON *prompt_convertToJSON(prompt_t *prompt) {
     if (!prompt->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", prompt->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", prompt->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -150,7 +150,7 @@ cJSON *prompt_convertToJSON(prompt_t *prompt) {
     if (!prompt->updated_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "updated_at", prompt->updated_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "updatedAt", prompt->updated_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -167,7 +167,7 @@ prompt_t *prompt_parseFromJSON(cJSON *promptJSON){
     prompt_t *prompt_local_var = NULL;
 
     // prompt->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(promptJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(promptJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -209,7 +209,7 @@ prompt_t *prompt_parseFromJSON(cJSON *promptJSON){
     }
 
     // prompt->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(promptJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(promptJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -224,7 +224,7 @@ prompt_t *prompt_parseFromJSON(cJSON *promptJSON){
     }
 
     // prompt->prompt_id
-    cJSON *prompt_id = cJSON_GetObjectItemCaseSensitive(promptJSON, "prompt_id");
+    cJSON *prompt_id = cJSON_GetObjectItemCaseSensitive(promptJSON, "promptId");
     if (cJSON_IsNull(prompt_id)) {
         prompt_id = NULL;
     }
@@ -239,7 +239,7 @@ prompt_t *prompt_parseFromJSON(cJSON *promptJSON){
     }
 
     // prompt->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(promptJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(promptJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -254,7 +254,7 @@ prompt_t *prompt_parseFromJSON(cJSON *promptJSON){
     }
 
     // prompt->updated_at
-    cJSON *updated_at = cJSON_GetObjectItemCaseSensitive(promptJSON, "updated_at");
+    cJSON *updated_at = cJSON_GetObjectItemCaseSensitive(promptJSON, "updatedAt");
     if (cJSON_IsNull(updated_at)) {
         updated_at = NULL;
     }

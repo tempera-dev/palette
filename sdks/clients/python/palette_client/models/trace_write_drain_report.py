@@ -29,19 +29,19 @@ class TraceWriteDrainReport(BaseModel):
     TraceWriteDrainReport
     """ # noqa: E501
     consumed: Annotated[int, Field(strict=True, ge=0)]
-    dead_lettered: Annotated[int, Field(strict=True, ge=0)]
-    downstream_published: Annotated[int, Field(strict=True, ge=0)]
-    duplicate_raw: Annotated[int, Field(strict=True, ge=0)]
-    duplicate_spans: Annotated[int, Field(strict=True, ge=0)]
-    failed_downstream_publishes: Annotated[int, Field(strict=True, ge=0)]
-    failed_writes: Annotated[int, Field(strict=True, ge=0)]
-    invalid_messages: Annotated[int, Field(strict=True, ge=0)]
+    dead_lettered: Annotated[int, Field(strict=True, ge=0)] = Field(alias="deadLettered")
+    downstream_published: Annotated[int, Field(strict=True, ge=0)] = Field(alias="downstreamPublished")
+    duplicate_raw: Annotated[int, Field(strict=True, ge=0)] = Field(alias="duplicateRaw")
+    duplicate_spans: Annotated[int, Field(strict=True, ge=0)] = Field(alias="duplicateSpans")
+    failed_downstream_publishes: Annotated[int, Field(strict=True, ge=0)] = Field(alias="failedDownstreamPublishes")
+    failed_writes: Annotated[int, Field(strict=True, ge=0)] = Field(alias="failedWrites")
+    invalid_messages: Annotated[int, Field(strict=True, ge=0)] = Field(alias="invalidMessages")
     retried: Annotated[int, Field(strict=True, ge=0)]
-    trace_ids: List[StrictStr]
-    trace_refs: List[QueuedTraceWork]
-    written_raw: Annotated[int, Field(strict=True, ge=0)]
-    written_spans: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["consumed", "dead_lettered", "downstream_published", "duplicate_raw", "duplicate_spans", "failed_downstream_publishes", "failed_writes", "invalid_messages", "retried", "trace_ids", "trace_refs", "written_raw", "written_spans"]
+    trace_ids: List[StrictStr] = Field(alias="traceIds")
+    trace_refs: List[QueuedTraceWork] = Field(alias="traceRefs")
+    written_raw: Annotated[int, Field(strict=True, ge=0)] = Field(alias="writtenRaw")
+    written_spans: Annotated[int, Field(strict=True, ge=0)] = Field(alias="writtenSpans")
+    __properties: ClassVar[List[str]] = ["consumed", "deadLettered", "downstreamPublished", "duplicateRaw", "duplicateSpans", "failedDownstreamPublishes", "failedWrites", "invalidMessages", "retried", "traceIds", "traceRefs", "writtenRaw", "writtenSpans"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +88,7 @@ class TraceWriteDrainReport(BaseModel):
             for _item_trace_refs in self.trace_refs:
                 if _item_trace_refs:
                     _items.append(_item_trace_refs.to_dict())
-            _dict['trace_refs'] = _items
+            _dict['traceRefs'] = _items
         return _dict
 
     @classmethod
@@ -102,18 +102,18 @@ class TraceWriteDrainReport(BaseModel):
 
         _obj = cls.model_validate({
             "consumed": obj.get("consumed"),
-            "dead_lettered": obj.get("dead_lettered"),
-            "downstream_published": obj.get("downstream_published"),
-            "duplicate_raw": obj.get("duplicate_raw"),
-            "duplicate_spans": obj.get("duplicate_spans"),
-            "failed_downstream_publishes": obj.get("failed_downstream_publishes"),
-            "failed_writes": obj.get("failed_writes"),
-            "invalid_messages": obj.get("invalid_messages"),
+            "deadLettered": obj.get("deadLettered"),
+            "downstreamPublished": obj.get("downstreamPublished"),
+            "duplicateRaw": obj.get("duplicateRaw"),
+            "duplicateSpans": obj.get("duplicateSpans"),
+            "failedDownstreamPublishes": obj.get("failedDownstreamPublishes"),
+            "failedWrites": obj.get("failedWrites"),
+            "invalidMessages": obj.get("invalidMessages"),
             "retried": obj.get("retried"),
-            "trace_ids": obj.get("trace_ids"),
-            "trace_refs": [QueuedTraceWork.from_dict(_item) for _item in obj["trace_refs"]] if obj.get("trace_refs") is not None else None,
-            "written_raw": obj.get("written_raw"),
-            "written_spans": obj.get("written_spans")
+            "traceIds": obj.get("traceIds"),
+            "traceRefs": [QueuedTraceWork.from_dict(_item) for _item in obj["traceRefs"]] if obj.get("traceRefs") is not None else None,
+            "writtenRaw": obj.get("writtenRaw"),
+            "writtenSpans": obj.get("writtenSpans")
         })
         return _obj
 

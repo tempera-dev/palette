@@ -15,29 +15,29 @@ use serde::{Deserialize, Serialize};
 pub struct EvalResult {
     #[serde(rename = "cost", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cost: Option<Option<Box<models::Money>>>,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "eval_result_id")]
+    #[serde(rename = "evalResultId")]
     pub eval_result_id: String,
     #[serde(rename = "evidence", deserialize_with = "Option::deserialize")]
     pub evidence: Option<serde_json::Value>,
     #[serde(rename = "label", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub label: Option<Option<String>>,
-    #[serde(rename = "non_reproducible_reason", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "nonReproducibleReason", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub non_reproducible_reason: Option<Option<String>>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "reproducibility")]
     pub reproducibility: Box<models::EvalReproducibility>,
     #[serde(rename = "score")]
     pub score: f64,
-    #[serde(rename = "span_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "spanId", skip_serializing_if = "Option::is_none")]
     pub span_id: Option<String>,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "tokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub tokens: Option<Option<Box<models::TokenCounts>>>,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

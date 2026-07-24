@@ -17,11 +17,11 @@ pub struct CanonicalSpan {
     pub attributes: std::collections::HashMap<String, serde_json::Value>,
     #[serde(rename = "cost", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub cost: Option<Option<Box<models::Money>>>,
-    #[serde(rename = "end_time", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "endTime", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub end_time: Option<Option<String>>,
-    #[serde(rename = "environment_id")]
+    #[serde(rename = "environmentId")]
     pub environment_id: String,
-    #[serde(rename = "input_ref", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "inputRef", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub input_ref: Option<Option<Box<models::ArtifactRef>>>,
     /// Canonical agent span kind such as agent.run or llm.call
     #[serde(rename = "kind")]
@@ -30,33 +30,33 @@ pub struct CanonicalSpan {
     pub model: Option<Option<Box<models::ModelRef>>>,
     #[serde(rename = "name")]
     pub name: String,
-    #[serde(rename = "normalizer_version")]
+    #[serde(rename = "normalizerVersion")]
     pub normalizer_version: String,
-    #[serde(rename = "output_ref", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "outputRef", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub output_ref: Option<Option<Box<models::ArtifactRef>>>,
-    #[serde(rename = "parent_span_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "parentSpanId", skip_serializing_if = "Option::is_none")]
     pub parent_span_id: Option<String>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "raw_ref")]
+    #[serde(rename = "rawRef")]
     pub raw_ref: Box<models::ArtifactRef>,
-    #[serde(rename = "schema_version")]
+    #[serde(rename = "schemaVersion")]
     pub schema_version: i32,
     #[serde(rename = "seq")]
     pub seq: i64,
-    #[serde(rename = "span_id")]
+    #[serde(rename = "spanId")]
     pub span_id: String,
-    #[serde(rename = "start_time")]
+    #[serde(rename = "startTime")]
     pub start_time: String,
     #[serde(rename = "status")]
     pub status: models::SpanStatus,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "tokens", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub tokens: Option<Option<Box<models::TokenCounts>>>,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
-    #[serde(rename = "unmapped_attrs", deserialize_with = "Option::deserialize")]
+    #[serde(rename = "unmappedAttrs", deserialize_with = "Option::deserialize")]
     pub unmapped_attrs: Option<serde_json::Value>,
 }
 

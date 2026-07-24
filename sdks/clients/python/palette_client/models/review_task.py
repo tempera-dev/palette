@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.review_task_state import ReviewTaskState
 from typing import Optional, Set
@@ -28,19 +28,19 @@ class ReviewTask(BaseModel):
     """
     ReviewTask
     """ # noqa: E501
-    created_at: datetime
-    dataset_case_id: Optional[StrictStr] = None
-    dataset_id: Optional[StrictStr] = None
+    created_at: datetime = Field(alias="createdAt")
+    dataset_case_id: Optional[StrictStr] = Field(default=None, alias="datasetCaseId")
+    dataset_id: Optional[StrictStr] = Field(default=None, alias="datasetId")
     priority: StrictInt
-    project_id: StrictStr
-    queue_id: StrictStr
-    span_id: Optional[StrictStr] = None
+    project_id: StrictStr = Field(alias="projectId")
+    queue_id: StrictStr = Field(alias="queueId")
+    span_id: Optional[StrictStr] = Field(default=None, alias="spanId")
     state: ReviewTaskState
-    task_id: StrictStr
-    tenant_id: StrictStr
-    trace_id: StrictStr
-    updated_at: datetime
-    __properties: ClassVar[List[str]] = ["created_at", "dataset_case_id", "dataset_id", "priority", "project_id", "queue_id", "span_id", "state", "task_id", "tenant_id", "trace_id", "updated_at"]
+    task_id: StrictStr = Field(alias="taskId")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    trace_id: StrictStr = Field(alias="traceId")
+    updated_at: datetime = Field(alias="updatedAt")
+    __properties: ClassVar[List[str]] = ["createdAt", "datasetCaseId", "datasetId", "priority", "projectId", "queueId", "spanId", "state", "taskId", "tenantId", "traceId", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,18 +93,18 @@ class ReviewTask(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "created_at": obj.get("created_at"),
-            "dataset_case_id": obj.get("dataset_case_id"),
-            "dataset_id": obj.get("dataset_id"),
+            "createdAt": obj.get("createdAt"),
+            "datasetCaseId": obj.get("datasetCaseId"),
+            "datasetId": obj.get("datasetId"),
             "priority": obj.get("priority"),
-            "project_id": obj.get("project_id"),
-            "queue_id": obj.get("queue_id"),
-            "span_id": obj.get("span_id"),
+            "projectId": obj.get("projectId"),
+            "queueId": obj.get("queueId"),
+            "spanId": obj.get("spanId"),
             "state": obj.get("state"),
-            "task_id": obj.get("task_id"),
-            "tenant_id": obj.get("tenant_id"),
-            "trace_id": obj.get("trace_id"),
-            "updated_at": obj.get("updated_at")
+            "taskId": obj.get("taskId"),
+            "tenantId": obj.get("tenantId"),
+            "traceId": obj.get("traceId"),
+            "updatedAt": obj.get("updatedAt")
         })
         return _obj
 

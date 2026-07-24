@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.audit_action import AuditAction
 from palette_client.models.audit_outcome import AuditOutcome
@@ -30,18 +30,18 @@ class AuditEvent(BaseModel):
     AuditEvent
     """ # noqa: E501
     action: AuditAction
-    actor_api_key_id: Optional[StrictStr] = None
+    actor_api_key_id: Optional[StrictStr] = Field(default=None, alias="actorApiKeyId")
     attributes: Optional[Any]
-    audit_event_id: StrictStr
-    created_at: datetime
-    environment_id: Optional[StrictStr] = None
+    audit_event_id: StrictStr = Field(alias="auditEventId")
+    created_at: datetime = Field(alias="createdAt")
+    environment_id: Optional[StrictStr] = Field(default=None, alias="environmentId")
     outcome: AuditOutcome
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     reason: Optional[StrictStr] = None
-    resource_id: StrictStr
-    resource_type: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["action", "actor_api_key_id", "attributes", "audit_event_id", "created_at", "environment_id", "outcome", "project_id", "reason", "resource_id", "resource_type", "tenant_id"]
+    resource_id: StrictStr = Field(alias="resourceId")
+    resource_type: StrictStr = Field(alias="resourceType")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["action", "actorApiKeyId", "attributes", "auditEventId", "createdAt", "environmentId", "outcome", "projectId", "reason", "resourceId", "resourceType", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -105,17 +105,17 @@ class AuditEvent(BaseModel):
 
         _obj = cls.model_validate({
             "action": obj.get("action"),
-            "actor_api_key_id": obj.get("actor_api_key_id"),
+            "actorApiKeyId": obj.get("actorApiKeyId"),
             "attributes": obj.get("attributes"),
-            "audit_event_id": obj.get("audit_event_id"),
-            "created_at": obj.get("created_at"),
-            "environment_id": obj.get("environment_id"),
+            "auditEventId": obj.get("auditEventId"),
+            "createdAt": obj.get("createdAt"),
+            "environmentId": obj.get("environmentId"),
             "outcome": obj.get("outcome"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "reason": obj.get("reason"),
-            "resource_id": obj.get("resource_id"),
-            "resource_type": obj.get("resource_type"),
-            "tenant_id": obj.get("tenant_id")
+            "resourceId": obj.get("resourceId"),
+            "resourceType": obj.get("resourceType"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

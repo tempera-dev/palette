@@ -13,29 +13,29 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ReviewTask {
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_case_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetCaseId", skip_serializing_if = "Option::is_none")]
     pub dataset_case_id: Option<String>,
-    #[serde(rename = "dataset_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "datasetId", skip_serializing_if = "Option::is_none")]
     pub dataset_id: Option<String>,
     #[serde(rename = "priority")]
     pub priority: i64,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "queue_id")]
+    #[serde(rename = "queueId")]
     pub queue_id: String,
-    #[serde(rename = "span_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "spanId", skip_serializing_if = "Option::is_none")]
     pub span_id: Option<String>,
     #[serde(rename = "state")]
     pub state: models::ReviewTaskState,
-    #[serde(rename = "task_id")]
+    #[serde(rename = "taskId")]
     pub task_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
-    #[serde(rename = "updated_at")]
+    #[serde(rename = "updatedAt")]
     pub updated_at: String,
 }
 

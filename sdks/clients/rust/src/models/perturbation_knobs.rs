@@ -15,22 +15,22 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PerturbationKnobs {
     /// Force an auth failure on a dependency.
-    #[serde(rename = "auth_failure")]
+    #[serde(rename = "authFailure")]
     pub auth_failure: bool,
     /// Inject a contradictory context source.
-    #[serde(rename = "contradictory_source")]
+    #[serde(rename = "contradictorySource")]
     pub contradictory_source: bool,
     /// Attempt a prompt-injection payload.
-    #[serde(rename = "prompt_injection")]
+    #[serde(rename = "promptInjection")]
     pub prompt_injection: bool,
     /// Serve a stale version of a context source.
-    #[serde(rename = "stale_source")]
+    #[serde(rename = "staleSource")]
     pub stale_source: bool,
     /// Force a timeout on a dependency.
     #[serde(rename = "timeout")]
     pub timeout: bool,
     /// Present a tool whose schema mismatches expectations.
-    #[serde(rename = "tool_schema_mismatch")]
+    #[serde(rename = "toolSchemaMismatch")]
     pub tool_schema_mismatch: bool,
 }
 

@@ -23,18 +23,18 @@ var _ MappedNullable = &TemperaEvidenceReceipt{}
 // TemperaEvidenceReceipt struct for TemperaEvidenceReceipt
 type TemperaEvidenceReceipt struct {
 	Created bool `json:"created"`
-	DeclaredContentSha256 string `json:"declared_content_sha256"`
-	ExternalId string `json:"external_id"`
+	DeclaredContentSha256 string `json:"declaredContentSha256"`
+	ExternalId string `json:"externalId"`
 	Kind ExternalEvalEvidenceKind `json:"kind"`
-	ProjectId string `json:"project_id"`
-	PublicKeySha256 string `json:"public_key_sha256"`
-	SchemaVersion string `json:"schema_version"`
-	SignatureSha256 string `json:"signature_sha256"`
-	SignedPayloadSha256 string `json:"signed_payload_sha256"`
-	SourceSchemaVersion string `json:"source_schema_version"`
-	StoredAt time.Time `json:"stored_at"`
+	ProjectId string `json:"projectId"`
+	PublicKeySha256 string `json:"publicKeySha256"`
+	SchemaVersion string `json:"schemaVersion"`
+	SignatureSha256 string `json:"signatureSha256"`
+	SignedPayloadSha256 string `json:"signedPayloadSha256"`
+	SourceSchemaVersion string `json:"sourceSchemaVersion"`
+	StoredAt time.Time `json:"storedAt"`
 	Summary TemperaEvidenceSummary `json:"summary"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 }
 
 type _TemperaEvidenceReceipt TemperaEvidenceReceipt
@@ -392,18 +392,18 @@ func (o TemperaEvidenceReceipt) MarshalJSON() ([]byte, error) {
 func (o TemperaEvidenceReceipt) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["created"] = o.Created
-	toSerialize["declared_content_sha256"] = o.DeclaredContentSha256
-	toSerialize["external_id"] = o.ExternalId
+	toSerialize["declaredContentSha256"] = o.DeclaredContentSha256
+	toSerialize["externalId"] = o.ExternalId
 	toSerialize["kind"] = o.Kind
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["public_key_sha256"] = o.PublicKeySha256
-	toSerialize["schema_version"] = o.SchemaVersion
-	toSerialize["signature_sha256"] = o.SignatureSha256
-	toSerialize["signed_payload_sha256"] = o.SignedPayloadSha256
-	toSerialize["source_schema_version"] = o.SourceSchemaVersion
-	toSerialize["stored_at"] = o.StoredAt
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["publicKeySha256"] = o.PublicKeySha256
+	toSerialize["schemaVersion"] = o.SchemaVersion
+	toSerialize["signatureSha256"] = o.SignatureSha256
+	toSerialize["signedPayloadSha256"] = o.SignedPayloadSha256
+	toSerialize["sourceSchemaVersion"] = o.SourceSchemaVersion
+	toSerialize["storedAt"] = o.StoredAt
 	toSerialize["summary"] = o.Summary
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -413,18 +413,18 @@ func (o *TemperaEvidenceReceipt) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"created",
-		"declared_content_sha256",
-		"external_id",
+		"declaredContentSha256",
+		"externalId",
 		"kind",
-		"project_id",
-		"public_key_sha256",
-		"schema_version",
-		"signature_sha256",
-		"signed_payload_sha256",
-		"source_schema_version",
-		"stored_at",
+		"projectId",
+		"publicKeySha256",
+		"schemaVersion",
+		"signatureSha256",
+		"signedPayloadSha256",
+		"sourceSchemaVersion",
+		"storedAt",
 		"summary",
-		"tenant_id",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

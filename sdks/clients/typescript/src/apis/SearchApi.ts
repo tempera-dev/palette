@@ -66,19 +66,19 @@ export class SearchApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['projectId'] != null) {
-            queryParameters['project_id'] = requestParameters['projectId'];
+            queryParameters['projectId'] = requestParameters['projectId'];
         }
 
         if (requestParameters['environmentId'] != null) {
-            queryParameters['environment_id'] = requestParameters['environmentId'];
+            queryParameters['environmentId'] = requestParameters['environmentId'];
         }
 
         if (requestParameters['traceId'] != null) {
-            queryParameters['trace_id'] = requestParameters['traceId'];
+            queryParameters['traceId'] = requestParameters['traceId'];
         }
 
         if (requestParameters['spanId'] != null) {
-            queryParameters['span_id'] = requestParameters['spanId'];
+            queryParameters['spanId'] = requestParameters['spanId'];
         }
 
         if (requestParameters['kind'] != null) {
@@ -124,7 +124,7 @@ export class SearchApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/search/{tenant_id}/spans`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))),
+            path: `/v1/search/{tenantId}/spans`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

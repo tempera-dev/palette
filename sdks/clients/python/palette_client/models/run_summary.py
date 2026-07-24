@@ -31,19 +31,19 @@ class RunSummary(BaseModel):
     """
     RunSummary
     """ # noqa: E501
-    duration_ms: Optional[StrictInt] = None
-    ended_at: Optional[datetime] = None
-    first_span_name: StrictStr
+    duration_ms: Optional[StrictInt] = Field(default=None, alias="durationMs")
+    ended_at: Optional[datetime] = Field(default=None, alias="endedAt")
+    first_span_name: StrictStr = Field(alias="firstSpanName")
     models: List[ModelRef]
-    project_id: StrictStr
-    release_ids: List[StrictStr]
-    span_count: Annotated[int, Field(strict=True, ge=0)]
-    started_at: datetime
+    project_id: StrictStr = Field(alias="projectId")
+    release_ids: List[StrictStr] = Field(alias="releaseIds")
+    span_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="spanCount")
+    started_at: datetime = Field(alias="startedAt")
     status: SpanStatus
-    tenant_id: StrictStr
-    total_cost: Optional[Money] = None
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["duration_ms", "ended_at", "first_span_name", "models", "project_id", "release_ids", "span_count", "started_at", "status", "tenant_id", "total_cost", "trace_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    total_cost: Optional[Money] = Field(default=None, alias="totalCost")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["durationMs", "endedAt", "firstSpanName", "models", "projectId", "releaseIds", "spanCount", "startedAt", "status", "tenantId", "totalCost", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,21 +93,21 @@ class RunSummary(BaseModel):
             _dict['models'] = _items
         # override the default output from pydantic by calling `to_dict()` of total_cost
         if self.total_cost:
-            _dict['total_cost'] = self.total_cost.to_dict()
+            _dict['totalCost'] = self.total_cost.to_dict()
         # set to None if duration_ms (nullable) is None
         # and model_fields_set contains the field
         if self.duration_ms is None and "duration_ms" in self.model_fields_set:
-            _dict['duration_ms'] = None
+            _dict['durationMs'] = None
 
         # set to None if ended_at (nullable) is None
         # and model_fields_set contains the field
         if self.ended_at is None and "ended_at" in self.model_fields_set:
-            _dict['ended_at'] = None
+            _dict['endedAt'] = None
 
         # set to None if total_cost (nullable) is None
         # and model_fields_set contains the field
         if self.total_cost is None and "total_cost" in self.model_fields_set:
-            _dict['total_cost'] = None
+            _dict['totalCost'] = None
 
         return _dict
 
@@ -121,18 +121,18 @@ class RunSummary(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "duration_ms": obj.get("duration_ms"),
-            "ended_at": obj.get("ended_at"),
-            "first_span_name": obj.get("first_span_name"),
+            "durationMs": obj.get("durationMs"),
+            "endedAt": obj.get("endedAt"),
+            "firstSpanName": obj.get("firstSpanName"),
             "models": [ModelRef.from_dict(_item) for _item in obj["models"]] if obj.get("models") is not None else None,
-            "project_id": obj.get("project_id"),
-            "release_ids": obj.get("release_ids"),
-            "span_count": obj.get("span_count"),
-            "started_at": obj.get("started_at"),
+            "projectId": obj.get("projectId"),
+            "releaseIds": obj.get("releaseIds"),
+            "spanCount": obj.get("spanCount"),
+            "startedAt": obj.get("startedAt"),
             "status": obj.get("status"),
-            "tenant_id": obj.get("tenant_id"),
-            "total_cost": Money.from_dict(obj["total_cost"]) if obj.get("total_cost") is not None else None,
-            "trace_id": obj.get("trace_id")
+            "tenantId": obj.get("tenantId"),
+            "totalCost": Money.from_dict(obj["totalCost"]) if obj.get("totalCost") is not None else None,
+            "traceId": obj.get("traceId")
         })
         return _obj
 

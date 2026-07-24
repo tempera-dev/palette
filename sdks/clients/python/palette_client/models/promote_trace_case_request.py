@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,9 +27,9 @@ class PromoteTraceCaseRequest(BaseModel):
     PromoteTraceCaseRequest
     """ # noqa: E501
     reference: Optional[Any] = None
-    span_id: Optional[StrictStr] = None
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["reference", "span_id", "trace_id"]
+    span_id: Optional[StrictStr] = Field(default=None, alias="spanId")
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["reference", "spanId", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,7 +78,7 @@ class PromoteTraceCaseRequest(BaseModel):
         # set to None if span_id (nullable) is None
         # and model_fields_set contains the field
         if self.span_id is None and "span_id" in self.model_fields_set:
-            _dict['span_id'] = None
+            _dict['spanId'] = None
 
         return _dict
 
@@ -93,8 +93,8 @@ class PromoteTraceCaseRequest(BaseModel):
 
         _obj = cls.model_validate({
             "reference": obj.get("reference"),
-            "span_id": obj.get("span_id"),
-            "trace_id": obj.get("trace_id")
+            "spanId": obj.get("spanId"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

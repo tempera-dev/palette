@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**connect_period_get_status**](ConnectApi.md#connect_period_get_status) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
+[**connect_period_get_status**](ConnectApi.md#connect_period_get_status) | **GET** /v1/connect/status/{tenantId}/{projectId} |
 
 
 

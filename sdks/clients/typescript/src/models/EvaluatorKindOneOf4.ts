@@ -62,7 +62,7 @@ export function EvaluatorKindOneOf4FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'maxMicros': json['max_micros'],
+        'maxMicros': json['maxMicros'],
         'type': json['type'],
     };
 }
@@ -78,7 +78,7 @@ export function EvaluatorKindOneOf4ToJSONTyped(value?: EvaluatorKindOneOf4 | nul
 
     return {
         
-        'max_micros': value['maxMicros'],
+        'maxMicros': value['maxMicros'],
         'type': value['type'],
     };
 }

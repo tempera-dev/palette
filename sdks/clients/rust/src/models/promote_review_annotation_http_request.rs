@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PromoteReviewAnnotationHttpRequest {
-    #[serde(rename = "dataset_id")]
+    #[serde(rename = "datasetId")]
     pub dataset_id: String,
     #[serde(rename = "reference", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub reference: Option<Option<serde_json::Value>>,

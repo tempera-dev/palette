@@ -15,29 +15,29 @@ use serde::{Deserialize, Serialize};
 pub struct TemperaEvidenceReceipt {
     #[serde(rename = "created")]
     pub created: bool,
-    #[serde(rename = "declared_content_sha256")]
+    #[serde(rename = "declaredContentSha256")]
     pub declared_content_sha256: String,
-    #[serde(rename = "external_id")]
+    #[serde(rename = "externalId")]
     pub external_id: String,
     #[serde(rename = "kind")]
     pub kind: models::ExternalEvalEvidenceKind,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "public_key_sha256")]
+    #[serde(rename = "publicKeySha256")]
     pub public_key_sha256: String,
-    #[serde(rename = "schema_version")]
+    #[serde(rename = "schemaVersion")]
     pub schema_version: String,
-    #[serde(rename = "signature_sha256")]
+    #[serde(rename = "signatureSha256")]
     pub signature_sha256: String,
-    #[serde(rename = "signed_payload_sha256")]
+    #[serde(rename = "signedPayloadSha256")]
     pub signed_payload_sha256: String,
-    #[serde(rename = "source_schema_version")]
+    #[serde(rename = "sourceSchemaVersion")]
     pub source_schema_version: String,
-    #[serde(rename = "stored_at")]
+    #[serde(rename = "storedAt")]
     pub stored_at: String,
     #[serde(rename = "summary")]
     pub summary: Box<models::TemperaEvidenceSummary>,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

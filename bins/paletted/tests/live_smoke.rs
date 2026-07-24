@@ -128,8 +128,7 @@ async fn paletted_imports_temporal_history_into_queryable_trace() -> anyhow::Res
         find("OrderWorkflow").ok_or_else(|| anyhow::anyhow!("missing workflow root span"))?;
     assert_eq!(kind_of(root), "agent.run");
     assert_eq!(
-        root.get("parent_span_id")
-            .and_then(serde_json::Value::as_str),
+        root.get("parentSpanId").and_then(serde_json::Value::as_str),
         None
     );
 
@@ -137,9 +136,9 @@ async fn paletted_imports_temporal_history_into_queryable_trace() -> anyhow::Res
     assert_eq!(kind_of(activity), "tool.call");
     assert_eq!(
         activity
-            .get("parent_span_id")
+            .get("parentSpanId")
             .and_then(serde_json::Value::as_str),
-        root.get("span_id").and_then(serde_json::Value::as_str)
+        root.get("spanId").and_then(serde_json::Value::as_str)
     );
 
     let child = find("FulfillmentWorkflow")
@@ -401,9 +400,9 @@ async fn paletted_external_trace_store_kill_replays_buffered_trace() -> anyhow::
             .await?;
     assert_eq!(buffered_response.status(), reqwest::StatusCode::OK);
     let buffered_ack = buffered_response.json::<serde_json::Value>().await?;
-    assert_eq!(buffered_ack["accepted_raw"], 1);
-    assert_eq!(buffered_ack["accepted_spans"], 1);
-    assert_eq!(buffered_ack["downstream_queued"], true);
+    assert_eq!(buffered_ack["acceptedRaw"], 1);
+    assert_eq!(buffered_ack["acceptedSpans"], 1);
+    assert_eq!(buffered_ack["downstreamQueued"], true);
     wait_for_file(&marker_path, Duration::from_secs(5)).await?;
     trace_store.stop().await?;
     std::fs::remove_file(&hold_path)?;
@@ -824,7 +823,7 @@ async fn wait_for_search_hit(http_url: &str, trace_id: &str) -> anyhow::Result<s
 
 fn search_url(http_url: &str, trace_id: &str) -> String {
     format!(
-        "{http_url}/v1/search/demo/spans?project_id=demo&environment_id=local&trace_id={trace_id}&kind=llm.call&status=ok"
+        "{http_url}/v1/search/demo/spans?projectId=demo&environmentId=local&traceId={trace_id}&kind=llm.call&status=ok"
     )
 }
 
@@ -928,11 +927,11 @@ async fn assert_queue_depths(
 ) -> anyhow::Result<()> {
     let status = queue_status(http_url).await?;
     let trace_write_depth = status
-        .get("trace_write_depth")
+        .get("traceWriteDepth")
         .and_then(serde_json::Value::as_u64)
         .unwrap_or_default();
     let trace_ingested_depth = status
-        .get("trace_ingested_depth")
+        .get("traceIngestedDepth")
         .and_then(serde_json::Value::as_u64)
         .unwrap_or_default();
     if trace_write_depth != expected_trace_write || trace_ingested_depth != expected_trace_ingested
@@ -947,19 +946,19 @@ async fn assert_queue_depths(
 async fn assert_only_dead_letter(http_url: &str, message_id: &str) -> anyhow::Result<()> {
     let status = queue_status(http_url).await?;
     let total_depth = status
-        .get("total_depth")
+        .get("totalDepth")
         .and_then(serde_json::Value::as_u64)
         .unwrap_or_default();
     let trace_write_depth = status
-        .get("trace_write_depth")
+        .get("traceWriteDepth")
         .and_then(serde_json::Value::as_u64)
         .unwrap_or_default();
     let trace_ingested_depth = status
-        .get("trace_ingested_depth")
+        .get("traceIngestedDepth")
         .and_then(serde_json::Value::as_u64)
         .unwrap_or_default();
     let dead_letters = status
-        .get("dead_letters")
+        .get("deadLetters")
         .and_then(serde_json::Value::as_array)
         .cloned()
         .unwrap_or_default();
@@ -972,7 +971,7 @@ async fn assert_only_dead_letter(http_url: &str, message_id: &str) -> anyhow::Re
     assert_eq!(dead_letters.len(), 1);
     let actual_message_id = dead_letters[0]
         .get("message")
-        .and_then(|message| message.get("message_id"))
+        .and_then(|message| message.get("messageId"))
         .and_then(serde_json::Value::as_str)
         .ok_or_else(|| anyhow::anyhow!("dead letter missing message id"))?;
     assert_eq!(actual_message_id, message_id);
@@ -989,7 +988,7 @@ async fn wait_for_dead_letter(
     loop {
         let status = queue_status(http_url).await?;
         if let Some(dead_letters) = status
-            .get("dead_letters")
+            .get("deadLetters")
             .and_then(serde_json::Value::as_array)
         {
             for dead_letter in dead_letters {
@@ -1006,7 +1005,7 @@ async fn wait_for_dead_letter(
                     .unwrap_or_default();
                 if message_kind == kind && reason.contains(reason_contains) {
                     return message
-                        .get("message_id")
+                        .get("messageId")
                         .and_then(serde_json::Value::as_str)
                         .map(ToString::to_string)
                         .ok_or_else(|| anyhow::anyhow!("dead letter missing message_id"));
@@ -1031,12 +1030,12 @@ async fn replay_dead_letter(http_url: &str, message_id: &str) -> anyhow::Result<
         .json::<serde_json::Value>()
         .await?;
     assert_eq!(
-        report.get("message_id").and_then(serde_json::Value::as_str),
+        report.get("messageId").and_then(serde_json::Value::as_str),
         Some(message_id)
     );
     assert_eq!(
         report
-            .get("reset_attempts")
+            .get("resetAttempts")
             .and_then(serde_json::Value::as_bool),
         Some(true)
     );
@@ -1093,15 +1092,15 @@ async fn wait_for_queue_empty(http_url: &str, timeout: Duration) -> anyhow::Resu
     loop {
         let status = queue_status(http_url).await?;
         let trace_write_depth = status
-            .get("trace_write_depth")
+            .get("traceWriteDepth")
             .and_then(serde_json::Value::as_u64)
             .unwrap_or_default();
         let trace_ingested_depth = status
-            .get("trace_ingested_depth")
+            .get("traceIngestedDepth")
             .and_then(serde_json::Value::as_u64)
             .unwrap_or_default();
         let dead_letters = status
-            .get("dead_letters")
+            .get("deadLetters")
             .and_then(serde_json::Value::as_array)
             .map(Vec::len)
             .unwrap_or_default();

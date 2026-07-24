@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**datasetsCreate**](DatasetsApi.md#datasetsCreate) | **POST** /v1/datasets/{tenant_id}/{project_id} |  |
-| [**datasetsCreateWithHttpInfo**](DatasetsApi.md#datasetsCreateWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id} |  |
-| [**datasetsCreateVersion**](DatasetsApi.md#datasetsCreateVersion) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |  |
-| [**datasetsCreateVersionWithHttpInfo**](DatasetsApi.md#datasetsCreateVersionWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |  |
-| [**datasetsPromoteCaseFromTrace**](DatasetsApi.md#datasetsPromoteCaseFromTrace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |  |
-| [**datasetsPromoteCaseFromTraceWithHttpInfo**](DatasetsApi.md#datasetsPromoteCaseFromTraceWithHttpInfo) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |  |
+| [**datasetsCreate**](DatasetsApi.md#datasetsCreate) | **POST** /v1/datasets/{tenantId}/{projectId} |  |
+| [**datasetsCreateWithHttpInfo**](DatasetsApi.md#datasetsCreateWithHttpInfo) | **POST** /v1/datasets/{tenantId}/{projectId} |  |
+| [**datasetsCreateVersion**](DatasetsApi.md#datasetsCreateVersion) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions |  |
+| [**datasetsCreateVersionWithHttpInfo**](DatasetsApi.md#datasetsCreateVersionWithHttpInfo) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions |  |
+| [**datasetsPromoteCaseFromTrace**](DatasetsApi.md#datasetsPromoteCaseFromTrace) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace |  |
+| [**datasetsPromoteCaseFromTraceWithHttpInfo**](DatasetsApi.md#datasetsPromoteCaseFromTraceWithHttpInfo) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace |  |
 
 
 

@@ -55,29 +55,29 @@ public:
 
     utility::string_t getEvalReportId() const;
     bool evalReportIdIsSet() const;
-    void unsetEval_report_id();
+    void unsetEvalReportId();
     void setEvalReportId(const utility::string_t& value);
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     double getPassThreshold() const;
     bool passThresholdIsSet() const;
-    void unsetPass_threshold();
+    void unsetPassThreshold();
     void setPassThreshold(double value);
 
 
 protected:
-    utility::string_t m_Eval_report_id;
-    bool m_Eval_report_idIsSet;
+    utility::string_t m_EvalReportId;
+    bool m_EvalReportIdIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    double m_Pass_threshold;
-    bool m_Pass_thresholdIsSet;
+    double m_PassThreshold;
+    bool m_PassThresholdIsSet;
 
 };
 

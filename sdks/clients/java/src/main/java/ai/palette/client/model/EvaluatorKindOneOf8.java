@@ -38,7 +38,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class EvaluatorKindOneOf8 {
-  public static final String JSON_PROPERTY_MAX_STEPS = "max_steps";
+  public static final String JSON_PROPERTY_MAX_STEPS = "maxSteps";
   @javax.annotation.Nonnull
   private Long maxSteps;
 
@@ -205,9 +205,9 @@ public class EvaluatorKindOneOf8 {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `max_steps` to the URL query string
+    // add `maxSteps` to the URL query string
     if (getMaxSteps() != null) {
-      joiner.add(String.format("%smax_steps%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxSteps()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smaxSteps%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxSteps()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `type` to the URL query string

@@ -4,28 +4,28 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**IngestAPI_ingestDrainTraceIngested**](IngestAPI.md#IngestAPI_ingestDrainTraceIngested) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain |
-[**IngestAPI_ingestDrainTraceWrites**](IngestAPI.md#IngestAPI_ingestDrainTraceWrites) | **POST** /v1/ingest/{tenant_id}/{project_id}/trace-writes/drain |
-[**IngestAPI_ingestGetQueueStatus**](IngestAPI.md#IngestAPI_ingestGetQueueStatus) | **GET** /v1/ingest/{tenant_id}/{project_id}/queue |
-[**IngestAPI_ingestImportSource**](IngestAPI.md#IngestAPI_ingestImportSource) | **POST** /v1/import/{tenant_id}/{project_id}/{environment_id} |
+[**IngestAPI_ingestDrainTraceIngested**](IngestAPI.md#IngestAPI_ingestDrainTraceIngested) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-ingested/drain |
+[**IngestAPI_ingestDrainTraceWrites**](IngestAPI.md#IngestAPI_ingestDrainTraceWrites) | **POST** /v1/ingest/{tenantId}/{projectId}/trace-writes/drain |
+[**IngestAPI_ingestGetQueueStatus**](IngestAPI.md#IngestAPI_ingestGetQueueStatus) | **GET** /v1/ingest/{tenantId}/{projectId}/queue |
+[**IngestAPI_ingestImportSource**](IngestAPI.md#IngestAPI_ingestImportSource) | **POST** /v1/import/{tenantId}/{projectId}/{environmentId} |
 [**IngestAPI_ingestNative**](IngestAPI.md#IngestAPI_ingestNative) | **POST** /v1/traces/native |
-[**IngestAPI_ingestOtlp**](IngestAPI.md#IngestAPI_ingestOtlp) | **POST** /v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces |
+[**IngestAPI_ingestOtlp**](IngestAPI.md#IngestAPI_ingestOtlp) | **POST** /v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces |
 [**IngestAPI_ingestOtlpJsonCollector**](IngestAPI.md#IngestAPI_ingestOtlpJsonCollector) | **POST** /v1/traces |
-[**IngestAPI_ingestReconcileTrace**](IngestAPI.md#IngestAPI_ingestReconcileTrace) | **POST** /v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile |
-[**IngestAPI_ingestReplayDeadLetter**](IngestAPI.md#IngestAPI_ingestReplayDeadLetter) | **POST** /v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay |
+[**IngestAPI_ingestReconcileTrace**](IngestAPI.md#IngestAPI_ingestReconcileTrace) | **POST** /v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile |
+[**IngestAPI_ingestReplayDeadLetter**](IngestAPI.md#IngestAPI_ingestReplayDeadLetter) | **POST** /v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay |
 
 
 # **IngestAPI_ingestDrainTraceIngested**
 ```c
-trace_ingested_drain_report_t* IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_ingested_drain_report_t* IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenantId, char *projectId, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **limit** | **int \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -50,15 +50,15 @@ No authorization required
 
 # **IngestAPI_ingestDrainTraceWrites**
 ```c
-trace_write_drain_report_t* IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_write_drain_report_t* IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenantId, char *projectId, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **limit** | **int \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -83,15 +83,15 @@ No authorization required
 
 # **IngestAPI_ingestGetQueueStatus**
 ```c
-ingest_queue_status_t* IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+ingest_queue_status_t* IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -115,16 +115,16 @@ No authorization required
 
 # **IngestAPI_ingestImportSource**
 ```c
-ingest_outcome_t* IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key);
+ingest_outcome_t* IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**environment_id** | **char \*** | environment_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**environmentId** | **char \*** | environment_id |
 **import_source_http_request** | **[import_source_http_request_t](import_source_http_request.md) \*** |  |
 **durability** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
@@ -180,16 +180,16 @@ No authorization required
 
 # **IngestAPI_ingestOtlp**
 ```c
-otlp_ingest_outcome_t* IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+otlp_ingest_outcome_t* IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**environment_id** | **char \*** | environment_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**environmentId** | **char \*** | environment_id |
 **durability** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -246,16 +246,16 @@ No authorization required
 
 # **IngestAPI_ingestReconcileTrace**
 ```c
-trace_ingested_reconcile_report_t* IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_ingested_reconcile_report_t* IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**trace_id** | **char \*** | trace_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**traceId** | **char \*** | trace_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -279,17 +279,17 @@ No authorization required
 
 # **IngestAPI_ingestReplayDeadLetter**
 ```c
-dead_letter_replay_report_t* IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+dead_letter_replay_report_t* IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenantId, char *projectId, char *messageId, int *resetAttempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**message_id** | **char \*** | message_id |
-**reset_attempts** | **int \*** |  | [optional]
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**messageId** | **char \*** | message_id |
+**resetAttempts** | **int \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]

@@ -22,18 +22,18 @@ var _ MappedNullable = &RunSummary{}
 
 // RunSummary struct for RunSummary
 type RunSummary struct {
-	DurationMs NullableInt64 `json:"duration_ms,omitempty"`
-	EndedAt NullableTime `json:"ended_at,omitempty"`
-	FirstSpanName string `json:"first_span_name"`
+	DurationMs NullableInt64 `json:"durationMs,omitempty"`
+	EndedAt NullableTime `json:"endedAt,omitempty"`
+	FirstSpanName string `json:"firstSpanName"`
 	Models []ModelRef `json:"models"`
-	ProjectId string `json:"project_id"`
-	ReleaseIds []string `json:"release_ids"`
-	SpanCount int32 `json:"span_count"`
-	StartedAt time.Time `json:"started_at"`
+	ProjectId string `json:"projectId"`
+	ReleaseIds []string `json:"releaseIds"`
+	SpanCount int32 `json:"spanCount"`
+	StartedAt time.Time `json:"startedAt"`
 	Status SpanStatus `json:"status"`
-	TenantId string `json:"tenant_id"`
-	TotalCost NullableMoney `json:"total_cost,omitempty"`
-	TraceId string `json:"trace_id"`
+	TenantId string `json:"tenantId"`
+	TotalCost NullableMoney `json:"totalCost,omitempty"`
+	TraceId string `json:"traceId"`
 }
 
 type _RunSummary RunSummary
@@ -417,23 +417,23 @@ func (o RunSummary) MarshalJSON() ([]byte, error) {
 func (o RunSummary) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.DurationMs.IsSet() {
-		toSerialize["duration_ms"] = o.DurationMs.Get()
+		toSerialize["durationMs"] = o.DurationMs.Get()
 	}
 	if o.EndedAt.IsSet() {
-		toSerialize["ended_at"] = o.EndedAt.Get()
+		toSerialize["endedAt"] = o.EndedAt.Get()
 	}
-	toSerialize["first_span_name"] = o.FirstSpanName
+	toSerialize["firstSpanName"] = o.FirstSpanName
 	toSerialize["models"] = o.Models
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["release_ids"] = o.ReleaseIds
-	toSerialize["span_count"] = o.SpanCount
-	toSerialize["started_at"] = o.StartedAt
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["releaseIds"] = o.ReleaseIds
+	toSerialize["spanCount"] = o.SpanCount
+	toSerialize["startedAt"] = o.StartedAt
 	toSerialize["status"] = o.Status
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	if o.TotalCost.IsSet() {
-		toSerialize["total_cost"] = o.TotalCost.Get()
+		toSerialize["totalCost"] = o.TotalCost.Get()
 	}
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -442,15 +442,15 @@ func (o *RunSummary) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"first_span_name",
+		"firstSpanName",
 		"models",
-		"project_id",
-		"release_ids",
-		"span_count",
-		"started_at",
+		"projectId",
+		"releaseIds",
+		"spanCount",
+		"startedAt",
 		"status",
-		"tenant_id",
-		"trace_id",
+		"tenantId",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -4,9 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**provider_secrets_period_create**](ProviderSecretsApi.md#provider_secrets_period_create) | **POST** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**provider_secrets_period_list**](ProviderSecretsApi.md#provider_secrets_period_list) | **GET** /v1/provider-secrets/{tenant_id}/{project_id} |
-[**provider_secrets_period_revoke**](ProviderSecretsApi.md#provider_secrets_period_revoke) | **POST** /v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke |
+[**provider_secrets_period_create**](ProviderSecretsApi.md#provider_secrets_period_create) | **POST** /v1/provider-secrets/{tenantId}/{projectId} |
+[**provider_secrets_period_list**](ProviderSecretsApi.md#provider_secrets_period_list) | **GET** /v1/provider-secrets/{tenantId}/{projectId} |
+[**provider_secrets_period_revoke**](ProviderSecretsApi.md#provider_secrets_period_revoke) | **POST** /v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke |
 
 
 

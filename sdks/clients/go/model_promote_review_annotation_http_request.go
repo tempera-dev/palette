@@ -21,7 +21,7 @@ var _ MappedNullable = &PromoteReviewAnnotationHttpRequest{}
 
 // PromoteReviewAnnotationHttpRequest struct for PromoteReviewAnnotationHttpRequest
 type PromoteReviewAnnotationHttpRequest struct {
-	DatasetId string `json:"dataset_id"`
+	DatasetId string `json:"datasetId"`
 	Reference interface{} `json:"reference,omitempty"`
 }
 
@@ -112,7 +112,7 @@ func (o PromoteReviewAnnotationHttpRequest) MarshalJSON() ([]byte, error) {
 
 func (o PromoteReviewAnnotationHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["dataset_id"] = o.DatasetId
+	toSerialize["datasetId"] = o.DatasetId
 	if o.Reference != nil {
 		toSerialize["reference"] = o.Reference
 	}
@@ -124,7 +124,7 @@ func (o *PromoteReviewAnnotationHttpRequest) UnmarshalJSON(data []byte) (err err
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"dataset_id",
+		"datasetId",
 	}
 
 	allProperties := make(map[string]interface{})

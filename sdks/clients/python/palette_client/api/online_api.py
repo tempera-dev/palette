@@ -359,11 +359,11 @@ class OnlineApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if trace_id is not None:
-            _path_params['trace_id'] = trace_id
+            _path_params['traceId'] = trace_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -408,7 +408,7 @@ class OnlineApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/online/{tenant_id}/{project_id}/traces/{trace_id}/sampling',
+            resource_path='/v1/online/{tenantId}/{projectId}/traces/{traceId}/sampling',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

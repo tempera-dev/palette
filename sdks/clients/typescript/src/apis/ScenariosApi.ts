@@ -130,7 +130,7 @@ export class ScenariosApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/scenarios/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/scenarios/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -192,7 +192,7 @@ export class ScenariosApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/scenarios/{tenant_id}/{project_id}/{scenario_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"scenario_id"}}`, encodeURIComponent(String(requestParameters['scenarioId']))),
+            path: `/v1/scenarios/{tenantId}/{projectId}/{scenarioId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"scenarioId"}}`, encodeURIComponent(String(requestParameters['scenarioId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -254,7 +254,7 @@ export class ScenariosApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/scenarios/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/scenarios/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -317,7 +317,7 @@ export class ScenariosApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/scenarios/{tenant_id}/{project_id}/mine`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/scenarios/{tenantId}/{projectId}/mine`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

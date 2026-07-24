@@ -65,7 +65,7 @@ cJSON *dead_letter_convertToJSON(dead_letter_t *dead_letter) {
     if (!dead_letter->failed_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "failed_at", dead_letter->failed_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "failedAt", dead_letter->failed_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -108,7 +108,7 @@ dead_letter_t *dead_letter_parseFromJSON(cJSON *dead_letterJSON){
     bus_message_t *message_local_nonprim = NULL;
 
     // dead_letter->failed_at
-    cJSON *failed_at = cJSON_GetObjectItemCaseSensitive(dead_letterJSON, "failed_at");
+    cJSON *failed_at = cJSON_GetObjectItemCaseSensitive(dead_letterJSON, "failedAt");
     if (cJSON_IsNull(failed_at)) {
         failed_at = NULL;
     }

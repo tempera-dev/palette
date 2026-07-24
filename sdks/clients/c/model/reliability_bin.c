@@ -77,14 +77,14 @@ cJSON *reliability_bin_convertToJSON(reliability_bin_t *reliability_bin) {
     if (!reliability_bin->bin_index) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "bin_index", reliability_bin->bin_index) == NULL) {
+    if(cJSON_AddNumberToObject(item, "binIndex", reliability_bin->bin_index) == NULL) {
     goto fail; //Numeric
     }
 
 
     // reliability_bin->calibration_gap
     if(reliability_bin->calibration_gap) {
-    if(cJSON_AddNumberToObject(item, "calibration_gap", reliability_bin->calibration_gap) == NULL) {
+    if(cJSON_AddNumberToObject(item, "calibrationGap", reliability_bin->calibration_gap) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -94,14 +94,14 @@ cJSON *reliability_bin_convertToJSON(reliability_bin_t *reliability_bin) {
     if (!reliability_bin->lower_bound) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "lower_bound", reliability_bin->lower_bound) == NULL) {
+    if(cJSON_AddNumberToObject(item, "lowerBound", reliability_bin->lower_bound) == NULL) {
     goto fail; //Numeric
     }
 
 
     // reliability_bin->mean_confidence
     if(reliability_bin->mean_confidence) {
-    if(cJSON_AddNumberToObject(item, "mean_confidence", reliability_bin->mean_confidence) == NULL) {
+    if(cJSON_AddNumberToObject(item, "meanConfidence", reliability_bin->mean_confidence) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -111,7 +111,7 @@ cJSON *reliability_bin_convertToJSON(reliability_bin_t *reliability_bin) {
     if (!reliability_bin->sample_count) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "sample_count", reliability_bin->sample_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "sampleCount", reliability_bin->sample_count) == NULL) {
     goto fail; //Numeric
     }
 
@@ -120,7 +120,7 @@ cJSON *reliability_bin_convertToJSON(reliability_bin_t *reliability_bin) {
     if (!reliability_bin->upper_bound) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "upper_bound", reliability_bin->upper_bound) == NULL) {
+    if(cJSON_AddNumberToObject(item, "upperBound", reliability_bin->upper_bound) == NULL) {
     goto fail; //Numeric
     }
 
@@ -149,7 +149,7 @@ reliability_bin_t *reliability_bin_parseFromJSON(cJSON *reliability_binJSON){
     }
 
     // reliability_bin->bin_index
-    cJSON *bin_index = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "bin_index");
+    cJSON *bin_index = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "binIndex");
     if (cJSON_IsNull(bin_index)) {
         bin_index = NULL;
     }
@@ -164,7 +164,7 @@ reliability_bin_t *reliability_bin_parseFromJSON(cJSON *reliability_binJSON){
     }
 
     // reliability_bin->calibration_gap
-    cJSON *calibration_gap = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "calibration_gap");
+    cJSON *calibration_gap = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "calibrationGap");
     if (cJSON_IsNull(calibration_gap)) {
         calibration_gap = NULL;
     }
@@ -176,7 +176,7 @@ reliability_bin_t *reliability_bin_parseFromJSON(cJSON *reliability_binJSON){
     }
 
     // reliability_bin->lower_bound
-    cJSON *lower_bound = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "lower_bound");
+    cJSON *lower_bound = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "lowerBound");
     if (cJSON_IsNull(lower_bound)) {
         lower_bound = NULL;
     }
@@ -191,7 +191,7 @@ reliability_bin_t *reliability_bin_parseFromJSON(cJSON *reliability_binJSON){
     }
 
     // reliability_bin->mean_confidence
-    cJSON *mean_confidence = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "mean_confidence");
+    cJSON *mean_confidence = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "meanConfidence");
     if (cJSON_IsNull(mean_confidence)) {
         mean_confidence = NULL;
     }
@@ -203,7 +203,7 @@ reliability_bin_t *reliability_bin_parseFromJSON(cJSON *reliability_binJSON){
     }
 
     // reliability_bin->sample_count
-    cJSON *sample_count = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "sample_count");
+    cJSON *sample_count = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "sampleCount");
     if (cJSON_IsNull(sample_count)) {
         sample_count = NULL;
     }
@@ -218,7 +218,7 @@ reliability_bin_t *reliability_bin_parseFromJSON(cJSON *reliability_binJSON){
     }
 
     // reliability_bin->upper_bound
-    cJSON *upper_bound = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "upper_bound");
+    cJSON *upper_bound = cJSON_GetObjectItemCaseSensitive(reliability_binJSON, "upperBound");
     if (cJSON_IsNull(upper_bound)) {
         upper_bound = NULL;
     }

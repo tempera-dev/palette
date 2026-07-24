@@ -13,11 +13,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateProviderSecretHttpRequest {
-    #[serde(rename = "display_name")]
+    #[serde(rename = "displayName")]
     pub display_name: String,
     #[serde(rename = "provider")]
     pub provider: String,
-    #[serde(rename = "secret_value")]
+    #[serde(rename = "secretValue")]
     pub secret_value: String,
 }
 

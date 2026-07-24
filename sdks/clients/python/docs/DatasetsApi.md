@@ -4,9 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**datasets_create**](DatasetsApi.md#datasets_create) | **POST** /v1/datasets/{tenant_id}/{project_id} |
-[**datasets_create_version**](DatasetsApi.md#datasets_create_version) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions |
-[**datasets_promote_case_from_trace**](DatasetsApi.md#datasets_promote_case_from_trace) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/cases/from-trace |
+[**datasets_create**](DatasetsApi.md#datasets_create) | **POST** /v1/datasets/{tenantId}/{projectId} |
+[**datasets_create_version**](DatasetsApi.md#datasets_create_version) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions |
+[**datasets_promote_case_from_trace**](DatasetsApi.md#datasets_promote_case_from_trace) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/cases/from-trace |
 
 
 # **datasets_create**

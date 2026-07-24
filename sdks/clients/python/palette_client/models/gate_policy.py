@@ -28,10 +28,10 @@ class GatePolicy(BaseModel):
     GatePolicy
     """ # noqa: E501
     alpha: Union[StrictFloat, StrictInt]
-    comparison_count: Annotated[int, Field(strict=True, ge=0)]
-    max_regression: Union[StrictFloat, StrictInt]
-    min_sample_size: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["alpha", "comparison_count", "max_regression", "min_sample_size"]
+    comparison_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="comparisonCount")
+    max_regression: Union[StrictFloat, StrictInt] = Field(alias="maxRegression")
+    min_sample_size: Annotated[int, Field(strict=True, ge=0)] = Field(alias="minSampleSize")
+    __properties: ClassVar[List[str]] = ["alpha", "comparisonCount", "maxRegression", "minSampleSize"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,9 +85,9 @@ class GatePolicy(BaseModel):
 
         _obj = cls.model_validate({
             "alpha": obj.get("alpha"),
-            "comparison_count": obj.get("comparison_count"),
-            "max_regression": obj.get("max_regression"),
-            "min_sample_size": obj.get("min_sample_size")
+            "comparisonCount": obj.get("comparisonCount"),
+            "maxRegression": obj.get("maxRegression"),
+            "minSampleSize": obj.get("minSampleSize")
         })
         return _obj
 

@@ -6,10 +6,10 @@
  */
 
 export type TimedSpan = {
-  span_id: string;
-  parent_span_id?: string | null;
-  start_time?: string | null;
-  end_time?: string | null;
+  spanId: string;
+  parentSpanId?: string | null;
+  startTime?: string | null;
+  endTime?: string | null;
   name?: string | null;
 };
 
@@ -39,13 +39,13 @@ function childMap<T extends TimedSpan>(spans: T[]): {
   children: Map<string, T[]>;
   roots: T[];
 } {
-  const byId = new Map(spans.map((s) => [s.span_id, s]));
+  const byId = new Map(spans.map((s) => [s.spanId, s]));
   const children = new Map<string, T[]>();
   const roots: T[] = [];
   for (const s of spans) {
-    const parent = s.parent_span_id;
+    const parent = s.parentSpanId;
     const hasParent =
-      parent != null && parent !== s.span_id && byId.has(parent) && !isAncestorCycle(s, byId);
+      parent != null && parent !== s.spanId && byId.has(parent) && !isAncestorCycle(s, byId);
     if (hasParent) {
       const list = children.get(parent as string) ?? [];
       list.push(s);
@@ -59,21 +59,21 @@ function childMap<T extends TimedSpan>(spans: T[]): {
 
 /** Detect a parent chain that loops back on itself (malformed trace). */
 function isAncestorCycle<T extends TimedSpan>(span: T, byId: Map<string, T>): boolean {
-  const seen = new Set<string>([span.span_id]);
-  let parent = span.parent_span_id;
+  const seen = new Set<string>([span.spanId]);
+  let parent = span.parentSpanId;
   while (parent && byId.has(parent)) {
     if (seen.has(parent)) return true;
     seen.add(parent);
-    parent = byId.get(parent)?.parent_span_id ?? null;
+    parent = byId.get(parent)?.parentSpanId ?? null;
   }
   return false;
 }
 
 function endMicros(s: TimedSpan): number {
-  return toMicros(s.end_time) ?? toMicros(s.start_time) ?? 0;
+  return toMicros(s.endTime) ?? toMicros(s.startTime) ?? 0;
 }
 function startMicros(s: TimedSpan): number {
-  return toMicros(s.start_time) ?? endMicros(s);
+  return toMicros(s.startTime) ?? endMicros(s);
 }
 
 /**
@@ -93,19 +93,19 @@ export function criticalPathSpanIds(spans: TimedSpan[]): Set<string> {
     const e = endMicros(s);
     const te = endMicros(target);
     if (e > te || (e === te && startMicros(s) > startMicros(target)) ||
-      (e === te && startMicros(s) === startMicros(target) && s.span_id < target.span_id)) {
+      (e === te && startMicros(s) === startMicros(target) && s.spanId < target.spanId)) {
       target = s;
     }
   }
   const path = new Set<string>();
   let cur: TimedSpan | undefined = target;
   const guard = new Set<string>();
-  while (cur && !guard.has(cur.span_id)) {
+  while (cur && !guard.has(cur.spanId)) {
     const node: TimedSpan = cur;
-    guard.add(node.span_id);
-    path.add(node.span_id);
-    const parentId: string | null | undefined = node.parent_span_id;
-    cur = parentId && parentId !== node.span_id ? byId.get(parentId) : undefined;
+    guard.add(node.spanId);
+    path.add(node.spanId);
+    const parentId: string | null | undefined = node.parentSpanId;
+    cur = parentId && parentId !== node.spanId ? byId.get(parentId) : undefined;
   }
   return path;
 }
@@ -123,7 +123,7 @@ export function criticalPathStats(spans: TimedSpan[]): CriticalPathStats {
   const ids = criticalPathSpanIds(spans);
   if (ids.size === 0) return { spanCount: 0, totalMs: 0, parallelizable: null };
 
-  const onPath = spans.filter((s) => ids.has(s.span_id));
+  const onPath = spans.filter((s) => ids.has(s.spanId));
   const start = Math.min(...onPath.map(startMicros));
   const end = Math.max(...onPath.map(endMicros));
   const totalMs = Math.max(0, (end - start) / 1000);
@@ -158,8 +158,8 @@ function findParallelizable(
         if (!best || savingsMs > best.savingsMs) {
           const [first, second] = xs <= ys ? [x, y] : [y, x];
           best = {
-            a: first.name ?? first.span_id,
-            b: second.name ?? second.span_id,
+            a: first.name ?? first.spanId,
+            b: second.name ?? second.spanId,
             savingsMs,
           };
         }

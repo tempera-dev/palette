@@ -58,9 +58,9 @@ export function CreateReviewQueueHttpRequestFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'annotationSchema': json['annotation_schema'],
+        'annotationSchema': json['annotationSchema'],
         'name': json['name'],
-        'queueId': json['queue_id'] == null ? undefined : json['queue_id'],
+        'queueId': json['queueId'] == null ? undefined : json['queueId'],
     };
 }
 
@@ -75,9 +75,9 @@ export function CreateReviewQueueHttpRequestToJSONTyped(value?: CreateReviewQueu
 
     return {
         
-        'annotation_schema': value['annotationSchema'],
+        'annotationSchema': value['annotationSchema'],
         'name': value['name'],
-        'queue_id': value['queueId'],
+        'queueId': value['queueId'],
     };
 }
 

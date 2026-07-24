@@ -107,7 +107,7 @@ cJSON *prompt_version_convertToJSON(prompt_version_t *prompt_version) {
     if (!prompt_version->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", prompt_version->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", prompt_version->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -116,7 +116,7 @@ cJSON *prompt_version_convertToJSON(prompt_version_t *prompt_version) {
     if (!prompt_version->prompt_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "prompt_id", prompt_version->prompt_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "promptId", prompt_version->prompt_id) == NULL) {
     goto fail; //String
     }
 
@@ -139,7 +139,7 @@ cJSON *prompt_version_convertToJSON(prompt_version_t *prompt_version) {
     if (!prompt_version->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", prompt_version->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", prompt_version->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -148,7 +148,7 @@ cJSON *prompt_version_convertToJSON(prompt_version_t *prompt_version) {
     if (!prompt_version->version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "version_id", prompt_version->version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "versionId", prompt_version->version_id) == NULL) {
     goto fail; //String
     }
 
@@ -157,7 +157,7 @@ cJSON *prompt_version_convertToJSON(prompt_version_t *prompt_version) {
     if (!prompt_version->version_number) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "version_number", prompt_version->version_number) == NULL) {
+    if(cJSON_AddNumberToObject(item, "versionNumber", prompt_version->version_number) == NULL) {
     goto fail; //Numeric
     }
 
@@ -192,7 +192,7 @@ prompt_version_t *prompt_version_parseFromJSON(cJSON *prompt_versionJSON){
     metadata_local_nonprim = prompt_version_metadata_parseFromJSON(metadata); //nonprimitive
 
     // prompt_version->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -207,7 +207,7 @@ prompt_version_t *prompt_version_parseFromJSON(cJSON *prompt_versionJSON){
     }
 
     // prompt_version->prompt_id
-    cJSON *prompt_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "prompt_id");
+    cJSON *prompt_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "promptId");
     if (cJSON_IsNull(prompt_id)) {
         prompt_id = NULL;
     }
@@ -234,7 +234,7 @@ prompt_version_t *prompt_version_parseFromJSON(cJSON *prompt_versionJSON){
     _template_local_nonprim = prompt_template_parseFromJSON(_template); //nonprimitive
 
     // prompt_version->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -249,7 +249,7 @@ prompt_version_t *prompt_version_parseFromJSON(cJSON *prompt_versionJSON){
     }
 
     // prompt_version->version_id
-    cJSON *version_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "version_id");
+    cJSON *version_id = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "versionId");
     if (cJSON_IsNull(version_id)) {
         version_id = NULL;
     }
@@ -264,7 +264,7 @@ prompt_version_t *prompt_version_parseFromJSON(cJSON *prompt_versionJSON){
     }
 
     // prompt_version->version_number
-    cJSON *version_number = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "version_number");
+    cJSON *version_number = cJSON_GetObjectItemCaseSensitive(prompt_versionJSON, "versionNumber");
     if (cJSON_IsNull(version_number)) {
         version_number = NULL;
     }

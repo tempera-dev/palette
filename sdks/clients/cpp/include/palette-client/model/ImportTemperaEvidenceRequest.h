@@ -58,7 +58,7 @@ public:
     /// </summary>
     utility::string_t getCanonicalJson() const;
     bool canonicalJsonIsSet() const;
-    void unsetCanonical_json();
+    void unsetCanonicalJson();
     void setCanonicalJson(const utility::string_t& value);
 
     /// <summary>
@@ -66,7 +66,7 @@ public:
     /// </summary>
     utility::string_t getPublicKeyPem() const;
     bool publicKeyPemIsSet() const;
-    void unsetPublic_key_pem();
+    void unsetPublicKeyPem();
     void setPublicKeyPem(const utility::string_t& value);
 
     /// <summary>
@@ -74,19 +74,19 @@ public:
     /// </summary>
     utility::string_t getSignatureBase64() const;
     bool signatureBase64IsSet() const;
-    void unsetSignature_base64();
+    void unsetSignatureBase64();
     void setSignatureBase64(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Canonical_json;
-    bool m_Canonical_jsonIsSet;
+    utility::string_t m_CanonicalJson;
+    bool m_CanonicalJsonIsSet;
 
-    utility::string_t m_Public_key_pem;
-    bool m_Public_key_pemIsSet;
+    utility::string_t m_PublicKeyPem;
+    bool m_PublicKeyPemIsSet;
 
-    utility::string_t m_Signature_base64;
-    bool m_Signature_base64IsSet;
+    utility::string_t m_SignatureBase64;
+    bool m_SignatureBase64IsSet;
 
 };
 

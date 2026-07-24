@@ -64,17 +64,17 @@ public:
 
     utility::string_t getBaselineReleaseId() const;
     bool baselineReleaseIdIsSet() const;
-    void unsetBaseline_release_id();
+    void unsetBaselineReleaseId();
     void setBaselineReleaseId(const utility::string_t& value);
 
     utility::string_t getCandidateReleaseId() const;
     bool candidateReleaseIdIsSet() const;
-    void unsetCandidate_release_id();
+    void unsetCandidateReleaseId();
     void setCandidateReleaseId(const utility::string_t& value);
 
     std::vector<std::shared_ptr<CaseExperimentScore>> getCaseScores() const;
     bool caseScoresIsSet() const;
-    void unsetCase_scores();
+    void unsetCaseScores();
     void setCaseScores(const std::vector<std::shared_ptr<CaseExperimentScore>>& value);
 
     std::shared_ptr<ExperimentComparison> getComparison() const;
@@ -84,17 +84,17 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDatasetId() const;
     bool datasetIdIsSet() const;
-    void unsetDataset_id();
+    void unsetDatasetId();
     void setDatasetId(const utility::string_t& value);
 
     utility::string_t getDatasetVersionId() const;
     bool datasetVersionIdIsSet() const;
-    void unsetDataset_version_id();
+    void unsetDatasetVersionId();
     void setDatasetVersionId(const utility::string_t& value);
 
     std::shared_ptr<GateDecision> getDecision() const;
@@ -104,69 +104,69 @@ public:
 
     utility::string_t getEvaluatorVersionId() const;
     bool evaluatorVersionIdIsSet() const;
-    void unsetEvaluator_version_id();
+    void unsetEvaluatorVersionId();
     void setEvaluatorVersionId(const utility::string_t& value);
 
     utility::string_t getExperimentRunId() const;
     bool experimentRunIdIsSet() const;
-    void unsetExperiment_run_id();
+    void unsetExperimentRunId();
     void setExperimentRunId(const utility::string_t& value);
 
     std::shared_ptr<GatePolicy> getGatePolicy() const;
     bool gatePolicyIsSet() const;
-    void unsetGate_policy();
+    void unsetGatePolicy();
     void setGatePolicy(const std::shared_ptr<GatePolicy>& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
 protected:
-    utility::string_t m_Baseline_release_id;
-    bool m_Baseline_release_idIsSet;
+    utility::string_t m_BaselineReleaseId;
+    bool m_BaselineReleaseIdIsSet;
 
-    utility::string_t m_Candidate_release_id;
-    bool m_Candidate_release_idIsSet;
+    utility::string_t m_CandidateReleaseId;
+    bool m_CandidateReleaseIdIsSet;
 
-    std::vector<std::shared_ptr<CaseExperimentScore>> m_Case_scores;
-    bool m_Case_scoresIsSet;
+    std::vector<std::shared_ptr<CaseExperimentScore>> m_CaseScores;
+    bool m_CaseScoresIsSet;
 
     std::shared_ptr<ExperimentComparison> m_Comparison;
     bool m_ComparisonIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Dataset_id;
-    bool m_Dataset_idIsSet;
+    utility::string_t m_DatasetId;
+    bool m_DatasetIdIsSet;
 
-    utility::string_t m_Dataset_version_id;
-    bool m_Dataset_version_idIsSet;
+    utility::string_t m_DatasetVersionId;
+    bool m_DatasetVersionIdIsSet;
 
     std::shared_ptr<GateDecision> m_Decision;
     bool m_DecisionIsSet;
 
-    utility::string_t m_Evaluator_version_id;
-    bool m_Evaluator_version_idIsSet;
+    utility::string_t m_EvaluatorVersionId;
+    bool m_EvaluatorVersionIdIsSet;
 
-    utility::string_t m_Experiment_run_id;
-    bool m_Experiment_run_idIsSet;
+    utility::string_t m_ExperimentRunId;
+    bool m_ExperimentRunIdIsSet;
 
-    std::shared_ptr<GatePolicy> m_Gate_policy;
-    bool m_Gate_policyIsSet;
+    std::shared_ptr<GatePolicy> m_GatePolicy;
+    bool m_GatePolicyIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

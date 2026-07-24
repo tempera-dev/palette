@@ -18,19 +18,19 @@
 
 
 trace_ingested_drain_report_t*
-IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestDrainTraceIngested(apiClient_t *apiClient, char *tenantId, char *projectId, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 trace_write_drain_report_t*
-IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenant_id, char *project_id, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestDrainTraceWrites(apiClient_t *apiClient, char *tenantId, char *projectId, int *limit, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 ingest_queue_status_t*
-IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestGetQueueStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 ingest_outcome_t*
-IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key);
+IngestAPI_ingestImportSource(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, import_source_http_request_t *import_source_http_request, char *durability, char *authorization, char *x_palette_api_key);
 
 
 ingest_outcome_t*
@@ -38,7 +38,7 @@ IngestAPI_ingestNative(apiClient_t *apiClient, native_ingest_request_t *native_i
 
 
 otlp_ingest_outcome_t*
-IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestOtlp(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *durability, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 otlp_ingest_outcome_t*
@@ -46,8 +46,8 @@ IngestAPI_ingestOtlpJsonCollector(apiClient_t *apiClient, char *durability, char
 
 
 trace_ingested_reconcile_report_t*
-IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestReconcileTrace(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 
 
 dead_letter_replay_report_t*
-IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenant_id, char *project_id, char *message_id, int *reset_attempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+IngestAPI_ingestReplayDeadLetter(apiClient_t *apiClient, char *tenantId, char *projectId, char *messageId, int *resetAttempts, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);

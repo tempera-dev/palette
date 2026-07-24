@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**connectorsConnect**](ConnectorsApi.md#connectorsConnect) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |  |
-| [**connectorsConnectWithHttpInfo**](ConnectorsApi.md#connectorsConnectWithHttpInfo) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |  |
-| [**connectorsGetSkills**](ConnectorsApi.md#connectorsGetSkills) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |  |
-| [**connectorsGetSkillsWithHttpInfo**](ConnectorsApi.md#connectorsGetSkillsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |  |
-| [**connectorsInvokeTool**](ConnectorsApi.md#connectorsInvokeTool) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |  |
-| [**connectorsInvokeToolWithHttpInfo**](ConnectorsApi.md#connectorsInvokeToolWithHttpInfo) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |  |
-| [**connectorsList**](ConnectorsApi.md#connectorsList) | **GET** /v1/connectors/{tenant_id}/{project_id} |  |
-| [**connectorsListWithHttpInfo**](ConnectorsApi.md#connectorsListWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id} |  |
-| [**connectorsListTools**](ConnectorsApi.md#connectorsListTools) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |  |
-| [**connectorsListToolsWithHttpInfo**](ConnectorsApi.md#connectorsListToolsWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |  |
-| [**connectorsStatus**](ConnectorsApi.md#connectorsStatus) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |  |
-| [**connectorsStatusWithHttpInfo**](ConnectorsApi.md#connectorsStatusWithHttpInfo) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |  |
+| [**connectorsConnect**](ConnectorsApi.md#connectorsConnect) | **POST** /v1/connectors/{tenantId}/{projectId}/connect |  |
+| [**connectorsConnectWithHttpInfo**](ConnectorsApi.md#connectorsConnectWithHttpInfo) | **POST** /v1/connectors/{tenantId}/{projectId}/connect |  |
+| [**connectorsGetSkills**](ConnectorsApi.md#connectorsGetSkills) | **GET** /v1/connectors/{tenantId}/{projectId}/skills |  |
+| [**connectorsGetSkillsWithHttpInfo**](ConnectorsApi.md#connectorsGetSkillsWithHttpInfo) | **GET** /v1/connectors/{tenantId}/{projectId}/skills |  |
+| [**connectorsInvokeTool**](ConnectorsApi.md#connectorsInvokeTool) | **POST** /v1/connectors/{tenantId}/{projectId}/invoke |  |
+| [**connectorsInvokeToolWithHttpInfo**](ConnectorsApi.md#connectorsInvokeToolWithHttpInfo) | **POST** /v1/connectors/{tenantId}/{projectId}/invoke |  |
+| [**connectorsList**](ConnectorsApi.md#connectorsList) | **GET** /v1/connectors/{tenantId}/{projectId} |  |
+| [**connectorsListWithHttpInfo**](ConnectorsApi.md#connectorsListWithHttpInfo) | **GET** /v1/connectors/{tenantId}/{projectId} |  |
+| [**connectorsListTools**](ConnectorsApi.md#connectorsListTools) | **GET** /v1/connectors/{tenantId}/{projectId}/tools |  |
+| [**connectorsListToolsWithHttpInfo**](ConnectorsApi.md#connectorsListToolsWithHttpInfo) | **GET** /v1/connectors/{tenantId}/{projectId}/tools |  |
+| [**connectorsStatus**](ConnectorsApi.md#connectorsStatus) | **GET** /v1/connectors/{tenantId}/{projectId}/status |  |
+| [**connectorsStatusWithHttpInfo**](ConnectorsApi.md#connectorsStatusWithHttpInfo) | **GET** /v1/connectors/{tenantId}/{projectId}/status |  |
 
 
 

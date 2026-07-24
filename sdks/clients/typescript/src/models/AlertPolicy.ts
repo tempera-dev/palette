@@ -104,13 +104,13 @@ export function AlertPolicyFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'dedupeWindowSeconds': json['dedupe_window_seconds'],
-        'endpointUrl': json['endpoint_url'],
-        'fireWhenScoreAtOrBelow': json['fire_when_score_at_or_below'],
-        'maintenanceWindows': ((json['maintenance_windows'] as Array<any>).map(MaintenanceWindowFromJSON)),
-        'policyId': json['policy_id'],
+        'dedupeWindowSeconds': json['dedupeWindowSeconds'],
+        'endpointUrl': json['endpointUrl'],
+        'fireWhenScoreAtOrBelow': json['fireWhenScoreAtOrBelow'],
+        'maintenanceWindows': ((json['maintenanceWindows'] as Array<any>).map(MaintenanceWindowFromJSON)),
+        'policyId': json['policyId'],
         'severity': AlertSeverityFromJSON(json['severity']),
-        'signingSecret': json['signing_secret'],
+        'signingSecret': json['signingSecret'],
     };
 }
 
@@ -125,13 +125,13 @@ export function AlertPolicyToJSONTyped(value?: AlertPolicy | null, ignoreDiscrim
 
     return {
         
-        'dedupe_window_seconds': value['dedupeWindowSeconds'],
-        'endpoint_url': value['endpointUrl'],
-        'fire_when_score_at_or_below': value['fireWhenScoreAtOrBelow'],
-        'maintenance_windows': ((value['maintenanceWindows'] as Array<any>).map(MaintenanceWindowToJSON)),
-        'policy_id': value['policyId'],
+        'dedupeWindowSeconds': value['dedupeWindowSeconds'],
+        'endpointUrl': value['endpointUrl'],
+        'fireWhenScoreAtOrBelow': value['fireWhenScoreAtOrBelow'],
+        'maintenanceWindows': ((value['maintenanceWindows'] as Array<any>).map(MaintenanceWindowToJSON)),
+        'policyId': value['policyId'],
         'severity': AlertSeverityToJSON(value['severity']),
-        'signing_secret': value['signingSecret'],
+        'signingSecret': value['signingSecret'],
     };
 }
 

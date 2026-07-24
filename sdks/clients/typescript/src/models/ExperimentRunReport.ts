@@ -159,19 +159,19 @@ export function ExperimentRunReportFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'baselineReleaseId': json['baseline_release_id'],
-        'candidateReleaseId': json['candidate_release_id'],
-        'caseScores': ((json['case_scores'] as Array<any>).map(CaseExperimentScoreFromJSON)),
+        'baselineReleaseId': json['baselineReleaseId'],
+        'candidateReleaseId': json['candidateReleaseId'],
+        'caseScores': ((json['caseScores'] as Array<any>).map(CaseExperimentScoreFromJSON)),
         'comparison': ExperimentComparisonFromJSON(json['comparison']),
-        'createdAt': (new Date(json['created_at'])),
-        'datasetId': json['dataset_id'],
-        'datasetVersionId': json['dataset_version_id'],
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetId': json['datasetId'],
+        'datasetVersionId': json['datasetVersionId'],
         'decision': GateDecisionFromJSON(json['decision']),
-        'evaluatorVersionId': json['evaluator_version_id'],
-        'experimentRunId': json['experiment_run_id'],
-        'gatePolicy': json['gate_policy'] == null ? undefined : GatePolicyFromJSON(json['gate_policy']),
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
+        'evaluatorVersionId': json['evaluatorVersionId'],
+        'experimentRunId': json['experimentRunId'],
+        'gatePolicy': json['gatePolicy'] == null ? undefined : GatePolicyFromJSON(json['gatePolicy']),
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -186,19 +186,19 @@ export function ExperimentRunReportToJSONTyped(value?: ExperimentRunReport | nul
 
     return {
         
-        'baseline_release_id': value['baselineReleaseId'],
-        'candidate_release_id': value['candidateReleaseId'],
-        'case_scores': ((value['caseScores'] as Array<any>).map(CaseExperimentScoreToJSON)),
+        'baselineReleaseId': value['baselineReleaseId'],
+        'candidateReleaseId': value['candidateReleaseId'],
+        'caseScores': ((value['caseScores'] as Array<any>).map(CaseExperimentScoreToJSON)),
         'comparison': ExperimentComparisonToJSON(value['comparison']),
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_id': value['datasetId'],
-        'dataset_version_id': value['datasetVersionId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetId': value['datasetId'],
+        'datasetVersionId': value['datasetVersionId'],
         'decision': GateDecisionToJSON(value['decision']),
-        'evaluator_version_id': value['evaluatorVersionId'],
-        'experiment_run_id': value['experimentRunId'],
-        'gate_policy': GatePolicyToJSON(value['gatePolicy']),
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
+        'experimentRunId': value['experimentRunId'],
+        'gatePolicy': GatePolicyToJSON(value['gatePolicy']),
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
     };
 }
 

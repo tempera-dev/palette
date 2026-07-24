@@ -59,9 +59,9 @@ export function CreateProviderSecretHttpRequestFromJSONTyped(json: any, ignoreDi
     }
     return {
         
-        'displayName': json['display_name'],
+        'displayName': json['displayName'],
         'provider': json['provider'],
-        'secretValue': json['secret_value'],
+        'secretValue': json['secretValue'],
     };
 }
 
@@ -76,9 +76,9 @@ export function CreateProviderSecretHttpRequestToJSONTyped(value?: CreateProvide
 
     return {
         
-        'display_name': value['displayName'],
+        'displayName': value['displayName'],
         'provider': value['provider'],
-        'secret_value': value['secretValue'],
+        'secretValue': value['secretValue'],
     };
 }
 

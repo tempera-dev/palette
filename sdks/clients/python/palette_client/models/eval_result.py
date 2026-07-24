@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from palette_client.models.eval_reproducibility import EvalReproducibility
 from palette_client.models.money import Money
@@ -31,19 +31,19 @@ class EvalResult(BaseModel):
     EvalResult
     """ # noqa: E501
     cost: Optional[Money] = None
-    created_at: datetime
-    eval_result_id: StrictStr
+    created_at: datetime = Field(alias="createdAt")
+    eval_result_id: StrictStr = Field(alias="evalResultId")
     evidence: Optional[Any]
     label: Optional[StrictStr] = None
-    non_reproducible_reason: Optional[StrictStr] = None
-    project_id: StrictStr
+    non_reproducible_reason: Optional[StrictStr] = Field(default=None, alias="nonReproducibleReason")
+    project_id: StrictStr = Field(alias="projectId")
     reproducibility: EvalReproducibility
     score: Union[StrictFloat, StrictInt]
-    span_id: Optional[StrictStr] = None
-    tenant_id: StrictStr
+    span_id: Optional[StrictStr] = Field(default=None, alias="spanId")
+    tenant_id: StrictStr = Field(alias="tenantId")
     tokens: Optional[TokenCounts] = None
-    trace_id: StrictStr
-    __properties: ClassVar[List[str]] = ["cost", "created_at", "eval_result_id", "evidence", "label", "non_reproducible_reason", "project_id", "reproducibility", "score", "span_id", "tenant_id", "tokens", "trace_id"]
+    trace_id: StrictStr = Field(alias="traceId")
+    __properties: ClassVar[List[str]] = ["cost", "createdAt", "evalResultId", "evidence", "label", "nonReproducibleReason", "projectId", "reproducibility", "score", "spanId", "tenantId", "tokens", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,7 +111,7 @@ class EvalResult(BaseModel):
         # set to None if non_reproducible_reason (nullable) is None
         # and model_fields_set contains the field
         if self.non_reproducible_reason is None and "non_reproducible_reason" in self.model_fields_set:
-            _dict['non_reproducible_reason'] = None
+            _dict['nonReproducibleReason'] = None
 
         # set to None if tokens (nullable) is None
         # and model_fields_set contains the field
@@ -131,18 +131,18 @@ class EvalResult(BaseModel):
 
         _obj = cls.model_validate({
             "cost": Money.from_dict(obj["cost"]) if obj.get("cost") is not None else None,
-            "created_at": obj.get("created_at"),
-            "eval_result_id": obj.get("eval_result_id"),
+            "createdAt": obj.get("createdAt"),
+            "evalResultId": obj.get("evalResultId"),
             "evidence": obj.get("evidence"),
             "label": obj.get("label"),
-            "non_reproducible_reason": obj.get("non_reproducible_reason"),
-            "project_id": obj.get("project_id"),
+            "nonReproducibleReason": obj.get("nonReproducibleReason"),
+            "projectId": obj.get("projectId"),
             "reproducibility": EvalReproducibility.from_dict(obj["reproducibility"]) if obj.get("reproducibility") is not None else None,
             "score": obj.get("score"),
-            "span_id": obj.get("span_id"),
-            "tenant_id": obj.get("tenant_id"),
+            "spanId": obj.get("spanId"),
+            "tenantId": obj.get("tenantId"),
             "tokens": TokenCounts.from_dict(obj["tokens"]) if obj.get("tokens") is not None else None,
-            "trace_id": obj.get("trace_id")
+            "traceId": obj.get("traceId")
         })
         return _obj
 

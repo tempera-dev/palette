@@ -13,29 +13,29 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RunSummary {
-    #[serde(rename = "duration_ms", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "durationMs", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub duration_ms: Option<Option<i64>>,
-    #[serde(rename = "ended_at", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "endedAt", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub ended_at: Option<Option<String>>,
-    #[serde(rename = "first_span_name")]
+    #[serde(rename = "firstSpanName")]
     pub first_span_name: String,
     #[serde(rename = "models")]
     pub models: Vec<models::ModelRef>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "release_ids")]
+    #[serde(rename = "releaseIds")]
     pub release_ids: Vec<String>,
-    #[serde(rename = "span_count")]
+    #[serde(rename = "spanCount")]
     pub span_count: i32,
-    #[serde(rename = "started_at")]
+    #[serde(rename = "startedAt")]
     pub started_at: String,
     #[serde(rename = "status")]
     pub status: models::SpanStatus,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "total_cost", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "totalCost", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub total_cost: Option<Option<Box<models::Money>>>,
-    #[serde(rename = "trace_id")]
+    #[serde(rename = "traceId")]
     pub trace_id: String,
 }
 

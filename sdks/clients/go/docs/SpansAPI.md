@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SpansGet**](SpansAPI.md#SpansGet) | **Get** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
-[**SpansGetIo**](SpansAPI.md#SpansGetIo) | **Get** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
+[**SpansGet**](SpansAPI.md#SpansGet) | **Get** /v1/spans/{tenantId}/{traceId}/{spanId} |
+[**SpansGetIo**](SpansAPI.md#SpansGetIo) | **Get** /v1/spans/{tenantId}/{traceId}/{spanId}/io |
 
 
 

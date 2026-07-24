@@ -56,12 +56,12 @@ public:
 
     std::shared_ptr<AnyType> getAnnotationSchema() const;
     bool annotationSchemaIsSet() const;
-    void unsetAnnotation_schema();
+    void unsetAnnotationSchema();
     void setAnnotationSchema(const std::shared_ptr<AnyType>& value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getName() const;
@@ -71,38 +71,38 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getQueueId() const;
     bool queueIdIsSet() const;
-    void unsetQueue_id();
+    void unsetQueueId();
     void setQueueId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
 protected:
-    std::shared_ptr<AnyType> m_Annotation_schema;
-    bool m_Annotation_schemaIsSet;
+    std::shared_ptr<AnyType> m_AnnotationSchema;
+    bool m_AnnotationSchemaIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
     utility::string_t m_Name;
     bool m_NameIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Queue_id;
-    bool m_Queue_idIsSet;
+    utility::string_t m_QueueId;
+    bool m_QueueIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

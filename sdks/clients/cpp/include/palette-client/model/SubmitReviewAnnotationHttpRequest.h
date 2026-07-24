@@ -58,7 +58,7 @@ public:
 
     utility::string_t getAnnotationId() const;
     bool annotationIdIsSet() const;
-    void unsetAnnotation_id();
+    void unsetAnnotationId();
     void setAnnotationId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getPayload() const;
@@ -68,7 +68,7 @@ public:
 
     utility::string_t getReviewerId() const;
     bool reviewerIdIsSet() const;
-    void unsetReviewer_id();
+    void unsetReviewerId();
     void setReviewerId(const utility::string_t& value);
 
     std::shared_ptr<ReviewVerdict> getVerdict() const;
@@ -78,14 +78,14 @@ public:
 
 
 protected:
-    utility::string_t m_Annotation_id;
-    bool m_Annotation_idIsSet;
+    utility::string_t m_AnnotationId;
+    bool m_AnnotationIdIsSet;
 
     std::shared_ptr<AnyType> m_Payload;
     bool m_PayloadIsSet;
 
-    utility::string_t m_Reviewer_id;
-    bool m_Reviewer_idIsSet;
+    utility::string_t m_ReviewerId;
+    bool m_ReviewerIdIsSet;
 
     std::shared_ptr<ReviewVerdict> m_Verdict;
     bool m_VerdictIsSet;

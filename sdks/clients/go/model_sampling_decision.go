@@ -23,7 +23,7 @@ var _ MappedNullable = &SamplingDecision{}
 type SamplingDecision struct {
 	Reason SamplingReason `json:"reason"`
 	Selected bool `json:"selected"`
-	StableScorePerMille int32 `json:"stable_score_per_mille"`
+	StableScorePerMille int32 `json:"stableScorePerMille"`
 }
 
 type _SamplingDecision SamplingDecision
@@ -132,7 +132,7 @@ func (o SamplingDecision) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["reason"] = o.Reason
 	toSerialize["selected"] = o.Selected
-	toSerialize["stable_score_per_mille"] = o.StableScorePerMille
+	toSerialize["stableScorePerMille"] = o.StableScorePerMille
 	return toSerialize, nil
 }
 
@@ -143,7 +143,7 @@ func (o *SamplingDecision) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"reason",
 		"selected",
-		"stable_score_per_mille",
+		"stableScorePerMille",
 	}
 
 	allProperties := make(map[string]interface{})

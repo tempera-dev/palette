@@ -20,28 +20,28 @@ namespace model {
 
 SearchHit::SearchHit()
 {
-    m_Environment_id = utility::conversions::to_string_t("");
-    m_Environment_idIsSet = false;
+    m_EnvironmentId = utility::conversions::to_string_t("");
+    m_EnvironmentIdIsSet = false;
     m_Kind = utility::conversions::to_string_t("");
     m_KindIsSet = false;
     m_Model = utility::conversions::to_string_t("");
     m_ModelIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_Score = 0.0f;
     m_ScoreIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
     m_Status = utility::conversions::to_string_t("");
     m_StatusIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_Tool = utility::conversions::to_string_t("");
     m_ToolIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 SearchHit::~SearchHit()
@@ -56,10 +56,10 @@ void SearchHit::validate()
 web::json::value SearchHit::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("environment_id"))] = ModelBase::toJson(m_Environment_id);
+        val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
     if(m_KindIsSet)
     {   
@@ -76,40 +76,40 @@ web::json::value SearchHit::toJson() const
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ScoreIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("score"))] = ModelBase::toJson(m_Score);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
     if(m_StatusIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_ToolIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("tool"))] = ModelBase::toJson(m_Tool);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -118,9 +118,9 @@ web::json::value SearchHit::toJson() const
 bool SearchHit::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEnvironmentId;
@@ -162,9 +162,9 @@ bool SearchHit::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -184,9 +184,9 @@ bool SearchHit::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -206,9 +206,9 @@ bool SearchHit::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -228,9 +228,9 @@ bool SearchHit::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -249,9 +249,9 @@ void SearchHit::toMultipart(std::shared_ptr<MultipartFormData> multipart, const 
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environment_id")), m_Environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environmentId")), m_EnvironmentId));
     }
     if(m_KindIsSet)
     {
@@ -265,33 +265,33 @@ void SearchHit::toMultipart(std::shared_ptr<MultipartFormData> multipart, const 
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ScoreIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("score")), m_Score));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_ToolIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tool")), m_Tool));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -304,10 +304,10 @@ bool SearchHit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, cons
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("environmentId"))))
     {
         utility::string_t refVal_setEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environment_id"))), refVal_setEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environmentId"))), refVal_setEnvironmentId );
         setEnvironmentId(refVal_setEnvironmentId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -328,10 +328,10 @@ bool SearchHit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, cons
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("score"))))
@@ -340,10 +340,10 @@ bool SearchHit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, cons
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("score"))), refVal_setScore );
         setScore(refVal_setScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -352,10 +352,10 @@ bool SearchHit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, cons
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
         setStatus(refVal_setStatus);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("tool"))))
@@ -364,10 +364,10 @@ bool SearchHit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, cons
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tool"))), refVal_setTool );
         setTool(refVal_setTool);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -376,24 +376,24 @@ bool SearchHit::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, cons
 
 utility::string_t SearchHit::getEnvironmentId() const
 {
-    return m_Environment_id;
+    return m_EnvironmentId;
 }
 
 
 void SearchHit::setEnvironmentId(const utility::string_t& value)
 {
-    m_Environment_id = value;
-    m_Environment_idIsSet = true;
+    m_EnvironmentId = value;
+    m_EnvironmentIdIsSet = true;
 }
 
 bool SearchHit::environmentIdIsSet() const
 {
-    return m_Environment_idIsSet;
+    return m_EnvironmentIdIsSet;
 }
 
-void SearchHit::unsetEnvironment_id()
+void SearchHit::unsetEnvironmentId()
 {
-    m_Environment_idIsSet = false;
+    m_EnvironmentIdIsSet = false;
 }
 utility::string_t SearchHit::getKind() const
 {
@@ -460,24 +460,24 @@ void SearchHit::unsetName()
 }
 utility::string_t SearchHit::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void SearchHit::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool SearchHit::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void SearchHit::unsetProject_id()
+void SearchHit::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 float SearchHit::getScore() const
 {
@@ -501,24 +501,24 @@ void SearchHit::unsetScore()
 }
 utility::string_t SearchHit::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void SearchHit::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool SearchHit::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void SearchHit::unsetSpan_id()
+void SearchHit::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::string_t SearchHit::getStatus() const
 {
@@ -543,24 +543,24 @@ void SearchHit::unsetStatus()
 }
 utility::string_t SearchHit::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void SearchHit::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool SearchHit::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void SearchHit::unsetTenant_id()
+void SearchHit::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t SearchHit::getTool() const
 {
@@ -585,24 +585,24 @@ void SearchHit::unsetTool()
 }
 utility::string_t SearchHit::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void SearchHit::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool SearchHit::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void SearchHit::unsetTrace_id()
+void SearchHit::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

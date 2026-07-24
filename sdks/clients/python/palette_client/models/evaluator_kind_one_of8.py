@@ -27,9 +27,9 @@ class EvaluatorKindOneOf8(BaseModel):
     """
     Browser step efficiency: passes when the run used at most `max_steps` browser steps (catches looping/backtracking). Reads `trace.browser_steps`.
     """ # noqa: E501
-    max_steps: Annotated[int, Field(strict=True, ge=0)]
+    max_steps: Annotated[int, Field(strict=True, ge=0)] = Field(alias="maxSteps")
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["max_steps", "type"]
+    __properties: ClassVar[List[str]] = ["maxSteps", "type"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -89,7 +89,7 @@ class EvaluatorKindOneOf8(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "max_steps": obj.get("max_steps"),
+            "maxSteps": obj.get("maxSteps"),
             "type": obj.get("type")
         })
         return _obj

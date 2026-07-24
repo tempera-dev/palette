@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from palette_client.models.calibration_label import CalibrationLabel
 from typing import Optional, Set
@@ -28,13 +28,13 @@ class CalibrationItem(BaseModel):
     CalibrationItem
     """ # noqa: E501
     agreed: StrictBool
-    dataset_case_id: StrictStr
+    dataset_case_id: StrictStr = Field(alias="datasetCaseId")
     evidence: Optional[Any]
-    human_label: CalibrationLabel
-    judge_label: CalibrationLabel
-    judge_result_label: Optional[StrictStr] = None
-    judge_score: Union[StrictFloat, StrictInt]
-    __properties: ClassVar[List[str]] = ["agreed", "dataset_case_id", "evidence", "human_label", "judge_label", "judge_result_label", "judge_score"]
+    human_label: CalibrationLabel = Field(alias="humanLabel")
+    judge_label: CalibrationLabel = Field(alias="judgeLabel")
+    judge_result_label: Optional[StrictStr] = Field(default=None, alias="judgeResultLabel")
+    judge_score: Union[StrictFloat, StrictInt] = Field(alias="judgeScore")
+    __properties: ClassVar[List[str]] = ["agreed", "datasetCaseId", "evidence", "humanLabel", "judgeLabel", "judgeResultLabel", "judgeScore"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,7 +83,7 @@ class CalibrationItem(BaseModel):
         # set to None if judge_result_label (nullable) is None
         # and model_fields_set contains the field
         if self.judge_result_label is None and "judge_result_label" in self.model_fields_set:
-            _dict['judge_result_label'] = None
+            _dict['judgeResultLabel'] = None
 
         return _dict
 
@@ -98,12 +98,12 @@ class CalibrationItem(BaseModel):
 
         _obj = cls.model_validate({
             "agreed": obj.get("agreed"),
-            "dataset_case_id": obj.get("dataset_case_id"),
+            "datasetCaseId": obj.get("datasetCaseId"),
             "evidence": obj.get("evidence"),
-            "human_label": obj.get("human_label"),
-            "judge_label": obj.get("judge_label"),
-            "judge_result_label": obj.get("judge_result_label"),
-            "judge_score": obj.get("judge_score")
+            "humanLabel": obj.get("humanLabel"),
+            "judgeLabel": obj.get("judgeLabel"),
+            "judgeResultLabel": obj.get("judgeResultLabel"),
+            "judgeScore": obj.get("judgeScore")
         })
         return _obj
 

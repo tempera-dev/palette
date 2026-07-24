@@ -13,19 +13,19 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct RunExperimentRequest {
-    #[serde(rename = "baseline_outputs")]
+    #[serde(rename = "baselineOutputs")]
     pub baseline_outputs: Vec<models::CaseOutputOverrideRequest>,
-    #[serde(rename = "baseline_release_id")]
+    #[serde(rename = "baselineReleaseId")]
     pub baseline_release_id: String,
-    #[serde(rename = "candidate_outputs")]
+    #[serde(rename = "candidateOutputs")]
     pub candidate_outputs: Vec<models::CaseOutputOverrideRequest>,
-    #[serde(rename = "candidate_release_id")]
+    #[serde(rename = "candidateReleaseId")]
     pub candidate_release_id: String,
-    #[serde(rename = "evaluator_id")]
+    #[serde(rename = "evaluatorId")]
     pub evaluator_id: String,
-    #[serde(rename = "evaluator_version_id")]
+    #[serde(rename = "evaluatorVersionId")]
     pub evaluator_version_id: String,
-    #[serde(rename = "gate_policy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "gatePolicy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub gate_policy: Option<Option<Box<models::GatePolicy>>>,
     #[serde(rename = "kind")]
     pub kind: Box<models::EvaluatorKind>,

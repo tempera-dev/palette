@@ -27,9 +27,9 @@ class EvaluatorKindOneOf5(BaseModel):
     """
     EvaluatorKindOneOf5
     """ # noqa: E501
-    max_ms: Annotated[int, Field(strict=True, ge=0)]
+    max_ms: Annotated[int, Field(strict=True, ge=0)] = Field(alias="maxMs")
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["max_ms", "type"]
+    __properties: ClassVar[List[str]] = ["maxMs", "type"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -89,7 +89,7 @@ class EvaluatorKindOneOf5(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "max_ms": obj.get("max_ms"),
+            "maxMs": obj.get("maxMs"),
             "type": obj.get("type")
         })
         return _obj

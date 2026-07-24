@@ -75,12 +75,12 @@ export function EnqueueReviewTaskFromTraceHttpRequestFromJSONTyped(json: any, ig
     }
     return {
         
-        'datasetCaseId': json['dataset_case_id'] == null ? undefined : json['dataset_case_id'],
-        'datasetId': json['dataset_id'] == null ? undefined : json['dataset_id'],
+        'datasetCaseId': json['datasetCaseId'] == null ? undefined : json['datasetCaseId'],
+        'datasetId': json['datasetId'] == null ? undefined : json['datasetId'],
         'priority': json['priority'] == null ? undefined : json['priority'],
-        'spanId': json['span_id'] == null ? undefined : json['span_id'],
-        'taskId': json['task_id'] == null ? undefined : json['task_id'],
-        'traceId': json['trace_id'],
+        'spanId': json['spanId'] == null ? undefined : json['spanId'],
+        'taskId': json['taskId'] == null ? undefined : json['taskId'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -95,12 +95,12 @@ export function EnqueueReviewTaskFromTraceHttpRequestToJSONTyped(value?: Enqueue
 
     return {
         
-        'dataset_case_id': value['datasetCaseId'],
-        'dataset_id': value['datasetId'],
+        'datasetCaseId': value['datasetCaseId'],
+        'datasetId': value['datasetId'],
         'priority': value['priority'],
-        'span_id': value['spanId'],
-        'task_id': value['taskId'],
-        'trace_id': value['traceId'],
+        'spanId': value['spanId'],
+        'taskId': value['taskId'],
+        'traceId': value['traceId'],
     };
 }
 

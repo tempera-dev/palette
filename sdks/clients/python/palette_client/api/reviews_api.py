@@ -354,9 +354,9 @@ class ReviewsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -401,7 +401,7 @@ class ReviewsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/review-queues/{tenant_id}/{project_id}',
+            resource_path='/v1/review-queues/{tenantId}/{projectId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -739,11 +739,11 @@ class ReviewsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if queue_id is not None:
-            _path_params['queue_id'] = queue_id
+            _path_params['queueId'] = queue_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -788,7 +788,7 @@ class ReviewsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace',
+            resource_path='/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1152,11 +1152,11 @@ class ReviewsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if queue_id is not None:
-            _path_params['queue_id'] = queue_id
+            _path_params['queueId'] = queue_id
         # process the query parameters
         if state is not None:
 
@@ -1198,7 +1198,7 @@ class ReviewsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks',
+            resource_path='/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1562,15 +1562,15 @@ class ReviewsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if queue_id is not None:
-            _path_params['queue_id'] = queue_id
+            _path_params['queueId'] = queue_id
         if task_id is not None:
-            _path_params['task_id'] = task_id
+            _path_params['taskId'] = task_id
         if annotation_id is not None:
-            _path_params['annotation_id'] = annotation_id
+            _path_params['annotationId'] = annotation_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -1615,7 +1615,7 @@ class ReviewsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote',
+            resource_path='/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1966,13 +1966,13 @@ class ReviewsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if queue_id is not None:
-            _path_params['queue_id'] = queue_id
+            _path_params['queueId'] = queue_id
         if task_id is not None:
-            _path_params['task_id'] = task_id
+            _path_params['taskId'] = task_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -2017,7 +2017,7 @@ class ReviewsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations',
+            resource_path='/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

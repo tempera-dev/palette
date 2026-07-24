@@ -117,7 +117,7 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/provider-secrets/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/provider-secrets/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -180,7 +180,7 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/provider-secrets/{tenant_id}/{project_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/provider-secrets/{tenantId}/{projectId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -241,7 +241,7 @@ export class ProviderSecretsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/provider-secrets/{tenant_id}/{project_id}/{provider_secret_id}/revoke`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"provider_secret_id"}}`, encodeURIComponent(String(requestParameters['providerSecretId']))),
+            path: `/v1/provider-secrets/{tenantId}/{projectId}/{providerSecretId}/revoke`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))).replace(`{${"providerSecretId"}}`, encodeURIComponent(String(requestParameters['providerSecretId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

@@ -54,15 +54,15 @@ public class TraceIngestedDrainReport {
   @javax.annotation.Nonnull
   private Integer consumed;
 
-  public static final String JSON_PROPERTY_DEAD_LETTERED = "dead_lettered";
+  public static final String JSON_PROPERTY_DEAD_LETTERED = "deadLettered";
   @javax.annotation.Nonnull
   private Integer deadLettered;
 
-  public static final String JSON_PROPERTY_FAILED_WORK = "failed_work";
+  public static final String JSON_PROPERTY_FAILED_WORK = "failedWork";
   @javax.annotation.Nonnull
   private Integer failedWork;
 
-  public static final String JSON_PROPERTY_INVALID_MESSAGES = "invalid_messages";
+  public static final String JSON_PROPERTY_INVALID_MESSAGES = "invalidMessages";
   @javax.annotation.Nonnull
   private Integer invalidMessages;
 
@@ -70,7 +70,7 @@ public class TraceIngestedDrainReport {
   @javax.annotation.Nonnull
   private Integer retried;
 
-  public static final String JSON_PROPERTY_TRACE_REFS = "trace_refs";
+  public static final String JSON_PROPERTY_TRACE_REFS = "traceRefs";
   @javax.annotation.Nonnull
   private List<QueuedTraceWork> traceRefs = new ArrayList<>();
 
@@ -353,19 +353,19 @@ public class TraceIngestedDrainReport {
       joiner.add(String.format("%sconsumed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getConsumed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dead_lettered` to the URL query string
+    // add `deadLettered` to the URL query string
     if (getDeadLettered() != null) {
-      joiner.add(String.format("%sdead_lettered%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeadLettered()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdeadLettered%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeadLettered()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `failed_work` to the URL query string
+    // add `failedWork` to the URL query string
     if (getFailedWork() != null) {
-      joiner.add(String.format("%sfailed_work%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedWork()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfailedWork%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedWork()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `invalid_messages` to the URL query string
+    // add `invalidMessages` to the URL query string
     if (getInvalidMessages() != null) {
-      joiner.add(String.format("%sinvalid_messages%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvalidMessages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinvalidMessages%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInvalidMessages()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `retried` to the URL query string
@@ -373,11 +373,11 @@ public class TraceIngestedDrainReport {
       joiner.add(String.format("%sretried%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRetried()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `trace_refs` to the URL query string
+    // add `traceRefs` to the URL query string
     if (getTraceRefs() != null) {
       for (int i = 0; i < getTraceRefs().size(); i++) {
         if (getTraceRefs().get(i) != null) {
-          joiner.add(getTraceRefs().get(i).toUrlQueryString(String.format("%strace_refs%s%s", prefix, suffix,
+          joiner.add(getTraceRefs().get(i).toUrlQueryString(String.format("%straceRefs%s%s", prefix, suffix,
           "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }

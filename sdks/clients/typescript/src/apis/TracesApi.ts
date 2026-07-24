@@ -113,7 +113,7 @@ export class TracesApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/traces/{tenant_id}/{trace_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"trace_id"}}`, encodeURIComponent(String(requestParameters['traceId']))),
+            path: `/v1/traces/{tenantId}/{traceId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters['traceId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -142,15 +142,15 @@ export class TracesApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         if (requestParameters['projectId'] != null) {
-            queryParameters['project_id'] = requestParameters['projectId'];
+            queryParameters['projectId'] = requestParameters['projectId'];
         }
 
         if (requestParameters['environmentId'] != null) {
-            queryParameters['environment_id'] = requestParameters['environmentId'];
+            queryParameters['environmentId'] = requestParameters['environmentId'];
         }
 
         if (requestParameters['traceId'] != null) {
-            queryParameters['trace_id'] = requestParameters['traceId'];
+            queryParameters['traceId'] = requestParameters['traceId'];
         }
 
         if (requestParameters['kind'] != null) {
@@ -162,11 +162,11 @@ export class TracesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['startedAfter'] != null) {
-            queryParameters['started_after'] = requestParameters['startedAfter'];
+            queryParameters['startedAfter'] = requestParameters['startedAfter'];
         }
 
         if (requestParameters['startedBefore'] != null) {
-            queryParameters['started_before'] = requestParameters['startedBefore'];
+            queryParameters['startedBefore'] = requestParameters['startedBefore'];
         }
 
         if (requestParameters['model'] != null) {
@@ -178,19 +178,19 @@ export class TracesApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['minCostMicros'] != null) {
-            queryParameters['min_cost_micros'] = requestParameters['minCostMicros'];
+            queryParameters['minCostMicros'] = requestParameters['minCostMicros'];
         }
 
         if (requestParameters['maxCostMicros'] != null) {
-            queryParameters['max_cost_micros'] = requestParameters['maxCostMicros'];
+            queryParameters['maxCostMicros'] = requestParameters['maxCostMicros'];
         }
 
         if (requestParameters['minLatencyMs'] != null) {
-            queryParameters['min_latency_ms'] = requestParameters['minLatencyMs'];
+            queryParameters['minLatencyMs'] = requestParameters['minLatencyMs'];
         }
 
         if (requestParameters['maxLatencyMs'] != null) {
-            queryParameters['max_latency_ms'] = requestParameters['maxLatencyMs'];
+            queryParameters['maxLatencyMs'] = requestParameters['maxLatencyMs'];
         }
 
         if (requestParameters['pageSize'] != null) {
@@ -220,7 +220,7 @@ export class TracesApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/traces/{tenant_id}`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))),
+            path: `/v1/traces/{tenantId}`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

@@ -21,14 +21,14 @@ var _ MappedNullable = &PaletteConnectStatusResponse{}
 
 // PaletteConnectStatusResponse struct for PaletteConnectStatusResponse
 type PaletteConnectStatusResponse struct {
-	FirstEvalRun bool `json:"first_eval_run"`
-	FirstTraceReceived bool `json:"first_trace_received"`
+	FirstEvalRun bool `json:"firstEvalRun"`
+	FirstTraceReceived bool `json:"firstTraceReceived"`
 	Ok bool `json:"ok"`
-	ProjectId string `json:"project_id"`
+	ProjectId string `json:"projectId"`
 	Status PaletteConnectStatus `json:"status"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 	Totals map[string]UsageTotal `json:"totals"`
-	UsageConfigured bool `json:"usage_configured"`
+	UsageConfigured bool `json:"usageConfigured"`
 }
 
 type _PaletteConnectStatusResponse PaletteConnectStatusResponse
@@ -260,14 +260,14 @@ func (o PaletteConnectStatusResponse) MarshalJSON() ([]byte, error) {
 
 func (o PaletteConnectStatusResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["first_eval_run"] = o.FirstEvalRun
-	toSerialize["first_trace_received"] = o.FirstTraceReceived
+	toSerialize["firstEvalRun"] = o.FirstEvalRun
+	toSerialize["firstTraceReceived"] = o.FirstTraceReceived
 	toSerialize["ok"] = o.Ok
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["status"] = o.Status
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	toSerialize["totals"] = o.Totals
-	toSerialize["usage_configured"] = o.UsageConfigured
+	toSerialize["usageConfigured"] = o.UsageConfigured
 	return toSerialize, nil
 }
 
@@ -276,14 +276,14 @@ func (o *PaletteConnectStatusResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"first_eval_run",
-		"first_trace_received",
+		"firstEvalRun",
+		"firstTraceReceived",
 		"ok",
-		"project_id",
+		"projectId",
 		"status",
-		"tenant_id",
+		"tenantId",
 		"totals",
-		"usage_configured",
+		"usageConfigured",
 	}
 
 	allProperties := make(map[string]interface{})

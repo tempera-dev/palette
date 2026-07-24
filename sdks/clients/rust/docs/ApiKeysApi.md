@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**api_keys_period_create**](ApiKeysApi.md#api_keys_period_create) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id} |
-[**api_keys_period_revoke**](ApiKeysApi.md#api_keys_period_revoke) | **POST** /v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke |
+[**api_keys_period_create**](ApiKeysApi.md#api_keys_period_create) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId} |
+[**api_keys_period_revoke**](ApiKeysApi.md#api_keys_period_revoke) | **POST** /v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke |
 
 
 

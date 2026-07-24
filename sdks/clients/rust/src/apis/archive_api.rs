@@ -82,7 +82,7 @@ pub enum ArchivePeriodQuerySpansError {
 
 pub async fn archive_period_archive_trace(configuration: &configuration::Configuration, params: ArchivePeriodArchiveTraceParams) -> Result<models::ArchiveManifest, Error<ArchivePeriodArchiveTraceError>> {
 
-    let uri_str = format!("{}/v1/archive/{tenant_id}/{project_id}/{trace_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), trace_id=crate::apis::urlencode(params.trace_id));
+    let uri_str = format!("{}/v1/archive/{tenantId}/{projectId}/{traceId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), traceId=crate::apis::urlencode(params.trace_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -118,17 +118,17 @@ pub async fn archive_period_archive_trace(configuration: &configuration::Configu
 
 pub async fn archive_period_query_spans(configuration: &configuration::Configuration, params: ArchivePeriodQuerySpansParams) -> Result<models::ArchiveQueryResponse, Error<ArchivePeriodQuerySpansError>> {
 
-    let uri_str = format!("{}/v1/archive/{tenant_id}/{project_id}/spans", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/archive/{tenantId}/{projectId}/spans", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.environment_id {
-        req_builder = req_builder.query(&[("environment_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("environmentId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.trace_id {
-        req_builder = req_builder.query(&[("trace_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("traceId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.span_id {
-        req_builder = req_builder.query(&[("span_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("spanId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.kind {
         req_builder = req_builder.query(&[("kind", &param_value.to_string())]);

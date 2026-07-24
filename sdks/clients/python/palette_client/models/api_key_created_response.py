@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.api_scope import ApiScope
 from typing import Optional, Set
@@ -29,14 +29,14 @@ class ApiKeyCreatedResponse(BaseModel):
     ApiKeyCreatedResponse
     """ # noqa: E501
     active: StrictBool
-    api_key_id: StrictStr
-    created_at: datetime
-    environment_id: StrictStr
-    project_id: StrictStr
+    api_key_id: StrictStr = Field(alias="apiKeyId")
+    created_at: datetime = Field(alias="createdAt")
+    environment_id: StrictStr = Field(alias="environmentId")
+    project_id: StrictStr = Field(alias="projectId")
     scopes: List[ApiScope]
     secret: StrictStr
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["active", "api_key_id", "created_at", "environment_id", "project_id", "scopes", "secret", "tenant_id"]
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["active", "apiKeyId", "createdAt", "environmentId", "projectId", "scopes", "secret", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,13 +90,13 @@ class ApiKeyCreatedResponse(BaseModel):
 
         _obj = cls.model_validate({
             "active": obj.get("active"),
-            "api_key_id": obj.get("api_key_id"),
-            "created_at": obj.get("created_at"),
-            "environment_id": obj.get("environment_id"),
-            "project_id": obj.get("project_id"),
+            "apiKeyId": obj.get("apiKeyId"),
+            "createdAt": obj.get("createdAt"),
+            "environmentId": obj.get("environmentId"),
+            "projectId": obj.get("projectId"),
             "scopes": obj.get("scopes"),
             "secret": obj.get("secret"),
-            "tenant_id": obj.get("tenant_id")
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

@@ -21,27 +21,27 @@ namespace model {
 EvalResult::EvalResult()
 {
     m_CostIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
-    m_Eval_result_id = utility::conversions::to_string_t("");
-    m_Eval_result_idIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
+    m_EvalResultId = utility::conversions::to_string_t("");
+    m_EvalResultIdIsSet = false;
     m_EvidenceIsSet = false;
     m_Label = utility::conversions::to_string_t("");
     m_LabelIsSet = false;
-    m_Non_reproducible_reason = utility::conversions::to_string_t("");
-    m_Non_reproducible_reasonIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_NonReproducibleReason = utility::conversions::to_string_t("");
+    m_NonReproducibleReasonIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_ReproducibilityIsSet = false;
     m_Score = 0.0;
     m_ScoreIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_TokensIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 EvalResult::~EvalResult()
@@ -61,15 +61,15 @@ web::json::value EvalResult::toJson() const
         
         val[utility::conversions::to_string_t(U("cost"))] = ModelBase::toJson(m_Cost);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
-    if(m_Eval_result_idIsSet)
+    if(m_EvalResultIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("eval_result_id"))] = ModelBase::toJson(m_Eval_result_id);
+        val[utility::conversions::to_string_t(U("evalResultId"))] = ModelBase::toJson(m_EvalResultId);
     }
     if(m_EvidenceIsSet)
     {   
@@ -81,15 +81,15 @@ web::json::value EvalResult::toJson() const
         
         val[utility::conversions::to_string_t(U("label"))] = ModelBase::toJson(m_Label);
     }
-    if(m_Non_reproducible_reasonIsSet)
+    if(m_NonReproducibleReasonIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("non_reproducible_reason"))] = ModelBase::toJson(m_Non_reproducible_reason);
+        val[utility::conversions::to_string_t(U("nonReproducibleReason"))] = ModelBase::toJson(m_NonReproducibleReason);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ReproducibilityIsSet)
     {   
@@ -101,25 +101,25 @@ web::json::value EvalResult::toJson() const
         
         val[utility::conversions::to_string_t(U("score"))] = ModelBase::toJson(m_Score);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TokensIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("tokens"))] = ModelBase::toJson(m_Tokens);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -139,9 +139,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -150,9 +150,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("eval_result_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evalResultId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("eval_result_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evalResultId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvalResultId;
@@ -183,9 +183,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("non_reproducible_reason"))))
+    if(val.has_field(utility::conversions::to_string_t(U("nonReproducibleReason"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("non_reproducible_reason")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("nonReproducibleReason")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setNonReproducibleReason;
@@ -194,9 +194,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -227,9 +227,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -238,9 +238,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -260,9 +260,9 @@ bool EvalResult::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -285,13 +285,13 @@ void EvalResult::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cost")), m_Cost));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
-    if(m_Eval_result_idIsSet)
+    if(m_EvalResultIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("eval_result_id")), m_Eval_result_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evalResultId")), m_EvalResultId));
     }
     if(m_EvidenceIsSet)
     {
@@ -301,13 +301,13 @@ void EvalResult::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("label")), m_Label));
     }
-    if(m_Non_reproducible_reasonIsSet)
+    if(m_NonReproducibleReasonIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("non_reproducible_reason")), m_Non_reproducible_reason));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("nonReproducibleReason")), m_NonReproducibleReason));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ReproducibilityIsSet)
     {
@@ -317,21 +317,21 @@ void EvalResult::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("score")), m_Score));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_TokensIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tokens")), m_Tokens));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -350,16 +350,16 @@ bool EvalResult::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cost"))), refVal_setCost );
         setCost(refVal_setCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("eval_result_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evalResultId"))))
     {
         utility::string_t refVal_setEvalResultId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("eval_result_id"))), refVal_setEvalResultId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evalResultId"))), refVal_setEvalResultId );
         setEvalResultId(refVal_setEvalResultId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("evidence"))))
@@ -374,16 +374,16 @@ bool EvalResult::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("label"))), refVal_setLabel );
         setLabel(refVal_setLabel);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("non_reproducible_reason"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("nonReproducibleReason"))))
     {
         utility::string_t refVal_setNonReproducibleReason;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("non_reproducible_reason"))), refVal_setNonReproducibleReason );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("nonReproducibleReason"))), refVal_setNonReproducibleReason );
         setNonReproducibleReason(refVal_setNonReproducibleReason);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("reproducibility"))))
@@ -398,16 +398,16 @@ bool EvalResult::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("score"))), refVal_setScore );
         setScore(refVal_setScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("tokens"))))
@@ -416,10 +416,10 @@ bool EvalResult::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tokens"))), refVal_setTokens );
         setTokens(refVal_setTokens);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -449,45 +449,45 @@ void EvalResult::unsetCost()
 }
 utility::datetime EvalResult::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void EvalResult::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool EvalResult::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void EvalResult::unsetCreated_at()
+void EvalResult::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 utility::string_t EvalResult::getEvalResultId() const
 {
-    return m_Eval_result_id;
+    return m_EvalResultId;
 }
 
 
 void EvalResult::setEvalResultId(const utility::string_t& value)
 {
-    m_Eval_result_id = value;
-    m_Eval_result_idIsSet = true;
+    m_EvalResultId = value;
+    m_EvalResultIdIsSet = true;
 }
 
 bool EvalResult::evalResultIdIsSet() const
 {
-    return m_Eval_result_idIsSet;
+    return m_EvalResultIdIsSet;
 }
 
-void EvalResult::unsetEval_result_id()
+void EvalResult::unsetEvalResultId()
 {
-    m_Eval_result_idIsSet = false;
+    m_EvalResultIdIsSet = false;
 }
 std::shared_ptr<AnyType> EvalResult::getEvidence() const
 {
@@ -533,45 +533,45 @@ void EvalResult::unsetLabel()
 }
 utility::string_t EvalResult::getNonReproducibleReason() const
 {
-    return m_Non_reproducible_reason;
+    return m_NonReproducibleReason;
 }
 
 
 void EvalResult::setNonReproducibleReason(const utility::string_t& value)
 {
-    m_Non_reproducible_reason = value;
-    m_Non_reproducible_reasonIsSet = true;
+    m_NonReproducibleReason = value;
+    m_NonReproducibleReasonIsSet = true;
 }
 
 bool EvalResult::nonReproducibleReasonIsSet() const
 {
-    return m_Non_reproducible_reasonIsSet;
+    return m_NonReproducibleReasonIsSet;
 }
 
-void EvalResult::unsetNon_reproducible_reason()
+void EvalResult::unsetNonReproducibleReason()
 {
-    m_Non_reproducible_reasonIsSet = false;
+    m_NonReproducibleReasonIsSet = false;
 }
 utility::string_t EvalResult::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void EvalResult::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool EvalResult::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void EvalResult::unsetProject_id()
+void EvalResult::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::shared_ptr<EvalReproducibility> EvalResult::getReproducibility() const
 {
@@ -616,45 +616,45 @@ void EvalResult::unsetScore()
 }
 utility::string_t EvalResult::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void EvalResult::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool EvalResult::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void EvalResult::unsetSpan_id()
+void EvalResult::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::string_t EvalResult::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void EvalResult::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool EvalResult::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void EvalResult::unsetTenant_id()
+void EvalResult::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 std::shared_ptr<TokenCounts> EvalResult::getTokens() const
 {
@@ -679,24 +679,24 @@ void EvalResult::unsetTokens()
 }
 utility::string_t EvalResult::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void EvalResult::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool EvalResult::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void EvalResult::unsetTrace_id()
+void EvalResult::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

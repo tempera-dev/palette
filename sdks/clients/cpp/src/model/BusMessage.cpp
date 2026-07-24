@@ -22,21 +22,21 @@ BusMessage::BusMessage()
 {
     m_Attempts = 0;
     m_AttemptsIsSet = false;
-    m_Enqueued_at = utility::datetime();
-    m_Enqueued_atIsSet = false;
-    m_Idempotency_key = utility::conversions::to_string_t("");
-    m_Idempotency_keyIsSet = false;
+    m_EnqueuedAt = utility::datetime();
+    m_EnqueuedAtIsSet = false;
+    m_IdempotencyKey = utility::conversions::to_string_t("");
+    m_IdempotencyKeyIsSet = false;
     m_Kind = utility::conversions::to_string_t("");
     m_KindIsSet = false;
-    m_Max_attempts = 0;
-    m_Max_attemptsIsSet = false;
-    m_Message_id = utility::conversions::to_string_t("");
-    m_Message_idIsSet = false;
+    m_MaxAttempts = 0;
+    m_MaxAttemptsIsSet = false;
+    m_MessageId = utility::conversions::to_string_t("");
+    m_MessageIdIsSet = false;
     m_PayloadIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
 }
 
 BusMessage::~BusMessage()
@@ -56,45 +56,45 @@ web::json::value BusMessage::toJson() const
         
         val[utility::conversions::to_string_t(U("attempts"))] = ModelBase::toJson(m_Attempts);
     }
-    if(m_Enqueued_atIsSet)
+    if(m_EnqueuedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("enqueued_at"))] = ModelBase::toJson(m_Enqueued_at);
+        val[utility::conversions::to_string_t(U("enqueuedAt"))] = ModelBase::toJson(m_EnqueuedAt);
     }
-    if(m_Idempotency_keyIsSet)
+    if(m_IdempotencyKeyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("idempotency_key"))] = ModelBase::toJson(m_Idempotency_key);
+        val[utility::conversions::to_string_t(U("idempotencyKey"))] = ModelBase::toJson(m_IdempotencyKey);
     }
     if(m_KindIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
-    if(m_Max_attemptsIsSet)
+    if(m_MaxAttemptsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("max_attempts"))] = ModelBase::toJson(m_Max_attempts);
+        val[utility::conversions::to_string_t(U("maxAttempts"))] = ModelBase::toJson(m_MaxAttempts);
     }
-    if(m_Message_idIsSet)
+    if(m_MessageIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("message_id"))] = ModelBase::toJson(m_Message_id);
+        val[utility::conversions::to_string_t(U("messageId"))] = ModelBase::toJson(m_MessageId);
     }
     if(m_PayloadIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("payload"))] = ModelBase::toJson(m_Payload);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
 
     return val;
@@ -114,9 +114,9 @@ bool BusMessage::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("enqueued_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("enqueuedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("enqueued_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("enqueuedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setEnqueuedAt;
@@ -125,9 +125,9 @@ bool BusMessage::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("idempotency_key"))))
+    if(val.has_field(utility::conversions::to_string_t(U("idempotencyKey"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("idempotency_key")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("idempotencyKey")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setIdempotencyKey;
@@ -147,9 +147,9 @@ bool BusMessage::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("max_attempts"))))
+    if(val.has_field(utility::conversions::to_string_t(U("maxAttempts"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("max_attempts")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maxAttempts")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setMaxAttempts;
@@ -158,9 +158,9 @@ bool BusMessage::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("message_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("messageId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("message_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("messageId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setMessageId;
@@ -180,9 +180,9 @@ bool BusMessage::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -191,9 +191,9 @@ bool BusMessage::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -216,37 +216,37 @@ void BusMessage::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("attempts")), m_Attempts));
     }
-    if(m_Enqueued_atIsSet)
+    if(m_EnqueuedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("enqueued_at")), m_Enqueued_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("enqueuedAt")), m_EnqueuedAt));
     }
-    if(m_Idempotency_keyIsSet)
+    if(m_IdempotencyKeyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("idempotency_key")), m_Idempotency_key));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("idempotencyKey")), m_IdempotencyKey));
     }
     if(m_KindIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("kind")), m_Kind));
     }
-    if(m_Max_attemptsIsSet)
+    if(m_MaxAttemptsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("max_attempts")), m_Max_attempts));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maxAttempts")), m_MaxAttempts));
     }
-    if(m_Message_idIsSet)
+    if(m_MessageIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("message_id")), m_Message_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("messageId")), m_MessageId));
     }
     if(m_PayloadIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("payload")), m_Payload));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
 }
 
@@ -265,16 +265,16 @@ bool BusMessage::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("attempts"))), refVal_setAttempts );
         setAttempts(refVal_setAttempts);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("enqueued_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("enqueuedAt"))))
     {
         utility::datetime refVal_setEnqueuedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("enqueued_at"))), refVal_setEnqueuedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("enqueuedAt"))), refVal_setEnqueuedAt );
         setEnqueuedAt(refVal_setEnqueuedAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("idempotency_key"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("idempotencyKey"))))
     {
         utility::string_t refVal_setIdempotencyKey;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("idempotency_key"))), refVal_setIdempotencyKey );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("idempotencyKey"))), refVal_setIdempotencyKey );
         setIdempotencyKey(refVal_setIdempotencyKey);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -283,16 +283,16 @@ bool BusMessage::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("kind"))), refVal_setKind );
         setKind(refVal_setKind);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("max_attempts"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("maxAttempts"))))
     {
         int32_t refVal_setMaxAttempts;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("max_attempts"))), refVal_setMaxAttempts );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maxAttempts"))), refVal_setMaxAttempts );
         setMaxAttempts(refVal_setMaxAttempts);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("message_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("messageId"))))
     {
         utility::string_t refVal_setMessageId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("message_id"))), refVal_setMessageId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("messageId"))), refVal_setMessageId );
         setMessageId(refVal_setMessageId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("payload"))))
@@ -301,16 +301,16 @@ bool BusMessage::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("payload"))), refVal_setPayload );
         setPayload(refVal_setPayload);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     return ok;
@@ -339,45 +339,45 @@ void BusMessage::unsetAttempts()
 }
 utility::datetime BusMessage::getEnqueuedAt() const
 {
-    return m_Enqueued_at;
+    return m_EnqueuedAt;
 }
 
 
 void BusMessage::setEnqueuedAt(const utility::datetime& value)
 {
-    m_Enqueued_at = value;
-    m_Enqueued_atIsSet = true;
+    m_EnqueuedAt = value;
+    m_EnqueuedAtIsSet = true;
 }
 
 bool BusMessage::enqueuedAtIsSet() const
 {
-    return m_Enqueued_atIsSet;
+    return m_EnqueuedAtIsSet;
 }
 
-void BusMessage::unsetEnqueued_at()
+void BusMessage::unsetEnqueuedAt()
 {
-    m_Enqueued_atIsSet = false;
+    m_EnqueuedAtIsSet = false;
 }
 utility::string_t BusMessage::getIdempotencyKey() const
 {
-    return m_Idempotency_key;
+    return m_IdempotencyKey;
 }
 
 
 void BusMessage::setIdempotencyKey(const utility::string_t& value)
 {
-    m_Idempotency_key = value;
-    m_Idempotency_keyIsSet = true;
+    m_IdempotencyKey = value;
+    m_IdempotencyKeyIsSet = true;
 }
 
 bool BusMessage::idempotencyKeyIsSet() const
 {
-    return m_Idempotency_keyIsSet;
+    return m_IdempotencyKeyIsSet;
 }
 
-void BusMessage::unsetIdempotency_key()
+void BusMessage::unsetIdempotencyKey()
 {
-    m_Idempotency_keyIsSet = false;
+    m_IdempotencyKeyIsSet = false;
 }
 utility::string_t BusMessage::getKind() const
 {
@@ -402,44 +402,44 @@ void BusMessage::unsetKind()
 }
 int32_t BusMessage::getMaxAttempts() const
 {
-    return m_Max_attempts;
+    return m_MaxAttempts;
 }
 
 void BusMessage::setMaxAttempts(int32_t value)
 {
-    m_Max_attempts = value;
-    m_Max_attemptsIsSet = true;
+    m_MaxAttempts = value;
+    m_MaxAttemptsIsSet = true;
 }
 
 bool BusMessage::maxAttemptsIsSet() const
 {
-    return m_Max_attemptsIsSet;
+    return m_MaxAttemptsIsSet;
 }
 
-void BusMessage::unsetMax_attempts()
+void BusMessage::unsetMaxAttempts()
 {
-    m_Max_attemptsIsSet = false;
+    m_MaxAttemptsIsSet = false;
 }
 utility::string_t BusMessage::getMessageId() const
 {
-    return m_Message_id;
+    return m_MessageId;
 }
 
 
 void BusMessage::setMessageId(const utility::string_t& value)
 {
-    m_Message_id = value;
-    m_Message_idIsSet = true;
+    m_MessageId = value;
+    m_MessageIdIsSet = true;
 }
 
 bool BusMessage::messageIdIsSet() const
 {
-    return m_Message_idIsSet;
+    return m_MessageIdIsSet;
 }
 
-void BusMessage::unsetMessage_id()
+void BusMessage::unsetMessageId()
 {
-    m_Message_idIsSet = false;
+    m_MessageIdIsSet = false;
 }
 std::vector<int32_t> BusMessage::getPayload() const
 {
@@ -463,45 +463,45 @@ void BusMessage::unsetPayload()
 }
 utility::string_t BusMessage::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void BusMessage::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool BusMessage::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void BusMessage::unsetProject_id()
+void BusMessage::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t BusMessage::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void BusMessage::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool BusMessage::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void BusMessage::unsetTenant_id()
+void BusMessage::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 
 }

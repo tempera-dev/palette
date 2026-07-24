@@ -13,21 +13,21 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ReviewAnnotation {
-    #[serde(rename = "annotation_id")]
+    #[serde(rename = "annotationId")]
     pub annotation_id: String,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
     #[serde(rename = "payload", deserialize_with = "Option::deserialize")]
     pub payload: Option<serde_json::Value>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "queue_id")]
+    #[serde(rename = "queueId")]
     pub queue_id: String,
-    #[serde(rename = "reviewer_id")]
+    #[serde(rename = "reviewerId")]
     pub reviewer_id: String,
-    #[serde(rename = "task_id")]
+    #[serde(rename = "taskId")]
     pub task_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
     #[serde(rename = "verdict")]
     pub verdict: models::ReviewVerdict,

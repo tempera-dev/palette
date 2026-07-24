@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DeadLetter {
-    #[serde(rename = "failed_at")]
+    #[serde(rename = "failedAt")]
     pub failed_at: String,
     #[serde(rename = "message")]
     pub message: Box<models::BusMessage>,

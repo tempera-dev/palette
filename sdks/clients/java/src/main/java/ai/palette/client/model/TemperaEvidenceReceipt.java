@@ -56,11 +56,11 @@ public class TemperaEvidenceReceipt {
   @javax.annotation.Nonnull
   private Boolean created;
 
-  public static final String JSON_PROPERTY_DECLARED_CONTENT_SHA256 = "declared_content_sha256";
+  public static final String JSON_PROPERTY_DECLARED_CONTENT_SHA256 = "declaredContentSha256";
   @javax.annotation.Nonnull
   private String declaredContentSha256;
 
-  public static final String JSON_PROPERTY_EXTERNAL_ID = "external_id";
+  public static final String JSON_PROPERTY_EXTERNAL_ID = "externalId";
   @javax.annotation.Nonnull
   private String externalId;
 
@@ -68,31 +68,31 @@ public class TemperaEvidenceReceipt {
   @javax.annotation.Nonnull
   private ExternalEvalEvidenceKind kind;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_PUBLIC_KEY_SHA256 = "public_key_sha256";
+  public static final String JSON_PROPERTY_PUBLIC_KEY_SHA256 = "publicKeySha256";
   @javax.annotation.Nonnull
   private String publicKeySha256;
 
-  public static final String JSON_PROPERTY_SCHEMA_VERSION = "schema_version";
+  public static final String JSON_PROPERTY_SCHEMA_VERSION = "schemaVersion";
   @javax.annotation.Nonnull
   private String schemaVersion;
 
-  public static final String JSON_PROPERTY_SIGNATURE_SHA256 = "signature_sha256";
+  public static final String JSON_PROPERTY_SIGNATURE_SHA256 = "signatureSha256";
   @javax.annotation.Nonnull
   private String signatureSha256;
 
-  public static final String JSON_PROPERTY_SIGNED_PAYLOAD_SHA256 = "signed_payload_sha256";
+  public static final String JSON_PROPERTY_SIGNED_PAYLOAD_SHA256 = "signedPayloadSha256";
   @javax.annotation.Nonnull
   private String signedPayloadSha256;
 
-  public static final String JSON_PROPERTY_SOURCE_SCHEMA_VERSION = "source_schema_version";
+  public static final String JSON_PROPERTY_SOURCE_SCHEMA_VERSION = "sourceSchemaVersion";
   @javax.annotation.Nonnull
   private String sourceSchemaVersion;
 
-  public static final String JSON_PROPERTY_STORED_AT = "stored_at";
+  public static final String JSON_PROPERTY_STORED_AT = "storedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime storedAt;
 
@@ -100,7 +100,7 @@ public class TemperaEvidenceReceipt {
   @javax.annotation.Nonnull
   private TemperaEvidenceSummary summary;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -520,14 +520,14 @@ public class TemperaEvidenceReceipt {
       joiner.add(String.format("%screated%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreated()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `declared_content_sha256` to the URL query string
+    // add `declaredContentSha256` to the URL query string
     if (getDeclaredContentSha256() != null) {
-      joiner.add(String.format("%sdeclared_content_sha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeclaredContentSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdeclaredContentSha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDeclaredContentSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `external_id` to the URL query string
+    // add `externalId` to the URL query string
     if (getExternalId() != null) {
-      joiner.add(String.format("%sexternal_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExternalId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexternalId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExternalId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `kind` to the URL query string
@@ -535,39 +535,39 @@ public class TemperaEvidenceReceipt {
       joiner.add(String.format("%skind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `public_key_sha256` to the URL query string
+    // add `publicKeySha256` to the URL query string
     if (getPublicKeySha256() != null) {
-      joiner.add(String.format("%spublic_key_sha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPublicKeySha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spublicKeySha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPublicKeySha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `schema_version` to the URL query string
+    // add `schemaVersion` to the URL query string
     if (getSchemaVersion() != null) {
-      joiner.add(String.format("%sschema_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sschemaVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `signature_sha256` to the URL query string
+    // add `signatureSha256` to the URL query string
     if (getSignatureSha256() != null) {
-      joiner.add(String.format("%ssignature_sha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignatureSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssignatureSha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignatureSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `signed_payload_sha256` to the URL query string
+    // add `signedPayloadSha256` to the URL query string
     if (getSignedPayloadSha256() != null) {
-      joiner.add(String.format("%ssigned_payload_sha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignedPayloadSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssignedPayloadSha256%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignedPayloadSha256()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `source_schema_version` to the URL query string
+    // add `sourceSchemaVersion` to the URL query string
     if (getSourceSchemaVersion() != null) {
-      joiner.add(String.format("%ssource_schema_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSourceSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssourceSchemaVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSourceSchemaVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `stored_at` to the URL query string
+    // add `storedAt` to the URL query string
     if (getStoredAt() != null) {
-      joiner.add(String.format("%sstored_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStoredAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstoredAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStoredAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `summary` to the URL query string
@@ -575,9 +575,9 @@ public class TemperaEvidenceReceipt {
       joiner.add(getSummary().toUrlQueryString(prefix + "summary" + suffix));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

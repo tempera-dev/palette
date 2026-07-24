@@ -20,23 +20,23 @@ namespace model {
 
 AlertInput::AlertInput()
 {
-    m_Baseline_score = 0.0;
-    m_Baseline_scoreIsSet = false;
-    m_Group_key = utility::conversions::to_string_t("");
-    m_Group_keyIsSet = false;
+    m_BaselineScore = 0.0;
+    m_BaselineScoreIsSet = false;
+    m_GroupKey = utility::conversions::to_string_t("");
+    m_GroupKeyIsSet = false;
     m_LinksIsSet = false;
     m_Now = utility::datetime();
     m_NowIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
     m_Score = 0.0;
     m_ScoreIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_Title = utility::conversions::to_string_t("");
     m_TitleIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 AlertInput::~AlertInput()
@@ -51,15 +51,15 @@ void AlertInput::validate()
 web::json::value AlertInput::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Baseline_scoreIsSet)
+    if(m_BaselineScoreIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_score"))] = ModelBase::toJson(m_Baseline_score);
+        val[utility::conversions::to_string_t(U("baselineScore"))] = ModelBase::toJson(m_BaselineScore);
     }
-    if(m_Group_keyIsSet)
+    if(m_GroupKeyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("group_key"))] = ModelBase::toJson(m_Group_key);
+        val[utility::conversions::to_string_t(U("groupKey"))] = ModelBase::toJson(m_GroupKey);
     }
     if(m_LinksIsSet)
     {   
@@ -71,30 +71,30 @@ web::json::value AlertInput::toJson() const
         
         val[utility::conversions::to_string_t(U("now"))] = ModelBase::toJson(m_Now);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
     if(m_ScoreIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("score"))] = ModelBase::toJson(m_Score);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TitleIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("title"))] = ModelBase::toJson(m_Title);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -103,9 +103,9 @@ web::json::value AlertInput::toJson() const
 bool AlertInput::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_score"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineScore"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_score")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineScore")));
         if(!fieldValue.is_null())
         {
             double refVal_setBaselineScore;
@@ -114,9 +114,9 @@ bool AlertInput::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("group_key"))))
+    if(val.has_field(utility::conversions::to_string_t(U("groupKey"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("group_key")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("groupKey")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setGroupKey;
@@ -147,9 +147,9 @@ bool AlertInput::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -169,9 +169,9 @@ bool AlertInput::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -191,9 +191,9 @@ bool AlertInput::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -212,13 +212,13 @@ void AlertInput::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Baseline_scoreIsSet)
+    if(m_BaselineScoreIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_score")), m_Baseline_score));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineScore")), m_BaselineScore));
     }
-    if(m_Group_keyIsSet)
+    if(m_GroupKeyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("group_key")), m_Group_key));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("groupKey")), m_GroupKey));
     }
     if(m_LinksIsSet)
     {
@@ -228,25 +228,25 @@ void AlertInput::toMultipart(std::shared_ptr<MultipartFormData> multipart, const
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("now")), m_Now));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
     if(m_ScoreIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("score")), m_Score));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_TitleIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("title")), m_Title));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -259,16 +259,16 @@ bool AlertInput::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_score"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineScore"))))
     {
         double refVal_setBaselineScore;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_score"))), refVal_setBaselineScore );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineScore"))), refVal_setBaselineScore );
         setBaselineScore(refVal_setBaselineScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("group_key"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("groupKey"))))
     {
         utility::string_t refVal_setGroupKey;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("group_key"))), refVal_setGroupKey );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("groupKey"))), refVal_setGroupKey );
         setGroupKey(refVal_setGroupKey);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("links"))))
@@ -283,10 +283,10 @@ bool AlertInput::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("now"))), refVal_setNow );
         setNow(refVal_setNow);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("score"))))
@@ -295,10 +295,10 @@ bool AlertInput::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("score"))), refVal_setScore );
         setScore(refVal_setScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("title"))))
@@ -307,10 +307,10 @@ bool AlertInput::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("title"))), refVal_setTitle );
         setTitle(refVal_setTitle);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -319,44 +319,44 @@ bool AlertInput::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, con
 
 double AlertInput::getBaselineScore() const
 {
-    return m_Baseline_score;
+    return m_BaselineScore;
 }
 
 void AlertInput::setBaselineScore(double value)
 {
-    m_Baseline_score = value;
-    m_Baseline_scoreIsSet = true;
+    m_BaselineScore = value;
+    m_BaselineScoreIsSet = true;
 }
 
 bool AlertInput::baselineScoreIsSet() const
 {
-    return m_Baseline_scoreIsSet;
+    return m_BaselineScoreIsSet;
 }
 
-void AlertInput::unsetBaseline_score()
+void AlertInput::unsetBaselineScore()
 {
-    m_Baseline_scoreIsSet = false;
+    m_BaselineScoreIsSet = false;
 }
 utility::string_t AlertInput::getGroupKey() const
 {
-    return m_Group_key;
+    return m_GroupKey;
 }
 
 
 void AlertInput::setGroupKey(const utility::string_t& value)
 {
-    m_Group_key = value;
-    m_Group_keyIsSet = true;
+    m_GroupKey = value;
+    m_GroupKeyIsSet = true;
 }
 
 bool AlertInput::groupKeyIsSet() const
 {
-    return m_Group_keyIsSet;
+    return m_GroupKeyIsSet;
 }
 
-void AlertInput::unsetGroup_key()
+void AlertInput::unsetGroupKey()
 {
-    m_Group_keyIsSet = false;
+    m_GroupKeyIsSet = false;
 }
 std::shared_ptr<AlertLinks> AlertInput::getLinks() const
 {
@@ -402,24 +402,24 @@ void AlertInput::unsetNow()
 }
 utility::string_t AlertInput::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void AlertInput::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool AlertInput::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void AlertInput::unsetProject_id()
+void AlertInput::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 double AlertInput::getScore() const
 {
@@ -443,24 +443,24 @@ void AlertInput::unsetScore()
 }
 utility::string_t AlertInput::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void AlertInput::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool AlertInput::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void AlertInput::unsetTenant_id()
+void AlertInput::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t AlertInput::getTitle() const
 {
@@ -485,24 +485,24 @@ void AlertInput::unsetTitle()
 }
 utility::string_t AlertInput::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void AlertInput::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool AlertInput::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void AlertInput::unsetTrace_id()
+void AlertInput::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

@@ -17,7 +17,7 @@ pub struct SamplingDecision {
     pub reason: models::SamplingReason,
     #[serde(rename = "selected")]
     pub selected: bool,
-    #[serde(rename = "stable_score_per_mille")]
+    #[serde(rename = "stableScorePerMille")]
     pub stable_score_per_mille: i32,
 }
 

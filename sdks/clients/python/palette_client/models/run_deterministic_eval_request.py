@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.evaluator_kind import EvaluatorKind
 from typing import Optional, Set
@@ -27,14 +27,14 @@ class RunDeterministicEvalRequest(BaseModel):
     """
     RunDeterministicEvalRequest
     """ # noqa: E501
-    agent_release_id: StrictStr
-    code_hash: Optional[StrictStr] = None
-    evaluator_id: StrictStr
-    evaluator_version_id: StrictStr
+    agent_release_id: StrictStr = Field(alias="agentReleaseId")
+    code_hash: Optional[StrictStr] = Field(default=None, alias="codeHash")
+    evaluator_id: StrictStr = Field(alias="evaluatorId")
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
     kind: EvaluatorKind
-    prompt_version_id: Optional[StrictStr] = None
-    wasm_hash: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["agent_release_id", "code_hash", "evaluator_id", "evaluator_version_id", "kind", "prompt_version_id", "wasm_hash"]
+    prompt_version_id: Optional[StrictStr] = Field(default=None, alias="promptVersionId")
+    wasm_hash: Optional[StrictStr] = Field(default=None, alias="wasmHash")
+    __properties: ClassVar[List[str]] = ["agentReleaseId", "codeHash", "evaluatorId", "evaluatorVersionId", "kind", "promptVersionId", "wasmHash"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,17 +81,17 @@ class RunDeterministicEvalRequest(BaseModel):
         # set to None if code_hash (nullable) is None
         # and model_fields_set contains the field
         if self.code_hash is None and "code_hash" in self.model_fields_set:
-            _dict['code_hash'] = None
+            _dict['codeHash'] = None
 
         # set to None if prompt_version_id (nullable) is None
         # and model_fields_set contains the field
         if self.prompt_version_id is None and "prompt_version_id" in self.model_fields_set:
-            _dict['prompt_version_id'] = None
+            _dict['promptVersionId'] = None
 
         # set to None if wasm_hash (nullable) is None
         # and model_fields_set contains the field
         if self.wasm_hash is None and "wasm_hash" in self.model_fields_set:
-            _dict['wasm_hash'] = None
+            _dict['wasmHash'] = None
 
         return _dict
 
@@ -105,13 +105,13 @@ class RunDeterministicEvalRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "agent_release_id": obj.get("agent_release_id"),
-            "code_hash": obj.get("code_hash"),
-            "evaluator_id": obj.get("evaluator_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
+            "agentReleaseId": obj.get("agentReleaseId"),
+            "codeHash": obj.get("codeHash"),
+            "evaluatorId": obj.get("evaluatorId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
             "kind": EvaluatorKind.from_dict(obj["kind"]) if obj.get("kind") is not None else None,
-            "prompt_version_id": obj.get("prompt_version_id"),
-            "wasm_hash": obj.get("wasm_hash")
+            "promptVersionId": obj.get("promptVersionId"),
+            "wasmHash": obj.get("wasmHash")
         })
         return _obj
 

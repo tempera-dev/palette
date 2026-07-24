@@ -45,14 +45,14 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class SubmitReviewAnnotationHttpRequest {
-  public static final String JSON_PROPERTY_ANNOTATION_ID = "annotation_id";
+  public static final String JSON_PROPERTY_ANNOTATION_ID = "annotationId";
   private JsonNullable<String> annotationId = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_PAYLOAD = "payload";
   @javax.annotation.Nullable
   private Object payload = null;
 
-  public static final String JSON_PROPERTY_REVIEWER_ID = "reviewer_id";
+  public static final String JSON_PROPERTY_REVIEWER_ID = "reviewerId";
   @javax.annotation.Nonnull
   private String reviewerId;
 
@@ -256,9 +256,9 @@ public class SubmitReviewAnnotationHttpRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `annotation_id` to the URL query string
+    // add `annotationId` to the URL query string
     if (getAnnotationId() != null) {
-      joiner.add(String.format("%sannotation_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnnotationId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sannotationId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnnotationId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `payload` to the URL query string
@@ -266,9 +266,9 @@ public class SubmitReviewAnnotationHttpRequest {
       joiner.add(String.format("%spayload%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPayload()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `reviewer_id` to the URL query string
+    // add `reviewerId` to the URL query string
     if (getReviewerId() != null) {
-      joiner.add(String.format("%sreviewer_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReviewerId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreviewerId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReviewerId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `verdict` to the URL query string

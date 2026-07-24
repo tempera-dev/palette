@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EvaluatorKindOneOf5 {
-    #[serde(rename = "max_ms")]
+    #[serde(rename = "maxMs")]
     pub max_ms: i64,
     #[serde(rename = "type")]
     pub r#type: Type,

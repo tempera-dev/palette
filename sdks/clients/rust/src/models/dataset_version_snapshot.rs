@@ -16,17 +16,17 @@ pub struct DatasetVersionSnapshot {
     #[serde(rename = "cases")]
     pub cases: Vec<models::DatasetCase>,
     /// A content-addressed Merkle root naming the exact contents of a corpus.  Serialized as its lowercase-hex SHA-256 string.
-    #[serde(rename = "corpus_root")]
+    #[serde(rename = "corpusRoot")]
     pub corpus_root: String,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_id")]
+    #[serde(rename = "datasetId")]
     pub dataset_id: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
-    #[serde(rename = "version_id")]
+    #[serde(rename = "versionId")]
     pub version_id: String,
 }
 

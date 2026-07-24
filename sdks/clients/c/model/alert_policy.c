@@ -88,7 +88,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
     if (!alert_policy->dedupe_window_seconds) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "dedupe_window_seconds", alert_policy->dedupe_window_seconds) == NULL) {
+    if(cJSON_AddNumberToObject(item, "dedupeWindowSeconds", alert_policy->dedupe_window_seconds) == NULL) {
     goto fail; //Numeric
     }
 
@@ -97,7 +97,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
     if (!alert_policy->endpoint_url) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "endpoint_url", alert_policy->endpoint_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "endpointUrl", alert_policy->endpoint_url) == NULL) {
     goto fail; //String
     }
 
@@ -106,7 +106,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
     if (!alert_policy->fire_when_score_at_or_below) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "fire_when_score_at_or_below", alert_policy->fire_when_score_at_or_below) == NULL) {
+    if(cJSON_AddNumberToObject(item, "fireWhenScoreAtOrBelow", alert_policy->fire_when_score_at_or_below) == NULL) {
     goto fail; //Numeric
     }
 
@@ -115,7 +115,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
     if (!alert_policy->maintenance_windows) {
         goto fail;
     }
-    cJSON *maintenance_windows = cJSON_AddArrayToObject(item, "maintenance_windows");
+    cJSON *maintenance_windows = cJSON_AddArrayToObject(item, "maintenanceWindows");
     if(maintenance_windows == NULL) {
     goto fail; //nonprimitive container
     }
@@ -136,7 +136,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
     if (!alert_policy->policy_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "policy_id", alert_policy->policy_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "policyId", alert_policy->policy_id) == NULL) {
     goto fail; //String
     }
 
@@ -159,7 +159,7 @@ cJSON *alert_policy_convertToJSON(alert_policy_t *alert_policy) {
     if (!alert_policy->signing_secret) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "signing_secret", alert_policy->signing_secret) == NULL) {
+    if(cJSON_AddStringToObject(item, "signingSecret", alert_policy->signing_secret) == NULL) {
     goto fail; //String
     }
 
@@ -182,7 +182,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     palette_api_alert_severity__e severity_local_nonprim = 0;
 
     // alert_policy->dedupe_window_seconds
-    cJSON *dedupe_window_seconds = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "dedupe_window_seconds");
+    cJSON *dedupe_window_seconds = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "dedupeWindowSeconds");
     if (cJSON_IsNull(dedupe_window_seconds)) {
         dedupe_window_seconds = NULL;
     }
@@ -197,7 +197,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     }
 
     // alert_policy->endpoint_url
-    cJSON *endpoint_url = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "endpoint_url");
+    cJSON *endpoint_url = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "endpointUrl");
     if (cJSON_IsNull(endpoint_url)) {
         endpoint_url = NULL;
     }
@@ -212,7 +212,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     }
 
     // alert_policy->fire_when_score_at_or_below
-    cJSON *fire_when_score_at_or_below = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "fire_when_score_at_or_below");
+    cJSON *fire_when_score_at_or_below = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "fireWhenScoreAtOrBelow");
     if (cJSON_IsNull(fire_when_score_at_or_below)) {
         fire_when_score_at_or_below = NULL;
     }
@@ -227,7 +227,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     }
 
     // alert_policy->maintenance_windows
-    cJSON *maintenance_windows = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "maintenance_windows");
+    cJSON *maintenance_windows = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "maintenanceWindows");
     if (cJSON_IsNull(maintenance_windows)) {
         maintenance_windows = NULL;
     }
@@ -254,7 +254,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     }
 
     // alert_policy->policy_id
-    cJSON *policy_id = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "policy_id");
+    cJSON *policy_id = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "policyId");
     if (cJSON_IsNull(policy_id)) {
         policy_id = NULL;
     }
@@ -281,7 +281,7 @@ alert_policy_t *alert_policy_parseFromJSON(cJSON *alert_policyJSON){
     severity_local_nonprim = alert_severity_parseFromJSON(severity); //custom
 
     // alert_policy->signing_secret
-    cJSON *signing_secret = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "signing_secret");
+    cJSON *signing_secret = cJSON_GetObjectItemCaseSensitive(alert_policyJSON, "signingSecret");
     if (cJSON_IsNull(signing_secret)) {
         signing_secret = NULL;
     }

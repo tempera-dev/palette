@@ -348,9 +348,9 @@ class GatesApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -395,7 +395,7 @@ class GatesApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/gates/{tenant_id}/{project_id}',
+            resource_path='/v1/gates/{tenantId}/{projectId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -733,11 +733,11 @@ class GatesApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if gate_id is not None:
-            _path_params['gate_id'] = gate_id
+            _path_params['gateId'] = gate_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -782,7 +782,7 @@ class GatesApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/gates/{tenant_id}/{project_id}/{gate_id}/run',
+            resource_path='/v1/gates/{tenantId}/{projectId}/{gateId}/run',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

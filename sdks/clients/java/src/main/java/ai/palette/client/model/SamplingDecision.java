@@ -48,7 +48,7 @@ public class SamplingDecision {
   @javax.annotation.Nonnull
   private Boolean selected;
 
-  public static final String JSON_PROPERTY_STABLE_SCORE_PER_MILLE = "stable_score_per_mille";
+  public static final String JSON_PROPERTY_STABLE_SCORE_PER_MILLE = "stableScorePerMille";
   @javax.annotation.Nonnull
   private Integer stableScorePerMille;
 
@@ -214,9 +214,9 @@ public class SamplingDecision {
       joiner.add(String.format("%sselected%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSelected()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `stable_score_per_mille` to the URL query string
+    // add `stableScorePerMille` to the URL query string
     if (getStableScorePerMille() != null) {
-      joiner.add(String.format("%sstable_score_per_mille%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStableScorePerMille()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstableScorePerMille%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStableScorePerMille()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

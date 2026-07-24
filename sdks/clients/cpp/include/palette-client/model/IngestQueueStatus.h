@@ -58,53 +58,53 @@ public:
 
     std::vector<std::shared_ptr<DeadLetter>> getDeadLetters() const;
     bool deadLettersIsSet() const;
-    void unsetDead_letters();
+    void unsetDeadLetters();
     void setDeadLetters(const std::vector<std::shared_ptr<DeadLetter>>& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
     int32_t getTotalDepth() const;
     bool totalDepthIsSet() const;
-    void unsetTotal_depth();
+    void unsetTotalDepth();
     void setTotalDepth(int32_t value);
 
     int32_t getTraceIngestedDepth() const;
     bool traceIngestedDepthIsSet() const;
-    void unsetTrace_ingested_depth();
+    void unsetTraceIngestedDepth();
     void setTraceIngestedDepth(int32_t value);
 
     int32_t getTraceWriteDepth() const;
     bool traceWriteDepthIsSet() const;
-    void unsetTrace_write_depth();
+    void unsetTraceWriteDepth();
     void setTraceWriteDepth(int32_t value);
 
 
 protected:
-    std::vector<std::shared_ptr<DeadLetter>> m_Dead_letters;
-    bool m_Dead_lettersIsSet;
+    std::vector<std::shared_ptr<DeadLetter>> m_DeadLetters;
+    bool m_DeadLettersIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
-    int32_t m_Total_depth;
-    bool m_Total_depthIsSet;
+    int32_t m_TotalDepth;
+    bool m_TotalDepthIsSet;
 
-    int32_t m_Trace_ingested_depth;
-    bool m_Trace_ingested_depthIsSet;
+    int32_t m_TraceIngestedDepth;
+    bool m_TraceIngestedDepthIsSet;
 
-    int32_t m_Trace_write_depth;
-    bool m_Trace_write_depthIsSet;
+    int32_t m_TraceWriteDepth;
+    bool m_TraceWriteDepthIsSet;
 
 };
 

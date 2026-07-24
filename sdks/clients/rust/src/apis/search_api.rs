@@ -54,23 +54,23 @@ pub enum SearchPeriodSpansError {
 
 pub async fn search_period_spans(configuration: &configuration::Configuration, params: SearchPeriodSpansParams) -> Result<models::SearchSpanListResponse, Error<SearchPeriodSpansError>> {
 
-    let uri_str = format!("{}/v1/search/{tenant_id}/spans", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id));
+    let uri_str = format!("{}/v1/search/{tenantId}/spans", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.q {
         req_builder = req_builder.query(&[("q", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.project_id {
-        req_builder = req_builder.query(&[("project_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("projectId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.environment_id {
-        req_builder = req_builder.query(&[("environment_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("environmentId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.trace_id {
-        req_builder = req_builder.query(&[("trace_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("traceId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.span_id {
-        req_builder = req_builder.query(&[("span_id", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("spanId", &param_value.to_string())]);
     }
     if let Some(ref param_value) = params.kind {
         req_builder = req_builder.query(&[("kind", &param_value.to_string())]);

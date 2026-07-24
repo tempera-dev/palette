@@ -42,19 +42,19 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class PerturbationKnobs {
-  public static final String JSON_PROPERTY_AUTH_FAILURE = "auth_failure";
+  public static final String JSON_PROPERTY_AUTH_FAILURE = "authFailure";
   @javax.annotation.Nonnull
   private Boolean authFailure;
 
-  public static final String JSON_PROPERTY_CONTRADICTORY_SOURCE = "contradictory_source";
+  public static final String JSON_PROPERTY_CONTRADICTORY_SOURCE = "contradictorySource";
   @javax.annotation.Nonnull
   private Boolean contradictorySource;
 
-  public static final String JSON_PROPERTY_PROMPT_INJECTION = "prompt_injection";
+  public static final String JSON_PROPERTY_PROMPT_INJECTION = "promptInjection";
   @javax.annotation.Nonnull
   private Boolean promptInjection;
 
-  public static final String JSON_PROPERTY_STALE_SOURCE = "stale_source";
+  public static final String JSON_PROPERTY_STALE_SOURCE = "staleSource";
   @javax.annotation.Nonnull
   private Boolean staleSource;
 
@@ -62,7 +62,7 @@ public class PerturbationKnobs {
   @javax.annotation.Nonnull
   private Boolean timeout;
 
-  public static final String JSON_PROPERTY_TOOL_SCHEMA_MISMATCH = "tool_schema_mismatch";
+  public static final String JSON_PROPERTY_TOOL_SCHEMA_MISMATCH = "toolSchemaMismatch";
   @javax.annotation.Nonnull
   private Boolean toolSchemaMismatch;
 
@@ -295,24 +295,24 @@ public class PerturbationKnobs {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `auth_failure` to the URL query string
+    // add `authFailure` to the URL query string
     if (getAuthFailure() != null) {
-      joiner.add(String.format("%sauth_failure%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAuthFailure()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sauthFailure%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAuthFailure()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `contradictory_source` to the URL query string
+    // add `contradictorySource` to the URL query string
     if (getContradictorySource() != null) {
-      joiner.add(String.format("%scontradictory_source%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContradictorySource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scontradictorySource%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getContradictorySource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `prompt_injection` to the URL query string
+    // add `promptInjection` to the URL query string
     if (getPromptInjection() != null) {
-      joiner.add(String.format("%sprompt_injection%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptInjection()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spromptInjection%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptInjection()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `stale_source` to the URL query string
+    // add `staleSource` to the URL query string
     if (getStaleSource() != null) {
-      joiner.add(String.format("%sstale_source%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStaleSource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstaleSource%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStaleSource()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `timeout` to the URL query string
@@ -320,9 +320,9 @@ public class PerturbationKnobs {
       joiner.add(String.format("%stimeout%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTimeout()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tool_schema_mismatch` to the URL query string
+    // add `toolSchemaMismatch` to the URL query string
     if (getToolSchemaMismatch() != null) {
-      joiner.add(String.format("%stool_schema_mismatch%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getToolSchemaMismatch()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stoolSchemaMismatch%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getToolSchemaMismatch()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

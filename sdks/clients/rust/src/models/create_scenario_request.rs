@@ -13,13 +13,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateScenarioRequest {
-    #[serde(rename = "exemplar_trace_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "exemplarTraceId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub exemplar_trace_id: Option<Option<String>>,
-    #[serde(rename = "expected_outcome", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "expectedOutcome", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub expected_outcome: Option<Option<String>>,
-    #[serde(rename = "failure_mode", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "failureMode", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub failure_mode: Option<Option<models::FailureMode>>,
-    #[serde(rename = "source_trace_ids")]
+    #[serde(rename = "sourceTraceIds")]
     pub source_trace_ids: Vec<String>,
     #[serde(rename = "title")]
     pub title: String,

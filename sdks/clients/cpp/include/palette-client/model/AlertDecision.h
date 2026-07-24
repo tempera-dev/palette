@@ -67,7 +67,7 @@ public:
 
     utility::string_t getSuppressedReason() const;
     bool suppressedReasonIsSet() const;
-    void unsetSuppressed_reason();
+    void unsetSuppressedReason();
     void setSuppressedReason(const utility::string_t& value);
 
 
@@ -78,8 +78,8 @@ protected:
     bool m_Emitted;
     bool m_EmittedIsSet;
 
-    utility::string_t m_Suppressed_reason;
-    bool m_Suppressed_reasonIsSet;
+    utility::string_t m_SuppressedReason;
+    bool m_SuppressedReasonIsSet;
 
 };
 

@@ -4,24 +4,24 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SearchAPI_searchSpans**](SearchAPI.md#SearchAPI_searchSpans) | **GET** /v1/search/{tenant_id}/spans |
+[**SearchAPI_searchSpans**](SearchAPI.md#SearchAPI_searchSpans) | **GET** /v1/search/{tenantId}/spans |
 
 
 # **SearchAPI_searchSpans**
 ```c
-search_span_list_response_t* SearchAPI_searchSpans(apiClient_t *apiClient, char *tenant_id, char *q, char *project_id, char *environment_id, char *trace_id, char *span_id, char *kind, char *status, char *model, char *tool, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+search_span_list_response_t* SearchAPI_searchSpans(apiClient_t *apiClient, char *tenantId, char *q, char *projectId, char *environmentId, char *traceId, char *spanId, char *kind, char *status, char *model, char *tool, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
+**tenantId** | **char \*** | tenant_id |
 **q** | **char \*** |  | [optional]
-**project_id** | **char \*** |  | [optional]
-**environment_id** | **char \*** |  | [optional]
-**trace_id** | **char \*** |  | [optional]
-**span_id** | **char \*** |  | [optional]
+**projectId** | **char \*** |  | [optional]
+**environmentId** | **char \*** |  | [optional]
+**traceId** | **char \*** |  | [optional]
+**spanId** | **char \*** |  | [optional]
 **kind** | **char \*** |  | [optional]
 **status** | **char \*** |  | [optional]
 **model** | **char \*** |  | [optional]

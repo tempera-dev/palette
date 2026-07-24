@@ -20,54 +20,54 @@ namespace model {
 
 ArchivedSpanRow::ArchivedSpanRow()
 {
-    m_Attributes_json = utility::conversions::to_string_t("");
-    m_Attributes_jsonIsSet = false;
-    m_Cost_amount_micros = utility::conversions::to_string_t("");
-    m_Cost_amount_microsIsSet = false;
-    m_Cost_currency = utility::conversions::to_string_t("");
-    m_Cost_currencyIsSet = false;
-    m_End_time = utility::conversions::to_string_t("");
-    m_End_timeIsSet = false;
-    m_Environment_id = utility::conversions::to_string_t("");
-    m_Environment_idIsSet = false;
-    m_Input_tokens = utility::conversions::to_string_t("");
-    m_Input_tokensIsSet = false;
-    m_Input_uri = utility::conversions::to_string_t("");
-    m_Input_uriIsSet = false;
+    m_AttributesJson = utility::conversions::to_string_t("");
+    m_AttributesJsonIsSet = false;
+    m_CostAmountMicros = utility::conversions::to_string_t("");
+    m_CostAmountMicrosIsSet = false;
+    m_CostCurrency = utility::conversions::to_string_t("");
+    m_CostCurrencyIsSet = false;
+    m_EndTime = utility::conversions::to_string_t("");
+    m_EndTimeIsSet = false;
+    m_EnvironmentId = utility::conversions::to_string_t("");
+    m_EnvironmentIdIsSet = false;
+    m_InputTokens = utility::conversions::to_string_t("");
+    m_InputTokensIsSet = false;
+    m_InputUri = utility::conversions::to_string_t("");
+    m_InputUriIsSet = false;
     m_Kind = utility::conversions::to_string_t("");
     m_KindIsSet = false;
-    m_Model_name = utility::conversions::to_string_t("");
-    m_Model_nameIsSet = false;
-    m_Model_provider = utility::conversions::to_string_t("");
-    m_Model_providerIsSet = false;
+    m_ModelName = utility::conversions::to_string_t("");
+    m_ModelNameIsSet = false;
+    m_ModelProvider = utility::conversions::to_string_t("");
+    m_ModelProviderIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_Output_tokens = utility::conversions::to_string_t("");
-    m_Output_tokensIsSet = false;
-    m_Output_uri = utility::conversions::to_string_t("");
-    m_Output_uriIsSet = false;
-    m_Parent_span_id = utility::conversions::to_string_t("");
-    m_Parent_span_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Raw_uri = utility::conversions::to_string_t("");
-    m_Raw_uriIsSet = false;
-    m_Reasoning_tokens = utility::conversions::to_string_t("");
-    m_Reasoning_tokensIsSet = false;
+    m_OutputTokens = utility::conversions::to_string_t("");
+    m_OutputTokensIsSet = false;
+    m_OutputUri = utility::conversions::to_string_t("");
+    m_OutputUriIsSet = false;
+    m_ParentSpanId = utility::conversions::to_string_t("");
+    m_ParentSpanIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_RawUri = utility::conversions::to_string_t("");
+    m_RawUriIsSet = false;
+    m_ReasoningTokens = utility::conversions::to_string_t("");
+    m_ReasoningTokensIsSet = false;
     m_Seq = 0L;
     m_SeqIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Start_time = utility::conversions::to_string_t("");
-    m_Start_timeIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_StartTime = utility::conversions::to_string_t("");
+    m_StartTimeIsSet = false;
     m_Status = utility::conversions::to_string_t("");
     m_StatusIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
-    m_Unmapped_json = utility::conversions::to_string_t("");
-    m_Unmapped_jsonIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
+    m_UnmappedJson = utility::conversions::to_string_t("");
+    m_UnmappedJsonIsSet = false;
 }
 
 ArchivedSpanRow::~ArchivedSpanRow()
@@ -82,125 +82,125 @@ void ArchivedSpanRow::validate()
 web::json::value ArchivedSpanRow::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Attributes_jsonIsSet)
+    if(m_AttributesJsonIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("attributes_json"))] = ModelBase::toJson(m_Attributes_json);
+        val[utility::conversions::to_string_t(U("attributesJson"))] = ModelBase::toJson(m_AttributesJson);
     }
-    if(m_Cost_amount_microsIsSet)
+    if(m_CostAmountMicrosIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cost_amount_micros"))] = ModelBase::toJson(m_Cost_amount_micros);
+        val[utility::conversions::to_string_t(U("costAmountMicros"))] = ModelBase::toJson(m_CostAmountMicros);
     }
-    if(m_Cost_currencyIsSet)
+    if(m_CostCurrencyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("cost_currency"))] = ModelBase::toJson(m_Cost_currency);
+        val[utility::conversions::to_string_t(U("costCurrency"))] = ModelBase::toJson(m_CostCurrency);
     }
-    if(m_End_timeIsSet)
+    if(m_EndTimeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("end_time"))] = ModelBase::toJson(m_End_time);
+        val[utility::conversions::to_string_t(U("endTime"))] = ModelBase::toJson(m_EndTime);
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("environment_id"))] = ModelBase::toJson(m_Environment_id);
+        val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
-    if(m_Input_tokensIsSet)
+    if(m_InputTokensIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("input_tokens"))] = ModelBase::toJson(m_Input_tokens);
+        val[utility::conversions::to_string_t(U("inputTokens"))] = ModelBase::toJson(m_InputTokens);
     }
-    if(m_Input_uriIsSet)
+    if(m_InputUriIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("input_uri"))] = ModelBase::toJson(m_Input_uri);
+        val[utility::conversions::to_string_t(U("inputUri"))] = ModelBase::toJson(m_InputUri);
     }
     if(m_KindIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
-    if(m_Model_nameIsSet)
+    if(m_ModelNameIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("model_name"))] = ModelBase::toJson(m_Model_name);
+        val[utility::conversions::to_string_t(U("modelName"))] = ModelBase::toJson(m_ModelName);
     }
-    if(m_Model_providerIsSet)
+    if(m_ModelProviderIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("model_provider"))] = ModelBase::toJson(m_Model_provider);
+        val[utility::conversions::to_string_t(U("modelProvider"))] = ModelBase::toJson(m_ModelProvider);
     }
     if(m_NameIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_Output_tokensIsSet)
+    if(m_OutputTokensIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("output_tokens"))] = ModelBase::toJson(m_Output_tokens);
+        val[utility::conversions::to_string_t(U("outputTokens"))] = ModelBase::toJson(m_OutputTokens);
     }
-    if(m_Output_uriIsSet)
+    if(m_OutputUriIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("output_uri"))] = ModelBase::toJson(m_Output_uri);
+        val[utility::conversions::to_string_t(U("outputUri"))] = ModelBase::toJson(m_OutputUri);
     }
-    if(m_Parent_span_idIsSet)
+    if(m_ParentSpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("parent_span_id"))] = ModelBase::toJson(m_Parent_span_id);
+        val[utility::conversions::to_string_t(U("parentSpanId"))] = ModelBase::toJson(m_ParentSpanId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Raw_uriIsSet)
+    if(m_RawUriIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("raw_uri"))] = ModelBase::toJson(m_Raw_uri);
+        val[utility::conversions::to_string_t(U("rawUri"))] = ModelBase::toJson(m_RawUri);
     }
-    if(m_Reasoning_tokensIsSet)
+    if(m_ReasoningTokensIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("reasoning_tokens"))] = ModelBase::toJson(m_Reasoning_tokens);
+        val[utility::conversions::to_string_t(U("reasoningTokens"))] = ModelBase::toJson(m_ReasoningTokens);
     }
     if(m_SeqIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("seq"))] = ModelBase::toJson(m_Seq);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Start_timeIsSet)
+    if(m_StartTimeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("start_time"))] = ModelBase::toJson(m_Start_time);
+        val[utility::conversions::to_string_t(U("startTime"))] = ModelBase::toJson(m_StartTime);
     }
     if(m_StatusIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
-    if(m_Unmapped_jsonIsSet)
+    if(m_UnmappedJsonIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("unmapped_json"))] = ModelBase::toJson(m_Unmapped_json);
+        val[utility::conversions::to_string_t(U("unmappedJson"))] = ModelBase::toJson(m_UnmappedJson);
     }
 
     return val;
@@ -209,9 +209,9 @@ web::json::value ArchivedSpanRow::toJson() const
 bool ArchivedSpanRow::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("attributes_json"))))
+    if(val.has_field(utility::conversions::to_string_t(U("attributesJson"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("attributes_json")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("attributesJson")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAttributesJson;
@@ -220,9 +220,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("cost_amount_micros"))))
+    if(val.has_field(utility::conversions::to_string_t(U("costAmountMicros"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cost_amount_micros")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("costAmountMicros")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCostAmountMicros;
@@ -231,9 +231,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("cost_currency"))))
+    if(val.has_field(utility::conversions::to_string_t(U("costCurrency"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("cost_currency")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("costCurrency")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCostCurrency;
@@ -242,9 +242,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("end_time"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endTime"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("end_time")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endTime")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEndTime;
@@ -253,9 +253,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEnvironmentId;
@@ -264,9 +264,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("input_tokens"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inputTokens"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("input_tokens")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inputTokens")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setInputTokens;
@@ -275,9 +275,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("input_uri"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inputUri"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("input_uri")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inputUri")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setInputUri;
@@ -297,9 +297,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("model_name"))))
+    if(val.has_field(utility::conversions::to_string_t(U("modelName"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("model_name")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("modelName")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setModelName;
@@ -308,9 +308,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("model_provider"))))
+    if(val.has_field(utility::conversions::to_string_t(U("modelProvider"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("model_provider")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("modelProvider")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setModelProvider;
@@ -330,9 +330,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("output_tokens"))))
+    if(val.has_field(utility::conversions::to_string_t(U("outputTokens"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("output_tokens")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("outputTokens")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setOutputTokens;
@@ -341,9 +341,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("output_uri"))))
+    if(val.has_field(utility::conversions::to_string_t(U("outputUri"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("output_uri")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("outputUri")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setOutputUri;
@@ -352,9 +352,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("parent_span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("parentSpanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parent_span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parentSpanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setParentSpanId;
@@ -363,9 +363,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -374,9 +374,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("raw_uri"))))
+    if(val.has_field(utility::conversions::to_string_t(U("rawUri"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("raw_uri")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rawUri")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setRawUri;
@@ -385,9 +385,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("reasoning_tokens"))))
+    if(val.has_field(utility::conversions::to_string_t(U("reasoningTokens"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reasoning_tokens")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reasoningTokens")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setReasoningTokens;
@@ -407,9 +407,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -418,9 +418,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("start_time"))))
+    if(val.has_field(utility::conversions::to_string_t(U("startTime"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("start_time")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("startTime")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setStartTime;
@@ -440,9 +440,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -451,9 +451,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -462,9 +462,9 @@ bool ArchivedSpanRow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("unmapped_json"))))
+    if(val.has_field(utility::conversions::to_string_t(U("unmappedJson"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("unmapped_json")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("unmappedJson")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setUnmappedJson;
@@ -483,101 +483,101 @@ void ArchivedSpanRow::toMultipart(std::shared_ptr<MultipartFormData> multipart, 
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Attributes_jsonIsSet)
+    if(m_AttributesJsonIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("attributes_json")), m_Attributes_json));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("attributesJson")), m_AttributesJson));
     }
-    if(m_Cost_amount_microsIsSet)
+    if(m_CostAmountMicrosIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cost_amount_micros")), m_Cost_amount_micros));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("costAmountMicros")), m_CostAmountMicros));
     }
-    if(m_Cost_currencyIsSet)
+    if(m_CostCurrencyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cost_currency")), m_Cost_currency));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("costCurrency")), m_CostCurrency));
     }
-    if(m_End_timeIsSet)
+    if(m_EndTimeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("end_time")), m_End_time));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endTime")), m_EndTime));
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environment_id")), m_Environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environmentId")), m_EnvironmentId));
     }
-    if(m_Input_tokensIsSet)
+    if(m_InputTokensIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input_tokens")), m_Input_tokens));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inputTokens")), m_InputTokens));
     }
-    if(m_Input_uriIsSet)
+    if(m_InputUriIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input_uri")), m_Input_uri));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inputUri")), m_InputUri));
     }
     if(m_KindIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("kind")), m_Kind));
     }
-    if(m_Model_nameIsSet)
+    if(m_ModelNameIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("model_name")), m_Model_name));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("modelName")), m_ModelName));
     }
-    if(m_Model_providerIsSet)
+    if(m_ModelProviderIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("model_provider")), m_Model_provider));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("modelProvider")), m_ModelProvider));
     }
     if(m_NameIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_Output_tokensIsSet)
+    if(m_OutputTokensIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("output_tokens")), m_Output_tokens));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("outputTokens")), m_OutputTokens));
     }
-    if(m_Output_uriIsSet)
+    if(m_OutputUriIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("output_uri")), m_Output_uri));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("outputUri")), m_OutputUri));
     }
-    if(m_Parent_span_idIsSet)
+    if(m_ParentSpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("parent_span_id")), m_Parent_span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("parentSpanId")), m_ParentSpanId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Raw_uriIsSet)
+    if(m_RawUriIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("raw_uri")), m_Raw_uri));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rawUri")), m_RawUri));
     }
-    if(m_Reasoning_tokensIsSet)
+    if(m_ReasoningTokensIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reasoning_tokens")), m_Reasoning_tokens));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reasoningTokens")), m_ReasoningTokens));
     }
     if(m_SeqIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("seq")), m_Seq));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Start_timeIsSet)
+    if(m_StartTimeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("start_time")), m_Start_time));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("startTime")), m_StartTime));
     }
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
-    if(m_Unmapped_jsonIsSet)
+    if(m_UnmappedJsonIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("unmapped_json")), m_Unmapped_json));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("unmappedJson")), m_UnmappedJson));
     }
 }
 
@@ -590,46 +590,46 @@ bool ArchivedSpanRow::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("attributes_json"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("attributesJson"))))
     {
         utility::string_t refVal_setAttributesJson;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("attributes_json"))), refVal_setAttributesJson );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("attributesJson"))), refVal_setAttributesJson );
         setAttributesJson(refVal_setAttributesJson);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cost_amount_micros"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("costAmountMicros"))))
     {
         utility::string_t refVal_setCostAmountMicros;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cost_amount_micros"))), refVal_setCostAmountMicros );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("costAmountMicros"))), refVal_setCostAmountMicros );
         setCostAmountMicros(refVal_setCostAmountMicros);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("cost_currency"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("costCurrency"))))
     {
         utility::string_t refVal_setCostCurrency;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cost_currency"))), refVal_setCostCurrency );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("costCurrency"))), refVal_setCostCurrency );
         setCostCurrency(refVal_setCostCurrency);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("end_time"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endTime"))))
     {
         utility::string_t refVal_setEndTime;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("end_time"))), refVal_setEndTime );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endTime"))), refVal_setEndTime );
         setEndTime(refVal_setEndTime);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("environmentId"))))
     {
         utility::string_t refVal_setEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environment_id"))), refVal_setEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environmentId"))), refVal_setEnvironmentId );
         setEnvironmentId(refVal_setEnvironmentId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("input_tokens"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inputTokens"))))
     {
         utility::string_t refVal_setInputTokens;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input_tokens"))), refVal_setInputTokens );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inputTokens"))), refVal_setInputTokens );
         setInputTokens(refVal_setInputTokens);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("input_uri"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inputUri"))))
     {
         utility::string_t refVal_setInputUri;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input_uri"))), refVal_setInputUri );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inputUri"))), refVal_setInputUri );
         setInputUri(refVal_setInputUri);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -638,16 +638,16 @@ bool ArchivedSpanRow::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("kind"))), refVal_setKind );
         setKind(refVal_setKind);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("model_name"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("modelName"))))
     {
         utility::string_t refVal_setModelName;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("model_name"))), refVal_setModelName );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("modelName"))), refVal_setModelName );
         setModelName(refVal_setModelName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("model_provider"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("modelProvider"))))
     {
         utility::string_t refVal_setModelProvider;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("model_provider"))), refVal_setModelProvider );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("modelProvider"))), refVal_setModelProvider );
         setModelProvider(refVal_setModelProvider);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
@@ -656,40 +656,40 @@ bool ArchivedSpanRow::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("output_tokens"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("outputTokens"))))
     {
         utility::string_t refVal_setOutputTokens;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("output_tokens"))), refVal_setOutputTokens );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("outputTokens"))), refVal_setOutputTokens );
         setOutputTokens(refVal_setOutputTokens);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("output_uri"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("outputUri"))))
     {
         utility::string_t refVal_setOutputUri;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("output_uri"))), refVal_setOutputUri );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("outputUri"))), refVal_setOutputUri );
         setOutputUri(refVal_setOutputUri);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("parent_span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("parentSpanId"))))
     {
         utility::string_t refVal_setParentSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parent_span_id"))), refVal_setParentSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parentSpanId"))), refVal_setParentSpanId );
         setParentSpanId(refVal_setParentSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("raw_uri"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("rawUri"))))
     {
         utility::string_t refVal_setRawUri;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("raw_uri"))), refVal_setRawUri );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rawUri"))), refVal_setRawUri );
         setRawUri(refVal_setRawUri);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("reasoning_tokens"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("reasoningTokens"))))
     {
         utility::string_t refVal_setReasoningTokens;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reasoning_tokens"))), refVal_setReasoningTokens );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reasoningTokens"))), refVal_setReasoningTokens );
         setReasoningTokens(refVal_setReasoningTokens);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("seq"))))
@@ -698,16 +698,16 @@ bool ArchivedSpanRow::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("seq"))), refVal_setSeq );
         setSeq(refVal_setSeq);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("start_time"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("startTime"))))
     {
         utility::string_t refVal_setStartTime;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("start_time"))), refVal_setStartTime );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("startTime"))), refVal_setStartTime );
         setStartTime(refVal_setStartTime);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -716,22 +716,22 @@ bool ArchivedSpanRow::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
         setStatus(refVal_setStatus);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("unmapped_json"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("unmappedJson"))))
     {
         utility::string_t refVal_setUnmappedJson;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("unmapped_json"))), refVal_setUnmappedJson );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("unmappedJson"))), refVal_setUnmappedJson );
         setUnmappedJson(refVal_setUnmappedJson);
     }
     return ok;
@@ -740,150 +740,150 @@ bool ArchivedSpanRow::fromMultiPart(std::shared_ptr<MultipartFormData> multipart
 
 utility::string_t ArchivedSpanRow::getAttributesJson() const
 {
-    return m_Attributes_json;
+    return m_AttributesJson;
 }
 
 
 void ArchivedSpanRow::setAttributesJson(const utility::string_t& value)
 {
-    m_Attributes_json = value;
-    m_Attributes_jsonIsSet = true;
+    m_AttributesJson = value;
+    m_AttributesJsonIsSet = true;
 }
 
 bool ArchivedSpanRow::attributesJsonIsSet() const
 {
-    return m_Attributes_jsonIsSet;
+    return m_AttributesJsonIsSet;
 }
 
-void ArchivedSpanRow::unsetAttributes_json()
+void ArchivedSpanRow::unsetAttributesJson()
 {
-    m_Attributes_jsonIsSet = false;
+    m_AttributesJsonIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getCostAmountMicros() const
 {
-    return m_Cost_amount_micros;
+    return m_CostAmountMicros;
 }
 
 
 void ArchivedSpanRow::setCostAmountMicros(const utility::string_t& value)
 {
-    m_Cost_amount_micros = value;
-    m_Cost_amount_microsIsSet = true;
+    m_CostAmountMicros = value;
+    m_CostAmountMicrosIsSet = true;
 }
 
 bool ArchivedSpanRow::costAmountMicrosIsSet() const
 {
-    return m_Cost_amount_microsIsSet;
+    return m_CostAmountMicrosIsSet;
 }
 
-void ArchivedSpanRow::unsetCost_amount_micros()
+void ArchivedSpanRow::unsetCostAmountMicros()
 {
-    m_Cost_amount_microsIsSet = false;
+    m_CostAmountMicrosIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getCostCurrency() const
 {
-    return m_Cost_currency;
+    return m_CostCurrency;
 }
 
 
 void ArchivedSpanRow::setCostCurrency(const utility::string_t& value)
 {
-    m_Cost_currency = value;
-    m_Cost_currencyIsSet = true;
+    m_CostCurrency = value;
+    m_CostCurrencyIsSet = true;
 }
 
 bool ArchivedSpanRow::costCurrencyIsSet() const
 {
-    return m_Cost_currencyIsSet;
+    return m_CostCurrencyIsSet;
 }
 
-void ArchivedSpanRow::unsetCost_currency()
+void ArchivedSpanRow::unsetCostCurrency()
 {
-    m_Cost_currencyIsSet = false;
+    m_CostCurrencyIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getEndTime() const
 {
-    return m_End_time;
+    return m_EndTime;
 }
 
 
 void ArchivedSpanRow::setEndTime(const utility::string_t& value)
 {
-    m_End_time = value;
-    m_End_timeIsSet = true;
+    m_EndTime = value;
+    m_EndTimeIsSet = true;
 }
 
 bool ArchivedSpanRow::endTimeIsSet() const
 {
-    return m_End_timeIsSet;
+    return m_EndTimeIsSet;
 }
 
-void ArchivedSpanRow::unsetEnd_time()
+void ArchivedSpanRow::unsetEndTime()
 {
-    m_End_timeIsSet = false;
+    m_EndTimeIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getEnvironmentId() const
 {
-    return m_Environment_id;
+    return m_EnvironmentId;
 }
 
 
 void ArchivedSpanRow::setEnvironmentId(const utility::string_t& value)
 {
-    m_Environment_id = value;
-    m_Environment_idIsSet = true;
+    m_EnvironmentId = value;
+    m_EnvironmentIdIsSet = true;
 }
 
 bool ArchivedSpanRow::environmentIdIsSet() const
 {
-    return m_Environment_idIsSet;
+    return m_EnvironmentIdIsSet;
 }
 
-void ArchivedSpanRow::unsetEnvironment_id()
+void ArchivedSpanRow::unsetEnvironmentId()
 {
-    m_Environment_idIsSet = false;
+    m_EnvironmentIdIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getInputTokens() const
 {
-    return m_Input_tokens;
+    return m_InputTokens;
 }
 
 
 void ArchivedSpanRow::setInputTokens(const utility::string_t& value)
 {
-    m_Input_tokens = value;
-    m_Input_tokensIsSet = true;
+    m_InputTokens = value;
+    m_InputTokensIsSet = true;
 }
 
 bool ArchivedSpanRow::inputTokensIsSet() const
 {
-    return m_Input_tokensIsSet;
+    return m_InputTokensIsSet;
 }
 
-void ArchivedSpanRow::unsetInput_tokens()
+void ArchivedSpanRow::unsetInputTokens()
 {
-    m_Input_tokensIsSet = false;
+    m_InputTokensIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getInputUri() const
 {
-    return m_Input_uri;
+    return m_InputUri;
 }
 
 
 void ArchivedSpanRow::setInputUri(const utility::string_t& value)
 {
-    m_Input_uri = value;
-    m_Input_uriIsSet = true;
+    m_InputUri = value;
+    m_InputUriIsSet = true;
 }
 
 bool ArchivedSpanRow::inputUriIsSet() const
 {
-    return m_Input_uriIsSet;
+    return m_InputUriIsSet;
 }
 
-void ArchivedSpanRow::unsetInput_uri()
+void ArchivedSpanRow::unsetInputUri()
 {
-    m_Input_uriIsSet = false;
+    m_InputUriIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getKind() const
 {
@@ -908,45 +908,45 @@ void ArchivedSpanRow::unsetKind()
 }
 utility::string_t ArchivedSpanRow::getModelName() const
 {
-    return m_Model_name;
+    return m_ModelName;
 }
 
 
 void ArchivedSpanRow::setModelName(const utility::string_t& value)
 {
-    m_Model_name = value;
-    m_Model_nameIsSet = true;
+    m_ModelName = value;
+    m_ModelNameIsSet = true;
 }
 
 bool ArchivedSpanRow::modelNameIsSet() const
 {
-    return m_Model_nameIsSet;
+    return m_ModelNameIsSet;
 }
 
-void ArchivedSpanRow::unsetModel_name()
+void ArchivedSpanRow::unsetModelName()
 {
-    m_Model_nameIsSet = false;
+    m_ModelNameIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getModelProvider() const
 {
-    return m_Model_provider;
+    return m_ModelProvider;
 }
 
 
 void ArchivedSpanRow::setModelProvider(const utility::string_t& value)
 {
-    m_Model_provider = value;
-    m_Model_providerIsSet = true;
+    m_ModelProvider = value;
+    m_ModelProviderIsSet = true;
 }
 
 bool ArchivedSpanRow::modelProviderIsSet() const
 {
-    return m_Model_providerIsSet;
+    return m_ModelProviderIsSet;
 }
 
-void ArchivedSpanRow::unsetModel_provider()
+void ArchivedSpanRow::unsetModelProvider()
 {
-    m_Model_providerIsSet = false;
+    m_ModelProviderIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getName() const
 {
@@ -971,129 +971,129 @@ void ArchivedSpanRow::unsetName()
 }
 utility::string_t ArchivedSpanRow::getOutputTokens() const
 {
-    return m_Output_tokens;
+    return m_OutputTokens;
 }
 
 
 void ArchivedSpanRow::setOutputTokens(const utility::string_t& value)
 {
-    m_Output_tokens = value;
-    m_Output_tokensIsSet = true;
+    m_OutputTokens = value;
+    m_OutputTokensIsSet = true;
 }
 
 bool ArchivedSpanRow::outputTokensIsSet() const
 {
-    return m_Output_tokensIsSet;
+    return m_OutputTokensIsSet;
 }
 
-void ArchivedSpanRow::unsetOutput_tokens()
+void ArchivedSpanRow::unsetOutputTokens()
 {
-    m_Output_tokensIsSet = false;
+    m_OutputTokensIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getOutputUri() const
 {
-    return m_Output_uri;
+    return m_OutputUri;
 }
 
 
 void ArchivedSpanRow::setOutputUri(const utility::string_t& value)
 {
-    m_Output_uri = value;
-    m_Output_uriIsSet = true;
+    m_OutputUri = value;
+    m_OutputUriIsSet = true;
 }
 
 bool ArchivedSpanRow::outputUriIsSet() const
 {
-    return m_Output_uriIsSet;
+    return m_OutputUriIsSet;
 }
 
-void ArchivedSpanRow::unsetOutput_uri()
+void ArchivedSpanRow::unsetOutputUri()
 {
-    m_Output_uriIsSet = false;
+    m_OutputUriIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getParentSpanId() const
 {
-    return m_Parent_span_id;
+    return m_ParentSpanId;
 }
 
 
 void ArchivedSpanRow::setParentSpanId(const utility::string_t& value)
 {
-    m_Parent_span_id = value;
-    m_Parent_span_idIsSet = true;
+    m_ParentSpanId = value;
+    m_ParentSpanIdIsSet = true;
 }
 
 bool ArchivedSpanRow::parentSpanIdIsSet() const
 {
-    return m_Parent_span_idIsSet;
+    return m_ParentSpanIdIsSet;
 }
 
-void ArchivedSpanRow::unsetParent_span_id()
+void ArchivedSpanRow::unsetParentSpanId()
 {
-    m_Parent_span_idIsSet = false;
+    m_ParentSpanIdIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void ArchivedSpanRow::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool ArchivedSpanRow::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void ArchivedSpanRow::unsetProject_id()
+void ArchivedSpanRow::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getRawUri() const
 {
-    return m_Raw_uri;
+    return m_RawUri;
 }
 
 
 void ArchivedSpanRow::setRawUri(const utility::string_t& value)
 {
-    m_Raw_uri = value;
-    m_Raw_uriIsSet = true;
+    m_RawUri = value;
+    m_RawUriIsSet = true;
 }
 
 bool ArchivedSpanRow::rawUriIsSet() const
 {
-    return m_Raw_uriIsSet;
+    return m_RawUriIsSet;
 }
 
-void ArchivedSpanRow::unsetRaw_uri()
+void ArchivedSpanRow::unsetRawUri()
 {
-    m_Raw_uriIsSet = false;
+    m_RawUriIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getReasoningTokens() const
 {
-    return m_Reasoning_tokens;
+    return m_ReasoningTokens;
 }
 
 
 void ArchivedSpanRow::setReasoningTokens(const utility::string_t& value)
 {
-    m_Reasoning_tokens = value;
-    m_Reasoning_tokensIsSet = true;
+    m_ReasoningTokens = value;
+    m_ReasoningTokensIsSet = true;
 }
 
 bool ArchivedSpanRow::reasoningTokensIsSet() const
 {
-    return m_Reasoning_tokensIsSet;
+    return m_ReasoningTokensIsSet;
 }
 
-void ArchivedSpanRow::unsetReasoning_tokens()
+void ArchivedSpanRow::unsetReasoningTokens()
 {
-    m_Reasoning_tokensIsSet = false;
+    m_ReasoningTokensIsSet = false;
 }
 int64_t ArchivedSpanRow::getSeq() const
 {
@@ -1117,45 +1117,45 @@ void ArchivedSpanRow::unsetSeq()
 }
 utility::string_t ArchivedSpanRow::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void ArchivedSpanRow::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool ArchivedSpanRow::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void ArchivedSpanRow::unsetSpan_id()
+void ArchivedSpanRow::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getStartTime() const
 {
-    return m_Start_time;
+    return m_StartTime;
 }
 
 
 void ArchivedSpanRow::setStartTime(const utility::string_t& value)
 {
-    m_Start_time = value;
-    m_Start_timeIsSet = true;
+    m_StartTime = value;
+    m_StartTimeIsSet = true;
 }
 
 bool ArchivedSpanRow::startTimeIsSet() const
 {
-    return m_Start_timeIsSet;
+    return m_StartTimeIsSet;
 }
 
-void ArchivedSpanRow::unsetStart_time()
+void ArchivedSpanRow::unsetStartTime()
 {
-    m_Start_timeIsSet = false;
+    m_StartTimeIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getStatus() const
 {
@@ -1180,66 +1180,66 @@ void ArchivedSpanRow::unsetStatus()
 }
 utility::string_t ArchivedSpanRow::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void ArchivedSpanRow::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool ArchivedSpanRow::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void ArchivedSpanRow::unsetTenant_id()
+void ArchivedSpanRow::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void ArchivedSpanRow::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool ArchivedSpanRow::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void ArchivedSpanRow::unsetTrace_id()
+void ArchivedSpanRow::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 utility::string_t ArchivedSpanRow::getUnmappedJson() const
 {
-    return m_Unmapped_json;
+    return m_UnmappedJson;
 }
 
 
 void ArchivedSpanRow::setUnmappedJson(const utility::string_t& value)
 {
-    m_Unmapped_json = value;
-    m_Unmapped_jsonIsSet = true;
+    m_UnmappedJson = value;
+    m_UnmappedJsonIsSet = true;
 }
 
 bool ArchivedSpanRow::unmappedJsonIsSet() const
 {
-    return m_Unmapped_jsonIsSet;
+    return m_UnmappedJsonIsSet;
 }
 
-void ArchivedSpanRow::unsetUnmapped_json()
+void ArchivedSpanRow::unsetUnmappedJson()
 {
-    m_Unmapped_jsonIsSet = false;
+    m_UnmappedJsonIsSet = false;
 }
 
 }

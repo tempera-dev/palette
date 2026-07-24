@@ -164,14 +164,14 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->agent_release_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "agent_release_id", eval_reproducibility->agent_release_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "agentReleaseId", eval_reproducibility->agent_release_id) == NULL) {
     goto fail; //String
     }
 
 
     // eval_reproducibility->code_hash
     if(eval_reproducibility->code_hash) {
-    if(cJSON_AddStringToObject(item, "code_hash", eval_reproducibility->code_hash) == NULL) {
+    if(cJSON_AddStringToObject(item, "codeHash", eval_reproducibility->code_hash) == NULL) {
     goto fail; //String
     }
     }
@@ -181,7 +181,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->dataset_case_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_case_id", eval_reproducibility->dataset_case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetCaseId", eval_reproducibility->dataset_case_id) == NULL) {
     goto fail; //String
     }
 
@@ -190,7 +190,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->dataset_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_version_id", eval_reproducibility->dataset_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetVersionId", eval_reproducibility->dataset_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -199,7 +199,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->evaluator_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", eval_reproducibility->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", eval_reproducibility->evaluator_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -208,7 +208,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->input_artifact_hashes) {
         goto fail;
     }
-    cJSON *input_artifact_hashes = cJSON_AddArrayToObject(item, "input_artifact_hashes");
+    cJSON *input_artifact_hashes = cJSON_AddArrayToObject(item, "inputArtifactHashes");
     if(input_artifact_hashes == NULL) {
         goto fail; //primitive container
     }
@@ -224,7 +224,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
 
     // eval_reproducibility->judge_model_id
     if(eval_reproducibility->judge_model_id) {
-    if(cJSON_AddStringToObject(item, "judge_model_id", eval_reproducibility->judge_model_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "judgeModelId", eval_reproducibility->judge_model_id) == NULL) {
     goto fail; //String
     }
     }
@@ -238,7 +238,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if(judge_parameters_local_JSON == NULL) {
         goto fail; // custom
     }
-    cJSON_AddItemToObject(item, "judge_parameters", judge_parameters_local_JSON);
+    cJSON_AddItemToObject(item, "judgeParameters", judge_parameters_local_JSON);
     if(item->child == NULL) {
         goto fail;
     }
@@ -246,7 +246,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
 
     // eval_reproducibility->judge_provider
     if(eval_reproducibility->judge_provider) {
-    if(cJSON_AddStringToObject(item, "judge_provider", eval_reproducibility->judge_provider) == NULL) {
+    if(cJSON_AddStringToObject(item, "judgeProvider", eval_reproducibility->judge_provider) == NULL) {
     goto fail; //String
     }
     }
@@ -254,7 +254,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
 
     // eval_reproducibility->judge_rubric_version
     if(eval_reproducibility->judge_rubric_version) {
-    if(cJSON_AddStringToObject(item, "judge_rubric_version", eval_reproducibility->judge_rubric_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "judgeRubricVersion", eval_reproducibility->judge_rubric_version) == NULL) {
     goto fail; //String
     }
     }
@@ -262,7 +262,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
 
     // eval_reproducibility->judge_seed
     if(eval_reproducibility->judge_seed) {
-    if(cJSON_AddNumberToObject(item, "judge_seed", eval_reproducibility->judge_seed) == NULL) {
+    if(cJSON_AddNumberToObject(item, "judgeSeed", eval_reproducibility->judge_seed) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -272,14 +272,14 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->normalizer_version) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "normalizer_version", eval_reproducibility->normalizer_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "normalizerVersion", eval_reproducibility->normalizer_version) == NULL) {
     goto fail; //String
     }
 
 
     // eval_reproducibility->prompt_version_id
     if(eval_reproducibility->prompt_version_id) {
-    if(cJSON_AddStringToObject(item, "prompt_version_id", eval_reproducibility->prompt_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "promptVersionId", eval_reproducibility->prompt_version_id) == NULL) {
     goto fail; //String
     }
     }
@@ -289,14 +289,14 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
     if (!eval_reproducibility->trace_schema_version) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "trace_schema_version", eval_reproducibility->trace_schema_version) == NULL) {
+    if(cJSON_AddNumberToObject(item, "traceSchemaVersion", eval_reproducibility->trace_schema_version) == NULL) {
     goto fail; //Numeric
     }
 
 
     // eval_reproducibility->wasi_abi_version
     if(eval_reproducibility->wasi_abi_version) {
-    if(cJSON_AddStringToObject(item, "wasi_abi_version", eval_reproducibility->wasi_abi_version) == NULL) {
+    if(cJSON_AddStringToObject(item, "wasiAbiVersion", eval_reproducibility->wasi_abi_version) == NULL) {
     goto fail; //String
     }
     }
@@ -304,7 +304,7 @@ cJSON *eval_reproducibility_convertToJSON(eval_reproducibility_t *eval_reproduci
 
     // eval_reproducibility->wasm_hash
     if(eval_reproducibility->wasm_hash) {
-    if(cJSON_AddStringToObject(item, "wasm_hash", eval_reproducibility->wasm_hash) == NULL) {
+    if(cJSON_AddStringToObject(item, "wasmHash", eval_reproducibility->wasm_hash) == NULL) {
     goto fail; //String
     }
     }
@@ -328,7 +328,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     _t *judge_parameters_local_nonprim = NULL;
 
     // eval_reproducibility->agent_release_id
-    cJSON *agent_release_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "agent_release_id");
+    cJSON *agent_release_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "agentReleaseId");
     if (cJSON_IsNull(agent_release_id)) {
         agent_release_id = NULL;
     }
@@ -343,7 +343,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->code_hash
-    cJSON *code_hash = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "code_hash");
+    cJSON *code_hash = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "codeHash");
     if (cJSON_IsNull(code_hash)) {
         code_hash = NULL;
     }
@@ -355,7 +355,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->dataset_case_id
-    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "dataset_case_id");
+    cJSON *dataset_case_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "datasetCaseId");
     if (cJSON_IsNull(dataset_case_id)) {
         dataset_case_id = NULL;
     }
@@ -370,7 +370,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->dataset_version_id
-    cJSON *dataset_version_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "dataset_version_id");
+    cJSON *dataset_version_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "datasetVersionId");
     if (cJSON_IsNull(dataset_version_id)) {
         dataset_version_id = NULL;
     }
@@ -385,7 +385,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -400,7 +400,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->input_artifact_hashes
-    cJSON *input_artifact_hashes = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "input_artifact_hashes");
+    cJSON *input_artifact_hashes = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "inputArtifactHashes");
     if (cJSON_IsNull(input_artifact_hashes)) {
         input_artifact_hashes = NULL;
     }
@@ -425,7 +425,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->judge_model_id
-    cJSON *judge_model_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judge_model_id");
+    cJSON *judge_model_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judgeModelId");
     if (cJSON_IsNull(judge_model_id)) {
         judge_model_id = NULL;
     }
@@ -437,7 +437,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->judge_parameters
-    cJSON *judge_parameters = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judge_parameters");
+    cJSON *judge_parameters = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judgeParameters");
     if (cJSON_IsNull(judge_parameters)) {
         judge_parameters = NULL;
     }
@@ -449,7 +449,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     judge_parameters_local_nonprim = _parseFromJSON(judge_parameters); //custom
 
     // eval_reproducibility->judge_provider
-    cJSON *judge_provider = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judge_provider");
+    cJSON *judge_provider = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judgeProvider");
     if (cJSON_IsNull(judge_provider)) {
         judge_provider = NULL;
     }
@@ -461,7 +461,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->judge_rubric_version
-    cJSON *judge_rubric_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judge_rubric_version");
+    cJSON *judge_rubric_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judgeRubricVersion");
     if (cJSON_IsNull(judge_rubric_version)) {
         judge_rubric_version = NULL;
     }
@@ -473,7 +473,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->judge_seed
-    cJSON *judge_seed = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judge_seed");
+    cJSON *judge_seed = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "judgeSeed");
     if (cJSON_IsNull(judge_seed)) {
         judge_seed = NULL;
     }
@@ -485,7 +485,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->normalizer_version
-    cJSON *normalizer_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "normalizer_version");
+    cJSON *normalizer_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "normalizerVersion");
     if (cJSON_IsNull(normalizer_version)) {
         normalizer_version = NULL;
     }
@@ -500,7 +500,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->prompt_version_id
-    cJSON *prompt_version_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "prompt_version_id");
+    cJSON *prompt_version_id = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "promptVersionId");
     if (cJSON_IsNull(prompt_version_id)) {
         prompt_version_id = NULL;
     }
@@ -512,7 +512,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->trace_schema_version
-    cJSON *trace_schema_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "trace_schema_version");
+    cJSON *trace_schema_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "traceSchemaVersion");
     if (cJSON_IsNull(trace_schema_version)) {
         trace_schema_version = NULL;
     }
@@ -527,7 +527,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->wasi_abi_version
-    cJSON *wasi_abi_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "wasi_abi_version");
+    cJSON *wasi_abi_version = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "wasiAbiVersion");
     if (cJSON_IsNull(wasi_abi_version)) {
         wasi_abi_version = NULL;
     }
@@ -539,7 +539,7 @@ eval_reproducibility_t *eval_reproducibility_parseFromJSON(cJSON *eval_reproduci
     }
 
     // eval_reproducibility->wasm_hash
-    cJSON *wasm_hash = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "wasm_hash");
+    cJSON *wasm_hash = cJSON_GetObjectItemCaseSensitive(eval_reproducibilityJSON, "wasmHash");
     if (cJSON_IsNull(wasm_hash)) {
         wasm_hash = NULL;
     }

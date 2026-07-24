@@ -60,17 +60,17 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getDisplayName() const;
     bool displayNameIsSet() const;
-    void unsetDisplay_name();
+    void unsetDisplayName();
     void setDisplayName(const utility::string_t& value);
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getProvider() const;
@@ -80,17 +80,17 @@ public:
 
     utility::string_t getProviderSecretId() const;
     bool providerSecretIdIsSet() const;
-    void unsetProvider_secret_id();
+    void unsetProviderSecretId();
     void setProviderSecretId(const utility::string_t& value);
 
     utility::datetime getRotatedAt() const;
     bool rotatedAtIsSet() const;
-    void unsetRotated_at();
+    void unsetRotatedAt();
     void setRotatedAt(const utility::datetime& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -98,26 +98,26 @@ protected:
     bool m_Active;
     bool m_ActiveIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Display_name;
-    bool m_Display_nameIsSet;
+    utility::string_t m_DisplayName;
+    bool m_DisplayNameIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     utility::string_t m_Provider;
     bool m_ProviderIsSet;
 
-    utility::string_t m_Provider_secret_id;
-    bool m_Provider_secret_idIsSet;
+    utility::string_t m_ProviderSecretId;
+    bool m_ProviderSecretIdIsSet;
 
-    utility::datetime m_Rotated_at;
-    bool m_Rotated_atIsSet;
+    utility::datetime m_RotatedAt;
+    bool m_RotatedAtIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

@@ -360,11 +360,11 @@ class ApiKeysApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if environment_id is not None:
-            _path_params['environment_id'] = environment_id
+            _path_params['environmentId'] = environment_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -409,7 +409,7 @@ class ApiKeysApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/api-keys/{tenant_id}/{project_id}/{environment_id}',
+            resource_path='/v1/api-keys/{tenantId}/{projectId}/{environmentId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -747,13 +747,13 @@ class ApiKeysApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         if environment_id is not None:
-            _path_params['environment_id'] = environment_id
+            _path_params['environmentId'] = environment_id
         if api_key_id is not None:
-            _path_params['api_key_id'] = api_key_id
+            _path_params['apiKeyId'] = api_key_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -783,7 +783,7 @@ class ApiKeysApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke',
+            resource_path='/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

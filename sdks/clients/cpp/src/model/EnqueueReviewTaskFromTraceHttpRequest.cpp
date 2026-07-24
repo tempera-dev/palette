@@ -20,18 +20,18 @@ namespace model {
 
 EnqueueReviewTaskFromTraceHttpRequest::EnqueueReviewTaskFromTraceHttpRequest()
 {
-    m_Dataset_case_id = utility::conversions::to_string_t("");
-    m_Dataset_case_idIsSet = false;
-    m_Dataset_id = utility::conversions::to_string_t("");
-    m_Dataset_idIsSet = false;
+    m_DatasetCaseId = utility::conversions::to_string_t("");
+    m_DatasetCaseIdIsSet = false;
+    m_DatasetId = utility::conversions::to_string_t("");
+    m_DatasetIdIsSet = false;
     m_Priority = 0L;
     m_PriorityIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Task_id = utility::conversions::to_string_t("");
-    m_Task_idIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_TaskId = utility::conversions::to_string_t("");
+    m_TaskIdIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 EnqueueReviewTaskFromTraceHttpRequest::~EnqueueReviewTaskFromTraceHttpRequest()
@@ -46,35 +46,35 @@ void EnqueueReviewTaskFromTraceHttpRequest::validate()
 web::json::value EnqueueReviewTaskFromTraceHttpRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_case_id"))] = ModelBase::toJson(m_Dataset_case_id);
+        val[utility::conversions::to_string_t(U("datasetCaseId"))] = ModelBase::toJson(m_DatasetCaseId);
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dataset_id"))] = ModelBase::toJson(m_Dataset_id);
+        val[utility::conversions::to_string_t(U("datasetId"))] = ModelBase::toJson(m_DatasetId);
     }
     if(m_PriorityIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("priority"))] = ModelBase::toJson(m_Priority);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Task_idIsSet)
+    if(m_TaskIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("task_id"))] = ModelBase::toJson(m_Task_id);
+        val[utility::conversions::to_string_t(U("taskId"))] = ModelBase::toJson(m_TaskId);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -83,9 +83,9 @@ web::json::value EnqueueReviewTaskFromTraceHttpRequest::toJson() const
 bool EnqueueReviewTaskFromTraceHttpRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetCaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetCaseId;
@@ -94,9 +94,9 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromJson(const web::json::value& val
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("dataset_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("datasetId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dataset_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("datasetId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setDatasetId;
@@ -116,9 +116,9 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromJson(const web::json::value& val
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -127,9 +127,9 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromJson(const web::json::value& val
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("task_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("taskId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("task_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("taskId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTaskId;
@@ -138,9 +138,9 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromJson(const web::json::value& val
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -159,29 +159,29 @@ void EnqueueReviewTaskFromTraceHttpRequest::toMultipart(std::shared_ptr<Multipar
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dataset_case_idIsSet)
+    if(m_DatasetCaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_case_id")), m_Dataset_case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetCaseId")), m_DatasetCaseId));
     }
-    if(m_Dataset_idIsSet)
+    if(m_DatasetIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dataset_id")), m_Dataset_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("datasetId")), m_DatasetId));
     }
     if(m_PriorityIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("priority")), m_Priority));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Task_idIsSet)
+    if(m_TaskIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("task_id")), m_Task_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("taskId")), m_TaskId));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -194,16 +194,16 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromMultiPart(std::shared_ptr<Multip
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetCaseId"))))
     {
         utility::string_t refVal_setDatasetCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_case_id"))), refVal_setDatasetCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetCaseId"))), refVal_setDatasetCaseId );
         setDatasetCaseId(refVal_setDatasetCaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dataset_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("datasetId"))))
     {
         utility::string_t refVal_setDatasetId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dataset_id"))), refVal_setDatasetId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("datasetId"))), refVal_setDatasetId );
         setDatasetId(refVal_setDatasetId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("priority"))))
@@ -212,22 +212,22 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromMultiPart(std::shared_ptr<Multip
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("priority"))), refVal_setPriority );
         setPriority(refVal_setPriority);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("task_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("taskId"))))
     {
         utility::string_t refVal_setTaskId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("task_id"))), refVal_setTaskId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("taskId"))), refVal_setTaskId );
         setTaskId(refVal_setTaskId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -236,45 +236,45 @@ bool EnqueueReviewTaskFromTraceHttpRequest::fromMultiPart(std::shared_ptr<Multip
 
 utility::string_t EnqueueReviewTaskFromTraceHttpRequest::getDatasetCaseId() const
 {
-    return m_Dataset_case_id;
+    return m_DatasetCaseId;
 }
 
 
 void EnqueueReviewTaskFromTraceHttpRequest::setDatasetCaseId(const utility::string_t& value)
 {
-    m_Dataset_case_id = value;
-    m_Dataset_case_idIsSet = true;
+    m_DatasetCaseId = value;
+    m_DatasetCaseIdIsSet = true;
 }
 
 bool EnqueueReviewTaskFromTraceHttpRequest::datasetCaseIdIsSet() const
 {
-    return m_Dataset_case_idIsSet;
+    return m_DatasetCaseIdIsSet;
 }
 
-void EnqueueReviewTaskFromTraceHttpRequest::unsetDataset_case_id()
+void EnqueueReviewTaskFromTraceHttpRequest::unsetDatasetCaseId()
 {
-    m_Dataset_case_idIsSet = false;
+    m_DatasetCaseIdIsSet = false;
 }
 utility::string_t EnqueueReviewTaskFromTraceHttpRequest::getDatasetId() const
 {
-    return m_Dataset_id;
+    return m_DatasetId;
 }
 
 
 void EnqueueReviewTaskFromTraceHttpRequest::setDatasetId(const utility::string_t& value)
 {
-    m_Dataset_id = value;
-    m_Dataset_idIsSet = true;
+    m_DatasetId = value;
+    m_DatasetIdIsSet = true;
 }
 
 bool EnqueueReviewTaskFromTraceHttpRequest::datasetIdIsSet() const
 {
-    return m_Dataset_idIsSet;
+    return m_DatasetIdIsSet;
 }
 
-void EnqueueReviewTaskFromTraceHttpRequest::unsetDataset_id()
+void EnqueueReviewTaskFromTraceHttpRequest::unsetDatasetId()
 {
-    m_Dataset_idIsSet = false;
+    m_DatasetIdIsSet = false;
 }
 int64_t EnqueueReviewTaskFromTraceHttpRequest::getPriority() const
 {
@@ -298,66 +298,66 @@ void EnqueueReviewTaskFromTraceHttpRequest::unsetPriority()
 }
 utility::string_t EnqueueReviewTaskFromTraceHttpRequest::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void EnqueueReviewTaskFromTraceHttpRequest::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool EnqueueReviewTaskFromTraceHttpRequest::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void EnqueueReviewTaskFromTraceHttpRequest::unsetSpan_id()
+void EnqueueReviewTaskFromTraceHttpRequest::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::string_t EnqueueReviewTaskFromTraceHttpRequest::getTaskId() const
 {
-    return m_Task_id;
+    return m_TaskId;
 }
 
 
 void EnqueueReviewTaskFromTraceHttpRequest::setTaskId(const utility::string_t& value)
 {
-    m_Task_id = value;
-    m_Task_idIsSet = true;
+    m_TaskId = value;
+    m_TaskIdIsSet = true;
 }
 
 bool EnqueueReviewTaskFromTraceHttpRequest::taskIdIsSet() const
 {
-    return m_Task_idIsSet;
+    return m_TaskIdIsSet;
 }
 
-void EnqueueReviewTaskFromTraceHttpRequest::unsetTask_id()
+void EnqueueReviewTaskFromTraceHttpRequest::unsetTaskId()
 {
-    m_Task_idIsSet = false;
+    m_TaskIdIsSet = false;
 }
 utility::string_t EnqueueReviewTaskFromTraceHttpRequest::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void EnqueueReviewTaskFromTraceHttpRequest::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool EnqueueReviewTaskFromTraceHttpRequest::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void EnqueueReviewTaskFromTraceHttpRequest::unsetTrace_id()
+void EnqueueReviewTaskFromTraceHttpRequest::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

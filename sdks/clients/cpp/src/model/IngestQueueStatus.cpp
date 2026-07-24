@@ -20,17 +20,17 @@ namespace model {
 
 IngestQueueStatus::IngestQueueStatus()
 {
-    m_Dead_lettersIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
-    m_Total_depth = 0;
-    m_Total_depthIsSet = false;
-    m_Trace_ingested_depth = 0;
-    m_Trace_ingested_depthIsSet = false;
-    m_Trace_write_depth = 0;
-    m_Trace_write_depthIsSet = false;
+    m_DeadLettersIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
+    m_TotalDepth = 0;
+    m_TotalDepthIsSet = false;
+    m_TraceIngestedDepth = 0;
+    m_TraceIngestedDepthIsSet = false;
+    m_TraceWriteDepth = 0;
+    m_TraceWriteDepthIsSet = false;
 }
 
 IngestQueueStatus::~IngestQueueStatus()
@@ -45,35 +45,35 @@ void IngestQueueStatus::validate()
 web::json::value IngestQueueStatus::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dead_lettersIsSet)
+    if(m_DeadLettersIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dead_letters"))] = ModelBase::toJson(m_Dead_letters);
+        val[utility::conversions::to_string_t(U("deadLetters"))] = ModelBase::toJson(m_DeadLetters);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
-    if(m_Total_depthIsSet)
+    if(m_TotalDepthIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("total_depth"))] = ModelBase::toJson(m_Total_depth);
+        val[utility::conversions::to_string_t(U("totalDepth"))] = ModelBase::toJson(m_TotalDepth);
     }
-    if(m_Trace_ingested_depthIsSet)
+    if(m_TraceIngestedDepthIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_ingested_depth"))] = ModelBase::toJson(m_Trace_ingested_depth);
+        val[utility::conversions::to_string_t(U("traceIngestedDepth"))] = ModelBase::toJson(m_TraceIngestedDepth);
     }
-    if(m_Trace_write_depthIsSet)
+    if(m_TraceWriteDepthIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_write_depth"))] = ModelBase::toJson(m_Trace_write_depth);
+        val[utility::conversions::to_string_t(U("traceWriteDepth"))] = ModelBase::toJson(m_TraceWriteDepth);
     }
 
     return val;
@@ -82,9 +82,9 @@ web::json::value IngestQueueStatus::toJson() const
 bool IngestQueueStatus::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dead_letters"))))
+    if(val.has_field(utility::conversions::to_string_t(U("deadLetters"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dead_letters")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("deadLetters")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<DeadLetter>> refVal_setDeadLetters;
@@ -93,9 +93,9 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -104,9 +104,9 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -115,9 +115,9 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("total_depth"))))
+    if(val.has_field(utility::conversions::to_string_t(U("totalDepth"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("total_depth")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("totalDepth")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setTotalDepth;
@@ -126,9 +126,9 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_ingested_depth"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceIngestedDepth"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_ingested_depth")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceIngestedDepth")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setTraceIngestedDepth;
@@ -137,9 +137,9 @@ bool IngestQueueStatus::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_write_depth"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceWriteDepth"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_write_depth")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceWriteDepth")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setTraceWriteDepth;
@@ -158,29 +158,29 @@ void IngestQueueStatus::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dead_lettersIsSet)
+    if(m_DeadLettersIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dead_letters")), m_Dead_letters));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("deadLetters")), m_DeadLetters));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
-    if(m_Total_depthIsSet)
+    if(m_TotalDepthIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("total_depth")), m_Total_depth));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("totalDepth")), m_TotalDepth));
     }
-    if(m_Trace_ingested_depthIsSet)
+    if(m_TraceIngestedDepthIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_ingested_depth")), m_Trace_ingested_depth));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceIngestedDepth")), m_TraceIngestedDepth));
     }
-    if(m_Trace_write_depthIsSet)
+    if(m_TraceWriteDepthIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_write_depth")), m_Trace_write_depth));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceWriteDepth")), m_TraceWriteDepth));
     }
 }
 
@@ -193,40 +193,40 @@ bool IngestQueueStatus::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dead_letters"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("deadLetters"))))
     {
         std::vector<std::shared_ptr<DeadLetter>> refVal_setDeadLetters;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dead_letters"))), refVal_setDeadLetters );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("deadLetters"))), refVal_setDeadLetters );
         setDeadLetters(refVal_setDeadLetters);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("total_depth"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("totalDepth"))))
     {
         int32_t refVal_setTotalDepth;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("total_depth"))), refVal_setTotalDepth );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("totalDepth"))), refVal_setTotalDepth );
         setTotalDepth(refVal_setTotalDepth);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_ingested_depth"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceIngestedDepth"))))
     {
         int32_t refVal_setTraceIngestedDepth;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_ingested_depth"))), refVal_setTraceIngestedDepth );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceIngestedDepth"))), refVal_setTraceIngestedDepth );
         setTraceIngestedDepth(refVal_setTraceIngestedDepth);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_write_depth"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceWriteDepth"))))
     {
         int32_t refVal_setTraceWriteDepth;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_write_depth"))), refVal_setTraceWriteDepth );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceWriteDepth"))), refVal_setTraceWriteDepth );
         setTraceWriteDepth(refVal_setTraceWriteDepth);
     }
     return ok;
@@ -235,126 +235,126 @@ bool IngestQueueStatus::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 std::vector<std::shared_ptr<DeadLetter>> IngestQueueStatus::getDeadLetters() const
 {
-    return m_Dead_letters;
+    return m_DeadLetters;
 }
 
 
 void IngestQueueStatus::setDeadLetters(const std::vector<std::shared_ptr<DeadLetter>>& value)
 {
-    m_Dead_letters = value;
-    m_Dead_lettersIsSet = true;
+    m_DeadLetters = value;
+    m_DeadLettersIsSet = true;
 }
 
 bool IngestQueueStatus::deadLettersIsSet() const
 {
-    return m_Dead_lettersIsSet;
+    return m_DeadLettersIsSet;
 }
 
-void IngestQueueStatus::unsetDead_letters()
+void IngestQueueStatus::unsetDeadLetters()
 {
-    m_Dead_lettersIsSet = false;
+    m_DeadLettersIsSet = false;
 }
 utility::string_t IngestQueueStatus::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void IngestQueueStatus::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool IngestQueueStatus::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void IngestQueueStatus::unsetProject_id()
+void IngestQueueStatus::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t IngestQueueStatus::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void IngestQueueStatus::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool IngestQueueStatus::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void IngestQueueStatus::unsetTenant_id()
+void IngestQueueStatus::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 int32_t IngestQueueStatus::getTotalDepth() const
 {
-    return m_Total_depth;
+    return m_TotalDepth;
 }
 
 void IngestQueueStatus::setTotalDepth(int32_t value)
 {
-    m_Total_depth = value;
-    m_Total_depthIsSet = true;
+    m_TotalDepth = value;
+    m_TotalDepthIsSet = true;
 }
 
 bool IngestQueueStatus::totalDepthIsSet() const
 {
-    return m_Total_depthIsSet;
+    return m_TotalDepthIsSet;
 }
 
-void IngestQueueStatus::unsetTotal_depth()
+void IngestQueueStatus::unsetTotalDepth()
 {
-    m_Total_depthIsSet = false;
+    m_TotalDepthIsSet = false;
 }
 int32_t IngestQueueStatus::getTraceIngestedDepth() const
 {
-    return m_Trace_ingested_depth;
+    return m_TraceIngestedDepth;
 }
 
 void IngestQueueStatus::setTraceIngestedDepth(int32_t value)
 {
-    m_Trace_ingested_depth = value;
-    m_Trace_ingested_depthIsSet = true;
+    m_TraceIngestedDepth = value;
+    m_TraceIngestedDepthIsSet = true;
 }
 
 bool IngestQueueStatus::traceIngestedDepthIsSet() const
 {
-    return m_Trace_ingested_depthIsSet;
+    return m_TraceIngestedDepthIsSet;
 }
 
-void IngestQueueStatus::unsetTrace_ingested_depth()
+void IngestQueueStatus::unsetTraceIngestedDepth()
 {
-    m_Trace_ingested_depthIsSet = false;
+    m_TraceIngestedDepthIsSet = false;
 }
 int32_t IngestQueueStatus::getTraceWriteDepth() const
 {
-    return m_Trace_write_depth;
+    return m_TraceWriteDepth;
 }
 
 void IngestQueueStatus::setTraceWriteDepth(int32_t value)
 {
-    m_Trace_write_depth = value;
-    m_Trace_write_depthIsSet = true;
+    m_TraceWriteDepth = value;
+    m_TraceWriteDepthIsSet = true;
 }
 
 bool IngestQueueStatus::traceWriteDepthIsSet() const
 {
-    return m_Trace_write_depthIsSet;
+    return m_TraceWriteDepthIsSet;
 }
 
-void IngestQueueStatus::unsetTrace_write_depth()
+void IngestQueueStatus::unsetTraceWriteDepth()
 {
-    m_Trace_write_depthIsSet = false;
+    m_TraceWriteDepthIsSet = false;
 }
 
 }

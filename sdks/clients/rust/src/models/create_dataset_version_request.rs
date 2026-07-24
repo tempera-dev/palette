@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateDatasetVersionRequest {
-    #[serde(rename = "case_ids", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "caseIds", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub case_ids: Option<Option<Vec<String>>>,
 }
 

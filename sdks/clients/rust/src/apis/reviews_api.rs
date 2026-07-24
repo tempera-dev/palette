@@ -180,7 +180,7 @@ pub enum ReviewsPeriodSubmitAnnotationError {
 
 pub async fn reviews_period_create_queue(configuration: &configuration::Configuration, params: ReviewsPeriodCreateQueueParams) -> Result<models::ReviewQueue, Error<ReviewsPeriodCreateQueueError>> {
 
-    let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/review-queues/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -217,7 +217,7 @@ pub async fn reviews_period_create_queue(configuration: &configuration::Configur
 
 pub async fn reviews_period_enqueue_task_from_trace(configuration: &configuration::Configuration, params: ReviewsPeriodEnqueueTaskFromTraceParams) -> Result<models::ReviewTask, Error<ReviewsPeriodEnqueueTaskFromTraceError>> {
 
-    let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/from-trace", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id));
+    let uri_str = format!("{}/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/from-trace", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), queueId=crate::apis::urlencode(params.queue_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -254,7 +254,7 @@ pub async fn reviews_period_enqueue_task_from_trace(configuration: &configuratio
 
 pub async fn reviews_period_list_tasks(configuration: &configuration::Configuration, params: ReviewsPeriodListTasksParams) -> Result<models::ReviewTaskListResponse, Error<ReviewsPeriodListTasksError>> {
 
-    let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id));
+    let uri_str = format!("{}/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), queueId=crate::apis::urlencode(params.queue_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.state {
@@ -299,7 +299,7 @@ pub async fn reviews_period_list_tasks(configuration: &configuration::Configurat
 
 pub async fn reviews_period_promote_annotation(configuration: &configuration::Configuration, params: ReviewsPeriodPromoteAnnotationParams) -> Result<models::DatasetCase, Error<ReviewsPeriodPromoteAnnotationError>> {
 
-    let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations/{annotation_id}/promote", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id), task_id=crate::apis::urlencode(params.task_id), annotation_id=crate::apis::urlencode(params.annotation_id));
+    let uri_str = format!("{}/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations/{annotationId}/promote", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), queueId=crate::apis::urlencode(params.queue_id), taskId=crate::apis::urlencode(params.task_id), annotationId=crate::apis::urlencode(params.annotation_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -336,7 +336,7 @@ pub async fn reviews_period_promote_annotation(configuration: &configuration::Co
 
 pub async fn reviews_period_submit_annotation(configuration: &configuration::Configuration, params: ReviewsPeriodSubmitAnnotationParams) -> Result<models::ReviewAnnotation, Error<ReviewsPeriodSubmitAnnotationError>> {
 
-    let uri_str = format!("{}/v1/review-queues/{tenant_id}/{project_id}/{queue_id}/tasks/{task_id}/annotations", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), queue_id=crate::apis::urlencode(params.queue_id), task_id=crate::apis::urlencode(params.task_id));
+    let uri_str = format!("{}/v1/review-queues/{tenantId}/{projectId}/{queueId}/tasks/{taskId}/annotations", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), queueId=crate::apis::urlencode(params.queue_id), taskId=crate::apis::urlencode(params.task_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

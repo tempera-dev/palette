@@ -65,14 +65,14 @@ cJSON *connection_link_convertToJSON(connection_link_t *connection_link) {
     if (!connection_link->connected_account_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "connected_account_id", connection_link->connected_account_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "connectedAccountId", connection_link->connected_account_id) == NULL) {
     goto fail; //String
     }
 
 
     // connection_link->expires_at
     if(connection_link->expires_at) {
-    if(cJSON_AddStringToObject(item, "expires_at", connection_link->expires_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "expiresAt", connection_link->expires_at) == NULL) {
     goto fail; //String
     }
     }
@@ -82,7 +82,7 @@ cJSON *connection_link_convertToJSON(connection_link_t *connection_link) {
     if (!connection_link->redirect_url) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "redirect_url", connection_link->redirect_url) == NULL) {
+    if(cJSON_AddStringToObject(item, "redirectUrl", connection_link->redirect_url) == NULL) {
     goto fail; //String
     }
 
@@ -99,7 +99,7 @@ connection_link_t *connection_link_parseFromJSON(cJSON *connection_linkJSON){
     connection_link_t *connection_link_local_var = NULL;
 
     // connection_link->connected_account_id
-    cJSON *connected_account_id = cJSON_GetObjectItemCaseSensitive(connection_linkJSON, "connected_account_id");
+    cJSON *connected_account_id = cJSON_GetObjectItemCaseSensitive(connection_linkJSON, "connectedAccountId");
     if (cJSON_IsNull(connected_account_id)) {
         connected_account_id = NULL;
     }
@@ -114,7 +114,7 @@ connection_link_t *connection_link_parseFromJSON(cJSON *connection_linkJSON){
     }
 
     // connection_link->expires_at
-    cJSON *expires_at = cJSON_GetObjectItemCaseSensitive(connection_linkJSON, "expires_at");
+    cJSON *expires_at = cJSON_GetObjectItemCaseSensitive(connection_linkJSON, "expiresAt");
     if (cJSON_IsNull(expires_at)) {
         expires_at = NULL;
     }
@@ -126,7 +126,7 @@ connection_link_t *connection_link_parseFromJSON(cJSON *connection_linkJSON){
     }
 
     // connection_link->redirect_url
-    cJSON *redirect_url = cJSON_GetObjectItemCaseSensitive(connection_linkJSON, "redirect_url");
+    cJSON *redirect_url = cJSON_GetObjectItemCaseSensitive(connection_linkJSON, "redirectUrl");
     if (cJSON_IsNull(redirect_url)) {
         redirect_url = NULL;
     }

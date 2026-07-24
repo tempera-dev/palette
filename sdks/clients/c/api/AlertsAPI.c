@@ -8,7 +8,7 @@
 
 
 alert_decision_t*
-AlertsAPI_alertsEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_id, char *trace_id, evaluate_alert_request_t *evaluate_alert_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+AlertsAPI_alertsEvaluate(apiClient_t *apiClient, char *tenantId, char *projectId, char *traceId, evaluate_alert_request_t *evaluate_alert_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,45 +22,45 @@ AlertsAPI_alertsEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/alerts/{tenant_id}/{project_id}/traces/{trace_id}/webhook");
+    char *localVarPath = strdup("/v1/alerts/{tenantId}/{projectId}/traces/{traceId}/webhook");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!trace_id)
+    if(!traceId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_trace_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(trace_id)+3 + sizeof("{ trace_id }") - 1;
-    if(trace_id == NULL) {
+    long sizeOfPathParams_traceId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(traceId)+3 + sizeof("{ traceId }") - 1;
+    if(traceId == NULL) {
         goto end;
     }
-    char* localVarToReplace_trace_id = malloc(sizeOfPathParams_trace_id);
-    sprintf(localVarToReplace_trace_id, "{%s}", "trace_id");
+    char* localVarToReplace_traceId = malloc(sizeOfPathParams_traceId);
+    sprintf(localVarToReplace_traceId, "{%s}", "traceId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_trace_id, trace_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_traceId, traceId);
 
 
 
@@ -173,9 +173,9 @@ AlertsAPI_alertsEvaluate(apiClient_t *apiClient, char *tenant_id, char *project_
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_trace_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_traceId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

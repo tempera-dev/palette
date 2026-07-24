@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GatesCreate**](GatesAPI.md#GatesCreate) | **Post** /v1/gates/{tenant_id}/{project_id} |
-[**GatesRun**](GatesAPI.md#GatesRun) | **Post** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |
+[**GatesCreate**](GatesAPI.md#GatesCreate) | **Post** /v1/gates/{tenantId}/{projectId} |
+[**GatesRun**](GatesAPI.md#GatesRun) | **Post** /v1/gates/{tenantId}/{projectId}/{gateId}/run |
 
 
 

@@ -74,11 +74,11 @@ export function TemperaEvidenceSummaryFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
-        'experimentId': json['experiment_id'] == null ? undefined : json['experiment_id'],
-        'runId': json['run_id'] == null ? undefined : json['run_id'],
+        'experimentId': json['experimentId'] == null ? undefined : json['experimentId'],
+        'runId': json['runId'] == null ? undefined : json['runId'],
         'split': json['split'] == null ? undefined : json['split'],
-        'suiteId': json['suite_id'] == null ? undefined : json['suite_id'],
-        'suiteVersion': json['suite_version'] == null ? undefined : json['suite_version'],
+        'suiteId': json['suiteId'] == null ? undefined : json['suiteId'],
+        'suiteVersion': json['suiteVersion'] == null ? undefined : json['suiteVersion'],
         'verdict': json['verdict'] == null ? undefined : json['verdict'],
     };
 }
@@ -94,11 +94,11 @@ export function TemperaEvidenceSummaryToJSONTyped(value?: TemperaEvidenceSummary
 
     return {
         
-        'experiment_id': value['experimentId'],
-        'run_id': value['runId'],
+        'experimentId': value['experimentId'],
+        'runId': value['runId'],
         'split': value['split'],
-        'suite_id': value['suiteId'],
-        'suite_version': value['suiteVersion'],
+        'suiteId': value['suiteId'],
+        'suiteVersion': value['suiteVersion'],
         'verdict': value['verdict'],
     };
 }

@@ -73,7 +73,7 @@ cJSON *diff_line_convertToJSON(diff_line_t *diff_line) {
 
     // diff_line->new_line
     if(diff_line->new_line) {
-    if(cJSON_AddNumberToObject(item, "new_line", diff_line->new_line) == NULL) {
+    if(cJSON_AddNumberToObject(item, "newLine", diff_line->new_line) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -81,7 +81,7 @@ cJSON *diff_line_convertToJSON(diff_line_t *diff_line) {
 
     // diff_line->old_line
     if(diff_line->old_line) {
-    if(cJSON_AddNumberToObject(item, "old_line", diff_line->old_line) == NULL) {
+    if(cJSON_AddNumberToObject(item, "oldLine", diff_line->old_line) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -123,7 +123,7 @@ diff_line_t *diff_line_parseFromJSON(cJSON *diff_lineJSON){
     kind_local_nonprim = diff_line_kind_parseFromJSON(kind); //custom
 
     // diff_line->new_line
-    cJSON *new_line = cJSON_GetObjectItemCaseSensitive(diff_lineJSON, "new_line");
+    cJSON *new_line = cJSON_GetObjectItemCaseSensitive(diff_lineJSON, "newLine");
     if (cJSON_IsNull(new_line)) {
         new_line = NULL;
     }
@@ -135,7 +135,7 @@ diff_line_t *diff_line_parseFromJSON(cJSON *diff_lineJSON){
     }
 
     // diff_line->old_line
-    cJSON *old_line = cJSON_GetObjectItemCaseSensitive(diff_lineJSON, "old_line");
+    cJSON *old_line = cJSON_GetObjectItemCaseSensitive(diff_lineJSON, "oldLine");
     if (cJSON_IsNull(old_line)) {
         old_line = NULL;
     }

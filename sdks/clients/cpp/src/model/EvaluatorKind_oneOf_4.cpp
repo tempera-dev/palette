@@ -20,8 +20,8 @@ namespace model {
 
 EvaluatorKind_oneOf_4::EvaluatorKind_oneOf_4()
 {
-    m_Max_micros = 0L;
-    m_Max_microsIsSet = false;
+    m_MaxMicros = 0L;
+    m_MaxMicrosIsSet = false;
     m_TypeIsSet = false;
 }
 
@@ -37,10 +37,10 @@ void EvaluatorKind_oneOf_4::validate()
 web::json::value EvaluatorKind_oneOf_4::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Max_microsIsSet)
+    if(m_MaxMicrosIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("max_micros"))] = ModelBase::toJson(m_Max_micros);
+        val[utility::conversions::to_string_t(U("maxMicros"))] = ModelBase::toJson(m_MaxMicros);
     }
     if(m_TypeIsSet)
     {   
@@ -56,9 +56,9 @@ web::json::value EvaluatorKind_oneOf_4::toJson() const
 bool EvaluatorKind_oneOf_4::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("max_micros"))))
+    if(val.has_field(utility::conversions::to_string_t(U("maxMicros"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("max_micros")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maxMicros")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setMaxMicros;
@@ -89,9 +89,9 @@ void EvaluatorKind_oneOf_4::toMultipart(std::shared_ptr<MultipartFormData> multi
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Max_microsIsSet)
+    if(m_MaxMicrosIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("max_micros")), m_Max_micros));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maxMicros")), m_MaxMicros));
     }
     if(m_TypeIsSet)
     {
@@ -108,10 +108,10 @@ bool EvaluatorKind_oneOf_4::fromMultiPart(std::shared_ptr<MultipartFormData> mul
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("max_micros"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("maxMicros"))))
     {
         int64_t refVal_setMaxMicros;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("max_micros"))), refVal_setMaxMicros );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maxMicros"))), refVal_setMaxMicros );
         setMaxMicros(refVal_setMaxMicros);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("type"))))
@@ -147,23 +147,23 @@ const utility::string_t EvaluatorKind_oneOf_4::fromTypeEnum(const TypeEnum value
 
 int64_t EvaluatorKind_oneOf_4::getMaxMicros() const
 {
-    return m_Max_micros;
+    return m_MaxMicros;
 }
 
 void EvaluatorKind_oneOf_4::setMaxMicros(int64_t value)
 {
-    m_Max_micros = value;
-    m_Max_microsIsSet = true;
+    m_MaxMicros = value;
+    m_MaxMicrosIsSet = true;
 }
 
 bool EvaluatorKind_oneOf_4::maxMicrosIsSet() const
 {
-    return m_Max_microsIsSet;
+    return m_MaxMicrosIsSet;
 }
 
-void EvaluatorKind_oneOf_4::unsetMax_micros()
+void EvaluatorKind_oneOf_4::unsetMaxMicros()
 {
-    m_Max_microsIsSet = false;
+    m_MaxMicrosIsSet = false;
 }
 EvaluatorKind_oneOf_4::TypeEnum EvaluatorKind_oneOf_4::getType() const
 {

@@ -66,7 +66,7 @@ export function TokenCountsFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'cacheRead': json['cache_read'],
+        'cacheRead': json['cacheRead'],
         'input': json['input'],
         'output': json['output'],
         'reasoning': json['reasoning'],
@@ -84,7 +84,7 @@ export function TokenCountsToJSONTyped(value?: TokenCounts | null, ignoreDiscrim
 
     return {
         
-        'cache_read': value['cacheRead'],
+        'cacheRead': value['cacheRead'],
         'input': value['input'],
         'output': value['output'],
         'reasoning': value['reasoning'],

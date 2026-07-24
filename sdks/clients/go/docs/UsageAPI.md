@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UsageGetSummary**](UsageAPI.md#UsageGetSummary) | **Get** /v1/usage/{tenant_id}/{project_id} |
+[**UsageGetSummary**](UsageAPI.md#UsageGetSummary) | **Get** /v1/usage/{tenantId}/{projectId} |
 
 
 

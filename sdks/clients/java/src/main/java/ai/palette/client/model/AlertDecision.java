@@ -51,7 +51,7 @@ public class AlertDecision {
   @javax.annotation.Nonnull
   private Boolean emitted;
 
-  public static final String JSON_PROPERTY_SUPPRESSED_REASON = "suppressed_reason";
+  public static final String JSON_PROPERTY_SUPPRESSED_REASON = "suppressedReason";
   private JsonNullable<String> suppressedReason = JsonNullable.<String>undefined();
 
   public AlertDecision() { 
@@ -242,9 +242,9 @@ public class AlertDecision {
       joiner.add(String.format("%semitted%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEmitted()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `suppressed_reason` to the URL query string
+    // add `suppressedReason` to the URL query string
     if (getSuppressedReason() != null) {
-      joiner.add(String.format("%ssuppressed_reason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuppressedReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssuppressedReason%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuppressedReason()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

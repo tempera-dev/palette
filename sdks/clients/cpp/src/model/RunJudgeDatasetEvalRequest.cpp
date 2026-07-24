@@ -20,19 +20,19 @@ namespace model {
 
 RunJudgeDatasetEvalRequest::RunJudgeDatasetEvalRequest()
 {
-    m_Agent_release_id = utility::conversions::to_string_t("");
-    m_Agent_release_idIsSet = false;
-    m_Code_hash = utility::conversions::to_string_t("");
-    m_Code_hashIsSet = false;
-    m_Evaluator_id = utility::conversions::to_string_t("");
-    m_Evaluator_idIsSet = false;
-    m_Evaluator_version_id = utility::conversions::to_string_t("");
-    m_Evaluator_version_idIsSet = false;
+    m_AgentReleaseId = utility::conversions::to_string_t("");
+    m_AgentReleaseIdIsSet = false;
+    m_CodeHash = utility::conversions::to_string_t("");
+    m_CodeHashIsSet = false;
+    m_EvaluatorId = utility::conversions::to_string_t("");
+    m_EvaluatorIdIsSet = false;
+    m_EvaluatorVersionId = utility::conversions::to_string_t("");
+    m_EvaluatorVersionIdIsSet = false;
     m_KindIsSet = false;
-    m_Prompt_version_id = utility::conversions::to_string_t("");
-    m_Prompt_version_idIsSet = false;
-    m_Provider_secret_id = utility::conversions::to_string_t("");
-    m_Provider_secret_idIsSet = false;
+    m_PromptVersionId = utility::conversions::to_string_t("");
+    m_PromptVersionIdIsSet = false;
+    m_ProviderSecretId = utility::conversions::to_string_t("");
+    m_ProviderSecretIdIsSet = false;
 }
 
 RunJudgeDatasetEvalRequest::~RunJudgeDatasetEvalRequest()
@@ -47,40 +47,40 @@ void RunJudgeDatasetEvalRequest::validate()
 web::json::value RunJudgeDatasetEvalRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Agent_release_idIsSet)
+    if(m_AgentReleaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("agent_release_id"))] = ModelBase::toJson(m_Agent_release_id);
+        val[utility::conversions::to_string_t(U("agentReleaseId"))] = ModelBase::toJson(m_AgentReleaseId);
     }
-    if(m_Code_hashIsSet)
+    if(m_CodeHashIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("code_hash"))] = ModelBase::toJson(m_Code_hash);
+        val[utility::conversions::to_string_t(U("codeHash"))] = ModelBase::toJson(m_CodeHash);
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_id"))] = ModelBase::toJson(m_Evaluator_id);
+        val[utility::conversions::to_string_t(U("evaluatorId"))] = ModelBase::toJson(m_EvaluatorId);
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("evaluator_version_id"))] = ModelBase::toJson(m_Evaluator_version_id);
+        val[utility::conversions::to_string_t(U("evaluatorVersionId"))] = ModelBase::toJson(m_EvaluatorVersionId);
     }
     if(m_KindIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("kind"))] = ModelBase::toJson(m_Kind);
     }
-    if(m_Prompt_version_idIsSet)
+    if(m_PromptVersionIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("prompt_version_id"))] = ModelBase::toJson(m_Prompt_version_id);
+        val[utility::conversions::to_string_t(U("promptVersionId"))] = ModelBase::toJson(m_PromptVersionId);
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("provider_secret_id"))] = ModelBase::toJson(m_Provider_secret_id);
+        val[utility::conversions::to_string_t(U("providerSecretId"))] = ModelBase::toJson(m_ProviderSecretId);
     }
 
     return val;
@@ -89,9 +89,9 @@ web::json::value RunJudgeDatasetEvalRequest::toJson() const
 bool RunJudgeDatasetEvalRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("agent_release_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("agentReleaseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("agent_release_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("agentReleaseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAgentReleaseId;
@@ -100,9 +100,9 @@ bool RunJudgeDatasetEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("code_hash"))))
+    if(val.has_field(utility::conversions::to_string_t(U("codeHash"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("code_hash")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("codeHash")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCodeHash;
@@ -111,9 +111,9 @@ bool RunJudgeDatasetEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorId;
@@ -122,9 +122,9 @@ bool RunJudgeDatasetEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluator_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("evaluatorVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEvaluatorVersionId;
@@ -144,9 +144,9 @@ bool RunJudgeDatasetEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("prompt_version_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("promptVersionId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("prompt_version_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("promptVersionId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPromptVersionId;
@@ -155,9 +155,9 @@ bool RunJudgeDatasetEvalRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("providerSecretId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("provider_secret_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("providerSecretId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProviderSecretId;
@@ -176,33 +176,33 @@ void RunJudgeDatasetEvalRequest::toMultipart(std::shared_ptr<MultipartFormData> 
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Agent_release_idIsSet)
+    if(m_AgentReleaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agent_release_id")), m_Agent_release_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("agentReleaseId")), m_AgentReleaseId));
     }
-    if(m_Code_hashIsSet)
+    if(m_CodeHashIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("code_hash")), m_Code_hash));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("codeHash")), m_CodeHash));
     }
-    if(m_Evaluator_idIsSet)
+    if(m_EvaluatorIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_id")), m_Evaluator_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorId")), m_EvaluatorId));
     }
-    if(m_Evaluator_version_idIsSet)
+    if(m_EvaluatorVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluator_version_id")), m_Evaluator_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("evaluatorVersionId")), m_EvaluatorVersionId));
     }
     if(m_KindIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("kind")), m_Kind));
     }
-    if(m_Prompt_version_idIsSet)
+    if(m_PromptVersionIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("prompt_version_id")), m_Prompt_version_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("promptVersionId")), m_PromptVersionId));
     }
-    if(m_Provider_secret_idIsSet)
+    if(m_ProviderSecretIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("provider_secret_id")), m_Provider_secret_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("providerSecretId")), m_ProviderSecretId));
     }
 }
 
@@ -215,28 +215,28 @@ bool RunJudgeDatasetEvalRequest::fromMultiPart(std::shared_ptr<MultipartFormData
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("agent_release_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("agentReleaseId"))))
     {
         utility::string_t refVal_setAgentReleaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agent_release_id"))), refVal_setAgentReleaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("agentReleaseId"))), refVal_setAgentReleaseId );
         setAgentReleaseId(refVal_setAgentReleaseId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("code_hash"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("codeHash"))))
     {
         utility::string_t refVal_setCodeHash;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("code_hash"))), refVal_setCodeHash );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("codeHash"))), refVal_setCodeHash );
         setCodeHash(refVal_setCodeHash);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorId"))))
     {
         utility::string_t refVal_setEvaluatorId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_id"))), refVal_setEvaluatorId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorId"))), refVal_setEvaluatorId );
         setEvaluatorId(refVal_setEvaluatorId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluator_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("evaluatorVersionId"))))
     {
         utility::string_t refVal_setEvaluatorVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluator_version_id"))), refVal_setEvaluatorVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("evaluatorVersionId"))), refVal_setEvaluatorVersionId );
         setEvaluatorVersionId(refVal_setEvaluatorVersionId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -245,16 +245,16 @@ bool RunJudgeDatasetEvalRequest::fromMultiPart(std::shared_ptr<MultipartFormData
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("kind"))), refVal_setKind );
         setKind(refVal_setKind);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("prompt_version_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("promptVersionId"))))
     {
         utility::string_t refVal_setPromptVersionId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("prompt_version_id"))), refVal_setPromptVersionId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("promptVersionId"))), refVal_setPromptVersionId );
         setPromptVersionId(refVal_setPromptVersionId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("provider_secret_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("providerSecretId"))))
     {
         utility::string_t refVal_setProviderSecretId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("provider_secret_id"))), refVal_setProviderSecretId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("providerSecretId"))), refVal_setProviderSecretId );
         setProviderSecretId(refVal_setProviderSecretId);
     }
     return ok;
@@ -263,87 +263,87 @@ bool RunJudgeDatasetEvalRequest::fromMultiPart(std::shared_ptr<MultipartFormData
 
 utility::string_t RunJudgeDatasetEvalRequest::getAgentReleaseId() const
 {
-    return m_Agent_release_id;
+    return m_AgentReleaseId;
 }
 
 
 void RunJudgeDatasetEvalRequest::setAgentReleaseId(const utility::string_t& value)
 {
-    m_Agent_release_id = value;
-    m_Agent_release_idIsSet = true;
+    m_AgentReleaseId = value;
+    m_AgentReleaseIdIsSet = true;
 }
 
 bool RunJudgeDatasetEvalRequest::agentReleaseIdIsSet() const
 {
-    return m_Agent_release_idIsSet;
+    return m_AgentReleaseIdIsSet;
 }
 
-void RunJudgeDatasetEvalRequest::unsetAgent_release_id()
+void RunJudgeDatasetEvalRequest::unsetAgentReleaseId()
 {
-    m_Agent_release_idIsSet = false;
+    m_AgentReleaseIdIsSet = false;
 }
 utility::string_t RunJudgeDatasetEvalRequest::getCodeHash() const
 {
-    return m_Code_hash;
+    return m_CodeHash;
 }
 
 
 void RunJudgeDatasetEvalRequest::setCodeHash(const utility::string_t& value)
 {
-    m_Code_hash = value;
-    m_Code_hashIsSet = true;
+    m_CodeHash = value;
+    m_CodeHashIsSet = true;
 }
 
 bool RunJudgeDatasetEvalRequest::codeHashIsSet() const
 {
-    return m_Code_hashIsSet;
+    return m_CodeHashIsSet;
 }
 
-void RunJudgeDatasetEvalRequest::unsetCode_hash()
+void RunJudgeDatasetEvalRequest::unsetCodeHash()
 {
-    m_Code_hashIsSet = false;
+    m_CodeHashIsSet = false;
 }
 utility::string_t RunJudgeDatasetEvalRequest::getEvaluatorId() const
 {
-    return m_Evaluator_id;
+    return m_EvaluatorId;
 }
 
 
 void RunJudgeDatasetEvalRequest::setEvaluatorId(const utility::string_t& value)
 {
-    m_Evaluator_id = value;
-    m_Evaluator_idIsSet = true;
+    m_EvaluatorId = value;
+    m_EvaluatorIdIsSet = true;
 }
 
 bool RunJudgeDatasetEvalRequest::evaluatorIdIsSet() const
 {
-    return m_Evaluator_idIsSet;
+    return m_EvaluatorIdIsSet;
 }
 
-void RunJudgeDatasetEvalRequest::unsetEvaluator_id()
+void RunJudgeDatasetEvalRequest::unsetEvaluatorId()
 {
-    m_Evaluator_idIsSet = false;
+    m_EvaluatorIdIsSet = false;
 }
 utility::string_t RunJudgeDatasetEvalRequest::getEvaluatorVersionId() const
 {
-    return m_Evaluator_version_id;
+    return m_EvaluatorVersionId;
 }
 
 
 void RunJudgeDatasetEvalRequest::setEvaluatorVersionId(const utility::string_t& value)
 {
-    m_Evaluator_version_id = value;
-    m_Evaluator_version_idIsSet = true;
+    m_EvaluatorVersionId = value;
+    m_EvaluatorVersionIdIsSet = true;
 }
 
 bool RunJudgeDatasetEvalRequest::evaluatorVersionIdIsSet() const
 {
-    return m_Evaluator_version_idIsSet;
+    return m_EvaluatorVersionIdIsSet;
 }
 
-void RunJudgeDatasetEvalRequest::unsetEvaluator_version_id()
+void RunJudgeDatasetEvalRequest::unsetEvaluatorVersionId()
 {
-    m_Evaluator_version_idIsSet = false;
+    m_EvaluatorVersionIdIsSet = false;
 }
 std::shared_ptr<EvaluatorKind> RunJudgeDatasetEvalRequest::getKind() const
 {
@@ -368,45 +368,45 @@ void RunJudgeDatasetEvalRequest::unsetKind()
 }
 utility::string_t RunJudgeDatasetEvalRequest::getPromptVersionId() const
 {
-    return m_Prompt_version_id;
+    return m_PromptVersionId;
 }
 
 
 void RunJudgeDatasetEvalRequest::setPromptVersionId(const utility::string_t& value)
 {
-    m_Prompt_version_id = value;
-    m_Prompt_version_idIsSet = true;
+    m_PromptVersionId = value;
+    m_PromptVersionIdIsSet = true;
 }
 
 bool RunJudgeDatasetEvalRequest::promptVersionIdIsSet() const
 {
-    return m_Prompt_version_idIsSet;
+    return m_PromptVersionIdIsSet;
 }
 
-void RunJudgeDatasetEvalRequest::unsetPrompt_version_id()
+void RunJudgeDatasetEvalRequest::unsetPromptVersionId()
 {
-    m_Prompt_version_idIsSet = false;
+    m_PromptVersionIdIsSet = false;
 }
 utility::string_t RunJudgeDatasetEvalRequest::getProviderSecretId() const
 {
-    return m_Provider_secret_id;
+    return m_ProviderSecretId;
 }
 
 
 void RunJudgeDatasetEvalRequest::setProviderSecretId(const utility::string_t& value)
 {
-    m_Provider_secret_id = value;
-    m_Provider_secret_idIsSet = true;
+    m_ProviderSecretId = value;
+    m_ProviderSecretIdIsSet = true;
 }
 
 bool RunJudgeDatasetEvalRequest::providerSecretIdIsSet() const
 {
-    return m_Provider_secret_idIsSet;
+    return m_ProviderSecretIdIsSet;
 }
 
-void RunJudgeDatasetEvalRequest::unsetProvider_secret_id()
+void RunJudgeDatasetEvalRequest::unsetProviderSecretId()
 {
-    m_Provider_secret_idIsSet = false;
+    m_ProviderSecretIdIsSet = false;
 }
 
 }

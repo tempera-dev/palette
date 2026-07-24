@@ -145,19 +145,19 @@ export function JudgeAuditRecordFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'cached': json['cached'],
-        'chargedCost': MoneyFromJSON(json['charged_cost']),
-        'createdAt': (new Date(json['created_at'])),
-        'evaluatorId': json['evaluator_id'],
-        'judgeCallId': json['judge_call_id'],
+        'chargedCost': MoneyFromJSON(json['chargedCost']),
+        'createdAt': (new Date(json['createdAt'])),
+        'evaluatorId': json['evaluatorId'],
+        'judgeCallId': json['judgeCallId'],
         'model': json['model'],
-        'projectId': json['project_id'],
+        'projectId': json['projectId'],
         'provider': json['provider'],
-        'providerCost': MoneyFromJSON(json['provider_cost']),
-        'providerSecretId': json['provider_secret_id'],
-        'requestHash': json['request_hash'],
-        'responseHash': json['response_hash'],
+        'providerCost': MoneyFromJSON(json['providerCost']),
+        'providerSecretId': json['providerSecretId'],
+        'requestHash': json['requestHash'],
+        'responseHash': json['responseHash'],
         'score': json['score'],
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -173,19 +173,19 @@ export function JudgeAuditRecordToJSONTyped(value?: JudgeAuditRecord | null, ign
     return {
         
         'cached': value['cached'],
-        'charged_cost': MoneyToJSON(value['chargedCost']),
-        'created_at': ((value['createdAt']).toISOString()),
-        'evaluator_id': value['evaluatorId'],
-        'judge_call_id': value['judgeCallId'],
+        'chargedCost': MoneyToJSON(value['chargedCost']),
+        'createdAt': ((value['createdAt']).toISOString()),
+        'evaluatorId': value['evaluatorId'],
+        'judgeCallId': value['judgeCallId'],
         'model': value['model'],
-        'project_id': value['projectId'],
+        'projectId': value['projectId'],
         'provider': value['provider'],
-        'provider_cost': MoneyToJSON(value['providerCost']),
-        'provider_secret_id': value['providerSecretId'],
-        'request_hash': value['requestHash'],
-        'response_hash': value['responseHash'],
+        'providerCost': MoneyToJSON(value['providerCost']),
+        'providerSecretId': value['providerSecretId'],
+        'requestHash': value['requestHash'],
+        'responseHash': value['responseHash'],
         'score': value['score'],
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
     };
 }
 

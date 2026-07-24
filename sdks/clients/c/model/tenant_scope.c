@@ -65,7 +65,7 @@ cJSON *tenant_scope_convertToJSON(tenant_scope_t *tenant_scope) {
     if (!tenant_scope->environment_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "environment_id", tenant_scope->environment_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "environmentId", tenant_scope->environment_id) == NULL) {
     goto fail; //String
     }
 
@@ -74,7 +74,7 @@ cJSON *tenant_scope_convertToJSON(tenant_scope_t *tenant_scope) {
     if (!tenant_scope->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", tenant_scope->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", tenant_scope->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -83,7 +83,7 @@ cJSON *tenant_scope_convertToJSON(tenant_scope_t *tenant_scope) {
     if (!tenant_scope->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", tenant_scope->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", tenant_scope->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -100,7 +100,7 @@ tenant_scope_t *tenant_scope_parseFromJSON(cJSON *tenant_scopeJSON){
     tenant_scope_t *tenant_scope_local_var = NULL;
 
     // tenant_scope->environment_id
-    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(tenant_scopeJSON, "environment_id");
+    cJSON *environment_id = cJSON_GetObjectItemCaseSensitive(tenant_scopeJSON, "environmentId");
     if (cJSON_IsNull(environment_id)) {
         environment_id = NULL;
     }
@@ -115,7 +115,7 @@ tenant_scope_t *tenant_scope_parseFromJSON(cJSON *tenant_scopeJSON){
     }
 
     // tenant_scope->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(tenant_scopeJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(tenant_scopeJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -130,7 +130,7 @@ tenant_scope_t *tenant_scope_parseFromJSON(cJSON *tenant_scopeJSON){
     }
 
     // tenant_scope->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(tenant_scopeJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(tenant_scopeJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

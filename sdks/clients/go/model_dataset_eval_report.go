@@ -22,16 +22,16 @@ var _ MappedNullable = &DatasetEvalReport{}
 
 // DatasetEvalReport struct for DatasetEvalReport
 type DatasetEvalReport struct {
-	AggregateScore float64 `json:"aggregate_score"`
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId string `json:"dataset_id"`
-	DatasetVersionId string `json:"dataset_version_id"`
-	EvaluatorVersionId string `json:"evaluator_version_id"`
-	ProjectId string `json:"project_id"`
-	ReportId string `json:"report_id"`
-	ResultCount int32 `json:"result_count"`
+	AggregateScore float64 `json:"aggregateScore"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId string `json:"datasetId"`
+	DatasetVersionId string `json:"datasetVersionId"`
+	EvaluatorVersionId string `json:"evaluatorVersionId"`
+	ProjectId string `json:"projectId"`
+	ReportId string `json:"reportId"`
+	ResultCount int32 `json:"resultCount"`
 	Results []EvalResult `json:"results"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 }
 
 type _DatasetEvalReport DatasetEvalReport
@@ -313,16 +313,16 @@ func (o DatasetEvalReport) MarshalJSON() ([]byte, error) {
 
 func (o DatasetEvalReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["aggregate_score"] = o.AggregateScore
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["dataset_id"] = o.DatasetId
-	toSerialize["dataset_version_id"] = o.DatasetVersionId
-	toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["report_id"] = o.ReportId
-	toSerialize["result_count"] = o.ResultCount
+	toSerialize["aggregateScore"] = o.AggregateScore
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["datasetId"] = o.DatasetId
+	toSerialize["datasetVersionId"] = o.DatasetVersionId
+	toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["reportId"] = o.ReportId
+	toSerialize["resultCount"] = o.ResultCount
 	toSerialize["results"] = o.Results
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -331,16 +331,16 @@ func (o *DatasetEvalReport) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"aggregate_score",
-		"created_at",
-		"dataset_id",
-		"dataset_version_id",
-		"evaluator_version_id",
-		"project_id",
-		"report_id",
-		"result_count",
+		"aggregateScore",
+		"createdAt",
+		"datasetId",
+		"datasetVersionId",
+		"evaluatorVersionId",
+		"projectId",
+		"reportId",
+		"resultCount",
 		"results",
-		"tenant_id",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

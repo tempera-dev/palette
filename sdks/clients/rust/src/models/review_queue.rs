@@ -13,17 +13,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ReviewQueue {
-    #[serde(rename = "annotation_schema", deserialize_with = "Option::deserialize")]
+    #[serde(rename = "annotationSchema", deserialize_with = "Option::deserialize")]
     pub annotation_schema: Option<serde_json::Value>,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
     #[serde(rename = "name")]
     pub name: String,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "queue_id")]
+    #[serde(rename = "queueId")]
     pub queue_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

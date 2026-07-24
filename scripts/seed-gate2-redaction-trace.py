@@ -53,22 +53,22 @@ def build_payload(release_id: str) -> tuple[dict, str, str]:
     span_id = stable_hex("gate2-redaction-span", release_id, 16)
     payload = {
         "scope": {
-            "tenant_id": "demo",
-            "project_id": "demo",
-            "environment_id": "local",
+            "tenantId": "demo",
+            "projectId": "demo",
+            "environmentId": "local",
         },
-        "trace_id": trace_id,
-        "span_id": span_id,
-        "parent_span_id": None,
+        "traceId": trace_id,
+        "spanId": span_id,
+        "parentSpanId": None,
         "seq": 1,
         "kind": "llm.call",
         "name": "sensitive-redaction-review",
         "status": "ok",
-        "start_time": utc_timestamp(),
-        "end_time": utc_timestamp(240),
+        "startTime": utc_timestamp(),
+        "endTime": utc_timestamp(240),
         "model": {"provider": "openai", "name": "gpt-redaction"},
-        "cost": {"amount_micros": 700, "currency": "USD"},
-        "tokens": {"input": 10, "output": 8, "reasoning": 0, "cache_read": 0},
+        "cost": {"amountMicros": 700, "currency": "USD"},
+        "tokens": {"input": 10, "output": 8, "reasoning": 0, "cacheRead": 0},
         "input": SENSITIVE_PROMPT,
         "output": SENSITIVE_COMPLETION,
         "attributes": {
@@ -76,9 +76,9 @@ def build_payload(release_id: str) -> tuple[dict, str, str]:
             "privacy.test_case": "gate2-redacted-io",
             "privacy.unmask_reason": UNMASK_REASON,
         },
-        "redaction_class": "sensitive",
-        "idempotency_key": f"gate2-redaction-{stable_hex('idempotency', release_id, 24)}",
-        "auth_context": None,
+        "redactionClass": "sensitive",
+        "idempotencyKey": f"gate2-redaction-{stable_hex('idempotency', release_id, 24)}",
+        "authContext": None,
     }
     return payload, trace_id, span_id
 
@@ -98,8 +98,8 @@ def main() -> int:
     print(
         json.dumps(
             {
-                "trace_id": trace_id,
-                "span_id": span_id,
+                "traceId": trace_id,
+                "spanId": span_id,
                 "release_id": args.release_id,
                 "model": "gpt-redaction",
                 "unmask_reason": UNMASK_REASON,

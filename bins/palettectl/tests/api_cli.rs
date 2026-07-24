@@ -36,7 +36,7 @@ fn api_get_operation_rejects_body_before_network() -> anyhow::Result<()> {
         .arg("api")
         .arg("traces.list")
         .arg("--param")
-        .arg("tenant_id=demo")
+        .arg("tenantId=demo")
         .arg("--body")
         .arg("{}")
         .output()?;

@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**experimentsRunDeterministic**](ExperimentsApi.md#experimentsRunDeterministic) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |  |
-| [**experimentsRunDeterministicWithHttpInfo**](ExperimentsApi.md#experimentsRunDeterministicWithHttpInfo) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/deterministic |  |
-| [**experimentsRunJudge**](ExperimentsApi.md#experimentsRunJudge) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |  |
-| [**experimentsRunJudgeWithHttpInfo**](ExperimentsApi.md#experimentsRunJudgeWithHttpInfo) | **POST** /v1/experiments/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/judge |  |
+| [**experimentsRunDeterministic**](ExperimentsApi.md#experimentsRunDeterministic) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic |  |
+| [**experimentsRunDeterministicWithHttpInfo**](ExperimentsApi.md#experimentsRunDeterministicWithHttpInfo) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/deterministic |  |
+| [**experimentsRunJudge**](ExperimentsApi.md#experimentsRunJudge) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |  |
+| [**experimentsRunJudgeWithHttpInfo**](ExperimentsApi.md#experimentsRunJudgeWithHttpInfo) | **POST** /v1/experiments/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/judge |  |
 
 
 

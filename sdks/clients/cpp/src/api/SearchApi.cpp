@@ -40,8 +40,8 @@ pplx::task<std::shared_ptr<SearchSpanListResponse>> SearchApi::search_spans(util
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/search/{tenant_id}/spans");
-    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenant_id") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
+    utility::string_t localVarPath = utility::conversions::to_string_t("/v1/search/{tenantId}/spans");
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("tenantId") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString(tenantId)));
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -83,19 +83,19 @@ pplx::task<std::shared_ptr<SearchSpanListResponse>> SearchApi::search_spans(util
     }
     if (projectId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("project_id")] = ApiClient::parameterToString(*projectId);
+        localVarQueryParams[utility::conversions::to_string_t("projectId")] = ApiClient::parameterToString(*projectId);
     }
     if (environmentId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("environment_id")] = ApiClient::parameterToString(*environmentId);
+        localVarQueryParams[utility::conversions::to_string_t("environmentId")] = ApiClient::parameterToString(*environmentId);
     }
     if (traceId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("trace_id")] = ApiClient::parameterToString(*traceId);
+        localVarQueryParams[utility::conversions::to_string_t("traceId")] = ApiClient::parameterToString(*traceId);
     }
     if (spanId)
     {
-        localVarQueryParams[utility::conversions::to_string_t("span_id")] = ApiClient::parameterToString(*spanId);
+        localVarQueryParams[utility::conversions::to_string_t("spanId")] = ApiClient::parameterToString(*spanId);
     }
     if (kind)
     {

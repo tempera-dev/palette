@@ -119,7 +119,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->baseline_outputs) {
         goto fail;
     }
-    cJSON *baseline_outputs = cJSON_AddArrayToObject(item, "baseline_outputs");
+    cJSON *baseline_outputs = cJSON_AddArrayToObject(item, "baselineOutputs");
     if(baseline_outputs == NULL) {
     goto fail; //nonprimitive container
     }
@@ -140,7 +140,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->baseline_release_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "baseline_release_id", run_judge_experiment_request->baseline_release_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "baselineReleaseId", run_judge_experiment_request->baseline_release_id) == NULL) {
     goto fail; //String
     }
 
@@ -149,7 +149,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->candidate_outputs) {
         goto fail;
     }
-    cJSON *candidate_outputs = cJSON_AddArrayToObject(item, "candidate_outputs");
+    cJSON *candidate_outputs = cJSON_AddArrayToObject(item, "candidateOutputs");
     if(candidate_outputs == NULL) {
     goto fail; //nonprimitive container
     }
@@ -170,7 +170,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->candidate_release_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "candidate_release_id", run_judge_experiment_request->candidate_release_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "candidateReleaseId", run_judge_experiment_request->candidate_release_id) == NULL) {
     goto fail; //String
     }
 
@@ -179,7 +179,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->evaluator_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_id", run_judge_experiment_request->evaluator_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorId", run_judge_experiment_request->evaluator_id) == NULL) {
     goto fail; //String
     }
 
@@ -188,7 +188,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->evaluator_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "evaluator_version_id", run_judge_experiment_request->evaluator_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "evaluatorVersionId", run_judge_experiment_request->evaluator_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -199,7 +199,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if(gate_policy_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "gate_policy", gate_policy_local_JSON);
+    cJSON_AddItemToObject(item, "gatePolicy", gate_policy_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -224,7 +224,7 @@ cJSON *run_judge_experiment_request_convertToJSON(run_judge_experiment_request_t
     if (!run_judge_experiment_request->provider_secret_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "provider_secret_id", run_judge_experiment_request->provider_secret_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "providerSecretId", run_judge_experiment_request->provider_secret_id) == NULL) {
     goto fail; //String
     }
 
@@ -253,7 +253,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     evaluator_kind_t *kind_local_nonprim = NULL;
 
     // run_judge_experiment_request->baseline_outputs
-    cJSON *baseline_outputs = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "baseline_outputs");
+    cJSON *baseline_outputs = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "baselineOutputs");
     if (cJSON_IsNull(baseline_outputs)) {
         baseline_outputs = NULL;
     }
@@ -280,7 +280,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     }
 
     // run_judge_experiment_request->baseline_release_id
-    cJSON *baseline_release_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "baseline_release_id");
+    cJSON *baseline_release_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "baselineReleaseId");
     if (cJSON_IsNull(baseline_release_id)) {
         baseline_release_id = NULL;
     }
@@ -295,7 +295,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     }
 
     // run_judge_experiment_request->candidate_outputs
-    cJSON *candidate_outputs = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "candidate_outputs");
+    cJSON *candidate_outputs = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "candidateOutputs");
     if (cJSON_IsNull(candidate_outputs)) {
         candidate_outputs = NULL;
     }
@@ -322,7 +322,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     }
 
     // run_judge_experiment_request->candidate_release_id
-    cJSON *candidate_release_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "candidate_release_id");
+    cJSON *candidate_release_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "candidateReleaseId");
     if (cJSON_IsNull(candidate_release_id)) {
         candidate_release_id = NULL;
     }
@@ -337,7 +337,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     }
 
     // run_judge_experiment_request->evaluator_id
-    cJSON *evaluator_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "evaluator_id");
+    cJSON *evaluator_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "evaluatorId");
     if (cJSON_IsNull(evaluator_id)) {
         evaluator_id = NULL;
     }
@@ -352,7 +352,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     }
 
     // run_judge_experiment_request->evaluator_version_id
-    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "evaluator_version_id");
+    cJSON *evaluator_version_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "evaluatorVersionId");
     if (cJSON_IsNull(evaluator_version_id)) {
         evaluator_version_id = NULL;
     }
@@ -367,7 +367,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     }
 
     // run_judge_experiment_request->gate_policy
-    cJSON *gate_policy = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "gate_policy");
+    cJSON *gate_policy = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "gatePolicy");
     if (cJSON_IsNull(gate_policy)) {
         gate_policy = NULL;
     }
@@ -388,7 +388,7 @@ run_judge_experiment_request_t *run_judge_experiment_request_parseFromJSON(cJSON
     kind_local_nonprim = evaluator_kind_parseFromJSON(kind); //nonprimitive
 
     // run_judge_experiment_request->provider_secret_id
-    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "provider_secret_id");
+    cJSON *provider_secret_id = cJSON_GetObjectItemCaseSensitive(run_judge_experiment_requestJSON, "providerSecretId");
     if (cJSON_IsNull(provider_secret_id)) {
         provider_secret_id = NULL;
     }

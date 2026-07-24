@@ -182,7 +182,6 @@ pub enum IngestPeriodDrainTraceIngestedError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
-    Status422(models::TraceIngestedDrainReport),
     UnknownValue(serde_json::Value),
 }
 
@@ -193,7 +192,6 @@ pub enum IngestPeriodDrainTraceWritesError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     Status403(models::ErrorResponse),
-    Status422(models::TraceWriteDrainReport),
     UnknownValue(serde_json::Value),
 }
 
@@ -280,7 +278,7 @@ pub enum IngestPeriodReplayDeadLetterError {
 
 pub async fn ingest_period_drain_trace_ingested(configuration: &configuration::Configuration, params: IngestPeriodDrainTraceIngestedParams) -> Result<models::TraceIngestedDrainReport, Error<IngestPeriodDrainTraceIngestedError>> {
 
-    let uri_str = format!("{}/v1/ingest/{tenant_id}/{project_id}/trace-ingested/drain", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/ingest/{tenantId}/{projectId}/trace-ingested/drain", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = params.limit {
@@ -319,7 +317,7 @@ pub async fn ingest_period_drain_trace_ingested(configuration: &configuration::C
 
 pub async fn ingest_period_drain_trace_writes(configuration: &configuration::Configuration, params: IngestPeriodDrainTraceWritesParams) -> Result<models::TraceWriteDrainReport, Error<IngestPeriodDrainTraceWritesError>> {
 
-    let uri_str = format!("{}/v1/ingest/{tenant_id}/{project_id}/trace-writes/drain", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/ingest/{tenantId}/{projectId}/trace-writes/drain", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = params.limit {
@@ -358,7 +356,7 @@ pub async fn ingest_period_drain_trace_writes(configuration: &configuration::Con
 
 pub async fn ingest_period_get_queue_status(configuration: &configuration::Configuration, params: IngestPeriodGetQueueStatusParams) -> Result<models::IngestQueueStatus, Error<IngestPeriodGetQueueStatusError>> {
 
-    let uri_str = format!("{}/v1/ingest/{tenant_id}/{project_id}/queue", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/ingest/{tenantId}/{projectId}/queue", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -394,7 +392,7 @@ pub async fn ingest_period_get_queue_status(configuration: &configuration::Confi
 
 pub async fn ingest_period_import_source(configuration: &configuration::Configuration, params: IngestPeriodImportSourceParams) -> Result<models::IngestOutcome, Error<IngestPeriodImportSourceError>> {
 
-    let uri_str = format!("{}/v1/import/{tenant_id}/{project_id}/{environment_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), environment_id=crate::apis::urlencode(params.environment_id));
+    let uri_str = format!("{}/v1/import/{tenantId}/{projectId}/{environmentId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), environmentId=crate::apis::urlencode(params.environment_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = params.durability {
@@ -468,7 +466,7 @@ pub async fn ingest_period_native(configuration: &configuration::Configuration, 
 
 pub async fn ingest_period_otlp(configuration: &configuration::Configuration, params: IngestPeriodOtlpParams) -> Result<models::OtlpIngestOutcome, Error<IngestPeriodOtlpError>> {
 
-    let uri_str = format!("{}/v1/otlp/{tenant_id}/{project_id}/{environment_id}/v1/traces", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), environment_id=crate::apis::urlencode(params.environment_id));
+    let uri_str = format!("{}/v1/otlp/{tenantId}/{projectId}/{environmentId}/v1/traces", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), environmentId=crate::apis::urlencode(params.environment_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = params.durability {
@@ -549,7 +547,7 @@ pub async fn ingest_period_otlp_json_collector(configuration: &configuration::Co
 
 pub async fn ingest_period_reconcile_trace(configuration: &configuration::Configuration, params: IngestPeriodReconcileTraceParams) -> Result<models::TraceIngestedReconcileReport, Error<IngestPeriodReconcileTraceError>> {
 
-    let uri_str = format!("{}/v1/ingest/{tenant_id}/{project_id}/traces/{trace_id}/reconcile", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), trace_id=crate::apis::urlencode(params.trace_id));
+    let uri_str = format!("{}/v1/ingest/{tenantId}/{projectId}/traces/{traceId}/reconcile", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), traceId=crate::apis::urlencode(params.trace_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -585,11 +583,11 @@ pub async fn ingest_period_reconcile_trace(configuration: &configuration::Config
 
 pub async fn ingest_period_replay_dead_letter(configuration: &configuration::Configuration, params: IngestPeriodReplayDeadLetterParams) -> Result<models::DeadLetterReplayReport, Error<IngestPeriodReplayDeadLetterError>> {
 
-    let uri_str = format!("{}/v1/ingest/{tenant_id}/{project_id}/dead-letters/{message_id}/replay", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), message_id=crate::apis::urlencode(params.message_id));
+    let uri_str = format!("{}/v1/ingest/{tenantId}/{projectId}/dead-letters/{messageId}/replay", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), messageId=crate::apis::urlencode(params.message_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref param_value) = params.reset_attempts {
-        req_builder = req_builder.query(&[("reset_attempts", &param_value.to_string())]);
+        req_builder = req_builder.query(&[("resetAttempts", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());

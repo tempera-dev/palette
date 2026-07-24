@@ -8,7 +8,7 @@
 
 
 trace_view_t*
-TracesAPI_tracesGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+TracesAPI_tracesGet(apiClient_t *apiClient, char *tenantId, char *traceId, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,33 +22,33 @@ TracesAPI_tracesGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, int
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/traces/{tenant_id}/{trace_id}");
+    char *localVarPath = strdup("/v1/traces/{tenantId}/{traceId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!trace_id)
+    if(!traceId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(traceId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_trace_id = strlen(tenant_id)+3 + strlen(trace_id)+3 + sizeof("{ trace_id }") - 1;
-    if(trace_id == NULL) {
+    long sizeOfPathParams_traceId = strlen(tenantId)+3 + strlen(traceId)+3 + sizeof("{ traceId }") - 1;
+    if(traceId == NULL) {
         goto end;
     }
-    char* localVarToReplace_trace_id = malloc(sizeOfPathParams_trace_id);
-    sprintf(localVarToReplace_trace_id, "{%s}", "trace_id");
+    char* localVarToReplace_traceId = malloc(sizeOfPathParams_traceId);
+    sprintf(localVarToReplace_traceId, "{%s}", "traceId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_trace_id, trace_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_traceId, traceId);
 
 
 
@@ -179,8 +179,8 @@ TracesAPI_tracesGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, int
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_trace_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_traceId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -249,7 +249,7 @@ end:
 }
 
 trace_list_response_t*
-TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *kind, char *status, char *started_after, char *started_before, char *model, char *release, long min_cost_micros, long max_cost_micros, long min_latency_ms, long max_latency_ms, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+TracesAPI_tracesList(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *traceId, char *kind, char *status, char *startedAfter, char *startedBefore, char *model, char *release, long minCostMicros, long maxCostMicros, long minLatencyMs, long maxLatencyMs, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = list_createList();
@@ -263,21 +263,21 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/traces/{tenant_id}");
+    char *localVarPath = strdup("/v1/traces/{tenantId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
 
 
@@ -330,39 +330,39 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
 
 
     // query parameters
-    char *keyQuery_project_id = NULL;
-    char * valueQuery_project_id = NULL;
-    keyValuePair_t *keyPairQuery_project_id = 0;
-    if (project_id)
+    char *keyQuery_projectId = NULL;
+    char * valueQuery_projectId = NULL;
+    keyValuePair_t *keyPairQuery_projectId = 0;
+    if (projectId)
     {
-        keyQuery_project_id = strdup("project_id");
-        valueQuery_project_id = strdup((project_id));
-        keyPairQuery_project_id = keyValuePair_create(keyQuery_project_id, valueQuery_project_id);
-        list_addElement(localVarQueryParameters,keyPairQuery_project_id);
+        keyQuery_projectId = strdup("projectId");
+        valueQuery_projectId = strdup((projectId));
+        keyPairQuery_projectId = keyValuePair_create(keyQuery_projectId, valueQuery_projectId);
+        list_addElement(localVarQueryParameters,keyPairQuery_projectId);
     }
 
     // query parameters
-    char *keyQuery_environment_id = NULL;
-    char * valueQuery_environment_id = NULL;
-    keyValuePair_t *keyPairQuery_environment_id = 0;
-    if (environment_id)
+    char *keyQuery_environmentId = NULL;
+    char * valueQuery_environmentId = NULL;
+    keyValuePair_t *keyPairQuery_environmentId = 0;
+    if (environmentId)
     {
-        keyQuery_environment_id = strdup("environment_id");
-        valueQuery_environment_id = strdup((environment_id));
-        keyPairQuery_environment_id = keyValuePair_create(keyQuery_environment_id, valueQuery_environment_id);
-        list_addElement(localVarQueryParameters,keyPairQuery_environment_id);
+        keyQuery_environmentId = strdup("environmentId");
+        valueQuery_environmentId = strdup((environmentId));
+        keyPairQuery_environmentId = keyValuePair_create(keyQuery_environmentId, valueQuery_environmentId);
+        list_addElement(localVarQueryParameters,keyPairQuery_environmentId);
     }
 
     // query parameters
-    char *keyQuery_trace_id = NULL;
-    char * valueQuery_trace_id = NULL;
-    keyValuePair_t *keyPairQuery_trace_id = 0;
-    if (trace_id)
+    char *keyQuery_traceId = NULL;
+    char * valueQuery_traceId = NULL;
+    keyValuePair_t *keyPairQuery_traceId = 0;
+    if (traceId)
     {
-        keyQuery_trace_id = strdup("trace_id");
-        valueQuery_trace_id = strdup((trace_id));
-        keyPairQuery_trace_id = keyValuePair_create(keyQuery_trace_id, valueQuery_trace_id);
-        list_addElement(localVarQueryParameters,keyPairQuery_trace_id);
+        keyQuery_traceId = strdup("traceId");
+        valueQuery_traceId = strdup((traceId));
+        keyPairQuery_traceId = keyValuePair_create(keyQuery_traceId, valueQuery_traceId);
+        list_addElement(localVarQueryParameters,keyPairQuery_traceId);
     }
 
     // query parameters
@@ -390,27 +390,27 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     }
 
     // query parameters
-    char *keyQuery_started_after = NULL;
-    char * valueQuery_started_after = NULL;
-    keyValuePair_t *keyPairQuery_started_after = 0;
-    if (started_after)
+    char *keyQuery_startedAfter = NULL;
+    char * valueQuery_startedAfter = NULL;
+    keyValuePair_t *keyPairQuery_startedAfter = 0;
+    if (startedAfter)
     {
-        keyQuery_started_after = strdup("started_after");
-        valueQuery_started_after = strdup((started_after));
-        keyPairQuery_started_after = keyValuePair_create(keyQuery_started_after, valueQuery_started_after);
-        list_addElement(localVarQueryParameters,keyPairQuery_started_after);
+        keyQuery_startedAfter = strdup("startedAfter");
+        valueQuery_startedAfter = strdup((startedAfter));
+        keyPairQuery_startedAfter = keyValuePair_create(keyQuery_startedAfter, valueQuery_startedAfter);
+        list_addElement(localVarQueryParameters,keyPairQuery_startedAfter);
     }
 
     // query parameters
-    char *keyQuery_started_before = NULL;
-    char * valueQuery_started_before = NULL;
-    keyValuePair_t *keyPairQuery_started_before = 0;
-    if (started_before)
+    char *keyQuery_startedBefore = NULL;
+    char * valueQuery_startedBefore = NULL;
+    keyValuePair_t *keyPairQuery_startedBefore = 0;
+    if (startedBefore)
     {
-        keyQuery_started_before = strdup("started_before");
-        valueQuery_started_before = strdup((started_before));
-        keyPairQuery_started_before = keyValuePair_create(keyQuery_started_before, valueQuery_started_before);
-        list_addElement(localVarQueryParameters,keyPairQuery_started_before);
+        keyQuery_startedBefore = strdup("startedBefore");
+        valueQuery_startedBefore = strdup((startedBefore));
+        keyPairQuery_startedBefore = keyValuePair_create(keyQuery_startedBefore, valueQuery_startedBefore);
+        list_addElement(localVarQueryParameters,keyPairQuery_startedBefore);
     }
 
     // query parameters
@@ -438,51 +438,51 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     }
 
     // query parameters
-    char *keyQuery_min_cost_micros = NULL;
-    long valueQuery_min_cost_micros ;
-    keyValuePair_t *keyPairQuery_min_cost_micros = 0;
-    if (min_cost_micros)
+    char *keyQuery_minCostMicros = NULL;
+    long valueQuery_minCostMicros ;
+    keyValuePair_t *keyPairQuery_minCostMicros = 0;
+    if (minCostMicros)
     {
-        keyQuery_min_cost_micros = strdup("min_cost_micros");
-        valueQuery_min_cost_micros = (min_cost_micros);
-        keyPairQuery_min_cost_micros = keyValuePair_create(keyQuery_min_cost_micros, &valueQuery_min_cost_micros);
-        list_addElement(localVarQueryParameters,keyPairQuery_min_cost_micros);
+        keyQuery_minCostMicros = strdup("minCostMicros");
+        valueQuery_minCostMicros = (minCostMicros);
+        keyPairQuery_minCostMicros = keyValuePair_create(keyQuery_minCostMicros, &valueQuery_minCostMicros);
+        list_addElement(localVarQueryParameters,keyPairQuery_minCostMicros);
     }
 
     // query parameters
-    char *keyQuery_max_cost_micros = NULL;
-    long valueQuery_max_cost_micros ;
-    keyValuePair_t *keyPairQuery_max_cost_micros = 0;
-    if (max_cost_micros)
+    char *keyQuery_maxCostMicros = NULL;
+    long valueQuery_maxCostMicros ;
+    keyValuePair_t *keyPairQuery_maxCostMicros = 0;
+    if (maxCostMicros)
     {
-        keyQuery_max_cost_micros = strdup("max_cost_micros");
-        valueQuery_max_cost_micros = (max_cost_micros);
-        keyPairQuery_max_cost_micros = keyValuePair_create(keyQuery_max_cost_micros, &valueQuery_max_cost_micros);
-        list_addElement(localVarQueryParameters,keyPairQuery_max_cost_micros);
+        keyQuery_maxCostMicros = strdup("maxCostMicros");
+        valueQuery_maxCostMicros = (maxCostMicros);
+        keyPairQuery_maxCostMicros = keyValuePair_create(keyQuery_maxCostMicros, &valueQuery_maxCostMicros);
+        list_addElement(localVarQueryParameters,keyPairQuery_maxCostMicros);
     }
 
     // query parameters
-    char *keyQuery_min_latency_ms = NULL;
-    long valueQuery_min_latency_ms ;
-    keyValuePair_t *keyPairQuery_min_latency_ms = 0;
-    if (min_latency_ms)
+    char *keyQuery_minLatencyMs = NULL;
+    long valueQuery_minLatencyMs ;
+    keyValuePair_t *keyPairQuery_minLatencyMs = 0;
+    if (minLatencyMs)
     {
-        keyQuery_min_latency_ms = strdup("min_latency_ms");
-        valueQuery_min_latency_ms = (min_latency_ms);
-        keyPairQuery_min_latency_ms = keyValuePair_create(keyQuery_min_latency_ms, &valueQuery_min_latency_ms);
-        list_addElement(localVarQueryParameters,keyPairQuery_min_latency_ms);
+        keyQuery_minLatencyMs = strdup("minLatencyMs");
+        valueQuery_minLatencyMs = (minLatencyMs);
+        keyPairQuery_minLatencyMs = keyValuePair_create(keyQuery_minLatencyMs, &valueQuery_minLatencyMs);
+        list_addElement(localVarQueryParameters,keyPairQuery_minLatencyMs);
     }
 
     // query parameters
-    char *keyQuery_max_latency_ms = NULL;
-    long valueQuery_max_latency_ms ;
-    keyValuePair_t *keyPairQuery_max_latency_ms = 0;
-    if (max_latency_ms)
+    char *keyQuery_maxLatencyMs = NULL;
+    long valueQuery_maxLatencyMs ;
+    keyValuePair_t *keyPairQuery_maxLatencyMs = 0;
+    if (maxLatencyMs)
     {
-        keyQuery_max_latency_ms = strdup("max_latency_ms");
-        valueQuery_max_latency_ms = (max_latency_ms);
-        keyPairQuery_max_latency_ms = keyValuePair_create(keyQuery_max_latency_ms, &valueQuery_max_latency_ms);
-        list_addElement(localVarQueryParameters,keyPairQuery_max_latency_ms);
+        keyQuery_maxLatencyMs = strdup("maxLatencyMs");
+        valueQuery_maxLatencyMs = (maxLatencyMs);
+        keyPairQuery_maxLatencyMs = keyValuePair_create(keyQuery_maxLatencyMs, &valueQuery_maxLatencyMs);
+        list_addElement(localVarQueryParameters,keyPairQuery_maxLatencyMs);
     }
 
     // query parameters
@@ -560,7 +560,7 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
     list_freeList(localVarHeaderType);
 
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
+    free(localVarToReplace_tenantId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -597,41 +597,41 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
         valueHeader_x_palette_environment_id = NULL;
     }
     free(keyPairHeader_x_palette_environment_id);
-    if(keyQuery_project_id){
-        free(keyQuery_project_id);
-        keyQuery_project_id = NULL;
+    if(keyQuery_projectId){
+        free(keyQuery_projectId);
+        keyQuery_projectId = NULL;
     }
-    if(valueQuery_project_id){
-        free(valueQuery_project_id);
-        valueQuery_project_id = NULL;
+    if(valueQuery_projectId){
+        free(valueQuery_projectId);
+        valueQuery_projectId = NULL;
     }
-    if(keyPairQuery_project_id){
-        keyValuePair_free(keyPairQuery_project_id);
-        keyPairQuery_project_id = NULL;
+    if(keyPairQuery_projectId){
+        keyValuePair_free(keyPairQuery_projectId);
+        keyPairQuery_projectId = NULL;
     }
-    if(keyQuery_environment_id){
-        free(keyQuery_environment_id);
-        keyQuery_environment_id = NULL;
+    if(keyQuery_environmentId){
+        free(keyQuery_environmentId);
+        keyQuery_environmentId = NULL;
     }
-    if(valueQuery_environment_id){
-        free(valueQuery_environment_id);
-        valueQuery_environment_id = NULL;
+    if(valueQuery_environmentId){
+        free(valueQuery_environmentId);
+        valueQuery_environmentId = NULL;
     }
-    if(keyPairQuery_environment_id){
-        keyValuePair_free(keyPairQuery_environment_id);
-        keyPairQuery_environment_id = NULL;
+    if(keyPairQuery_environmentId){
+        keyValuePair_free(keyPairQuery_environmentId);
+        keyPairQuery_environmentId = NULL;
     }
-    if(keyQuery_trace_id){
-        free(keyQuery_trace_id);
-        keyQuery_trace_id = NULL;
+    if(keyQuery_traceId){
+        free(keyQuery_traceId);
+        keyQuery_traceId = NULL;
     }
-    if(valueQuery_trace_id){
-        free(valueQuery_trace_id);
-        valueQuery_trace_id = NULL;
+    if(valueQuery_traceId){
+        free(valueQuery_traceId);
+        valueQuery_traceId = NULL;
     }
-    if(keyPairQuery_trace_id){
-        keyValuePair_free(keyPairQuery_trace_id);
-        keyPairQuery_trace_id = NULL;
+    if(keyPairQuery_traceId){
+        keyValuePair_free(keyPairQuery_traceId);
+        keyPairQuery_traceId = NULL;
     }
     if(keyQuery_kind){
         free(keyQuery_kind);
@@ -657,29 +657,29 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
         keyValuePair_free(keyPairQuery_status);
         keyPairQuery_status = NULL;
     }
-    if(keyQuery_started_after){
-        free(keyQuery_started_after);
-        keyQuery_started_after = NULL;
+    if(keyQuery_startedAfter){
+        free(keyQuery_startedAfter);
+        keyQuery_startedAfter = NULL;
     }
-    if(valueQuery_started_after){
-        free(valueQuery_started_after);
-        valueQuery_started_after = NULL;
+    if(valueQuery_startedAfter){
+        free(valueQuery_startedAfter);
+        valueQuery_startedAfter = NULL;
     }
-    if(keyPairQuery_started_after){
-        keyValuePair_free(keyPairQuery_started_after);
-        keyPairQuery_started_after = NULL;
+    if(keyPairQuery_startedAfter){
+        keyValuePair_free(keyPairQuery_startedAfter);
+        keyPairQuery_startedAfter = NULL;
     }
-    if(keyQuery_started_before){
-        free(keyQuery_started_before);
-        keyQuery_started_before = NULL;
+    if(keyQuery_startedBefore){
+        free(keyQuery_startedBefore);
+        keyQuery_startedBefore = NULL;
     }
-    if(valueQuery_started_before){
-        free(valueQuery_started_before);
-        valueQuery_started_before = NULL;
+    if(valueQuery_startedBefore){
+        free(valueQuery_startedBefore);
+        valueQuery_startedBefore = NULL;
     }
-    if(keyPairQuery_started_before){
-        keyValuePair_free(keyPairQuery_started_before);
-        keyPairQuery_started_before = NULL;
+    if(keyPairQuery_startedBefore){
+        keyValuePair_free(keyPairQuery_startedBefore);
+        keyPairQuery_startedBefore = NULL;
     }
     if(keyQuery_model){
         free(keyQuery_model);
@@ -705,37 +705,37 @@ TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, 
         keyValuePair_free(keyPairQuery_release);
         keyPairQuery_release = NULL;
     }
-    if(keyQuery_min_cost_micros){
-        free(keyQuery_min_cost_micros);
-        keyQuery_min_cost_micros = NULL;
+    if(keyQuery_minCostMicros){
+        free(keyQuery_minCostMicros);
+        keyQuery_minCostMicros = NULL;
     }
-    if(keyPairQuery_min_cost_micros){
-        keyValuePair_free(keyPairQuery_min_cost_micros);
-        keyPairQuery_min_cost_micros = NULL;
+    if(keyPairQuery_minCostMicros){
+        keyValuePair_free(keyPairQuery_minCostMicros);
+        keyPairQuery_minCostMicros = NULL;
     }
-    if(keyQuery_max_cost_micros){
-        free(keyQuery_max_cost_micros);
-        keyQuery_max_cost_micros = NULL;
+    if(keyQuery_maxCostMicros){
+        free(keyQuery_maxCostMicros);
+        keyQuery_maxCostMicros = NULL;
     }
-    if(keyPairQuery_max_cost_micros){
-        keyValuePair_free(keyPairQuery_max_cost_micros);
-        keyPairQuery_max_cost_micros = NULL;
+    if(keyPairQuery_maxCostMicros){
+        keyValuePair_free(keyPairQuery_maxCostMicros);
+        keyPairQuery_maxCostMicros = NULL;
     }
-    if(keyQuery_min_latency_ms){
-        free(keyQuery_min_latency_ms);
-        keyQuery_min_latency_ms = NULL;
+    if(keyQuery_minLatencyMs){
+        free(keyQuery_minLatencyMs);
+        keyQuery_minLatencyMs = NULL;
     }
-    if(keyPairQuery_min_latency_ms){
-        keyValuePair_free(keyPairQuery_min_latency_ms);
-        keyPairQuery_min_latency_ms = NULL;
+    if(keyPairQuery_minLatencyMs){
+        keyValuePair_free(keyPairQuery_minLatencyMs);
+        keyPairQuery_minLatencyMs = NULL;
     }
-    if(keyQuery_max_latency_ms){
-        free(keyQuery_max_latency_ms);
-        keyQuery_max_latency_ms = NULL;
+    if(keyQuery_maxLatencyMs){
+        free(keyQuery_maxLatencyMs);
+        keyQuery_maxLatencyMs = NULL;
     }
-    if(keyPairQuery_max_latency_ms){
-        keyValuePair_free(keyPairQuery_max_latency_ms);
-        keyPairQuery_max_latency_ms = NULL;
+    if(keyPairQuery_maxLatencyMs){
+        keyValuePair_free(keyPairQuery_maxLatencyMs);
+        keyPairQuery_maxLatencyMs = NULL;
     }
     if(keyQuery_pageSize){
         free(keyQuery_pageSize);

@@ -67,7 +67,7 @@ public:
 
     std::shared_ptr<ArtifactRef> getArtifactRef() const;
     bool artifactRefIsSet() const;
-    void unsetArtifact_ref();
+    void unsetArtifactRef();
     void setArtifactRef(const std::shared_ptr<ArtifactRef>& value);
 
     KindEnum getKind() const;
@@ -77,8 +77,8 @@ public:
 
 
 protected:
-    std::shared_ptr<ArtifactRef> m_Artifact_ref;
-    bool m_Artifact_refIsSet;
+    std::shared_ptr<ArtifactRef> m_ArtifactRef;
+    bool m_ArtifactRefIsSet;
 
     KindEnum m_Kind;
     bool m_KindIsSet;

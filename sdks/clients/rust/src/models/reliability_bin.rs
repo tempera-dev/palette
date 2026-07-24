@@ -15,17 +15,17 @@ use serde::{Deserialize, Serialize};
 pub struct ReliabilityBin {
     #[serde(rename = "accuracy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub accuracy: Option<Option<f64>>,
-    #[serde(rename = "bin_index")]
+    #[serde(rename = "binIndex")]
     pub bin_index: i32,
-    #[serde(rename = "calibration_gap", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "calibrationGap", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub calibration_gap: Option<Option<f64>>,
-    #[serde(rename = "lower_bound")]
+    #[serde(rename = "lowerBound")]
     pub lower_bound: f64,
-    #[serde(rename = "mean_confidence", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "meanConfidence", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub mean_confidence: Option<Option<f64>>,
-    #[serde(rename = "sample_count")]
+    #[serde(rename = "sampleCount")]
     pub sample_count: i32,
-    #[serde(rename = "upper_bound")]
+    #[serde(rename = "upperBound")]
     pub upper_bound: f64,
 }
 

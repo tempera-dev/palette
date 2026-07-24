@@ -87,13 +87,13 @@ export function TraceIngestedReconcileReportFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
-        'downstreamAccepted': json['downstream_accepted'],
-        'downstreamDuplicate': json['downstream_duplicate'],
-        'downstreamQueued': json['downstream_queued'],
-        'projectId': json['project_id'],
-        'spanCount': json['span_count'],
-        'tenantId': json['tenant_id'],
-        'traceId': json['trace_id'],
+        'downstreamAccepted': json['downstreamAccepted'],
+        'downstreamDuplicate': json['downstreamDuplicate'],
+        'downstreamQueued': json['downstreamQueued'],
+        'projectId': json['projectId'],
+        'spanCount': json['spanCount'],
+        'tenantId': json['tenantId'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -108,13 +108,13 @@ export function TraceIngestedReconcileReportToJSONTyped(value?: TraceIngestedRec
 
     return {
         
-        'downstream_accepted': value['downstreamAccepted'],
-        'downstream_duplicate': value['downstreamDuplicate'],
-        'downstream_queued': value['downstreamQueued'],
-        'project_id': value['projectId'],
-        'span_count': value['spanCount'],
-        'tenant_id': value['tenantId'],
-        'trace_id': value['traceId'],
+        'downstreamAccepted': value['downstreamAccepted'],
+        'downstreamDuplicate': value['downstreamDuplicate'],
+        'downstreamQueued': value['downstreamQueued'],
+        'projectId': value['projectId'],
+        'spanCount': value['spanCount'],
+        'tenantId': value['tenantId'],
+        'traceId': value['traceId'],
     };
 }
 

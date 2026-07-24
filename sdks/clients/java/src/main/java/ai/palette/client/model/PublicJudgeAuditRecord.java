@@ -53,19 +53,19 @@ public class PublicJudgeAuditRecord {
   @javax.annotation.Nonnull
   private Boolean cached;
 
-  public static final String JSON_PROPERTY_CHARGED_COST = "charged_cost";
+  public static final String JSON_PROPERTY_CHARGED_COST = "chargedCost";
   @javax.annotation.Nonnull
   private Money chargedCost;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_EVALUATOR_ID = "evaluator_id";
+  public static final String JSON_PROPERTY_EVALUATOR_ID = "evaluatorId";
   @javax.annotation.Nonnull
   private String evaluatorId;
 
-  public static final String JSON_PROPERTY_JUDGE_CALL_ID = "judge_call_id";
+  public static final String JSON_PROPERTY_JUDGE_CALL_ID = "judgeCallId";
   @javax.annotation.Nonnull
   private String judgeCallId;
 
@@ -73,15 +73,15 @@ public class PublicJudgeAuditRecord {
   @javax.annotation.Nonnull
   private String model;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_REQUEST_HASH = "request_hash";
+  public static final String JSON_PROPERTY_REQUEST_HASH = "requestHash";
   @javax.annotation.Nonnull
   private String requestHash;
 
-  public static final String JSON_PROPERTY_RESPONSE_HASH = "response_hash";
+  public static final String JSON_PROPERTY_RESPONSE_HASH = "responseHash";
   @javax.annotation.Nonnull
   private String responseHash;
 
@@ -89,7 +89,7 @@ public class PublicJudgeAuditRecord {
   @javax.annotation.Nonnull
   private Double score;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -457,24 +457,24 @@ public class PublicJudgeAuditRecord {
       joiner.add(String.format("%scached%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCached()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `charged_cost` to the URL query string
+    // add `chargedCost` to the URL query string
     if (getChargedCost() != null) {
-      joiner.add(getChargedCost().toUrlQueryString(prefix + "charged_cost" + suffix));
+      joiner.add(getChargedCost().toUrlQueryString(prefix + "chargedCost" + suffix));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_id` to the URL query string
+    // add `evaluatorId` to the URL query string
     if (getEvaluatorId() != null) {
-      joiner.add(String.format("%sevaluator_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_call_id` to the URL query string
+    // add `judgeCallId` to the URL query string
     if (getJudgeCallId() != null) {
-      joiner.add(String.format("%sjudge_call_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeCallId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeCallId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeCallId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `model` to the URL query string
@@ -482,19 +482,19 @@ public class PublicJudgeAuditRecord {
       joiner.add(String.format("%smodel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getModel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `request_hash` to the URL query string
+    // add `requestHash` to the URL query string
     if (getRequestHash() != null) {
-      joiner.add(String.format("%srequest_hash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRequestHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srequestHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRequestHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `response_hash` to the URL query string
+    // add `responseHash` to the URL query string
     if (getResponseHash() != null) {
-      joiner.add(String.format("%sresponse_hash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResponseHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sresponseHash%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getResponseHash()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `score` to the URL query string
@@ -502,9 +502,9 @@ public class PublicJudgeAuditRecord {
       joiner.add(String.format("%sscore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

@@ -80,12 +80,12 @@ export function ReviewQueueFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'annotationSchema': json['annotation_schema'],
-        'createdAt': (new Date(json['created_at'])),
+        'annotationSchema': json['annotationSchema'],
+        'createdAt': (new Date(json['createdAt'])),
         'name': json['name'],
-        'projectId': json['project_id'],
-        'queueId': json['queue_id'],
-        'tenantId': json['tenant_id'],
+        'projectId': json['projectId'],
+        'queueId': json['queueId'],
+        'tenantId': json['tenantId'],
     };
 }
 
@@ -100,12 +100,12 @@ export function ReviewQueueToJSONTyped(value?: ReviewQueue | null, ignoreDiscrim
 
     return {
         
-        'annotation_schema': value['annotationSchema'],
-        'created_at': ((value['createdAt']).toISOString()),
+        'annotationSchema': value['annotationSchema'],
+        'createdAt': ((value['createdAt']).toISOString()),
         'name': value['name'],
-        'project_id': value['projectId'],
-        'queue_id': value['queueId'],
-        'tenant_id': value['tenantId'],
+        'projectId': value['projectId'],
+        'queueId': value['queueId'],
+        'tenantId': value['tenantId'],
     };
 }
 

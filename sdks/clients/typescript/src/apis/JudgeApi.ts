@@ -104,7 +104,7 @@ export class JudgeApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/judge/{tenant_id}/{project_id}/evaluate`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/judge/{tenantId}/{projectId}/evaluate`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -167,7 +167,7 @@ export class JudgeApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v1/judge/{tenant_id}/{project_id}/ledger`.replace(`{${"tenant_id"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters['projectId']))),
+            path: `/v1/judge/{tenantId}/{projectId}/ledger`.replace(`{${"tenantId"}}`, encodeURIComponent(String(requestParameters['tenantId']))).replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters['projectId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

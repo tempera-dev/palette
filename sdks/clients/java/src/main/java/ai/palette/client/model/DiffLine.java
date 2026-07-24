@@ -49,10 +49,10 @@ public class DiffLine {
   @javax.annotation.Nonnull
   private DiffLineKind kind;
 
-  public static final String JSON_PROPERTY_NEW_LINE = "new_line";
+  public static final String JSON_PROPERTY_NEW_LINE = "newLine";
   private JsonNullable<Integer> newLine = JsonNullable.<Integer>undefined();
 
-  public static final String JSON_PROPERTY_OLD_LINE = "old_line";
+  public static final String JSON_PROPERTY_OLD_LINE = "oldLine";
   private JsonNullable<Integer> oldLine = JsonNullable.<Integer>undefined();
 
   public static final String JSON_PROPERTY_TEXT = "text";
@@ -270,14 +270,14 @@ public class DiffLine {
       joiner.add(String.format("%skind%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getKind()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `new_line` to the URL query string
+    // add `newLine` to the URL query string
     if (getNewLine() != null) {
-      joiner.add(String.format("%snew_line%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNewLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snewLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNewLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `old_line` to the URL query string
+    // add `oldLine` to the URL query string
     if (getOldLine() != null) {
-      joiner.add(String.format("%sold_line%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOldLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%soldLine%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOldLine()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `text` to the URL query string

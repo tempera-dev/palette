@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**gatesCreate**](GatesApi.md#gatesCreate) | **POST** /v1/gates/{tenant_id}/{project_id} |  |
-| [**gatesCreateWithHttpInfo**](GatesApi.md#gatesCreateWithHttpInfo) | **POST** /v1/gates/{tenant_id}/{project_id} |  |
-| [**gatesRun**](GatesApi.md#gatesRun) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |  |
-| [**gatesRunWithHttpInfo**](GatesApi.md#gatesRunWithHttpInfo) | **POST** /v1/gates/{tenant_id}/{project_id}/{gate_id}/run |  |
+| [**gatesCreate**](GatesApi.md#gatesCreate) | **POST** /v1/gates/{tenantId}/{projectId} |  |
+| [**gatesCreateWithHttpInfo**](GatesApi.md#gatesCreateWithHttpInfo) | **POST** /v1/gates/{tenantId}/{projectId} |  |
+| [**gatesRun**](GatesApi.md#gatesRun) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |  |
+| [**gatesRunWithHttpInfo**](GatesApi.md#gatesRunWithHttpInfo) | **POST** /v1/gates/{tenantId}/{projectId}/{gateId}/run |  |
 
 
 

@@ -27,11 +27,11 @@ class OnlineSamplingPolicy(BaseModel):
     """
     OnlineSamplingPolicy
     """ # noqa: E501
-    high_cost_micros_threshold: Optional[StrictInt] = None
-    keep_errors: StrictBool
-    sample_rate_per_mille: Annotated[int, Field(strict=True, ge=0)]
-    slow_ms_threshold: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
-    __properties: ClassVar[List[str]] = ["high_cost_micros_threshold", "keep_errors", "sample_rate_per_mille", "slow_ms_threshold"]
+    high_cost_micros_threshold: Optional[StrictInt] = Field(default=None, alias="highCostMicrosThreshold")
+    keep_errors: StrictBool = Field(alias="keepErrors")
+    sample_rate_per_mille: Annotated[int, Field(strict=True, ge=0)] = Field(alias="sampleRatePerMille")
+    slow_ms_threshold: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="slowMsThreshold")
+    __properties: ClassVar[List[str]] = ["highCostMicrosThreshold", "keepErrors", "sampleRatePerMille", "slowMsThreshold"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -75,12 +75,12 @@ class OnlineSamplingPolicy(BaseModel):
         # set to None if high_cost_micros_threshold (nullable) is None
         # and model_fields_set contains the field
         if self.high_cost_micros_threshold is None and "high_cost_micros_threshold" in self.model_fields_set:
-            _dict['high_cost_micros_threshold'] = None
+            _dict['highCostMicrosThreshold'] = None
 
         # set to None if slow_ms_threshold (nullable) is None
         # and model_fields_set contains the field
         if self.slow_ms_threshold is None and "slow_ms_threshold" in self.model_fields_set:
-            _dict['slow_ms_threshold'] = None
+            _dict['slowMsThreshold'] = None
 
         return _dict
 
@@ -94,10 +94,10 @@ class OnlineSamplingPolicy(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "high_cost_micros_threshold": obj.get("high_cost_micros_threshold"),
-            "keep_errors": obj.get("keep_errors"),
-            "sample_rate_per_mille": obj.get("sample_rate_per_mille"),
-            "slow_ms_threshold": obj.get("slow_ms_threshold")
+            "highCostMicrosThreshold": obj.get("highCostMicrosThreshold"),
+            "keepErrors": obj.get("keepErrors"),
+            "sampleRatePerMille": obj.get("sampleRatePerMille"),
+            "slowMsThreshold": obj.get("slowMsThreshold")
         })
         return _obj
 

@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 pub struct IngestOutcome {
     #[serde(rename = "ack")]
     pub ack: Box<models::WriteAck>,
-    #[serde(rename = "downstream_queued")]
+    #[serde(rename = "downstreamQueued")]
     pub downstream_queued: bool,
 }
 

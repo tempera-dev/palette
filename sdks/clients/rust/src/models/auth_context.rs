@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AuthContext {
-    #[serde(rename = "api_key_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "apiKeyId", skip_serializing_if = "Option::is_none")]
     pub api_key_id: Option<String>,
     #[serde(rename = "scopes")]
     pub scopes: Vec<String>,

@@ -22,17 +22,17 @@ var _ MappedNullable = &Toolkit{}
 // Toolkit A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Palette exposes.
 type Toolkit struct {
 	// Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`).
-	AuthSchemes []string `json:"auth_schemes,omitempty"`
+	AuthSchemes []string `json:"authSchemes,omitempty"`
 	// Short description, if the catalog provides one.
 	Description NullableString `json:"description,omitempty"`
 	// Human display name.
 	Name string `json:"name"`
 	// `true` when the toolkit needs no OAuth/connection to execute.
-	NoAuth *bool `json:"no_auth,omitempty"`
+	NoAuth *bool `json:"noAuth,omitempty"`
 	// Stable slug used everywhere else (e.g. `github`, `gmail`).
 	Slug string `json:"slug"`
 	// Number of tools the toolkit exposes, if known.
-	ToolsCount NullableInt32 `json:"tools_count,omitempty"`
+	ToolsCount NullableInt32 `json:"toolsCount,omitempty"`
 }
 
 type _Toolkit Toolkit
@@ -263,18 +263,18 @@ func (o Toolkit) MarshalJSON() ([]byte, error) {
 func (o Toolkit) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if !IsNil(o.AuthSchemes) {
-		toSerialize["auth_schemes"] = o.AuthSchemes
+		toSerialize["authSchemes"] = o.AuthSchemes
 	}
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()
 	}
 	toSerialize["name"] = o.Name
 	if !IsNil(o.NoAuth) {
-		toSerialize["no_auth"] = o.NoAuth
+		toSerialize["noAuth"] = o.NoAuth
 	}
 	toSerialize["slug"] = o.Slug
 	if o.ToolsCount.IsSet() {
-		toSerialize["tools_count"] = o.ToolsCount.Get()
+		toSerialize["toolsCount"] = o.ToolsCount.Get()
 	}
 	return toSerialize, nil
 }

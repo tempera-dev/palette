@@ -22,11 +22,11 @@ ConnectorTool::ConnectorTool()
 {
     m_Description = utility::conversions::to_string_t("");
     m_DescriptionIsSet = false;
-    m_Input_schemaIsSet = false;
+    m_InputSchemaIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_No_auth = false;
-    m_No_authIsSet = false;
+    m_NoAuth = false;
+    m_NoAuthIsSet = false;
     m_Slug = utility::conversions::to_string_t("");
     m_SlugIsSet = false;
     m_TagsIsSet = false;
@@ -51,20 +51,20 @@ web::json::value ConnectorTool::toJson() const
         
         val[utility::conversions::to_string_t(U("description"))] = ModelBase::toJson(m_Description);
     }
-    if(m_Input_schemaIsSet)
+    if(m_InputSchemaIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("input_schema"))] = ModelBase::toJson(m_Input_schema);
+        val[utility::conversions::to_string_t(U("inputSchema"))] = ModelBase::toJson(m_InputSchema);
     }
     if(m_NameIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_No_authIsSet)
+    if(m_NoAuthIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("no_auth"))] = ModelBase::toJson(m_No_auth);
+        val[utility::conversions::to_string_t(U("noAuth"))] = ModelBase::toJson(m_NoAuth);
     }
     if(m_SlugIsSet)
     {   
@@ -99,9 +99,9 @@ bool ConnectorTool::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("input_schema"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inputSchema"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("input_schema")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inputSchema")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Object> refVal_setInputSchema;
@@ -121,9 +121,9 @@ bool ConnectorTool::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("no_auth"))))
+    if(val.has_field(utility::conversions::to_string_t(U("noAuth"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("no_auth")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("noAuth")));
         if(!fieldValue.is_null())
         {
             bool refVal_setNoAuth;
@@ -179,17 +179,17 @@ void ConnectorTool::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("description")), m_Description));
     }
-    if(m_Input_schemaIsSet)
+    if(m_InputSchemaIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input_schema")), m_Input_schema));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inputSchema")), m_InputSchema));
     }
     if(m_NameIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_No_authIsSet)
+    if(m_NoAuthIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("no_auth")), m_No_auth));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("noAuth")), m_NoAuth));
     }
     if(m_SlugIsSet)
     {
@@ -220,10 +220,10 @@ bool ConnectorTool::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("description"))), refVal_setDescription );
         setDescription(refVal_setDescription);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("input_schema"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inputSchema"))))
     {
         std::shared_ptr<Object> refVal_setInputSchema;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input_schema"))), refVal_setInputSchema );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inputSchema"))), refVal_setInputSchema );
         setInputSchema(refVal_setInputSchema);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("name"))))
@@ -232,10 +232,10 @@ bool ConnectorTool::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("no_auth"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("noAuth"))))
     {
         bool refVal_setNoAuth;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("no_auth"))), refVal_setNoAuth );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("noAuth"))), refVal_setNoAuth );
         setNoAuth(refVal_setNoAuth);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("slug"))))
@@ -283,24 +283,24 @@ void ConnectorTool::unsetDescription()
 }
 std::shared_ptr<Object> ConnectorTool::getInputSchema() const
 {
-    return m_Input_schema;
+    return m_InputSchema;
 }
 
 
 void ConnectorTool::setInputSchema(const std::shared_ptr<Object>& value)
 {
-    m_Input_schema = value;
-    m_Input_schemaIsSet = true;
+    m_InputSchema = value;
+    m_InputSchemaIsSet = true;
 }
 
 bool ConnectorTool::inputSchemaIsSet() const
 {
-    return m_Input_schemaIsSet;
+    return m_InputSchemaIsSet;
 }
 
-void ConnectorTool::unsetInput_schema()
+void ConnectorTool::unsetInputSchema()
 {
-    m_Input_schemaIsSet = false;
+    m_InputSchemaIsSet = false;
 }
 utility::string_t ConnectorTool::getName() const
 {
@@ -325,23 +325,23 @@ void ConnectorTool::unsetName()
 }
 bool ConnectorTool::isNoAuth() const
 {
-    return m_No_auth;
+    return m_NoAuth;
 }
 
 void ConnectorTool::setNoAuth(bool value)
 {
-    m_No_auth = value;
-    m_No_authIsSet = true;
+    m_NoAuth = value;
+    m_NoAuthIsSet = true;
 }
 
 bool ConnectorTool::noAuthIsSet() const
 {
-    return m_No_authIsSet;
+    return m_NoAuthIsSet;
 }
 
-void ConnectorTool::unsetNo_auth()
+void ConnectorTool::unsetNoAuth()
 {
-    m_No_authIsSet = false;
+    m_NoAuthIsSet = false;
 }
 utility::string_t ConnectorTool::getSlug() const
 {

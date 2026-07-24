@@ -4,21 +4,21 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TracesAPI_tracesGet**](TracesAPI.md#TracesAPI_tracesGet) | **GET** /v1/traces/{tenant_id}/{trace_id} |
-[**TracesAPI_tracesList**](TracesAPI.md#TracesAPI_tracesList) | **GET** /v1/traces/{tenant_id} |
+[**TracesAPI_tracesGet**](TracesAPI.md#TracesAPI_tracesGet) | **GET** /v1/traces/{tenantId}/{traceId} |
+[**TracesAPI_tracesList**](TracesAPI.md#TracesAPI_tracesList) | **GET** /v1/traces/{tenantId} |
 
 
 # **TracesAPI_tracesGet**
 ```c
-trace_view_t* TracesAPI_tracesGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_view_t* TracesAPI_tracesGet(apiClient_t *apiClient, char *tenantId, char *traceId, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**trace_id** | **char \*** | trace_id |
+**tenantId** | **char \*** | tenant_id |
+**traceId** | **char \*** | trace_id |
 **unmask** | **int \*** |  | [optional]
 **reason** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
@@ -44,27 +44,27 @@ No authorization required
 
 # **TracesAPI_tracesList**
 ```c
-trace_list_response_t* TracesAPI_tracesList(apiClient_t *apiClient, char *tenant_id, char *project_id, char *environment_id, char *trace_id, char *kind, char *status, char *started_after, char *started_before, char *model, char *release, long min_cost_micros, long max_cost_micros, long min_latency_ms, long max_latency_ms, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+trace_list_response_t* TracesAPI_tracesList(apiClient_t *apiClient, char *tenantId, char *projectId, char *environmentId, char *traceId, char *kind, char *status, char *startedAfter, char *startedBefore, char *model, char *release, long minCostMicros, long maxCostMicros, long minLatencyMs, long maxLatencyMs, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** |  | [optional]
-**environment_id** | **char \*** |  | [optional]
-**trace_id** | **char \*** |  | [optional]
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** |  | [optional]
+**environmentId** | **char \*** |  | [optional]
+**traceId** | **char \*** |  | [optional]
 **kind** | **char \*** |  | [optional]
 **status** | **char \*** |  | [optional]
-**started_after** | **char \*** |  | [optional]
-**started_before** | **char \*** |  | [optional]
+**startedAfter** | **char \*** |  | [optional]
+**startedBefore** | **char \*** |  | [optional]
 **model** | **char \*** |  | [optional]
 **release** | **char \*** |  | [optional]
-**min_cost_micros** | **long** |  | [optional]
-**max_cost_micros** | **long** |  | [optional]
-**min_latency_ms** | **long** |  | [optional]
-**max_latency_ms** | **long** |  | [optional]
+**minCostMicros** | **long** |  | [optional]
+**maxCostMicros** | **long** |  | [optional]
+**minLatencyMs** | **long** |  | [optional]
+**maxLatencyMs** | **long** |  | [optional]
 **pageSize** | **int \*** |  | [optional]
 **pageToken** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]

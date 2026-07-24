@@ -971,11 +971,11 @@ impl TraceStore for SqliteTraceStore {
                   json_group_array(
                     json_array(
                       json_extract(span_json, '$.cost.currency'),
-                      json_extract(span_json, '$.cost.amount_micros')
+                      json_extract(span_json, '$.cost.amountMicros')
                     ) ORDER BY start_time DESC, seq ASC
                   ) FILTER (
                     WHERE json_extract(span_json, '$.cost.currency') IS NOT NULL
-                      AND json_extract(span_json, '$.cost.amount_micros') IS NOT NULL
+                      AND json_extract(span_json, '$.cost.amountMicros') IS NOT NULL
                   ) AS costs,
                   json_group_array({release} ORDER BY start_time DESC, seq ASC)
                     FILTER (WHERE {release} IS NOT NULL) AS release_ids,

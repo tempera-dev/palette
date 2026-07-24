@@ -22,13 +22,13 @@ var _ MappedNullable = &Prompt{}
 
 // Prompt struct for Prompt
 type Prompt struct {
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"createdAt"`
 	Description NullableString `json:"description,omitempty"`
 	Name string `json:"name"`
-	ProjectId string `json:"project_id"`
-	PromptId string `json:"prompt_id"`
-	TenantId string `json:"tenant_id"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ProjectId string `json:"projectId"`
+	PromptId string `json:"promptId"`
+	TenantId string `json:"tenantId"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 type _Prompt Prompt
@@ -252,15 +252,15 @@ func (o Prompt) MarshalJSON() ([]byte, error) {
 
 func (o Prompt) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	if o.Description.IsSet() {
 		toSerialize["description"] = o.Description.Get()
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["prompt_id"] = o.PromptId
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["updated_at"] = o.UpdatedAt
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["promptId"] = o.PromptId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["updatedAt"] = o.UpdatedAt
 	return toSerialize, nil
 }
 
@@ -269,12 +269,12 @@ func (o *Prompt) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
+		"createdAt",
 		"name",
-		"project_id",
-		"prompt_id",
-		"tenant_id",
-		"updated_at",
+		"projectId",
+		"promptId",
+		"tenantId",
+		"updatedAt",
 	}
 
 	allProperties := make(map[string]interface{})

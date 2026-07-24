@@ -108,15 +108,15 @@ export function AlertInputFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'baselineScore': json['baseline_score'] == null ? undefined : json['baseline_score'],
-        'groupKey': json['group_key'],
+        'baselineScore': json['baselineScore'] == null ? undefined : json['baselineScore'],
+        'groupKey': json['groupKey'],
         'links': AlertLinksFromJSON(json['links']),
         'now': (new Date(json['now'])),
-        'projectId': json['project_id'],
+        'projectId': json['projectId'],
         'score': json['score'],
-        'tenantId': json['tenant_id'],
+        'tenantId': json['tenantId'],
         'title': json['title'],
-        'traceId': json['trace_id'],
+        'traceId': json['traceId'],
     };
 }
 
@@ -131,15 +131,15 @@ export function AlertInputToJSONTyped(value?: AlertInput | null, ignoreDiscrimin
 
     return {
         
-        'baseline_score': value['baselineScore'],
-        'group_key': value['groupKey'],
+        'baselineScore': value['baselineScore'],
+        'groupKey': value['groupKey'],
         'links': AlertLinksToJSON(value['links']),
         'now': ((value['now']).toISOString()),
-        'project_id': value['projectId'],
+        'projectId': value['projectId'],
         'score': value['score'],
-        'tenant_id': value['tenantId'],
+        'tenantId': value['tenantId'],
         'title': value['title'],
-        'trace_id': value['traceId'],
+        'traceId': value['traceId'],
     };
 }
 

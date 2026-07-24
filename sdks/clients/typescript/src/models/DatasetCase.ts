@@ -142,21 +142,21 @@ export function DatasetCaseFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'caseId': json['case_id'],
-        'createdAt': (new Date(json['created_at'])),
-        'datasetId': json['dataset_id'],
+        'caseId': json['caseId'],
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetId': json['datasetId'],
         'input': json['input'],
-        'inputArtifactHashes': json['input_artifact_hashes'],
-        'normalizerVersion': json['normalizer_version'],
+        'inputArtifactHashes': json['inputArtifactHashes'],
+        'normalizerVersion': json['normalizerVersion'],
         'output': json['output'],
-        'projectId': json['project_id'],
+        'projectId': json['projectId'],
         'reference': json['reference'] == null ? undefined : json['reference'],
-        'sourceEnvironmentId': json['source_environment_id'],
-        'sourceSpanId': json['source_span_id'],
-        'sourceTraceId': json['source_trace_id'],
-        'tenantId': json['tenant_id'],
+        'sourceEnvironmentId': json['sourceEnvironmentId'],
+        'sourceSpanId': json['sourceSpanId'],
+        'sourceTraceId': json['sourceTraceId'],
+        'tenantId': json['tenantId'],
         'trace': json['trace'],
-        'traceSchemaVersion': json['trace_schema_version'],
+        'traceSchemaVersion': json['traceSchemaVersion'],
     };
 }
 
@@ -171,21 +171,21 @@ export function DatasetCaseToJSONTyped(value?: DatasetCase | null, ignoreDiscrim
 
     return {
         
-        'case_id': value['caseId'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_id': value['datasetId'],
+        'caseId': value['caseId'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetId': value['datasetId'],
         'input': value['input'],
-        'input_artifact_hashes': value['inputArtifactHashes'],
-        'normalizer_version': value['normalizerVersion'],
+        'inputArtifactHashes': value['inputArtifactHashes'],
+        'normalizerVersion': value['normalizerVersion'],
         'output': value['output'],
-        'project_id': value['projectId'],
+        'projectId': value['projectId'],
         'reference': value['reference'],
-        'source_environment_id': value['sourceEnvironmentId'],
-        'source_span_id': value['sourceSpanId'],
-        'source_trace_id': value['sourceTraceId'],
-        'tenant_id': value['tenantId'],
+        'sourceEnvironmentId': value['sourceEnvironmentId'],
+        'sourceSpanId': value['sourceSpanId'],
+        'sourceTraceId': value['sourceTraceId'],
+        'tenantId': value['tenantId'],
         'trace': value['trace'],
-        'trace_schema_version': value['traceSchemaVersion'],
+        'traceSchemaVersion': value['traceSchemaVersion'],
     };
 }
 

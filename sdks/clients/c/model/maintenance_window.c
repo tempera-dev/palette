@@ -57,7 +57,7 @@ cJSON *maintenance_window_convertToJSON(maintenance_window_t *maintenance_window
     if (!maintenance_window->ends_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "ends_at", maintenance_window->ends_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "endsAt", maintenance_window->ends_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -66,7 +66,7 @@ cJSON *maintenance_window_convertToJSON(maintenance_window_t *maintenance_window
     if (!maintenance_window->starts_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "starts_at", maintenance_window->starts_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "startsAt", maintenance_window->starts_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -83,7 +83,7 @@ maintenance_window_t *maintenance_window_parseFromJSON(cJSON *maintenance_window
     maintenance_window_t *maintenance_window_local_var = NULL;
 
     // maintenance_window->ends_at
-    cJSON *ends_at = cJSON_GetObjectItemCaseSensitive(maintenance_windowJSON, "ends_at");
+    cJSON *ends_at = cJSON_GetObjectItemCaseSensitive(maintenance_windowJSON, "endsAt");
     if (cJSON_IsNull(ends_at)) {
         ends_at = NULL;
     }
@@ -98,7 +98,7 @@ maintenance_window_t *maintenance_window_parseFromJSON(cJSON *maintenance_window
     }
 
     // maintenance_window->starts_at
-    cJSON *starts_at = cJSON_GetObjectItemCaseSensitive(maintenance_windowJSON, "starts_at");
+    cJSON *starts_at = cJSON_GetObjectItemCaseSensitive(maintenance_windowJSON, "startsAt");
     if (cJSON_IsNull(starts_at)) {
         starts_at = NULL;
     }

@@ -68,7 +68,7 @@ cJSON *prompt_version_diff_convertToJSON(prompt_version_diff_t *prompt_version_d
     if (!prompt_version_diff->from_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "from_version_id", prompt_version_diff->from_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "fromVersionId", prompt_version_diff->from_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -98,7 +98,7 @@ cJSON *prompt_version_diff_convertToJSON(prompt_version_diff_t *prompt_version_d
     if (!prompt_version_diff->to_version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "to_version_id", prompt_version_diff->to_version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "toVersionId", prompt_version_diff->to_version_id) == NULL) {
     goto fail; //String
     }
 
@@ -118,7 +118,7 @@ prompt_version_diff_t *prompt_version_diff_parseFromJSON(cJSON *prompt_version_d
     list_t *linesList = NULL;
 
     // prompt_version_diff->from_version_id
-    cJSON *from_version_id = cJSON_GetObjectItemCaseSensitive(prompt_version_diffJSON, "from_version_id");
+    cJSON *from_version_id = cJSON_GetObjectItemCaseSensitive(prompt_version_diffJSON, "fromVersionId");
     if (cJSON_IsNull(from_version_id)) {
         from_version_id = NULL;
     }
@@ -160,7 +160,7 @@ prompt_version_diff_t *prompt_version_diff_parseFromJSON(cJSON *prompt_version_d
     }
 
     // prompt_version_diff->to_version_id
-    cJSON *to_version_id = cJSON_GetObjectItemCaseSensitive(prompt_version_diffJSON, "to_version_id");
+    cJSON *to_version_id = cJSON_GetObjectItemCaseSensitive(prompt_version_diffJSON, "toVersionId");
     if (cJSON_IsNull(to_version_id)) {
         to_version_id = NULL;
     }

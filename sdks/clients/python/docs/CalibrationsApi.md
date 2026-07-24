@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**calibrations_run**](CalibrationsApi.md#calibrations_run) | **POST** /v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id} |
+[**calibrations_run**](CalibrationsApi.md#calibrations_run) | **POST** /v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId} |
 
 
 # **calibrations_run**

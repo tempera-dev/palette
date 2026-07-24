@@ -20,8 +20,8 @@ namespace model {
 
 CreatePromptRequest::CreatePromptRequest()
 {
-    m_Created_by = utility::conversions::to_string_t("");
-    m_Created_byIsSet = false;
+    m_CreatedBy = utility::conversions::to_string_t("");
+    m_CreatedByIsSet = false;
     m_Description = utility::conversions::to_string_t("");
     m_DescriptionIsSet = false;
     m_Message = utility::conversions::to_string_t("");
@@ -43,10 +43,10 @@ void CreatePromptRequest::validate()
 web::json::value CreatePromptRequest::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Created_byIsSet)
+    if(m_CreatedByIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_by"))] = ModelBase::toJson(m_Created_by);
+        val[utility::conversions::to_string_t(U("createdBy"))] = ModelBase::toJson(m_CreatedBy);
     }
     if(m_DescriptionIsSet)
     {   
@@ -75,9 +75,9 @@ web::json::value CreatePromptRequest::toJson() const
 bool CreatePromptRequest::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("created_by"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdBy"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_by")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdBy")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCreatedBy;
@@ -140,9 +140,9 @@ void CreatePromptRequest::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Created_byIsSet)
+    if(m_CreatedByIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_by")), m_Created_by));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdBy")), m_CreatedBy));
     }
     if(m_DescriptionIsSet)
     {
@@ -171,10 +171,10 @@ bool CreatePromptRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_by"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdBy"))))
     {
         utility::string_t refVal_setCreatedBy;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_by"))), refVal_setCreatedBy );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdBy"))), refVal_setCreatedBy );
         setCreatedBy(refVal_setCreatedBy);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("description"))))
@@ -207,24 +207,24 @@ bool CreatePromptRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
 
 utility::string_t CreatePromptRequest::getCreatedBy() const
 {
-    return m_Created_by;
+    return m_CreatedBy;
 }
 
 
 void CreatePromptRequest::setCreatedBy(const utility::string_t& value)
 {
-    m_Created_by = value;
-    m_Created_byIsSet = true;
+    m_CreatedBy = value;
+    m_CreatedByIsSet = true;
 }
 
 bool CreatePromptRequest::createdByIsSet() const
 {
-    return m_Created_byIsSet;
+    return m_CreatedByIsSet;
 }
 
-void CreatePromptRequest::unsetCreated_by()
+void CreatePromptRequest::unsetCreatedBy()
 {
-    m_Created_byIsSet = false;
+    m_CreatedByIsSet = false;
 }
 utility::string_t CreatePromptRequest::getDescription() const
 {

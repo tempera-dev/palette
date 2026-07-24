@@ -27,13 +27,13 @@ class Toolkit(BaseModel):
     """
     A connectable third-party app (Composio \"toolkit\"), flattened from the v3 `GET /toolkits` shape into the fields Palette exposes.
     """ # noqa: E501
-    auth_schemes: Optional[List[StrictStr]] = Field(default=None, description="Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`).")
+    auth_schemes: Optional[List[StrictStr]] = Field(default=None, description="Supported auth schemes (e.g. `OAUTH2`, `API_KEY`, `NO_AUTH`).", alias="authSchemes")
     description: Optional[StrictStr] = Field(default=None, description="Short description, if the catalog provides one.")
     name: StrictStr = Field(description="Human display name.")
-    no_auth: Optional[StrictBool] = Field(default=None, description="`true` when the toolkit needs no OAuth/connection to execute.")
+    no_auth: Optional[StrictBool] = Field(default=None, description="`true` when the toolkit needs no OAuth/connection to execute.", alias="noAuth")
     slug: StrictStr = Field(description="Stable slug used everywhere else (e.g. `github`, `gmail`).")
-    tools_count: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Number of tools the toolkit exposes, if known.")
-    __properties: ClassVar[List[str]] = ["auth_schemes", "description", "name", "no_auth", "slug", "tools_count"]
+    tools_count: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Number of tools the toolkit exposes, if known.", alias="toolsCount")
+    __properties: ClassVar[List[str]] = ["authSchemes", "description", "name", "noAuth", "slug", "toolsCount"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +82,7 @@ class Toolkit(BaseModel):
         # set to None if tools_count (nullable) is None
         # and model_fields_set contains the field
         if self.tools_count is None and "tools_count" in self.model_fields_set:
-            _dict['tools_count'] = None
+            _dict['toolsCount'] = None
 
         return _dict
 
@@ -96,12 +96,12 @@ class Toolkit(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "auth_schemes": obj.get("auth_schemes"),
+            "authSchemes": obj.get("authSchemes"),
             "description": obj.get("description"),
             "name": obj.get("name"),
-            "no_auth": obj.get("no_auth"),
+            "noAuth": obj.get("noAuth"),
             "slug": obj.get("slug"),
-            "tools_count": obj.get("tools_count")
+            "toolsCount": obj.get("toolsCount")
         })
         return _obj
 

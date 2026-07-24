@@ -22,18 +22,18 @@ ReliabilityBin::ReliabilityBin()
 {
     m_Accuracy = 0.0;
     m_AccuracyIsSet = false;
-    m_Bin_index = 0;
-    m_Bin_indexIsSet = false;
-    m_Calibration_gap = 0.0;
-    m_Calibration_gapIsSet = false;
-    m_Lower_bound = 0.0;
-    m_Lower_boundIsSet = false;
-    m_Mean_confidence = 0.0;
-    m_Mean_confidenceIsSet = false;
-    m_Sample_count = 0;
-    m_Sample_countIsSet = false;
-    m_Upper_bound = 0.0;
-    m_Upper_boundIsSet = false;
+    m_BinIndex = 0;
+    m_BinIndexIsSet = false;
+    m_CalibrationGap = 0.0;
+    m_CalibrationGapIsSet = false;
+    m_LowerBound = 0.0;
+    m_LowerBoundIsSet = false;
+    m_MeanConfidence = 0.0;
+    m_MeanConfidenceIsSet = false;
+    m_SampleCount = 0;
+    m_SampleCountIsSet = false;
+    m_UpperBound = 0.0;
+    m_UpperBoundIsSet = false;
 }
 
 ReliabilityBin::~ReliabilityBin()
@@ -53,35 +53,35 @@ web::json::value ReliabilityBin::toJson() const
         
         val[utility::conversions::to_string_t(U("accuracy"))] = ModelBase::toJson(m_Accuracy);
     }
-    if(m_Bin_indexIsSet)
+    if(m_BinIndexIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("bin_index"))] = ModelBase::toJson(m_Bin_index);
+        val[utility::conversions::to_string_t(U("binIndex"))] = ModelBase::toJson(m_BinIndex);
     }
-    if(m_Calibration_gapIsSet)
+    if(m_CalibrationGapIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("calibration_gap"))] = ModelBase::toJson(m_Calibration_gap);
+        val[utility::conversions::to_string_t(U("calibrationGap"))] = ModelBase::toJson(m_CalibrationGap);
     }
-    if(m_Lower_boundIsSet)
+    if(m_LowerBoundIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("lower_bound"))] = ModelBase::toJson(m_Lower_bound);
+        val[utility::conversions::to_string_t(U("lowerBound"))] = ModelBase::toJson(m_LowerBound);
     }
-    if(m_Mean_confidenceIsSet)
+    if(m_MeanConfidenceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("mean_confidence"))] = ModelBase::toJson(m_Mean_confidence);
+        val[utility::conversions::to_string_t(U("meanConfidence"))] = ModelBase::toJson(m_MeanConfidence);
     }
-    if(m_Sample_countIsSet)
+    if(m_SampleCountIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("sample_count"))] = ModelBase::toJson(m_Sample_count);
+        val[utility::conversions::to_string_t(U("sampleCount"))] = ModelBase::toJson(m_SampleCount);
     }
-    if(m_Upper_boundIsSet)
+    if(m_UpperBoundIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("upper_bound"))] = ModelBase::toJson(m_Upper_bound);
+        val[utility::conversions::to_string_t(U("upperBound"))] = ModelBase::toJson(m_UpperBound);
     }
 
     return val;
@@ -101,9 +101,9 @@ bool ReliabilityBin::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("bin_index"))))
+    if(val.has_field(utility::conversions::to_string_t(U("binIndex"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("bin_index")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("binIndex")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setBinIndex;
@@ -112,9 +112,9 @@ bool ReliabilityBin::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("calibration_gap"))))
+    if(val.has_field(utility::conversions::to_string_t(U("calibrationGap"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("calibration_gap")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("calibrationGap")));
         if(!fieldValue.is_null())
         {
             double refVal_setCalibrationGap;
@@ -123,9 +123,9 @@ bool ReliabilityBin::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("lower_bound"))))
+    if(val.has_field(utility::conversions::to_string_t(U("lowerBound"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("lower_bound")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("lowerBound")));
         if(!fieldValue.is_null())
         {
             double refVal_setLowerBound;
@@ -134,9 +134,9 @@ bool ReliabilityBin::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("mean_confidence"))))
+    if(val.has_field(utility::conversions::to_string_t(U("meanConfidence"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("mean_confidence")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("meanConfidence")));
         if(!fieldValue.is_null())
         {
             double refVal_setMeanConfidence;
@@ -145,9 +145,9 @@ bool ReliabilityBin::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("sample_count"))))
+    if(val.has_field(utility::conversions::to_string_t(U("sampleCount"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sample_count")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("sampleCount")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSampleCount;
@@ -156,9 +156,9 @@ bool ReliabilityBin::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("upper_bound"))))
+    if(val.has_field(utility::conversions::to_string_t(U("upperBound"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("upper_bound")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("upperBound")));
         if(!fieldValue.is_null())
         {
             double refVal_setUpperBound;
@@ -181,29 +181,29 @@ void ReliabilityBin::toMultipart(std::shared_ptr<MultipartFormData> multipart, c
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("accuracy")), m_Accuracy));
     }
-    if(m_Bin_indexIsSet)
+    if(m_BinIndexIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("bin_index")), m_Bin_index));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("binIndex")), m_BinIndex));
     }
-    if(m_Calibration_gapIsSet)
+    if(m_CalibrationGapIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("calibration_gap")), m_Calibration_gap));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("calibrationGap")), m_CalibrationGap));
     }
-    if(m_Lower_boundIsSet)
+    if(m_LowerBoundIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("lower_bound")), m_Lower_bound));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("lowerBound")), m_LowerBound));
     }
-    if(m_Mean_confidenceIsSet)
+    if(m_MeanConfidenceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("mean_confidence")), m_Mean_confidence));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("meanConfidence")), m_MeanConfidence));
     }
-    if(m_Sample_countIsSet)
+    if(m_SampleCountIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sample_count")), m_Sample_count));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("sampleCount")), m_SampleCount));
     }
-    if(m_Upper_boundIsSet)
+    if(m_UpperBoundIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("upper_bound")), m_Upper_bound));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("upperBound")), m_UpperBound));
     }
 }
 
@@ -222,40 +222,40 @@ bool ReliabilityBin::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("accuracy"))), refVal_setAccuracy );
         setAccuracy(refVal_setAccuracy);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("bin_index"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("binIndex"))))
     {
         int32_t refVal_setBinIndex;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("bin_index"))), refVal_setBinIndex );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("binIndex"))), refVal_setBinIndex );
         setBinIndex(refVal_setBinIndex);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("calibration_gap"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("calibrationGap"))))
     {
         double refVal_setCalibrationGap;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("calibration_gap"))), refVal_setCalibrationGap );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("calibrationGap"))), refVal_setCalibrationGap );
         setCalibrationGap(refVal_setCalibrationGap);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("lower_bound"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("lowerBound"))))
     {
         double refVal_setLowerBound;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("lower_bound"))), refVal_setLowerBound );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("lowerBound"))), refVal_setLowerBound );
         setLowerBound(refVal_setLowerBound);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("mean_confidence"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("meanConfidence"))))
     {
         double refVal_setMeanConfidence;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("mean_confidence"))), refVal_setMeanConfidence );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("meanConfidence"))), refVal_setMeanConfidence );
         setMeanConfidence(refVal_setMeanConfidence);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("sample_count"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("sampleCount"))))
     {
         int32_t refVal_setSampleCount;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sample_count"))), refVal_setSampleCount );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("sampleCount"))), refVal_setSampleCount );
         setSampleCount(refVal_setSampleCount);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("upper_bound"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("upperBound"))))
     {
         double refVal_setUpperBound;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("upper_bound"))), refVal_setUpperBound );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("upperBound"))), refVal_setUpperBound );
         setUpperBound(refVal_setUpperBound);
     }
     return ok;
@@ -284,123 +284,123 @@ void ReliabilityBin::unsetAccuracy()
 }
 int32_t ReliabilityBin::getBinIndex() const
 {
-    return m_Bin_index;
+    return m_BinIndex;
 }
 
 void ReliabilityBin::setBinIndex(int32_t value)
 {
-    m_Bin_index = value;
-    m_Bin_indexIsSet = true;
+    m_BinIndex = value;
+    m_BinIndexIsSet = true;
 }
 
 bool ReliabilityBin::binIndexIsSet() const
 {
-    return m_Bin_indexIsSet;
+    return m_BinIndexIsSet;
 }
 
-void ReliabilityBin::unsetBin_index()
+void ReliabilityBin::unsetBinIndex()
 {
-    m_Bin_indexIsSet = false;
+    m_BinIndexIsSet = false;
 }
 double ReliabilityBin::getCalibrationGap() const
 {
-    return m_Calibration_gap;
+    return m_CalibrationGap;
 }
 
 void ReliabilityBin::setCalibrationGap(double value)
 {
-    m_Calibration_gap = value;
-    m_Calibration_gapIsSet = true;
+    m_CalibrationGap = value;
+    m_CalibrationGapIsSet = true;
 }
 
 bool ReliabilityBin::calibrationGapIsSet() const
 {
-    return m_Calibration_gapIsSet;
+    return m_CalibrationGapIsSet;
 }
 
-void ReliabilityBin::unsetCalibration_gap()
+void ReliabilityBin::unsetCalibrationGap()
 {
-    m_Calibration_gapIsSet = false;
+    m_CalibrationGapIsSet = false;
 }
 double ReliabilityBin::getLowerBound() const
 {
-    return m_Lower_bound;
+    return m_LowerBound;
 }
 
 void ReliabilityBin::setLowerBound(double value)
 {
-    m_Lower_bound = value;
-    m_Lower_boundIsSet = true;
+    m_LowerBound = value;
+    m_LowerBoundIsSet = true;
 }
 
 bool ReliabilityBin::lowerBoundIsSet() const
 {
-    return m_Lower_boundIsSet;
+    return m_LowerBoundIsSet;
 }
 
-void ReliabilityBin::unsetLower_bound()
+void ReliabilityBin::unsetLowerBound()
 {
-    m_Lower_boundIsSet = false;
+    m_LowerBoundIsSet = false;
 }
 double ReliabilityBin::getMeanConfidence() const
 {
-    return m_Mean_confidence;
+    return m_MeanConfidence;
 }
 
 void ReliabilityBin::setMeanConfidence(double value)
 {
-    m_Mean_confidence = value;
-    m_Mean_confidenceIsSet = true;
+    m_MeanConfidence = value;
+    m_MeanConfidenceIsSet = true;
 }
 
 bool ReliabilityBin::meanConfidenceIsSet() const
 {
-    return m_Mean_confidenceIsSet;
+    return m_MeanConfidenceIsSet;
 }
 
-void ReliabilityBin::unsetMean_confidence()
+void ReliabilityBin::unsetMeanConfidence()
 {
-    m_Mean_confidenceIsSet = false;
+    m_MeanConfidenceIsSet = false;
 }
 int32_t ReliabilityBin::getSampleCount() const
 {
-    return m_Sample_count;
+    return m_SampleCount;
 }
 
 void ReliabilityBin::setSampleCount(int32_t value)
 {
-    m_Sample_count = value;
-    m_Sample_countIsSet = true;
+    m_SampleCount = value;
+    m_SampleCountIsSet = true;
 }
 
 bool ReliabilityBin::sampleCountIsSet() const
 {
-    return m_Sample_countIsSet;
+    return m_SampleCountIsSet;
 }
 
-void ReliabilityBin::unsetSample_count()
+void ReliabilityBin::unsetSampleCount()
 {
-    m_Sample_countIsSet = false;
+    m_SampleCountIsSet = false;
 }
 double ReliabilityBin::getUpperBound() const
 {
-    return m_Upper_bound;
+    return m_UpperBound;
 }
 
 void ReliabilityBin::setUpperBound(double value)
 {
-    m_Upper_bound = value;
-    m_Upper_boundIsSet = true;
+    m_UpperBound = value;
+    m_UpperBoundIsSet = true;
 }
 
 bool ReliabilityBin::upperBoundIsSet() const
 {
-    return m_Upper_boundIsSet;
+    return m_UpperBoundIsSet;
 }
 
-void ReliabilityBin::unsetUpper_bound()
+void ReliabilityBin::unsetUpperBound()
 {
-    m_Upper_boundIsSet = false;
+    m_UpperBoundIsSet = false;
 }
 
 }

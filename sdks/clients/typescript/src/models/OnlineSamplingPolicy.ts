@@ -64,10 +64,10 @@ export function OnlineSamplingPolicyFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'highCostMicrosThreshold': json['high_cost_micros_threshold'] == null ? undefined : json['high_cost_micros_threshold'],
-        'keepErrors': json['keep_errors'],
-        'sampleRatePerMille': json['sample_rate_per_mille'],
-        'slowMsThreshold': json['slow_ms_threshold'] == null ? undefined : json['slow_ms_threshold'],
+        'highCostMicrosThreshold': json['highCostMicrosThreshold'] == null ? undefined : json['highCostMicrosThreshold'],
+        'keepErrors': json['keepErrors'],
+        'sampleRatePerMille': json['sampleRatePerMille'],
+        'slowMsThreshold': json['slowMsThreshold'] == null ? undefined : json['slowMsThreshold'],
     };
 }
 
@@ -82,10 +82,10 @@ export function OnlineSamplingPolicyToJSONTyped(value?: OnlineSamplingPolicy | n
 
     return {
         
-        'high_cost_micros_threshold': value['highCostMicrosThreshold'],
-        'keep_errors': value['keepErrors'],
-        'sample_rate_per_mille': value['sampleRatePerMille'],
-        'slow_ms_threshold': value['slowMsThreshold'],
+        'highCostMicrosThreshold': value['highCostMicrosThreshold'],
+        'keepErrors': value['keepErrors'],
+        'sampleRatePerMille': value['sampleRatePerMille'],
+        'slowMsThreshold': value['slowMsThreshold'],
     };
 }
 

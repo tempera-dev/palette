@@ -60,12 +60,12 @@ public:
 
     utility::string_t getApiKeyId() const;
     bool apiKeyIdIsSet() const;
-    void unsetApi_key_id();
+    void unsetApiKeyId();
     void setApiKeyId(const utility::string_t& value);
 
     utility::datetime getRotatedAt() const;
     bool rotatedAtIsSet() const;
-    void unsetRotated_at();
+    void unsetRotatedAt();
     void setRotatedAt(const utility::datetime& value);
 
 
@@ -73,11 +73,11 @@ protected:
     bool m_Active;
     bool m_ActiveIsSet;
 
-    utility::string_t m_Api_key_id;
-    bool m_Api_key_idIsSet;
+    utility::string_t m_ApiKeyId;
+    bool m_ApiKeyIdIsSet;
 
-    utility::datetime m_Rotated_at;
-    bool m_Rotated_atIsSet;
+    utility::datetime m_RotatedAt;
+    bool m_RotatedAtIsSet;
 
 };
 

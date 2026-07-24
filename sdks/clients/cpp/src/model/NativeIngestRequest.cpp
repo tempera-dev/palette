@@ -21,12 +21,12 @@ namespace model {
 NativeIngestRequest::NativeIngestRequest()
 {
     m_AttributesIsSet = false;
-    m_Auth_contextIsSet = false;
+    m_AuthContextIsSet = false;
     m_CostIsSet = false;
-    m_End_time = utility::datetime();
-    m_End_timeIsSet = false;
-    m_Idempotency_key = utility::conversions::to_string_t("");
-    m_Idempotency_keyIsSet = false;
+    m_EndTime = utility::datetime();
+    m_EndTimeIsSet = false;
+    m_IdempotencyKey = utility::conversions::to_string_t("");
+    m_IdempotencyKeyIsSet = false;
     m_InputIsSet = false;
     m_Kind = utility::conversions::to_string_t("");
     m_KindIsSet = false;
@@ -34,20 +34,20 @@ NativeIngestRequest::NativeIngestRequest()
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
     m_OutputIsSet = false;
-    m_Parent_span_id = utility::conversions::to_string_t("");
-    m_Parent_span_idIsSet = false;
-    m_Redaction_classIsSet = false;
+    m_ParentSpanId = utility::conversions::to_string_t("");
+    m_ParentSpanIdIsSet = false;
+    m_RedactionClassIsSet = false;
     m_ScopeIsSet = false;
     m_Seq = 0L;
     m_SeqIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Start_time = utility::datetime();
-    m_Start_timeIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_StartTime = utility::datetime();
+    m_StartTimeIsSet = false;
     m_StatusIsSet = false;
     m_TokensIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
 }
 
 NativeIngestRequest::~NativeIngestRequest()
@@ -67,25 +67,25 @@ web::json::value NativeIngestRequest::toJson() const
         
         val[utility::conversions::to_string_t(U("attributes"))] = ModelBase::toJson(m_Attributes);
     }
-    if(m_Auth_contextIsSet)
+    if(m_AuthContextIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("auth_context"))] = ModelBase::toJson(m_Auth_context);
+        val[utility::conversions::to_string_t(U("authContext"))] = ModelBase::toJson(m_AuthContext);
     }
     if(m_CostIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("cost"))] = ModelBase::toJson(m_Cost);
     }
-    if(m_End_timeIsSet)
+    if(m_EndTimeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("end_time"))] = ModelBase::toJson(m_End_time);
+        val[utility::conversions::to_string_t(U("endTime"))] = ModelBase::toJson(m_EndTime);
     }
-    if(m_Idempotency_keyIsSet)
+    if(m_IdempotencyKeyIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("idempotency_key"))] = ModelBase::toJson(m_Idempotency_key);
+        val[utility::conversions::to_string_t(U("idempotencyKey"))] = ModelBase::toJson(m_IdempotencyKey);
     }
     if(m_InputIsSet)
     {   
@@ -112,15 +112,15 @@ web::json::value NativeIngestRequest::toJson() const
         
         val[utility::conversions::to_string_t(U("output"))] = ModelBase::toJson(m_Output);
     }
-    if(m_Parent_span_idIsSet)
+    if(m_ParentSpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("parent_span_id"))] = ModelBase::toJson(m_Parent_span_id);
+        val[utility::conversions::to_string_t(U("parentSpanId"))] = ModelBase::toJson(m_ParentSpanId);
     }
-    if(m_Redaction_classIsSet)
+    if(m_RedactionClassIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("redaction_class"))] = ModelBase::toJson(m_Redaction_class);
+        val[utility::conversions::to_string_t(U("redactionClass"))] = ModelBase::toJson(m_RedactionClass);
     }
     if(m_ScopeIsSet)
     {   
@@ -132,15 +132,15 @@ web::json::value NativeIngestRequest::toJson() const
         
         val[utility::conversions::to_string_t(U("seq"))] = ModelBase::toJson(m_Seq);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Start_timeIsSet)
+    if(m_StartTimeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("start_time"))] = ModelBase::toJson(m_Start_time);
+        val[utility::conversions::to_string_t(U("startTime"))] = ModelBase::toJson(m_StartTime);
     }
     if(m_StatusIsSet)
     {   
@@ -152,10 +152,10 @@ web::json::value NativeIngestRequest::toJson() const
         
         val[utility::conversions::to_string_t(U("tokens"))] = ModelBase::toJson(m_Tokens);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
 
     return val;
@@ -175,9 +175,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("auth_context"))))
+    if(val.has_field(utility::conversions::to_string_t(U("authContext"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("auth_context")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("authContext")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AuthContext> refVal_setAuthContext;
@@ -197,9 +197,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("end_time"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endTime"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("end_time")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endTime")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setEndTime;
@@ -208,9 +208,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("idempotency_key"))))
+    if(val.has_field(utility::conversions::to_string_t(U("idempotencyKey"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("idempotency_key")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("idempotencyKey")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setIdempotencyKey;
@@ -274,9 +274,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("parent_span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("parentSpanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parent_span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parentSpanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setParentSpanId;
@@ -285,9 +285,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("redaction_class"))))
+    if(val.has_field(utility::conversions::to_string_t(U("redactionClass"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redaction_class")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("redactionClass")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<RedactionClass> refVal_setRedactionClass;
@@ -318,9 +318,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -329,9 +329,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("start_time"))))
+    if(val.has_field(utility::conversions::to_string_t(U("startTime"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("start_time")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("startTime")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setStartTime;
@@ -362,9 +362,9 @@ bool NativeIngestRequest::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -387,21 +387,21 @@ void NativeIngestRequest::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("attributes")), m_Attributes));
     }
-    if(m_Auth_contextIsSet)
+    if(m_AuthContextIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("auth_context")), m_Auth_context));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("authContext")), m_AuthContext));
     }
     if(m_CostIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cost")), m_Cost));
     }
-    if(m_End_timeIsSet)
+    if(m_EndTimeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("end_time")), m_End_time));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endTime")), m_EndTime));
     }
-    if(m_Idempotency_keyIsSet)
+    if(m_IdempotencyKeyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("idempotency_key")), m_Idempotency_key));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("idempotencyKey")), m_IdempotencyKey));
     }
     if(m_InputIsSet)
     {
@@ -423,13 +423,13 @@ void NativeIngestRequest::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("output")), m_Output));
     }
-    if(m_Parent_span_idIsSet)
+    if(m_ParentSpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("parent_span_id")), m_Parent_span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("parentSpanId")), m_ParentSpanId));
     }
-    if(m_Redaction_classIsSet)
+    if(m_RedactionClassIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redaction_class")), m_Redaction_class));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("redactionClass")), m_RedactionClass));
     }
     if(m_ScopeIsSet)
     {
@@ -439,13 +439,13 @@ void NativeIngestRequest::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("seq")), m_Seq));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Start_timeIsSet)
+    if(m_StartTimeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("start_time")), m_Start_time));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("startTime")), m_StartTime));
     }
     if(m_StatusIsSet)
     {
@@ -455,9 +455,9 @@ void NativeIngestRequest::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tokens")), m_Tokens));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
 }
 
@@ -476,10 +476,10 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("attributes"))), refVal_setAttributes );
         setAttributes(refVal_setAttributes);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("auth_context"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("authContext"))))
     {
         std::shared_ptr<AuthContext> refVal_setAuthContext;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("auth_context"))), refVal_setAuthContext );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("authContext"))), refVal_setAuthContext );
         setAuthContext(refVal_setAuthContext);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("cost"))))
@@ -488,16 +488,16 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cost"))), refVal_setCost );
         setCost(refVal_setCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("end_time"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endTime"))))
     {
         utility::datetime refVal_setEndTime;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("end_time"))), refVal_setEndTime );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endTime"))), refVal_setEndTime );
         setEndTime(refVal_setEndTime);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("idempotency_key"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("idempotencyKey"))))
     {
         utility::string_t refVal_setIdempotencyKey;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("idempotency_key"))), refVal_setIdempotencyKey );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("idempotencyKey"))), refVal_setIdempotencyKey );
         setIdempotencyKey(refVal_setIdempotencyKey);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("input"))))
@@ -530,16 +530,16 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("output"))), refVal_setOutput );
         setOutput(refVal_setOutput);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("parent_span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("parentSpanId"))))
     {
         utility::string_t refVal_setParentSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parent_span_id"))), refVal_setParentSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parentSpanId"))), refVal_setParentSpanId );
         setParentSpanId(refVal_setParentSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("redaction_class"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("redactionClass"))))
     {
         std::shared_ptr<RedactionClass> refVal_setRedactionClass;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redaction_class"))), refVal_setRedactionClass );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("redactionClass"))), refVal_setRedactionClass );
         setRedactionClass(refVal_setRedactionClass);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("scope"))))
@@ -554,16 +554,16 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("seq"))), refVal_setSeq );
         setSeq(refVal_setSeq);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("start_time"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("startTime"))))
     {
         utility::datetime refVal_setStartTime;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("start_time"))), refVal_setStartTime );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("startTime"))), refVal_setStartTime );
         setStartTime(refVal_setStartTime);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -578,10 +578,10 @@ bool NativeIngestRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tokens"))), refVal_setTokens );
         setTokens(refVal_setTokens);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
     return ok;
@@ -611,24 +611,24 @@ void NativeIngestRequest::unsetAttributes()
 }
 std::shared_ptr<AuthContext> NativeIngestRequest::getAuthContext() const
 {
-    return m_Auth_context;
+    return m_AuthContext;
 }
 
 
 void NativeIngestRequest::setAuthContext(const std::shared_ptr<AuthContext>& value)
 {
-    m_Auth_context = value;
-    m_Auth_contextIsSet = true;
+    m_AuthContext = value;
+    m_AuthContextIsSet = true;
 }
 
 bool NativeIngestRequest::authContextIsSet() const
 {
-    return m_Auth_contextIsSet;
+    return m_AuthContextIsSet;
 }
 
-void NativeIngestRequest::unsetAuth_context()
+void NativeIngestRequest::unsetAuthContext()
 {
-    m_Auth_contextIsSet = false;
+    m_AuthContextIsSet = false;
 }
 std::shared_ptr<Money> NativeIngestRequest::getCost() const
 {
@@ -653,45 +653,45 @@ void NativeIngestRequest::unsetCost()
 }
 utility::datetime NativeIngestRequest::getEndTime() const
 {
-    return m_End_time;
+    return m_EndTime;
 }
 
 
 void NativeIngestRequest::setEndTime(const utility::datetime& value)
 {
-    m_End_time = value;
-    m_End_timeIsSet = true;
+    m_EndTime = value;
+    m_EndTimeIsSet = true;
 }
 
 bool NativeIngestRequest::endTimeIsSet() const
 {
-    return m_End_timeIsSet;
+    return m_EndTimeIsSet;
 }
 
-void NativeIngestRequest::unsetEnd_time()
+void NativeIngestRequest::unsetEndTime()
 {
-    m_End_timeIsSet = false;
+    m_EndTimeIsSet = false;
 }
 utility::string_t NativeIngestRequest::getIdempotencyKey() const
 {
-    return m_Idempotency_key;
+    return m_IdempotencyKey;
 }
 
 
 void NativeIngestRequest::setIdempotencyKey(const utility::string_t& value)
 {
-    m_Idempotency_key = value;
-    m_Idempotency_keyIsSet = true;
+    m_IdempotencyKey = value;
+    m_IdempotencyKeyIsSet = true;
 }
 
 bool NativeIngestRequest::idempotencyKeyIsSet() const
 {
-    return m_Idempotency_keyIsSet;
+    return m_IdempotencyKeyIsSet;
 }
 
-void NativeIngestRequest::unsetIdempotency_key()
+void NativeIngestRequest::unsetIdempotencyKey()
 {
-    m_Idempotency_keyIsSet = false;
+    m_IdempotencyKeyIsSet = false;
 }
 std::shared_ptr<AnyType> NativeIngestRequest::getInput() const
 {
@@ -800,45 +800,45 @@ void NativeIngestRequest::unsetOutput()
 }
 utility::string_t NativeIngestRequest::getParentSpanId() const
 {
-    return m_Parent_span_id;
+    return m_ParentSpanId;
 }
 
 
 void NativeIngestRequest::setParentSpanId(const utility::string_t& value)
 {
-    m_Parent_span_id = value;
-    m_Parent_span_idIsSet = true;
+    m_ParentSpanId = value;
+    m_ParentSpanIdIsSet = true;
 }
 
 bool NativeIngestRequest::parentSpanIdIsSet() const
 {
-    return m_Parent_span_idIsSet;
+    return m_ParentSpanIdIsSet;
 }
 
-void NativeIngestRequest::unsetParent_span_id()
+void NativeIngestRequest::unsetParentSpanId()
 {
-    m_Parent_span_idIsSet = false;
+    m_ParentSpanIdIsSet = false;
 }
 std::shared_ptr<RedactionClass> NativeIngestRequest::getRedactionClass() const
 {
-    return m_Redaction_class;
+    return m_RedactionClass;
 }
 
 
 void NativeIngestRequest::setRedactionClass(const std::shared_ptr<RedactionClass>& value)
 {
-    m_Redaction_class = value;
-    m_Redaction_classIsSet = true;
+    m_RedactionClass = value;
+    m_RedactionClassIsSet = true;
 }
 
 bool NativeIngestRequest::redactionClassIsSet() const
 {
-    return m_Redaction_classIsSet;
+    return m_RedactionClassIsSet;
 }
 
-void NativeIngestRequest::unsetRedaction_class()
+void NativeIngestRequest::unsetRedactionClass()
 {
-    m_Redaction_classIsSet = false;
+    m_RedactionClassIsSet = false;
 }
 std::shared_ptr<TenantScope> NativeIngestRequest::getScope() const
 {
@@ -883,45 +883,45 @@ void NativeIngestRequest::unsetSeq()
 }
 utility::string_t NativeIngestRequest::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void NativeIngestRequest::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool NativeIngestRequest::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void NativeIngestRequest::unsetSpan_id()
+void NativeIngestRequest::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::datetime NativeIngestRequest::getStartTime() const
 {
-    return m_Start_time;
+    return m_StartTime;
 }
 
 
 void NativeIngestRequest::setStartTime(const utility::datetime& value)
 {
-    m_Start_time = value;
-    m_Start_timeIsSet = true;
+    m_StartTime = value;
+    m_StartTimeIsSet = true;
 }
 
 bool NativeIngestRequest::startTimeIsSet() const
 {
-    return m_Start_timeIsSet;
+    return m_StartTimeIsSet;
 }
 
-void NativeIngestRequest::unsetStart_time()
+void NativeIngestRequest::unsetStartTime()
 {
-    m_Start_timeIsSet = false;
+    m_StartTimeIsSet = false;
 }
 std::shared_ptr<SpanStatus> NativeIngestRequest::getStatus() const
 {
@@ -967,24 +967,24 @@ void NativeIngestRequest::unsetTokens()
 }
 utility::string_t NativeIngestRequest::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void NativeIngestRequest::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool NativeIngestRequest::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void NativeIngestRequest::unsetTrace_id()
+void NativeIngestRequest::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 
 }

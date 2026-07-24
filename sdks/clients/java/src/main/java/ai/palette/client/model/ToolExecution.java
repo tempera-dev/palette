@@ -51,7 +51,7 @@ public class ToolExecution {
   public static final String JSON_PROPERTY_ERROR = "error";
   private JsonNullable<String> error = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_LOG_ID = "log_id";
+  public static final String JSON_PROPERTY_LOG_ID = "logId";
   private JsonNullable<String> logId = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_SUCCESSFUL = "successful";
@@ -272,9 +272,9 @@ public class ToolExecution {
       joiner.add(String.format("%serror%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getError()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `log_id` to the URL query string
+    // add `logId` to the URL query string
     if (getLogId() != null) {
-      joiner.add(String.format("%slog_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLogId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slogId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLogId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `successful` to the URL query string

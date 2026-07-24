@@ -53,19 +53,19 @@ public class ApiKeyCreatedResponse {
   @javax.annotation.Nonnull
   private Boolean active;
 
-  public static final String JSON_PROPERTY_API_KEY_ID = "api_key_id";
+  public static final String JSON_PROPERTY_API_KEY_ID = "apiKeyId";
   @javax.annotation.Nonnull
   private String apiKeyId;
 
-  public static final String JSON_PROPERTY_CREATED_AT = "created_at";
+  public static final String JSON_PROPERTY_CREATED_AT = "createdAt";
   @javax.annotation.Nonnull
   private OffsetDateTime createdAt;
 
-  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environment_id";
+  public static final String JSON_PROPERTY_ENVIRONMENT_ID = "environmentId";
   @javax.annotation.Nonnull
   private String environmentId;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
@@ -77,7 +77,7 @@ public class ApiKeyCreatedResponse {
   @javax.annotation.Nonnull
   private String secret;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
@@ -376,24 +376,24 @@ public class ApiKeyCreatedResponse {
       joiner.add(String.format("%sactive%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getActive()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `api_key_id` to the URL query string
+    // add `apiKeyId` to the URL query string
     if (getApiKeyId() != null) {
-      joiner.add(String.format("%sapi_key_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sapiKeyId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getApiKeyId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `created_at` to the URL query string
+    // add `createdAt` to the URL query string
     if (getCreatedAt() != null) {
-      joiner.add(String.format("%screated_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%screatedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCreatedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `environment_id` to the URL query string
+    // add `environmentId` to the URL query string
     if (getEnvironmentId() != null) {
-      joiner.add(String.format("%senvironment_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senvironmentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnvironmentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `scopes` to the URL query string
@@ -414,9 +414,9 @@ public class ApiKeyCreatedResponse {
       joiner.add(String.format("%ssecret%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSecret()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

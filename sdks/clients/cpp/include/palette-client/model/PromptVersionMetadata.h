@@ -55,12 +55,12 @@ public:
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getCreatedBy() const;
     bool createdByIsSet() const;
-    void unsetCreated_by();
+    void unsetCreatedBy();
     void setCreatedBy(const utility::string_t& value);
 
     utility::string_t getMessage() const;
@@ -70,11 +70,11 @@ public:
 
 
 protected:
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Created_by;
-    bool m_Created_byIsSet;
+    utility::string_t m_CreatedBy;
+    bool m_CreatedByIsSet;
 
     utility::string_t m_Message;
     bool m_MessageIsSet;

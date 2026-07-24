@@ -915,6 +915,6 @@ mod tests {
         let json = serde_json::to_value(&r).unwrap_or_else(|e| panic!("{e}"));
         assert_eq!(json["status"], "completed");
         assert_eq!(json["tool_calls"], 3);
-        assert_eq!(json["artifacts"][0]["mime_type"], "text/plain");
+        assert_eq!(json["artifacts"][0]["mimeType"], "text/plain");
     }
 }

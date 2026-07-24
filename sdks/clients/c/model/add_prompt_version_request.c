@@ -63,7 +63,7 @@ cJSON *add_prompt_version_request_convertToJSON(add_prompt_version_request_t *ad
 
     // add_prompt_version_request->created_by
     if(add_prompt_version_request->created_by) {
-    if(cJSON_AddStringToObject(item, "created_by", add_prompt_version_request->created_by) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdBy", add_prompt_version_request->created_by) == NULL) {
     goto fail; //String
     }
     }
@@ -106,7 +106,7 @@ add_prompt_version_request_t *add_prompt_version_request_parseFromJSON(cJSON *ad
     prompt_template_t *_template_local_nonprim = NULL;
 
     // add_prompt_version_request->created_by
-    cJSON *created_by = cJSON_GetObjectItemCaseSensitive(add_prompt_version_requestJSON, "created_by");
+    cJSON *created_by = cJSON_GetObjectItemCaseSensitive(add_prompt_version_requestJSON, "createdBy");
     if (cJSON_IsNull(created_by)) {
         created_by = NULL;
     }

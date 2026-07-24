@@ -21,9 +21,9 @@ var _ MappedNullable = &SubmitReviewAnnotationHttpRequest{}
 
 // SubmitReviewAnnotationHttpRequest struct for SubmitReviewAnnotationHttpRequest
 type SubmitReviewAnnotationHttpRequest struct {
-	AnnotationId NullableString `json:"annotation_id,omitempty"`
+	AnnotationId NullableString `json:"annotationId,omitempty"`
 	Payload interface{} `json:"payload"`
-	ReviewerId string `json:"reviewer_id"`
+	ReviewerId string `json:"reviewerId"`
 	Verdict ReviewVerdict `json:"verdict"`
 }
 
@@ -176,12 +176,12 @@ func (o SubmitReviewAnnotationHttpRequest) MarshalJSON() ([]byte, error) {
 func (o SubmitReviewAnnotationHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AnnotationId.IsSet() {
-		toSerialize["annotation_id"] = o.AnnotationId.Get()
+		toSerialize["annotationId"] = o.AnnotationId.Get()
 	}
 	if o.Payload != nil {
 		toSerialize["payload"] = o.Payload
 	}
-	toSerialize["reviewer_id"] = o.ReviewerId
+	toSerialize["reviewerId"] = o.ReviewerId
 	toSerialize["verdict"] = o.Verdict
 	return toSerialize, nil
 }
@@ -192,7 +192,7 @@ func (o *SubmitReviewAnnotationHttpRequest) UnmarshalJSON(data []byte) (err erro
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"payload",
-		"reviewer_id",
+		"reviewerId",
 		"verdict",
 	}
 

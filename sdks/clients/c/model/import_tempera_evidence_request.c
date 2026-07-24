@@ -65,7 +65,7 @@ cJSON *import_tempera_evidence_request_convertToJSON(import_tempera_evidence_req
     if (!import_tempera_evidence_request->canonical_json) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "canonical_json", import_tempera_evidence_request->canonical_json) == NULL) {
+    if(cJSON_AddStringToObject(item, "canonicalJson", import_tempera_evidence_request->canonical_json) == NULL) {
     goto fail; //String
     }
 
@@ -74,7 +74,7 @@ cJSON *import_tempera_evidence_request_convertToJSON(import_tempera_evidence_req
     if (!import_tempera_evidence_request->public_key_pem) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "public_key_pem", import_tempera_evidence_request->public_key_pem) == NULL) {
+    if(cJSON_AddStringToObject(item, "publicKeyPem", import_tempera_evidence_request->public_key_pem) == NULL) {
     goto fail; //String
     }
 
@@ -83,7 +83,7 @@ cJSON *import_tempera_evidence_request_convertToJSON(import_tempera_evidence_req
     if (!import_tempera_evidence_request->signature_base64) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "signature_base64", import_tempera_evidence_request->signature_base64) == NULL) {
+    if(cJSON_AddStringToObject(item, "signatureBase64", import_tempera_evidence_request->signature_base64) == NULL) {
     goto fail; //String
     }
 
@@ -100,7 +100,7 @@ import_tempera_evidence_request_t *import_tempera_evidence_request_parseFromJSON
     import_tempera_evidence_request_t *import_tempera_evidence_request_local_var = NULL;
 
     // import_tempera_evidence_request->canonical_json
-    cJSON *canonical_json = cJSON_GetObjectItemCaseSensitive(import_tempera_evidence_requestJSON, "canonical_json");
+    cJSON *canonical_json = cJSON_GetObjectItemCaseSensitive(import_tempera_evidence_requestJSON, "canonicalJson");
     if (cJSON_IsNull(canonical_json)) {
         canonical_json = NULL;
     }
@@ -115,7 +115,7 @@ import_tempera_evidence_request_t *import_tempera_evidence_request_parseFromJSON
     }
 
     // import_tempera_evidence_request->public_key_pem
-    cJSON *public_key_pem = cJSON_GetObjectItemCaseSensitive(import_tempera_evidence_requestJSON, "public_key_pem");
+    cJSON *public_key_pem = cJSON_GetObjectItemCaseSensitive(import_tempera_evidence_requestJSON, "publicKeyPem");
     if (cJSON_IsNull(public_key_pem)) {
         public_key_pem = NULL;
     }
@@ -130,7 +130,7 @@ import_tempera_evidence_request_t *import_tempera_evidence_request_parseFromJSON
     }
 
     // import_tempera_evidence_request->signature_base64
-    cJSON *signature_base64 = cJSON_GetObjectItemCaseSensitive(import_tempera_evidence_requestJSON, "signature_base64");
+    cJSON *signature_base64 = cJSON_GetObjectItemCaseSensitive(import_tempera_evidence_requestJSON, "signatureBase64");
     if (cJSON_IsNull(signature_base64)) {
         signature_base64 = NULL;
     }

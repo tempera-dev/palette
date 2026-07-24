@@ -82,7 +82,7 @@ cJSON *toolkit_convertToJSON(toolkit_t *toolkit) {
 
     // toolkit->auth_schemes
     if(toolkit->auth_schemes) {
-    cJSON *auth_schemes = cJSON_AddArrayToObject(item, "auth_schemes");
+    cJSON *auth_schemes = cJSON_AddArrayToObject(item, "authSchemes");
     if(auth_schemes == NULL) {
         goto fail; //primitive container
     }
@@ -116,7 +116,7 @@ cJSON *toolkit_convertToJSON(toolkit_t *toolkit) {
 
     // toolkit->no_auth
     if(toolkit->no_auth) {
-    if(cJSON_AddBoolToObject(item, "no_auth", toolkit->no_auth) == NULL) {
+    if(cJSON_AddBoolToObject(item, "noAuth", toolkit->no_auth) == NULL) {
     goto fail; //Bool
     }
     }
@@ -133,7 +133,7 @@ cJSON *toolkit_convertToJSON(toolkit_t *toolkit) {
 
     // toolkit->tools_count
     if(toolkit->tools_count) {
-    if(cJSON_AddNumberToObject(item, "tools_count", toolkit->tools_count) == NULL) {
+    if(cJSON_AddNumberToObject(item, "toolsCount", toolkit->tools_count) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -154,7 +154,7 @@ toolkit_t *toolkit_parseFromJSON(cJSON *toolkitJSON){
     list_t *auth_schemesList = NULL;
 
     // toolkit->auth_schemes
-    cJSON *auth_schemes = cJSON_GetObjectItemCaseSensitive(toolkitJSON, "auth_schemes");
+    cJSON *auth_schemes = cJSON_GetObjectItemCaseSensitive(toolkitJSON, "authSchemes");
     if (cJSON_IsNull(auth_schemes)) {
         auth_schemes = NULL;
     }
@@ -203,7 +203,7 @@ toolkit_t *toolkit_parseFromJSON(cJSON *toolkitJSON){
     }
 
     // toolkit->no_auth
-    cJSON *no_auth = cJSON_GetObjectItemCaseSensitive(toolkitJSON, "no_auth");
+    cJSON *no_auth = cJSON_GetObjectItemCaseSensitive(toolkitJSON, "noAuth");
     if (cJSON_IsNull(no_auth)) {
         no_auth = NULL;
     }
@@ -230,7 +230,7 @@ toolkit_t *toolkit_parseFromJSON(cJSON *toolkitJSON){
     }
 
     // toolkit->tools_count
-    cJSON *tools_count = cJSON_GetObjectItemCaseSensitive(toolkitJSON, "tools_count");
+    cJSON *tools_count = cJSON_GetObjectItemCaseSensitive(toolkitJSON, "toolsCount");
     if (cJSON_IsNull(tools_count)) {
         tools_count = NULL;
     }

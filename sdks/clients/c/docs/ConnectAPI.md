@@ -4,20 +4,20 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConnectAPI_connectGetStatus**](ConnectAPI.md#ConnectAPI_connectGetStatus) | **GET** /v1/connect/status/{tenant_id}/{project_id} |
+[**ConnectAPI_connectGetStatus**](ConnectAPI.md#ConnectAPI_connectGetStatus) | **GET** /v1/connect/status/{tenantId}/{projectId} |
 
 
 # **ConnectAPI_connectGetStatus**
 ```c
-palette_connect_status_response_t* ConnectAPI_connectGetStatus(apiClient_t *apiClient, char *tenant_id, char *project_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+palette_connect_status_response_t* ConnectAPI_connectGetStatus(apiClient_t *apiClient, char *tenantId, char *projectId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]

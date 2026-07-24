@@ -14,11 +14,11 @@ use serde::{Deserialize, Serialize};
 /// EvaluatorKindOneOf7 : Browser world-state success: asserts the final step's observed page (url and/or DOM) matches the configured target — NOT the agent's self-reported \"done\". Reads `trace.browser_steps`.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EvaluatorKindOneOf7 {
-    #[serde(rename = "dom_contains", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "domContains", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub dom_contains: Option<Option<String>>,
     #[serde(rename = "type")]
     pub r#type: Type,
-    #[serde(rename = "url_contains", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "urlContains", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub url_contains: Option<Option<String>>,
 }
 

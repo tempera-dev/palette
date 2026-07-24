@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from palette_client.models.review_verdict import ReviewVerdict
 from typing import Optional, Set
@@ -27,11 +27,11 @@ class SubmitReviewAnnotationHttpRequest(BaseModel):
     """
     SubmitReviewAnnotationHttpRequest
     """ # noqa: E501
-    annotation_id: Optional[StrictStr] = None
+    annotation_id: Optional[StrictStr] = Field(default=None, alias="annotationId")
     payload: Optional[Any]
-    reviewer_id: StrictStr
+    reviewer_id: StrictStr = Field(alias="reviewerId")
     verdict: ReviewVerdict
-    __properties: ClassVar[List[str]] = ["annotation_id", "payload", "reviewer_id", "verdict"]
+    __properties: ClassVar[List[str]] = ["annotationId", "payload", "reviewerId", "verdict"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -75,7 +75,7 @@ class SubmitReviewAnnotationHttpRequest(BaseModel):
         # set to None if annotation_id (nullable) is None
         # and model_fields_set contains the field
         if self.annotation_id is None and "annotation_id" in self.model_fields_set:
-            _dict['annotation_id'] = None
+            _dict['annotationId'] = None
 
         # set to None if payload (nullable) is None
         # and model_fields_set contains the field
@@ -94,9 +94,9 @@ class SubmitReviewAnnotationHttpRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "annotation_id": obj.get("annotation_id"),
+            "annotationId": obj.get("annotationId"),
             "payload": obj.get("payload"),
-            "reviewer_id": obj.get("reviewer_id"),
+            "reviewerId": obj.get("reviewerId"),
             "verdict": obj.get("verdict")
         })
         return _obj

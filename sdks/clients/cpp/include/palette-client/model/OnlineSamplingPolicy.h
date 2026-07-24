@@ -54,37 +54,37 @@ public:
 
     int64_t getHighCostMicrosThreshold() const;
     bool highCostMicrosThresholdIsSet() const;
-    void unsetHigh_cost_micros_threshold();
+    void unsetHighCostMicrosThreshold();
     void setHighCostMicrosThreshold(int64_t value);
 
     bool isKeepErrors() const;
     bool keepErrorsIsSet() const;
-    void unsetKeep_errors();
+    void unsetKeepErrors();
     void setKeepErrors(bool value);
 
     int32_t getSampleRatePerMille() const;
     bool sampleRatePerMilleIsSet() const;
-    void unsetSample_rate_per_mille();
+    void unsetSampleRatePerMille();
     void setSampleRatePerMille(int32_t value);
 
     int64_t getSlowMsThreshold() const;
     bool slowMsThresholdIsSet() const;
-    void unsetSlow_ms_threshold();
+    void unsetSlowMsThreshold();
     void setSlowMsThreshold(int64_t value);
 
 
 protected:
-    int64_t m_High_cost_micros_threshold;
-    bool m_High_cost_micros_thresholdIsSet;
+    int64_t m_HighCostMicrosThreshold;
+    bool m_HighCostMicrosThresholdIsSet;
 
-    bool m_Keep_errors;
-    bool m_Keep_errorsIsSet;
+    bool m_KeepErrors;
+    bool m_KeepErrorsIsSet;
 
-    int32_t m_Sample_rate_per_mille;
-    bool m_Sample_rate_per_milleIsSet;
+    int32_t m_SampleRatePerMille;
+    bool m_SampleRatePerMilleIsSet;
 
-    int64_t m_Slow_ms_threshold;
-    bool m_Slow_ms_thresholdIsSet;
+    int64_t m_SlowMsThreshold;
+    bool m_SlowMsThresholdIsSet;
 
 };
 

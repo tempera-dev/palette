@@ -46,17 +46,17 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class CreateGateRequest {
-  public static final String JSON_PROPERTY_DATASET_ID = "dataset_id";
+  public static final String JSON_PROPERTY_DATASET_ID = "datasetId";
   private JsonNullable<String> datasetId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluator_version_id";
+  public static final String JSON_PROPERTY_EVALUATOR_VERSION_ID = "evaluatorVersionId";
   private JsonNullable<String> evaluatorVersionId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_GATE_ID = "gate_id";
+  public static final String JSON_PROPERTY_GATE_ID = "gateId";
   @javax.annotation.Nonnull
   private String gateId;
 
-  public static final String JSON_PROPERTY_INCONCLUSIVE_POLICY = "inconclusive_policy";
+  public static final String JSON_PROPERTY_INCONCLUSIVE_POLICY = "inconclusivePolicy";
   private JsonNullable<InconclusivePolicy> inconclusivePolicy = JsonNullable.<InconclusivePolicy>undefined();
 
   public static final String JSON_PROPERTY_NAME = "name";
@@ -301,24 +301,24 @@ public class CreateGateRequest {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `dataset_id` to the URL query string
+    // add `datasetId` to the URL query string
     if (getDatasetId() != null) {
-      joiner.add(String.format("%sdataset_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `evaluator_version_id` to the URL query string
+    // add `evaluatorVersionId` to the URL query string
     if (getEvaluatorVersionId() != null) {
-      joiner.add(String.format("%sevaluator_version_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sevaluatorVersionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvaluatorVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `gate_id` to the URL query string
+    // add `gateId` to the URL query string
     if (getGateId() != null) {
-      joiner.add(String.format("%sgate_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGateId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sgateId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getGateId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `inconclusive_policy` to the URL query string
+    // add `inconclusivePolicy` to the URL query string
     if (getInconclusivePolicy() != null) {
-      joiner.add(String.format("%sinconclusive_policy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInconclusivePolicy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinconclusivePolicy%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInconclusivePolicy()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `name` to the URL query string

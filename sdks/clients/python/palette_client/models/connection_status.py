@@ -27,10 +27,10 @@ class ConnectionStatus(BaseModel):
     Connection status of one app for one entity.
     """ # noqa: E501
     connected: StrictBool = Field(description="`true` only when an account exists and is `ACTIVE`.")
-    connected_account_id: Optional[StrictStr] = Field(default=None, description="The connected-account id, when one exists.")
+    connected_account_id: Optional[StrictStr] = Field(default=None, description="The connected-account id, when one exists.", alias="connectedAccountId")
     status: StrictStr = Field(description="Raw Composio status (`ACTIVE`, `INITIALIZING`, `FAILED`, …) or `not_connected` when no account exists yet.")
     toolkit: StrictStr = Field(description="Toolkit slug this status is for.")
-    __properties: ClassVar[List[str]] = ["connected", "connected_account_id", "status", "toolkit"]
+    __properties: ClassVar[List[str]] = ["connected", "connectedAccountId", "status", "toolkit"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -74,7 +74,7 @@ class ConnectionStatus(BaseModel):
         # set to None if connected_account_id (nullable) is None
         # and model_fields_set contains the field
         if self.connected_account_id is None and "connected_account_id" in self.model_fields_set:
-            _dict['connected_account_id'] = None
+            _dict['connectedAccountId'] = None
 
         return _dict
 
@@ -89,7 +89,7 @@ class ConnectionStatus(BaseModel):
 
         _obj = cls.model_validate({
             "connected": obj.get("connected"),
-            "connected_account_id": obj.get("connected_account_id"),
+            "connectedAccountId": obj.get("connectedAccountId"),
             "status": obj.get("status"),
             "toolkit": obj.get("toolkit")
         })

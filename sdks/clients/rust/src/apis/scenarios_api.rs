@@ -136,7 +136,7 @@ pub enum ScenariosPeriodMineError {
 
 pub async fn scenarios_period_create(configuration: &configuration::Configuration, params: ScenariosPeriodCreateParams) -> Result<models::Scenario, Error<ScenariosPeriodCreateError>> {
 
-    let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/scenarios/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -173,7 +173,7 @@ pub async fn scenarios_period_create(configuration: &configuration::Configuratio
 
 pub async fn scenarios_period_get(configuration: &configuration::Configuration, params: ScenariosPeriodGetParams) -> Result<models::Scenario, Error<ScenariosPeriodGetError>> {
 
-    let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}/{scenario_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), scenario_id=crate::apis::urlencode(params.scenario_id));
+    let uri_str = format!("{}/v1/scenarios/{tenantId}/{projectId}/{scenarioId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), scenarioId=crate::apis::urlencode(params.scenario_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -209,7 +209,7 @@ pub async fn scenarios_period_get(configuration: &configuration::Configuration, 
 
 pub async fn scenarios_period_list(configuration: &configuration::Configuration, params: ScenariosPeriodListParams) -> Result<models::ListScenariosResponse, Error<ScenariosPeriodListError>> {
 
-    let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/scenarios/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {
@@ -251,7 +251,7 @@ pub async fn scenarios_period_list(configuration: &configuration::Configuration,
 
 pub async fn scenarios_period_mine(configuration: &configuration::Configuration, params: ScenariosPeriodMineParams) -> Result<models::MineScenariosResponse, Error<ScenariosPeriodMineError>> {
 
-    let uri_str = format!("{}/v1/scenarios/{tenant_id}/{project_id}/mine", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/scenarios/{tenantId}/{projectId}/mine", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

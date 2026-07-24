@@ -22,18 +22,18 @@ var _ MappedNullable = &TraceWriteDrainReport{}
 // TraceWriteDrainReport struct for TraceWriteDrainReport
 type TraceWriteDrainReport struct {
 	Consumed int32 `json:"consumed"`
-	DeadLettered int32 `json:"dead_lettered"`
-	DownstreamPublished int32 `json:"downstream_published"`
-	DuplicateRaw int32 `json:"duplicate_raw"`
-	DuplicateSpans int32 `json:"duplicate_spans"`
-	FailedDownstreamPublishes int32 `json:"failed_downstream_publishes"`
-	FailedWrites int32 `json:"failed_writes"`
-	InvalidMessages int32 `json:"invalid_messages"`
+	DeadLettered int32 `json:"deadLettered"`
+	DownstreamPublished int32 `json:"downstreamPublished"`
+	DuplicateRaw int32 `json:"duplicateRaw"`
+	DuplicateSpans int32 `json:"duplicateSpans"`
+	FailedDownstreamPublishes int32 `json:"failedDownstreamPublishes"`
+	FailedWrites int32 `json:"failedWrites"`
+	InvalidMessages int32 `json:"invalidMessages"`
 	Retried int32 `json:"retried"`
-	TraceIds []string `json:"trace_ids"`
-	TraceRefs []QueuedTraceWork `json:"trace_refs"`
-	WrittenRaw int32 `json:"written_raw"`
-	WrittenSpans int32 `json:"written_spans"`
+	TraceIds []string `json:"traceIds"`
+	TraceRefs []QueuedTraceWork `json:"traceRefs"`
+	WrittenRaw int32 `json:"writtenRaw"`
+	WrittenSpans int32 `json:"writtenSpans"`
 }
 
 type _TraceWriteDrainReport TraceWriteDrainReport
@@ -391,18 +391,18 @@ func (o TraceWriteDrainReport) MarshalJSON() ([]byte, error) {
 func (o TraceWriteDrainReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["consumed"] = o.Consumed
-	toSerialize["dead_lettered"] = o.DeadLettered
-	toSerialize["downstream_published"] = o.DownstreamPublished
-	toSerialize["duplicate_raw"] = o.DuplicateRaw
-	toSerialize["duplicate_spans"] = o.DuplicateSpans
-	toSerialize["failed_downstream_publishes"] = o.FailedDownstreamPublishes
-	toSerialize["failed_writes"] = o.FailedWrites
-	toSerialize["invalid_messages"] = o.InvalidMessages
+	toSerialize["deadLettered"] = o.DeadLettered
+	toSerialize["downstreamPublished"] = o.DownstreamPublished
+	toSerialize["duplicateRaw"] = o.DuplicateRaw
+	toSerialize["duplicateSpans"] = o.DuplicateSpans
+	toSerialize["failedDownstreamPublishes"] = o.FailedDownstreamPublishes
+	toSerialize["failedWrites"] = o.FailedWrites
+	toSerialize["invalidMessages"] = o.InvalidMessages
 	toSerialize["retried"] = o.Retried
-	toSerialize["trace_ids"] = o.TraceIds
-	toSerialize["trace_refs"] = o.TraceRefs
-	toSerialize["written_raw"] = o.WrittenRaw
-	toSerialize["written_spans"] = o.WrittenSpans
+	toSerialize["traceIds"] = o.TraceIds
+	toSerialize["traceRefs"] = o.TraceRefs
+	toSerialize["writtenRaw"] = o.WrittenRaw
+	toSerialize["writtenSpans"] = o.WrittenSpans
 	return toSerialize, nil
 }
 
@@ -412,18 +412,18 @@ func (o *TraceWriteDrainReport) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"consumed",
-		"dead_lettered",
-		"downstream_published",
-		"duplicate_raw",
-		"duplicate_spans",
-		"failed_downstream_publishes",
-		"failed_writes",
-		"invalid_messages",
+		"deadLettered",
+		"downstreamPublished",
+		"duplicateRaw",
+		"duplicateSpans",
+		"failedDownstreamPublishes",
+		"failedWrites",
+		"invalidMessages",
 		"retried",
-		"trace_ids",
-		"trace_refs",
-		"written_raw",
-		"written_spans",
+		"traceIds",
+		"traceRefs",
+		"writtenRaw",
+		"writtenSpans",
 	}
 
 	allProperties := make(map[string]interface{})

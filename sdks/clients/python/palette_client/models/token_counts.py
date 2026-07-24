@@ -27,11 +27,11 @@ class TokenCounts(BaseModel):
     """
     TokenCounts
     """ # noqa: E501
-    cache_read: Annotated[int, Field(strict=True, ge=0)]
+    cache_read: Annotated[int, Field(strict=True, ge=0)] = Field(alias="cacheRead")
     input: Annotated[int, Field(strict=True, ge=0)]
     output: Annotated[int, Field(strict=True, ge=0)]
     reasoning: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["cache_read", "input", "output", "reasoning"]
+    __properties: ClassVar[List[str]] = ["cacheRead", "input", "output", "reasoning"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,7 +84,7 @@ class TokenCounts(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "cache_read": obj.get("cache_read"),
+            "cacheRead": obj.get("cacheRead"),
             "input": obj.get("input"),
             "output": obj.get("output"),
             "reasoning": obj.get("reasoning")

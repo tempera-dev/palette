@@ -80,7 +80,7 @@ pub enum ApiKeysPeriodRevokeError {
 
 pub async fn api_keys_period_create(configuration: &configuration::Configuration, params: ApiKeysPeriodCreateParams) -> Result<models::ApiKeyCreatedResponse, Error<ApiKeysPeriodCreateError>> {
 
-    let uri_str = format!("{}/v1/api-keys/{tenant_id}/{project_id}/{environment_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), environment_id=crate::apis::urlencode(params.environment_id));
+    let uri_str = format!("{}/v1/api-keys/{tenantId}/{projectId}/{environmentId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), environmentId=crate::apis::urlencode(params.environment_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -117,7 +117,7 @@ pub async fn api_keys_period_create(configuration: &configuration::Configuration
 
 pub async fn api_keys_period_revoke(configuration: &configuration::Configuration, params: ApiKeysPeriodRevokeParams) -> Result<models::RevokedApiKey, Error<ApiKeysPeriodRevokeError>> {
 
-    let uri_str = format!("{}/v1/api-keys/{tenant_id}/{project_id}/{environment_id}/{api_key_id}/revoke", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id), environment_id=crate::apis::urlencode(params.environment_id), api_key_id=crate::apis::urlencode(params.api_key_id));
+    let uri_str = format!("{}/v1/api-keys/{tenantId}/{projectId}/{environmentId}/{apiKeyId}/revoke", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id), environmentId=crate::apis::urlencode(params.environment_id), apiKeyId=crate::apis::urlencode(params.api_key_id));
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {

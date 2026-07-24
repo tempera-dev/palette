@@ -20,21 +20,21 @@ namespace model {
 
 ReviewAnnotation::ReviewAnnotation()
 {
-    m_Annotation_id = utility::conversions::to_string_t("");
-    m_Annotation_idIsSet = false;
-    m_Created_at = utility::datetime();
-    m_Created_atIsSet = false;
+    m_AnnotationId = utility::conversions::to_string_t("");
+    m_AnnotationIdIsSet = false;
+    m_CreatedAt = utility::datetime();
+    m_CreatedAtIsSet = false;
     m_PayloadIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Queue_id = utility::conversions::to_string_t("");
-    m_Queue_idIsSet = false;
-    m_Reviewer_id = utility::conversions::to_string_t("");
-    m_Reviewer_idIsSet = false;
-    m_Task_id = utility::conversions::to_string_t("");
-    m_Task_idIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_QueueId = utility::conversions::to_string_t("");
+    m_QueueIdIsSet = false;
+    m_ReviewerId = utility::conversions::to_string_t("");
+    m_ReviewerIdIsSet = false;
+    m_TaskId = utility::conversions::to_string_t("");
+    m_TaskIdIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_VerdictIsSet = false;
 }
 
@@ -50,45 +50,45 @@ void ReviewAnnotation::validate()
 web::json::value ReviewAnnotation::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Annotation_idIsSet)
+    if(m_AnnotationIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("annotation_id"))] = ModelBase::toJson(m_Annotation_id);
+        val[utility::conversions::to_string_t(U("annotationId"))] = ModelBase::toJson(m_AnnotationId);
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("created_at"))] = ModelBase::toJson(m_Created_at);
+        val[utility::conversions::to_string_t(U("createdAt"))] = ModelBase::toJson(m_CreatedAt);
     }
     if(m_PayloadIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("payload"))] = ModelBase::toJson(m_Payload);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Queue_idIsSet)
+    if(m_QueueIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("queue_id"))] = ModelBase::toJson(m_Queue_id);
+        val[utility::conversions::to_string_t(U("queueId"))] = ModelBase::toJson(m_QueueId);
     }
-    if(m_Reviewer_idIsSet)
+    if(m_ReviewerIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("reviewer_id"))] = ModelBase::toJson(m_Reviewer_id);
+        val[utility::conversions::to_string_t(U("reviewerId"))] = ModelBase::toJson(m_ReviewerId);
     }
-    if(m_Task_idIsSet)
+    if(m_TaskIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("task_id"))] = ModelBase::toJson(m_Task_id);
+        val[utility::conversions::to_string_t(U("taskId"))] = ModelBase::toJson(m_TaskId);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_VerdictIsSet)
     {   
@@ -102,9 +102,9 @@ web::json::value ReviewAnnotation::toJson() const
 bool ReviewAnnotation::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("annotation_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("annotationId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("annotation_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("annotationId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setAnnotationId;
@@ -113,9 +113,9 @@ bool ReviewAnnotation::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("created_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("createdAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("created_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("createdAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setCreatedAt;
@@ -135,9 +135,9 @@ bool ReviewAnnotation::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -146,9 +146,9 @@ bool ReviewAnnotation::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("queue_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("queueId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("queue_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("queueId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setQueueId;
@@ -157,9 +157,9 @@ bool ReviewAnnotation::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("reviewer_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("reviewerId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reviewer_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("reviewerId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setReviewerId;
@@ -168,9 +168,9 @@ bool ReviewAnnotation::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("task_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("taskId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("task_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("taskId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTaskId;
@@ -179,9 +179,9 @@ bool ReviewAnnotation::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -211,37 +211,37 @@ void ReviewAnnotation::toMultipart(std::shared_ptr<MultipartFormData> multipart,
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Annotation_idIsSet)
+    if(m_AnnotationIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("annotation_id")), m_Annotation_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("annotationId")), m_AnnotationId));
     }
-    if(m_Created_atIsSet)
+    if(m_CreatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("created_at")), m_Created_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("createdAt")), m_CreatedAt));
     }
     if(m_PayloadIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("payload")), m_Payload));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Queue_idIsSet)
+    if(m_QueueIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("queue_id")), m_Queue_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("queueId")), m_QueueId));
     }
-    if(m_Reviewer_idIsSet)
+    if(m_ReviewerIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reviewer_id")), m_Reviewer_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("reviewerId")), m_ReviewerId));
     }
-    if(m_Task_idIsSet)
+    if(m_TaskIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("task_id")), m_Task_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("taskId")), m_TaskId));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_VerdictIsSet)
     {
@@ -258,16 +258,16 @@ bool ReviewAnnotation::fromMultiPart(std::shared_ptr<MultipartFormData> multipar
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("annotation_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("annotationId"))))
     {
         utility::string_t refVal_setAnnotationId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("annotation_id"))), refVal_setAnnotationId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("annotationId"))), refVal_setAnnotationId );
         setAnnotationId(refVal_setAnnotationId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("created_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("createdAt"))))
     {
         utility::datetime refVal_setCreatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("created_at"))), refVal_setCreatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("createdAt"))), refVal_setCreatedAt );
         setCreatedAt(refVal_setCreatedAt);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("payload"))))
@@ -276,34 +276,34 @@ bool ReviewAnnotation::fromMultiPart(std::shared_ptr<MultipartFormData> multipar
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("payload"))), refVal_setPayload );
         setPayload(refVal_setPayload);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("queue_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("queueId"))))
     {
         utility::string_t refVal_setQueueId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("queue_id"))), refVal_setQueueId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("queueId"))), refVal_setQueueId );
         setQueueId(refVal_setQueueId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("reviewer_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("reviewerId"))))
     {
         utility::string_t refVal_setReviewerId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reviewer_id"))), refVal_setReviewerId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("reviewerId"))), refVal_setReviewerId );
         setReviewerId(refVal_setReviewerId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("task_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("taskId"))))
     {
         utility::string_t refVal_setTaskId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("task_id"))), refVal_setTaskId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("taskId"))), refVal_setTaskId );
         setTaskId(refVal_setTaskId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("verdict"))))
@@ -318,45 +318,45 @@ bool ReviewAnnotation::fromMultiPart(std::shared_ptr<MultipartFormData> multipar
 
 utility::string_t ReviewAnnotation::getAnnotationId() const
 {
-    return m_Annotation_id;
+    return m_AnnotationId;
 }
 
 
 void ReviewAnnotation::setAnnotationId(const utility::string_t& value)
 {
-    m_Annotation_id = value;
-    m_Annotation_idIsSet = true;
+    m_AnnotationId = value;
+    m_AnnotationIdIsSet = true;
 }
 
 bool ReviewAnnotation::annotationIdIsSet() const
 {
-    return m_Annotation_idIsSet;
+    return m_AnnotationIdIsSet;
 }
 
-void ReviewAnnotation::unsetAnnotation_id()
+void ReviewAnnotation::unsetAnnotationId()
 {
-    m_Annotation_idIsSet = false;
+    m_AnnotationIdIsSet = false;
 }
 utility::datetime ReviewAnnotation::getCreatedAt() const
 {
-    return m_Created_at;
+    return m_CreatedAt;
 }
 
 
 void ReviewAnnotation::setCreatedAt(const utility::datetime& value)
 {
-    m_Created_at = value;
-    m_Created_atIsSet = true;
+    m_CreatedAt = value;
+    m_CreatedAtIsSet = true;
 }
 
 bool ReviewAnnotation::createdAtIsSet() const
 {
-    return m_Created_atIsSet;
+    return m_CreatedAtIsSet;
 }
 
-void ReviewAnnotation::unsetCreated_at()
+void ReviewAnnotation::unsetCreatedAt()
 {
-    m_Created_atIsSet = false;
+    m_CreatedAtIsSet = false;
 }
 std::shared_ptr<AnyType> ReviewAnnotation::getPayload() const
 {
@@ -381,108 +381,108 @@ void ReviewAnnotation::unsetPayload()
 }
 utility::string_t ReviewAnnotation::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void ReviewAnnotation::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool ReviewAnnotation::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void ReviewAnnotation::unsetProject_id()
+void ReviewAnnotation::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 utility::string_t ReviewAnnotation::getQueueId() const
 {
-    return m_Queue_id;
+    return m_QueueId;
 }
 
 
 void ReviewAnnotation::setQueueId(const utility::string_t& value)
 {
-    m_Queue_id = value;
-    m_Queue_idIsSet = true;
+    m_QueueId = value;
+    m_QueueIdIsSet = true;
 }
 
 bool ReviewAnnotation::queueIdIsSet() const
 {
-    return m_Queue_idIsSet;
+    return m_QueueIdIsSet;
 }
 
-void ReviewAnnotation::unsetQueue_id()
+void ReviewAnnotation::unsetQueueId()
 {
-    m_Queue_idIsSet = false;
+    m_QueueIdIsSet = false;
 }
 utility::string_t ReviewAnnotation::getReviewerId() const
 {
-    return m_Reviewer_id;
+    return m_ReviewerId;
 }
 
 
 void ReviewAnnotation::setReviewerId(const utility::string_t& value)
 {
-    m_Reviewer_id = value;
-    m_Reviewer_idIsSet = true;
+    m_ReviewerId = value;
+    m_ReviewerIdIsSet = true;
 }
 
 bool ReviewAnnotation::reviewerIdIsSet() const
 {
-    return m_Reviewer_idIsSet;
+    return m_ReviewerIdIsSet;
 }
 
-void ReviewAnnotation::unsetReviewer_id()
+void ReviewAnnotation::unsetReviewerId()
 {
-    m_Reviewer_idIsSet = false;
+    m_ReviewerIdIsSet = false;
 }
 utility::string_t ReviewAnnotation::getTaskId() const
 {
-    return m_Task_id;
+    return m_TaskId;
 }
 
 
 void ReviewAnnotation::setTaskId(const utility::string_t& value)
 {
-    m_Task_id = value;
-    m_Task_idIsSet = true;
+    m_TaskId = value;
+    m_TaskIdIsSet = true;
 }
 
 bool ReviewAnnotation::taskIdIsSet() const
 {
-    return m_Task_idIsSet;
+    return m_TaskIdIsSet;
 }
 
-void ReviewAnnotation::unsetTask_id()
+void ReviewAnnotation::unsetTaskId()
 {
-    m_Task_idIsSet = false;
+    m_TaskIdIsSet = false;
 }
 utility::string_t ReviewAnnotation::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void ReviewAnnotation::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool ReviewAnnotation::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void ReviewAnnotation::unsetTenant_id()
+void ReviewAnnotation::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 std::shared_ptr<ReviewVerdict> ReviewAnnotation::getVerdict() const
 {

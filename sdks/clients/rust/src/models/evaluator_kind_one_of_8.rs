@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 /// EvaluatorKindOneOf8 : Browser step efficiency: passes when the run used at most `max_steps` browser steps (catches looping/backtracking). Reads `trace.browser_steps`.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EvaluatorKindOneOf8 {
-    #[serde(rename = "max_steps")]
+    #[serde(rename = "maxSteps")]
     pub max_steps: i64,
     #[serde(rename = "type")]
     pub r#type: Type,

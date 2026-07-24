@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 /// CreatePromptRequest : Request body for `createPrompt`: the new prompt's metadata plus its initial (version 1) template.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreatePromptRequest {
-    #[serde(rename = "created_by", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "createdBy", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub created_by: Option<Option<String>>,
     #[serde(rename = "description", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub description: Option<Option<String>>,

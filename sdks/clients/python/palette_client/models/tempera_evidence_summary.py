@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,13 +26,13 @@ class TemperaEvidenceSummary(BaseModel):
     """
     TemperaEvidenceSummary
     """ # noqa: E501
-    experiment_id: Optional[StrictStr] = None
-    run_id: Optional[StrictStr] = None
+    experiment_id: Optional[StrictStr] = Field(default=None, alias="experimentId")
+    run_id: Optional[StrictStr] = Field(default=None, alias="runId")
     split: Optional[StrictStr] = None
-    suite_id: Optional[StrictStr] = None
-    suite_version: Optional[StrictStr] = None
+    suite_id: Optional[StrictStr] = Field(default=None, alias="suiteId")
+    suite_version: Optional[StrictStr] = Field(default=None, alias="suiteVersion")
     verdict: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["experiment_id", "run_id", "split", "suite_id", "suite_version", "verdict"]
+    __properties: ClassVar[List[str]] = ["experimentId", "runId", "split", "suiteId", "suiteVersion", "verdict"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,12 +76,12 @@ class TemperaEvidenceSummary(BaseModel):
         # set to None if experiment_id (nullable) is None
         # and model_fields_set contains the field
         if self.experiment_id is None and "experiment_id" in self.model_fields_set:
-            _dict['experiment_id'] = None
+            _dict['experimentId'] = None
 
         # set to None if run_id (nullable) is None
         # and model_fields_set contains the field
         if self.run_id is None and "run_id" in self.model_fields_set:
-            _dict['run_id'] = None
+            _dict['runId'] = None
 
         # set to None if split (nullable) is None
         # and model_fields_set contains the field
@@ -91,12 +91,12 @@ class TemperaEvidenceSummary(BaseModel):
         # set to None if suite_id (nullable) is None
         # and model_fields_set contains the field
         if self.suite_id is None and "suite_id" in self.model_fields_set:
-            _dict['suite_id'] = None
+            _dict['suiteId'] = None
 
         # set to None if suite_version (nullable) is None
         # and model_fields_set contains the field
         if self.suite_version is None and "suite_version" in self.model_fields_set:
-            _dict['suite_version'] = None
+            _dict['suiteVersion'] = None
 
         # set to None if verdict (nullable) is None
         # and model_fields_set contains the field
@@ -115,11 +115,11 @@ class TemperaEvidenceSummary(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "experiment_id": obj.get("experiment_id"),
-            "run_id": obj.get("run_id"),
+            "experimentId": obj.get("experimentId"),
+            "runId": obj.get("runId"),
             "split": obj.get("split"),
-            "suite_id": obj.get("suite_id"),
-            "suite_version": obj.get("suite_version"),
+            "suiteId": obj.get("suiteId"),
+            "suiteVersion": obj.get("suiteVersion"),
             "verdict": obj.get("verdict")
         })
         return _obj

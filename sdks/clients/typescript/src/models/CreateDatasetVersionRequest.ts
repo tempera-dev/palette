@@ -44,7 +44,7 @@ export function CreateDatasetVersionRequestFromJSONTyped(json: any, ignoreDiscri
     }
     return {
         
-        'caseIds': json['case_ids'] == null ? undefined : json['case_ids'],
+        'caseIds': json['caseIds'] == null ? undefined : json['caseIds'],
     };
 }
 
@@ -59,7 +59,7 @@ export function CreateDatasetVersionRequestToJSONTyped(value?: CreateDatasetVers
 
     return {
         
-        'case_ids': value['caseIds'],
+        'caseIds': value['caseIds'],
     };
 }
 

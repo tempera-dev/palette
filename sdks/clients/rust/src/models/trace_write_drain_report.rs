@@ -15,29 +15,29 @@ use serde::{Deserialize, Serialize};
 pub struct TraceWriteDrainReport {
     #[serde(rename = "consumed")]
     pub consumed: i32,
-    #[serde(rename = "dead_lettered")]
+    #[serde(rename = "deadLettered")]
     pub dead_lettered: i32,
-    #[serde(rename = "downstream_published")]
+    #[serde(rename = "downstreamPublished")]
     pub downstream_published: i32,
-    #[serde(rename = "duplicate_raw")]
+    #[serde(rename = "duplicateRaw")]
     pub duplicate_raw: i32,
-    #[serde(rename = "duplicate_spans")]
+    #[serde(rename = "duplicateSpans")]
     pub duplicate_spans: i32,
-    #[serde(rename = "failed_downstream_publishes")]
+    #[serde(rename = "failedDownstreamPublishes")]
     pub failed_downstream_publishes: i32,
-    #[serde(rename = "failed_writes")]
+    #[serde(rename = "failedWrites")]
     pub failed_writes: i32,
-    #[serde(rename = "invalid_messages")]
+    #[serde(rename = "invalidMessages")]
     pub invalid_messages: i32,
     #[serde(rename = "retried")]
     pub retried: i32,
-    #[serde(rename = "trace_ids")]
+    #[serde(rename = "traceIds")]
     pub trace_ids: Vec<String>,
-    #[serde(rename = "trace_refs")]
+    #[serde(rename = "traceRefs")]
     pub trace_refs: Vec<models::QueuedTraceWork>,
-    #[serde(rename = "written_raw")]
+    #[serde(rename = "writtenRaw")]
     pub written_raw: i32,
-    #[serde(rename = "written_spans")]
+    #[serde(rename = "writtenSpans")]
     pub written_spans: i32,
 }
 

@@ -46,19 +46,19 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class TemperaEvidenceSummary {
-  public static final String JSON_PROPERTY_EXPERIMENT_ID = "experiment_id";
+  public static final String JSON_PROPERTY_EXPERIMENT_ID = "experimentId";
   private JsonNullable<String> experimentId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_RUN_ID = "run_id";
+  public static final String JSON_PROPERTY_RUN_ID = "runId";
   private JsonNullable<String> runId = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_SPLIT = "split";
   private JsonNullable<String> split = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_SUITE_ID = "suite_id";
+  public static final String JSON_PROPERTY_SUITE_ID = "suiteId";
   private JsonNullable<String> suiteId = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_SUITE_VERSION = "suite_version";
+  public static final String JSON_PROPERTY_SUITE_VERSION = "suiteVersion";
   private JsonNullable<String> suiteVersion = JsonNullable.<String>undefined();
 
   public static final String JSON_PROPERTY_VERDICT = "verdict";
@@ -352,14 +352,14 @@ public class TemperaEvidenceSummary {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `experiment_id` to the URL query string
+    // add `experimentId` to the URL query string
     if (getExperimentId() != null) {
-      joiner.add(String.format("%sexperiment_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExperimentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sexperimentId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getExperimentId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `run_id` to the URL query string
+    // add `runId` to the URL query string
     if (getRunId() != null) {
-      joiner.add(String.format("%srun_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRunId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srunId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRunId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `split` to the URL query string
@@ -367,14 +367,14 @@ public class TemperaEvidenceSummary {
       joiner.add(String.format("%ssplit%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSplit()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `suite_id` to the URL query string
+    // add `suiteId` to the URL query string
     if (getSuiteId() != null) {
-      joiner.add(String.format("%ssuite_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuiteId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssuiteId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuiteId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `suite_version` to the URL query string
+    // add `suiteVersion` to the URL query string
     if (getSuiteVersion() != null) {
-      joiner.add(String.format("%ssuite_version%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuiteVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssuiteVersion%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSuiteVersion()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `verdict` to the URL query string

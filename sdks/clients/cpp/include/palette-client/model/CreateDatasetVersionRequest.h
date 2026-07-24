@@ -56,13 +56,13 @@ public:
 
     std::vector<utility::string_t> getCaseIds() const;
     bool caseIdsIsSet() const;
-    void unsetCase_ids();
+    void unsetCaseIds();
     void setCaseIds(const std::vector<utility::string_t>& value);
 
 
 protected:
-    std::vector<utility::string_t> m_Case_ids;
-    bool m_Case_idsIsSet;
+    std::vector<utility::string_t> m_CaseIds;
+    bool m_CaseIdsIsSet;
 
 };
 

@@ -13,31 +13,31 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ExperimentRunReport {
-    #[serde(rename = "baseline_release_id")]
+    #[serde(rename = "baselineReleaseId")]
     pub baseline_release_id: String,
-    #[serde(rename = "candidate_release_id")]
+    #[serde(rename = "candidateReleaseId")]
     pub candidate_release_id: String,
-    #[serde(rename = "case_scores")]
+    #[serde(rename = "caseScores")]
     pub case_scores: Vec<models::CaseExperimentScore>,
     #[serde(rename = "comparison")]
     pub comparison: Box<models::ExperimentComparison>,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_id")]
+    #[serde(rename = "datasetId")]
     pub dataset_id: String,
-    #[serde(rename = "dataset_version_id")]
+    #[serde(rename = "datasetVersionId")]
     pub dataset_version_id: String,
     #[serde(rename = "decision")]
     pub decision: models::GateDecision,
-    #[serde(rename = "evaluator_version_id")]
+    #[serde(rename = "evaluatorVersionId")]
     pub evaluator_version_id: String,
-    #[serde(rename = "experiment_run_id")]
+    #[serde(rename = "experimentRunId")]
     pub experiment_run_id: String,
-    #[serde(rename = "gate_policy", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "gatePolicy", skip_serializing_if = "Option::is_none")]
     pub gate_policy: Option<Box<models::GatePolicy>>,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

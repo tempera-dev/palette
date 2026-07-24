@@ -185,16 +185,16 @@ Runtime fanout:
 Add one endpoint first:
 
 ```text
-GET /v1/traces/{tenant_id}/{project_id}/{trace_id}/events
+GET /v1/traces/{tenantId}/{projectId}/{traceId}/events
 ```
 
 Query:
 
-- `environment_id`
+- `environmentId`
 - `after`
 - `limit` for finite backfill
 - `follow=true` for live tail
-- `heartbeat_ms`
+- `heartbeatMs`
 
 Headers:
 
@@ -207,7 +207,7 @@ SSE event shape:
 ```text
 id: lr_trace_00000000042_abcd1234
 event: span.completed
-data: {"event_id":"...","trace_id":"...","span_id":"...","seq":42,...}
+data: {"eventId":"...","traceId":"...","spanId":"...","seq":42,...}
 ```
 
 Authorization:

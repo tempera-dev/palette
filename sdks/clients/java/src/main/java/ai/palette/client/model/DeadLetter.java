@@ -41,7 +41,7 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class DeadLetter {
-  public static final String JSON_PROPERTY_FAILED_AT = "failed_at";
+  public static final String JSON_PROPERTY_FAILED_AT = "failedAt";
   @javax.annotation.Nonnull
   private OffsetDateTime failedAt;
 
@@ -204,9 +204,9 @@ public class DeadLetter {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `failed_at` to the URL query string
+    // add `failedAt` to the URL query string
     if (getFailedAt() != null) {
-      joiner.add(String.format("%sfailed_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfailedAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFailedAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `message` to the URL query string

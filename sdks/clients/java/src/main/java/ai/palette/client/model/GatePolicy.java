@@ -44,15 +44,15 @@ public class GatePolicy {
   @javax.annotation.Nonnull
   private Double alpha;
 
-  public static final String JSON_PROPERTY_COMPARISON_COUNT = "comparison_count";
+  public static final String JSON_PROPERTY_COMPARISON_COUNT = "comparisonCount";
   @javax.annotation.Nonnull
   private Integer comparisonCount;
 
-  public static final String JSON_PROPERTY_MAX_REGRESSION = "max_regression";
+  public static final String JSON_PROPERTY_MAX_REGRESSION = "maxRegression";
   @javax.annotation.Nonnull
   private Double maxRegression;
 
-  public static final String JSON_PROPERTY_MIN_SAMPLE_SIZE = "min_sample_size";
+  public static final String JSON_PROPERTY_MIN_SAMPLE_SIZE = "minSampleSize";
   @javax.annotation.Nonnull
   private Integer minSampleSize;
 
@@ -240,19 +240,19 @@ public class GatePolicy {
       joiner.add(String.format("%salpha%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAlpha()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `comparison_count` to the URL query string
+    // add `comparisonCount` to the URL query string
     if (getComparisonCount() != null) {
-      joiner.add(String.format("%scomparison_count%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getComparisonCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scomparisonCount%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getComparisonCount()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `max_regression` to the URL query string
+    // add `maxRegression` to the URL query string
     if (getMaxRegression() != null) {
-      joiner.add(String.format("%smax_regression%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxRegression()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smaxRegression%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMaxRegression()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `min_sample_size` to the URL query string
+    // add `minSampleSize` to the URL query string
     if (getMinSampleSize() != null) {
-      joiner.add(String.format("%smin_sample_size%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMinSampleSize()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sminSampleSize%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMinSampleSize()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

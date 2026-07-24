@@ -355,9 +355,9 @@ class ConnectorsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -402,7 +402,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}/connect',
+            resource_path='/v1/connectors/{tenantId}/{projectId}/connect',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -727,9 +727,9 @@ class ConnectorsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if toolkit is not None:
 
@@ -763,7 +763,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}/skills',
+            resource_path='/v1/connectors/{tenantId}/{projectId}/skills',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1088,9 +1088,9 @@ class ConnectorsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -1135,7 +1135,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}/invoke',
+            resource_path='/v1/connectors/{tenantId}/{projectId}/invoke',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1473,9 +1473,9 @@ class ConnectorsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if page_size is not None:
 
@@ -1513,7 +1513,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}',
+            resource_path='/v1/connectors/{tenantId}/{projectId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1864,9 +1864,9 @@ class ConnectorsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if toolkit is not None:
 
@@ -1908,7 +1908,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}/tools',
+            resource_path='/v1/connectors/{tenantId}/{projectId}/tools',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2233,9 +2233,9 @@ class ConnectorsApi:
 
         # process the path parameters
         if tenant_id is not None:
-            _path_params['tenant_id'] = tenant_id
+            _path_params['tenantId'] = tenant_id
         if project_id is not None:
-            _path_params['project_id'] = project_id
+            _path_params['projectId'] = project_id
         # process the query parameters
         if toolkit is not None:
 
@@ -2269,7 +2269,7 @@ class ConnectorsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/connectors/{tenant_id}/{project_id}/status',
+            resource_path='/v1/connectors/{tenantId}/{projectId}/status',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

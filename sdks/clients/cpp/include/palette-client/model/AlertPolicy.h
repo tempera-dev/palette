@@ -60,27 +60,27 @@ public:
 
     int64_t getDedupeWindowSeconds() const;
     bool dedupeWindowSecondsIsSet() const;
-    void unsetDedupe_window_seconds();
+    void unsetDedupeWindowSeconds();
     void setDedupeWindowSeconds(int64_t value);
 
     utility::string_t getEndpointUrl() const;
     bool endpointUrlIsSet() const;
-    void unsetEndpoint_url();
+    void unsetEndpointUrl();
     void setEndpointUrl(const utility::string_t& value);
 
     double getFireWhenScoreAtOrBelow() const;
     bool fireWhenScoreAtOrBelowIsSet() const;
-    void unsetFire_when_score_at_or_below();
+    void unsetFireWhenScoreAtOrBelow();
     void setFireWhenScoreAtOrBelow(double value);
 
     std::vector<std::shared_ptr<MaintenanceWindow>> getMaintenanceWindows() const;
     bool maintenanceWindowsIsSet() const;
-    void unsetMaintenance_windows();
+    void unsetMaintenanceWindows();
     void setMaintenanceWindows(const std::vector<std::shared_ptr<MaintenanceWindow>>& value);
 
     utility::string_t getPolicyId() const;
     bool policyIdIsSet() const;
-    void unsetPolicy_id();
+    void unsetPolicyId();
     void setPolicyId(const utility::string_t& value);
 
     std::shared_ptr<AlertSeverity> getSeverity() const;
@@ -90,31 +90,31 @@ public:
 
     utility::string_t getSigningSecret() const;
     bool signingSecretIsSet() const;
-    void unsetSigning_secret();
+    void unsetSigningSecret();
     void setSigningSecret(const utility::string_t& value);
 
 
 protected:
-    int64_t m_Dedupe_window_seconds;
-    bool m_Dedupe_window_secondsIsSet;
+    int64_t m_DedupeWindowSeconds;
+    bool m_DedupeWindowSecondsIsSet;
 
-    utility::string_t m_Endpoint_url;
-    bool m_Endpoint_urlIsSet;
+    utility::string_t m_EndpointUrl;
+    bool m_EndpointUrlIsSet;
 
-    double m_Fire_when_score_at_or_below;
-    bool m_Fire_when_score_at_or_belowIsSet;
+    double m_FireWhenScoreAtOrBelow;
+    bool m_FireWhenScoreAtOrBelowIsSet;
 
-    std::vector<std::shared_ptr<MaintenanceWindow>> m_Maintenance_windows;
-    bool m_Maintenance_windowsIsSet;
+    std::vector<std::shared_ptr<MaintenanceWindow>> m_MaintenanceWindows;
+    bool m_MaintenanceWindowsIsSet;
 
-    utility::string_t m_Policy_id;
-    bool m_Policy_idIsSet;
+    utility::string_t m_PolicyId;
+    bool m_PolicyIdIsSet;
 
     std::shared_ptr<AlertSeverity> m_Severity;
     bool m_SeverityIsSet;
 
-    utility::string_t m_Signing_secret;
-    bool m_Signing_secretIsSet;
+    utility::string_t m_SigningSecret;
+    bool m_SigningSecretIsSet;
 
 };
 

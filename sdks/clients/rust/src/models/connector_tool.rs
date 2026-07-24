@@ -18,13 +18,13 @@ pub struct ConnectorTool {
     #[serde(rename = "description", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub description: Option<Option<String>>,
     /// JSON Schema of the tool's `arguments`, verbatim from Composio. The agent loop uses this to construct valid calls; [`crate::skill`] renders it.
-    #[serde(rename = "input_schema", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "inputSchema", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub input_schema: Option<Option<serde_json::Value>>,
     /// Human display name.
     #[serde(rename = "name")]
     pub name: String,
     /// `true` when the tool executes without a connected account.
-    #[serde(rename = "no_auth", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "noAuth", skip_serializing_if = "Option::is_none")]
     pub no_auth: Option<bool>,
     /// Tool slug passed to [`ComposioClient::execute`] (e.g. `GITHUB_CREATE_AN_ISSUE`).
     #[serde(rename = "slug")]

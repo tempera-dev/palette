@@ -65,7 +65,7 @@ cJSON *case_output_override_request_convertToJSON(case_output_override_request_t
     if (!case_output_override_request->case_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "case_id", case_output_override_request->case_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "caseId", case_output_override_request->case_id) == NULL) {
     goto fail; //String
     }
 
@@ -115,7 +115,7 @@ case_output_override_request_t *case_output_override_request_parseFromJSON(cJSON
     _t *trace_local_nonprim = NULL;
 
     // case_output_override_request->case_id
-    cJSON *case_id = cJSON_GetObjectItemCaseSensitive(case_output_override_requestJSON, "case_id");
+    cJSON *case_id = cJSON_GetObjectItemCaseSensitive(case_output_override_requestJSON, "caseId");
     if (cJSON_IsNull(case_id)) {
         case_id = NULL;
     }

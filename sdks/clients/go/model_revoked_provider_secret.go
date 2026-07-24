@@ -23,8 +23,8 @@ var _ MappedNullable = &RevokedProviderSecret{}
 // RevokedProviderSecret struct for RevokedProviderSecret
 type RevokedProviderSecret struct {
 	Active bool `json:"active"`
-	ProviderSecretId string `json:"provider_secret_id"`
-	RotatedAt time.Time `json:"rotated_at"`
+	ProviderSecretId string `json:"providerSecretId"`
+	RotatedAt time.Time `json:"rotatedAt"`
 }
 
 type _RevokedProviderSecret RevokedProviderSecret
@@ -132,8 +132,8 @@ func (o RevokedProviderSecret) MarshalJSON() ([]byte, error) {
 func (o RevokedProviderSecret) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["active"] = o.Active
-	toSerialize["provider_secret_id"] = o.ProviderSecretId
-	toSerialize["rotated_at"] = o.RotatedAt
+	toSerialize["providerSecretId"] = o.ProviderSecretId
+	toSerialize["rotatedAt"] = o.RotatedAt
 	return toSerialize, nil
 }
 
@@ -143,8 +143,8 @@ func (o *RevokedProviderSecret) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"active",
-		"provider_secret_id",
-		"rotated_at",
+		"providerSecretId",
+		"rotatedAt",
 	}
 
 	allProperties := make(map[string]interface{})

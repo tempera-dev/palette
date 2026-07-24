@@ -22,9 +22,9 @@ var _ MappedNullable = &GatePolicy{}
 // GatePolicy struct for GatePolicy
 type GatePolicy struct {
 	Alpha float64 `json:"alpha"`
-	ComparisonCount int32 `json:"comparison_count"`
-	MaxRegression float64 `json:"max_regression"`
-	MinSampleSize int32 `json:"min_sample_size"`
+	ComparisonCount int32 `json:"comparisonCount"`
+	MaxRegression float64 `json:"maxRegression"`
+	MinSampleSize int32 `json:"minSampleSize"`
 }
 
 type _GatePolicy GatePolicy
@@ -157,9 +157,9 @@ func (o GatePolicy) MarshalJSON() ([]byte, error) {
 func (o GatePolicy) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["alpha"] = o.Alpha
-	toSerialize["comparison_count"] = o.ComparisonCount
-	toSerialize["max_regression"] = o.MaxRegression
-	toSerialize["min_sample_size"] = o.MinSampleSize
+	toSerialize["comparisonCount"] = o.ComparisonCount
+	toSerialize["maxRegression"] = o.MaxRegression
+	toSerialize["minSampleSize"] = o.MinSampleSize
 	return toSerialize, nil
 }
 
@@ -169,9 +169,9 @@ func (o *GatePolicy) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"alpha",
-		"comparison_count",
-		"max_regression",
-		"min_sample_size",
+		"comparisonCount",
+		"maxRegression",
+		"minSampleSize",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -65,7 +65,7 @@ export function ToolExecutionFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'data': json['data'] == null ? undefined : json['data'],
         'error': json['error'] == null ? undefined : json['error'],
-        'logId': json['log_id'] == null ? undefined : json['log_id'],
+        'logId': json['logId'] == null ? undefined : json['logId'],
         'successful': json['successful'],
     };
 }
@@ -83,7 +83,7 @@ export function ToolExecutionToJSONTyped(value?: ToolExecution | null, ignoreDis
         
         'data': value['data'],
         'error': value['error'],
-        'log_id': value['logId'],
+        'logId': value['logId'],
         'successful': value['successful'],
     };
 }

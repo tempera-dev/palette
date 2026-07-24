@@ -17,15 +17,15 @@ pub struct TraceIngestedDrainReport {
     pub completed: i32,
     #[serde(rename = "consumed")]
     pub consumed: i32,
-    #[serde(rename = "dead_lettered")]
+    #[serde(rename = "deadLettered")]
     pub dead_lettered: i32,
-    #[serde(rename = "failed_work")]
+    #[serde(rename = "failedWork")]
     pub failed_work: i32,
-    #[serde(rename = "invalid_messages")]
+    #[serde(rename = "invalidMessages")]
     pub invalid_messages: i32,
     #[serde(rename = "retried")]
     pub retried: i32,
-    #[serde(rename = "trace_refs")]
+    #[serde(rename = "traceRefs")]
     pub trace_refs: Vec<models::QueuedTraceWork>,
 }
 

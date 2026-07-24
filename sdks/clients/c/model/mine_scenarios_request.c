@@ -54,7 +54,7 @@ cJSON *mine_scenarios_request_convertToJSON(mine_scenarios_request_t *mine_scena
 
     // mine_scenarios_request->jaccard_threshold
     if(mine_scenarios_request->jaccard_threshold) {
-    if(cJSON_AddNumberToObject(item, "jaccard_threshold", mine_scenarios_request->jaccard_threshold) == NULL) {
+    if(cJSON_AddNumberToObject(item, "jaccardThreshold", mine_scenarios_request->jaccard_threshold) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -64,7 +64,7 @@ cJSON *mine_scenarios_request_convertToJSON(mine_scenarios_request_t *mine_scena
     if (!mine_scenarios_request->trace_ids) {
         goto fail;
     }
-    cJSON *trace_ids = cJSON_AddArrayToObject(item, "trace_ids");
+    cJSON *trace_ids = cJSON_AddArrayToObject(item, "traceIds");
     if(trace_ids == NULL) {
         goto fail; //primitive container
     }
@@ -93,7 +93,7 @@ mine_scenarios_request_t *mine_scenarios_request_parseFromJSON(cJSON *mine_scena
     list_t *trace_idsList = NULL;
 
     // mine_scenarios_request->jaccard_threshold
-    cJSON *jaccard_threshold = cJSON_GetObjectItemCaseSensitive(mine_scenarios_requestJSON, "jaccard_threshold");
+    cJSON *jaccard_threshold = cJSON_GetObjectItemCaseSensitive(mine_scenarios_requestJSON, "jaccardThreshold");
     if (cJSON_IsNull(jaccard_threshold)) {
         jaccard_threshold = NULL;
     }
@@ -105,7 +105,7 @@ mine_scenarios_request_t *mine_scenarios_request_parseFromJSON(cJSON *mine_scena
     }
 
     // mine_scenarios_request->trace_ids
-    cJSON *trace_ids = cJSON_GetObjectItemCaseSensitive(mine_scenarios_requestJSON, "trace_ids");
+    cJSON *trace_ids = cJSON_GetObjectItemCaseSensitive(mine_scenarios_requestJSON, "traceIds");
     if (cJSON_IsNull(trace_ids)) {
         trace_ids = NULL;
     }

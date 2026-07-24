@@ -79,7 +79,7 @@ export function CreatePromptRequestFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'createdBy': json['created_by'] == null ? undefined : json['created_by'],
+        'createdBy': json['createdBy'] == null ? undefined : json['createdBy'],
         'description': json['description'] == null ? undefined : json['description'],
         'message': json['message'] == null ? undefined : json['message'],
         'name': json['name'],
@@ -98,7 +98,7 @@ export function CreatePromptRequestToJSONTyped(value?: CreatePromptRequest | nul
 
     return {
         
-        'created_by': value['createdBy'],
+        'createdBy': value['createdBy'],
         'description': value['description'],
         'message': value['message'],
         'name': value['name'],

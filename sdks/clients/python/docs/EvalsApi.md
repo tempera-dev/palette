@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**evals_run_deterministic**](EvalsApi.md#evals_run_deterministic) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/deterministic |
-[**evals_run_judge**](EvalsApi.md#evals_run_judge) | **POST** /v1/datasets/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}/evals/judge |
+[**evals_run_deterministic**](EvalsApi.md#evals_run_deterministic) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/deterministic |
+[**evals_run_judge**](EvalsApi.md#evals_run_judge) | **POST** /v1/datasets/{tenantId}/{projectId}/{datasetId}/versions/{versionId}/evals/judge |
 
 
 # **evals_run_deterministic**

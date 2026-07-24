@@ -4,26 +4,26 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**PromptsAPI_promptsAddVersion**](PromptsAPI.md#PromptsAPI_promptsAddVersion) | **POST** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
-[**PromptsAPI_promptsCreate**](PromptsAPI.md#PromptsAPI_promptsCreate) | **POST** /v1/prompts/{tenant_id}/{project_id} |
-[**PromptsAPI_promptsDiffVersions**](PromptsAPI.md#PromptsAPI_promptsDiffVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/diff |
-[**PromptsAPI_promptsGet**](PromptsAPI.md#PromptsAPI_promptsGet) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id} |
-[**PromptsAPI_promptsList**](PromptsAPI.md#PromptsAPI_promptsList) | **GET** /v1/prompts/{tenant_id}/{project_id} |
-[**PromptsAPI_promptsListVersions**](PromptsAPI.md#PromptsAPI_promptsListVersions) | **GET** /v1/prompts/{tenant_id}/{project_id}/{prompt_id}/versions |
+[**PromptsAPI_promptsAddVersion**](PromptsAPI.md#PromptsAPI_promptsAddVersion) | **POST** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |
+[**PromptsAPI_promptsCreate**](PromptsAPI.md#PromptsAPI_promptsCreate) | **POST** /v1/prompts/{tenantId}/{projectId} |
+[**PromptsAPI_promptsDiffVersions**](PromptsAPI.md#PromptsAPI_promptsDiffVersions) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/diff |
+[**PromptsAPI_promptsGet**](PromptsAPI.md#PromptsAPI_promptsGet) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId} |
+[**PromptsAPI_promptsList**](PromptsAPI.md#PromptsAPI_promptsList) | **GET** /v1/prompts/{tenantId}/{projectId} |
+[**PromptsAPI_promptsListVersions**](PromptsAPI.md#PromptsAPI_promptsListVersions) | **GET** /v1/prompts/{tenantId}/{projectId}/{promptId}/versions |
 
 
 # **PromptsAPI_promptsAddVersion**
 ```c
-prompt_version_t* PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, add_prompt_version_request_t *add_prompt_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+prompt_version_t* PromptsAPI_promptsAddVersion(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, add_prompt_version_request_t *add_prompt_version_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**prompt_id** | **char \*** | prompt_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**promptId** | **char \*** | prompt_id |
 **add_prompt_version_request** | **[add_prompt_version_request_t](add_prompt_version_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -48,15 +48,15 @@ No authorization required
 
 # **PromptsAPI_promptsCreate**
 ```c
-created_prompt_t* PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenant_id, char *project_id, create_prompt_request_t *create_prompt_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+created_prompt_t* PromptsAPI_promptsCreate(apiClient_t *apiClient, char *tenantId, char *projectId, create_prompt_request_t *create_prompt_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **create_prompt_request** | **[create_prompt_request_t](create_prompt_request.md) \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
@@ -81,16 +81,16 @@ No authorization required
 
 # **PromptsAPI_promptsDiffVersions**
 ```c
-prompt_version_diff_t* PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *from, char *to, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+prompt_version_diff_t* PromptsAPI_promptsDiffVersions(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, char *from, char *to, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**prompt_id** | **char \*** | prompt_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**promptId** | **char \*** | prompt_id |
 **from** | **char \*** |  |
 **to** | **char \*** |  |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
@@ -116,16 +116,16 @@ No authorization required
 
 # **PromptsAPI_promptsGet**
 ```c
-prompt_t* PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+prompt_t* PromptsAPI_promptsGet(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**prompt_id** | **char \*** | prompt_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**promptId** | **char \*** | prompt_id |
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
 **x_palette_api_key** | **char \*** | API key alternative for strict auth | [optional]
 **x_palette_project_id** | **char \*** | Strict-auth project scope | [optional]
@@ -149,15 +149,15 @@ No authorization required
 
 # **PromptsAPI_promptsList**
 ```c
-prompt_list_response_t* PromptsAPI_promptsList(apiClient_t *apiClient, char *tenant_id, char *project_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+prompt_list_response_t* PromptsAPI_promptsList(apiClient_t *apiClient, char *tenantId, char *projectId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
 **pageSize** | **int \*** | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional]
 **pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
@@ -183,16 +183,16 @@ No authorization required
 
 # **PromptsAPI_promptsListVersions**
 ```c
-prompt_version_list_response_t* PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenant_id, char *project_id, char *prompt_id, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+prompt_version_list_response_t* PromptsAPI_promptsListVersions(apiClient_t *apiClient, char *tenantId, char *projectId, char *promptId, int *pageSize, char *pageToken, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**project_id** | **char \*** | project_id |
-**prompt_id** | **char \*** | prompt_id |
+**tenantId** | **char \*** | tenant_id |
+**projectId** | **char \*** | project_id |
+**promptId** | **char \*** | prompt_id |
 **pageSize** | **int \*** | Maximum number of resources to return. Zero selects the server default; values above the service maximum are coerced to that maximum. | [optional]
 **pageToken** | **char \*** | Opaque continuation token returned by the preceding list request. | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]

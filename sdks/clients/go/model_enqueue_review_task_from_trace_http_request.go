@@ -21,12 +21,12 @@ var _ MappedNullable = &EnqueueReviewTaskFromTraceHttpRequest{}
 
 // EnqueueReviewTaskFromTraceHttpRequest struct for EnqueueReviewTaskFromTraceHttpRequest
 type EnqueueReviewTaskFromTraceHttpRequest struct {
-	DatasetCaseId NullableString `json:"dataset_case_id,omitempty"`
-	DatasetId NullableString `json:"dataset_id,omitempty"`
+	DatasetCaseId NullableString `json:"datasetCaseId,omitempty"`
+	DatasetId NullableString `json:"datasetId,omitempty"`
 	Priority NullableInt64 `json:"priority,omitempty"`
-	SpanId NullableString `json:"span_id,omitempty"`
-	TaskId NullableString `json:"task_id,omitempty"`
-	TraceId string `json:"trace_id"`
+	SpanId NullableString `json:"spanId,omitempty"`
+	TaskId NullableString `json:"taskId,omitempty"`
+	TraceId string `json:"traceId"`
 }
 
 type _EnqueueReviewTaskFromTraceHttpRequest EnqueueReviewTaskFromTraceHttpRequest
@@ -294,21 +294,21 @@ func (o EnqueueReviewTaskFromTraceHttpRequest) MarshalJSON() ([]byte, error) {
 func (o EnqueueReviewTaskFromTraceHttpRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.DatasetCaseId.IsSet() {
-		toSerialize["dataset_case_id"] = o.DatasetCaseId.Get()
+		toSerialize["datasetCaseId"] = o.DatasetCaseId.Get()
 	}
 	if o.DatasetId.IsSet() {
-		toSerialize["dataset_id"] = o.DatasetId.Get()
+		toSerialize["datasetId"] = o.DatasetId.Get()
 	}
 	if o.Priority.IsSet() {
 		toSerialize["priority"] = o.Priority.Get()
 	}
 	if o.SpanId.IsSet() {
-		toSerialize["span_id"] = o.SpanId.Get()
+		toSerialize["spanId"] = o.SpanId.Get()
 	}
 	if o.TaskId.IsSet() {
-		toSerialize["task_id"] = o.TaskId.Get()
+		toSerialize["taskId"] = o.TaskId.Get()
 	}
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -317,7 +317,7 @@ func (o *EnqueueReviewTaskFromTraceHttpRequest) UnmarshalJSON(data []byte) (err 
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"trace_id",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

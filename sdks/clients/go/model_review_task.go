@@ -22,18 +22,18 @@ var _ MappedNullable = &ReviewTask{}
 
 // ReviewTask struct for ReviewTask
 type ReviewTask struct {
-	CreatedAt time.Time `json:"created_at"`
-	DatasetCaseId *string `json:"dataset_case_id,omitempty"`
-	DatasetId *string `json:"dataset_id,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetCaseId *string `json:"datasetCaseId,omitempty"`
+	DatasetId *string `json:"datasetId,omitempty"`
 	Priority int64 `json:"priority"`
-	ProjectId string `json:"project_id"`
-	QueueId string `json:"queue_id"`
-	SpanId *string `json:"span_id,omitempty"`
+	ProjectId string `json:"projectId"`
+	QueueId string `json:"queueId"`
+	SpanId *string `json:"spanId,omitempty"`
 	State ReviewTaskState `json:"state"`
-	TaskId string `json:"task_id"`
-	TenantId string `json:"tenant_id"`
-	TraceId string `json:"trace_id"`
-	UpdatedAt time.Time `json:"updated_at"`
+	TaskId string `json:"taskId"`
+	TenantId string `json:"tenantId"`
+	TraceId string `json:"traceId"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 type _ReviewTask ReviewTask
@@ -386,24 +386,24 @@ func (o ReviewTask) MarshalJSON() ([]byte, error) {
 
 func (o ReviewTask) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	if !IsNil(o.DatasetCaseId) {
-		toSerialize["dataset_case_id"] = o.DatasetCaseId
+		toSerialize["datasetCaseId"] = o.DatasetCaseId
 	}
 	if !IsNil(o.DatasetId) {
-		toSerialize["dataset_id"] = o.DatasetId
+		toSerialize["datasetId"] = o.DatasetId
 	}
 	toSerialize["priority"] = o.Priority
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["queue_id"] = o.QueueId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["queueId"] = o.QueueId
 	if !IsNil(o.SpanId) {
-		toSerialize["span_id"] = o.SpanId
+		toSerialize["spanId"] = o.SpanId
 	}
 	toSerialize["state"] = o.State
-	toSerialize["task_id"] = o.TaskId
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["trace_id"] = o.TraceId
-	toSerialize["updated_at"] = o.UpdatedAt
+	toSerialize["taskId"] = o.TaskId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["traceId"] = o.TraceId
+	toSerialize["updatedAt"] = o.UpdatedAt
 	return toSerialize, nil
 }
 
@@ -412,15 +412,15 @@ func (o *ReviewTask) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
+		"createdAt",
 		"priority",
-		"project_id",
-		"queue_id",
+		"projectId",
+		"queueId",
 		"state",
-		"task_id",
-		"tenant_id",
-		"trace_id",
-		"updated_at",
+		"taskId",
+		"tenantId",
+		"traceId",
+		"updatedAt",
 	}
 
 	allProperties := make(map[string]interface{})

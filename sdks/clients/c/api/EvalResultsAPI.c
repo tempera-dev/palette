@@ -8,7 +8,7 @@
 
 
 tempera_evidence_receipt_t*
-EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenant_id, char *project_id, char *kind, char *external_id, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenantId, char *projectId, char *kind, char *externalId, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,40 +22,40 @@ EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenan
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/eval-results/{tenant_id}/{project_id}/tempera/{kind}/{external_id}");
+    char *localVarPath = strdup("/v1/eval-results/{tenantId}/{projectId}/tempera/{kind}/{externalId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
     if(!kind)
         goto end;
-    if(!external_id)
+    if(!externalId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(kind)+3 + strlen(external_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
-        goto end;
-    }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
-
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
-
-    // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(kind)+3 + strlen(external_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(kind)+3 + strlen(externalId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_kind = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(kind)+3 + strlen(external_id)+3 + sizeof("{ kind }") - 1;
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(kind)+3 + strlen(externalId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
+        goto end;
+    }
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
+
+    // Path Params
+    long sizeOfPathParams_kind = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(kind)+3 + strlen(externalId)+3 + sizeof("{ kind }") - 1;
     if(kind == NULL) {
         goto end;
     }
@@ -65,14 +65,14 @@ EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenan
     localVarPath = strReplace(localVarPath, localVarToReplace_kind, kind);
 
     // Path Params
-    long sizeOfPathParams_external_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(kind)+3 + strlen(external_id)+3 + sizeof("{ external_id }") - 1;
-    if(external_id == NULL) {
+    long sizeOfPathParams_externalId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(kind)+3 + strlen(externalId)+3 + sizeof("{ externalId }") - 1;
+    if(externalId == NULL) {
         goto end;
     }
-    char* localVarToReplace_external_id = malloc(sizeOfPathParams_external_id);
-    sprintf(localVarToReplace_external_id, "{%s}", "external_id");
+    char* localVarToReplace_externalId = malloc(sizeOfPathParams_externalId);
+    sprintf(localVarToReplace_externalId, "{%s}", "externalId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_external_id, external_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_externalId, externalId);
 
 
 
@@ -178,10 +178,10 @@ EvalResultsAPI_evalResultsGetTemperaEvidence(apiClient_t *apiClient, char *tenan
     list_freeList(localVarHeaderType);
     
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     free(localVarToReplace_kind);
-    free(localVarToReplace_external_id);
+    free(localVarToReplace_externalId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -226,7 +226,7 @@ end:
 }
 
 tempera_evidence_receipt_t*
-EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tenant_id, char *project_id, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tenantId, char *projectId, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -240,33 +240,33 @@ EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tena
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/eval-results/{tenant_id}/{project_id}/tempera/bundles");
+    char *localVarPath = strdup("/v1/eval-results/{tenantId}/{projectId}/tempera/bundles");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -395,8 +395,8 @@ EvalResultsAPI_evalResultsImportTemperaBundle(apiClient_t *apiClient, char *tena
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;
@@ -446,7 +446,7 @@ end:
 }
 
 tempera_evidence_receipt_t*
-EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *tenant_id, char *project_id, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *tenantId, char *projectId, import_tempera_evidence_request_t *import_tempera_evidence_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -460,33 +460,33 @@ EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *te
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/eval-results/{tenant_id}/{project_id}/tempera/decisions");
+    char *localVarPath = strdup("/v1/eval-results/{tenantId}/{projectId}/tempera/decisions");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
 
 
@@ -615,8 +615,8 @@ EvalResultsAPI_evalResultsRecordTemperaDecision(apiClient_t *apiClient, char *te
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

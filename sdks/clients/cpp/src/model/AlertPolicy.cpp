@@ -20,18 +20,18 @@ namespace model {
 
 AlertPolicy::AlertPolicy()
 {
-    m_Dedupe_window_seconds = 0L;
-    m_Dedupe_window_secondsIsSet = false;
-    m_Endpoint_url = utility::conversions::to_string_t("");
-    m_Endpoint_urlIsSet = false;
-    m_Fire_when_score_at_or_below = 0.0;
-    m_Fire_when_score_at_or_belowIsSet = false;
-    m_Maintenance_windowsIsSet = false;
-    m_Policy_id = utility::conversions::to_string_t("");
-    m_Policy_idIsSet = false;
+    m_DedupeWindowSeconds = 0L;
+    m_DedupeWindowSecondsIsSet = false;
+    m_EndpointUrl = utility::conversions::to_string_t("");
+    m_EndpointUrlIsSet = false;
+    m_FireWhenScoreAtOrBelow = 0.0;
+    m_FireWhenScoreAtOrBelowIsSet = false;
+    m_MaintenanceWindowsIsSet = false;
+    m_PolicyId = utility::conversions::to_string_t("");
+    m_PolicyIdIsSet = false;
     m_SeverityIsSet = false;
-    m_Signing_secret = utility::conversions::to_string_t("");
-    m_Signing_secretIsSet = false;
+    m_SigningSecret = utility::conversions::to_string_t("");
+    m_SigningSecretIsSet = false;
 }
 
 AlertPolicy::~AlertPolicy()
@@ -46,40 +46,40 @@ void AlertPolicy::validate()
 web::json::value AlertPolicy::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Dedupe_window_secondsIsSet)
+    if(m_DedupeWindowSecondsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("dedupe_window_seconds"))] = ModelBase::toJson(m_Dedupe_window_seconds);
+        val[utility::conversions::to_string_t(U("dedupeWindowSeconds"))] = ModelBase::toJson(m_DedupeWindowSeconds);
     }
-    if(m_Endpoint_urlIsSet)
+    if(m_EndpointUrlIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("endpoint_url"))] = ModelBase::toJson(m_Endpoint_url);
+        val[utility::conversions::to_string_t(U("endpointUrl"))] = ModelBase::toJson(m_EndpointUrl);
     }
-    if(m_Fire_when_score_at_or_belowIsSet)
+    if(m_FireWhenScoreAtOrBelowIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("fire_when_score_at_or_below"))] = ModelBase::toJson(m_Fire_when_score_at_or_below);
+        val[utility::conversions::to_string_t(U("fireWhenScoreAtOrBelow"))] = ModelBase::toJson(m_FireWhenScoreAtOrBelow);
     }
-    if(m_Maintenance_windowsIsSet)
+    if(m_MaintenanceWindowsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("maintenance_windows"))] = ModelBase::toJson(m_Maintenance_windows);
+        val[utility::conversions::to_string_t(U("maintenanceWindows"))] = ModelBase::toJson(m_MaintenanceWindows);
     }
-    if(m_Policy_idIsSet)
+    if(m_PolicyIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("policy_id"))] = ModelBase::toJson(m_Policy_id);
+        val[utility::conversions::to_string_t(U("policyId"))] = ModelBase::toJson(m_PolicyId);
     }
     if(m_SeverityIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("severity"))] = ModelBase::toJson(m_Severity);
     }
-    if(m_Signing_secretIsSet)
+    if(m_SigningSecretIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("signing_secret"))] = ModelBase::toJson(m_Signing_secret);
+        val[utility::conversions::to_string_t(U("signingSecret"))] = ModelBase::toJson(m_SigningSecret);
     }
 
     return val;
@@ -88,9 +88,9 @@ web::json::value AlertPolicy::toJson() const
 bool AlertPolicy::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("dedupe_window_seconds"))))
+    if(val.has_field(utility::conversions::to_string_t(U("dedupeWindowSeconds"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dedupe_window_seconds")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("dedupeWindowSeconds")));
         if(!fieldValue.is_null())
         {
             int64_t refVal_setDedupeWindowSeconds;
@@ -99,9 +99,9 @@ bool AlertPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("endpoint_url"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endpointUrl"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endpoint_url")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endpointUrl")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEndpointUrl;
@@ -110,9 +110,9 @@ bool AlertPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("fire_when_score_at_or_below"))))
+    if(val.has_field(utility::conversions::to_string_t(U("fireWhenScoreAtOrBelow"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("fire_when_score_at_or_below")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("fireWhenScoreAtOrBelow")));
         if(!fieldValue.is_null())
         {
             double refVal_setFireWhenScoreAtOrBelow;
@@ -121,9 +121,9 @@ bool AlertPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("maintenance_windows"))))
+    if(val.has_field(utility::conversions::to_string_t(U("maintenanceWindows"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maintenance_windows")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("maintenanceWindows")));
         if(!fieldValue.is_null())
         {
             std::vector<std::shared_ptr<MaintenanceWindow>> refVal_setMaintenanceWindows;
@@ -132,9 +132,9 @@ bool AlertPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("policy_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("policyId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("policy_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("policyId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setPolicyId;
@@ -154,9 +154,9 @@ bool AlertPolicy::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("signing_secret"))))
+    if(val.has_field(utility::conversions::to_string_t(U("signingSecret"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signing_secret")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("signingSecret")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSigningSecret;
@@ -175,33 +175,33 @@ void AlertPolicy::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Dedupe_window_secondsIsSet)
+    if(m_DedupeWindowSecondsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dedupe_window_seconds")), m_Dedupe_window_seconds));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("dedupeWindowSeconds")), m_DedupeWindowSeconds));
     }
-    if(m_Endpoint_urlIsSet)
+    if(m_EndpointUrlIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endpoint_url")), m_Endpoint_url));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endpointUrl")), m_EndpointUrl));
     }
-    if(m_Fire_when_score_at_or_belowIsSet)
+    if(m_FireWhenScoreAtOrBelowIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("fire_when_score_at_or_below")), m_Fire_when_score_at_or_below));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("fireWhenScoreAtOrBelow")), m_FireWhenScoreAtOrBelow));
     }
-    if(m_Maintenance_windowsIsSet)
+    if(m_MaintenanceWindowsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maintenance_windows")), m_Maintenance_windows));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("maintenanceWindows")), m_MaintenanceWindows));
     }
-    if(m_Policy_idIsSet)
+    if(m_PolicyIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("policy_id")), m_Policy_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("policyId")), m_PolicyId));
     }
     if(m_SeverityIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("severity")), m_Severity));
     }
-    if(m_Signing_secretIsSet)
+    if(m_SigningSecretIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signing_secret")), m_Signing_secret));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("signingSecret")), m_SigningSecret));
     }
 }
 
@@ -214,34 +214,34 @@ bool AlertPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("dedupe_window_seconds"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("dedupeWindowSeconds"))))
     {
         int64_t refVal_setDedupeWindowSeconds;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dedupe_window_seconds"))), refVal_setDedupeWindowSeconds );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("dedupeWindowSeconds"))), refVal_setDedupeWindowSeconds );
         setDedupeWindowSeconds(refVal_setDedupeWindowSeconds);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("endpoint_url"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endpointUrl"))))
     {
         utility::string_t refVal_setEndpointUrl;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endpoint_url"))), refVal_setEndpointUrl );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endpointUrl"))), refVal_setEndpointUrl );
         setEndpointUrl(refVal_setEndpointUrl);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("fire_when_score_at_or_below"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("fireWhenScoreAtOrBelow"))))
     {
         double refVal_setFireWhenScoreAtOrBelow;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("fire_when_score_at_or_below"))), refVal_setFireWhenScoreAtOrBelow );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("fireWhenScoreAtOrBelow"))), refVal_setFireWhenScoreAtOrBelow );
         setFireWhenScoreAtOrBelow(refVal_setFireWhenScoreAtOrBelow);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("maintenance_windows"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("maintenanceWindows"))))
     {
         std::vector<std::shared_ptr<MaintenanceWindow>> refVal_setMaintenanceWindows;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maintenance_windows"))), refVal_setMaintenanceWindows );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("maintenanceWindows"))), refVal_setMaintenanceWindows );
         setMaintenanceWindows(refVal_setMaintenanceWindows);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("policy_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("policyId"))))
     {
         utility::string_t refVal_setPolicyId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("policy_id"))), refVal_setPolicyId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("policyId"))), refVal_setPolicyId );
         setPolicyId(refVal_setPolicyId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("severity"))))
@@ -250,10 +250,10 @@ bool AlertPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("severity"))), refVal_setSeverity );
         setSeverity(refVal_setSeverity);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("signing_secret"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("signingSecret"))))
     {
         utility::string_t refVal_setSigningSecret;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signing_secret"))), refVal_setSigningSecret );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("signingSecret"))), refVal_setSigningSecret );
         setSigningSecret(refVal_setSigningSecret);
     }
     return ok;
@@ -262,106 +262,106 @@ bool AlertPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
 
 int64_t AlertPolicy::getDedupeWindowSeconds() const
 {
-    return m_Dedupe_window_seconds;
+    return m_DedupeWindowSeconds;
 }
 
 void AlertPolicy::setDedupeWindowSeconds(int64_t value)
 {
-    m_Dedupe_window_seconds = value;
-    m_Dedupe_window_secondsIsSet = true;
+    m_DedupeWindowSeconds = value;
+    m_DedupeWindowSecondsIsSet = true;
 }
 
 bool AlertPolicy::dedupeWindowSecondsIsSet() const
 {
-    return m_Dedupe_window_secondsIsSet;
+    return m_DedupeWindowSecondsIsSet;
 }
 
-void AlertPolicy::unsetDedupe_window_seconds()
+void AlertPolicy::unsetDedupeWindowSeconds()
 {
-    m_Dedupe_window_secondsIsSet = false;
+    m_DedupeWindowSecondsIsSet = false;
 }
 utility::string_t AlertPolicy::getEndpointUrl() const
 {
-    return m_Endpoint_url;
+    return m_EndpointUrl;
 }
 
 
 void AlertPolicy::setEndpointUrl(const utility::string_t& value)
 {
-    m_Endpoint_url = value;
-    m_Endpoint_urlIsSet = true;
+    m_EndpointUrl = value;
+    m_EndpointUrlIsSet = true;
 }
 
 bool AlertPolicy::endpointUrlIsSet() const
 {
-    return m_Endpoint_urlIsSet;
+    return m_EndpointUrlIsSet;
 }
 
-void AlertPolicy::unsetEndpoint_url()
+void AlertPolicy::unsetEndpointUrl()
 {
-    m_Endpoint_urlIsSet = false;
+    m_EndpointUrlIsSet = false;
 }
 double AlertPolicy::getFireWhenScoreAtOrBelow() const
 {
-    return m_Fire_when_score_at_or_below;
+    return m_FireWhenScoreAtOrBelow;
 }
 
 void AlertPolicy::setFireWhenScoreAtOrBelow(double value)
 {
-    m_Fire_when_score_at_or_below = value;
-    m_Fire_when_score_at_or_belowIsSet = true;
+    m_FireWhenScoreAtOrBelow = value;
+    m_FireWhenScoreAtOrBelowIsSet = true;
 }
 
 bool AlertPolicy::fireWhenScoreAtOrBelowIsSet() const
 {
-    return m_Fire_when_score_at_or_belowIsSet;
+    return m_FireWhenScoreAtOrBelowIsSet;
 }
 
-void AlertPolicy::unsetFire_when_score_at_or_below()
+void AlertPolicy::unsetFireWhenScoreAtOrBelow()
 {
-    m_Fire_when_score_at_or_belowIsSet = false;
+    m_FireWhenScoreAtOrBelowIsSet = false;
 }
 std::vector<std::shared_ptr<MaintenanceWindow>> AlertPolicy::getMaintenanceWindows() const
 {
-    return m_Maintenance_windows;
+    return m_MaintenanceWindows;
 }
 
 
 void AlertPolicy::setMaintenanceWindows(const std::vector<std::shared_ptr<MaintenanceWindow>>& value)
 {
-    m_Maintenance_windows = value;
-    m_Maintenance_windowsIsSet = true;
+    m_MaintenanceWindows = value;
+    m_MaintenanceWindowsIsSet = true;
 }
 
 bool AlertPolicy::maintenanceWindowsIsSet() const
 {
-    return m_Maintenance_windowsIsSet;
+    return m_MaintenanceWindowsIsSet;
 }
 
-void AlertPolicy::unsetMaintenance_windows()
+void AlertPolicy::unsetMaintenanceWindows()
 {
-    m_Maintenance_windowsIsSet = false;
+    m_MaintenanceWindowsIsSet = false;
 }
 utility::string_t AlertPolicy::getPolicyId() const
 {
-    return m_Policy_id;
+    return m_PolicyId;
 }
 
 
 void AlertPolicy::setPolicyId(const utility::string_t& value)
 {
-    m_Policy_id = value;
-    m_Policy_idIsSet = true;
+    m_PolicyId = value;
+    m_PolicyIdIsSet = true;
 }
 
 bool AlertPolicy::policyIdIsSet() const
 {
-    return m_Policy_idIsSet;
+    return m_PolicyIdIsSet;
 }
 
-void AlertPolicy::unsetPolicy_id()
+void AlertPolicy::unsetPolicyId()
 {
-    m_Policy_idIsSet = false;
+    m_PolicyIdIsSet = false;
 }
 std::shared_ptr<AlertSeverity> AlertPolicy::getSeverity() const
 {
@@ -386,24 +386,24 @@ void AlertPolicy::unsetSeverity()
 }
 utility::string_t AlertPolicy::getSigningSecret() const
 {
-    return m_Signing_secret;
+    return m_SigningSecret;
 }
 
 
 void AlertPolicy::setSigningSecret(const utility::string_t& value)
 {
-    m_Signing_secret = value;
-    m_Signing_secretIsSet = true;
+    m_SigningSecret = value;
+    m_SigningSecretIsSet = true;
 }
 
 bool AlertPolicy::signingSecretIsSet() const
 {
-    return m_Signing_secretIsSet;
+    return m_SigningSecretIsSet;
 }
 
-void AlertPolicy::unsetSigning_secret()
+void AlertPolicy::unsetSigningSecret()
 {
-    m_Signing_secretIsSet = false;
+    m_SigningSecretIsSet = false;
 }
 
 }

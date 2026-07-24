@@ -64,7 +64,7 @@ public:
 
     utility::string_t getActorApiKeyId() const;
     bool actorApiKeyIdIsSet() const;
-    void unsetActor_api_key_id();
+    void unsetActorApiKeyId();
     void setActorApiKeyId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getAttributes() const;
@@ -74,17 +74,17 @@ public:
 
     utility::string_t getAuditEventId() const;
     bool auditEventIdIsSet() const;
-    void unsetAudit_event_id();
+    void unsetAuditEventId();
     void setAuditEventId(const utility::string_t& value);
 
     utility::datetime getCreatedAt() const;
     bool createdAtIsSet() const;
-    void unsetCreated_at();
+    void unsetCreatedAt();
     void setCreatedAt(const utility::datetime& value);
 
     utility::string_t getEnvironmentId() const;
     bool environmentIdIsSet() const;
-    void unsetEnvironment_id();
+    void unsetEnvironmentId();
     void setEnvironmentId(const utility::string_t& value);
 
     std::shared_ptr<AuditOutcome> getOutcome() const;
@@ -94,7 +94,7 @@ public:
 
     utility::string_t getProjectId() const;
     bool projectIdIsSet() const;
-    void unsetProject_id();
+    void unsetProjectId();
     void setProjectId(const utility::string_t& value);
 
     utility::string_t getReason() const;
@@ -104,17 +104,17 @@ public:
 
     utility::string_t getResourceId() const;
     bool resourceIdIsSet() const;
-    void unsetResource_id();
+    void unsetResourceId();
     void setResourceId(const utility::string_t& value);
 
     utility::string_t getResourceType() const;
     bool resourceTypeIsSet() const;
-    void unsetResource_type();
+    void unsetResourceType();
     void setResourceType(const utility::string_t& value);
 
     utility::string_t getTenantId() const;
     bool tenantIdIsSet() const;
-    void unsetTenant_id();
+    void unsetTenantId();
     void setTenantId(const utility::string_t& value);
 
 
@@ -122,38 +122,38 @@ protected:
     std::shared_ptr<AuditAction> m_Action;
     bool m_ActionIsSet;
 
-    utility::string_t m_Actor_api_key_id;
-    bool m_Actor_api_key_idIsSet;
+    utility::string_t m_ActorApiKeyId;
+    bool m_ActorApiKeyIdIsSet;
 
     std::shared_ptr<AnyType> m_Attributes;
     bool m_AttributesIsSet;
 
-    utility::string_t m_Audit_event_id;
-    bool m_Audit_event_idIsSet;
+    utility::string_t m_AuditEventId;
+    bool m_AuditEventIdIsSet;
 
-    utility::datetime m_Created_at;
-    bool m_Created_atIsSet;
+    utility::datetime m_CreatedAt;
+    bool m_CreatedAtIsSet;
 
-    utility::string_t m_Environment_id;
-    bool m_Environment_idIsSet;
+    utility::string_t m_EnvironmentId;
+    bool m_EnvironmentIdIsSet;
 
     std::shared_ptr<AuditOutcome> m_Outcome;
     bool m_OutcomeIsSet;
 
-    utility::string_t m_Project_id;
-    bool m_Project_idIsSet;
+    utility::string_t m_ProjectId;
+    bool m_ProjectIdIsSet;
 
     utility::string_t m_Reason;
     bool m_ReasonIsSet;
 
-    utility::string_t m_Resource_id;
-    bool m_Resource_idIsSet;
+    utility::string_t m_ResourceId;
+    bool m_ResourceIdIsSet;
 
-    utility::string_t m_Resource_type;
-    bool m_Resource_typeIsSet;
+    utility::string_t m_ResourceType;
+    bool m_ResourceTypeIsSet;
 
-    utility::string_t m_Tenant_id;
-    bool m_Tenant_idIsSet;
+    utility::string_t m_TenantId;
+    bool m_TenantIdIsSet;
 
 };
 

@@ -212,6 +212,7 @@ pub struct JudgeBrokerRequest {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct JudgeBrokerOutcome {
     pub result: ScoreResult,
     pub audit: JudgeAuditRecord,
@@ -219,6 +220,7 @@ pub struct JudgeBrokerOutcome {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct JudgeAuditRecord {
     pub judge_call_id: JudgeCallId,
     pub tenant_id: TenantId,
@@ -243,6 +245,7 @@ pub struct JudgeAuditRecord {
 /// margin (billing-credits-contract §11). Only customer-facing fields appear here,
 /// including `charged_cost` (the amount the customer actually pays).
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct PublicJudgeAuditRecord {
     pub judge_call_id: JudgeCallId,
     pub tenant_id: TenantId,

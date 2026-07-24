@@ -49,11 +49,11 @@ public class PromptVersion {
   @javax.annotation.Nonnull
   private PromptVersionMetadata metadata;
 
-  public static final String JSON_PROPERTY_PROJECT_ID = "project_id";
+  public static final String JSON_PROPERTY_PROJECT_ID = "projectId";
   @javax.annotation.Nonnull
   private String projectId;
 
-  public static final String JSON_PROPERTY_PROMPT_ID = "prompt_id";
+  public static final String JSON_PROPERTY_PROMPT_ID = "promptId";
   @javax.annotation.Nonnull
   private String promptId;
 
@@ -61,15 +61,15 @@ public class PromptVersion {
   @javax.annotation.Nonnull
   private PromptTemplate template;
 
-  public static final String JSON_PROPERTY_TENANT_ID = "tenant_id";
+  public static final String JSON_PROPERTY_TENANT_ID = "tenantId";
   @javax.annotation.Nonnull
   private String tenantId;
 
-  public static final String JSON_PROPERTY_VERSION_ID = "version_id";
+  public static final String JSON_PROPERTY_VERSION_ID = "versionId";
   @javax.annotation.Nonnull
   private String versionId;
 
-  public static final String JSON_PROPERTY_VERSION_NUMBER = "version_number";
+  public static final String JSON_PROPERTY_VERSION_NUMBER = "versionNumber";
   @javax.annotation.Nonnull
   private Integer versionNumber;
 
@@ -334,14 +334,14 @@ public class PromptVersion {
       joiner.add(getMetadata().toUrlQueryString(prefix + "metadata" + suffix));
     }
 
-    // add `project_id` to the URL query string
+    // add `projectId` to the URL query string
     if (getProjectId() != null) {
-      joiner.add(String.format("%sproject_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sprojectId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getProjectId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `prompt_id` to the URL query string
+    // add `promptId` to the URL query string
     if (getPromptId() != null) {
-      joiner.add(String.format("%sprompt_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spromptId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPromptId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `template` to the URL query string
@@ -349,19 +349,19 @@ public class PromptVersion {
       joiner.add(getTemplate().toUrlQueryString(prefix + "template" + suffix));
     }
 
-    // add `tenant_id` to the URL query string
+    // add `tenantId` to the URL query string
     if (getTenantId() != null) {
-      joiner.add(String.format("%stenant_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%stenantId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTenantId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `version_id` to the URL query string
+    // add `versionId` to the URL query string
     if (getVersionId() != null) {
-      joiner.add(String.format("%sversion_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sversionId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getVersionId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `version_number` to the URL query string
+    // add `versionNumber` to the URL query string
     if (getVersionNumber() != null) {
-      joiner.add(String.format("%sversion_number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getVersionNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sversionNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getVersionNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

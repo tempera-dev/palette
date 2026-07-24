@@ -13,37 +13,37 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EvalReproducibility {
-    #[serde(rename = "agent_release_id")]
+    #[serde(rename = "agentReleaseId")]
     pub agent_release_id: String,
-    #[serde(rename = "code_hash", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "codeHash", skip_serializing_if = "Option::is_none")]
     pub code_hash: Option<String>,
-    #[serde(rename = "dataset_case_id")]
+    #[serde(rename = "datasetCaseId")]
     pub dataset_case_id: String,
-    #[serde(rename = "dataset_version_id")]
+    #[serde(rename = "datasetVersionId")]
     pub dataset_version_id: String,
-    #[serde(rename = "evaluator_version_id")]
+    #[serde(rename = "evaluatorVersionId")]
     pub evaluator_version_id: String,
-    #[serde(rename = "input_artifact_hashes")]
+    #[serde(rename = "inputArtifactHashes")]
     pub input_artifact_hashes: Vec<String>,
-    #[serde(rename = "judge_model_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "judgeModelId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub judge_model_id: Option<Option<String>>,
-    #[serde(rename = "judge_parameters", deserialize_with = "Option::deserialize")]
+    #[serde(rename = "judgeParameters", deserialize_with = "Option::deserialize")]
     pub judge_parameters: Option<serde_json::Value>,
-    #[serde(rename = "judge_provider", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "judgeProvider", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub judge_provider: Option<Option<String>>,
-    #[serde(rename = "judge_rubric_version", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "judgeRubricVersion", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub judge_rubric_version: Option<Option<String>>,
-    #[serde(rename = "judge_seed", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "judgeSeed", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub judge_seed: Option<Option<i64>>,
-    #[serde(rename = "normalizer_version")]
+    #[serde(rename = "normalizerVersion")]
     pub normalizer_version: String,
-    #[serde(rename = "prompt_version_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "promptVersionId", skip_serializing_if = "Option::is_none")]
     pub prompt_version_id: Option<String>,
-    #[serde(rename = "trace_schema_version")]
+    #[serde(rename = "traceSchemaVersion")]
     pub trace_schema_version: i32,
-    #[serde(rename = "wasi_abi_version", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "wasiAbiVersion", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub wasi_abi_version: Option<Option<String>>,
-    #[serde(rename = "wasm_hash", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "wasmHash", skip_serializing_if = "Option::is_none")]
     pub wasm_hash: Option<String>,
 }
 

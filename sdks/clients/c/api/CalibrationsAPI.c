@@ -8,7 +8,7 @@
 
 
 calibration_report_t*
-CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenant_id, char *project_id, char *dataset_id, char *version_id, run_calibration_http_request_t *run_calibration_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
+CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenantId, char *projectId, char *datasetId, char *versionId, run_calibration_http_request_t *run_calibration_http_request, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -22,57 +22,57 @@ CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenant_id, char *p
     apiClient->response_code = 0;
 
     // create the path
-    char *localVarPath = strdup("/v1/calibrations/{tenant_id}/{project_id}/{dataset_id}/versions/{version_id}");
+    char *localVarPath = strdup("/v1/calibrations/{tenantId}/{projectId}/{datasetId}/versions/{versionId}");
 
-    if(!tenant_id)
+    if(!tenantId)
         goto end;
-    if(!project_id)
+    if(!projectId)
         goto end;
-    if(!dataset_id)
+    if(!datasetId)
         goto end;
-    if(!version_id)
+    if(!versionId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_tenant_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + strlen(version_id)+3 + sizeof("{ tenant_id }") - 1;
-    if(tenant_id == NULL) {
+    long sizeOfPathParams_tenantId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + strlen(versionId)+3 + sizeof("{ tenantId }") - 1;
+    if(tenantId == NULL) {
         goto end;
     }
-    char* localVarToReplace_tenant_id = malloc(sizeOfPathParams_tenant_id);
-    sprintf(localVarToReplace_tenant_id, "{%s}", "tenant_id");
+    char* localVarToReplace_tenantId = malloc(sizeOfPathParams_tenantId);
+    sprintf(localVarToReplace_tenantId, "{%s}", "tenantId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_tenant_id, tenant_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_tenantId, tenantId);
 
     // Path Params
-    long sizeOfPathParams_project_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + strlen(version_id)+3 + sizeof("{ project_id }") - 1;
-    if(project_id == NULL) {
+    long sizeOfPathParams_projectId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + strlen(versionId)+3 + sizeof("{ projectId }") - 1;
+    if(projectId == NULL) {
         goto end;
     }
-    char* localVarToReplace_project_id = malloc(sizeOfPathParams_project_id);
-    sprintf(localVarToReplace_project_id, "{%s}", "project_id");
+    char* localVarToReplace_projectId = malloc(sizeOfPathParams_projectId);
+    sprintf(localVarToReplace_projectId, "{%s}", "projectId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_project_id, project_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_projectId, projectId);
 
     // Path Params
-    long sizeOfPathParams_dataset_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + strlen(version_id)+3 + sizeof("{ dataset_id }") - 1;
-    if(dataset_id == NULL) {
+    long sizeOfPathParams_datasetId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + strlen(versionId)+3 + sizeof("{ datasetId }") - 1;
+    if(datasetId == NULL) {
         goto end;
     }
-    char* localVarToReplace_dataset_id = malloc(sizeOfPathParams_dataset_id);
-    sprintf(localVarToReplace_dataset_id, "{%s}", "dataset_id");
+    char* localVarToReplace_datasetId = malloc(sizeOfPathParams_datasetId);
+    sprintf(localVarToReplace_datasetId, "{%s}", "datasetId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_dataset_id, dataset_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_datasetId, datasetId);
 
     // Path Params
-    long sizeOfPathParams_version_id = strlen(tenant_id)+3 + strlen(project_id)+3 + strlen(dataset_id)+3 + strlen(version_id)+3 + sizeof("{ version_id }") - 1;
-    if(version_id == NULL) {
+    long sizeOfPathParams_versionId = strlen(tenantId)+3 + strlen(projectId)+3 + strlen(datasetId)+3 + strlen(versionId)+3 + sizeof("{ versionId }") - 1;
+    if(versionId == NULL) {
         goto end;
     }
-    char* localVarToReplace_version_id = malloc(sizeOfPathParams_version_id);
-    sprintf(localVarToReplace_version_id, "{%s}", "version_id");
+    char* localVarToReplace_versionId = malloc(sizeOfPathParams_versionId);
+    sprintf(localVarToReplace_versionId, "{%s}", "versionId");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_version_id, version_id);
+    localVarPath = strReplace(localVarPath, localVarToReplace_versionId, versionId);
 
 
 
@@ -189,10 +189,10 @@ CalibrationsAPI_calibrationsRun(apiClient_t *apiClient, char *tenant_id, char *p
     list_freeList(localVarHeaderType);
     list_freeList(localVarContentType);
     free(localVarPath);
-    free(localVarToReplace_tenant_id);
-    free(localVarToReplace_project_id);
-    free(localVarToReplace_dataset_id);
-    free(localVarToReplace_version_id);
+    free(localVarToReplace_tenantId);
+    free(localVarToReplace_projectId);
+    free(localVarToReplace_datasetId);
+    free(localVarToReplace_versionId);
     if (keyHeader_authorization) {
         free(keyHeader_authorization);
         keyHeader_authorization = NULL;

@@ -80,10 +80,10 @@ export function CreateScenarioRequestFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'exemplarTraceId': json['exemplar_trace_id'] == null ? undefined : json['exemplar_trace_id'],
-        'expectedOutcome': json['expected_outcome'] == null ? undefined : json['expected_outcome'],
-        'failureMode': json['failure_mode'] == null ? undefined : FailureModeFromJSON(json['failure_mode']),
-        'sourceTraceIds': json['source_trace_ids'],
+        'exemplarTraceId': json['exemplarTraceId'] == null ? undefined : json['exemplarTraceId'],
+        'expectedOutcome': json['expectedOutcome'] == null ? undefined : json['expectedOutcome'],
+        'failureMode': json['failureMode'] == null ? undefined : FailureModeFromJSON(json['failureMode']),
+        'sourceTraceIds': json['sourceTraceIds'],
         'title': json['title'],
     };
 }
@@ -99,10 +99,10 @@ export function CreateScenarioRequestToJSONTyped(value?: CreateScenarioRequest |
 
     return {
         
-        'exemplar_trace_id': value['exemplarTraceId'],
-        'expected_outcome': value['expectedOutcome'],
-        'failure_mode': FailureModeToJSON(value['failureMode']),
-        'source_trace_ids': value['sourceTraceIds'],
+        'exemplarTraceId': value['exemplarTraceId'],
+        'expectedOutcome': value['expectedOutcome'],
+        'failureMode': FailureModeToJSON(value['failureMode']),
+        'sourceTraceIds': value['sourceTraceIds'],
         'title': value['title'],
     };
 }

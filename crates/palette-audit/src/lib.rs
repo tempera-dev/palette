@@ -69,6 +69,7 @@ pub struct AuditEventInsert {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct AuditEvent {
     pub audit_event_id: AuditEventId,
     pub tenant_id: TenantId,

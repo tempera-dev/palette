@@ -22,39 +22,39 @@ CanonicalSpan::CanonicalSpan()
 {
     m_AttributesIsSet = false;
     m_CostIsSet = false;
-    m_End_time = utility::datetime();
-    m_End_timeIsSet = false;
-    m_Environment_id = utility::conversions::to_string_t("");
-    m_Environment_idIsSet = false;
-    m_Input_refIsSet = false;
+    m_EndTime = utility::datetime();
+    m_EndTimeIsSet = false;
+    m_EnvironmentId = utility::conversions::to_string_t("");
+    m_EnvironmentIdIsSet = false;
+    m_InputRefIsSet = false;
     m_Kind = utility::conversions::to_string_t("");
     m_KindIsSet = false;
     m_ModelIsSet = false;
     m_Name = utility::conversions::to_string_t("");
     m_NameIsSet = false;
-    m_Normalizer_version = utility::conversions::to_string_t("");
-    m_Normalizer_versionIsSet = false;
-    m_Output_refIsSet = false;
-    m_Parent_span_id = utility::conversions::to_string_t("");
-    m_Parent_span_idIsSet = false;
-    m_Project_id = utility::conversions::to_string_t("");
-    m_Project_idIsSet = false;
-    m_Raw_refIsSet = false;
-    m_Schema_version = 0;
-    m_Schema_versionIsSet = false;
+    m_NormalizerVersion = utility::conversions::to_string_t("");
+    m_NormalizerVersionIsSet = false;
+    m_OutputRefIsSet = false;
+    m_ParentSpanId = utility::conversions::to_string_t("");
+    m_ParentSpanIdIsSet = false;
+    m_ProjectId = utility::conversions::to_string_t("");
+    m_ProjectIdIsSet = false;
+    m_RawRefIsSet = false;
+    m_SchemaVersion = 0;
+    m_SchemaVersionIsSet = false;
     m_Seq = 0L;
     m_SeqIsSet = false;
-    m_Span_id = utility::conversions::to_string_t("");
-    m_Span_idIsSet = false;
-    m_Start_time = utility::datetime();
-    m_Start_timeIsSet = false;
+    m_SpanId = utility::conversions::to_string_t("");
+    m_SpanIdIsSet = false;
+    m_StartTime = utility::datetime();
+    m_StartTimeIsSet = false;
     m_StatusIsSet = false;
-    m_Tenant_id = utility::conversions::to_string_t("");
-    m_Tenant_idIsSet = false;
+    m_TenantId = utility::conversions::to_string_t("");
+    m_TenantIdIsSet = false;
     m_TokensIsSet = false;
-    m_Trace_id = utility::conversions::to_string_t("");
-    m_Trace_idIsSet = false;
-    m_Unmapped_attrsIsSet = false;
+    m_TraceId = utility::conversions::to_string_t("");
+    m_TraceIdIsSet = false;
+    m_UnmappedAttrsIsSet = false;
 }
 
 CanonicalSpan::~CanonicalSpan()
@@ -79,20 +79,20 @@ web::json::value CanonicalSpan::toJson() const
         
         val[utility::conversions::to_string_t(U("cost"))] = ModelBase::toJson(m_Cost);
     }
-    if(m_End_timeIsSet)
+    if(m_EndTimeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("end_time"))] = ModelBase::toJson(m_End_time);
+        val[utility::conversions::to_string_t(U("endTime"))] = ModelBase::toJson(m_EndTime);
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("environment_id"))] = ModelBase::toJson(m_Environment_id);
+        val[utility::conversions::to_string_t(U("environmentId"))] = ModelBase::toJson(m_EnvironmentId);
     }
-    if(m_Input_refIsSet)
+    if(m_InputRefIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("input_ref"))] = ModelBase::toJson(m_Input_ref);
+        val[utility::conversions::to_string_t(U("inputRef"))] = ModelBase::toJson(m_InputRef);
     }
     if(m_KindIsSet)
     {   
@@ -109,75 +109,75 @@ web::json::value CanonicalSpan::toJson() const
         
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
-    if(m_Normalizer_versionIsSet)
+    if(m_NormalizerVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("normalizer_version"))] = ModelBase::toJson(m_Normalizer_version);
+        val[utility::conversions::to_string_t(U("normalizerVersion"))] = ModelBase::toJson(m_NormalizerVersion);
     }
-    if(m_Output_refIsSet)
+    if(m_OutputRefIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("output_ref"))] = ModelBase::toJson(m_Output_ref);
+        val[utility::conversions::to_string_t(U("outputRef"))] = ModelBase::toJson(m_OutputRef);
     }
-    if(m_Parent_span_idIsSet)
+    if(m_ParentSpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("parent_span_id"))] = ModelBase::toJson(m_Parent_span_id);
+        val[utility::conversions::to_string_t(U("parentSpanId"))] = ModelBase::toJson(m_ParentSpanId);
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("project_id"))] = ModelBase::toJson(m_Project_id);
+        val[utility::conversions::to_string_t(U("projectId"))] = ModelBase::toJson(m_ProjectId);
     }
-    if(m_Raw_refIsSet)
+    if(m_RawRefIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("raw_ref"))] = ModelBase::toJson(m_Raw_ref);
+        val[utility::conversions::to_string_t(U("rawRef"))] = ModelBase::toJson(m_RawRef);
     }
-    if(m_Schema_versionIsSet)
+    if(m_SchemaVersionIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("schema_version"))] = ModelBase::toJson(m_Schema_version);
+        val[utility::conversions::to_string_t(U("schemaVersion"))] = ModelBase::toJson(m_SchemaVersion);
     }
     if(m_SeqIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("seq"))] = ModelBase::toJson(m_Seq);
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("span_id"))] = ModelBase::toJson(m_Span_id);
+        val[utility::conversions::to_string_t(U("spanId"))] = ModelBase::toJson(m_SpanId);
     }
-    if(m_Start_timeIsSet)
+    if(m_StartTimeIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("start_time"))] = ModelBase::toJson(m_Start_time);
+        val[utility::conversions::to_string_t(U("startTime"))] = ModelBase::toJson(m_StartTime);
     }
     if(m_StatusIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("tenant_id"))] = ModelBase::toJson(m_Tenant_id);
+        val[utility::conversions::to_string_t(U("tenantId"))] = ModelBase::toJson(m_TenantId);
     }
     if(m_TokensIsSet)
     {   
         
         val[utility::conversions::to_string_t(U("tokens"))] = ModelBase::toJson(m_Tokens);
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("trace_id"))] = ModelBase::toJson(m_Trace_id);
+        val[utility::conversions::to_string_t(U("traceId"))] = ModelBase::toJson(m_TraceId);
     }
-    if(m_Unmapped_attrsIsSet)
+    if(m_UnmappedAttrsIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("unmapped_attrs"))] = ModelBase::toJson(m_Unmapped_attrs);
+        val[utility::conversions::to_string_t(U("unmappedAttrs"))] = ModelBase::toJson(m_UnmappedAttrs);
     }
 
     return val;
@@ -208,9 +208,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("end_time"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endTime"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("end_time")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endTime")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setEndTime;
@@ -219,9 +219,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("environment_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("environmentId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environment_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("environmentId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setEnvironmentId;
@@ -230,9 +230,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("input_ref"))))
+    if(val.has_field(utility::conversions::to_string_t(U("inputRef"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("input_ref")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("inputRef")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<ArtifactRef> refVal_setInputRef;
@@ -274,9 +274,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("normalizer_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("normalizerVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("normalizer_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("normalizerVersion")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setNormalizerVersion;
@@ -285,9 +285,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("output_ref"))))
+    if(val.has_field(utility::conversions::to_string_t(U("outputRef"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("output_ref")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("outputRef")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<ArtifactRef> refVal_setOutputRef;
@@ -296,9 +296,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("parent_span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("parentSpanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parent_span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("parentSpanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setParentSpanId;
@@ -307,9 +307,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("project_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("projectId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("project_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("projectId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setProjectId;
@@ -318,9 +318,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("raw_ref"))))
+    if(val.has_field(utility::conversions::to_string_t(U("rawRef"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("raw_ref")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rawRef")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<ArtifactRef> refVal_setRawRef;
@@ -329,9 +329,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("schema_version"))))
+    if(val.has_field(utility::conversions::to_string_t(U("schemaVersion"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("schema_version")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("schemaVersion")));
         if(!fieldValue.is_null())
         {
             int32_t refVal_setSchemaVersion;
@@ -351,9 +351,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("span_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("spanId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("span_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("spanId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setSpanId;
@@ -362,9 +362,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("start_time"))))
+    if(val.has_field(utility::conversions::to_string_t(U("startTime"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("start_time")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("startTime")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setStartTime;
@@ -384,9 +384,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("tenant_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("tenantId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenant_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("tenantId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTenantId;
@@ -406,9 +406,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("trace_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("traceId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("trace_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("traceId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setTraceId;
@@ -417,9 +417,9 @@ bool CanonicalSpan::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("unmapped_attrs"))))
+    if(val.has_field(utility::conversions::to_string_t(U("unmappedAttrs"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("unmapped_attrs")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("unmappedAttrs")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setUnmappedAttrs;
@@ -446,17 +446,17 @@ void CanonicalSpan::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("cost")), m_Cost));
     }
-    if(m_End_timeIsSet)
+    if(m_EndTimeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("end_time")), m_End_time));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endTime")), m_EndTime));
     }
-    if(m_Environment_idIsSet)
+    if(m_EnvironmentIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environment_id")), m_Environment_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("environmentId")), m_EnvironmentId));
     }
-    if(m_Input_refIsSet)
+    if(m_InputRefIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("input_ref")), m_Input_ref));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("inputRef")), m_InputRef));
     }
     if(m_KindIsSet)
     {
@@ -470,61 +470,61 @@ void CanonicalSpan::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("name")), m_Name));
     }
-    if(m_Normalizer_versionIsSet)
+    if(m_NormalizerVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("normalizer_version")), m_Normalizer_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("normalizerVersion")), m_NormalizerVersion));
     }
-    if(m_Output_refIsSet)
+    if(m_OutputRefIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("output_ref")), m_Output_ref));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("outputRef")), m_OutputRef));
     }
-    if(m_Parent_span_idIsSet)
+    if(m_ParentSpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("parent_span_id")), m_Parent_span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("parentSpanId")), m_ParentSpanId));
     }
-    if(m_Project_idIsSet)
+    if(m_ProjectIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("project_id")), m_Project_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("projectId")), m_ProjectId));
     }
-    if(m_Raw_refIsSet)
+    if(m_RawRefIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("raw_ref")), m_Raw_ref));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rawRef")), m_RawRef));
     }
-    if(m_Schema_versionIsSet)
+    if(m_SchemaVersionIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("schema_version")), m_Schema_version));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("schemaVersion")), m_SchemaVersion));
     }
     if(m_SeqIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("seq")), m_Seq));
     }
-    if(m_Span_idIsSet)
+    if(m_SpanIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("span_id")), m_Span_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("spanId")), m_SpanId));
     }
-    if(m_Start_timeIsSet)
+    if(m_StartTimeIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("start_time")), m_Start_time));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("startTime")), m_StartTime));
     }
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
     }
-    if(m_Tenant_idIsSet)
+    if(m_TenantIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenant_id")), m_Tenant_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tenantId")), m_TenantId));
     }
     if(m_TokensIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("tokens")), m_Tokens));
     }
-    if(m_Trace_idIsSet)
+    if(m_TraceIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("trace_id")), m_Trace_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("traceId")), m_TraceId));
     }
-    if(m_Unmapped_attrsIsSet)
+    if(m_UnmappedAttrsIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("unmapped_attrs")), m_Unmapped_attrs));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("unmappedAttrs")), m_UnmappedAttrs));
     }
 }
 
@@ -549,22 +549,22 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("cost"))), refVal_setCost );
         setCost(refVal_setCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("end_time"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endTime"))))
     {
         utility::datetime refVal_setEndTime;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("end_time"))), refVal_setEndTime );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endTime"))), refVal_setEndTime );
         setEndTime(refVal_setEndTime);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("environment_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("environmentId"))))
     {
         utility::string_t refVal_setEnvironmentId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environment_id"))), refVal_setEnvironmentId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("environmentId"))), refVal_setEnvironmentId );
         setEnvironmentId(refVal_setEnvironmentId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("input_ref"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("inputRef"))))
     {
         std::shared_ptr<ArtifactRef> refVal_setInputRef;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("input_ref"))), refVal_setInputRef );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("inputRef"))), refVal_setInputRef );
         setInputRef(refVal_setInputRef);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("kind"))))
@@ -585,40 +585,40 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("name"))), refVal_setName );
         setName(refVal_setName);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("normalizer_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("normalizerVersion"))))
     {
         utility::string_t refVal_setNormalizerVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("normalizer_version"))), refVal_setNormalizerVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("normalizerVersion"))), refVal_setNormalizerVersion );
         setNormalizerVersion(refVal_setNormalizerVersion);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("output_ref"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("outputRef"))))
     {
         std::shared_ptr<ArtifactRef> refVal_setOutputRef;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("output_ref"))), refVal_setOutputRef );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("outputRef"))), refVal_setOutputRef );
         setOutputRef(refVal_setOutputRef);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("parent_span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("parentSpanId"))))
     {
         utility::string_t refVal_setParentSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parent_span_id"))), refVal_setParentSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("parentSpanId"))), refVal_setParentSpanId );
         setParentSpanId(refVal_setParentSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("project_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("projectId"))))
     {
         utility::string_t refVal_setProjectId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("project_id"))), refVal_setProjectId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("projectId"))), refVal_setProjectId );
         setProjectId(refVal_setProjectId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("raw_ref"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("rawRef"))))
     {
         std::shared_ptr<ArtifactRef> refVal_setRawRef;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("raw_ref"))), refVal_setRawRef );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rawRef"))), refVal_setRawRef );
         setRawRef(refVal_setRawRef);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("schema_version"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("schemaVersion"))))
     {
         int32_t refVal_setSchemaVersion;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("schema_version"))), refVal_setSchemaVersion );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("schemaVersion"))), refVal_setSchemaVersion );
         setSchemaVersion(refVal_setSchemaVersion);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("seq"))))
@@ -627,16 +627,16 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("seq"))), refVal_setSeq );
         setSeq(refVal_setSeq);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("span_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("spanId"))))
     {
         utility::string_t refVal_setSpanId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("span_id"))), refVal_setSpanId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("spanId"))), refVal_setSpanId );
         setSpanId(refVal_setSpanId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("start_time"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("startTime"))))
     {
         utility::datetime refVal_setStartTime;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("start_time"))), refVal_setStartTime );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("startTime"))), refVal_setStartTime );
         setStartTime(refVal_setStartTime);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("status"))))
@@ -645,10 +645,10 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
         setStatus(refVal_setStatus);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("tenant_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("tenantId"))))
     {
         utility::string_t refVal_setTenantId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenant_id"))), refVal_setTenantId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tenantId"))), refVal_setTenantId );
         setTenantId(refVal_setTenantId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("tokens"))))
@@ -657,16 +657,16 @@ bool CanonicalSpan::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("tokens"))), refVal_setTokens );
         setTokens(refVal_setTokens);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("trace_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("traceId"))))
     {
         utility::string_t refVal_setTraceId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("trace_id"))), refVal_setTraceId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("traceId"))), refVal_setTraceId );
         setTraceId(refVal_setTraceId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("unmapped_attrs"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("unmappedAttrs"))))
     {
         std::shared_ptr<AnyType> refVal_setUnmappedAttrs;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("unmapped_attrs"))), refVal_setUnmappedAttrs );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("unmappedAttrs"))), refVal_setUnmappedAttrs );
         setUnmappedAttrs(refVal_setUnmappedAttrs);
     }
     return ok;
@@ -717,66 +717,66 @@ void CanonicalSpan::unsetCost()
 }
 utility::datetime CanonicalSpan::getEndTime() const
 {
-    return m_End_time;
+    return m_EndTime;
 }
 
 
 void CanonicalSpan::setEndTime(const utility::datetime& value)
 {
-    m_End_time = value;
-    m_End_timeIsSet = true;
+    m_EndTime = value;
+    m_EndTimeIsSet = true;
 }
 
 bool CanonicalSpan::endTimeIsSet() const
 {
-    return m_End_timeIsSet;
+    return m_EndTimeIsSet;
 }
 
-void CanonicalSpan::unsetEnd_time()
+void CanonicalSpan::unsetEndTime()
 {
-    m_End_timeIsSet = false;
+    m_EndTimeIsSet = false;
 }
 utility::string_t CanonicalSpan::getEnvironmentId() const
 {
-    return m_Environment_id;
+    return m_EnvironmentId;
 }
 
 
 void CanonicalSpan::setEnvironmentId(const utility::string_t& value)
 {
-    m_Environment_id = value;
-    m_Environment_idIsSet = true;
+    m_EnvironmentId = value;
+    m_EnvironmentIdIsSet = true;
 }
 
 bool CanonicalSpan::environmentIdIsSet() const
 {
-    return m_Environment_idIsSet;
+    return m_EnvironmentIdIsSet;
 }
 
-void CanonicalSpan::unsetEnvironment_id()
+void CanonicalSpan::unsetEnvironmentId()
 {
-    m_Environment_idIsSet = false;
+    m_EnvironmentIdIsSet = false;
 }
 std::shared_ptr<ArtifactRef> CanonicalSpan::getInputRef() const
 {
-    return m_Input_ref;
+    return m_InputRef;
 }
 
 
 void CanonicalSpan::setInputRef(const std::shared_ptr<ArtifactRef>& value)
 {
-    m_Input_ref = value;
-    m_Input_refIsSet = true;
+    m_InputRef = value;
+    m_InputRefIsSet = true;
 }
 
 bool CanonicalSpan::inputRefIsSet() const
 {
-    return m_Input_refIsSet;
+    return m_InputRefIsSet;
 }
 
-void CanonicalSpan::unsetInput_ref()
+void CanonicalSpan::unsetInputRef()
 {
-    m_Input_refIsSet = false;
+    m_InputRefIsSet = false;
 }
 utility::string_t CanonicalSpan::getKind() const
 {
@@ -843,128 +843,128 @@ void CanonicalSpan::unsetName()
 }
 utility::string_t CanonicalSpan::getNormalizerVersion() const
 {
-    return m_Normalizer_version;
+    return m_NormalizerVersion;
 }
 
 
 void CanonicalSpan::setNormalizerVersion(const utility::string_t& value)
 {
-    m_Normalizer_version = value;
-    m_Normalizer_versionIsSet = true;
+    m_NormalizerVersion = value;
+    m_NormalizerVersionIsSet = true;
 }
 
 bool CanonicalSpan::normalizerVersionIsSet() const
 {
-    return m_Normalizer_versionIsSet;
+    return m_NormalizerVersionIsSet;
 }
 
-void CanonicalSpan::unsetNormalizer_version()
+void CanonicalSpan::unsetNormalizerVersion()
 {
-    m_Normalizer_versionIsSet = false;
+    m_NormalizerVersionIsSet = false;
 }
 std::shared_ptr<ArtifactRef> CanonicalSpan::getOutputRef() const
 {
-    return m_Output_ref;
+    return m_OutputRef;
 }
 
 
 void CanonicalSpan::setOutputRef(const std::shared_ptr<ArtifactRef>& value)
 {
-    m_Output_ref = value;
-    m_Output_refIsSet = true;
+    m_OutputRef = value;
+    m_OutputRefIsSet = true;
 }
 
 bool CanonicalSpan::outputRefIsSet() const
 {
-    return m_Output_refIsSet;
+    return m_OutputRefIsSet;
 }
 
-void CanonicalSpan::unsetOutput_ref()
+void CanonicalSpan::unsetOutputRef()
 {
-    m_Output_refIsSet = false;
+    m_OutputRefIsSet = false;
 }
 utility::string_t CanonicalSpan::getParentSpanId() const
 {
-    return m_Parent_span_id;
+    return m_ParentSpanId;
 }
 
 
 void CanonicalSpan::setParentSpanId(const utility::string_t& value)
 {
-    m_Parent_span_id = value;
-    m_Parent_span_idIsSet = true;
+    m_ParentSpanId = value;
+    m_ParentSpanIdIsSet = true;
 }
 
 bool CanonicalSpan::parentSpanIdIsSet() const
 {
-    return m_Parent_span_idIsSet;
+    return m_ParentSpanIdIsSet;
 }
 
-void CanonicalSpan::unsetParent_span_id()
+void CanonicalSpan::unsetParentSpanId()
 {
-    m_Parent_span_idIsSet = false;
+    m_ParentSpanIdIsSet = false;
 }
 utility::string_t CanonicalSpan::getProjectId() const
 {
-    return m_Project_id;
+    return m_ProjectId;
 }
 
 
 void CanonicalSpan::setProjectId(const utility::string_t& value)
 {
-    m_Project_id = value;
-    m_Project_idIsSet = true;
+    m_ProjectId = value;
+    m_ProjectIdIsSet = true;
 }
 
 bool CanonicalSpan::projectIdIsSet() const
 {
-    return m_Project_idIsSet;
+    return m_ProjectIdIsSet;
 }
 
-void CanonicalSpan::unsetProject_id()
+void CanonicalSpan::unsetProjectId()
 {
-    m_Project_idIsSet = false;
+    m_ProjectIdIsSet = false;
 }
 std::shared_ptr<ArtifactRef> CanonicalSpan::getRawRef() const
 {
-    return m_Raw_ref;
+    return m_RawRef;
 }
 
 
 void CanonicalSpan::setRawRef(const std::shared_ptr<ArtifactRef>& value)
 {
-    m_Raw_ref = value;
-    m_Raw_refIsSet = true;
+    m_RawRef = value;
+    m_RawRefIsSet = true;
 }
 
 bool CanonicalSpan::rawRefIsSet() const
 {
-    return m_Raw_refIsSet;
+    return m_RawRefIsSet;
 }
 
-void CanonicalSpan::unsetRaw_ref()
+void CanonicalSpan::unsetRawRef()
 {
-    m_Raw_refIsSet = false;
+    m_RawRefIsSet = false;
 }
 int32_t CanonicalSpan::getSchemaVersion() const
 {
-    return m_Schema_version;
+    return m_SchemaVersion;
 }
 
 void CanonicalSpan::setSchemaVersion(int32_t value)
 {
-    m_Schema_version = value;
-    m_Schema_versionIsSet = true;
+    m_SchemaVersion = value;
+    m_SchemaVersionIsSet = true;
 }
 
 bool CanonicalSpan::schemaVersionIsSet() const
 {
-    return m_Schema_versionIsSet;
+    return m_SchemaVersionIsSet;
 }
 
-void CanonicalSpan::unsetSchema_version()
+void CanonicalSpan::unsetSchemaVersion()
 {
-    m_Schema_versionIsSet = false;
+    m_SchemaVersionIsSet = false;
 }
 int64_t CanonicalSpan::getSeq() const
 {
@@ -988,45 +988,45 @@ void CanonicalSpan::unsetSeq()
 }
 utility::string_t CanonicalSpan::getSpanId() const
 {
-    return m_Span_id;
+    return m_SpanId;
 }
 
 
 void CanonicalSpan::setSpanId(const utility::string_t& value)
 {
-    m_Span_id = value;
-    m_Span_idIsSet = true;
+    m_SpanId = value;
+    m_SpanIdIsSet = true;
 }
 
 bool CanonicalSpan::spanIdIsSet() const
 {
-    return m_Span_idIsSet;
+    return m_SpanIdIsSet;
 }
 
-void CanonicalSpan::unsetSpan_id()
+void CanonicalSpan::unsetSpanId()
 {
-    m_Span_idIsSet = false;
+    m_SpanIdIsSet = false;
 }
 utility::datetime CanonicalSpan::getStartTime() const
 {
-    return m_Start_time;
+    return m_StartTime;
 }
 
 
 void CanonicalSpan::setStartTime(const utility::datetime& value)
 {
-    m_Start_time = value;
-    m_Start_timeIsSet = true;
+    m_StartTime = value;
+    m_StartTimeIsSet = true;
 }
 
 bool CanonicalSpan::startTimeIsSet() const
 {
-    return m_Start_timeIsSet;
+    return m_StartTimeIsSet;
 }
 
-void CanonicalSpan::unsetStart_time()
+void CanonicalSpan::unsetStartTime()
 {
-    m_Start_timeIsSet = false;
+    m_StartTimeIsSet = false;
 }
 std::shared_ptr<SpanStatus> CanonicalSpan::getStatus() const
 {
@@ -1051,24 +1051,24 @@ void CanonicalSpan::unsetStatus()
 }
 utility::string_t CanonicalSpan::getTenantId() const
 {
-    return m_Tenant_id;
+    return m_TenantId;
 }
 
 
 void CanonicalSpan::setTenantId(const utility::string_t& value)
 {
-    m_Tenant_id = value;
-    m_Tenant_idIsSet = true;
+    m_TenantId = value;
+    m_TenantIdIsSet = true;
 }
 
 bool CanonicalSpan::tenantIdIsSet() const
 {
-    return m_Tenant_idIsSet;
+    return m_TenantIdIsSet;
 }
 
-void CanonicalSpan::unsetTenant_id()
+void CanonicalSpan::unsetTenantId()
 {
-    m_Tenant_idIsSet = false;
+    m_TenantIdIsSet = false;
 }
 std::shared_ptr<TokenCounts> CanonicalSpan::getTokens() const
 {
@@ -1093,45 +1093,45 @@ void CanonicalSpan::unsetTokens()
 }
 utility::string_t CanonicalSpan::getTraceId() const
 {
-    return m_Trace_id;
+    return m_TraceId;
 }
 
 
 void CanonicalSpan::setTraceId(const utility::string_t& value)
 {
-    m_Trace_id = value;
-    m_Trace_idIsSet = true;
+    m_TraceId = value;
+    m_TraceIdIsSet = true;
 }
 
 bool CanonicalSpan::traceIdIsSet() const
 {
-    return m_Trace_idIsSet;
+    return m_TraceIdIsSet;
 }
 
-void CanonicalSpan::unsetTrace_id()
+void CanonicalSpan::unsetTraceId()
 {
-    m_Trace_idIsSet = false;
+    m_TraceIdIsSet = false;
 }
 std::shared_ptr<AnyType> CanonicalSpan::getUnmappedAttrs() const
 {
-    return m_Unmapped_attrs;
+    return m_UnmappedAttrs;
 }
 
 
 void CanonicalSpan::setUnmappedAttrs(const std::shared_ptr<AnyType>& value)
 {
-    m_Unmapped_attrs = value;
-    m_Unmapped_attrsIsSet = true;
+    m_UnmappedAttrs = value;
+    m_UnmappedAttrsIsSet = true;
 }
 
 bool CanonicalSpan::unmappedAttrsIsSet() const
 {
-    return m_Unmapped_attrsIsSet;
+    return m_UnmappedAttrsIsSet;
 }
 
-void CanonicalSpan::unsetUnmapped_attrs()
+void CanonicalSpan::unsetUnmappedAttrs()
 {
-    m_Unmapped_attrsIsSet = false;
+    m_UnmappedAttrsIsSet = false;
 }
 
 }

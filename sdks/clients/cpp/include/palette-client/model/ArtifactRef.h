@@ -57,17 +57,17 @@ public:
 
     utility::string_t getArtifactId() const;
     bool artifactIdIsSet() const;
-    void unsetArtifact_id();
+    void unsetArtifactId();
     void setArtifactId(const utility::string_t& value);
 
     utility::string_t getMimeType() const;
     bool mimeTypeIsSet() const;
-    void unsetMime_type();
+    void unsetMimeType();
     void setMimeType(const utility::string_t& value);
 
     std::shared_ptr<RedactionClass> getRedactionClass() const;
     bool redactionClassIsSet() const;
-    void unsetRedaction_class();
+    void unsetRedactionClass();
     void setRedactionClass(const std::shared_ptr<RedactionClass>& value);
 
     utility::string_t getSha256() const;
@@ -77,7 +77,7 @@ public:
 
     int64_t getSizeBytes() const;
     bool sizeBytesIsSet() const;
-    void unsetSize_bytes();
+    void unsetSizeBytes();
     void setSizeBytes(int64_t value);
 
     utility::string_t getUri() const;
@@ -87,20 +87,20 @@ public:
 
 
 protected:
-    utility::string_t m_Artifact_id;
-    bool m_Artifact_idIsSet;
+    utility::string_t m_ArtifactId;
+    bool m_ArtifactIdIsSet;
 
-    utility::string_t m_Mime_type;
-    bool m_Mime_typeIsSet;
+    utility::string_t m_MimeType;
+    bool m_MimeTypeIsSet;
 
-    std::shared_ptr<RedactionClass> m_Redaction_class;
-    bool m_Redaction_classIsSet;
+    std::shared_ptr<RedactionClass> m_RedactionClass;
+    bool m_RedactionClassIsSet;
 
     utility::string_t m_Sha256;
     bool m_Sha256IsSet;
 
-    int64_t m_Size_bytes;
-    bool m_Size_bytesIsSet;
+    int64_t m_SizeBytes;
+    bool m_SizeBytesIsSet;
 
     utility::string_t m_Uri;
     bool m_UriIsSet;

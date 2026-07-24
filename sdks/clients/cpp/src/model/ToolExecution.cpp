@@ -23,8 +23,8 @@ ToolExecution::ToolExecution()
     m_DataIsSet = false;
     m_Error = utility::conversions::to_string_t("");
     m_ErrorIsSet = false;
-    m_Log_id = utility::conversions::to_string_t("");
-    m_Log_idIsSet = false;
+    m_LogId = utility::conversions::to_string_t("");
+    m_LogIdIsSet = false;
     m_Successful = false;
     m_SuccessfulIsSet = false;
 }
@@ -51,10 +51,10 @@ web::json::value ToolExecution::toJson() const
         
         val[utility::conversions::to_string_t(U("error"))] = ModelBase::toJson(m_Error);
     }
-    if(m_Log_idIsSet)
+    if(m_LogIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("log_id"))] = ModelBase::toJson(m_Log_id);
+        val[utility::conversions::to_string_t(U("logId"))] = ModelBase::toJson(m_LogId);
     }
     if(m_SuccessfulIsSet)
     {   
@@ -90,9 +90,9 @@ bool ToolExecution::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("log_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("logId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("log_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("logId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setLogId;
@@ -130,9 +130,9 @@ void ToolExecution::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("error")), m_Error));
     }
-    if(m_Log_idIsSet)
+    if(m_LogIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("log_id")), m_Log_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("logId")), m_LogId));
     }
     if(m_SuccessfulIsSet)
     {
@@ -161,10 +161,10 @@ bool ToolExecution::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("error"))), refVal_setError );
         setError(refVal_setError);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("log_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("logId"))))
     {
         utility::string_t refVal_setLogId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("log_id"))), refVal_setLogId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("logId"))), refVal_setLogId );
         setLogId(refVal_setLogId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("successful"))))
@@ -221,24 +221,24 @@ void ToolExecution::unsetError()
 }
 utility::string_t ToolExecution::getLogId() const
 {
-    return m_Log_id;
+    return m_LogId;
 }
 
 
 void ToolExecution::setLogId(const utility::string_t& value)
 {
-    m_Log_id = value;
-    m_Log_idIsSet = true;
+    m_LogId = value;
+    m_LogIdIsSet = true;
 }
 
 bool ToolExecution::logIdIsSet() const
 {
-    return m_Log_idIsSet;
+    return m_LogIdIsSet;
 }
 
-void ToolExecution::unsetLog_id()
+void ToolExecution::unsetLogId()
 {
-    m_Log_idIsSet = false;
+    m_LogIdIsSet = false;
 }
 bool ToolExecution::isSuccessful() const
 {

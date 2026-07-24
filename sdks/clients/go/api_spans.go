@@ -109,10 +109,10 @@ func (a *SpansAPIService) SpansGetExecute(r ApiSpansGetRequest) (*CanonicalSpan,
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/spans/{tenant_id}/{trace_id}/{span_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trace_id"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"span_id"+"}", url.PathEscape(parameterValueToString(r.spanId, "spanId")), -1)
+	localVarPath := localBasePath + "/v1/spans/{tenantId}/{traceId}/{spanId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"traceId"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"spanId"+"}", url.PathEscape(parameterValueToString(r.spanId, "spanId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -319,10 +319,10 @@ func (a *SpansAPIService) SpansGetIoExecute(r ApiSpansGetIoRequest) (*SpanIoResp
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io"
-	localVarPath = strings.Replace(localVarPath, "{"+"tenant_id"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trace_id"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"span_id"+"}", url.PathEscape(parameterValueToString(r.spanId, "spanId")), -1)
+	localVarPath := localBasePath + "/v1/spans/{tenantId}/{traceId}/{spanId}/io"
+	localVarPath = strings.Replace(localVarPath, "{"+"tenantId"+"}", url.PathEscape(parameterValueToString(r.tenantId, "tenantId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"traceId"+"}", url.PathEscape(parameterValueToString(r.traceId, "traceId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"spanId"+"}", url.PathEscape(parameterValueToString(r.spanId, "spanId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

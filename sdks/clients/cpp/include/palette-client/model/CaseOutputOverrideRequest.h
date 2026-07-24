@@ -56,7 +56,7 @@ public:
 
     utility::string_t getCaseId() const;
     bool caseIdIsSet() const;
-    void unsetCase_id();
+    void unsetCaseId();
     void setCaseId(const utility::string_t& value);
 
     std::shared_ptr<AnyType> getOutput() const;
@@ -71,8 +71,8 @@ public:
 
 
 protected:
-    utility::string_t m_Case_id;
-    bool m_Case_idIsSet;
+    utility::string_t m_CaseId;
+    bool m_CaseIdIsSet;
 
     std::shared_ptr<AnyType> m_Output;
     bool m_OutputIsSet;

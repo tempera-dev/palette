@@ -18,7 +18,7 @@ pub struct ConnectionStatus {
     #[serde(rename = "connected")]
     pub connected: bool,
     /// The connected-account id, when one exists.
-    #[serde(rename = "connected_account_id", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "connectedAccountId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub connected_account_id: Option<Option<String>>,
     /// Raw Composio status (`ACTIVE`, `INITIALIZING`, `FAILED`, …) or `not_connected` when no account exists yet.
     #[serde(rename = "status")]

@@ -22,10 +22,10 @@ RevokedApiKey::RevokedApiKey()
 {
     m_Active = false;
     m_ActiveIsSet = false;
-    m_Api_key_id = utility::conversions::to_string_t("");
-    m_Api_key_idIsSet = false;
-    m_Rotated_at = utility::datetime();
-    m_Rotated_atIsSet = false;
+    m_ApiKeyId = utility::conversions::to_string_t("");
+    m_ApiKeyIdIsSet = false;
+    m_RotatedAt = utility::datetime();
+    m_RotatedAtIsSet = false;
 }
 
 RevokedApiKey::~RevokedApiKey()
@@ -45,15 +45,15 @@ web::json::value RevokedApiKey::toJson() const
         
         val[utility::conversions::to_string_t(U("active"))] = ModelBase::toJson(m_Active);
     }
-    if(m_Api_key_idIsSet)
+    if(m_ApiKeyIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("api_key_id"))] = ModelBase::toJson(m_Api_key_id);
+        val[utility::conversions::to_string_t(U("apiKeyId"))] = ModelBase::toJson(m_ApiKeyId);
     }
-    if(m_Rotated_atIsSet)
+    if(m_RotatedAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("rotated_at"))] = ModelBase::toJson(m_Rotated_at);
+        val[utility::conversions::to_string_t(U("rotatedAt"))] = ModelBase::toJson(m_RotatedAt);
     }
 
     return val;
@@ -73,9 +73,9 @@ bool RevokedApiKey::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("api_key_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("apiKeyId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("api_key_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("apiKeyId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setApiKeyId;
@@ -84,9 +84,9 @@ bool RevokedApiKey::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("rotated_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("rotatedAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rotated_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("rotatedAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setRotatedAt;
@@ -109,13 +109,13 @@ void RevokedApiKey::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("active")), m_Active));
     }
-    if(m_Api_key_idIsSet)
+    if(m_ApiKeyIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("api_key_id")), m_Api_key_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("apiKeyId")), m_ApiKeyId));
     }
-    if(m_Rotated_atIsSet)
+    if(m_RotatedAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rotated_at")), m_Rotated_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("rotatedAt")), m_RotatedAt));
     }
 }
 
@@ -134,16 +134,16 @@ bool RevokedApiKey::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("active"))), refVal_setActive );
         setActive(refVal_setActive);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("api_key_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("apiKeyId"))))
     {
         utility::string_t refVal_setApiKeyId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("api_key_id"))), refVal_setApiKeyId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("apiKeyId"))), refVal_setApiKeyId );
         setApiKeyId(refVal_setApiKeyId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("rotated_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("rotatedAt"))))
     {
         utility::datetime refVal_setRotatedAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rotated_at"))), refVal_setRotatedAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("rotatedAt"))), refVal_setRotatedAt );
         setRotatedAt(refVal_setRotatedAt);
     }
     return ok;
@@ -172,45 +172,45 @@ void RevokedApiKey::unsetActive()
 }
 utility::string_t RevokedApiKey::getApiKeyId() const
 {
-    return m_Api_key_id;
+    return m_ApiKeyId;
 }
 
 
 void RevokedApiKey::setApiKeyId(const utility::string_t& value)
 {
-    m_Api_key_id = value;
-    m_Api_key_idIsSet = true;
+    m_ApiKeyId = value;
+    m_ApiKeyIdIsSet = true;
 }
 
 bool RevokedApiKey::apiKeyIdIsSet() const
 {
-    return m_Api_key_idIsSet;
+    return m_ApiKeyIdIsSet;
 }
 
-void RevokedApiKey::unsetApi_key_id()
+void RevokedApiKey::unsetApiKeyId()
 {
-    m_Api_key_idIsSet = false;
+    m_ApiKeyIdIsSet = false;
 }
 utility::datetime RevokedApiKey::getRotatedAt() const
 {
-    return m_Rotated_at;
+    return m_RotatedAt;
 }
 
 
 void RevokedApiKey::setRotatedAt(const utility::datetime& value)
 {
-    m_Rotated_at = value;
-    m_Rotated_atIsSet = true;
+    m_RotatedAt = value;
+    m_RotatedAtIsSet = true;
 }
 
 bool RevokedApiKey::rotatedAtIsSet() const
 {
-    return m_Rotated_atIsSet;
+    return m_RotatedAtIsSet;
 }
 
-void RevokedApiKey::unsetRotated_at()
+void RevokedApiKey::unsetRotatedAt()
 {
-    m_Rotated_atIsSet = false;
+    m_RotatedAtIsSet = false;
 }
 
 }

@@ -23,16 +23,16 @@ var _ MappedNullable = &PublicJudgeAuditRecord{}
 // PublicJudgeAuditRecord Client-facing judge ledger row. The backing `provider`, the `provider_secret_id`, and our raw `provider_cost` are INTERNAL (staff-only) and must never reach a customer — exposing `provider_cost` alongside `charged_cost` would also leak our margin (billing-credits-contract §11). Only customer-facing fields appear here, including `charged_cost` (the amount the customer actually pays).
 type PublicJudgeAuditRecord struct {
 	Cached bool `json:"cached"`
-	ChargedCost Money `json:"charged_cost"`
-	CreatedAt time.Time `json:"created_at"`
-	EvaluatorId string `json:"evaluator_id"`
-	JudgeCallId string `json:"judge_call_id"`
+	ChargedCost Money `json:"chargedCost"`
+	CreatedAt time.Time `json:"createdAt"`
+	EvaluatorId string `json:"evaluatorId"`
+	JudgeCallId string `json:"judgeCallId"`
 	Model string `json:"model"`
-	ProjectId string `json:"project_id"`
-	RequestHash string `json:"request_hash"`
-	ResponseHash string `json:"response_hash"`
+	ProjectId string `json:"projectId"`
+	RequestHash string `json:"requestHash"`
+	ResponseHash string `json:"responseHash"`
 	Score float64 `json:"score"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 }
 
 type _PublicJudgeAuditRecord PublicJudgeAuditRecord
@@ -340,16 +340,16 @@ func (o PublicJudgeAuditRecord) MarshalJSON() ([]byte, error) {
 func (o PublicJudgeAuditRecord) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["cached"] = o.Cached
-	toSerialize["charged_cost"] = o.ChargedCost
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["evaluator_id"] = o.EvaluatorId
-	toSerialize["judge_call_id"] = o.JudgeCallId
+	toSerialize["chargedCost"] = o.ChargedCost
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["evaluatorId"] = o.EvaluatorId
+	toSerialize["judgeCallId"] = o.JudgeCallId
 	toSerialize["model"] = o.Model
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["request_hash"] = o.RequestHash
-	toSerialize["response_hash"] = o.ResponseHash
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["requestHash"] = o.RequestHash
+	toSerialize["responseHash"] = o.ResponseHash
 	toSerialize["score"] = o.Score
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -359,16 +359,16 @@ func (o *PublicJudgeAuditRecord) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"cached",
-		"charged_cost",
-		"created_at",
-		"evaluator_id",
-		"judge_call_id",
+		"chargedCost",
+		"createdAt",
+		"evaluatorId",
+		"judgeCallId",
 		"model",
-		"project_id",
-		"request_hash",
-		"response_hash",
+		"projectId",
+		"requestHash",
+		"responseHash",
 		"score",
-		"tenant_id",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -52,7 +52,7 @@ public class CalibrationItem {
   @javax.annotation.Nonnull
   private Boolean agreed;
 
-  public static final String JSON_PROPERTY_DATASET_CASE_ID = "dataset_case_id";
+  public static final String JSON_PROPERTY_DATASET_CASE_ID = "datasetCaseId";
   @javax.annotation.Nonnull
   private String datasetCaseId;
 
@@ -60,18 +60,18 @@ public class CalibrationItem {
   @javax.annotation.Nullable
   private Object evidence = null;
 
-  public static final String JSON_PROPERTY_HUMAN_LABEL = "human_label";
+  public static final String JSON_PROPERTY_HUMAN_LABEL = "humanLabel";
   @javax.annotation.Nonnull
   private CalibrationLabel humanLabel;
 
-  public static final String JSON_PROPERTY_JUDGE_LABEL = "judge_label";
+  public static final String JSON_PROPERTY_JUDGE_LABEL = "judgeLabel";
   @javax.annotation.Nonnull
   private CalibrationLabel judgeLabel;
 
-  public static final String JSON_PROPERTY_JUDGE_RESULT_LABEL = "judge_result_label";
+  public static final String JSON_PROPERTY_JUDGE_RESULT_LABEL = "judgeResultLabel";
   private JsonNullable<String> judgeResultLabel = JsonNullable.<String>undefined();
 
-  public static final String JSON_PROPERTY_JUDGE_SCORE = "judge_score";
+  public static final String JSON_PROPERTY_JUDGE_SCORE = "judgeScore";
   @javax.annotation.Nonnull
   private Double judgeScore;
 
@@ -354,9 +354,9 @@ public class CalibrationItem {
       joiner.add(String.format("%sagreed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAgreed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `dataset_case_id` to the URL query string
+    // add `datasetCaseId` to the URL query string
     if (getDatasetCaseId() != null) {
-      joiner.add(String.format("%sdataset_case_id%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdatasetCaseId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDatasetCaseId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `evidence` to the URL query string
@@ -364,24 +364,24 @@ public class CalibrationItem {
       joiner.add(String.format("%sevidence%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEvidence()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `human_label` to the URL query string
+    // add `humanLabel` to the URL query string
     if (getHumanLabel() != null) {
-      joiner.add(String.format("%shuman_label%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shumanLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHumanLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_label` to the URL query string
+    // add `judgeLabel` to the URL query string
     if (getJudgeLabel() != null) {
-      joiner.add(String.format("%sjudge_label%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_result_label` to the URL query string
+    // add `judgeResultLabel` to the URL query string
     if (getJudgeResultLabel() != null) {
-      joiner.add(String.format("%sjudge_result_label%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeResultLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeResultLabel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeResultLabel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `judge_score` to the URL query string
+    // add `judgeScore` to the URL query string
     if (getJudgeScore() != null) {
-      joiner.add(String.format("%sjudge_score%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjudgeScore%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJudgeScore()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

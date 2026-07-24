@@ -13,45 +13,45 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct GateRunReport {
-    #[serde(rename = "baseline_release_id")]
+    #[serde(rename = "baselineReleaseId")]
     pub baseline_release_id: String,
-    #[serde(rename = "candidate_release_id")]
+    #[serde(rename = "candidateReleaseId")]
     pub candidate_release_id: String,
     #[serde(rename = "comparison")]
     pub comparison: Box<models::ExperimentComparison>,
-    #[serde(rename = "created_at")]
+    #[serde(rename = "createdAt")]
     pub created_at: String,
-    #[serde(rename = "dataset_id")]
+    #[serde(rename = "datasetId")]
     pub dataset_id: String,
-    #[serde(rename = "evaluator_version_id")]
+    #[serde(rename = "evaluatorVersionId")]
     pub evaluator_version_id: String,
-    #[serde(rename = "experiment_created_at")]
+    #[serde(rename = "experimentCreatedAt")]
     pub experiment_created_at: String,
-    #[serde(rename = "experiment_decision")]
+    #[serde(rename = "experimentDecision")]
     pub experiment_decision: models::GateDecision,
-    #[serde(rename = "experiment_gate_policy")]
+    #[serde(rename = "experimentGatePolicy")]
     pub experiment_gate_policy: Box<models::GatePolicy>,
-    #[serde(rename = "experiment_run_id")]
+    #[serde(rename = "experimentRunId")]
     pub experiment_run_id: String,
-    #[serde(rename = "gate_dataset_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "gateDatasetId", skip_serializing_if = "Option::is_none")]
     pub gate_dataset_id: Option<String>,
-    #[serde(rename = "gate_evaluator_version_id", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "gateEvaluatorVersionId", skip_serializing_if = "Option::is_none")]
     pub gate_evaluator_version_id: Option<String>,
-    #[serde(rename = "gate_id")]
+    #[serde(rename = "gateId")]
     pub gate_id: String,
-    #[serde(rename = "gate_name")]
+    #[serde(rename = "gateName")]
     pub gate_name: String,
-    #[serde(rename = "gate_run_id")]
+    #[serde(rename = "gateRunId")]
     pub gate_run_id: String,
-    #[serde(rename = "inconclusive_policy")]
+    #[serde(rename = "inconclusivePolicy")]
     pub inconclusive_policy: models::InconclusivePolicy,
     #[serde(rename = "passed")]
     pub passed: bool,
-    #[serde(rename = "project_id")]
+    #[serde(rename = "projectId")]
     pub project_id: String,
     #[serde(rename = "reason")]
     pub reason: String,
-    #[serde(rename = "tenant_id")]
+    #[serde(rename = "tenantId")]
     pub tenant_id: String,
 }
 

@@ -23,9 +23,9 @@ var _ MappedNullable = &SpanIoResponse{}
 type SpanIoResponse struct {
 	Input SpanIoValue `json:"input"`
 	Output SpanIoValue `json:"output"`
-	SpanId string `json:"span_id"`
-	TenantId string `json:"tenant_id"`
-	TraceId string `json:"trace_id"`
+	SpanId string `json:"spanId"`
+	TenantId string `json:"tenantId"`
+	TraceId string `json:"traceId"`
 }
 
 type _SpanIoResponse SpanIoResponse
@@ -184,9 +184,9 @@ func (o SpanIoResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["input"] = o.Input
 	toSerialize["output"] = o.Output
-	toSerialize["span_id"] = o.SpanId
-	toSerialize["tenant_id"] = o.TenantId
-	toSerialize["trace_id"] = o.TraceId
+	toSerialize["spanId"] = o.SpanId
+	toSerialize["tenantId"] = o.TenantId
+	toSerialize["traceId"] = o.TraceId
 	return toSerialize, nil
 }
 
@@ -197,9 +197,9 @@ func (o *SpanIoResponse) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"input",
 		"output",
-		"span_id",
-		"tenant_id",
-		"trace_id",
+		"spanId",
+		"tenantId",
+		"traceId",
 	}
 
 	allProperties := make(map[string]interface{})

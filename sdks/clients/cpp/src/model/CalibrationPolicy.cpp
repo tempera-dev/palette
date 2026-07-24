@@ -20,8 +20,8 @@ namespace model {
 
 CalibrationPolicy::CalibrationPolicy()
 {
-    m_Pass_threshold = 0.0;
-    m_Pass_thresholdIsSet = false;
+    m_PassThreshold = 0.0;
+    m_PassThresholdIsSet = false;
 }
 
 CalibrationPolicy::~CalibrationPolicy()
@@ -36,10 +36,10 @@ void CalibrationPolicy::validate()
 web::json::value CalibrationPolicy::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Pass_thresholdIsSet)
+    if(m_PassThresholdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("pass_threshold"))] = ModelBase::toJson(m_Pass_threshold);
+        val[utility::conversions::to_string_t(U("passThreshold"))] = ModelBase::toJson(m_PassThreshold);
     }
 
     return val;
@@ -48,9 +48,9 @@ web::json::value CalibrationPolicy::toJson() const
 bool CalibrationPolicy::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("pass_threshold"))))
+    if(val.has_field(utility::conversions::to_string_t(U("passThreshold"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("pass_threshold")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("passThreshold")));
         if(!fieldValue.is_null())
         {
             double refVal_setPassThreshold;
@@ -69,9 +69,9 @@ void CalibrationPolicy::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Pass_thresholdIsSet)
+    if(m_PassThresholdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("pass_threshold")), m_Pass_threshold));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("passThreshold")), m_PassThreshold));
     }
 }
 
@@ -84,10 +84,10 @@ bool CalibrationPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("pass_threshold"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("passThreshold"))))
     {
         double refVal_setPassThreshold;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("pass_threshold"))), refVal_setPassThreshold );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("passThreshold"))), refVal_setPassThreshold );
         setPassThreshold(refVal_setPassThreshold);
     }
     return ok;
@@ -96,23 +96,23 @@ bool CalibrationPolicy::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 double CalibrationPolicy::getPassThreshold() const
 {
-    return m_Pass_threshold;
+    return m_PassThreshold;
 }
 
 void CalibrationPolicy::setPassThreshold(double value)
 {
-    m_Pass_threshold = value;
-    m_Pass_thresholdIsSet = true;
+    m_PassThreshold = value;
+    m_PassThresholdIsSet = true;
 }
 
 bool CalibrationPolicy::passThresholdIsSet() const
 {
-    return m_Pass_thresholdIsSet;
+    return m_PassThresholdIsSet;
 }
 
-void CalibrationPolicy::unsetPass_threshold()
+void CalibrationPolicy::unsetPassThreshold()
 {
-    m_Pass_thresholdIsSet = false;
+    m_PassThresholdIsSet = false;
 }
 
 }

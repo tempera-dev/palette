@@ -114,7 +114,7 @@ cJSON *span_io_value_convertToJSON(span_io_value_t *span_io_value) {
     if(artifact_ref_local_JSON == NULL) {
     goto fail; //model
     }
-    cJSON_AddItemToObject(item, "artifact_ref", artifact_ref_local_JSON);
+    cJSON_AddItemToObject(item, "artifactRef", artifact_ref_local_JSON);
     if(item->child == NULL) {
     goto fail;
     }
@@ -176,7 +176,7 @@ span_io_value_t *span_io_value_parseFromJSON(cJSON *span_io_valueJSON){
     value_local_nonprim = _parseFromJSON(value); //custom
 
     // span_io_value->artifact_ref
-    cJSON *artifact_ref = cJSON_GetObjectItemCaseSensitive(span_io_valueJSON, "artifact_ref");
+    cJSON *artifact_ref = cJSON_GetObjectItemCaseSensitive(span_io_valueJSON, "artifactRef");
     if (cJSON_IsNull(artifact_ref)) {
         artifact_ref = NULL;
     }

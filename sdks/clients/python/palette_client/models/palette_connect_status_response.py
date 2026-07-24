@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List
 from palette_client.models.palette_connect_status import PaletteConnectStatus
 from palette_client.models.usage_total import UsageTotal
@@ -28,15 +28,15 @@ class PaletteConnectStatusResponse(BaseModel):
     """
     PaletteConnectStatusResponse
     """ # noqa: E501
-    first_eval_run: StrictBool
-    first_trace_received: StrictBool
+    first_eval_run: StrictBool = Field(alias="firstEvalRun")
+    first_trace_received: StrictBool = Field(alias="firstTraceReceived")
     ok: StrictBool
-    project_id: StrictStr
+    project_id: StrictStr = Field(alias="projectId")
     status: PaletteConnectStatus
-    tenant_id: StrictStr
+    tenant_id: StrictStr = Field(alias="tenantId")
     totals: Dict[str, UsageTotal]
-    usage_configured: StrictBool
-    __properties: ClassVar[List[str]] = ["first_eval_run", "first_trace_received", "ok", "project_id", "status", "tenant_id", "totals", "usage_configured"]
+    usage_configured: StrictBool = Field(alias="usageConfigured")
+    __properties: ClassVar[List[str]] = ["firstEvalRun", "firstTraceReceived", "ok", "projectId", "status", "tenantId", "totals", "usageConfigured"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,19 +96,19 @@ class PaletteConnectStatusResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "first_eval_run": obj.get("first_eval_run"),
-            "first_trace_received": obj.get("first_trace_received"),
+            "firstEvalRun": obj.get("firstEvalRun"),
+            "firstTraceReceived": obj.get("firstTraceReceived"),
             "ok": obj.get("ok"),
-            "project_id": obj.get("project_id"),
+            "projectId": obj.get("projectId"),
             "status": obj.get("status"),
-            "tenant_id": obj.get("tenant_id"),
+            "tenantId": obj.get("tenantId"),
             "totals": dict(
                 (_k, UsageTotal.from_dict(_v))
                 for _k, _v in obj["totals"].items()
             )
             if obj.get("totals") is not None
             else None,
-            "usage_configured": obj.get("usage_configured")
+            "usageConfigured": obj.get("usageConfigured")
         })
         return _obj
 

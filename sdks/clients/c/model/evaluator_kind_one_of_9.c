@@ -66,7 +66,7 @@ cJSON *evaluator_kind_one_of_9_convertToJSON(evaluator_kind_one_of_9_t *evaluato
     if (!evaluator_kind_one_of_9->min_ratio) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "min_ratio", evaluator_kind_one_of_9->min_ratio) == NULL) {
+    if(cJSON_AddNumberToObject(item, "minRatio", evaluator_kind_one_of_9->min_ratio) == NULL) {
     goto fail; //Numeric
     }
 
@@ -93,7 +93,7 @@ evaluator_kind_one_of_9_t *evaluator_kind_one_of_9_parseFromJSON(cJSON *evaluato
     evaluator_kind_one_of_9_t *evaluator_kind_one_of_9_local_var = NULL;
 
     // evaluator_kind_one_of_9->min_ratio
-    cJSON *min_ratio = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_9JSON, "min_ratio");
+    cJSON *min_ratio = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_9JSON, "minRatio");
     if (cJSON_IsNull(min_ratio)) {
         min_ratio = NULL;
     }

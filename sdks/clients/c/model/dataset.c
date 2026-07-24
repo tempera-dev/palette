@@ -81,7 +81,7 @@ cJSON *dataset_convertToJSON(dataset_t *dataset) {
     if (!dataset->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", dataset->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", dataset->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -90,7 +90,7 @@ cJSON *dataset_convertToJSON(dataset_t *dataset) {
     if (!dataset->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", dataset->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", dataset->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -108,7 +108,7 @@ cJSON *dataset_convertToJSON(dataset_t *dataset) {
     if (!dataset->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", dataset->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", dataset->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -117,7 +117,7 @@ cJSON *dataset_convertToJSON(dataset_t *dataset) {
     if (!dataset->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", dataset->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", dataset->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -134,7 +134,7 @@ dataset_t *dataset_parseFromJSON(cJSON *datasetJSON){
     dataset_t *dataset_local_var = NULL;
 
     // dataset->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(datasetJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(datasetJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -149,7 +149,7 @@ dataset_t *dataset_parseFromJSON(cJSON *datasetJSON){
     }
 
     // dataset->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(datasetJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(datasetJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -179,7 +179,7 @@ dataset_t *dataset_parseFromJSON(cJSON *datasetJSON){
     }
 
     // dataset->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(datasetJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(datasetJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -194,7 +194,7 @@ dataset_t *dataset_parseFromJSON(cJSON *datasetJSON){
     }
 
     // dataset->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(datasetJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(datasetJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }

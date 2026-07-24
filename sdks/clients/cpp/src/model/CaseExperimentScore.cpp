@@ -20,28 +20,28 @@ namespace model {
 
 CaseExperimentScore::CaseExperimentScore()
 {
-    m_Baseline_cached = false;
-    m_Baseline_cachedIsSet = false;
-    m_Baseline_costIsSet = false;
-    m_Baseline_evidenceIsSet = false;
-    m_Baseline_judge_call_id = utility::conversions::to_string_t("");
-    m_Baseline_judge_call_idIsSet = false;
-    m_Baseline_outputIsSet = false;
-    m_Baseline_score = 0.0;
-    m_Baseline_scoreIsSet = false;
-    m_Baseline_traceIsSet = false;
-    m_Candidate_cached = false;
-    m_Candidate_cachedIsSet = false;
-    m_Candidate_costIsSet = false;
-    m_Candidate_evidenceIsSet = false;
-    m_Candidate_judge_call_id = utility::conversions::to_string_t("");
-    m_Candidate_judge_call_idIsSet = false;
-    m_Candidate_outputIsSet = false;
-    m_Candidate_score = 0.0;
-    m_Candidate_scoreIsSet = false;
-    m_Candidate_traceIsSet = false;
-    m_Case_id = utility::conversions::to_string_t("");
-    m_Case_idIsSet = false;
+    m_BaselineCached = false;
+    m_BaselineCachedIsSet = false;
+    m_BaselineCostIsSet = false;
+    m_BaselineEvidenceIsSet = false;
+    m_BaselineJudgeCallId = utility::conversions::to_string_t("");
+    m_BaselineJudgeCallIdIsSet = false;
+    m_BaselineOutputIsSet = false;
+    m_BaselineScore = 0.0;
+    m_BaselineScoreIsSet = false;
+    m_BaselineTraceIsSet = false;
+    m_CandidateCached = false;
+    m_CandidateCachedIsSet = false;
+    m_CandidateCostIsSet = false;
+    m_CandidateEvidenceIsSet = false;
+    m_CandidateJudgeCallId = utility::conversions::to_string_t("");
+    m_CandidateJudgeCallIdIsSet = false;
+    m_CandidateOutputIsSet = false;
+    m_CandidateScore = 0.0;
+    m_CandidateScoreIsSet = false;
+    m_CandidateTraceIsSet = false;
+    m_CaseId = utility::conversions::to_string_t("");
+    m_CaseIdIsSet = false;
     m_Delta = 0.0;
     m_DeltaIsSet = false;
     m_ReferenceIsSet = false;
@@ -59,80 +59,80 @@ void CaseExperimentScore::validate()
 web::json::value CaseExperimentScore::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Baseline_cachedIsSet)
+    if(m_BaselineCachedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_cached"))] = ModelBase::toJson(m_Baseline_cached);
+        val[utility::conversions::to_string_t(U("baselineCached"))] = ModelBase::toJson(m_BaselineCached);
     }
-    if(m_Baseline_costIsSet)
+    if(m_BaselineCostIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_cost"))] = ModelBase::toJson(m_Baseline_cost);
+        val[utility::conversions::to_string_t(U("baselineCost"))] = ModelBase::toJson(m_BaselineCost);
     }
-    if(m_Baseline_evidenceIsSet)
+    if(m_BaselineEvidenceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_evidence"))] = ModelBase::toJson(m_Baseline_evidence);
+        val[utility::conversions::to_string_t(U("baselineEvidence"))] = ModelBase::toJson(m_BaselineEvidence);
     }
-    if(m_Baseline_judge_call_idIsSet)
+    if(m_BaselineJudgeCallIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_judge_call_id"))] = ModelBase::toJson(m_Baseline_judge_call_id);
+        val[utility::conversions::to_string_t(U("baselineJudgeCallId"))] = ModelBase::toJson(m_BaselineJudgeCallId);
     }
-    if(m_Baseline_outputIsSet)
+    if(m_BaselineOutputIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_output"))] = ModelBase::toJson(m_Baseline_output);
+        val[utility::conversions::to_string_t(U("baselineOutput"))] = ModelBase::toJson(m_BaselineOutput);
     }
-    if(m_Baseline_scoreIsSet)
+    if(m_BaselineScoreIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_score"))] = ModelBase::toJson(m_Baseline_score);
+        val[utility::conversions::to_string_t(U("baselineScore"))] = ModelBase::toJson(m_BaselineScore);
     }
-    if(m_Baseline_traceIsSet)
+    if(m_BaselineTraceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("baseline_trace"))] = ModelBase::toJson(m_Baseline_trace);
+        val[utility::conversions::to_string_t(U("baselineTrace"))] = ModelBase::toJson(m_BaselineTrace);
     }
-    if(m_Candidate_cachedIsSet)
+    if(m_CandidateCachedIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_cached"))] = ModelBase::toJson(m_Candidate_cached);
+        val[utility::conversions::to_string_t(U("candidateCached"))] = ModelBase::toJson(m_CandidateCached);
     }
-    if(m_Candidate_costIsSet)
+    if(m_CandidateCostIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_cost"))] = ModelBase::toJson(m_Candidate_cost);
+        val[utility::conversions::to_string_t(U("candidateCost"))] = ModelBase::toJson(m_CandidateCost);
     }
-    if(m_Candidate_evidenceIsSet)
+    if(m_CandidateEvidenceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_evidence"))] = ModelBase::toJson(m_Candidate_evidence);
+        val[utility::conversions::to_string_t(U("candidateEvidence"))] = ModelBase::toJson(m_CandidateEvidence);
     }
-    if(m_Candidate_judge_call_idIsSet)
+    if(m_CandidateJudgeCallIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_judge_call_id"))] = ModelBase::toJson(m_Candidate_judge_call_id);
+        val[utility::conversions::to_string_t(U("candidateJudgeCallId"))] = ModelBase::toJson(m_CandidateJudgeCallId);
     }
-    if(m_Candidate_outputIsSet)
+    if(m_CandidateOutputIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_output"))] = ModelBase::toJson(m_Candidate_output);
+        val[utility::conversions::to_string_t(U("candidateOutput"))] = ModelBase::toJson(m_CandidateOutput);
     }
-    if(m_Candidate_scoreIsSet)
+    if(m_CandidateScoreIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_score"))] = ModelBase::toJson(m_Candidate_score);
+        val[utility::conversions::to_string_t(U("candidateScore"))] = ModelBase::toJson(m_CandidateScore);
     }
-    if(m_Candidate_traceIsSet)
+    if(m_CandidateTraceIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("candidate_trace"))] = ModelBase::toJson(m_Candidate_trace);
+        val[utility::conversions::to_string_t(U("candidateTrace"))] = ModelBase::toJson(m_CandidateTrace);
     }
-    if(m_Case_idIsSet)
+    if(m_CaseIdIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("case_id"))] = ModelBase::toJson(m_Case_id);
+        val[utility::conversions::to_string_t(U("caseId"))] = ModelBase::toJson(m_CaseId);
     }
     if(m_DeltaIsSet)
     {   
@@ -151,9 +151,9 @@ web::json::value CaseExperimentScore::toJson() const
 bool CaseExperimentScore::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_cached"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineCached"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_cached")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineCached")));
         if(!fieldValue.is_null())
         {
             bool refVal_setBaselineCached;
@@ -162,9 +162,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_cost"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineCost"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_cost")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineCost")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Money> refVal_setBaselineCost;
@@ -173,9 +173,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_evidence"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineEvidence"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_evidence")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineEvidence")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setBaselineEvidence;
@@ -184,9 +184,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_judge_call_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineJudgeCallId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_judge_call_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineJudgeCallId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setBaselineJudgeCallId;
@@ -195,9 +195,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_output"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineOutput"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_output")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineOutput")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setBaselineOutput;
@@ -206,9 +206,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_score"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineScore"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_score")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineScore")));
         if(!fieldValue.is_null())
         {
             double refVal_setBaselineScore;
@@ -217,9 +217,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("baseline_trace"))))
+    if(val.has_field(utility::conversions::to_string_t(U("baselineTrace"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baseline_trace")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("baselineTrace")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setBaselineTrace;
@@ -228,9 +228,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_cached"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateCached"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_cached")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateCached")));
         if(!fieldValue.is_null())
         {
             bool refVal_setCandidateCached;
@@ -239,9 +239,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_cost"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateCost"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_cost")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateCost")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<Money> refVal_setCandidateCost;
@@ -250,9 +250,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_evidence"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateEvidence"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_evidence")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateEvidence")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setCandidateEvidence;
@@ -261,9 +261,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_judge_call_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateJudgeCallId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_judge_call_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateJudgeCallId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCandidateJudgeCallId;
@@ -272,9 +272,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_output"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateOutput"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_output")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateOutput")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setCandidateOutput;
@@ -283,9 +283,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_score"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateScore"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_score")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateScore")));
         if(!fieldValue.is_null())
         {
             double refVal_setCandidateScore;
@@ -294,9 +294,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("candidate_trace"))))
+    if(val.has_field(utility::conversions::to_string_t(U("candidateTrace"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidate_trace")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("candidateTrace")));
         if(!fieldValue.is_null())
         {
             std::shared_ptr<AnyType> refVal_setCandidateTrace;
@@ -305,9 +305,9 @@ bool CaseExperimentScore::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("case_id"))))
+    if(val.has_field(utility::conversions::to_string_t(U("caseId"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("case_id")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("caseId")));
         if(!fieldValue.is_null())
         {
             utility::string_t refVal_setCaseId;
@@ -348,65 +348,65 @@ void CaseExperimentScore::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Baseline_cachedIsSet)
+    if(m_BaselineCachedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_cached")), m_Baseline_cached));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineCached")), m_BaselineCached));
     }
-    if(m_Baseline_costIsSet)
+    if(m_BaselineCostIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_cost")), m_Baseline_cost));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineCost")), m_BaselineCost));
     }
-    if(m_Baseline_evidenceIsSet)
+    if(m_BaselineEvidenceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_evidence")), m_Baseline_evidence));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineEvidence")), m_BaselineEvidence));
     }
-    if(m_Baseline_judge_call_idIsSet)
+    if(m_BaselineJudgeCallIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_judge_call_id")), m_Baseline_judge_call_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineJudgeCallId")), m_BaselineJudgeCallId));
     }
-    if(m_Baseline_outputIsSet)
+    if(m_BaselineOutputIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_output")), m_Baseline_output));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineOutput")), m_BaselineOutput));
     }
-    if(m_Baseline_scoreIsSet)
+    if(m_BaselineScoreIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_score")), m_Baseline_score));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineScore")), m_BaselineScore));
     }
-    if(m_Baseline_traceIsSet)
+    if(m_BaselineTraceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baseline_trace")), m_Baseline_trace));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("baselineTrace")), m_BaselineTrace));
     }
-    if(m_Candidate_cachedIsSet)
+    if(m_CandidateCachedIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_cached")), m_Candidate_cached));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateCached")), m_CandidateCached));
     }
-    if(m_Candidate_costIsSet)
+    if(m_CandidateCostIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_cost")), m_Candidate_cost));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateCost")), m_CandidateCost));
     }
-    if(m_Candidate_evidenceIsSet)
+    if(m_CandidateEvidenceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_evidence")), m_Candidate_evidence));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateEvidence")), m_CandidateEvidence));
     }
-    if(m_Candidate_judge_call_idIsSet)
+    if(m_CandidateJudgeCallIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_judge_call_id")), m_Candidate_judge_call_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateJudgeCallId")), m_CandidateJudgeCallId));
     }
-    if(m_Candidate_outputIsSet)
+    if(m_CandidateOutputIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_output")), m_Candidate_output));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateOutput")), m_CandidateOutput));
     }
-    if(m_Candidate_scoreIsSet)
+    if(m_CandidateScoreIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_score")), m_Candidate_score));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateScore")), m_CandidateScore));
     }
-    if(m_Candidate_traceIsSet)
+    if(m_CandidateTraceIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidate_trace")), m_Candidate_trace));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("candidateTrace")), m_CandidateTrace));
     }
-    if(m_Case_idIsSet)
+    if(m_CaseIdIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("case_id")), m_Case_id));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("caseId")), m_CaseId));
     }
     if(m_DeltaIsSet)
     {
@@ -427,94 +427,94 @@ bool CaseExperimentScore::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_cached"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineCached"))))
     {
         bool refVal_setBaselineCached;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_cached"))), refVal_setBaselineCached );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineCached"))), refVal_setBaselineCached );
         setBaselineCached(refVal_setBaselineCached);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_cost"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineCost"))))
     {
         std::shared_ptr<Money> refVal_setBaselineCost;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_cost"))), refVal_setBaselineCost );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineCost"))), refVal_setBaselineCost );
         setBaselineCost(refVal_setBaselineCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_evidence"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineEvidence"))))
     {
         std::shared_ptr<AnyType> refVal_setBaselineEvidence;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_evidence"))), refVal_setBaselineEvidence );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineEvidence"))), refVal_setBaselineEvidence );
         setBaselineEvidence(refVal_setBaselineEvidence);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_judge_call_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineJudgeCallId"))))
     {
         utility::string_t refVal_setBaselineJudgeCallId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_judge_call_id"))), refVal_setBaselineJudgeCallId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineJudgeCallId"))), refVal_setBaselineJudgeCallId );
         setBaselineJudgeCallId(refVal_setBaselineJudgeCallId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_output"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineOutput"))))
     {
         std::shared_ptr<AnyType> refVal_setBaselineOutput;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_output"))), refVal_setBaselineOutput );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineOutput"))), refVal_setBaselineOutput );
         setBaselineOutput(refVal_setBaselineOutput);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_score"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineScore"))))
     {
         double refVal_setBaselineScore;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_score"))), refVal_setBaselineScore );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineScore"))), refVal_setBaselineScore );
         setBaselineScore(refVal_setBaselineScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("baseline_trace"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("baselineTrace"))))
     {
         std::shared_ptr<AnyType> refVal_setBaselineTrace;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baseline_trace"))), refVal_setBaselineTrace );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("baselineTrace"))), refVal_setBaselineTrace );
         setBaselineTrace(refVal_setBaselineTrace);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_cached"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateCached"))))
     {
         bool refVal_setCandidateCached;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_cached"))), refVal_setCandidateCached );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateCached"))), refVal_setCandidateCached );
         setCandidateCached(refVal_setCandidateCached);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_cost"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateCost"))))
     {
         std::shared_ptr<Money> refVal_setCandidateCost;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_cost"))), refVal_setCandidateCost );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateCost"))), refVal_setCandidateCost );
         setCandidateCost(refVal_setCandidateCost);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_evidence"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateEvidence"))))
     {
         std::shared_ptr<AnyType> refVal_setCandidateEvidence;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_evidence"))), refVal_setCandidateEvidence );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateEvidence"))), refVal_setCandidateEvidence );
         setCandidateEvidence(refVal_setCandidateEvidence);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_judge_call_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateJudgeCallId"))))
     {
         utility::string_t refVal_setCandidateJudgeCallId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_judge_call_id"))), refVal_setCandidateJudgeCallId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateJudgeCallId"))), refVal_setCandidateJudgeCallId );
         setCandidateJudgeCallId(refVal_setCandidateJudgeCallId);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_output"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateOutput"))))
     {
         std::shared_ptr<AnyType> refVal_setCandidateOutput;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_output"))), refVal_setCandidateOutput );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateOutput"))), refVal_setCandidateOutput );
         setCandidateOutput(refVal_setCandidateOutput);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_score"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateScore"))))
     {
         double refVal_setCandidateScore;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_score"))), refVal_setCandidateScore );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateScore"))), refVal_setCandidateScore );
         setCandidateScore(refVal_setCandidateScore);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("candidate_trace"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("candidateTrace"))))
     {
         std::shared_ptr<AnyType> refVal_setCandidateTrace;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidate_trace"))), refVal_setCandidateTrace );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("candidateTrace"))), refVal_setCandidateTrace );
         setCandidateTrace(refVal_setCandidateTrace);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("case_id"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("caseId"))))
     {
         utility::string_t refVal_setCaseId;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("case_id"))), refVal_setCaseId );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("caseId"))), refVal_setCaseId );
         setCaseId(refVal_setCaseId);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(U("delta"))))
@@ -535,314 +535,314 @@ bool CaseExperimentScore::fromMultiPart(std::shared_ptr<MultipartFormData> multi
 
 bool CaseExperimentScore::isBaselineCached() const
 {
-    return m_Baseline_cached;
+    return m_BaselineCached;
 }
 
 void CaseExperimentScore::setBaselineCached(bool value)
 {
-    m_Baseline_cached = value;
-    m_Baseline_cachedIsSet = true;
+    m_BaselineCached = value;
+    m_BaselineCachedIsSet = true;
 }
 
 bool CaseExperimentScore::baselineCachedIsSet() const
 {
-    return m_Baseline_cachedIsSet;
+    return m_BaselineCachedIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_cached()
+void CaseExperimentScore::unsetBaselineCached()
 {
-    m_Baseline_cachedIsSet = false;
+    m_BaselineCachedIsSet = false;
 }
 std::shared_ptr<Money> CaseExperimentScore::getBaselineCost() const
 {
-    return m_Baseline_cost;
+    return m_BaselineCost;
 }
 
 
 void CaseExperimentScore::setBaselineCost(const std::shared_ptr<Money>& value)
 {
-    m_Baseline_cost = value;
-    m_Baseline_costIsSet = true;
+    m_BaselineCost = value;
+    m_BaselineCostIsSet = true;
 }
 
 bool CaseExperimentScore::baselineCostIsSet() const
 {
-    return m_Baseline_costIsSet;
+    return m_BaselineCostIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_cost()
+void CaseExperimentScore::unsetBaselineCost()
 {
-    m_Baseline_costIsSet = false;
+    m_BaselineCostIsSet = false;
 }
 std::shared_ptr<AnyType> CaseExperimentScore::getBaselineEvidence() const
 {
-    return m_Baseline_evidence;
+    return m_BaselineEvidence;
 }
 
 
 void CaseExperimentScore::setBaselineEvidence(const std::shared_ptr<AnyType>& value)
 {
-    m_Baseline_evidence = value;
-    m_Baseline_evidenceIsSet = true;
+    m_BaselineEvidence = value;
+    m_BaselineEvidenceIsSet = true;
 }
 
 bool CaseExperimentScore::baselineEvidenceIsSet() const
 {
-    return m_Baseline_evidenceIsSet;
+    return m_BaselineEvidenceIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_evidence()
+void CaseExperimentScore::unsetBaselineEvidence()
 {
-    m_Baseline_evidenceIsSet = false;
+    m_BaselineEvidenceIsSet = false;
 }
 utility::string_t CaseExperimentScore::getBaselineJudgeCallId() const
 {
-    return m_Baseline_judge_call_id;
+    return m_BaselineJudgeCallId;
 }
 
 
 void CaseExperimentScore::setBaselineJudgeCallId(const utility::string_t& value)
 {
-    m_Baseline_judge_call_id = value;
-    m_Baseline_judge_call_idIsSet = true;
+    m_BaselineJudgeCallId = value;
+    m_BaselineJudgeCallIdIsSet = true;
 }
 
 bool CaseExperimentScore::baselineJudgeCallIdIsSet() const
 {
-    return m_Baseline_judge_call_idIsSet;
+    return m_BaselineJudgeCallIdIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_judge_call_id()
+void CaseExperimentScore::unsetBaselineJudgeCallId()
 {
-    m_Baseline_judge_call_idIsSet = false;
+    m_BaselineJudgeCallIdIsSet = false;
 }
 std::shared_ptr<AnyType> CaseExperimentScore::getBaselineOutput() const
 {
-    return m_Baseline_output;
+    return m_BaselineOutput;
 }
 
 
 void CaseExperimentScore::setBaselineOutput(const std::shared_ptr<AnyType>& value)
 {
-    m_Baseline_output = value;
-    m_Baseline_outputIsSet = true;
+    m_BaselineOutput = value;
+    m_BaselineOutputIsSet = true;
 }
 
 bool CaseExperimentScore::baselineOutputIsSet() const
 {
-    return m_Baseline_outputIsSet;
+    return m_BaselineOutputIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_output()
+void CaseExperimentScore::unsetBaselineOutput()
 {
-    m_Baseline_outputIsSet = false;
+    m_BaselineOutputIsSet = false;
 }
 double CaseExperimentScore::getBaselineScore() const
 {
-    return m_Baseline_score;
+    return m_BaselineScore;
 }
 
 void CaseExperimentScore::setBaselineScore(double value)
 {
-    m_Baseline_score = value;
-    m_Baseline_scoreIsSet = true;
+    m_BaselineScore = value;
+    m_BaselineScoreIsSet = true;
 }
 
 bool CaseExperimentScore::baselineScoreIsSet() const
 {
-    return m_Baseline_scoreIsSet;
+    return m_BaselineScoreIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_score()
+void CaseExperimentScore::unsetBaselineScore()
 {
-    m_Baseline_scoreIsSet = false;
+    m_BaselineScoreIsSet = false;
 }
 std::shared_ptr<AnyType> CaseExperimentScore::getBaselineTrace() const
 {
-    return m_Baseline_trace;
+    return m_BaselineTrace;
 }
 
 
 void CaseExperimentScore::setBaselineTrace(const std::shared_ptr<AnyType>& value)
 {
-    m_Baseline_trace = value;
-    m_Baseline_traceIsSet = true;
+    m_BaselineTrace = value;
+    m_BaselineTraceIsSet = true;
 }
 
 bool CaseExperimentScore::baselineTraceIsSet() const
 {
-    return m_Baseline_traceIsSet;
+    return m_BaselineTraceIsSet;
 }
 
-void CaseExperimentScore::unsetBaseline_trace()
+void CaseExperimentScore::unsetBaselineTrace()
 {
-    m_Baseline_traceIsSet = false;
+    m_BaselineTraceIsSet = false;
 }
 bool CaseExperimentScore::isCandidateCached() const
 {
-    return m_Candidate_cached;
+    return m_CandidateCached;
 }
 
 void CaseExperimentScore::setCandidateCached(bool value)
 {
-    m_Candidate_cached = value;
-    m_Candidate_cachedIsSet = true;
+    m_CandidateCached = value;
+    m_CandidateCachedIsSet = true;
 }
 
 bool CaseExperimentScore::candidateCachedIsSet() const
 {
-    return m_Candidate_cachedIsSet;
+    return m_CandidateCachedIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_cached()
+void CaseExperimentScore::unsetCandidateCached()
 {
-    m_Candidate_cachedIsSet = false;
+    m_CandidateCachedIsSet = false;
 }
 std::shared_ptr<Money> CaseExperimentScore::getCandidateCost() const
 {
-    return m_Candidate_cost;
+    return m_CandidateCost;
 }
 
 
 void CaseExperimentScore::setCandidateCost(const std::shared_ptr<Money>& value)
 {
-    m_Candidate_cost = value;
-    m_Candidate_costIsSet = true;
+    m_CandidateCost = value;
+    m_CandidateCostIsSet = true;
 }
 
 bool CaseExperimentScore::candidateCostIsSet() const
 {
-    return m_Candidate_costIsSet;
+    return m_CandidateCostIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_cost()
+void CaseExperimentScore::unsetCandidateCost()
 {
-    m_Candidate_costIsSet = false;
+    m_CandidateCostIsSet = false;
 }
 std::shared_ptr<AnyType> CaseExperimentScore::getCandidateEvidence() const
 {
-    return m_Candidate_evidence;
+    return m_CandidateEvidence;
 }
 
 
 void CaseExperimentScore::setCandidateEvidence(const std::shared_ptr<AnyType>& value)
 {
-    m_Candidate_evidence = value;
-    m_Candidate_evidenceIsSet = true;
+    m_CandidateEvidence = value;
+    m_CandidateEvidenceIsSet = true;
 }
 
 bool CaseExperimentScore::candidateEvidenceIsSet() const
 {
-    return m_Candidate_evidenceIsSet;
+    return m_CandidateEvidenceIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_evidence()
+void CaseExperimentScore::unsetCandidateEvidence()
 {
-    m_Candidate_evidenceIsSet = false;
+    m_CandidateEvidenceIsSet = false;
 }
 utility::string_t CaseExperimentScore::getCandidateJudgeCallId() const
 {
-    return m_Candidate_judge_call_id;
+    return m_CandidateJudgeCallId;
 }
 
 
 void CaseExperimentScore::setCandidateJudgeCallId(const utility::string_t& value)
 {
-    m_Candidate_judge_call_id = value;
-    m_Candidate_judge_call_idIsSet = true;
+    m_CandidateJudgeCallId = value;
+    m_CandidateJudgeCallIdIsSet = true;
 }
 
 bool CaseExperimentScore::candidateJudgeCallIdIsSet() const
 {
-    return m_Candidate_judge_call_idIsSet;
+    return m_CandidateJudgeCallIdIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_judge_call_id()
+void CaseExperimentScore::unsetCandidateJudgeCallId()
 {
-    m_Candidate_judge_call_idIsSet = false;
+    m_CandidateJudgeCallIdIsSet = false;
 }
 std::shared_ptr<AnyType> CaseExperimentScore::getCandidateOutput() const
 {
-    return m_Candidate_output;
+    return m_CandidateOutput;
 }
 
 
 void CaseExperimentScore::setCandidateOutput(const std::shared_ptr<AnyType>& value)
 {
-    m_Candidate_output = value;
-    m_Candidate_outputIsSet = true;
+    m_CandidateOutput = value;
+    m_CandidateOutputIsSet = true;
 }
 
 bool CaseExperimentScore::candidateOutputIsSet() const
 {
-    return m_Candidate_outputIsSet;
+    return m_CandidateOutputIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_output()
+void CaseExperimentScore::unsetCandidateOutput()
 {
-    m_Candidate_outputIsSet = false;
+    m_CandidateOutputIsSet = false;
 }
 double CaseExperimentScore::getCandidateScore() const
 {
-    return m_Candidate_score;
+    return m_CandidateScore;
 }
 
 void CaseExperimentScore::setCandidateScore(double value)
 {
-    m_Candidate_score = value;
-    m_Candidate_scoreIsSet = true;
+    m_CandidateScore = value;
+    m_CandidateScoreIsSet = true;
 }
 
 bool CaseExperimentScore::candidateScoreIsSet() const
 {
-    return m_Candidate_scoreIsSet;
+    return m_CandidateScoreIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_score()
+void CaseExperimentScore::unsetCandidateScore()
 {
-    m_Candidate_scoreIsSet = false;
+    m_CandidateScoreIsSet = false;
 }
 std::shared_ptr<AnyType> CaseExperimentScore::getCandidateTrace() const
 {
-    return m_Candidate_trace;
+    return m_CandidateTrace;
 }
 
 
 void CaseExperimentScore::setCandidateTrace(const std::shared_ptr<AnyType>& value)
 {
-    m_Candidate_trace = value;
-    m_Candidate_traceIsSet = true;
+    m_CandidateTrace = value;
+    m_CandidateTraceIsSet = true;
 }
 
 bool CaseExperimentScore::candidateTraceIsSet() const
 {
-    return m_Candidate_traceIsSet;
+    return m_CandidateTraceIsSet;
 }
 
-void CaseExperimentScore::unsetCandidate_trace()
+void CaseExperimentScore::unsetCandidateTrace()
 {
-    m_Candidate_traceIsSet = false;
+    m_CandidateTraceIsSet = false;
 }
 utility::string_t CaseExperimentScore::getCaseId() const
 {
-    return m_Case_id;
+    return m_CaseId;
 }
 
 
 void CaseExperimentScore::setCaseId(const utility::string_t& value)
 {
-    m_Case_id = value;
-    m_Case_idIsSet = true;
+    m_CaseId = value;
+    m_CaseIdIsSet = true;
 }
 
 bool CaseExperimentScore::caseIdIsSet() const
 {
-    return m_Case_idIsSet;
+    return m_CaseIdIsSet;
 }
 
-void CaseExperimentScore::unsetCase_id()
+void CaseExperimentScore::unsetCaseId()
 {
-    m_Case_idIsSet = false;
+    m_CaseIdIsSet = false;
 }
 double CaseExperimentScore::getDelta() const
 {

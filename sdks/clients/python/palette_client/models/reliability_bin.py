@@ -28,13 +28,13 @@ class ReliabilityBin(BaseModel):
     ReliabilityBin
     """ # noqa: E501
     accuracy: Optional[Union[StrictFloat, StrictInt]] = None
-    bin_index: Annotated[int, Field(strict=True, ge=0)]
-    calibration_gap: Optional[Union[StrictFloat, StrictInt]] = None
-    lower_bound: Union[StrictFloat, StrictInt]
-    mean_confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    sample_count: Annotated[int, Field(strict=True, ge=0)]
-    upper_bound: Union[StrictFloat, StrictInt]
-    __properties: ClassVar[List[str]] = ["accuracy", "bin_index", "calibration_gap", "lower_bound", "mean_confidence", "sample_count", "upper_bound"]
+    bin_index: Annotated[int, Field(strict=True, ge=0)] = Field(alias="binIndex")
+    calibration_gap: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="calibrationGap")
+    lower_bound: Union[StrictFloat, StrictInt] = Field(alias="lowerBound")
+    mean_confidence: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="meanConfidence")
+    sample_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="sampleCount")
+    upper_bound: Union[StrictFloat, StrictInt] = Field(alias="upperBound")
+    __properties: ClassVar[List[str]] = ["accuracy", "binIndex", "calibrationGap", "lowerBound", "meanConfidence", "sampleCount", "upperBound"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,12 +83,12 @@ class ReliabilityBin(BaseModel):
         # set to None if calibration_gap (nullable) is None
         # and model_fields_set contains the field
         if self.calibration_gap is None and "calibration_gap" in self.model_fields_set:
-            _dict['calibration_gap'] = None
+            _dict['calibrationGap'] = None
 
         # set to None if mean_confidence (nullable) is None
         # and model_fields_set contains the field
         if self.mean_confidence is None and "mean_confidence" in self.model_fields_set:
-            _dict['mean_confidence'] = None
+            _dict['meanConfidence'] = None
 
         return _dict
 
@@ -103,12 +103,12 @@ class ReliabilityBin(BaseModel):
 
         _obj = cls.model_validate({
             "accuracy": obj.get("accuracy"),
-            "bin_index": obj.get("bin_index"),
-            "calibration_gap": obj.get("calibration_gap"),
-            "lower_bound": obj.get("lower_bound"),
-            "mean_confidence": obj.get("mean_confidence"),
-            "sample_count": obj.get("sample_count"),
-            "upper_bound": obj.get("upper_bound")
+            "binIndex": obj.get("binIndex"),
+            "calibrationGap": obj.get("calibrationGap"),
+            "lowerBound": obj.get("lowerBound"),
+            "meanConfidence": obj.get("meanConfidence"),
+            "sampleCount": obj.get("sampleCount"),
+            "upperBound": obj.get("upperBound")
         })
         return _obj
 

@@ -52,8 +52,8 @@ export function MaintenanceWindowFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'endsAt': (new Date(json['ends_at'])),
-        'startsAt': (new Date(json['starts_at'])),
+        'endsAt': (new Date(json['endsAt'])),
+        'startsAt': (new Date(json['startsAt'])),
     };
 }
 
@@ -68,8 +68,8 @@ export function MaintenanceWindowToJSONTyped(value?: MaintenanceWindow | null, i
 
     return {
         
-        'ends_at': ((value['endsAt']).toISOString()),
-        'starts_at': ((value['startsAt']).toISOString()),
+        'endsAt': ((value['endsAt']).toISOString()),
+        'startsAt': ((value['startsAt']).toISOString()),
     };
 }
 

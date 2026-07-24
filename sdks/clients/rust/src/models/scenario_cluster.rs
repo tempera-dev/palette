@@ -15,12 +15,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ScenarioCluster {
     /// The most common failure mode across members.
-    #[serde(rename = "dominant_failure_mode")]
+    #[serde(rename = "dominantFailureMode")]
     pub dominant_failure_mode: models::FailureMode,
-    #[serde(rename = "exemplar_trace_id")]
+    #[serde(rename = "exemplarTraceId")]
     pub exemplar_trace_id: String,
     /// All member trace ids, sorted ascending.
-    #[serde(rename = "member_trace_ids")]
+    #[serde(rename = "memberTraceIds")]
     pub member_trace_ids: Vec<String>,
     /// The signature of the cluster's exemplar.
     #[serde(rename = "signature")]

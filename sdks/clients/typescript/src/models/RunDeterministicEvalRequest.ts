@@ -92,13 +92,13 @@ export function RunDeterministicEvalRequestFromJSONTyped(json: any, ignoreDiscri
     }
     return {
         
-        'agentReleaseId': json['agent_release_id'],
-        'codeHash': json['code_hash'] == null ? undefined : json['code_hash'],
-        'evaluatorId': json['evaluator_id'],
-        'evaluatorVersionId': json['evaluator_version_id'],
+        'agentReleaseId': json['agentReleaseId'],
+        'codeHash': json['codeHash'] == null ? undefined : json['codeHash'],
+        'evaluatorId': json['evaluatorId'],
+        'evaluatorVersionId': json['evaluatorVersionId'],
         'kind': EvaluatorKindFromJSON(json['kind']),
-        'promptVersionId': json['prompt_version_id'] == null ? undefined : json['prompt_version_id'],
-        'wasmHash': json['wasm_hash'] == null ? undefined : json['wasm_hash'],
+        'promptVersionId': json['promptVersionId'] == null ? undefined : json['promptVersionId'],
+        'wasmHash': json['wasmHash'] == null ? undefined : json['wasmHash'],
     };
 }
 
@@ -113,13 +113,13 @@ export function RunDeterministicEvalRequestToJSONTyped(value?: RunDeterministicE
 
     return {
         
-        'agent_release_id': value['agentReleaseId'],
-        'code_hash': value['codeHash'],
-        'evaluator_id': value['evaluatorId'],
-        'evaluator_version_id': value['evaluatorVersionId'],
+        'agentReleaseId': value['agentReleaseId'],
+        'codeHash': value['codeHash'],
+        'evaluatorId': value['evaluatorId'],
+        'evaluatorVersionId': value['evaluatorVersionId'],
         'kind': EvaluatorKindToJSON(value['kind']),
-        'prompt_version_id': value['promptVersionId'],
-        'wasm_hash': value['wasmHash'],
+        'promptVersionId': value['promptVersionId'],
+        'wasmHash': value['wasmHash'],
     };
 }
 

@@ -55,12 +55,12 @@ public:
 
     utility::string_t getExperimentId() const;
     bool experimentIdIsSet() const;
-    void unsetExperiment_id();
+    void unsetExperimentId();
     void setExperimentId(const utility::string_t& value);
 
     utility::string_t getRunId() const;
     bool runIdIsSet() const;
-    void unsetRun_id();
+    void unsetRunId();
     void setRunId(const utility::string_t& value);
 
     utility::string_t getSplit() const;
@@ -70,12 +70,12 @@ public:
 
     utility::string_t getSuiteId() const;
     bool suiteIdIsSet() const;
-    void unsetSuite_id();
+    void unsetSuiteId();
     void setSuiteId(const utility::string_t& value);
 
     utility::string_t getSuiteVersion() const;
     bool suiteVersionIsSet() const;
-    void unsetSuite_version();
+    void unsetSuiteVersion();
     void setSuiteVersion(const utility::string_t& value);
 
     utility::string_t getVerdict() const;
@@ -85,20 +85,20 @@ public:
 
 
 protected:
-    utility::string_t m_Experiment_id;
-    bool m_Experiment_idIsSet;
+    utility::string_t m_ExperimentId;
+    bool m_ExperimentIdIsSet;
 
-    utility::string_t m_Run_id;
-    bool m_Run_idIsSet;
+    utility::string_t m_RunId;
+    bool m_RunIdIsSet;
 
     utility::string_t m_Split;
     bool m_SplitIsSet;
 
-    utility::string_t m_Suite_id;
-    bool m_Suite_idIsSet;
+    utility::string_t m_SuiteId;
+    bool m_SuiteIdIsSet;
 
-    utility::string_t m_Suite_version;
-    bool m_Suite_versionIsSet;
+    utility::string_t m_SuiteVersion;
+    bool m_SuiteVersionIsSet;
 
     utility::string_t m_Verdict;
     bool m_VerdictIsSet;

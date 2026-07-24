@@ -121,7 +121,7 @@ cJSON *dataset_version_snapshot_convertToJSON(dataset_version_snapshot_t *datase
     if (!dataset_version_snapshot->corpus_root) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "corpus_root", dataset_version_snapshot->corpus_root) == NULL) {
+    if(cJSON_AddStringToObject(item, "corpusRoot", dataset_version_snapshot->corpus_root) == NULL) {
     goto fail; //String
     }
 
@@ -130,7 +130,7 @@ cJSON *dataset_version_snapshot_convertToJSON(dataset_version_snapshot_t *datase
     if (!dataset_version_snapshot->created_at) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "created_at", dataset_version_snapshot->created_at) == NULL) {
+    if(cJSON_AddStringToObject(item, "createdAt", dataset_version_snapshot->created_at) == NULL) {
     goto fail; //Date-Time
     }
 
@@ -139,7 +139,7 @@ cJSON *dataset_version_snapshot_convertToJSON(dataset_version_snapshot_t *datase
     if (!dataset_version_snapshot->dataset_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "dataset_id", dataset_version_snapshot->dataset_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "datasetId", dataset_version_snapshot->dataset_id) == NULL) {
     goto fail; //String
     }
 
@@ -148,7 +148,7 @@ cJSON *dataset_version_snapshot_convertToJSON(dataset_version_snapshot_t *datase
     if (!dataset_version_snapshot->project_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "project_id", dataset_version_snapshot->project_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "projectId", dataset_version_snapshot->project_id) == NULL) {
     goto fail; //String
     }
 
@@ -157,7 +157,7 @@ cJSON *dataset_version_snapshot_convertToJSON(dataset_version_snapshot_t *datase
     if (!dataset_version_snapshot->tenant_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "tenant_id", dataset_version_snapshot->tenant_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "tenantId", dataset_version_snapshot->tenant_id) == NULL) {
     goto fail; //String
     }
 
@@ -166,7 +166,7 @@ cJSON *dataset_version_snapshot_convertToJSON(dataset_version_snapshot_t *datase
     if (!dataset_version_snapshot->version_id) {
         goto fail;
     }
-    if(cJSON_AddStringToObject(item, "version_id", dataset_version_snapshot->version_id) == NULL) {
+    if(cJSON_AddStringToObject(item, "versionId", dataset_version_snapshot->version_id) == NULL) {
     goto fail; //String
     }
 
@@ -213,7 +213,7 @@ dataset_version_snapshot_t *dataset_version_snapshot_parseFromJSON(cJSON *datase
     }
 
     // dataset_version_snapshot->corpus_root
-    cJSON *corpus_root = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "corpus_root");
+    cJSON *corpus_root = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "corpusRoot");
     if (cJSON_IsNull(corpus_root)) {
         corpus_root = NULL;
     }
@@ -228,7 +228,7 @@ dataset_version_snapshot_t *dataset_version_snapshot_parseFromJSON(cJSON *datase
     }
 
     // dataset_version_snapshot->created_at
-    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "created_at");
+    cJSON *created_at = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "createdAt");
     if (cJSON_IsNull(created_at)) {
         created_at = NULL;
     }
@@ -243,7 +243,7 @@ dataset_version_snapshot_t *dataset_version_snapshot_parseFromJSON(cJSON *datase
     }
 
     // dataset_version_snapshot->dataset_id
-    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "dataset_id");
+    cJSON *dataset_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "datasetId");
     if (cJSON_IsNull(dataset_id)) {
         dataset_id = NULL;
     }
@@ -258,7 +258,7 @@ dataset_version_snapshot_t *dataset_version_snapshot_parseFromJSON(cJSON *datase
     }
 
     // dataset_version_snapshot->project_id
-    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "project_id");
+    cJSON *project_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "projectId");
     if (cJSON_IsNull(project_id)) {
         project_id = NULL;
     }
@@ -273,7 +273,7 @@ dataset_version_snapshot_t *dataset_version_snapshot_parseFromJSON(cJSON *datase
     }
 
     // dataset_version_snapshot->tenant_id
-    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "tenant_id");
+    cJSON *tenant_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "tenantId");
     if (cJSON_IsNull(tenant_id)) {
         tenant_id = NULL;
     }
@@ -288,7 +288,7 @@ dataset_version_snapshot_t *dataset_version_snapshot_parseFromJSON(cJSON *datase
     }
 
     // dataset_version_snapshot->version_id
-    cJSON *version_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "version_id");
+    cJSON *version_id = cJSON_GetObjectItemCaseSensitive(dataset_version_snapshotJSON, "versionId");
     if (cJSON_IsNull(version_id)) {
         version_id = NULL;
     }

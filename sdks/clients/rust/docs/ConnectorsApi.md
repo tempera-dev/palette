@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**connectors_period_connect**](ConnectorsApi.md#connectors_period_connect) | **POST** /v1/connectors/{tenant_id}/{project_id}/connect |
-[**connectors_period_get_skills**](ConnectorsApi.md#connectors_period_get_skills) | **GET** /v1/connectors/{tenant_id}/{project_id}/skills |
-[**connectors_period_invoke_tool**](ConnectorsApi.md#connectors_period_invoke_tool) | **POST** /v1/connectors/{tenant_id}/{project_id}/invoke |
-[**connectors_period_list**](ConnectorsApi.md#connectors_period_list) | **GET** /v1/connectors/{tenant_id}/{project_id} |
-[**connectors_period_list_tools**](ConnectorsApi.md#connectors_period_list_tools) | **GET** /v1/connectors/{tenant_id}/{project_id}/tools |
-[**connectors_period_status**](ConnectorsApi.md#connectors_period_status) | **GET** /v1/connectors/{tenant_id}/{project_id}/status |
+[**connectors_period_connect**](ConnectorsApi.md#connectors_period_connect) | **POST** /v1/connectors/{tenantId}/{projectId}/connect |
+[**connectors_period_get_skills**](ConnectorsApi.md#connectors_period_get_skills) | **GET** /v1/connectors/{tenantId}/{projectId}/skills |
+[**connectors_period_invoke_tool**](ConnectorsApi.md#connectors_period_invoke_tool) | **POST** /v1/connectors/{tenantId}/{projectId}/invoke |
+[**connectors_period_list**](ConnectorsApi.md#connectors_period_list) | **GET** /v1/connectors/{tenantId}/{projectId} |
+[**connectors_period_list_tools**](ConnectorsApi.md#connectors_period_list_tools) | **GET** /v1/connectors/{tenantId}/{projectId}/tools |
+[**connectors_period_status**](ConnectorsApi.md#connectors_period_status) | **GET** /v1/connectors/{tenantId}/{projectId}/status |
 
 
 

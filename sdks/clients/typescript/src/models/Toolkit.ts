@@ -77,12 +77,12 @@ export function ToolkitFromJSONTyped(json: any, ignoreDiscriminator: boolean): T
     }
     return {
         
-        'authSchemes': json['auth_schemes'] == null ? undefined : json['auth_schemes'],
+        'authSchemes': json['authSchemes'] == null ? undefined : json['authSchemes'],
         'description': json['description'] == null ? undefined : json['description'],
         'name': json['name'],
-        'noAuth': json['no_auth'] == null ? undefined : json['no_auth'],
+        'noAuth': json['noAuth'] == null ? undefined : json['noAuth'],
         'slug': json['slug'],
-        'toolsCount': json['tools_count'] == null ? undefined : json['tools_count'],
+        'toolsCount': json['toolsCount'] == null ? undefined : json['toolsCount'],
     };
 }
 
@@ -97,12 +97,12 @@ export function ToolkitToJSONTyped(value?: Toolkit | null, ignoreDiscriminator: 
 
     return {
         
-        'auth_schemes': value['authSchemes'],
+        'authSchemes': value['authSchemes'],
         'description': value['description'],
         'name': value['name'],
-        'no_auth': value['noAuth'],
+        'noAuth': value['noAuth'],
         'slug': value['slug'],
-        'tools_count': value['toolsCount'],
+        'toolsCount': value['toolsCount'],
     };
 }
 

@@ -21,13 +21,13 @@ var _ MappedNullable = &RunJudgeDatasetEvalRequest{}
 
 // RunJudgeDatasetEvalRequest struct for RunJudgeDatasetEvalRequest
 type RunJudgeDatasetEvalRequest struct {
-	AgentReleaseId string `json:"agent_release_id"`
-	CodeHash NullableString `json:"code_hash,omitempty"`
-	EvaluatorId string `json:"evaluator_id"`
-	EvaluatorVersionId string `json:"evaluator_version_id"`
+	AgentReleaseId string `json:"agentReleaseId"`
+	CodeHash NullableString `json:"codeHash,omitempty"`
+	EvaluatorId string `json:"evaluatorId"`
+	EvaluatorVersionId string `json:"evaluatorVersionId"`
 	Kind EvaluatorKind `json:"kind"`
-	PromptVersionId NullableString `json:"prompt_version_id,omitempty"`
-	ProviderSecretId string `json:"provider_secret_id"`
+	PromptVersionId NullableString `json:"promptVersionId,omitempty"`
+	ProviderSecretId string `json:"providerSecretId"`
 }
 
 type _RunJudgeDatasetEvalRequest RunJudgeDatasetEvalRequest
@@ -268,17 +268,17 @@ func (o RunJudgeDatasetEvalRequest) MarshalJSON() ([]byte, error) {
 
 func (o RunJudgeDatasetEvalRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["agent_release_id"] = o.AgentReleaseId
+	toSerialize["agentReleaseId"] = o.AgentReleaseId
 	if o.CodeHash.IsSet() {
-		toSerialize["code_hash"] = o.CodeHash.Get()
+		toSerialize["codeHash"] = o.CodeHash.Get()
 	}
-	toSerialize["evaluator_id"] = o.EvaluatorId
-	toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
+	toSerialize["evaluatorId"] = o.EvaluatorId
+	toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
 	toSerialize["kind"] = o.Kind
 	if o.PromptVersionId.IsSet() {
-		toSerialize["prompt_version_id"] = o.PromptVersionId.Get()
+		toSerialize["promptVersionId"] = o.PromptVersionId.Get()
 	}
-	toSerialize["provider_secret_id"] = o.ProviderSecretId
+	toSerialize["providerSecretId"] = o.ProviderSecretId
 	return toSerialize, nil
 }
 
@@ -287,11 +287,11 @@ func (o *RunJudgeDatasetEvalRequest) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"agent_release_id",
-		"evaluator_id",
-		"evaluator_version_id",
+		"agentReleaseId",
+		"evaluatorId",
+		"evaluatorVersionId",
 		"kind",
-		"provider_secret_id",
+		"providerSecretId",
 	}
 
 	allProperties := make(map[string]interface{})

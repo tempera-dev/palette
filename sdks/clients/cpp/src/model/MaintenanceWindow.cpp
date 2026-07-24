@@ -20,10 +20,10 @@ namespace model {
 
 MaintenanceWindow::MaintenanceWindow()
 {
-    m_Ends_at = utility::datetime();
-    m_Ends_atIsSet = false;
-    m_Starts_at = utility::datetime();
-    m_Starts_atIsSet = false;
+    m_EndsAt = utility::datetime();
+    m_EndsAtIsSet = false;
+    m_StartsAt = utility::datetime();
+    m_StartsAtIsSet = false;
 }
 
 MaintenanceWindow::~MaintenanceWindow()
@@ -38,15 +38,15 @@ void MaintenanceWindow::validate()
 web::json::value MaintenanceWindow::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_Ends_atIsSet)
+    if(m_EndsAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("ends_at"))] = ModelBase::toJson(m_Ends_at);
+        val[utility::conversions::to_string_t(U("endsAt"))] = ModelBase::toJson(m_EndsAt);
     }
-    if(m_Starts_atIsSet)
+    if(m_StartsAtIsSet)
     {   
         
-        val[utility::conversions::to_string_t(U("starts_at"))] = ModelBase::toJson(m_Starts_at);
+        val[utility::conversions::to_string_t(U("startsAt"))] = ModelBase::toJson(m_StartsAt);
     }
 
     return val;
@@ -55,9 +55,9 @@ web::json::value MaintenanceWindow::toJson() const
 bool MaintenanceWindow::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    if(val.has_field(utility::conversions::to_string_t(U("ends_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("endsAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("ends_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("endsAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setEndsAt;
@@ -66,9 +66,9 @@ bool MaintenanceWindow::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("starts_at"))))
+    if(val.has_field(utility::conversions::to_string_t(U("startsAt"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("starts_at")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("startsAt")));
         if(!fieldValue.is_null())
         {
             utility::datetime refVal_setStartsAt;
@@ -87,13 +87,13 @@ void MaintenanceWindow::toMultipart(std::shared_ptr<MultipartFormData> multipart
     {
         namePrefix += utility::conversions::to_string_t(U("."));
     }
-    if(m_Ends_atIsSet)
+    if(m_EndsAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("ends_at")), m_Ends_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("endsAt")), m_EndsAt));
     }
-    if(m_Starts_atIsSet)
+    if(m_StartsAtIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("starts_at")), m_Starts_at));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("startsAt")), m_StartsAt));
     }
 }
 
@@ -106,16 +106,16 @@ bool MaintenanceWindow::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
         namePrefix += utility::conversions::to_string_t(U("."));
     }
 
-    if(multipart->hasContent(utility::conversions::to_string_t(U("ends_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("endsAt"))))
     {
         utility::datetime refVal_setEndsAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("ends_at"))), refVal_setEndsAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("endsAt"))), refVal_setEndsAt );
         setEndsAt(refVal_setEndsAt);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("starts_at"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("startsAt"))))
     {
         utility::datetime refVal_setStartsAt;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("starts_at"))), refVal_setStartsAt );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("startsAt"))), refVal_setStartsAt );
         setStartsAt(refVal_setStartsAt);
     }
     return ok;
@@ -124,45 +124,45 @@ bool MaintenanceWindow::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
 
 utility::datetime MaintenanceWindow::getEndsAt() const
 {
-    return m_Ends_at;
+    return m_EndsAt;
 }
 
 
 void MaintenanceWindow::setEndsAt(const utility::datetime& value)
 {
-    m_Ends_at = value;
-    m_Ends_atIsSet = true;
+    m_EndsAt = value;
+    m_EndsAtIsSet = true;
 }
 
 bool MaintenanceWindow::endsAtIsSet() const
 {
-    return m_Ends_atIsSet;
+    return m_EndsAtIsSet;
 }
 
-void MaintenanceWindow::unsetEnds_at()
+void MaintenanceWindow::unsetEndsAt()
 {
-    m_Ends_atIsSet = false;
+    m_EndsAtIsSet = false;
 }
 utility::datetime MaintenanceWindow::getStartsAt() const
 {
-    return m_Starts_at;
+    return m_StartsAt;
 }
 
 
 void MaintenanceWindow::setStartsAt(const utility::datetime& value)
 {
-    m_Starts_at = value;
-    m_Starts_atIsSet = true;
+    m_StartsAt = value;
+    m_StartsAtIsSet = true;
 }
 
 bool MaintenanceWindow::startsAtIsSet() const
 {
-    return m_Starts_atIsSet;
+    return m_StartsAtIsSet;
 }
 
-void MaintenanceWindow::unsetStarts_at()
+void MaintenanceWindow::unsetStartsAt()
 {
-    m_Starts_atIsSet = false;
+    m_StartsAtIsSet = false;
 }
 
 }

@@ -4,22 +4,22 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SpansAPI_spansGet**](SpansAPI.md#SpansAPI_spansGet) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id} |
-[**SpansAPI_spansGetIo**](SpansAPI.md#SpansAPI_spansGetIo) | **GET** /v1/spans/{tenant_id}/{trace_id}/{span_id}/io |
+[**SpansAPI_spansGet**](SpansAPI.md#SpansAPI_spansGet) | **GET** /v1/spans/{tenantId}/{traceId}/{spanId} |
+[**SpansAPI_spansGetIo**](SpansAPI.md#SpansAPI_spansGetIo) | **GET** /v1/spans/{tenantId}/{traceId}/{spanId}/io |
 
 
 # **SpansAPI_spansGet**
 ```c
-canonical_span_t* SpansAPI_spansGet(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+canonical_span_t* SpansAPI_spansGet(apiClient_t *apiClient, char *tenantId, char *traceId, char *spanId, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**trace_id** | **char \*** | trace_id |
-**span_id** | **char \*** | span_id |
+**tenantId** | **char \*** | tenant_id |
+**traceId** | **char \*** | trace_id |
+**spanId** | **char \*** | span_id |
 **unmask** | **int \*** |  | [optional]
 **reason** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]
@@ -45,16 +45,16 @@ No authorization required
 
 # **SpansAPI_spansGetIo**
 ```c
-span_io_response_t* SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenant_id, char *trace_id, char *span_id, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
+span_io_response_t* SpansAPI_spansGetIo(apiClient_t *apiClient, char *tenantId, char *traceId, char *spanId, int *unmask, char *reason, char *authorization, char *x_palette_api_key, char *x_palette_project_id, char *x_palette_environment_id);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**tenant_id** | **char \*** | tenant_id |
-**trace_id** | **char \*** | trace_id |
-**span_id** | **char \*** | span_id |
+**tenantId** | **char \*** | tenant_id |
+**traceId** | **char \*** | trace_id |
+**spanId** | **char \*** | span_id |
 **unmask** | **int \*** |  | [optional]
 **reason** | **char \*** |  | [optional]
 **authorization** | **char \*** | Bearer API token for strict auth | [optional]

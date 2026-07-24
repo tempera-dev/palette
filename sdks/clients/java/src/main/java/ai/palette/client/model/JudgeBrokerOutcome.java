@@ -46,7 +46,7 @@ public class JudgeBrokerOutcome {
   @javax.annotation.Nonnull
   private JudgeAuditRecord audit;
 
-  public static final String JSON_PROPERTY_REMAINING_BUDGET = "remaining_budget";
+  public static final String JSON_PROPERTY_REMAINING_BUDGET = "remainingBudget";
   @javax.annotation.Nonnull
   private Money remainingBudget;
 
@@ -210,9 +210,9 @@ public class JudgeBrokerOutcome {
       joiner.add(getAudit().toUrlQueryString(prefix + "audit" + suffix));
     }
 
-    // add `remaining_budget` to the URL query string
+    // add `remainingBudget` to the URL query string
     if (getRemainingBudget() != null) {
-      joiner.add(getRemainingBudget().toUrlQueryString(prefix + "remaining_budget" + suffix));
+      joiner.add(getRemainingBudget().toUrlQueryString(prefix + "remainingBudget" + suffix));
     }
 
     // add `result` to the URL query string

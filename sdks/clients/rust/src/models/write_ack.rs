@@ -13,13 +13,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct WriteAck {
-    #[serde(rename = "accepted_raw")]
+    #[serde(rename = "acceptedRaw")]
     pub accepted_raw: i32,
-    #[serde(rename = "accepted_spans")]
+    #[serde(rename = "acceptedSpans")]
     pub accepted_spans: i32,
-    #[serde(rename = "duplicate_raw")]
+    #[serde(rename = "duplicateRaw")]
     pub duplicate_raw: i32,
-    #[serde(rename = "duplicate_spans")]
+    #[serde(rename = "duplicateSpans")]
     pub duplicate_spans: i32,
 }
 

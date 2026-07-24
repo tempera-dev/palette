@@ -73,11 +73,11 @@ export function OtlpIngestOutcomeFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'acceptedRaw': json['accepted_raw'],
-        'acceptedSpans': json['accepted_spans'],
-        'downstreamQueued': json['downstream_queued'],
-        'duplicateRaw': json['duplicate_raw'],
-        'duplicateSpans': json['duplicate_spans'],
+        'acceptedRaw': json['acceptedRaw'],
+        'acceptedSpans': json['acceptedSpans'],
+        'downstreamQueued': json['downstreamQueued'],
+        'duplicateRaw': json['duplicateRaw'],
+        'duplicateSpans': json['duplicateSpans'],
     };
 }
 
@@ -92,11 +92,11 @@ export function OtlpIngestOutcomeToJSONTyped(value?: OtlpIngestOutcome | null, i
 
     return {
         
-        'accepted_raw': value['acceptedRaw'],
-        'accepted_spans': value['acceptedSpans'],
-        'downstream_queued': value['downstreamQueued'],
-        'duplicate_raw': value['duplicateRaw'],
-        'duplicate_spans': value['duplicateSpans'],
+        'acceptedRaw': value['acceptedRaw'],
+        'acceptedSpans': value['acceptedSpans'],
+        'downstreamQueued': value['downstreamQueued'],
+        'duplicateRaw': value['duplicateRaw'],
+        'duplicateSpans': value['duplicateSpans'],
     };
 }
 

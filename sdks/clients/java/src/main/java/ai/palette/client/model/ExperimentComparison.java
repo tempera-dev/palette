@@ -54,23 +54,23 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class ExperimentComparison {
-  public static final String JSON_PROPERTY_ADJUSTED_ALPHA = "adjusted_alpha";
+  public static final String JSON_PROPERTY_ADJUSTED_ALPHA = "adjustedAlpha";
   @javax.annotation.Nonnull
   private Double adjustedAlpha;
 
-  public static final String JSON_PROPERTY_BASELINE_MEAN = "baseline_mean";
+  public static final String JSON_PROPERTY_BASELINE_MEAN = "baselineMean";
   @javax.annotation.Nonnull
   private Double baselineMean;
 
-  public static final String JSON_PROPERTY_CANDIDATE_MEAN = "candidate_mean";
+  public static final String JSON_PROPERTY_CANDIDATE_MEAN = "candidateMean";
   @javax.annotation.Nonnull
   private Double candidateMean;
 
-  public static final String JSON_PROPERTY_CI_HIGH = "ci_high";
+  public static final String JSON_PROPERTY_CI_HIGH = "ciHigh";
   @javax.annotation.Nonnull
   private Double ciHigh;
 
-  public static final String JSON_PROPERTY_CI_LOW = "ci_low";
+  public static final String JSON_PROPERTY_CI_LOW = "ciLow";
   @javax.annotation.Nonnull
   private Double ciLow;
 
@@ -85,14 +85,14 @@ public class ExperimentComparison {
   public static final String JSON_PROPERTY_MDE = "mde";
   private JsonNullable<Double> mde = JsonNullable.<Double>undefined();
 
-  public static final String JSON_PROPERTY_P_VALUE = "p_value";
+  public static final String JSON_PROPERTY_P_VALUE = "pValue";
   @javax.annotation.Nonnull
   private Double pValue;
 
-  public static final String JSON_PROPERTY_REQUIRED_N = "required_n";
+  public static final String JSON_PROPERTY_REQUIRED_N = "requiredN";
   private JsonNullable<Integer> requiredN = JsonNullable.<Integer>undefined();
 
-  public static final String JSON_PROPERTY_SAMPLE_SIZE = "sample_size";
+  public static final String JSON_PROPERTY_SAMPLE_SIZE = "sampleSize";
   @javax.annotation.Nonnull
   private Integer sampleSize;
 
@@ -514,29 +514,29 @@ public class ExperimentComparison {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `adjusted_alpha` to the URL query string
+    // add `adjustedAlpha` to the URL query string
     if (getAdjustedAlpha() != null) {
-      joiner.add(String.format("%sadjusted_alpha%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAdjustedAlpha()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sadjustedAlpha%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAdjustedAlpha()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `baseline_mean` to the URL query string
+    // add `baselineMean` to the URL query string
     if (getBaselineMean() != null) {
-      joiner.add(String.format("%sbaseline_mean%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineMean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaselineMean%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaselineMean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `candidate_mean` to the URL query string
+    // add `candidateMean` to the URL query string
     if (getCandidateMean() != null) {
-      joiner.add(String.format("%scandidate_mean%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateMean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scandidateMean%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCandidateMean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `ci_high` to the URL query string
+    // add `ciHigh` to the URL query string
     if (getCiHigh() != null) {
-      joiner.add(String.format("%sci_high%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCiHigh()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sciHigh%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCiHigh()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `ci_low` to the URL query string
+    // add `ciLow` to the URL query string
     if (getCiLow() != null) {
-      joiner.add(String.format("%sci_low%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCiLow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sciLow%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCiLow()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `decision` to the URL query string
@@ -554,19 +554,19 @@ public class ExperimentComparison {
       joiner.add(String.format("%smde%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMde()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `p_value` to the URL query string
+    // add `pValue` to the URL query string
     if (getpValue() != null) {
-      joiner.add(String.format("%sp_value%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getpValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getpValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `required_n` to the URL query string
+    // add `requiredN` to the URL query string
     if (getRequiredN() != null) {
-      joiner.add(String.format("%srequired_n%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRequiredN()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%srequiredN%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getRequiredN()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `sample_size` to the URL query string
+    // add `sampleSize` to the URL query string
     if (getSampleSize() != null) {
-      joiner.add(String.format("%ssample_size%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleSize()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssampleSize%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSampleSize()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `test` to the URL query string

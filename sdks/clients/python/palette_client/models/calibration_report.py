@@ -32,29 +32,29 @@ class CalibrationReport(BaseModel):
     """
     CalibrationReport
     """ # noqa: E501
-    brier_score: Union[StrictFloat, StrictInt]
-    calibration_report_id: StrictStr
-    cohen_kappa: Union[StrictFloat, StrictInt]
-    cohen_kappa_ci_high: Optional[Union[StrictFloat, StrictInt]] = None
-    cohen_kappa_ci_low: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Percentile-bootstrap 95% confidence interval for `cohen_kappa` (multinomial resampling of the confusion table, deterministic seed). Kappa over small calibration samples is high-variance; a bare point estimate invites over-reading. Absent on pre-uncertainty reports.")
+    brier_score: Union[StrictFloat, StrictInt] = Field(alias="brierScore")
+    calibration_report_id: StrictStr = Field(alias="calibrationReportId")
+    cohen_kappa: Union[StrictFloat, StrictInt] = Field(alias="cohenKappa")
+    cohen_kappa_ci_high: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="cohenKappaCiHigh")
+    cohen_kappa_ci_low: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Percentile-bootstrap 95% confidence interval for `cohen_kappa` (multinomial resampling of the confusion table, deterministic seed). Kappa over small calibration samples is high-variance; a bare point estimate invites over-reading. Absent on pre-uncertainty reports.", alias="cohenKappaCiLow")
     confusion: CalibrationConfusion
-    created_at: datetime
-    dataset_id: StrictStr
-    dataset_version_id: StrictStr
-    eval_report_id: StrictStr
-    evaluator_version_id: StrictStr
-    expected_agreement: Union[StrictFloat, StrictInt]
-    expected_calibration_error: Union[StrictFloat, StrictInt]
+    created_at: datetime = Field(alias="createdAt")
+    dataset_id: StrictStr = Field(alias="datasetId")
+    dataset_version_id: StrictStr = Field(alias="datasetVersionId")
+    eval_report_id: StrictStr = Field(alias="evalReportId")
+    evaluator_version_id: StrictStr = Field(alias="evaluatorVersionId")
+    expected_agreement: Union[StrictFloat, StrictInt] = Field(alias="expectedAgreement")
+    expected_calibration_error: Union[StrictFloat, StrictInt] = Field(alias="expectedCalibrationError")
     items: List[CalibrationItem]
-    observed_agreement: Union[StrictFloat, StrictInt]
-    observed_agreement_ci_high: Optional[Union[StrictFloat, StrictInt]] = None
-    observed_agreement_ci_low: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Wilson 95% confidence interval for `observed_agreement` — the honest width of an agreement estimate over a (typically small) human-labelled sample. Absent on reports persisted before uncertainty was reported.")
+    observed_agreement: Union[StrictFloat, StrictInt] = Field(alias="observedAgreement")
+    observed_agreement_ci_high: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="observedAgreementCiHigh")
+    observed_agreement_ci_low: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Wilson 95% confidence interval for `observed_agreement` — the honest width of an agreement estimate over a (typically small) human-labelled sample. Absent on reports persisted before uncertainty was reported.", alias="observedAgreementCiLow")
     policy: CalibrationPolicy
-    project_id: StrictStr
-    reliability_bins: List[ReliabilityBin]
-    sample_count: Annotated[int, Field(strict=True, ge=0)]
-    tenant_id: StrictStr
-    __properties: ClassVar[List[str]] = ["brier_score", "calibration_report_id", "cohen_kappa", "cohen_kappa_ci_high", "cohen_kappa_ci_low", "confusion", "created_at", "dataset_id", "dataset_version_id", "eval_report_id", "evaluator_version_id", "expected_agreement", "expected_calibration_error", "items", "observed_agreement", "observed_agreement_ci_high", "observed_agreement_ci_low", "policy", "project_id", "reliability_bins", "sample_count", "tenant_id"]
+    project_id: StrictStr = Field(alias="projectId")
+    reliability_bins: List[ReliabilityBin] = Field(alias="reliabilityBins")
+    sample_count: Annotated[int, Field(strict=True, ge=0)] = Field(alias="sampleCount")
+    tenant_id: StrictStr = Field(alias="tenantId")
+    __properties: ClassVar[List[str]] = ["brierScore", "calibrationReportId", "cohenKappa", "cohenKappaCiHigh", "cohenKappaCiLow", "confusion", "createdAt", "datasetId", "datasetVersionId", "evalReportId", "evaluatorVersionId", "expectedAgreement", "expectedCalibrationError", "items", "observedAgreement", "observedAgreementCiHigh", "observedAgreementCiLow", "policy", "projectId", "reliabilityBins", "sampleCount", "tenantId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -114,26 +114,26 @@ class CalibrationReport(BaseModel):
             for _item_reliability_bins in self.reliability_bins:
                 if _item_reliability_bins:
                     _items.append(_item_reliability_bins.to_dict())
-            _dict['reliability_bins'] = _items
+            _dict['reliabilityBins'] = _items
         # set to None if cohen_kappa_ci_high (nullable) is None
         # and model_fields_set contains the field
         if self.cohen_kappa_ci_high is None and "cohen_kappa_ci_high" in self.model_fields_set:
-            _dict['cohen_kappa_ci_high'] = None
+            _dict['cohenKappaCiHigh'] = None
 
         # set to None if cohen_kappa_ci_low (nullable) is None
         # and model_fields_set contains the field
         if self.cohen_kappa_ci_low is None and "cohen_kappa_ci_low" in self.model_fields_set:
-            _dict['cohen_kappa_ci_low'] = None
+            _dict['cohenKappaCiLow'] = None
 
         # set to None if observed_agreement_ci_high (nullable) is None
         # and model_fields_set contains the field
         if self.observed_agreement_ci_high is None and "observed_agreement_ci_high" in self.model_fields_set:
-            _dict['observed_agreement_ci_high'] = None
+            _dict['observedAgreementCiHigh'] = None
 
         # set to None if observed_agreement_ci_low (nullable) is None
         # and model_fields_set contains the field
         if self.observed_agreement_ci_low is None and "observed_agreement_ci_low" in self.model_fields_set:
-            _dict['observed_agreement_ci_low'] = None
+            _dict['observedAgreementCiLow'] = None
 
         return _dict
 
@@ -147,28 +147,28 @@ class CalibrationReport(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "brier_score": obj.get("brier_score"),
-            "calibration_report_id": obj.get("calibration_report_id"),
-            "cohen_kappa": obj.get("cohen_kappa"),
-            "cohen_kappa_ci_high": obj.get("cohen_kappa_ci_high"),
-            "cohen_kappa_ci_low": obj.get("cohen_kappa_ci_low"),
+            "brierScore": obj.get("brierScore"),
+            "calibrationReportId": obj.get("calibrationReportId"),
+            "cohenKappa": obj.get("cohenKappa"),
+            "cohenKappaCiHigh": obj.get("cohenKappaCiHigh"),
+            "cohenKappaCiLow": obj.get("cohenKappaCiLow"),
             "confusion": CalibrationConfusion.from_dict(obj["confusion"]) if obj.get("confusion") is not None else None,
-            "created_at": obj.get("created_at"),
-            "dataset_id": obj.get("dataset_id"),
-            "dataset_version_id": obj.get("dataset_version_id"),
-            "eval_report_id": obj.get("eval_report_id"),
-            "evaluator_version_id": obj.get("evaluator_version_id"),
-            "expected_agreement": obj.get("expected_agreement"),
-            "expected_calibration_error": obj.get("expected_calibration_error"),
+            "createdAt": obj.get("createdAt"),
+            "datasetId": obj.get("datasetId"),
+            "datasetVersionId": obj.get("datasetVersionId"),
+            "evalReportId": obj.get("evalReportId"),
+            "evaluatorVersionId": obj.get("evaluatorVersionId"),
+            "expectedAgreement": obj.get("expectedAgreement"),
+            "expectedCalibrationError": obj.get("expectedCalibrationError"),
             "items": [CalibrationItem.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
-            "observed_agreement": obj.get("observed_agreement"),
-            "observed_agreement_ci_high": obj.get("observed_agreement_ci_high"),
-            "observed_agreement_ci_low": obj.get("observed_agreement_ci_low"),
+            "observedAgreement": obj.get("observedAgreement"),
+            "observedAgreementCiHigh": obj.get("observedAgreementCiHigh"),
+            "observedAgreementCiLow": obj.get("observedAgreementCiLow"),
             "policy": CalibrationPolicy.from_dict(obj["policy"]) if obj.get("policy") is not None else None,
-            "project_id": obj.get("project_id"),
-            "reliability_bins": [ReliabilityBin.from_dict(_item) for _item in obj["reliability_bins"]] if obj.get("reliability_bins") is not None else None,
-            "sample_count": obj.get("sample_count"),
-            "tenant_id": obj.get("tenant_id")
+            "projectId": obj.get("projectId"),
+            "reliabilityBins": [ReliabilityBin.from_dict(_item) for _item in obj["reliabilityBins"]] if obj.get("reliabilityBins") is not None else None,
+            "sampleCount": obj.get("sampleCount"),
+            "tenantId": obj.get("tenantId")
         })
         return _obj
 

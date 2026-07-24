@@ -174,10 +174,10 @@ public class SpansApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/spans/{tenant_id}/{trace_id}/{span_id}"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{trace_id}", ApiClient.urlEncode(traceId.toString()))
-        .replace("{span_id}", ApiClient.urlEncode(spanId.toString()));
+    String localVarPath = "/v1/spans/{tenantId}/{traceId}/{spanId}"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{traceId}", ApiClient.urlEncode(traceId.toString()))
+        .replace("{spanId}", ApiClient.urlEncode(spanId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
@@ -313,10 +313,10 @@ public class SpansApi {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/v1/spans/{tenant_id}/{trace_id}/{span_id}/io"
-        .replace("{tenant_id}", ApiClient.urlEncode(tenantId.toString()))
-        .replace("{trace_id}", ApiClient.urlEncode(traceId.toString()))
-        .replace("{span_id}", ApiClient.urlEncode(spanId.toString()));
+    String localVarPath = "/v1/spans/{tenantId}/{traceId}/{spanId}/io"
+        .replace("{tenantId}", ApiClient.urlEncode(tenantId.toString()))
+        .replace("{traceId}", ApiClient.urlEncode(traceId.toString()))
+        .replace("{spanId}", ApiClient.urlEncode(spanId.toString()));
 
     List<Pair> localVarQueryParams = new ArrayList<>();
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");

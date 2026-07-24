@@ -98,12 +98,12 @@ export function DatasetVersionSnapshotFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'cases': ((json['cases'] as Array<any>).map(DatasetCaseFromJSON)),
-        'corpusRoot': json['corpus_root'],
-        'createdAt': (new Date(json['created_at'])),
-        'datasetId': json['dataset_id'],
-        'projectId': json['project_id'],
-        'tenantId': json['tenant_id'],
-        'versionId': json['version_id'],
+        'corpusRoot': json['corpusRoot'],
+        'createdAt': (new Date(json['createdAt'])),
+        'datasetId': json['datasetId'],
+        'projectId': json['projectId'],
+        'tenantId': json['tenantId'],
+        'versionId': json['versionId'],
     };
 }
 
@@ -119,12 +119,12 @@ export function DatasetVersionSnapshotToJSONTyped(value?: DatasetVersionSnapshot
     return {
         
         'cases': ((value['cases'] as Array<any>).map(DatasetCaseToJSON)),
-        'corpus_root': value['corpusRoot'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'dataset_id': value['datasetId'],
-        'project_id': value['projectId'],
-        'tenant_id': value['tenantId'],
-        'version_id': value['versionId'],
+        'corpusRoot': value['corpusRoot'],
+        'createdAt': ((value['createdAt']).toISOString()),
+        'datasetId': value['datasetId'],
+        'projectId': value['projectId'],
+        'tenantId': value['tenantId'],
+        'versionId': value['versionId'],
     };
 }
 

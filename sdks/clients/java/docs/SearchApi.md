@@ -4,8 +4,8 @@ All URIs are relative to *http://localhost*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**searchSpans**](SearchApi.md#searchSpans) | **GET** /v1/search/{tenant_id}/spans |  |
-| [**searchSpansWithHttpInfo**](SearchApi.md#searchSpansWithHttpInfo) | **GET** /v1/search/{tenant_id}/spans |  |
+| [**searchSpans**](SearchApi.md#searchSpans) | **GET** /v1/search/{tenantId}/spans |  |
+| [**searchSpansWithHttpInfo**](SearchApi.md#searchSpansWithHttpInfo) | **GET** /v1/search/{tenantId}/spans |  |
 
 
 

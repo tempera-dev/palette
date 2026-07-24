@@ -51,7 +51,7 @@ export function AuthContextFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'apiKeyId': json['api_key_id'] == null ? undefined : json['api_key_id'],
+        'apiKeyId': json['apiKeyId'] == null ? undefined : json['apiKeyId'],
         'scopes': new Set(json['scopes']),
     };
 }
@@ -67,7 +67,7 @@ export function AuthContextToJSONTyped(value?: AuthContext | null, ignoreDiscrim
 
     return {
         
-        'api_key_id': value['apiKeyId'],
+        'apiKeyId': value['apiKeyId'],
         'scopes': Array.from(value['scopes'] as Set<any>),
     };
 }

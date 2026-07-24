@@ -65,7 +65,7 @@ public:
 
     int64_t getMaxMs() const;
     bool maxMsIsSet() const;
-    void unsetMax_ms();
+    void unsetMaxMs();
     void setMaxMs(int64_t value);
 
     TypeEnum getType() const;
@@ -75,8 +75,8 @@ public:
 
 
 protected:
-    int64_t m_Max_ms;
-    bool m_Max_msIsSet;
+    int64_t m_MaxMs;
+    bool m_MaxMsIsSet;
 
     TypeEnum m_Type;
     bool m_TypeIsSet;

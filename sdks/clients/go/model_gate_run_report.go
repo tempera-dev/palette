@@ -22,26 +22,26 @@ var _ MappedNullable = &GateRunReport{}
 
 // GateRunReport struct for GateRunReport
 type GateRunReport struct {
-	BaselineReleaseId string `json:"baseline_release_id"`
-	CandidateReleaseId string `json:"candidate_release_id"`
+	BaselineReleaseId string `json:"baselineReleaseId"`
+	CandidateReleaseId string `json:"candidateReleaseId"`
 	Comparison ExperimentComparison `json:"comparison"`
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId string `json:"dataset_id"`
-	EvaluatorVersionId string `json:"evaluator_version_id"`
-	ExperimentCreatedAt time.Time `json:"experiment_created_at"`
-	ExperimentDecision GateDecision `json:"experiment_decision"`
-	ExperimentGatePolicy GatePolicy `json:"experiment_gate_policy"`
-	ExperimentRunId string `json:"experiment_run_id"`
-	GateDatasetId *string `json:"gate_dataset_id,omitempty"`
-	GateEvaluatorVersionId *string `json:"gate_evaluator_version_id,omitempty"`
-	GateId string `json:"gate_id"`
-	GateName string `json:"gate_name"`
-	GateRunId string `json:"gate_run_id"`
-	InconclusivePolicy InconclusivePolicy `json:"inconclusive_policy"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId string `json:"datasetId"`
+	EvaluatorVersionId string `json:"evaluatorVersionId"`
+	ExperimentCreatedAt time.Time `json:"experimentCreatedAt"`
+	ExperimentDecision GateDecision `json:"experimentDecision"`
+	ExperimentGatePolicy GatePolicy `json:"experimentGatePolicy"`
+	ExperimentRunId string `json:"experimentRunId"`
+	GateDatasetId *string `json:"gateDatasetId,omitempty"`
+	GateEvaluatorVersionId *string `json:"gateEvaluatorVersionId,omitempty"`
+	GateId string `json:"gateId"`
+	GateName string `json:"gateName"`
+	GateRunId string `json:"gateRunId"`
+	InconclusivePolicy InconclusivePolicy `json:"inconclusivePolicy"`
 	Passed bool `json:"passed"`
-	ProjectId string `json:"project_id"`
+	ProjectId string `json:"projectId"`
 	Reason string `json:"reason"`
-	TenantId string `json:"tenant_id"`
+	TenantId string `json:"tenantId"`
 }
 
 type _GateRunReport GateRunReport
@@ -587,30 +587,30 @@ func (o GateRunReport) MarshalJSON() ([]byte, error) {
 
 func (o GateRunReport) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["baseline_release_id"] = o.BaselineReleaseId
-	toSerialize["candidate_release_id"] = o.CandidateReleaseId
+	toSerialize["baselineReleaseId"] = o.BaselineReleaseId
+	toSerialize["candidateReleaseId"] = o.CandidateReleaseId
 	toSerialize["comparison"] = o.Comparison
-	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["dataset_id"] = o.DatasetId
-	toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
-	toSerialize["experiment_created_at"] = o.ExperimentCreatedAt
-	toSerialize["experiment_decision"] = o.ExperimentDecision
-	toSerialize["experiment_gate_policy"] = o.ExperimentGatePolicy
-	toSerialize["experiment_run_id"] = o.ExperimentRunId
+	toSerialize["createdAt"] = o.CreatedAt
+	toSerialize["datasetId"] = o.DatasetId
+	toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
+	toSerialize["experimentCreatedAt"] = o.ExperimentCreatedAt
+	toSerialize["experimentDecision"] = o.ExperimentDecision
+	toSerialize["experimentGatePolicy"] = o.ExperimentGatePolicy
+	toSerialize["experimentRunId"] = o.ExperimentRunId
 	if !IsNil(o.GateDatasetId) {
-		toSerialize["gate_dataset_id"] = o.GateDatasetId
+		toSerialize["gateDatasetId"] = o.GateDatasetId
 	}
 	if !IsNil(o.GateEvaluatorVersionId) {
-		toSerialize["gate_evaluator_version_id"] = o.GateEvaluatorVersionId
+		toSerialize["gateEvaluatorVersionId"] = o.GateEvaluatorVersionId
 	}
-	toSerialize["gate_id"] = o.GateId
-	toSerialize["gate_name"] = o.GateName
-	toSerialize["gate_run_id"] = o.GateRunId
-	toSerialize["inconclusive_policy"] = o.InconclusivePolicy
+	toSerialize["gateId"] = o.GateId
+	toSerialize["gateName"] = o.GateName
+	toSerialize["gateRunId"] = o.GateRunId
+	toSerialize["inconclusivePolicy"] = o.InconclusivePolicy
 	toSerialize["passed"] = o.Passed
-	toSerialize["project_id"] = o.ProjectId
+	toSerialize["projectId"] = o.ProjectId
 	toSerialize["reason"] = o.Reason
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -619,24 +619,24 @@ func (o *GateRunReport) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"baseline_release_id",
-		"candidate_release_id",
+		"baselineReleaseId",
+		"candidateReleaseId",
 		"comparison",
-		"created_at",
-		"dataset_id",
-		"evaluator_version_id",
-		"experiment_created_at",
-		"experiment_decision",
-		"experiment_gate_policy",
-		"experiment_run_id",
-		"gate_id",
-		"gate_name",
-		"gate_run_id",
-		"inconclusive_policy",
+		"createdAt",
+		"datasetId",
+		"evaluatorVersionId",
+		"experimentCreatedAt",
+		"experimentDecision",
+		"experimentGatePolicy",
+		"experimentRunId",
+		"gateId",
+		"gateName",
+		"gateRunId",
+		"inconclusivePolicy",
 		"passed",
-		"project_id",
+		"projectId",
 		"reason",
-		"tenant_id",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -66,7 +66,7 @@ cJSON *evaluator_kind_one_of_5_convertToJSON(evaluator_kind_one_of_5_t *evaluato
     if (!evaluator_kind_one_of_5->max_ms) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "max_ms", evaluator_kind_one_of_5->max_ms) == NULL) {
+    if(cJSON_AddNumberToObject(item, "maxMs", evaluator_kind_one_of_5->max_ms) == NULL) {
     goto fail; //Numeric
     }
 
@@ -93,7 +93,7 @@ evaluator_kind_one_of_5_t *evaluator_kind_one_of_5_parseFromJSON(cJSON *evaluato
     evaluator_kind_one_of_5_t *evaluator_kind_one_of_5_local_var = NULL;
 
     // evaluator_kind_one_of_5->max_ms
-    cJSON *max_ms = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_5JSON, "max_ms");
+    cJSON *max_ms = cJSON_GetObjectItemCaseSensitive(evaluator_kind_one_of_5JSON, "maxMs");
     if (cJSON_IsNull(max_ms)) {
         max_ms = NULL;
     }

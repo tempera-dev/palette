@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TokenCounts {
-    #[serde(rename = "cache_read")]
+    #[serde(rename = "cacheRead")]
     pub cache_read: i64,
     #[serde(rename = "input")]
     pub input: i64,

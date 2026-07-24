@@ -22,14 +22,14 @@ var _ MappedNullable = &GateDefinition{}
 
 // GateDefinition struct for GateDefinition
 type GateDefinition struct {
-	CreatedAt time.Time `json:"created_at"`
-	DatasetId *string `json:"dataset_id,omitempty"`
-	EvaluatorVersionId *string `json:"evaluator_version_id,omitempty"`
-	GateId string `json:"gate_id"`
-	InconclusivePolicy *InconclusivePolicy `json:"inconclusive_policy,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	DatasetId *string `json:"datasetId,omitempty"`
+	EvaluatorVersionId *string `json:"evaluatorVersionId,omitempty"`
+	GateId string `json:"gateId"`
+	InconclusivePolicy *InconclusivePolicy `json:"inconclusivePolicy,omitempty"`
 	Name string `json:"name"`
-	ProjectId string `json:"project_id"`
-	TenantId string `json:"tenant_id"`
+	ProjectId string `json:"projectId"`
+	TenantId string `json:"tenantId"`
 }
 
 type _GateDefinition GateDefinition
@@ -282,20 +282,20 @@ func (o GateDefinition) MarshalJSON() ([]byte, error) {
 
 func (o GateDefinition) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["createdAt"] = o.CreatedAt
 	if !IsNil(o.DatasetId) {
-		toSerialize["dataset_id"] = o.DatasetId
+		toSerialize["datasetId"] = o.DatasetId
 	}
 	if !IsNil(o.EvaluatorVersionId) {
-		toSerialize["evaluator_version_id"] = o.EvaluatorVersionId
+		toSerialize["evaluatorVersionId"] = o.EvaluatorVersionId
 	}
-	toSerialize["gate_id"] = o.GateId
+	toSerialize["gateId"] = o.GateId
 	if !IsNil(o.InconclusivePolicy) {
-		toSerialize["inconclusive_policy"] = o.InconclusivePolicy
+		toSerialize["inconclusivePolicy"] = o.InconclusivePolicy
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["project_id"] = o.ProjectId
-	toSerialize["tenant_id"] = o.TenantId
+	toSerialize["projectId"] = o.ProjectId
+	toSerialize["tenantId"] = o.TenantId
 	return toSerialize, nil
 }
 
@@ -304,11 +304,11 @@ func (o *GateDefinition) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"created_at",
-		"gate_id",
+		"createdAt",
+		"gateId",
 		"name",
-		"project_id",
-		"tenant_id",
+		"projectId",
+		"tenantId",
 	}
 
 	allProperties := make(map[string]interface{})

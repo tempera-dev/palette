@@ -61,7 +61,7 @@ cJSON *otlp_ingest_outcome_convertToJSON(otlp_ingest_outcome_t *otlp_ingest_outc
     if (!otlp_ingest_outcome->accepted_raw) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "accepted_raw", otlp_ingest_outcome->accepted_raw) == NULL) {
+    if(cJSON_AddNumberToObject(item, "acceptedRaw", otlp_ingest_outcome->accepted_raw) == NULL) {
     goto fail; //Numeric
     }
 
@@ -70,7 +70,7 @@ cJSON *otlp_ingest_outcome_convertToJSON(otlp_ingest_outcome_t *otlp_ingest_outc
     if (!otlp_ingest_outcome->accepted_spans) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "accepted_spans", otlp_ingest_outcome->accepted_spans) == NULL) {
+    if(cJSON_AddNumberToObject(item, "acceptedSpans", otlp_ingest_outcome->accepted_spans) == NULL) {
     goto fail; //Numeric
     }
 
@@ -79,7 +79,7 @@ cJSON *otlp_ingest_outcome_convertToJSON(otlp_ingest_outcome_t *otlp_ingest_outc
     if (!otlp_ingest_outcome->downstream_queued) {
         goto fail;
     }
-    if(cJSON_AddBoolToObject(item, "downstream_queued", otlp_ingest_outcome->downstream_queued) == NULL) {
+    if(cJSON_AddBoolToObject(item, "downstreamQueued", otlp_ingest_outcome->downstream_queued) == NULL) {
     goto fail; //Bool
     }
 
@@ -88,7 +88,7 @@ cJSON *otlp_ingest_outcome_convertToJSON(otlp_ingest_outcome_t *otlp_ingest_outc
     if (!otlp_ingest_outcome->duplicate_raw) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "duplicate_raw", otlp_ingest_outcome->duplicate_raw) == NULL) {
+    if(cJSON_AddNumberToObject(item, "duplicateRaw", otlp_ingest_outcome->duplicate_raw) == NULL) {
     goto fail; //Numeric
     }
 
@@ -97,7 +97,7 @@ cJSON *otlp_ingest_outcome_convertToJSON(otlp_ingest_outcome_t *otlp_ingest_outc
     if (!otlp_ingest_outcome->duplicate_spans) {
         goto fail;
     }
-    if(cJSON_AddNumberToObject(item, "duplicate_spans", otlp_ingest_outcome->duplicate_spans) == NULL) {
+    if(cJSON_AddNumberToObject(item, "duplicateSpans", otlp_ingest_outcome->duplicate_spans) == NULL) {
     goto fail; //Numeric
     }
 
@@ -114,7 +114,7 @@ otlp_ingest_outcome_t *otlp_ingest_outcome_parseFromJSON(cJSON *otlp_ingest_outc
     otlp_ingest_outcome_t *otlp_ingest_outcome_local_var = NULL;
 
     // otlp_ingest_outcome->accepted_raw
-    cJSON *accepted_raw = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "accepted_raw");
+    cJSON *accepted_raw = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "acceptedRaw");
     if (cJSON_IsNull(accepted_raw)) {
         accepted_raw = NULL;
     }
@@ -129,7 +129,7 @@ otlp_ingest_outcome_t *otlp_ingest_outcome_parseFromJSON(cJSON *otlp_ingest_outc
     }
 
     // otlp_ingest_outcome->accepted_spans
-    cJSON *accepted_spans = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "accepted_spans");
+    cJSON *accepted_spans = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "acceptedSpans");
     if (cJSON_IsNull(accepted_spans)) {
         accepted_spans = NULL;
     }
@@ -144,7 +144,7 @@ otlp_ingest_outcome_t *otlp_ingest_outcome_parseFromJSON(cJSON *otlp_ingest_outc
     }
 
     // otlp_ingest_outcome->downstream_queued
-    cJSON *downstream_queued = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "downstream_queued");
+    cJSON *downstream_queued = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "downstreamQueued");
     if (cJSON_IsNull(downstream_queued)) {
         downstream_queued = NULL;
     }
@@ -159,7 +159,7 @@ otlp_ingest_outcome_t *otlp_ingest_outcome_parseFromJSON(cJSON *otlp_ingest_outc
     }
 
     // otlp_ingest_outcome->duplicate_raw
-    cJSON *duplicate_raw = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "duplicate_raw");
+    cJSON *duplicate_raw = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "duplicateRaw");
     if (cJSON_IsNull(duplicate_raw)) {
         duplicate_raw = NULL;
     }
@@ -174,7 +174,7 @@ otlp_ingest_outcome_t *otlp_ingest_outcome_parseFromJSON(cJSON *otlp_ingest_outc
     }
 
     // otlp_ingest_outcome->duplicate_spans
-    cJSON *duplicate_spans = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "duplicate_spans");
+    cJSON *duplicate_spans = cJSON_GetObjectItemCaseSensitive(otlp_ingest_outcomeJSON, "duplicateSpans");
     if (cJSON_IsNull(duplicate_spans)) {
         duplicate_spans = NULL;
     }

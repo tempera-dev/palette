@@ -39,11 +39,11 @@ import ai.palette.client.ApiClient;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
 public class MaintenanceWindow {
-  public static final String JSON_PROPERTY_ENDS_AT = "ends_at";
+  public static final String JSON_PROPERTY_ENDS_AT = "endsAt";
   @javax.annotation.Nonnull
   private OffsetDateTime endsAt;
 
-  public static final String JSON_PROPERTY_STARTS_AT = "starts_at";
+  public static final String JSON_PROPERTY_STARTS_AT = "startsAt";
   @javax.annotation.Nonnull
   private OffsetDateTime startsAt;
 
@@ -172,14 +172,14 @@ public class MaintenanceWindow {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `ends_at` to the URL query string
+    // add `endsAt` to the URL query string
     if (getEndsAt() != null) {
-      joiner.add(String.format("%sends_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndsAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sendsAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEndsAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
-    // add `starts_at` to the URL query string
+    // add `startsAt` to the URL query string
     if (getStartsAt() != null) {
-      joiner.add(String.format("%sstarts_at%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartsAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstartsAt%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStartsAt()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

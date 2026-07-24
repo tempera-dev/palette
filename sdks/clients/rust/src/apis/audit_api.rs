@@ -49,7 +49,7 @@ pub enum AuditPeriodListError {
 
 pub async fn audit_period_list(configuration: &configuration::Configuration, params: AuditPeriodListParams) -> Result<models::AuditEventListResponse, Error<AuditPeriodListError>> {
 
-    let uri_str = format!("{}/v1/audit/{tenant_id}/{project_id}", configuration.base_path, tenant_id=crate::apis::urlencode(params.tenant_id), project_id=crate::apis::urlencode(params.project_id));
+    let uri_str = format!("{}/v1/audit/{tenantId}/{projectId}", configuration.base_path, tenantId=crate::apis::urlencode(params.tenant_id), projectId=crate::apis::urlencode(params.project_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref param_value) = params.page_size {
