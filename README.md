@@ -195,6 +195,9 @@ See [ARCHITECTURE.md](ARCHITECTURE.md), [CONTRIBUTING.md](CONTRIBUTING.md), and
 [CLAUDE.md](CLAUDE.md) for the full verification matrix and contract rules. The
 standalone ecosystem boundary with Tempo, palette.js, and paletteOS is tracked in
 [`docs/ecosystem-integration-contract.md`](docs/ecosystem-integration-contract.md).
+The content-addressed, non-scientific telemetry boundary for Tempera Discovery is
+defined in
+[`docs/discovery-observability.md`](docs/discovery-observability.md).
 The clean-clone → browser stopwatch proof lives in the
 [Gate 2 Outside Runner Card](docs/demos/gate2-outside-runner-card.md). Report
 vulnerabilities privately via [SECURITY.md](SECURITY.md).

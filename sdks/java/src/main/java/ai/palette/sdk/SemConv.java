@@ -59,6 +59,30 @@ public final class SemConv {
     public static final String LLM_COST_MICROS = "llm.cost.amount_micros";
     public static final String LLM_COST_CURRENCY = "llm.cost.currency";
 
+    public static final String DISCOVERY_CAMPAIGN_ID = "tempera.discovery.campaign_id";
+    public static final String DISCOVERY_ROUND_ID = "tempera.discovery.round_id";
+    public static final String DISCOVERY_STAGE = "tempera.discovery.stage";
+    public static final String DISCOVERY_STATUS = "tempera.discovery.status";
+    public static final String DISCOVERY_EVIDENCE_CLASS = "tempera.discovery.evidence_class";
+    public static final String DISCOVERY_CLAIM_CLASS = "tempera.discovery.claim_class";
+    public static final String DISCOVERY_CANDIDATE_COUNT = "tempera.discovery.candidate_count";
+    public static final String DISCOVERY_SELECTED_COUNT = "tempera.discovery.selected_count";
+    public static final String DISCOVERY_VERIFIED_COUNT = "tempera.discovery.verified_count";
+    public static final String DISCOVERY_BUDGET_LIMIT = "tempera.discovery.budget.limit";
+    public static final String DISCOVERY_BUDGET_CONSUMED = "tempera.discovery.budget.consumed";
+    public static final String DISCOVERY_PROGRAM_DIGEST = "tempera.discovery.program.digest";
+    public static final String DISCOVERY_PROPOSAL_DIGEST = "tempera.discovery.proposal.digest";
+    public static final String DISCOVERY_PROTOCOL_DIGEST = "tempera.discovery.protocol.digest";
+    public static final String DISCOVERY_PREPARE_RECEIPT_DIGEST =
+            "tempera.discovery.receipt.prepare.digest";
+    public static final String DISCOVERY_COMMIT_RECEIPT_DIGEST =
+            "tempera.discovery.receipt.commit.digest";
+    public static final String DISCOVERY_VERIFIER_RECEIPT_DIGEST =
+            "tempera.discovery.receipt.verifier.digest";
+    public static final String DISCOVERY_DECISION_RECEIPT_DIGEST =
+            "tempera.discovery.receipt.decision.digest";
+    public static final String DISCOVERY_RELEASE_DIGEST = "tempera.discovery.release.digest";
+
     // --- OTLP ingest headers (used to scope traces over gRPC) ---
     public static final String HEADER_TENANT = "x-palette-tenant-id";
     public static final String HEADER_PROJECT = "x-palette-project-id";

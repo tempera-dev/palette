@@ -56,6 +56,26 @@ class Attr:
     LLM_COST_MICROS = "llm.cost.amount_micros"
     LLM_COST_CURRENCY = "llm.cost.currency"
 
+    DISCOVERY_CAMPAIGN_ID = "tempera.discovery.campaign_id"
+    DISCOVERY_ROUND_ID = "tempera.discovery.round_id"
+    DISCOVERY_STAGE = "tempera.discovery.stage"
+    DISCOVERY_STATUS = "tempera.discovery.status"
+    DISCOVERY_EVIDENCE_CLASS = "tempera.discovery.evidence_class"
+    DISCOVERY_CLAIM_CLASS = "tempera.discovery.claim_class"
+    DISCOVERY_CANDIDATE_COUNT = "tempera.discovery.candidate_count"
+    DISCOVERY_SELECTED_COUNT = "tempera.discovery.selected_count"
+    DISCOVERY_VERIFIED_COUNT = "tempera.discovery.verified_count"
+    DISCOVERY_BUDGET_LIMIT = "tempera.discovery.budget.limit"
+    DISCOVERY_BUDGET_CONSUMED = "tempera.discovery.budget.consumed"
+    DISCOVERY_PROGRAM_DIGEST = "tempera.discovery.program.digest"
+    DISCOVERY_PROPOSAL_DIGEST = "tempera.discovery.proposal.digest"
+    DISCOVERY_PROTOCOL_DIGEST = "tempera.discovery.protocol.digest"
+    DISCOVERY_PREPARE_RECEIPT_DIGEST = "tempera.discovery.receipt.prepare.digest"
+    DISCOVERY_COMMIT_RECEIPT_DIGEST = "tempera.discovery.receipt.commit.digest"
+    DISCOVERY_VERIFIER_RECEIPT_DIGEST = "tempera.discovery.receipt.verifier.digest"
+    DISCOVERY_DECISION_RECEIPT_DIGEST = "tempera.discovery.receipt.decision.digest"
+    DISCOVERY_RELEASE_DIGEST = "tempera.discovery.release.digest"
+
 
 #: OTLP ingest headers used to scope traces when exporting over gRPC.
 HEADER_TENANT = "x-palette-tenant-id"

@@ -1,0 +1,53 @@
+{
+  "schema_version": "tempera.evidence-profile/v1",
+  "repository": "https://github.com/tempera-dev/palette",
+  "product": "Palette",
+  "role": "Discovery operational traces, online metrics, and linked campaign observability",
+  "accepted_evidence_classes": [
+    "synthetic_fixture",
+    "public_retrospective"
+  ],
+  "fixture_controls": {
+    "production_acceptance": "reject",
+    "packaging": "test_only"
+  },
+  "synthetic_fixture_paths": [
+    "bins/paletted/tests/fixtures"
+  ],
+  "integrations": [
+    {
+      "integration_id": "agent-observability-platform",
+      "kind": "observability",
+      "status": "implemented",
+      "evidence_class": "synthetic_fixture",
+      "proof_refs": [
+        "README.md",
+        "crates/palette-api/tests/full_stack.rs"
+      ],
+      "notes": "Generic traces, evaluations, experiments, and gates exist."
+    },
+    {
+      "integration_id": "discovery-campaign-telemetry",
+      "kind": "observability",
+      "status": "partial",
+      "evidence_class": "synthetic_fixture",
+      "proof_refs": [
+        "crates/palette-schema/src/lib.rs",
+        "sdks/semconv/conventions.json",
+        "docs/discovery-observability.md",
+        "scripts/check-semconv-drift.py"
+      ],
+      "notes": "The cross-language telemetry vocabulary binds campaign, round, stage, evidence/claim class, budgets, counts, and authoritative receipt digests. Producer emission, a real public-retrospective trace, and a dedicated operator view are not yet proven."
+    }
+  ],
+  "physical_execution": {
+    "status": "not_applicable",
+    "human_approval_required": false,
+    "proof_refs": []
+  },
+  "claims": [],
+  "limitations": [
+    "Palette can ingest the generic Discovery attributes, but no real campaign trace or dedicated operator cockpit is included in this proof.",
+    "Palette experiments are software and agent evaluations, not authoritative wet-lab experiment records."
+  ]
+}

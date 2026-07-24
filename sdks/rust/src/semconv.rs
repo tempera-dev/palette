@@ -53,6 +53,30 @@ pub mod attr {
     pub const LLM_TOKEN_CACHE_READ: &str = "llm.token_count.cache_read";
     pub const LLM_COST_MICROS: &str = "llm.cost.amount_micros";
     pub const LLM_COST_CURRENCY: &str = "llm.cost.currency";
+
+    pub const DISCOVERY_CAMPAIGN_ID: &str = "tempera.discovery.campaign_id";
+    pub const DISCOVERY_ROUND_ID: &str = "tempera.discovery.round_id";
+    pub const DISCOVERY_STAGE: &str = "tempera.discovery.stage";
+    pub const DISCOVERY_STATUS: &str = "tempera.discovery.status";
+    pub const DISCOVERY_EVIDENCE_CLASS: &str = "tempera.discovery.evidence_class";
+    pub const DISCOVERY_CLAIM_CLASS: &str = "tempera.discovery.claim_class";
+    pub const DISCOVERY_CANDIDATE_COUNT: &str = "tempera.discovery.candidate_count";
+    pub const DISCOVERY_SELECTED_COUNT: &str = "tempera.discovery.selected_count";
+    pub const DISCOVERY_VERIFIED_COUNT: &str = "tempera.discovery.verified_count";
+    pub const DISCOVERY_BUDGET_LIMIT: &str = "tempera.discovery.budget.limit";
+    pub const DISCOVERY_BUDGET_CONSUMED: &str = "tempera.discovery.budget.consumed";
+    pub const DISCOVERY_PROGRAM_DIGEST: &str = "tempera.discovery.program.digest";
+    pub const DISCOVERY_PROPOSAL_DIGEST: &str = "tempera.discovery.proposal.digest";
+    pub const DISCOVERY_PROTOCOL_DIGEST: &str = "tempera.discovery.protocol.digest";
+    pub const DISCOVERY_PREPARE_RECEIPT_DIGEST: &str =
+        "tempera.discovery.receipt.prepare.digest";
+    pub const DISCOVERY_COMMIT_RECEIPT_DIGEST: &str =
+        "tempera.discovery.receipt.commit.digest";
+    pub const DISCOVERY_VERIFIER_RECEIPT_DIGEST: &str =
+        "tempera.discovery.receipt.verifier.digest";
+    pub const DISCOVERY_DECISION_RECEIPT_DIGEST: &str =
+        "tempera.discovery.receipt.decision.digest";
+    pub const DISCOVERY_RELEASE_DIGEST: &str = "tempera.discovery.release.digest";
 }
 
 /// OTLP ingest headers used to scope traces when exporting over gRPC.
